@@ -314,38 +314,22 @@ svg {
     position:fixed;
 
     top:70px;
-    right:-40%;
+    right:0;
 
     width:40%;
     max-width:380px;
     min-width:280px;
 
-    height:auto;
-    max-height:calc(100vh - 80px);
+    transform:translateX(100%);
+    transition:transform .35s ease;
 
-    overflow-y:auto;
-
-    box-sizing:border-box;
-
-    padding-bottom:10px;
-
-    background:linear-gradient(
-        180deg,
-        #050505 0%,
-        #111827 100%
-    );
-
-    border-left:1px solid rgba(34,197,94,.25);
-
-    transition:right .35s ease;
-
-    z-index:9998;
+    /* বাকি CSS আগের মতোই থাকবে */
 
 }
 
 #profile-sidebar.active{
 
-    right:0;
+    transform:translateX(0);
 
 }
 /* ==========================================
