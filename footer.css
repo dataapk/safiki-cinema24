@@ -152,9 +152,7 @@
     position: fixed;
     top: 70px;
     bottom: 60px;
-    left: -60%;
-
-    width: 50%;
+     width: 50%;
     max-width: 380px;
    left: -55%;
 
@@ -431,11 +429,13 @@
 
 /* ================= MOBILE ================= */
 
-@media (max-width:768px){
+@media(max-width:768px){
 
     .footer-sidebar{
-        width:85%;
-        left:-85%;
+
+        width:60%;
+        left:-60%;
+
     }
 
 }
