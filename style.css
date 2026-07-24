@@ -322,6 +322,7 @@ svg {
 
     transform:translateX(100%);
     transition:transform .35s ease;
+     z-index: 99999;
 
     /* বাকি CSS আগের মতোই থাকবে */
 
