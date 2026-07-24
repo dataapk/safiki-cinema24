@@ -657,14 +657,34 @@ function toggleProfileMenu(event){
 
     event.stopPropagation();
 
-    const menu=document.getElementById("profile-menu");
+    const menu = document.getElementById("profile-menu");
+    const notif = document.getElementById("notif-popup");
 
     if(!menu) return;
 
-    menu.classList.toggle("active");
+    if(notif){
+        notif.style.display = "none";
+    }
+
+    if(menu.classList.contains("active")){
+
+        menu.classList.remove("active");
+
+        setTimeout(function(){
+            menu.style.display = "none";
+        },350);
+
+    }else{
+
+        menu.style.display = "block";
+
+        requestAnimationFrame(function(){
+            menu.classList.add("active");
+        });
+
+    }
 
 }
-
 // ==============================
 // PERSONAL AREA
 // ==============================
