@@ -35,13 +35,10 @@ window.footerOpenSidebar = function(){
 };
 
 
-window.footerToggleSidebar = function () {
+window.footerToggleSidebar = function(){
 
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
-
-    console.log("Menu clicked");
-    console.log(sidebar);
 
 
     if(!sidebar) return;
@@ -71,7 +68,6 @@ window.footerToggleSidebar = function () {
     }
 
 };
-
 
 
 
