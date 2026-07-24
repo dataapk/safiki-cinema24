@@ -653,31 +653,34 @@ function toggleNotifMenu(event) {
 }
 
 // প্রোফাইলের জন্য আলাদা ফাংশন
-function toggleProfileMenu(event) {
+function toggleProfileMenu(event){
+
     event.stopPropagation();
+
     const menu = document.getElementById("profile-menu");
-    const notif = document.getElementById('notif-popup'); // নোটিফিকেশনও বন্ধ করবে
-    
-    if (!menu) return;
-    
-    if (notif) notif.style.display = 'none'; // নোটিফিকেশন বন্ধ
-    
-    if (menu.style.display === "block") {
-        menu.style.display = "none";
-    } else {
-        menu.style.display = "block";
+    const notif = document.getElementById("notif-popup");
+
+    if(!menu) return;
+
+    if(notif){
+        notif.style.display = "none";
     }
-}
 
-function openProfileMenu(){
+    if(menu.classList.contains("active")){
 
-    const menu = document.getElementById("profile-menu");
+        menu.classList.remove("active");
 
-    if(menu){
+        setTimeout(function(){
 
-        menu.style.display="block";
+            menu.style.display = "none";
 
-        setTimeout(()=>{
+        },350);
+
+    }else{
+
+        menu.style.display = "block";
+
+        setTimeout(function(){
 
             menu.classList.add("active");
 
@@ -687,18 +690,6 @@ function openProfileMenu(){
 
 }
 
-
-function closeProfileMenu(){
-
-    const menu = document.getElementById("profile-menu");
-
-    if(menu){
-
-        menu.classList.remove("active");
-
-    }
-
-}
 // ==============================
 // PERSONAL AREA
 // ==============================
