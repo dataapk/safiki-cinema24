@@ -659,11 +659,31 @@ function toggleProfileMenu(event){
 
     const menu = document.getElementById("profile-menu");
 
-    console.log(menu);
-    console.log(menu.className);
-    console.log(menu.style.display);
+    if(!menu) return;
 
- }
+    if(menu.classList.contains("active")){
+
+        menu.classList.remove("active");
+
+        setTimeout(function(){
+
+            menu.style.display = "none";
+
+        },350);
+
+    }else{
+
+        menu.style.display = "block";
+
+        requestAnimationFrame(function(){
+
+            menu.classList.add("active");
+
+        });
+
+    }
+
+}
 // ==============================
 // PERSONAL AREA
 // ==============================
