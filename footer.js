@@ -133,11 +133,28 @@ window.footerSetActive = function(element) {
 
     if(!element) return;
 
+
+    // যদি একই item আবার click করা হয়
+    if(element.classList.contains("active")){
+
+        element.classList.remove("active");
+
+        return;
+
+    }
+
+
+    // অন্য সব বন্ধ
     document.querySelectorAll('.footer-bottom-item').forEach(function(item){
+
         item.classList.remove('active');
+
     });
 
+
+    // Current active
     element.classList.add('active');
+
 };
 
 
