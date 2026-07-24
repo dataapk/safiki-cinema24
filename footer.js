@@ -10,17 +10,24 @@ const footerSidebarOverlay = document.getElementById("footerSidebarOverlay");
 let isFooterSidebarOpen = false;
 
 // ===== SIDEBAR OPEN =====
-window.footerOpenSidebar = function(){
+window.footerCloseSidebar = function(){
 
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
 
-    sidebar.classList.add("active");
-    overlay.classList.add("active");
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
 
-    document.body.style.overflow="hidden";
+    isFooterSidebarOpen = false;
+
+    const menuBtn = document.getElementById("menuBtn");
+
+    if(menuBtn){
+        menuBtn.classList.remove("active");
+    }
+
+    document.body.style.overflow="";
 };
-
  // Login হওয়ার পরে শুধু এই ফাংশন চালাবে। =====
 
 
