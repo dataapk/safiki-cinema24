@@ -10,22 +10,41 @@ const footerSidebarOverlay = document.getElementById("footerSidebarOverlay");
 let isFooterSidebarOpen = false;
 
 // ===== SIDEBAR OPEN =====
-window.footerOpenSidebar = function(){
+window.footerToggleSidebar = function () {
 
-    const sidebar = document.getElementById("footerSidebar");
-    const overlay = document.getElementById("footerSidebarOverlay");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    console.log("Menu clicked");
+    console.log(sidebar);
+
 
     if(!sidebar) return;
 
-    sidebar.classList.add("active");
 
-    if(overlay){
-        overlay.classList.add("active");
+    if(sidebar.classList.contains("active")){
+
+        sidebar.classList.remove("active");
+
+        if(overlay){
+            overlay.classList.remove("active");
+        }
+
+        document.body.style.overflow="";
+
+
+    }else{
+
+        sidebar.classList.add("active");
+
+        if(overlay){
+            overlay.classList.add("active");
+        }
+
+        document.body.style.overflow="hidden";
+
     }
 
-    isFooterSidebarOpen = true;
-
-    document.body.style.overflow="hidden";
 };
 
 
