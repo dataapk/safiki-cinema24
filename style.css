@@ -1,22 +1,35 @@
 /* গ্লোবাল রিসেট এবং জুম প্রিভেন্ট করার প্রস্তুতি */
 
 :root {
-    /* Green Premium Theme */
-    --bg: #0F1B16;
-    --surface: #13231D;
-    --surface-2: #1B2E26;
 
-    --primary: #2ECC71;
-    --primary-hover: #27AE60;
+    /* Premium Teal Theme */
+
+    --bg: #071A16;
+
+    --surface: #0B241D;
+
+    --surface-2: #10352B;
+
+
+    --primary: #027B5B;
+
+    --primary-hover: #039E75;
+
 
     --gold: #E8C547;
+
     --gold-hover: #D4AF37;
 
+
     --text: #FFFFFF;
+
     --text-muted: #B8C4BE;
 
-    --border: #315244;
-    --shadow: rgba(0,0,0,.35);
+
+    --border: #1E5A48;
+
+    --shadow: rgba(0,0,0,.45);
+
 }
 
 * {
