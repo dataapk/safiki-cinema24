@@ -314,16 +314,19 @@ svg {
     position:fixed;
 
     top:70px;
-    bottom:60px;
-
     right:-60%;
 
     width:60%;
     max-width:420px;
 
+    height:auto;
+    max-height:calc(100vh - 80px);
+
     overflow-y:auto;
 
     box-sizing:border-box;
+
+    padding-bottom:10px;
 
     background:linear-gradient(
         180deg,
