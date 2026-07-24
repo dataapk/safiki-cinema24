@@ -316,7 +316,7 @@ svg {
     top:70px;
     right:0;
 
-    width:40%;
+    width:30%;
     max-width:380px;
     min-width:280px;
 
@@ -336,6 +336,33 @@ svg {
 #profile-sidebar.active{
 
     transform:translateX(0);
+
+}
+/* ==========================
+   MOBILE / TABLET
+========================== */
+
+@media (max-width:768px){
+
+    #profile-sidebar{
+
+        width:70%;
+        max-width:none;
+
+    }
+
+}
+
+
+/* SMALL MOBILE */
+
+@media (max-width:480px){
+
+    #profile-sidebar{
+
+        width:85%;
+
+    }
 
 }
 /* ==========================================
