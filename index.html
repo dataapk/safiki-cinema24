@@ -422,33 +422,36 @@
 <!-- ================= PROFILE MENU ================= -->
 <!-- ================= PROFILE SIDEBAR ================= -->
 
-<div class="profile-sidebar-header">
-
-    <button class="profile-close-btn" onclick="closeProfileSidebar()">
-        <i class="fas fa-times"></i>
-    </button>
+<div id="profile-sidebar">
 
 
-    <div class="profile-user-info">
+    <!-- Header -->
+    <div class="profile-sidebar-header">
 
-        <div class="profile-avatar">
-            <i class="fas fa-user-circle"></i>
-        </div>
+        <button class="profile-close-btn" onclick="closeProfileSidebar()">
+            <i class="fas fa-times"></i>
+        </button>
 
-        <div class="profile-user-text">
-            <h3 id="profileUserName">User Name</h3>
-            <span id="profileUserLevel">VIP 0</span>
+
+        <div class="profile-user-info">
+
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+
+            <div class="profile-user-text">
+                <h3 id="profileUserName">User Name</h3>
+                <span id="profileUserLevel">VIP 0</span>
+            </div>
+
         </div>
 
     </div>
 
 
 
-
     <!-- Menu -->
-
     <div class="profile-sidebar-menu">
-
         <div class="profile-sidebar-item"
              onclick="openPersonalArea()">
 
