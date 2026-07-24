@@ -1,3 +1,11 @@
+:root{
+
+    --icon-green:#027B5B;
+    --icon-yellow:#E8C547;
+    --icon-cyan:#08A77A;
+
+}
+
 /* =====================================================
    FOOTER
 ===================================================== */
@@ -59,21 +67,29 @@
     transition:.25s;
 }
 
-.footer-bottom-nav .footer-bottom-item span{
-    font-size:10px;
-    font-weight:600;
-    color:#cfd6df;
-    transition:.25s;
+.footer-bottom-nav .footer-bottom-item.active i{
+
+    background:linear-gradient(
+        45deg,
+        #027B5B,
+        #E8C547,
+        #08A77A
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    filter:drop-shadow(0 0 8px rgba(2,123,91,.75));
+
 }
 
-.footer-bottom-nav .footer-bottom-item:hover{
-    background:rgba(255,255,255,.03);
-}
 
-.footer-bottom-nav .footer-bottom-item.active i,
 .footer-bottom-nav .footer-bottom-item.active span{
+
     color:#22c55e;
+
     filter:drop-shadow(0 0 8px rgba(34,197,94,.75));
+
 }
 
 /* ================= USER CARD ================= */
