@@ -657,36 +657,11 @@ function toggleProfileMenu(event){
 
     event.stopPropagation();
 
-    const menu = document.getElementById("profile-menu");
-    const notif = document.getElementById("notif-popup");
+    const menu=document.getElementById("profile-menu");
 
     if(!menu) return;
 
-    if(notif){
-        notif.style.display = "none";
-    }
-
-    if(menu.classList.contains("active")){
-
-        menu.classList.remove("active");
-
-        setTimeout(function(){
-
-            menu.style.display = "none";
-
-        },350);
-
-    }else{
-
-        menu.style.display = "block";
-
-        setTimeout(function(){
-
-            menu.classList.add("active");
-
-        },10);
-
-    }
+    menu.classList.toggle("active");
 
 }
 
