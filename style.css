@@ -304,6 +304,7 @@ svg {
 ===================================================== */
 
 #profile-menu{
+     display:none;
 
     position:fixed;
 
@@ -348,9 +349,8 @@ svg {
 /* SLIDE OPEN */
 
 #profile-menu.active{
-
+    display:block;
     right:0;
-
 }
 
 
