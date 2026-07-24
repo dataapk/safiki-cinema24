@@ -10,6 +10,31 @@ const footerSidebarOverlay = document.getElementById("footerSidebarOverlay");
 let isFooterSidebarOpen = false;
 
 // ===== SIDEBAR OPEN =====
+// ===== SIDEBAR OPEN =====
+
+window.footerOpenSidebar = function(){
+
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    if(!sidebar) return;
+
+
+    sidebar.classList.add("active");
+
+
+    if(overlay){
+        overlay.classList.add("active");
+    }
+
+
+    isFooterSidebarOpen = true;
+
+    document.body.style.overflow="hidden";
+
+};
+
+
 window.footerToggleSidebar = function () {
 
     const sidebar = document.getElementById("sidebar");
