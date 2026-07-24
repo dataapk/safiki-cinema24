@@ -316,7 +316,7 @@ svg {
     top:70px;
     right:0;
 
-    width:40%;
+   width:50%;
 
     max-width:380px;
 
@@ -350,22 +350,15 @@ svg {
 @media (max-width:768px){
 
     #profile-sidebar{
-
-        width:40%;
-
+        width:45%;
     }
 
 }
 
-
-/* MOBILE */
-
 @media (max-width:480px){
 
     #profile-sidebar{
-
-        width:40%;
-
+        width:45%;
     }
 
 }
