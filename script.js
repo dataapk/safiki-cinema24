@@ -663,7 +663,7 @@ function toggleProfileMenu(event){
     console.log(menu.className);
     console.log(menu.style.display);
 
-}
+ }
 // ==============================
 // PERSONAL AREA
 // ==============================
