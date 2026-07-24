@@ -302,6 +302,9 @@ svg {
 /* =====================================================
    PROFILE MENU PANEL FINAL
 ===================================================== */
+/* ===========================
+   PROFILE MENU SIDEBAR
+=========================== */
 
 #profile-menu{
 
@@ -316,45 +319,62 @@ svg {
     bottom:60px;
 
     overflow-y:auto;
+    box-sizing:border-box;
+
+    padding:20px;
+    padding-bottom:10px;
+
+    background:linear-gradient(
+        180deg,
+        #050505,
+        #111827
+    );
+
+    border-left:1px solid rgba(34,197,94,.25);
 
     transition:right .35s ease;
 
     z-index:9998;
 
-    visibility:hidden;
-    opacity:0;
 }
-
-/* SLIDE OPEN */
 
 #profile-menu.active{
 
     right:0;
-    visibility:visible;
-    opacity:1;
 
 }
 
-/* MENU ITEM */
+/* ===========================
+   MENU ITEMS
+=========================== */
 
-#profile-menu .menu-item{
+.profile-menu-item{
 
     height:52px;
 
     display:flex;
-
     align-items:center;
+    justify-content:space-between;
 
-    border-bottom:1px solid rgba(255,255,255,.08);
+    padding:0 16px;
+
+    color:#fff;
 
     cursor:pointer;
 
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    transition:.25s;
+
 }
 
+.profile-menu-item:hover{
 
-/* ICON + TEXT */
+    background:rgba(255,255,255,.05);
 
-#profile-menu .menu-left{
+}
+
+.profile-menu-left{
 
     display:flex;
 
@@ -362,63 +382,57 @@ svg {
 
     gap:14px;
 
-    width:100%;
-
 }
 
+/* ===========================
+   ICON
+=========================== */
 
-
-/* ICON */
-
-#profile-menu .menu-left i{
+.profile-menu-left i{
 
     width:22px;
 
     text-align:center;
 
-    font-size:18px;
+    color:#ffffff;
+
+    font-size:17px;
+
+}
+
+/* ===========================
+   TEXT
+=========================== */
+
+.profile-menu-left span{
 
     color:#fff;
 
-}
+    font-size:15px;
 
-
-
-/* TEXT */
-
-#profile-menu .menu-left span{
-
-    color:#fff;
-
-    font-size:14px;
+    font-weight:500;
 
 }
 
+/* ===========================
+   LOGOUT
+=========================== */
 
+.logout-item{
 
-/* REMOVE EXTRA SPACE AFTER LAST ITEM */
-
-#profile-menu .logout-item{
-
-    border-bottom:none;
-
-    margin-bottom:0;
+    color:#ff5b5b;
 
 }
 
+.logout-item i{
 
+    color:#ff5b5b;
 
-/* MOBILE */
+}
 
-@media(max-width:768px){
+.logout-item span{
 
-    #profile-menu{
-
-        width:60%;
-
-        right:-60%;
-
-    }
+    color:#ff5b5b;
 
 }
 /* ===============================
