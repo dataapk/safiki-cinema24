@@ -304,6 +304,7 @@ svg {
 ===================================================== */
 
 #profile-menu{
+    background:red !important;
      display:none;
 
     position:fixed;
