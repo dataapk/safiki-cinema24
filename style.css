@@ -323,6 +323,11 @@ svg {
     transform:translateX(100%);
     transition:transform .35s ease;
      z-index: 99999;
+    background: linear-gradient(
+    180deg,
+    #050505,
+    #111827
+) !important;
 
     /* বাকি CSS আগের মতোই থাকবে */
 
