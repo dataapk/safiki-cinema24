@@ -314,10 +314,11 @@ svg {
     position:fixed;
 
     top:70px;
-    right:-60%;
+    right:-40%;
 
-    width:60%;
-    max-width:420px;
+    width:40%;
+    max-width:380px;
+    min-width:280px;
 
     height:auto;
     max-height:calc(100vh - 80px);
@@ -342,14 +343,11 @@ svg {
 
 }
 
-/* Open */
-
 #profile-sidebar.active{
 
     right:0;
 
 }
-
 /* ==========================================
    HEADER
 ========================================== */
