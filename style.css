@@ -304,68 +304,36 @@ svg {
 ===================================================== */
 
 #profile-menu{
-   
-     display:none;
 
     position:fixed;
 
     top:70px;
-
     right:-60%;
 
     width:60%;
-
     max-width:420px;
 
-    height:calc(100vh - 130px);
+    bottom:60px;
 
     overflow-y:auto;
 
-    box-sizing:border-box;
-
-
-    padding:20px;
-
-    padding-bottom:12px;
-
-
-    background:
-    linear-gradient(
-        180deg,
-        #050505,
-        #111827
-    );
-
-
-    border-left:1px solid rgba(34,197,94,.25);
-
-
-    transition:.35s ease;
+    transition:right .35s ease;
 
     z-index:9998;
 
+    visibility:hidden;
+    opacity:0;
 }
-#profile-menu{
-
-    background:#050505 !important;
-
-    background-image:linear-gradient(
-        180deg,
-        #050505 0%,
-        #111827 100%
-    ) !important;
-
-}
-
 
 /* SLIDE OPEN */
 
 #profile-menu.active{
-    display:block;
+
     right:0;
+    visibility:visible;
+    opacity:1;
+
 }
-
-
 
 /* MENU ITEM */
 
