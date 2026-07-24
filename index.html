@@ -419,58 +419,107 @@
 
 
 <!-- ================= PROFILE MENU ================= -->
+<!-- ================= PROFILE SIDEBAR ================= -->
 
-<div id="profile-menu">
+<div id="profile-sidebar">
 
-    <!-- Personal Area -->
-    <div class="profile-menu-item" onclick="openPersonalArea()">
-        <div class="profile-menu-left">
+    <!-- Header -->
+    <div class="profile-sidebar-header">
+
+        <div class="profile-user-info">
+
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+
+            <div class="profile-user-text">
+
+                <h3 id="profileUserName">MD AYAN</h3>
+
+                <span id="profileUserLevel">VIP 0</span>
+
+            </div>
+
+        </div>
+
+        <button class="profile-close-btn"
+                onclick="closeProfileSidebar()">
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+    </div>
+
+
+    <!-- Menu -->
+
+    <div class="profile-sidebar-menu">
+
+        <div class="profile-sidebar-item"
+             onclick="openPersonalArea()">
+
             <i class="fas fa-user"></i>
+
             <span>Personal Area</span>
-        </div>
-    </div>
 
-    <!-- My Bonus -->
-    <div class="profile-menu-item" onclick="openMyBonus()">
-        <div class="profile-menu-left">
+        </div>
+
+
+        <div class="profile-sidebar-item"
+             onclick="openMyBonus()">
+
             <i class="fas fa-gift"></i>
+
             <span>My Bonus</span>
-        </div>
-    </div>
 
-    <!-- My Level -->
-    <div class="profile-menu-item" onclick="openMyLevel()">
-        <div class="profile-menu-left">
+        </div>
+
+
+        <div class="profile-sidebar-item"
+             onclick="openMyLevel()">
+
             <i class="fas fa-star"></i>
+
             <span>My Level</span>
-        </div>
-    </div>
 
-    <!-- Transactions -->
-    <div class="profile-menu-item" onclick="openTransaction()">
-        <div class="profile-menu-left">
+        </div>
+
+
+        <div class="profile-sidebar-item"
+             onclick="openTransaction()">
+
             <i class="fas fa-history"></i>
+
             <span>Transactions</span>
-        </div>
-    </div>
 
-    <!-- Settings -->
-    <div class="profile-menu-item" onclick="openProfileSettingMenu()">
-        <div class="profile-menu-left">
+        </div>
+
+
+        <div class="profile-sidebar-item"
+             onclick="openProfileSettingMenu()">
+
             <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </div>
-    </div>
 
-    <!-- Logout -->
-    <div class="profile-menu-item logout-item" onclick="openLogoutPopup()">
-        <div class="profile-menu-left">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
+            <span>Settings</span>
+
         </div>
+
+
+        <div class="profile-sidebar-item logout-item"
+             onclick="openLogoutPopup()">
+
+            <i class="fas fa-sign-out-alt"></i>
+
+            <span>Logout</span>
+
+        </div>
+
     </div>
 
 </div>
+
+<!-- ================= END PROFILE SIDEBAR ================= -->
 
 <!-- ================= END PROFILE MENU ================= -->
 
