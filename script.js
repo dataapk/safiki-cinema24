@@ -653,37 +653,88 @@ function toggleNotifMenu(event) {
 }
 
 // প্রোফাইলের জন্য আলাদা ফাংশন
-function toggleProfileMenu(event){
+// ======================================
+// PROFILE SIDEBAR
+// ======================================
 
-    event.stopPropagation();
+let isProfileSidebarOpen = false;
 
-    const menu = document.getElementById("profile-menu");
+// Open
+function openProfileSidebar(){
 
-    if(!menu) return;
+    const sidebar = document.getElementById("profile-sidebar");
 
-    if(menu.classList.contains("active")){
+    if(!sidebar) return;
 
-        menu.classList.remove("active");
+    sidebar.classList.add("active");
 
-        setTimeout(function(){
+    isProfileSidebarOpen = true;
 
-            menu.style.display = "none";
+}
 
-        },350);
+// Close
+function closeProfileSidebar(){
+
+    const sidebar = document.getElementById("profile-sidebar");
+
+    if(!sidebar) return;
+
+    sidebar.classList.remove("active");
+
+    isProfileSidebarOpen = false;
+
+}
+
+// Toggle
+function toggleProfileSidebar(event){
+
+    if(event) event.stopPropagation();
+
+    if(isProfileSidebarOpen){
+
+        closeProfileSidebar();
 
     }else{
 
-        menu.style.display = "block";
-
-        requestAnimationFrame(function(){
-
-            menu.classList.add("active");
-
-        });
+        openProfileSidebar();
 
     }
 
 }
+
+// Outside Click
+document.addEventListener("click",function(e){
+
+    const sidebar = document.getElementById("profile-sidebar");
+
+    const button = document.querySelector(
+        "#user-actions-area .actions-box:last-child"
+    );
+
+    if(
+        isProfileSidebarOpen &&
+        sidebar &&
+        !sidebar.contains(e.target) &&
+        button &&
+        !button.contains(e.target)
+    ){
+
+        closeProfileSidebar();
+
+    }
+
+});
+
+// ESC Key
+document.addEventListener("keydown",function(e){
+
+    if(e.key==="Escape" && isProfileSidebarOpen){
+
+        closeProfileSidebar();
+
+    }
+
+});
 // ==============================
 // PERSONAL AREA
 // ==============================
