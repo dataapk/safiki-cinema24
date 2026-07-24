@@ -668,6 +668,37 @@ function toggleProfileMenu(event) {
         menu.style.display = "block";
     }
 }
+
+function openProfileMenu(){
+
+    const menu = document.getElementById("profile-menu");
+
+    if(menu){
+
+        menu.style.display="block";
+
+        setTimeout(()=>{
+
+            menu.classList.add("active");
+
+        },10);
+
+    }
+
+}
+
+
+function closeProfileMenu(){
+
+    const menu = document.getElementById("profile-menu");
+
+    if(menu){
+
+        menu.classList.remove("active");
+
+    }
+
+}
 // ==============================
 // PERSONAL AREA
 // ==============================
