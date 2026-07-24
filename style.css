@@ -346,21 +346,17 @@ svg {
 
     #profile-sidebar{
 
-        width:70%;
-        max-width:none;
+        width:30%;
 
     }
 
 }
 
-
-/* SMALL MOBILE */
-
 @media (max-width:480px){
 
     #profile-sidebar{
 
-        width:85%;
+        width:30%;
 
     }
 
