@@ -711,6 +711,43 @@ window.addEventListener('click',(event)=>{
    
 // END Outside Click Handler ---
 
+// ======================================
+// NOTIFICATION VIEW  START
+// ======================================
+
+function openNotificationView(title,message,date,time){
+
+    const view=document.getElementById('notification-view-popup');
+
+    if(!view) return;
+
+
+    document.getElementById('viewNotifTitle').textContent=title;
+    document.getElementById('viewNotifDate').textContent=date;
+    document.getElementById('viewNotifTime').textContent=time;
+    document.getElementById('viewNotifMessage').textContent=message;
+
+
+    view.classList.add('active');
+
+
+}
+function closeNotificationView(){
+
+    const view=document.getElementById('notification-view-popup');
+
+    if(view){
+
+        view.classList.remove('active');
+
+    }
+
+}
+// ======================================
+// NOTIFICATION VIEW  END
+// ======================================
+
+
 // প্রোফাইলের জন্য আলাদা ফাংশন
 // ======================================
 // PROFILE SIDEBAR
