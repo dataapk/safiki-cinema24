@@ -18,12 +18,11 @@
 /* ==========================================
    MY BONUS MAIN PANEL
 ========================================== */
-
 #my-bonus-section{
 
     position:fixed;
 
-    top:50%;
+    top:55%;
 
     left:50%;
 
@@ -33,9 +32,11 @@
 
     max-width:520px;
 
-    max-height:85vh;
+    max-height:88vh;
 
     overflow-y:auto;
+
+    padding-bottom:20px;
 
     background:#071A16;
 
@@ -44,7 +45,6 @@
     z-index:9999;
 
 }
-
 
 /* ==========================================
    BONUS HEADER
