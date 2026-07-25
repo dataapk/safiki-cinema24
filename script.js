@@ -644,12 +644,33 @@ function updatecurrencyIcons() {
 // ২. NOTIFICATIONA  profile menu START
 // নোটিফিকেশনের জন্য আলাদা ফাংশন
 // নোটিফিকেশনের জন্য আলাদা ফাংশন
-function toggleNotifMenu(event) {
+function toggleNotificationPanel(event) {
+
     event.stopPropagation();
-    const menu = document.getElementById('notif-popup');
-    const profile = document.getElementById('profile-menu'); // ❌ ছিল 'profile-popup' → ✅ ঠিক 'profile-menu'
-    if (profile) profile.style.display = 'none'; // অন্য মেনু বন্ধ
-    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+
+
+    const panel = document.getElementById('notification-panel');
+
+
+    const profile = document.getElementById('profile-sidebar');
+
+
+    // Profile sidebar বন্ধ করবে
+    if(profile){
+
+        profile.classList.remove('active');
+
+    }
+
+
+    // Notification toggle
+
+    if(panel){
+
+        panel.classList.toggle('active');
+
+    }
+
 }
 
 // প্রোফাইলের জন্য আলাদা ফাংশন
