@@ -6,8 +6,7 @@
 const footerSidebar = document.getElementById("footerSidebar");
 const footerSidebarOverlay = document.getElementById("footerSidebarOverlay");
 
-// ===== STATE =====
-let isFooterSidebarOpen = false;
+
 
 // ===== SIDEBAR OPEN =====
 // ===== SIDEBAR OPEN =====
@@ -18,7 +17,6 @@ window.footerToggleSidebar = function(){
 
     const sidebar = document.getElementById("sidebar");
 
-    const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
 
     if(!sidebar) return;
