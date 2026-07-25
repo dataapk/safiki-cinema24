@@ -12,7 +12,11 @@ let isFooterSidebarOpen = false;
 // ===== SIDEBAR OPEN =====
 // ===== SIDEBAR OPEN =====
 
-window.footerOpenSidebar = function(){
+window.footerToggleSidebar = function(){
+
+    console.log("Footer menu clicked");
+
+    const sidebar = document.getElementById("sidebar");
 
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
