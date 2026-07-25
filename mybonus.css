@@ -59,10 +59,15 @@
 .bonus-header{
 
     height:58px;
+   padding:10px 12px;
+
+    border-radius:12px;
 
     display:flex;
 
     align-items:center;
+   justify-content:center;
+    position:relative;
 
     justify-content:space-between;
 
@@ -84,6 +89,7 @@
     margin:0;
 
     font-size:20px;
+   text-align:center;
 
     font-weight:700;
 
