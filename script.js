@@ -1692,35 +1692,29 @@ function openBonusTab(tab){
         btn.classList.remove("active");
     });
 
-    // Deposit Bonus
-    if(tab==="deposit"){
+   // Deposit Bonus
+if(tab==="deposit"){
 
-        document.getElementById("depositBonusContent").style.display="block";
-        document.getElementById("depositBonusTab").classList.add("active");
+    document.getElementById("depositBonusContent").style.display="block";
+    document.getElementById("depositBonusTab").classList.add("active");
 
-    }
+}
 
-    // Cashback Bonus
-   else if(tab==="promotional"){
 
-        document.getElementById("cashbackBonusContent").style.display="block";
-        document.getElementById("cashbackBonusTab").classList.add("active");
+// Cashback Bonus
+else if(tab==="cashback"){
 
-    }
+    document.getElementById("cashbackBonusContent").style.display="block";
+    document.getElementById("cashbackBonusTab").classList.add("active");
 
-    // Referral Bonus
-    else if(tab==="history"){
+}
 
-        document.getElementById("referralBonusContent").style.display="block";
-        document.getElementById("referralBonusTab").classList.add("active");
 
-        // Future:
-        // loadBonusHistory();
+// Referral Reward
+else if(tab==="referral"){
 
-    }
-
-    // Update Progress Card
-    updateBonusProgressCard(tab);
+    document.getElementById("referralBonusContent").style.display="block";
+    document.getElementById("referralBonusTab").classList.add("active");
 
 }
 
