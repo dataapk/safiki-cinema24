@@ -37,7 +37,7 @@ window.footerToggleSidebar = function(){
     document.body.style.overflow="hidden";
 
 };
-
+// ===== SIDEBAR TOGGLE =====
 
 window.footerToggleSidebar = function(){
 
@@ -156,16 +156,8 @@ window.footerCloseSidebar = function(){
     document.body.style.overflow="";
 };
 
-// ===== SIDEBAR TOGGLE =====
-window.footerToggleSidebar = function () {
 
-    if (isFooterSidebarOpen) {
-        footerCloseSidebar();
-    } else {
-        footerOpenSidebar();
-    }
 
-};
    // ===== FOOTER MENU SUB TOGGLE =====
 window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
