@@ -87,10 +87,14 @@ window.footerCloseSidebar = function(){
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
 
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
+    if(sidebar){
+        sidebar.classList.remove("active");
+    }
 
-    isFooterSidebarOpen = false;
+    if(overlay){
+        overlay.classList.remove("active");
+    }
+
 
     const menuBtn = document.getElementById("menuBtn");
 
@@ -98,7 +102,9 @@ window.footerCloseSidebar = function(){
         menuBtn.classList.remove("active");
     }
 
+
     document.body.style.overflow="";
+
 };
  // Login হওয়ার পরে শুধু এই ফাংশন চালাবে। =====
 
