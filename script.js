@@ -2375,29 +2375,23 @@ function updateLogoutUI(){
 }
 
 // --- Outside Click Handler ---
-window.addEventListener('click', (event) => {
+window.addEventListener('click',(event)=>{
+    const notificationPanel=document.getElementById('notification-panel');
+    const profileSidebar=document.getElementById('profile-sidebar');
+    const logoutModal=document.getElementById('logout-confirm-popup');
 
-    const notifPopup = document.getElementById('notif-popup');
-    const profileMenu = document.getElementById('profile-menu');
-    const logoutModal = document.getElementById('logout-confirm-popup');
-
-    // Close notifications if clicking outside
-    if (
-        notifPopup &&
-        !notifPopup.contains(event.target) &&
-        !event.target.closest('.notif-icon-class')
-    ) {
-        notifPopup.style.display = 'none';
+    if(notificationPanel&&notificationPanel.classList.contains('active')&&!notificationPanel.contains(event.target)&&!event.target.closest('.notification-btn')){
+        notificationPanel.classList.remove('active');
     }
 
-    // Close profile menu if clicking outside
-    if (
-        profileMenu &&
-        !profileMenu.contains(event.target) &&
-        !event.target.closest('.profile-icon-class')
-    ) {
-        profileMenu.style.display = 'none';
+    if(profileSidebar&&profileSidebar.classList.contains('active')&&!profileSidebar.contains(event.target)&&!event.target.closest('.profile-btn')){
+        profileSidebar.classList.remove('active');
     }
+
+    if(logoutModal&&event.target===logoutModal){
+        closeLogoutPopup();
+    }
+});
 
     // Close logout popup if clicking outside
     if (
