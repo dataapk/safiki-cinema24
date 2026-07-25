@@ -3120,201 +3120,392 @@ END MY BONUS SECTION
 }
 
 
-/* =========================================
-        NOTIFICATION
-========================================= */
+/* =====================================
+   NOTIFICATION PANEL
+===================================== */
 
-#notif-popup {
+.notification-panel{
 
-    display:none;
+    position:fixed;
 
-    position:absolute;
+    top:70px;
+    left:50%;
 
-    top:65px;
+    transform:translate(-50%,-20px);
 
-    left:25%;
+    width:420px;
+    max-width:90%;
 
-    transform:translateX(-75%);
+    background:#0F1B16;
 
-    width:320px;
+    border:1px solid rgba(46,204,113,.25);
 
-    height:70vh;
+    border-radius:14px;
 
-    background:var(--surface);
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.45);
 
-    border-radius:10px;
+    overflow:hidden;
 
-    border:1px solid var(--border);
-
-    box-shadow:0 10px 30px var(--shadow);
-
-    z-index:9999;
-
-    padding:15px;
-
-    padding-top:40px !important;
-
-    box-sizing:border-box;
-
-    overflow-y:auto;
+    z-index:99999;
 
 }
 
-.notif-container {
 
-    display:flex;
+/* ==========================
+   HEADER
+========================== */
 
-    flex-direction:column;
 
-    gap:10px;
-
-    width:100%;
-
-    padding:0 10px;
-
-    box-sizing:border-box;
-
-}
-
-.notif-box-item {
+.notification-header{
 
     display:flex;
 
     align-items:center;
 
-    gap:3px;
+    justify-content:center;
 
-    margin-bottom:8px;
+    position:relative;
 
-}
 
-.notif-date {
+    padding:16px;
 
-    font-size:11px;
 
-    color:var(--primary);
+    background:linear-gradient(
+        135deg,
+        #027B5B,
+        #1B9C75
+    );
 
-    min-width:55px;
-
-    text-align:left;
-
-}
-
-.notif-text {
-
-    flex-grow:1;
-
-    padding:8px 12px;
-
-    background:var(--surface-2);
-
-    border:1px solid var(--border);
-
-    border-radius:5px;
-
-    color:var(--text);
-
-    font-size:13px;
-
-    white-space:nowrap;
 
 }
 
 
-/* Pagination */
+.notification-header h3{
 
-.pagination {
+    margin:0;
 
-    display:flex !important;
+    color:#fff;
 
-    justify-content:center !important;
+    font-size:18px;
 
-    align-items:center !important;
-
-    gap:10px;
-
-    width:100%;
-
-    padding:10px 0;
-
-    margin-top:auto;
+    font-weight:700;
 
 }
 
-.page-numbers {
+
+/* CLOSE BUTTON LEFT */
+
+.notification-close{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+
+    width:32px;
+
+    height:32px;
+
+
+    border-radius:50%;
+
+    border:none;
+
+
+    background:rgba(255,255,255,.15);
+
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
 
     display:flex;
 
-    gap:8px;
+    align-items:center;
 
-    color:var(--text);
+    justify-content:center;
 
-    cursor:pointer;
-
-}
-
-.page-btn {
-
-    background:transparent;
-
-    border:1px solid var(--primary);
-
-    color:var(--primary);
-
-    padding:2px 8px;
-
-    border-radius:4px;
-
-    cursor:pointer;
 
     transition:.25s;
 
 }
 
-.page-btn:hover {
 
-    background:var(--primary);
+.notification-close:hover{
+
+    background:rgba(255,255,255,.3);
+
+}
+
+
+
+/* ==========================
+   LIST
+========================== */
+
+
+.notification-list{
+
+    padding:12px;
+
+    max-height:500px;
+
+    overflow-y:auto;
+
+}
+
+
+
+/* ==========================
+   CARD
+========================== */
+
+
+.notification-item{
+
+    display:flex;
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    padding:12px;
+
+
+    margin-bottom:10px;
+
+
+    background:#13231D;
+
+
+    border:1px solid rgba(255,255,255,.08);
+
+
+    border-radius:12px;
+
+
+    transition:.25s;
+
+}
+
+
+
+.notification-item:hover{
+
+    border-color:#2ECC71;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+/* DATE TIME */
+
+.notification-time{
+
+    min-width:65px;
+
+    text-align:center;
+
+}
+
+
+.notification-time span{
+
+    display:block;
+
+    color:#2ECC71;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.notification-time small{
+
+    display:block;
+
+    color:#B8C4BE;
+
+    font-size:11px;
+
+    margin-top:4px;
+
+}
+
+
+
+/* MESSAGE */
+
+
+.notification-content{
+
+    flex:1;
+
+}
+
+
+.notification-content h4{
+
+    margin:0;
+
+    color:#fff;
+
+    font-size:14px;
+
+}
+
+
+.notification-content p{
+
+    margin:4px 0 0;
+
+    color:#B8C4BE;
+
+    font-size:12px;
+
+}
+
+
+
+/* VIEW BUTTON */
+
+
+.notification-view{
+
+    padding:6px 12px;
+
+
+    border-radius:8px;
+
+
+    background:transparent;
+
+
+    color:#2ECC71;
+
+
+    border:1px solid #2ECC71;
+
+
+    font-size:11px;
+
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+    transition:.25s;
+
+}
+
+
+
+.notification-view:hover{
+
+    background:#2ECC71;
 
     color:#fff;
 
 }
 
-.page-info {
 
-    font-weight:bold;
 
-    letter-spacing:5px;
+/* ==========================
+   PAGINATION
+========================== */
+
+
+.notification-pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+
+    padding:12px;
+
+
+    border-top:1px solid rgba(255,255,255,.08);
 
 }
 
-#close-notif {
+
+.notification-pagination button{
 
     background:none;
 
     border:none;
 
-    color:var(--primary);
-
-    font-size:24px;
+    color:#2ECC71;
 
     cursor:pointer;
 
-    position:absolute;
-
-    top:5px;
-
-    right:10px;
-
-    line-height:1;
-
 }
 
-#close-notif:hover {
+
+.notification-pagination span{
 
     color:#fff;
 
+    font-size:13px;
+
 }
 
+
+
+/* ==========================
+   MOBILE
+========================== */
+
+
+@media(max-width:480px){
+
+
+.notification-panel{
+
+    width:94%;
+
+    top:65px;
+
+}
+
+
+
+.notification-item{
+
+    gap:8px;
+
+}
+
+
+.notification-content h4{
+
+    font-size:13px;
+
+}
+
+
+}
 
 /* =========================================
         PROFILE MENU
