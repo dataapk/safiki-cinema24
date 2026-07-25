@@ -1670,24 +1670,47 @@
         </div>
 
         <!-- Referral List -->
-        <div class="bonus-card referral-list-card">
-            <h4 class="referral-list-title">Referred Users</h4>
-            <div class="referral-list" id="referralUserList">
-                <!-- Demo Item -->
-                <div class="referral-user-item">
-                    <div class="referral-user-info">
-                        <span class="referral-user-name">Demo User 1</span>
-                        <span class="referral-user-deposit">Deposited: ৳ 5,000</span>
-                    </div>
-                    <span class="referral-user-reward">+৳ 1,000</span>
-                </div>
-                <div class="referral-user-item">
-                    <div class="referral-user-info">
-                        <span class="referral-user-name">Demo User 2</span>
-                        <span class="referral-user-deposit">Deposited: ৳ 3,000</span>
-                    </div>
-                    <span class="referral-user-reward">+৳ 600</span>
-                </div>
+       <!-- Referral Quick Actions -->
+
+<div class="bonus-card referral-action-card">
+
+
+    <!-- New Referral -->
+    <div class="new-referral-box">
+
+        <span class="referral-label">
+            New Referral
+        </span>
+
+
+        <div class="new-referral-info">
+
+            <span id="newReferralUser">
+                User ID: ------
+            </span>
+
+            <span id="newReferralDate">
+                Join Date: --
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- View Full List -->
+
+    <button 
+    class="view-referral-list-btn"
+    onclick="openReferralList()">
+
+        View Full List
+
+    </button>
+
+
+</div>
             </div>
         </div>
 
