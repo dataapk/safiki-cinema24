@@ -16,6 +16,96 @@
     padding: 20px;
     box-sizing: border-box;
 }
+/* =====================================
+   PERSONAL AREA HEADER
+===================================== */
+
+.personal-header {
+
+    height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    background:linear-gradient(
+        135deg,
+        #027B5B,
+        #039E75
+    );
+
+    border-radius:14px;
+
+    margin:-5px -5px 12px -5px;
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.35);
+
+}
+
+
+.personal-header h3 {
+
+    margin:0;
+
+    color:#FFFFFF;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+}
+
+
+
+/* CLOSE BUTTON */
+
+.close-personal {
+
+    position:absolute;
+
+    right:12px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:30px;
+
+    height:30px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:rgba(0,0,0,.25);
+
+    color:white;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+.close-personal:hover {
+
+    background:var(--gold);
+
+    color:#000;
+
+}
 /* ============================= */
 /* PERSONAL DETAILS SECTION CSS */
 /* ============================= */
