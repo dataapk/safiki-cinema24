@@ -445,15 +445,32 @@
 
 
             <!-- View Button -->
+             <button onclick="openNotificationView(
+'Profile Updated',
+'Your profile has been successfully updated.',
+'15-07-2026',
+'10:30 AM'
+)">
+View
+</button>
 
-            <button class="notification-view">
+  </div>
+        <div id="notification-view-popup">
 
-                VIEW
+    <button onclick="closeNotificationView()">
+        ×
+    </button>
 
-            </button>
+    <h3 id="viewNotifTitle"></h3>
 
+    <div>
+        <span id="viewNotifDate"></span>
+        <span id="viewNotifTime"></span>
+    </div>
 
-        </div>
+    <p id="viewNotifMessage"></p>
+
+</div>
 
 
 
