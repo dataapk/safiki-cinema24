@@ -809,56 +809,272 @@
     </div>
 
 
-    <!-- ================= ID VERIFICATION TAB ================= -->
-    <div id="idVerificationSection" class="personal-tab-content" style="display:none;">
-        
-        <div class="content-box">
-            <label class="box-label">Select Country</label>
-            <select class="form-input" onchange="updateKycRequirements()">
-                <option>-- Select Country --</option>
-                <option>Bangladesh</option>
-                <option>India</option>
+
+<!-- ================= ID VERIFICATION TAB ================= -->
+<div id="idVerificationSection" class="personal-tab-content">
+
+    <!-- ===== COUNTRY SELECTION ===== -->
+    <div class="content-box kyc-country-box">
+        <label class="box-label">
+            <i class="fas fa-globe"></i> Select Country
+        </label>
+        <div class="country-select-wrap">
+            <select class="form-input country-select" id="kycCountrySelect" onchange="updateKycRequirements()">
+                <option value="">-- Select Country --</option>
+                <option value="BD" data-code="+880">🇧🇩 Bangladesh (+880)</option>
+                <option value="IN" data-code="+91">🇮🇳 India (+91)</option>
+                <option value="PK" data-code="+92">🇵🇰 Pakistan (+92)</option>
+                <option value="NP" data-code="+977">🇳🇵 Nepal (+977)</option>
+                <option value="LK" data-code="+94">🇱🇰 Sri Lanka (+94)</option>
+                <option value="AF" data-code="+93">🇦🇫 Afghanistan (+93)</option>
+                <option value="BT" data-code="+975">🇧🇹 Bhutan (+975)</option>
+                <option value="MV" data-code="+960">🇲🇻 Maldives (+960)</option>
+                <option value="MM" data-code="+95">🇲🇲 Myanmar (+95)</option>
+                <option value="TH" data-code="+66">🇹🇭 Thailand (+66)</option>
+                <option value="VN" data-code="+84">🇻🇳 Vietnam (+84)</option>
+                <option value="PH" data-code="+63">🇵🇭 Philippines (+63)</option>
+                <option value="ID" data-code="+62">🇮🇩 Indonesia (+62)</option>
+                <option value="MY" data-code="+60">🇲🇾 Malaysia (+60)</option>
+                <option value="SG" data-code="+65">🇸🇬 Singapore (+65)</option>
+                <option value="KH" data-code="+855">🇰🇭 Cambodia (+855)</option>
+                <option value="LA" data-code="+856">🇱🇦 Laos (+856)</option>
+                <option value="BN" data-code="+673">🇧🇳 Brunei (+673)</option>
+                <option value="CN" data-code="+86">🇨🇳 China (+86)</option>
+                <option value="JP" data-code="+81">🇯🇵 Japan (+81)</option>
+                <option value="KR" data-code="+82">🇰🇷 South Korea (+82)</option>
+                <option value="AE" data-code="+971">🇦🇪 UAE (+971)</option>
+                <option value="SA" data-code="+966">🇸🇦 Saudi Arabia (+966)</option>
+                <option value="QA" data-code="+974">🇶🇦 Qatar (+974)</option>
+                <option value="KW" data-code="+965">🇰🇼 Kuwait (+965)</option>
+                <option value="OM" data-code="+968">🇴🇲 Oman (+968)</option>
+                <option value="BH" data-code="+973">🇧🇭 Bahrain (+973)</option>
+                <option value="TR" data-code="+90">🇹🇷 Turkey (+90)</option>
+                <option value="IR" data-code="+98">🇮🇷 Iran (+98)</option>
+                <option value="IQ" data-code="+964">🇮🇶 Iraq (+964)</option>
+                <option value="JO" data-code="+962">🇯🇴 Jordan (+962)</option>
+                <option value="LB" data-code="+961">🇱🇧 Lebanon (+961)</option>
+                <option value="EG" data-code="+20">🇪🇬 Egypt (+20)</option>
+                <option value="NG" data-code="+234">🇳🇬 Nigeria (+234)</option>
+                <option value="ZA" data-code="+27">🇿🇦 South Africa (+27)</option>
+                <option value="KE" data-code="+254">🇰🇪 Kenya (+254)</option>
+                <option value="GH" data-code="+233">🇬🇭 Ghana (+233)</option>
+                <option value="TZ" data-code="+255">🇹🇿 Tanzania (+255)</option>
+                <option value="GB" data-code="+44">🇬🇧 UK (+44)</option>
+                <option value="DE" data-code="+49">🇩🇪 Germany (+49)</option>
+                <option value="FR" data-code="+33">🇫🇷 France (+33)</option>
+                <option value="IT" data-code="+39">🇮🇹 Italy (+39)</option>
+                <option value="ES" data-code="+34">🇪🇸 Spain (+34)</option>
+                <option value="NL" data-code="+31">🇳🇱 Netherlands (+31)</option>
+                <option value="AU" data-code="+61">🇦🇺 Australia (+61)</option>
+                <option value="CA" data-code="+1">🇨🇦 Canada (+1)</option>
+                <option value="BR" data-code="+55">🇧🇷 Brazil (+55)</option>
+                <option value="AR" data-code="+54">🇦🇷 Argentina (+54)</option>
+                <option value="MX" data-code="+52">🇲🇽 Mexico (+52)</option>
+                <option value="RU" data-code="+7">🇷🇺 Russia (+7)</option>
             </select>
-            <p class="ip-text">IP: <span>192.168.1.1</span></p>
+            <i class="fas fa-chevron-down select-arrow"></i>
         </div>
-
-        <div class="content-box">
-            <h3 class="box-title">Photo Guidelines</h3>
-            <ul class="guide-list">
-                <li>Photo must be clear and not blurry</li>
-                <li>All 4 corners of ID must be visible</li>
-                <li>No cropped edges or cut corners</li>
-            </ul>
-        </div>
-
-        <div class="upload-row">
-            <div class="content-box upload-box">
-                <i class="fas fa-id-card"></i>
-                <p>Front Side</p>
-                <span>Click to upload</span>
-                <button class="upload-btn" onclick="document.getElementById('frontIdInput').click()">Upload Front</button>
-                <input type="file" id="frontIdInput" accept="image/*" style="display:none;" onchange="previewIdImage(this, 'front')">
-            </div>
-            <div class="content-box upload-box">
-                <i class="fas fa-id-card-alt"></i>
-                <p>Back Side</p>
-                <span>Click to upload</span>
-                <button class="upload-btn" onclick="document.getElementById('backIdInput').click()">Upload Back</button>
-                <input type="file" id="backIdInput" accept="image/*" style="display:none;" onchange="previewIdImage(this, 'back')">
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h3 class="box-title">Face Verification</h3>
-            <p class="box-desc">Take a live selfie. System will match with ID photo.</p>
-            <div class="camera-box">
-                <i class="fas fa-user-circle"></i>
-                <button class="camera-btn" onclick="startSelfieCamera()">Start Camera</button>
-            </div>
-            <button class="verify-btn" onclick="startVerification()" disabled>Verify Now</button>
-        </div>
-
+        <p class="ip-text">
+            <i class="fas fa-wifi"></i> IP: <span id="userIpDisplay">192.168.1.1</span>
+        </p>
     </div>
+
+    <!-- ===== PHOTO GUIDELINES ===== -->
+    <div class="content-box kyc-guide-box">
+        <h3 class="box-title">
+            <i class="fas fa-info-circle"></i> Photo Guidelines
+        </h3>
+        <ul class="guide-list">
+            <li>
+                <i class="fas fa-check-circle"></i>
+                Photo must be clear and not blurry
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                All 4 corners of ID must be visible
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                No cropped edges or cut corners
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                ID must be original — no photocopies
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                Maximum file size: 5MB (JPG, PNG, PDF)
+            </li>
+        </ul>
+    </div>
+
+    <!-- ===== ID UPLOAD (FRONT & BACK — STACKED) ===== -->
+    <div class="content-box kyc-upload-section">
+        <h3 class="box-title">
+            <i class="fas fa-upload"></i> Upload ID Document
+        </h3>
+        <p class="box-desc">Upload both front and back sides of your ID</p>
+
+        <!-- Front Side -->
+        <div class="upload-card" id="frontUploadCard">
+            <div class="upload-preview" id="frontPreview">
+                <div class="upload-placeholder">
+                    <i class="fas fa-id-card"></i>
+                    <span class="upload-label">Front Side</span>
+                    <span class="upload-hint">Click to upload or drag & drop</span>
+                </div>
+                <img id="frontPreviewImg" style="display:none;" alt="Front ID">
+            </div>
+            <div class="upload-actions">
+                <button class="upload-btn" onclick="document.getElementById('frontIdInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Front
+                </button>
+                <span class="upload-status" id="frontStatus">
+                    <i class="fas fa-clock"></i> Pending
+                </span>
+            </div>
+            <input type="file" id="frontIdInput" accept="image/*" style="display:none;" onchange="previewIdImage(this, 'front')">
+        </div>
+
+        <!-- Back Side -->
+        <div class="upload-card" id="backUploadCard">
+            <div class="upload-preview" id="backPreview">
+                <div class="upload-placeholder">
+                    <i class="fas fa-id-card-alt"></i>
+                    <span class="upload-label">Back Side</span>
+                    <span class="upload-hint">Click to upload or drag & drop</span>
+                </div>
+                <img id="backPreviewImg" style="display:none;" alt="Back ID">
+            </div>
+            <div class="upload-actions">
+                <button class="upload-btn" onclick="document.getElementById('backIdInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Back
+                </button>
+                <span class="upload-status" id="backStatus">
+                    <i class="fas fa-clock"></i> Pending
+                </span>
+            </div>
+            <input type="file" id="backIdInput" accept="image/*" style="display:none;" onchange="previewIdImage(this, 'back')">
+        </div>
+    </div>
+
+    <!-- ===== FACE VERIFICATION ===== -->
+    <div class="content-box kyc-face-box">
+        <h3 class="box-title">
+            <i class="fas fa-user-shield"></i> Face Verification
+        </h3>
+        <p class="box-desc">Take a live selfie. System will match your face with ID photo.</p>
+
+        <!-- Camera Container -->
+        <div class="camera-container" id="cameraContainer">
+            
+            <!-- Camera Preview (Oval Shape) -->
+            <div class="camera-frame-wrapper">
+                <div class="camera-oval-frame" id="cameraOvalFrame">
+                    <video id="selfieVideo" autoplay playsinline muted style="display:none;"></video>
+                    <canvas id="selfieCanvas" style="display:none;"></canvas>
+                    
+                    <!-- Placeholder before camera starts -->
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <div class="face-icon-wrap">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="face-scan-line"></div>
+                        </div>
+                        <p class="camera-hint">Position your face inside the oval</p>
+                    </div>
+                    
+                    <!-- Captured photo display -->
+                    <img id="capturedSelfie" style="display:none;" alt="Selfie">
+                </div>
+                
+                <!-- Overlay scan effect when active -->
+                <div class="camera-overlay" id="cameraOverlay" style="display:none;">
+                    <div class="scan-ring"></div>
+                    <div class="scan-line"></div>
+                    <div class="corner-mark top-left"></div>
+                    <div class="corner-mark top-right"></div>
+                    <div class="corner-mark bottom-left"></div>
+                    <div class="corner-mark bottom-right"></div>
+                </div>
+            </div>
+
+            <!-- Camera Controls -->
+            <div class="camera-controls" id="cameraControls">
+                <button class="camera-start-btn" id="cameraStartBtn" onclick="startSelfieCamera()">
+                    <i class="fas fa-camera"></i>
+                    <span>Start Camera</span>
+                </button>
+                
+                <div class="camera-action-btns" id="cameraActionBtns" style="display:none;">
+                    <button class="camera-capture-btn" onclick="captureSelfie()">
+                        <i class="fas fa-camera-retro"></i> Capture
+                    </button>
+                    <button class="camera-retake-btn" onclick="retakeSelfie()">
+                        <i class="fas fa-redo"></i> Retake
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification Status -->
+        <div class="verification-status-bar" id="verificationStatusBar">
+            <div class="status-item" id="idUploadStatus">
+                <i class="fas fa-id-card"></i>
+                <span>ID Upload</span>
+                <div class="status-dot pending" id="idStatusDot"></div>
+            </div>
+            <div class="status-connector"></div>
+            <div class="status-item" id="faceVerifyStatus">
+                <i class="fas fa-user-check"></i>
+                <span>Face Match</span>
+                <div class="status-dot pending" id="faceStatusDot"></div>
+            </div>
+            <div class="status-connector"></div>
+            <div class="status-item" id="finalVerifyStatus">
+                <i class="fas fa-shield-alt"></i>
+                <span>Verified</span>
+                <div class="status-dot pending" id="finalStatusDot"></div>
+            </div>
+        </div>
+
+        <!-- Main Verify Button -->
+        <button class="verify-btn" id="verifyNowBtn" onclick="startVerification()" disabled>
+            <i class="fas fa-fingerprint"></i>
+            <span>Verify Now</span>
+            <div class="btn-shine"></div>
+        </button>
+        
+        <p class="verify-note" id="verifyNote">
+            <i class="fas fa-lock"></i> Upload both ID sides and capture selfie to enable verification
+        </p>
+    </div>
+
+    <!-- ===== VERIFICATION RESULT ===== -->
+    <div class="content-box kyc-result-box" id="kycResultBox" style="display:none;">
+        <div class="result-icon" id="resultIcon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 class="result-title" id="resultTitle">Verification Approved!</h3>
+        <p class="result-desc" id="resultDesc">
+            Your identity has been successfully verified. A confirmation email has been sent to your registered address.
+        </p>
+        <div class="result-meta">
+            <span class="result-time">
+                <i class="fas fa-clock"></i> Verified at: <span id="verifyTime">--:--</span>
+            </span>
+            <span class="result-id">
+                <i class="fas fa-hashtag"></i> Ref ID: <span id="verifyRefId">KYC-XXXX</span>
+            </span>
+        </div>
+        <button class="result-close-btn" onclick="closeKycResult()">
+            <i class="fas fa-times"></i> Close
+        </button>
+    </div>
+
+</div>
+<!-- ================= END ID VERIFICATION TAB ================= -->
+
+
 
     <!-- ================= PROOF OF ADDRESS TAB ================= -->
     <div id="proofAddressSection" class="personal-tab-content" style="display:none;">
