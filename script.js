@@ -72,7 +72,7 @@ async function fetchLiveRates() {
     }
 }
 
-// ৬০ সেকেন্ড পর পর রেট আপডেট করার লজিক
+// ৬০ সেকেন্ড পর পর  রেট আপডেট করার লজিক
 setInterval(fetchLiveRates, 60000);
 fetchLiveRates(); // প্রথমবার পেজ লোড হওয়ার সাথে সাথে কল হবে
 
