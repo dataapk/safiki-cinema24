@@ -1,3 +1,558 @@
+#personal-area-section {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 720px;
+    max-width: 94%;
+    height: 80vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px var(--shadow);
+    z-index: 9998;
+    display: none;
+    padding: 20px;
+    box-sizing: border-box;
+}
+/* ============================= */
+/* PERSONAL DETAILS SECTION CSS */
+/* ============================= */
+
+.personal-tab-content {
+    width:100%;
+}
+
+
+/* CONTENT CARD */
+
+.content-box {
+
+    background: var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:12px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+}
+
+
+/* BOX TITLE */
+
+.box-title {
+
+    color:var(--gold);
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:14px;
+
+}
+
+
+/* PROFILE AREA */
+
+.profile-row {
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+}
+
+
+.profile-avatar-wrapper {
+
+    position:relative;
+
+}
+
+
+.profile-avatar {
+
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    object-fit:cover;
+
+    border:2px solid var(--gold);
+
+}
+
+
+.change-avatar-btn {
+
+    position:absolute;
+    right:-3px;
+    bottom:0;
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+    border:none;
+
+    background:var(--gold);
+    color:#000;
+
+    font-size:12px;
+
+}
+
+
+
+.profile-info p {
+
+    margin:2px 0;
+
+}
+
+
+.label-small {
+
+    color:var(--text-muted);
+    font-size:12px;
+
+}
+
+
+.value-text {
+
+    color:white;
+    font-size:15px;
+    font-weight:700;
+
+}
+
+
+.member-text {
+
+    color:var(--text-muted);
+    font-size:12px;
+
+}
+
+
+
+/* FORM ROW */
+
+.form-row {
+
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+
+}
+
+
+.form-group {
+
+    flex:1;
+
+}
+
+
+.full-width {
+
+    width:100%;
+
+}
+
+
+label {
+
+    display:block;
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+    margin-bottom:5px;
+
+}
+
+
+
+/* INPUT STYLE */
+
+.form-input {
+
+    width:100%;
+
+    height:40px;
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:0 12px;
+
+    color:white;
+
+    font-size:13px;
+
+    outline:none;
+
+    box-sizing:border-box;
+
+}
+
+
+
+.form-input:disabled {
+
+    opacity:.75;
+
+}
+
+
+
+/* SELECT */
+
+.form-select {
+
+    appearance:none;
+
+}
+
+
+
+/* TEXTAREA */
+
+.address-textarea {
+
+    height:65px;
+
+    padding-top:10px;
+
+}
+
+
+
+/* LABEL + BUTTON */
+
+.label-row {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+
+/* BUTTON STYLE */
+
+.action-btn {
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:7px 12px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+
+
+.change-btn {
+
+    background:var(--gold);
+
+    color:#000;
+
+}
+
+
+.add-btn {
+
+    background:#027B5B;
+
+    color:white;
+
+}
+
+
+.save-btn {
+
+    background:#039E75;
+
+    color:white;
+
+}
+
+
+.send-btn {
+
+    background:#027B5B;
+
+    color:white;
+
+}
+
+
+
+/* OTP DROPDOWN */
+
+.change-dropdown {
+
+    background:rgba(0,0,0,.15);
+
+    padding:10px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+}
+
+
+/* MOBILE ROW */
+
+.mobile-row {
+
+    display:flex;
+    gap:8px;
+
+}
+
+
+.country-code {
+
+    width:120px!important;
+
+}
+
+
+
+/* CONTROLS */
+
+.controls-row {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+.edit-toggle-btn {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    background:none;
+
+    border:none;
+
+    color:white;
+
+}
+
+
+
+.toggle-track {
+
+    width:42px;
+    height:22px;
+
+    background:#444;
+
+    border-radius:20px;
+
+    padding:3px;
+
+}
+
+
+
+.toggle-thumb {
+
+    display:block;
+
+    width:16px;
+    height:16px;
+
+    background:white;
+
+    border-radius:50%;
+
+}
+
+
+
+/* SAVE BUTTON */
+
+.save-changes-btn {
+
+    background:var(--gold);
+
+    color:#000;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-weight:700;
+
+}
+
+
+
+/* DOCUMENT BOX */
+
+.doc-row {
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:10px;
+
+}
+
+
+
+.doc-option {
+
+    background:var(--bg);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:15px 8px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+}
+
+
+
+.doc-option i {
+
+    display:block;
+
+    font-size:22px;
+
+    color:var(--gold);
+
+    margin-bottom:6px;
+
+}
+
+
+.doc-option span {
+
+    font-size:12px;
+
+    color:white;
+
+}
+
+
+
+/* UPLOAD AREA */
+
+.upload-area {
+
+    border:1px dashed var(--gold);
+
+    border-radius:12px;
+
+    padding:25px 10px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    background:rgba(0,0,0,.15);
+
+}
+
+
+.upload-area i {
+
+    font-size:30px;
+
+    color:var(--gold);
+
+}
+
+
+.upload-area p {
+
+    color:white;
+
+    margin:8px 0 3px;
+
+}
+
+
+.upload-area span {
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+}
+
+
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:600px){
+
+    .form-row{
+
+        flex-direction:column;
+
+    }
+
+
+    .doc-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    #personal-area-section{
+
+        width:96%;
+        padding:14px;
+
+        top:65px;
+
+    }
+
+}
+
+
+
+
+
 /* ==========================================
    PERSONAL DETAILS SECTION
 ========================================== */
