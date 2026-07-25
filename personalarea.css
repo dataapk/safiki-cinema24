@@ -460,7 +460,7 @@ css_patch = """
   background: linear-gradient(90deg, transparent, var(--kyc-gold), transparent);
   opacity: 0.3;
 }
-
+==================================================================================================
 /* Camera Container */
 .camera-container {
   display: flex;
@@ -1089,4 +1089,372 @@ with open('/mnt/agents/output/id-verification-style.css', 'w', encoding='utf-8')
 
 print(f"✅ ID Verification CSS created!")
 print(f"📄 Size: {len(css_content)} characters | ~{len(css_content.splitlines())} lines")
+
+/* ==========================================
+   PROOF OF ADDRESS SECTION
+========================================== */
+
+#proofAddressSection{
+    padding:10px 5px 40px;
+}
+
+
+/* Main Content Cards */
+
+#proofAddressSection .content-box{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:16px;
+
+    margin-bottom:14px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
+
+
+/* Title */
+
+#proofAddressSection .box-title{
+
+    color:var(--text);
+
+    font-size:16px;
+
+    font-weight:700;
+
+    margin-bottom:14px;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+
+/* Add small accent */
+
+#proofAddressSection .box-title::before{
+
+    content:"";
+
+    width:4px;
+
+    height:18px;
+
+    background:var(--gold);
+
+    border-radius:5px;
+
+    margin-right:8px;
+
+}
+
+
+/* Form */
+
+#proofAddressSection .form-group label{
+
+    color:var(--text-muted);
+
+    font-size:13px;
+
+    margin-bottom:6px;
+
+    display:block;
+
+}
+
+
+#proofAddressSection .form-input{
+
+    width:100%;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    border-radius:10px;
+
+    padding:11px 12px;
+
+    outline:none;
+
+}
+
+
+#proofAddressSection textarea{
+
+    resize:none;
+
+}
+
+
+/* Row */
+
+#proofAddressSection .form-row{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+#proofAddressSection .city,
+#proofAddressSection .postal{
+
+    flex:1;
+
+}
+
+
+
+/* Buttons */
+
+#proofAddressSection .action-row{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:15px;
+
+}
+
+
+#proofAddressSection .action-btn{
+
+    flex:1;
+
+    border:none;
+
+    padding:11px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+
+#proofAddressSection .change-btn{
+
+    background:var(--gold);
+
+    color:#111;
+
+}
+
+
+#proofAddressSection .save-btn{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+
+/* ==========================================
+   DOCUMENT TYPE CARDS
+========================================== */
+
+
+#proofAddressSection .doc-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:10px;
+
+}
+
+
+
+#proofAddressSection .doc-option{
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:14px 8px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+#proofAddressSection .doc-option:hover{
+
+    border-color:var(--gold);
+
+    transform:translateY(-2px);
+
+}
+
+
+
+#proofAddressSection .doc-option i{
+
+    font-size:22px;
+
+    color:var(--gold);
+
+    margin-bottom:8px;
+
+}
+
+
+#proofAddressSection .doc-option span{
+
+    display:block;
+
+    color:var(--text);
+
+    font-size:12px;
+
+}
+
+
+
+/* ==========================================
+   UPLOAD AREA
+========================================== */
+
+
+#proofAddressSection .upload-area{
+
+    height:130px;
+
+    border:1px dashed var(--gold);
+
+    border-radius:14px;
+
+    background:rgba(232,197,71,.05);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+}
+
+
+
+#proofAddressSection .upload-area i{
+
+    font-size:32px;
+
+    color:var(--gold);
+
+    margin-bottom:8px;
+
+}
+
+
+
+#proofAddressSection .upload-area p{
+
+    color:var(--text);
+
+    margin:0;
+
+    font-size:14px;
+
+}
+
+
+#proofAddressSection .upload-area span{
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+}
+
+
+
+/* Submit Button */
+
+#proofAddressSection .submit-btn{
+
+    width:100%;
+
+    border:none;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+#proofAddressSection .submit-btn:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    #proofAddressSection .form-row{
+
+        flex-direction:column;
+
+    }
+
+
+    #proofAddressSection .doc-row{
+
+        grid-template-columns:repeat(3,1fr);
+
+    }
+
+
+    #proofAddressSection .doc-option{
+
+        padding:12px 5px;
+
+    }
+
+}
 
