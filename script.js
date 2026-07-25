@@ -2380,11 +2380,13 @@ window.addEventListener('click',(event)=>{
     const profileSidebar=document.getElementById('profile-sidebar');
     const logoutModal=document.getElementById('logout-confirm-popup');
 
-    if(notificationPanel&&notificationPanel.classList.contains('active')&&!notificationPanel.contains(event.target)&&!event.target.closest('.notification-btn')){
+    if(notificationPanel&&notificationPanel.classList.contains('active')&&!notificationPanel.
+       contains(event.target)&&!event.target.closest('.notification-btn')){
         notificationPanel.classList.remove('active');
     }
 
-    if(profileSidebar&&profileSidebar.classList.contains('active')&&!profileSidebar.contains(event.target)&&!event.target.closest('.profile-btn')){
+    if(profileSidebar&&profileSidebar.classList.contains('active')&&!profileSidebar.
+       contains(event.target)&&!event.target.closest('.profile-btn')){
         profileSidebar.classList.remove('active');
     }
 
@@ -2394,14 +2396,7 @@ window.addEventListener('click',(event)=>{
 });
 
     // Close logout popup if clicking outside
-    if (
-        logoutModal &&
-        event.target === logoutModal
-    ) {
-        closeLogoutPopup();
-    }
-
-});
+   
 // END Outside Click Handler ---
 // হেডার আপডেট করার মূল ফাংশন
 // ১. লগইন/লগআউট স্ট্যাটাস অনুযায়ী হেডার আপডেট করার ফাংশন
