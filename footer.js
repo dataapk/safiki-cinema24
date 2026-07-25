@@ -39,12 +39,16 @@ window.footerToggleSidebar = function(){
 
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebarOverlay");
+    const menuBtn = document.getElementById("menuBtn");
 
 
     if(!sidebar) return;
 
 
-    if(sidebar.classList.contains("active")){
+    const isOpen = sidebar.classList.contains("active");
+
+
+    if(isOpen){
 
         sidebar.classList.remove("active");
 
@@ -52,7 +56,11 @@ window.footerToggleSidebar = function(){
             overlay.classList.remove("active");
         }
 
-        document.body.style.overflow="";
+        if(menuBtn){
+            menuBtn.classList.remove("active");
+        }
+
+        document.body.style.overflow = "";
 
 
     }else{
@@ -63,12 +71,15 @@ window.footerToggleSidebar = function(){
             overlay.classList.add("active");
         }
 
-        document.body.style.overflow="hidden";
+        if(menuBtn){
+            menuBtn.classList.add("active");
+        }
+
+        document.body.style.overflow = "hidden";
 
     }
 
 };
-
 
 
 window.footerCloseSidebar = function(){
