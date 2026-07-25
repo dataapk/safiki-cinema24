@@ -1159,4 +1159,337 @@
 
 
 }
+/* ==========================================
+   MY BONUS - REFERRAL REWARD
+========================================== */
 
+.referral-summary-card,
+.referral-stats-card,
+.referral-list-card,
+.referral-code-card{
+
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:12px;
+    box-shadow:0 8px 20px var(--shadow);
+
+}
+
+
+/* Referral Header */
+
+.referral-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+
+}
+
+
+.referral-rate-badge{
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-hover)
+    );
+
+    color:#fff;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+/* Description */
+
+.referral-desc{
+
+    color:var(--text-muted);
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    margin:0;
+
+}
+
+.referral-desc strong{
+
+    color:var(--gold);
+
+}
+
+
+/* ==========================================
+   REFERRAL STATS
+========================================== */
+
+
+.referral-stat-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:10px;
+
+}
+
+
+.referral-stat-row:last-child{
+
+    margin-bottom:0;
+
+}
+
+
+.referral-stat{
+
+    flex:1;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:10px;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.stat-label{
+
+    font-size:12px;
+
+    color:var(--text-muted);
+
+}
+
+
+.stat-value{
+
+    margin-top:4px;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+
+.stat-value.highlight{
+
+    color:var(--gold);
+
+}
+
+
+/* ==========================================
+   REFERRAL USER LIST
+========================================== */
+
+
+.referral-list-title{
+
+    margin:0 0 10px;
+
+    color:var(--text);
+
+    font-size:15px;
+
+}
+
+
+.referral-user-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:10px;
+
+    margin-bottom:8px;
+
+}
+
+
+.referral-user-item:last-child{
+
+    margin-bottom:0;
+
+}
+
+
+.referral-user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.referral-user-name{
+
+    color:var(--text);
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+.referral-user-deposit{
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+    margin-top:3px;
+
+}
+
+
+.referral-user-reward{
+
+    color:#00e676;
+
+    font-size:14px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   REFERRAL CODE
+========================================== */
+
+
+.referral-code-label{
+
+    display:block;
+
+    color:var(--text-muted);
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+}
+
+
+.referral-code-box{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:8px 10px;
+
+}
+
+
+.referral-code-text{
+
+    color:var(--gold);
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+}
+
+
+.referral-copy-btn{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    border:none;
+
+    padding:7px 15px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+.referral-copy-btn:hover{
+
+    background:var(--primary-hover);
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .referral-stat-row{
+
+        gap:8px;
+
+    }
+
+
+    .stat-value{
+
+        font-size:14px;
+
+    }
+
+
+    .referral-user-item{
+
+        padding:8px;
+
+    }
+
+}
