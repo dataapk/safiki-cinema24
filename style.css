@@ -122,6 +122,34 @@ svg {
 #user-actions-area {
     display: none;
 }
+.form-input {
+
+    background: var(--input-bg);
+
+    border:1px solid var(--input-border);
+
+    color:var(--text);
+
+    border-radius:10px;
+
+    height:42px;
+
+    padding:0 12px;
+
+    font-size:14px;
+
+    transition:.25s;
+
+}
+
+
+.form-input:focus {
+
+    border-color:var(--gold);
+
+    box-shadow:0 0 12px rgba(232,197,71,.18);
+
+}
 
 #guest-actions-area {
     display: flex;
