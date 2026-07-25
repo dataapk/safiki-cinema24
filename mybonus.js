@@ -671,6 +671,187 @@ document.addEventListener('DOMContentLoaded', function() {
   openBonusTab('deposit');
 });
 
+/* ==========================================
+   REFERRAL LIST SYSTEM
+========================================== */
+
+
+// Demo Referral Data
+let referralUsers = [
+
+    {
+        user_id:"#A10293",
+        join_date:"15-07-2026",
+        status:"Active"
+    },
+
+    {
+        user_id:"#A10294",
+        join_date:"16-07-2026",
+        status:"Not Deposit Yet"
+    },
+
+    {
+        user_id:"#A10295",
+        join_date:"17-07-2026",
+        status:"Active"
+    }
+
+];
+
+
+
+/* Load New Referral */
+
+function loadNewReferral(){
+
+    if(referralUsers.length === 0){
+
+        document.getElementById("newReferralUser").innerText =
+        "User ID: ------";
+
+        document.getElementById("newReferralDate").innerText =
+        "Join Date: --";
+
+        return;
+
+    }
+
+
+    // Latest user = first item
+
+    let latest = referralUsers[0];
+
+
+    document.getElementById("newReferralUser").innerText =
+    "User ID: " + latest.user_id;
+
+
+    document.getElementById("newReferralDate").innerText =
+    "Join Date: " + latest.join_date;
+
+
+}
+
+
+
+/* Open Full Referral List */
+
+function openReferralList(){
+
+    document.getElementById("referral-list-popup").style.display="flex";
+
+
+    renderReferralList();
+
+}
+
+
+
+/* Close Referral List */
+
+function closeReferralList(){
+
+    document.getElementById("referral-list-popup").style.display="none";
+
+}
+
+
+
+/* Render Users */
+
+function renderReferralList(){
+
+
+    let container =
+    document.getElementById("referralFullUserList");
+
+
+    container.innerHTML="";
+
+
+    referralUsers.forEach(user=>{
+
+
+        let statusClass="";
+
+
+        if(user.status==="Active"){
+
+            statusClass="status-active";
+
+        }
+
+        else{
+
+            statusClass="status-not-deposit";
+
+        }
+
+
+
+        container.innerHTML += `
+
+
+        <div class="referral-full-item">
+
+
+            <div>
+
+                <span>User ID</span>
+
+                <strong>
+                    ${user.user_id}
+                </strong>
+
+            </div>
+
+
+
+            <div>
+
+                <span>Join Date</span>
+
+                <strong>
+                    ${user.join_date}
+                </strong>
+
+            </div>
+
+
+
+            <div>
+
+                <span>Status</span>
+
+                <strong class="${statusClass}">
+                    ${user.status}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+/* Auto Load When Bonus Opens */
+
+function loadReferralData(){
+
+    loadNewReferral();
+
+}
+
 /* ========================================= */
 /* BACKEND INTEGRATION GUIDE                 */
 /* ========================================= */
