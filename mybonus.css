@@ -1231,6 +1231,318 @@
 
 }
 
+/* ==========================================
+   REFERRAL COMMISSION CARD
+========================================== */
+
+.referral-summary-card{
+
+    background:linear-gradient(
+        145deg,
+        #0b241d,
+        #10352b
+    );
+
+    border:1px solid rgba(232,197,71,.35);
+
+    border-radius:14px;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.35);
+
+}
+
+
+/* Header */
+
+.referral-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+
+.referral-header .bonus-card-title{
+
+    color:#ffffff;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    margin:0;
+
+}
+
+
+/* Status Badge */
+
+.referral-status{
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+
+.referral-status.pending{
+
+    background:rgba(232,197,71,.15);
+
+    color:#E8C547;
+
+    border:1px solid #E8C547;
+
+}
+
+
+.referral-status.available{
+
+    background:rgba(2,123,91,.2);
+
+    color:#00ff9d;
+
+    border:1px solid #027B5B;
+
+}
+
+
+
+/* Balance Box */
+
+.referral-commission-display{
+
+    margin-top:12px;
+
+    padding:12px;
+
+    background:#071A16;
+
+    border-radius:10px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.commission-label{
+
+    color:#B8C4BE;
+
+    font-size:13px;
+
+}
+
+
+.referral-commission-display strong{
+
+    color:#E8C547;
+
+    font-size:20px;
+
+}
+
+
+
+/* Status Message */
+
+.referral-status-message{
+
+    margin-top:10px;
+
+    padding:10px;
+
+    background:rgba(0,0,0,.20);
+
+    border-radius:10px;
+
+}
+
+
+.referral-status-message p{
+
+    margin:0;
+
+    color:#ffffff;
+
+    font-size:13px;
+
+}
+
+
+.referral-status-message span{
+
+    display:block;
+
+    margin-top:5px;
+
+    color:#B8C4BE;
+
+    font-size:12px;
+
+}
+
+
+
+/* Claim Area */
+
+.referral-claim-box{
+
+    margin-top:12px;
+
+    padding:12px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#071A16;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.claim-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+}
+
+
+.claim-info span{
+
+    color:#B8C4BE;
+
+    font-size:12px;
+
+}
+
+
+.claim-info strong{
+
+    color:#ffffff;
+
+    font-size:18px;
+
+}
+
+
+
+/* Claim Button */
+
+.claim-referral-btn{
+
+    padding:9px 18px;
+
+    border-radius:10px;
+
+    border:none;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+
+/* Locked */
+
+.claim-referral-btn.locked{
+
+    background:#25332f;
+
+    color:#7d8985;
+
+    cursor:not-allowed;
+
+}
+
+
+
+/* Active */
+
+.claim-referral-btn.active{
+
+    background:#027B5B;
+
+    color:#ffffff;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 0 12px rgba(2,123,91,.6);
+
+}
+
+
+.claim-referral-btn.active:hover{
+
+    background:#039E75;
+
+    transform:translateY(-1px);
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .referral-claim-box{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        align-items:stretch;
+
+    }
+
+
+    .claim-referral-btn{
+
+        width:100%;
+
+    }
+
+}
+
 
 /* ==========================================
    REFERRAL STATS
