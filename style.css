@@ -3617,6 +3617,36 @@ END MY BONUS SECTION
 
 }
 
+.notification-view{
+    background:linear-gradient(135deg,#E8C547,#D4AF37);
+    color:#0F1B16;
+
+    border:none;
+    border-radius:8px;
+
+    padding:5px 14px;
+
+    font-size:12px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:0 0 10px rgba(232,197,71,.35);
+
+    transition:.25s ease;
+}
+
+
+.notification-view:hover{
+
+    background:linear-gradient(135deg,#FFD966,#E8C547);
+
+    transform:translateY(-1px);
+
+    box-shadow:0 0 15px rgba(232,197,71,.65);
+
+}
+
 /* =========================================
         PROFILE MENU
 ========================================= */
