@@ -1700,19 +1700,19 @@ function openBonusTab(tab){
 
     }
 
-    // Promotional Bonus
+    // Cashback Bonus
    else if(tab==="promotional"){
 
-        document.getElementById("promotionalBonusContent").style.display="block";
-        document.getElementById("promotionalBonusTab").classList.add("active");
+        document.getElementById("cashbackBonusContent").style.display="block";
+        document.getElementById("cashbackBonusTab").classList.add("active");
 
     }
 
-    // History Bonus
+    // Referral Bonus
     else if(tab==="history"){
 
-        document.getElementById("historyBonusContent").style.display="block";
-        document.getElementById("historyBonusTab").classList.add("active");
+        document.getElementById("referralBonusContent").style.display="block";
+        document.getElementById("referralBonusTab").classList.add("active");
 
         // Future:
         // loadBonusHistory();
