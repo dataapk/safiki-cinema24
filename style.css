@@ -2,34 +2,27 @@
 
 :root {
 
-    /* Premium Teal Theme */
+    --bg:#061513;
 
-    --bg: #071A16;
+    --surface:#0A211B;
 
-    --surface: #0B241D;
+    --surface-2:#10352B;
 
-    --surface-2: #10352B;
+    --primary:#00C853;
 
+    --primary-hover:#00E676;
 
-    --primary: #027B5B;
+    --gold:#FFC107;
 
-    --primary-hover: #039E75;
+    --gold-hover:#FFD54F;
 
+    --text:#FFFFFF;
 
-    --gold: #E8C547;
+    --text-muted:#AFC2BC;
 
-    --gold-hover: #D4AF37;
-    
+    --border:#1B4D3E;
 
-
-    --text: #FFFFFF;
-
-    --text-muted: #B8C4BE;
-
-
-    --border: #1E5A48;
-
-    --shadow: rgba(0,0,0,.45);
+    --shadow:rgba(0,0,0,.55);
 
 }
 
