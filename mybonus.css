@@ -59,27 +59,29 @@
 .bonus-header{
 
     height:58px;
-   padding:10px 12px;
 
-    border-radius:12px;
+    padding:0 18px;
 
     display:flex;
 
     align-items:center;
-   justify-content:center;
+
+    justify-content:center;
+
     position:relative;
-
-    justify-content:space-between;
-
-    padding:0 18px;
 
 
     background:
     linear-gradient(
         135deg,
-        var(--bonus-green),
-        var(--bonus-green-dark)
+        #027B5B,
+        #039E75
     );
+
+
+    /* শুধু উপরের দুই corner rounded */
+
+    border-radius:14px 14px 0 0;
 
 }
 
