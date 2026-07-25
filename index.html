@@ -1286,1025 +1286,346 @@
 <!-- ================= END SETTINGS SECTION ================= -->
 
 
+    
 
+<!-- ========================================= -->
+<!--  START MY BONUS SUB SECTION -->
+<!-- ========================================= -->
 <!-- ========================================= -->
 <!-- MY BONUS SECTION START -->
 <!-- ========================================= -->
 
 <div id="my-bonus-section">
 
-<div class="bonus-header">
-
-    <h2>
-        My Bonus
-    </h2>
-
-
-    <button
-    class="close-bonus"
-    onclick="closeMyBonus()">
-
-        ×
-
-    </button>
-
-
-</div>
-<!-- ========================================= -->
-<!-- BONUS TABS -->
-<!-- ========================================= -->
-
-<div class="bonus-tabs">
-
-    <button 
-    id="depositBonusTab" 
-    class="bonus-menu-btn active" 
-    onclick="openBonusTab('deposit')">
-        Deposit Bonus
-    </button>
-
-
-    <button 
-    id="cashbackBonusTab" 
-    class="bonus-menu-btn" 
-    onclick="openBonusTab('cashback')">
-        My Cashback
-    </button>
-
-
-    <button 
-    id="referralBonusTab" 
-    class="bonus-menu-btn" 
-    onclick="openBonusTab('referral')">
-        Referral Reward
-    </button>
-
-</div>
-
-
-<!-- ========================================= -->
-<!-- BONUS PROGRESS CARD -->
-<!-- ========================================= -->
-
-<div class="bonus-progress-card">
-
-    <div class="bonus-progress-header">
-
-        <h3 id="bonusProgressTitle">
-            Deposit Bonus Progress
-        </h3>
-
-        <span id="bonusStatusBadge" class="bonus-status active">
-            ACTIVE
-        </span>
-
+    <!-- ===== HEADER ===== -->
+    <div class="bonus-header">
+        <h2>My Bonus</h2>
+        <button class="close-bonus" onclick="closeMyBonus()">×</button>
     </div>
 
-    <p id="bonusProgressText">
-        Complete the deposit wagering requirement to unlock your bonus reward.
-    </p>
-
-    <div class="bonus-progress-bar">
-
-        <div
-            id="bonusProgressFill"
-            class="bonus-progress-fill"
-            style="width:0%;">
-
-        </div>
-
+    <!-- ===== BONUS TABS ===== -->
+    <div class="bonus-tabs">
+        <button 
+            id="depositBonusTab" 
+            class="bonus-menu-btn active" 
+            onclick="openBonusTab('deposit')">
+            Deposit Bonus
+        </button>
+        <button 
+            id="cashbackBonusTab" 
+            class="bonus-menu-btn" 
+            onclick="openBonusTab('cashback')">
+            My Cashback
+        </button>
+        <button 
+            id="referralBonusTab" 
+            class="bonus-menu-btn" 
+            onclick="openBonusTab('referral')">
+            Referral Reward
+        </button>
     </div>
-
-    <div class="bonus-progress-footer">
-
-        <span id="bonusProgressPercent">
-            0%
-        </span>
-
-        <span id="bonusWagerText">
-            Wager: 0 / 0
-        </span>
-
-    </div>
-
-    <div class="bonus-action-bar">
-
-        <div id="bonusWalletArea" class="bonus-wallet-switch">
-
-            <span class="bonus-wallet-label">
-                Bonus Balance
-            </span>
-
-            <label class="bonus-switch">
-
-                <input
-                    type="checkbox"
-                    id="bonusWalletToggle">
-
-                <span class="bonus-slider"></span>
-
-            </label>
-
-        </div>
-
-        <div id="bonusClaimArea" class="bonus-claim-area">
-
-            <button
-                id="claimBonusBtn"
-                class="claim-bonus-btn locked"
-                disabled>
-
-                UNCLAIM
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-        
-<!-- END BONUS PROGRESS CARD -->
-
-
-
 
     <!-- ========================================= -->
-    <!-- DEPOSIT BONUS CONTENT -->
+    <!-- TAB 1: DEPOSIT BONUS -->
     <!-- ========================================= -->
-<!-- ========================================= -->
-<!-- DEPOSIT BONUS CONTENT START -->
-<!-- ========================================= -->
+    <div id="depositBonusContent" class="bonus-tab-content active">
 
+        <!-- Deposit Bonus Card -->
+        <div class="bonus-card deposit-bonus-card">
 
-<div id="depositBonusContent" class="bonus-tab-content">
+            <!-- Card Header -->
+            <div class="bonus-card-header">
+                <div class="bonus-title-wrap">
+                    <h3 class="bonus-card-title">Deposit Bonus</h3>
+                    <span class="bonus-percent-badge">150%</span>
+                </div>
+                <span class="bonus-status active">ACTIVE</span>
+            </div>
 
-    <div class="bonus-card deposit-status-card">
+            <!-- Bonus Balance Display -->
+            <div class="bonus-balance-box">
+                <span class="bonus-balance-label">Bonus Balance</span>
+                <span class="bonus-balance-amount" id="bonusBalanceAmount">৳ 0.00</span>
+            </div>
 
+            <!-- Wager Requirement -->
+            <div class="bonus-requirement-box">
+                <p class="bonus-requirement-text">
+                    Wager Requirement: <strong id="wagerRequirementText">15x</strong>
+                </p>
+                <p class="bonus-hint-text">
+                    Complete wagering to unlock your bonus reward.
+                </p>
+            </div>
 
-        <div class="bonus-card-header">
+            <!-- Validity Timer -->
+            <div class="bonus-validity-box">
+                <span class="validity-label">Valid Until</span>
+                <div class="validity-details">
+                    <span class="validity-date" id="validityDate">-- / -- / ----</span>
+                    <span class="validity-time" id="validityTime">-- : -- : --</span>
+                </div>
+                <div class="countdown-timer" id="bonusCountdown">
+                    <span class="timer-unit"><b id="cdHours">00</b> Hrs</span>
+                    <span class="timer-sep">:</span>
+                    <span class="timer-unit"><b id="cdMinutes">00</b> Min</span>
+                    <span class="timer-sep">:</span>
+                    <span class="timer-unit"><b id="cdSeconds">00</b> Sec</span>
+                </div>
+            </div>
 
-            <h3>
-                Deposit Bonus
-            </h3>
+            <!-- Progress Bar -->
+            <div class="bonus-progress-section">
+                <div class="bonus-progress-bar">
+                    <div id="bonusProgressFill" class="bonus-progress-fill" style="width:0%;"></div>
+                </div>
+                <div class="bonus-progress-footer">
+                    <span id="bonusProgressPercent">0%</span>
+                    <span id="bonusWagerText">Wager: 0 / 0</span>
+                </div>
+            </div>
 
-
-            <span class="bonus-status active">
-
-                ACTIVE
-
-            </span>
-
+            <!-- Action Bar: Toggle + Claim -->
+            <div class="bonus-action-bar">
+                <div class="bonus-mode-switch">
+                    <span class="bonus-mode-label">Bonus Mode</span>
+                    <label class="bonus-switch">
+                        <input type="checkbox" id="bonusModeToggle">
+                        <span class="bonus-slider"></span>
+                    </label>
+                </div>
+                <div class="bonus-claim-area">
+                    <button id="claimBonusBtn" class="claim-bonus-btn locked" disabled>
+                        UNCLAIM
+                    </button>
+                </div>
+            </div>
 
         </div>
 
+        <!-- Eligible Games Section -->
+        <div class="bonus-games-section">
+            <h4 class="games-section-title">Eligible Games for Wagering</h4>
+            <div class="games-grid">
+                <!-- Row 1 -->
+                <a href="#" class="game-box">
+                    <span class="game-icon">🏏</span>
+                    <span class="game-name">Cricket</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">⚽</span>
+                    <span class="game-name">Football</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">🎾</span>
+                    <span class="game-name">Tennis</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">🏀</span>
+                    <span class="game-name">Basketball</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">🎯</span>
+                    <span class="game-name">Darts</span>
+                </a>
+                <!-- Row 2 -->
+                <a href="#" class="game-box">
+                    <span class="game-icon">🎰</span>
+                    <span class="game-name">Slots</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">🃏</span>
+                    <span class="game-name">Casino</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">✈️</span>
+                    <span class="game-name">Aviator</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">🎲</span>
+                    <span class="game-name">Dice</span>
+                </a>
+                <a href="#" class="game-box">
+                    <span class="game-icon">🏇</span>
+                    <span class="game-name">Horse Race</span>
+                </a>
+            </div>
+        </div>
 
-
-        <p class="bonus-description">
-
-            Get bonus rewards after completing your eligible deposit.
-
-        </p>
-
+        <!-- New Bonus Loading Box -->
+        <div class="new-bonus-loading-box">
+            <div class="new-bonus-glow"></div>
+            <div class="new-bonus-content">
+                <span class="new-bonus-icon">🔥</span>
+                <div class="new-bonus-text">
+                    <span class="new-bonus-label">New Bonus Loading</span>
+                    <span class="new-bonus-sub">Stay tuned for upcoming rewards!</span>
+                </div>
+                <div class="new-bonus-pulse"></div>
+            </div>
+        </div>
 
     </div>
-
-    <!-- =============================== -->
-    <!-- BONUS INFORMATION -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card">
-
-
-        <div class="bonus-card-header">
-
-            <h3>
-
-                Bonus Details
-
-            </h3>
-
-
-        </div>
-
-
-
-        <div class="bonus-info-grid">
-
-
-            <div class="bonus-info-item">
-
-                <span>
-                    Bonus Type
-                </span>
-
-                <strong>
-                    First Deposit Bonus
-                </strong>
-
-            </div>
-
-
-
-
-            <div class="bonus-info-item">
-
-                <span>
-                    Bonus Amount
-                </span>
-
-                <strong>
-                    100%
-                </strong>
-
-            </div>
-
-
-
-
-            <div class="bonus-info-item">
-
-                <span>
-                    Maximum Bonus
-                </span>
-
-                <strong>
-                    $500
-                </strong>
-
-            </div>
-
-
-
-
-            <div class="bonus-info-item">
-
-                <span>
-                    Minimum Deposit
-                </span>
-
-                <strong>
-                    $20
-                </strong>
-
-            </div>
-
-
-
-
-            <div class="bonus-info-item">
-
-                <span>
-                    Wager Requirement
-                </span>
-
-                <strong>
-                    5X
-                </strong>
-
-            </div>
-
-
-
-
-            <div class="bonus-info-item">
-
-                <span>
-                    Validity
-                </span>
-
-                <strong>
-                    72 Hours
-                </strong>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-
-
-
-
-
-
-    <!-- =============================== -->
-    <!-- BONUS RULES -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card">
-
-
-        <div class="bonus-card-header">
-
-            <h3>
-
-                Bonus Rules
-
-            </h3>
-
-
-        </div>
-
-
-
-        <ul class="bonus-rules-list">
-
-
-            <li>
-                Complete required wagering before expiry time.
-            </li>
-
-
-            <li>
-                Bonus cannot be withdrawn before completion.
-            </li>
-
-
-            <li>
-                Only eligible games contribute to wagering.
-            </li>
-
-
-            <li>
-                After completion, claim button will become available.
-            </li>
-
-
-        </ul>
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-    <!-- =============================== -->
-    <!-- ELIGIBLE GAMES -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card">
-
-
-        <div class="bonus-card-header">
-
-
-            <h3>
-
-                Eligible Games
-
-            </h3>
-
-
-        </div>
-
-
-
-
-
-        <div class="eligible-games-grid">
-
-
-
-
-
-            <a href="/games/dice.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/dice.png">
-
-
-                <span>
-                    Dice
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/slots.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/slots.png">
-
-
-                <span>
-                    Slots
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/crash.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/crash.png">
-
-
-                <span>
-                    Crash
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/poker.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/poker.png">
-
-
-                <span>
-                    Poker
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/game5.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game5.png">
-
-
-                <span>
-                    Game 5
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/game6.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game6.png">
-
-
-                <span>
-                    Game 6
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/game7.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game7.png">
-
-
-                <span>
-                    Game 7
-                </span>
-
-
-            </a>
-
-
-
-
-
-
-            <a href="/games/game8.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game8.png">
-
-
-                <span>
-                    Game 8
-                </span>
-
-
-            </a>
-
-
-
-
-
-        </div>
-
-
-
-    </div>
-
-
-
-
-
-</div>
-
-
-<!-- ========================================= -->
-<!-- DEPOSIT BONUS CONTENT END -->
-<!-- ========================================= -->
-   
 
     <!-- ========================================= -->
-<!-- PROMOTIONAL BONUS CONTENT START -->
-<!-- ========================================= -->
+    <!-- TAB 2: CASHBACK -->
+    <!-- ========================================= -->
+    <div id="cashbackBonusContent" class="bonus-tab-content">
 
-
-<div 
-id="cashbackBonusContent"
-class="bonus-tab-content"
-style="display:none;">
-
-
-
-    <!-- =============================== -->
-    <!-- PROMOTIONAL STATUS CARD -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card promotional-status-card">
-
-
-        <div class="bonus-card-header">
-
-
-            <h3>
-                Promotional Bonus
-            </h3>
-
-
-
-            <span class="bonus-status active">
-
-                ACTIVE
-
-            </span>
-
-
+        <!-- Cashback Summary Card -->
+        <div class="bonus-card cashback-summary-card">
+            <div class="cashback-header">
+                <h3 class="bonus-card-title">My Cashback</h3>
+                <span class="cashback-total" id="totalCashbackAmount">৳ 0.00</span>
+            </div>
+            <p class="cashback-desc">Earn cashback on your daily, weekly & monthly activity.</p>
         </div>
 
+        <!-- Daily Cashback -->
+        <div class="bonus-card cashback-tier-card">
+            <div class="tier-header">
+                <div class="tier-info">
+                    <span class="tier-badge daily">DAILY</span>
+                    <span class="tier-rate">2%</span>
+                </div>
+                <span class="tier-status" id="dailyCashbackStatus">Not Eligible</span>
+            </div>
+            <div class="tier-progress">
+                <div class="tier-progress-bar">
+                    <div class="tier-progress-fill" id="dailyProgressFill" style="width:0%;"></div>
+                </div>
+                <span class="tier-progress-text" id="dailyProgressText">0 / 0</span>
+            </div>
+            <div class="tier-footer">
+                <span class="tier-amount" id="dailyCashbackAmount">৳ 0.00</span>
+                <button class="tier-claim-btn" id="claimDailyBtn" disabled>Claim</button>
+            </div>
+        </div>
 
+        <!-- Weekly Cashback -->
+        <div class="bonus-card cashback-tier-card">
+            <div class="tier-header">
+                <div class="tier-info">
+                    <span class="tier-badge weekly">WEEKLY</span>
+                    <span class="tier-rate">5%</span>
+                </div>
+                <span class="tier-status" id="weeklyCashbackStatus">Not Eligible</span>
+            </div>
+            <div class="tier-progress">
+                <div class="tier-progress-bar">
+                    <div class="tier-progress-fill" id="weeklyProgressFill" style="width:0%;"></div>
+                </div>
+                <span class="tier-progress-text" id="weeklyProgressText">0 / 0</span>
+            </div>
+            <div class="tier-footer">
+                <span class="tier-amount" id="weeklyCashbackAmount">৳ 0.00</span>
+                <button class="tier-claim-btn" id="claimWeeklyBtn" disabled>Claim</button>
+            </div>
+        </div>
 
-        <p class="bonus-description">
-
-            Special promotional rewards available for eligible users.
-
-        </p>
-
+        <!-- Monthly Cashback -->
+        <div class="bonus-card cashback-tier-card">
+            <div class="tier-header">
+                <div class="tier-info">
+                    <span class="tier-badge monthly">MONTHLY</span>
+                    <span class="tier-rate">7%</span>
+                </div>
+                <span class="tier-status" id="monthlyCashbackStatus">Not Eligible</span>
+            </div>
+            <div class="tier-progress">
+                <div class="tier-progress-bar">
+                    <div class="tier-progress-fill" id="monthlyProgressFill" style="width:0%;"></div>
+                </div>
+                <span class="tier-progress-text" id="monthlyProgressText">0 / 0</span>
+            </div>
+            <div class="tier-footer">
+                <span class="tier-amount" id="monthlyCashbackAmount">৳ 0.00</span>
+                <button class="tier-claim-btn" id="claimMonthlyBtn" disabled>Claim</button>
+            </div>
+        </div>
 
     </div>
 
+    <!-- ========================================= -->
+    <!-- TAB 3: REFERRAL REWARD -->
+    <!-- ========================================= -->
+    <div id="referralBonusContent" class="bonus-tab-content">
 
-    <!-- =============================== -->
-    <!-- PROMOTION INFORMATION -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card">
-
-
-        <div class="bonus-card-header">
-
-            <h3>
-
-                Promotion Details
-
-            </h3>
-
-
+        <!-- Referral Summary Card -->
+        <div class="bonus-card referral-summary-card">
+            <div class="referral-header">
+                <h3 class="bonus-card-title">Referral Reward</h3>
+                <span class="referral-rate-badge">20%</span>
+            </div>
+            <p class="referral-desc">
+                Earn <strong>20%</strong> cashback based on your referred users' total deposit amount.
+            </p>
         </div>
 
-
-
-
-        <div class="bonus-info-grid">
-
-
-
-            <div class="bonus-info-item">
-
-
-                <span>
-                    Promotion Name
-                </span>
-
-
-                <strong>
-                    Weekend Special Bonus
-                </strong>
-
-
+        <!-- Referral Stats -->
+        <div class="bonus-card referral-stats-card">
+            <div class="referral-stat-row">
+                <div class="referral-stat">
+                    <span class="stat-label">Total Referred</span>
+                    <span class="stat-value" id="totalReferred">0</span>
+                </div>
+                <div class="referral-stat">
+                    <span class="stat-label">Active Today</span>
+                    <span class="stat-value" id="activeReferred">0</span>
+                </div>
             </div>
-
-
-
-
-
-
-            <div class="bonus-info-item">
-
-
-                <span>
-                    Bonus Amount
-                </span>
-
-
-                <strong>
-                    $50
-                </strong>
-
-
+            <div class="referral-stat-row">
+                <div class="referral-stat">
+                    <span class="stat-label">Total Deposit</span>
+                    <span class="stat-value" id="referredTotalDeposit">৳ 0.00</span>
+                </div>
+                <div class="referral-stat">
+                    <span class="stat-label">Your Reward (20%)</span>
+                    <span class="stat-value highlight" id="referralRewardAmount">৳ 0.00</span>
+                </div>
             </div>
-
-
-
-
-
-
-
-            <div class="bonus-info-item">
-
-
-                <span>
-                    Minimum Wager
-                </span>
-
-
-                <strong>
-                    5X
-                </strong>
-
-
-            </div>
-
-
-
-
-
-
-
-            <div class="bonus-info-item">
-
-
-                <span>
-                    Maximum Reward
-                </span>
-
-
-                <strong>
-                    $500
-                </strong>
-
-
-            </div>
-
-
-
-            <div class="bonus-info-item">
-
-
-                <span>
-                    Validity
-                </span>
-
-
-                <strong>
-                    48 Hours
-                </strong>
-
-
-            </div>
-
-
-
-
-
-
-
-            <div class="bonus-info-item">
-
-
-                <span>
-                    Claim Type
-                </span>
-
-
-                <strong>
-                    Manual Claim
-                </strong>
-
-
-            </div>
-
-
-
-
         </div>
 
-
-    </div>
-
-
-    <!-- =============================== -->
-    <!-- PROMOTION RULES -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card">
-
-
-        <div class="bonus-card-header">
-
-
-            <h3>
-
-                Promotion Rules
-
-            </h3>
-
-
+        <!-- Referral List -->
+        <div class="bonus-card referral-list-card">
+            <h4 class="referral-list-title">Referred Users</h4>
+            <div class="referral-list" id="referralUserList">
+                <!-- Demo Item -->
+                <div class="referral-user-item">
+                    <div class="referral-user-info">
+                        <span class="referral-user-name">Demo User 1</span>
+                        <span class="referral-user-deposit">Deposited: ৳ 5,000</span>
+                    </div>
+                    <span class="referral-user-reward">+৳ 1,000</span>
+                </div>
+                <div class="referral-user-item">
+                    <div class="referral-user-info">
+                        <span class="referral-user-name">Demo User 2</span>
+                        <span class="referral-user-deposit">Deposited: ৳ 3,000</span>
+                    </div>
+                    <span class="referral-user-reward">+৳ 600</span>
+                </div>
+            </div>
         </div>
 
-
-
-
-        <ul class="bonus-rules-list">
-
-
-
-            <li>
-                Complete required wagering before expiry.
-            </li>
-
-
-
-            <li>
-                Only selected games will count for wagering.
-            </li>
-
-
-
-            <li>
-                Bonus balance cannot be withdrawn directly.
-            </li>
-
-
-
-            <li>
-                Completed bonus can be claimed to main balance.
-            </li>
-
-
-
-        </ul>
-
-
-    </div>
-
-
-    <!-- =============================== -->
-    <!-- ELIGIBLE GAMES -->
-    <!-- =============================== -->
-
-
-    <div class="bonus-card">
-
-
-
-        <div class="bonus-card-header">
-
-
-            <h3>
-
-                Eligible Games
-
-            </h3>
-
-
-        </div>
-
-
-        <div class="eligible-games-grid">
-
-
-            <a href="/games/dice.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/dice.png">
-
-
-                <span>
-                    Dice
-                </span>
-
-
-            </a>
-
-    <a href="/games/slots.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/slots.png">
-
-
-                <span>
-                    Slots
-                </span>
-
-
-            </a>
-
-            <a href="/games/crash.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/crash.png">
-
-
-                <span>
-                    Crash
-                </span>
-
-
-            </a>
-
-            <a href="/games/live.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/live.png">
-
-
-                <span>
-                    Live Game
-                </span>
-
-
-            </a>
-
-            <a href="/games/game5.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game5.png">
-
-
-                <span>
-                    Game 5
-                </span>
-
-
-            </a>
-
-
-
-            <a href="/games/game6.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game6.png">
-
-
-                <span>
-                    Game 6
-                </span>
-
-
-            </a>
-
-
-            <a href="/games/game7.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game7.png">
-
-
-                <span>
-                    Game 7
-                </span>
-
-
-            </a>
-
-            <a href="/games/game8.html"
-            class="eligible-game-card">
-
-
-                <img src="assets/games/game8.png">
-
-
-                <span>
-                    Game 8
-                </span>
-
-
-            </a>
-
+        <!-- Referral Code Box -->
+        <div class="bonus-card referral-code-card">
+            <span class="referral-code-label">Your Referral Code</span>
+            <div class="referral-code-box">
+                <span class="referral-code-text" id="referralCode">ABC123</span>
+                <button class="referral-copy-btn" onclick="copyReferralCode()">Copy</button>
+            </div>
         </div>
 
     </div>
 
 </div>
-
 <!-- ========================================= -->
-<!-- PROMOTIONAL BONUS CONTENT END -->
+<!-- MY BONUS SECTION END -->
 <!-- ========================================= -->
-   <!-- ========================================= -->
-<!-- BONUS HISTORY CONTENT START -->
+    
 <!-- ========================================= -->
-
-<div
-id="referralBonusContent"
-class="bonus-tab-content"
-style="display:none;">
-
-    <div class="bonus-card">
-
-        <div class="bonus-card-header">
-
-            <h3>
-                Bonus History
-            </h3>
-
-        </div>
-
-        <!-- BONUS HISTORY LIST -->
-
-        <div
-        id="bonusHistoryList"
-        class="bonus-history-list">
-
-            <!-- JS Auto Insert Latest 10 History -->
-
-        </div>
-
-        <!-- Empty State -->
-
-        <div
-        id="bonusHistoryEmpty"
-        class="bonus-empty-state">
-
-            No completed or expired bonus history available.
-
-        </div>
-
-    </div>
-
-</div>
-</div>
-
-<!-- ========================================= -->
-<!-- BONUS HISTORY CONTENT END -->
-<!-- ========================================= -->
-<!-- ========================================= -->
-<!-- END MY BONUS SECTION -->
+<!-- END MY BONUS SUB SECTION -->
 <!-- ========================================= -->   
     
     
