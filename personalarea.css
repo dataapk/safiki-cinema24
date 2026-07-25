@@ -1,5 +1,497 @@
+/* ==========================================
+   PERSONAL DETAILS SECTION
+========================================== */
 
-css_content = """/* ========================================= */
+#personaldetailsSection{
+    padding:10px 5px 45px;
+}
+
+
+/* Common Content Box */
+
+#personaldetailsSection .content-box{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:16px;
+
+    margin-bottom:14px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
+
+}
+
+
+/* ==========================================
+   PROFILE CARD
+========================================== */
+
+
+#personaldetailsSection .profile-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+.profile-avatar-wrapper{
+
+    position:relative;
+
+}
+
+
+.profile-avatar{
+
+    width:72px;
+
+    height:72px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid var(--gold);
+
+    background:var(--surface-2);
+
+}
+
+
+.change-avatar-btn{
+
+    position:absolute;
+
+    right:-3px;
+
+    bottom:0;
+
+    width:26px;
+
+    height:26px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:var(--gold);
+
+    color:#111;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+}
+
+
+
+.label-small{
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+    margin:0;
+
+}
+
+
+.value-text{
+
+    color:var(--text);
+
+    font-size:16px;
+
+    font-weight:700;
+
+    margin:3px 0;
+
+}
+
+
+.member-text{
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+    margin:0;
+
+}
+
+
+
+/* ==========================================
+   FORM DESIGN
+========================================== */
+
+
+#personaldetailsSection .form-row{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:12px;
+
+}
+
+
+#personaldetailsSection .form-group{
+
+    flex:1;
+
+}
+
+
+#personaldetailsSection label{
+
+    display:block;
+
+    color:var(--text-muted);
+
+    font-size:13px;
+
+    margin-bottom:6px;
+
+}
+
+
+
+#personaldetailsSection .form-input{
+
+    width:100%;
+
+    height:42px;
+
+    padding:0 12px;
+
+    background:var(--surface-2);
+
+    color:var(--text);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    outline:none;
+
+    font-size:14px;
+
+    box-sizing:border-box;
+
+}
+
+
+#personaldetailsSection textarea.form-input{
+
+    height:auto;
+
+}
+
+
+
+#personaldetailsSection select.form-input{
+
+    cursor:pointer;
+
+}
+
+
+
+/* ==========================================
+   LABEL + BUTTON ROW
+========================================== */
+
+
+.label-row{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:6px;
+
+}
+
+
+
+.action-btn{
+
+    border:none;
+
+    padding:7px 14px;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+
+.change-btn{
+
+    background:var(--gold);
+
+    color:#111;
+
+}
+
+
+.add-btn{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+.send-btn{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+.save-btn{
+
+    background:var(--gold);
+
+    color:#111;
+
+}
+
+
+
+/* ==========================================
+   EMAIL / MOBILE DROPDOWN
+========================================== */
+
+
+.change-dropdown{
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    padding:10px;
+
+    border-radius:12px;
+
+}
+
+
+
+.otp-row{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+
+
+.otp-input{
+
+    height:40px !important;
+
+}
+
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+
+.mobile-row{
+
+    display:flex !important;
+
+    gap:8px;
+
+}
+
+
+.country-code{
+
+    width:120px !important;
+
+}
+
+
+
+/* ==========================================
+   CONTROL AREA
+========================================== */
+
+
+.controls-row{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+
+
+.edit-toggle-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:none;
+
+    border:none;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+}
+
+
+
+.toggle-track{
+
+    width:42px;
+
+    height:22px;
+
+    background:#555;
+
+    border-radius:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:3px;
+
+}
+
+
+
+.toggle-thumb{
+
+    width:16px;
+
+    height:16px;
+
+    background:white;
+
+    border-radius:50%;
+
+}
+
+
+
+.save-changes-btn{
+
+    flex:1;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.save-changes-btn:disabled{
+
+    opacity:.5;
+
+}
+
+
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+
+@media(max-width:600px){
+
+
+    #personaldetailsSection .form-row{
+
+        flex-direction:column;
+
+        gap:10px;
+
+    }
+
+
+    #personaldetailsSection .profile-row{
+
+        gap:12px;
+
+    }
+
+
+    .profile-avatar{
+
+        width:60px;
+
+        height:60px;
+
+    }
+
+
+    .controls-row{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+
+    .edit-toggle-btn{
+
+        justify-content:center;
+
+    }
+
+}
+/* ========================================= */
 /* ID VERIFICATION — BET365 INSPIRED THEME   */
 /* Dark + Green + Yellow/Gold                */
 /* ========================================= */
