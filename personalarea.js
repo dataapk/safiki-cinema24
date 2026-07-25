@@ -1,5 +1,5 @@
 
-js_content = """/* ========================================= */
+/* ========================================= */
 /* ID VERIFICATION — FULL JAVASCRIPT         */
 /* ========================================= */
 
@@ -814,11 +814,4 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('beforeunload', function() {
   stopCamera();
 });
-"""
-
-with open('/mnt/agents/output/id-verification.js', 'w', encoding='utf-8') as f:
-    f.write(js_content)
-
-print("✅ ID Verification JS created!")
-print(f"📄 Size: {len(js_content)} characters | ~{len(js_content.splitlines())} lines")
 
