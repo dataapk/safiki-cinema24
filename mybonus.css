@@ -1,1165 +1,1162 @@
+/* ==========================================
+   MY BONUS THEME
+========================================== */
 
-css_content = """/* ========================================= */
-/* MY BONUS SECTION — FULL CSS               */
-/* Green + Yellow Sports Theme               */
-/* ========================================= */
+:root{
 
-/* ─── Root Variables ─── */
-:root {
-  --bonus-bg:            #0f1419;
-  --bonus-card-bg:       #1a1f2e;
-  --bonus-card-border:   #252b3d;
-  --bonus-card-hover:    #22283a;
-  
-  --bonus-green:         #00c853;
-  --bonus-green-dark:    #009624;
-  --bonus-green-light:   #5efc82;
-  --bonus-green-glow:    rgba(0, 200, 83, 0.25);
-  
-  --bonus-yellow:        #ffd600;
-  --bonus-yellow-dark:   #c7a500;
-  --bonus-yellow-glow:   rgba(255, 214, 0, 0.25);
-  
-  --bonus-text:          #ffffff;
-  --bonus-text-muted:    #8b95a8;
-  --bonus-text-dim:      #4a5568;
-  
-  --bonus-red:           #ff5252;
-  --bonus-orange:        #ff9100;
-  
-  --bonus-radius-sm:     6px;
-  --bonus-radius:        10px;
-  --bonus-radius-lg:     14px;
-  
-  --bonus-shadow:        0 4px 20px rgba(0, 0, 0, 0.4);
-  --bonus-shadow-green:  0 0 20px var(--bonus-green-glow);
-  --bonus-shadow-yellow: 0 0 20px var(--bonus-yellow-glow);
-  
-  --bonus-transition:    all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ─── Base ─── */
-#my-bonus-section {
-  background: var(--bonus-bg);
-  border-radius: var(--bonus-radius-lg);
-  padding: 0;
-  max-width: 480px;
-  margin: 0 auto;
-  box-shadow: var(--bonus-shadow);
-  overflow: hidden;
-  font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
-  color: var(--bonus-text);
-}
-
-/* ========================================= */
-/* HEADER                                    */
-/* ========================================= */
-.bonus-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px;
-  background: linear-gradient(135deg, var(--bonus-card-bg) 0%, #1e2535 100%);
-  border-bottom: 2px solid var(--bonus-green);
-  position: relative;
-}
-
-.bonus-header::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 60%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--bonus-green), var(--bonus-yellow));
-}
-
-.bonus-header h2 {
-  font-size: 20px;
-  font-weight: 800;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  background: linear-gradient(90deg, var(--bonus-green), var(--bonus-yellow));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.close-bonus {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--bonus-card-border);
-  background: var(--bonus-card-bg);
-  color: var(--bonus-text-muted);
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  transition: var(--bonus-transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.close-bonus:hover {
-  background: var(--bonus-red);
-  color: #fff;
-  border-color: var(--bonus-red);
-  transform: rotate(90deg);
-}
-
-/* ========================================= */
-/* TABS                                      */
-/* ========================================= */
-.bonus-tabs {
-  display: flex;
-  gap: 6px;
-  padding: 12px;
-  background: #141824;
-}
-
-.bonus-menu-btn {
-  flex: 1;
-  padding: 12px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--bonus-text-muted);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--bonus-radius-sm);
-  cursor: pointer;
-  transition: var(--bonus-transition);
-  position: relative;
-  overflow: hidden;
-}
-
-.bonus-menu-btn:hover {
-  color: var(--bonus-text);
-  background: rgba(255,255,255,0.03);
-}
-
-.bonus-menu-btn.active {
-  color: #fff;
-  background: linear-gradient(135deg, var(--bonus-green-dark), var(--bonus-green));
-  border-color: var(--bonus-green);
-  box-shadow: 0 2px 12px var(--bonus-green-glow);
-}
-
-.bonus-menu-btn.active:hover {
-  background: linear-gradient(135deg, var(--bonus-green), var(--bonus-green-light));
-}
-
-/* ========================================= */
-/* TAB CONTENT                               */
-/* ========================================= */
-.bonus-tab-content {
-  display: none;
-  padding: 16px;
-  animation: fadeIn 0.3s ease;
-}
-
-.bonus-tab-content.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ========================================= */
-/* BONUS CARDS (Common)                      */
-/* ========================================= */
-.bonus-card {
-  background: var(--bonus-card-bg);
-  border: 1px solid var(--bonus-card-border);
-  border-radius: var(--bonus-radius);
-  padding: 18px;
-  margin-bottom: 14px;
-  transition: var(--bonus-transition);
-}
-
-.bonus-card:hover {
-  border-color: rgba(0, 200, 83, 0.3);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-}
-
-.bonus-card-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-  color: var(--bonus-text);
-}
-
-/* ========================================= */
-/* DEPOSIT BONUS CARD                        */
-/* ========================================= */
-.deposit-bonus-card {
-  border: 1px solid var(--bonus-card-border);
-  position: relative;
-  overflow: hidden;
-}
-
-.deposit-bonus-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--bonus-green), var(--bonus-yellow));
-}
-
-/* Card Header */
-.bonus-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.bonus-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.bonus-percent-badge {
-  background: linear-gradient(135deg, var(--bonus-yellow-dark), var(--bonus-yellow));
-  color: #1a1a1a;
-  font-size: 13px;
-  font-weight: 900;
-  padding: 4px 12px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px var(--bonus-yellow-glow);
-}
-
-.bonus-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 14px;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  border-radius: 20px;
-  background: var(--bonus-text-dim);
-  color: var(--bonus-text-muted);
-}
-
-.bonus-status.active {
-  background: rgba(0, 200, 83, 0.15);
-  color: var(--bonus-green);
-  border: 1px solid rgba(0, 200, 83, 0.3);
-  animation: pulseGreen 2.5s infinite;
-}
-
-.bonus-status.active::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--bonus-green);
-  box-shadow: 0 0 6px var(--bonus-green);
-}
-
-@keyframes pulseGreen {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.3); }
-  50%      { box-shadow: 0 0 0 8px rgba(0, 200, 83, 0); }
-}
-
-/* Bonus Balance */
-.bonus-balance-box {
-  background: linear-gradient(135deg, rgba(0, 200, 83, 0.08), rgba(255, 214, 0, 0.05));
-  border: 1px solid rgba(0, 200, 83, 0.15);
-  border-radius: var(--bonus-radius-sm);
-  padding: 16px;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.bonus-balance-label {
-  display: block;
-  font-size: 12px;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-
-.bonus-balance-amount {
-  display: block;
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--bonus-green);
-  text-shadow: 0 0 20px var(--bonus-green-glow);
-}
-
-/* Wager Requirement */
-.bonus-requirement-box {
-  margin-bottom: 16px;
-}
-
-.bonus-requirement-text {
-  font-size: 14px;
-  color: var(--bonus-text-muted);
-  margin: 0 0 4px 0;
-}
-
-.bonus-requirement-text strong {
-  color: var(--bonus-yellow);
-  font-weight: 700;
-}
-
-.bonus-hint-text {
-  font-size: 12px;
-  color: var(--bonus-text-dim);
-  margin: 0;
-}
-
-/* Validity Timer */
-.bonus-validity-box {
-  background: rgba(255, 214, 0, 0.05);
-  border: 1px solid rgba(255, 214, 0, 0.1);
-  border-radius: var(--bonus-radius-sm);
-  padding: 14px;
-  margin-bottom: 16px;
-}
-
-.validity-label {
-  display: block;
-  font-size: 11px;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.validity-details {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.validity-date,
-.validity-time {
-  font-size: 13px;
-  color: var(--bonus-text);
-  font-weight: 600;
-  background: rgba(255,255,255,0.05);
-  padding: 4px 10px;
-  border-radius: 4px;
-}
-
-.countdown-timer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.timer-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.timer-unit b {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--bonus-yellow);
-  min-width: 36px;
-  text-align: center;
-  background: rgba(255, 214, 0, 0.1);
-  padding: 6px 8px;
-  border-radius: 6px;
-  text-shadow: 0 0 10px var(--bonus-yellow-glow);
-}
-
-.timer-unit::after {
-  content: attr(data-label);
-  font-size: 10px;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.timer-sep {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--bonus-text-dim);
-  margin-top: -14px;
-}
-
-/* Progress Bar */
-.bonus-progress-section {
-  margin-bottom: 18px;
-}
-
-.bonus-progress-bar {
-  width: 100%;
-  height: 10px;
-  background: #2a3040;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.bonus-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--bonus-green-dark), var(--bonus-green), var(--bonus-green-light));
-  border-radius: 5px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.bonus-progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 30px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
-  border-radius: 0 5px 5px 0;
-}
-
-.bonus-progress-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-}
-
-#bonusProgressPercent {
-  font-weight: 800;
-  color: var(--bonus-green);
-}
-
-#bonusWagerText {
-  color: var(--bonus-text-muted);
-}
-
-/* Action Bar */
-.bonus-action-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 16px;
-  border-top: 1px solid var(--bonus-card-border);
-  gap: 12px;
-}
-
-.bonus-mode-switch {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.bonus-mode-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Toggle Switch */
-.bonus-switch {
-  position: relative;
-  display: inline-block;
-  width: 48px;
-  height: 26px;
-}
-
-.bonus-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.bonus-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #3a4050;
-  border-radius: 26px;
-  transition: var(--bonus-transition);
-}
-
-.bonus-slider::before {
-  content: '';
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background: #fff;
-  border-radius: 50%;
-  transition: var(--bonus-transition);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-
-.bonus-switch input:checked + .bonus-slider {
-  background: var(--bonus-green);
-  box-shadow: 0 0 10px var(--bonus-green-glow);
-}
-
-.bonus-switch input:checked + .bonus-slider::before {
-  transform: translateX(22px);
-}
-
-/* Claim Button */
-.claim-bonus-btn {
-  padding: 12px 32px;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  border: none;
-  border-radius: var(--bonus-radius-sm);
-  cursor: pointer;
-  transition: var(--bonus-transition);
-  min-width: 130px;
-}
-
-.claim-bonus-btn:not(.locked) {
-  background: linear-gradient(135deg, var(--bonus-green-dark), var(--bonus-green));
-  color: #fff;
-  box-shadow: 0 2px 12px var(--bonus-green-glow);
-}
-
-.claim-bonus-btn:not(.locked):hover {
-  background: linear-gradient(135deg, var(--bonus-green), var(--bonus-green-light));
-  transform: translateY(-2px);
-  box-shadow: 0 4px 18px var(--bonus-green-glow);
-}
-
-.claim-bonus-btn.locked {
-  background: #2a3040;
-  color: var(--bonus-text-dim);
-  cursor: not-allowed;
-  border: 1px solid #3a4050;
-}
-
-/* ========================================= */
-/* ELIGIBLE GAMES SECTION                    */
-/* ========================================= */
-.bonus-games-section {
-  margin-bottom: 14px;
-}
-
-.games-section-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin: 0 0 12px 0;
-  padding-left: 4px;
-}
-
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-
-.game-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background: var(--bonus-card-bg);
-  border: 1px solid var(--bonus-card-border);
-  border-radius: var(--bonus-radius-sm);
-  padding: 12px 4px;
-  text-decoration: none;
-  transition: var(--bonus-transition);
-}
-
-.game-box:hover {
-  background: var(--bonus-card-hover);
-  border-color: var(--bonus-green);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 200, 83, 0.15);
-}
-
-.game-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-.game-name {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--bonus-text-muted);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.game-box:hover .game-name {
-  color: var(--bonus-green);
-}
-
-/* ========================================= */
-/* NEW BONUS LOADING BOX                     */
-/* ========================================= */
-.new-bonus-loading-box {
-  position: relative;
-  background: linear-gradient(135deg, rgba(0, 200, 83, 0.08), rgba(255, 214, 0, 0.06));
-  border: 1px solid rgba(0, 200, 83, 0.2);
-  border-radius: var(--bonus-radius);
-  padding: 18px;
-  overflow: hidden;
-}
-
-.new-bonus-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(0, 200, 83, 0.08) 0%, transparent 70%);
-  animation: rotateGlow 6s linear infinite;
-}
-
-@keyframes rotateGlow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.new-bonus-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.new-bonus-icon {
-  font-size: 28px;
-  animation: firePulse 1.5s ease-in-out infinite;
-}
-
-@keyframes firePulse {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.15); }
-}
-
-.new-bonus-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-}
-
-.new-bonus-label {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--bonus-green);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-
-.new-bonus-sub {
-  font-size: 12px;
-  color: var(--bonus-text-muted);
-}
-
-.new-bonus-pulse {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--bonus-yellow);
-  box-shadow: 0 0 10px var(--bonus-yellow-glow);
-  animation: dotPulse 1.2s ease-in-out infinite;
-}
-
-@keyframes dotPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.5; transform: scale(0.7); }
-}
-
-/* ========================================= */
-/* CASHBACK SECTION                          */
-/* ========================================= */
-.cashback-summary-card {
-  text-align: center;
-  border-top: 3px solid var(--bonus-green);
-}
-
-.cashback-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.cashback-total {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--bonus-green);
-  text-shadow: 0 0 15px var(--bonus-green-glow);
-}
-
-.cashback-desc {
-  font-size: 13px;
-  color: var(--bonus-text-muted);
-  margin: 0;
-}
-
-/* Cashback Tier Cards */
-.cashback-tier-card {
-  position: relative;
-  padding: 16px;
-}
-
-.tier-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.tier-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.tier-badge {
-  padding: 4px 10px;
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  border-radius: 4px;
-  color: #fff;
-}
-
-.tier-badge.daily {
-  background: linear-gradient(135deg, #00c853, #00e676);
-}
-
-.tier-badge.weekly {
-  background: linear-gradient(135deg, #ff9100, #ffc400);
-  color: #1a1a1a;
-}
-
-.tier-badge.monthly {
-  background: linear-gradient(135deg, #2979ff, #448aff);
-}
-
-.tier-rate {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--bonus-text);
-}
-
-.tier-status {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--bonus-text-dim);
-  text-transform: uppercase;
-}
-
-.tier-status.eligible {
-  color: var(--bonus-green);
-}
-
-.tier-progress {
-  margin-bottom: 12px;
-}
-
-.tier-progress-bar {
-  width: 100%;
-  height: 8px;
-  background: #2a3040;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 6px;
-}
-
-.tier-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--bonus-green-dark), var(--bonus-green));
-  border-radius: 4px;
-  transition: width 0.6s ease;
-}
-
-.tier-progress-text {
-  font-size: 12px;
-  color: var(--bonus-text-muted);
-}
-
-.tier-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 12px;
-  border-top: 1px solid var(--bonus-card-border);
-}
+    --bonus-green:#00c853;
+    --bonus-green-dark:#009624;
+    --bonus-yellow:#ffc107;
+    --bonus-bg:#081b1f;
+    --bonus-card:#102a30;
+    --bonus-text:#ffffff;
+    --bonus-muted:#a9c0c5;
 
-.tier-amount {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--bonus-text);
 }
 
-.tier-claim-btn {
-  padding: 8px 20px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: var(--bonus-transition);
-  background: linear-gradient(135deg, var(--bonus-green-dark), var(--bonus-green));
-  color: #fff;
-  box-shadow: 0 2px 8px var(--bonus-green-glow);
-}
-
-.tier-claim-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px var(--bonus-green-glow);
-}
-
-.tier-claim-btn:disabled {
-  background: #2a3040;
-  color: var(--bonus-text-dim);
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* ========================================= */
-/* REFERRAL SECTION                          */
-/* ========================================= */
-.referral-summary-card {
-  border-top: 3px solid var(--bonus-yellow);
-}
-
-.referral-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.referral-rate-badge {
-  background: linear-gradient(135deg, var(--bonus-yellow-dark), var(--bonus-yellow));
-  color: #1a1a1a;
-  font-size: 13px;
-  font-weight: 900;
-  padding: 4px 12px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px var(--bonus-yellow-glow);
-}
-
-.referral-desc {
-  font-size: 13px;
-  color: var(--bonus-text-muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.referral-desc strong {
-  color: var(--bonus-yellow);
-}
-
-/* Referral Stats */
-.referral-stats-card {
-  padding: 16px;
-}
-
-.referral-stat-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.referral-stat-row:last-child {
-  margin-bottom: 0;
-  padding-top: 12px;
-  border-top: 1px solid var(--bonus-card-border);
-}
-
-.referral-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.stat-label {
-  font-size: 11px;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.stat-value {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--bonus-text);
-}
-
-.stat-value.highlight {
-  color: var(--bonus-green);
-  text-shadow: 0 0 10px var(--bonus-green-glow);
-}
-
-/* Referral List */
-.referral-list-card {
-  padding: 16px;
-}
-
-.referral-list-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin: 0 0 12px 0;
-}
-
-.referral-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.referral-user-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  background: rgba(255,255,255,0.03);
-  border-radius: var(--bonus-radius-sm);
-  border: 1px solid transparent;
-  transition: var(--bonus-transition);
-}
-
-.referral-user-item:hover {
-  background: rgba(255,255,255,0.05);
-  border-color: rgba(0, 200, 83, 0.2);
-}
-
-.referral-user-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.referral-user-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--bonus-text);
-}
-
-.referral-user-deposit {
-  font-size: 11px;
-  color: var(--bonus-text-muted);
-}
-
-.referral-user-reward {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--bonus-green);
-}
-
-/* Referral Code */
-.referral-code-card {
-  text-align: center;
-  padding: 18px;
-  background: linear-gradient(135deg, rgba(255, 214, 0, 0.05), rgba(0, 200, 83, 0.05));
-  border: 1px dashed rgba(255, 214, 0, 0.3);
-}
-
-.referral-code-label {
-  display: block;
-  font-size: 11px;
-  color: var(--bonus-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-
-.referral-code-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.referral-code-text {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--bonus-yellow);
-  letter-spacing: 2px;
-  background: rgba(255, 214, 0, 0.1);
-  padding: 8px 18px;
-  border-radius: var(--bonus-radius-sm);
-  border: 1px solid rgba(255, 214, 0, 0.2);
-  text-shadow: 0 0 10px var(--bonus-yellow-glow);
-}
-
-.referral-copy-btn {
-  padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid var(--bonus-green);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--bonus-green);
-  cursor: pointer;
-  transition: var(--bonus-transition);
-}
-
-.referral-copy-btn:hover {
-  background: var(--bonus-green);
-  color: #fff;
-  box-shadow: 0 0 12px var(--bonus-green-glow);
-}
-
-/* ========================================= */
-/* RESPONSIVE                                */
-/* ========================================= */
-@media (max-width: 480px) {
-  .games-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-  }
-  
-  .game-box {
-    padding: 10px 2px;
-  }
-  
-  .game-icon {
-    font-size: 18px;
-  }
-  
-  .game-name {
-    font-size: 9px;
-  }
-  
-  .bonus-action-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-  
-  .claim-bonus-btn {
-    width: 100%;
-  }
-  
-  .referral-stat-row {
-    gap: 8px;
-  }
-  
-  .validity-details {
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .countdown-timer {
-    gap: 6px;
-  }
-  
-  .timer-unit b {
-    font-size: 18px;
-    min-width: 30px;
-    padding: 4px 6px;
-  }
-}
-
-/* ========================================= */
-/* SCROLLBAR (Webkit)                        */
-/* ========================================= */
-#my-bonus-section::-webkit-scrollbar {
-  width: 6px;
-}
-
-#my-bonus-section::-webkit-scrollbar-track {
-  background: var(--bonus-bg);
-}
-
-#my-bonus-section::-webkit-scrollbar-thumb {
-  background: var(--bonus-card-border);
-  border-radius: 3px;
-}
 
-/* =========================================
-        MY BONUS SECTION
-========================================= */
+/* ==========================================
+   MY BONUS MAIN PANEL
+========================================== */
 
 #my-bonus-section{
 
-    position:fixed;
+    width:100%;
+    max-width:520px;
 
-    top:70px;
+    background:
+    linear-gradient(
+        180deg,
+        #0b2429,
+        #061316
+    );
 
-    left:50%;
+    border-radius:16px;
 
-    transform:translateX(-50%);
+    overflow:hidden;
 
-    width:720px;
+    color:var(--bonus-text);
 
-    max-width:94%;
-
-    height:80vh;
-
-    overflow-y:auto;
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:18px;
-
-    box-shadow:0 20px 60px var(--shadow);
-
-    z-index:9998;
-
-    display:none;
-
-    padding:20px;
-
-    box-sizing:border-box;
+    box-shadow:
+    0 0 25px rgba(0,200,83,0.15);
 
 }
 
-/* Keep inside profile menu */
 
-.profile-menu{
+/* ==========================================
+   BONUS HEADER
+========================================== */
+
+.bonus-header{
+
+    height:58px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 18px;
+
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--bonus-green),
+        var(--bonus-green-dark)
+    );
+
+}
+
+
+.bonus-header h2{
+
+    margin:0;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.close-bonus{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    line-height:1;
+
+    color:#ffffff;
+
+    background:rgba(0,0,0,0.25);
+
+    transition:.3s;
+
+}
+
+
+.close-bonus:hover{
+
+    background:#ff5252;
+
+    transform:rotate(90deg);
+
+}
+
+
+
+/* ==========================================
+   BONUS TABS
+========================================== */
+
+.bonus-tabs{
+
+    display:flex;
+
+    gap:10px;
+
+    padding:14px;
+
+    background:#071417;
+
+}
+
+
+
+.bonus-menu-btn{
+
+    flex:1;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    color:#ffffff;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    background:#163238;
+
+    transition:.3s;
+
+}
+
+
+
+/* ACTIVE TAB */
+
+.bonus-menu-btn.active{
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--bonus-yellow),
+        #ff9800
+    );
+
+
+    color:#111;
+
+    box-shadow:
+    0 0 12px rgba(255,193,7,.45);
+
+}
+
+
+
+/* HOVER */
+
+.bonus-menu-btn:hover{
+
+    transform:translateY(-2px);
+
+    background:#21464d;
+
+}
+
+
+.bonus-menu-btn.active:hover{
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffd54f,
+        #ffb300
+    );
+
+}
+
+
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+@media(max-width:600px){
+
+
+    #my-bonus-section{
+
+        width:95%;
+
+        margin:auto;
+
+    }
+
+
+    .bonus-tabs{
+
+        gap:7px;
+
+        padding:10px;
+
+    }
+
+
+    .bonus-menu-btn{
+
+        font-size:12px;
+
+        height:38px;
+
+    }
+
+
+}
+/* ==========================================
+   DEPOSIT BONUS SECTION
+========================================== */
+
+
+.bonus-tab-content{
+
+    padding:12px;
+
+}
+
+
+/* MAIN BONUS CARD */
+
+.bonus-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #10272c,
+        #071417
+    );
+
+    border:1px solid rgba(0,200,83,.25);
+
+    border-radius:14px;
+
+    padding:12px;
+
+    margin-bottom:12px;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.35);
+
+}
+
+
+/* CARD HEADER */
+
+.bonus-card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+
+}
+
+
+.bonus-title-wrap{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+.bonus-card-title{
+
+    margin:0;
+
+    font-size:16px;
+
+    color:#fff;
+
+}
+
+
+.bonus-percent-badge{
+
+    background:#ffc107;
+
+    color:#111;
+
+    padding:3px 8px;
+
+    border-radius:12px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.bonus-status{
+
+    font-size:11px;
+
+    padding:4px 8px;
+
+    border-radius:10px;
+
+    background:#00c853;
+
+    color:white;
+
+    font-weight:700;
+
+}
+
+
+
+/* BALANCE BOX */
+
+.bonus-balance-box{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#0b2025;
+
+    border-radius:10px;
+
+    padding:10px;
+
+    margin-bottom:8px;
+
+}
+
+
+.bonus-balance-label{
+
+    color:#a9c0c5;
+
+    font-size:13px;
+
+}
+
+
+.bonus-balance-amount{
+
+    color:#00e676;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+
+/* REQUIREMENT */
+
+.bonus-requirement-box{
+
+    background:#102f35;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    margin-bottom:8px;
+
+}
+
+
+.bonus-requirement-text{
+
+    margin:0;
+
+    font-size:13px;
+
+    color:white;
+
+}
+
+
+.bonus-hint-text{
+
+    margin:4px 0 0;
+
+    font-size:11px;
+
+    color:#9fb5ba;
+
+}
+
+
+
+/* VALIDITY */
+
+.bonus-validity-box{
+
+    background:#0b2025;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    margin-bottom:8px;
+
+}
+
+
+.validity-label{
+
+    font-size:12px;
+
+    color:#9fb5ba;
+
+}
+
+
+.validity-details{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:5px;
+
+}
+
+
+.validity-date,
+.validity-time{
+
+    color:#fff;
+
+    font-size:13px;
+
+}
+
+
+.countdown-timer{
+
+    margin-top:8px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:6px;
+
+    color:#ffc107;
+
+    font-size:12px;
+
+}
+
+
+
+/* PROGRESS */
+
+.bonus-progress-section{
+
+    margin-top:10px;
+
+}
+
+
+.bonus-progress-bar{
+
+    height:8px;
+
+    background:#162f35;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+
+.bonus-progress-fill{
+
+    height:100%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #00c853,
+        #76ff03
+    );
+
+}
+
+
+.bonus-progress-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:5px;
+
+    font-size:12px;
+
+    color:#b8cdd1;
+
+}
+
+
+
+/* ACTION BAR */
+
+.bonus-action-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:12px;
+
+    padding-top:10px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.bonus-mode-switch{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+.bonus-mode-label{
+
+    color:#fff;
+
+    font-size:13px;
+
+}
+
+
+
+/* TOGGLE */
+
+.bonus-switch input{
+
+    display:none;
+
+}
+
+
+.bonus-slider{
+
+    width:42px;
+
+    height:22px;
+
+    background:#444;
+
+    border-radius:20px;
+
+    display:block;
+
+    cursor:pointer;
 
     position:relative;
 
 }
 
-/* =========================================
-        BONUS HEADER
-========================================= */
+
+.bonus-slider:before{
+
+    content:"";
+
+    width:18px;
+
+    height:18px;
+
+    background:white;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:2px;
+
+    left:2px;
+
+    transition:.3s;
+
+}
+
+
+.bonus-switch input:checked + .bonus-slider{
+
+    background:#00c853;
+
+}
+
+
+.bonus-switch input:checked + .bonus-slider:before{
+
+    transform:translateX(20px);
+
+}
+
+
+
+/* CLAIM BUTTON */
+
+.claim-bonus-btn{
+
+    padding:8px 18px;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.claim-bonus-btn.locked{
+
+    background:#303030;
+
+    color:#777;
+
+}
+
+
+.claim-bonus-btn:not(.locked){
+
+    background:#00c853;
+
+    color:white;
+
+}
+
 
 
 /* ==========================================
-END MY BONUS SECTION
+   ELIGIBLE GAMES
 ========================================== */
 
-#my-bonus-section::-webkit-scrollbar-thumb:hover {
-  background: var(--bonus-green);
+
+.bonus-games-section{
+
+    margin-top:10px;
+
 }
+
+
+.games-section-title{
+
+    color:white;
+
+    font-size:14px;
+
+    margin:0 0 8px;
+
+}
+
+
+.games-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:8px;
+
+}
+
+
+.game-box{
+
+    background:#10272c;
+
+    border:1px solid rgba(255,193,7,.18);
+
+    border-radius:10px;
+
+    padding:8px 4px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+}
+
+
+.game-icon{
+
+    display:block;
+
+    font-size:20px;
+
+}
+
+
+.game-name{
+
+    display:block;
+
+    color:white;
+
+    font-size:11px;
+
+    margin-top:4px;
+
+}
+
+
+
+/* NEW BONUS */
+
+.new-bonus-loading-box{
+
+    margin-top:12px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #123238,
+        #071417
+    );
+
+    border-radius:12px;
+
+    padding:12px;
+
+}
+
+
+.new-bonus-content{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.new-bonus-icon{
+
+    font-size:24px;
+
+}
+
+
+.new-bonus-label{
+
+    display:block;
+
+    color:#ffc107;
+
+    font-weight:700;
+
+    font-size:13px;
+
+}
+
+
+.new-bonus-sub{
+
+    display:block;
+
+    color:#a9c0c5;
+
+    font-size:11px;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .games-grid{
+
+        grid-template-columns:repeat(5,1fr);
+
+        gap:5px;
+
+    }
+
+
+    .game-icon{
+
+        font-size:16px;
+
+    }
+
+
+    .game-name{
+
+        font-size:9px;
+
+    }
+
+}
+
+
+/* ==========================================
+   CASHBACK SECTION
+========================================== */
+
+
+.cashback-summary-card{
+
+    padding:12px;
+
+}
+
+
+.cashback-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+.cashback-total{
+
+    color:#00e676;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+.cashback-desc{
+
+    margin:6px 0 0;
+
+    color:#a9c0c5;
+
+    font-size:12px;
+
+}
+
+
+
+/* ==========================================
+   CASHBACK TIER CARD
+========================================== */
+
+
+.cashback-tier-card{
+
+    padding:10px;
+
+    margin-top:10px;
+
+}
+
+
+
+.tier-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.tier-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+
+/* BADGE */
+
+.tier-badge{
+
+    padding:4px 10px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    color:#111;
+
+}
+
+
+
+.tier-badge.daily{
+
+    background:#00c853;
+
+}
+
+
+.tier-badge.weekly{
+
+    background:#ffc107;
+
+}
+
+
+.tier-badge.monthly{
+
+    background:#00bcd4;
+
+}
+
+
+
+.tier-rate{
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:700;
+
+}
+
+
+
+.tier-status{
+
+    font-size:11px;
+
+    color:#9fb5ba;
+
+}
+
+
+
+/* PROGRESS */
+
+.tier-progress{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+
+.tier-progress-bar{
+
+    flex:1;
+
+    height:7px;
+
+    background:#172f34;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+
+
+.tier-progress-fill{
+
+    height:100%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #00c853,
+        #76ff03
+    );
+
+}
+
+
+
+.tier-progress-text{
+
+    color:#a9c0c5;
+
+    font-size:11px;
+
+}
+
+
+
+/* FOOTER */
+
+
+.tier-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:10px;
+
+}
+
+
+
+.tier-amount{
+
+    color:#00e676;
+
+    font-size:16px;
+
+    font-weight:700;
+
+}
+
+
+
+/* CLAIM BUTTON */
+
+
+.tier-claim-btn{
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:7px 18px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    background:#303030;
+
+    color:#777;
+
+    cursor:pointer;
+
+}
+
+
+
+.tier-claim-btn:not(:disabled){
+
+    background:#00c853;
+
+    color:white;
+
+    box-shadow:
+    0 0 10px rgba(0,200,83,.4);
+
+}
+
+
+
+/* HOVER */
+
+.tier-claim-btn:not(:disabled):hover{
+
+    background:#00e676;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+
+    .cashback-header{
+
+        align-items:flex-start;
+
+    }
+
+
+    .cashback-total{
+
+        font-size:15px;
+
+    }
+
+
+}
+
