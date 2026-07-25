@@ -1551,10 +1551,11 @@
     <!-- TAB 3: REFERRAL REWARD -->
     <!-- ========================================= -->
     <div id="referralBonusContent" class="bonus-tab-content">
-        <!-- Referral Commission Summary Card -->
+       <!-- Referral Commission Summary Card -->
 
 <div class="bonus-card referral-summary-card">
 
+    <!-- Header -->
     <div class="referral-header">
 
         <h3 class="bonus-card-title">
@@ -1562,23 +1563,71 @@
         </h3>
 
 
-        <span class="referral-status available" id="referralStatus">
-            AVAILABLE
+        <span class="referral-status pending" id="referralStatus">
+            PENDING
         </span>
 
     </div>
 
 
+    <!-- Commission Balance -->
     <div class="referral-commission-display">
 
         <span class="commission-label">
-            Commission Balance
+            Referral Balance
         </span>
 
 
         <strong id="referralCommissionBalance">
             ৳ 0.00
         </strong>
+
+    </div>
+
+
+    <!-- Status Message -->
+    <div class="referral-status-message">
+
+        <p id="referralMessage">
+            Your referred user first deposit is under verification.
+        </p>
+
+
+        <span id="referralActiveText">
+            It will be active after 7 days.
+        </span>
+
+    </div>
+
+
+    <!-- Available Reward + Claim -->
+
+    <div class="referral-claim-box">
+
+        <div class="claim-info">
+
+            <span>
+                Available Reward
+            </span>
+
+
+            <strong id="referralClaimAmount">
+                ৳ 0.00
+            </strong>
+
+        </div>
+
+
+
+        <button
+            id="claimReferralBtn"
+            class="claim-referral-btn locked"
+            disabled>
+
+            CLAIM REWARD
+
+        </button>
+
 
     </div>
 
