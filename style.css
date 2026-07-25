@@ -3530,6 +3530,92 @@ END MY BONUS SECTION
 
 
 }
+#notification-view-popup{
+    position:fixed;
+    top:70px;
+    left:50%;
+    width:420px;
+    max-width:90%;
+    max-height:70vh;
+    overflow-y:auto;
+
+    transform:translateX(-50%) translateY(-30px);
+    opacity:0;
+    visibility:hidden;
+
+    background:#0F1B16;
+    border:1px solid rgba(46,204,113,.35);
+    border-radius:16px;
+
+    padding:20px;
+    z-index:999999;
+
+    transition:.35s ease;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.45);
+}
+
+
+#notification-view-popup.active{
+
+    transform:translateX(-50%) translateY(0);
+
+    opacity:1;
+    visibility:visible;
+
+}
+
+
+#notification-view-popup button{
+
+    position:absolute;
+    top:10px;
+    right:12px;
+
+    width:32px;
+    height:32px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#2ECC71;
+    color:#fff;
+
+    font-size:20px;
+    cursor:pointer;
+
+}
+
+
+#viewNotifTitle{
+
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+
+#viewNotifDate,
+#viewNotifTime{
+
+    color:#B8C4BE;
+    font-size:12px;
+
+}
+
+
+#viewNotifMessage{
+
+    margin-top:15px;
+
+    color:#fff;
+    font-size:14px;
+    line-height:1.6;
+
+}
 
 /* =========================================
         PROFILE MENU
