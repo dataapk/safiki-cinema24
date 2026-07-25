@@ -3127,42 +3127,55 @@ END MY BONUS SECTION
 .notification-panel{
 
     position:fixed;
-     display:flex;
 
     top:70px;
+
     left:50%;
 
-    transform:translate(-50%,-20px);
+    right:auto;
 
     width:420px;
+
     max-width:90%;
+
+
+    transform:translateX(-50%) translateY(-20px);
+
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
 
     background:#0F1B16;
 
-    border:1px solid rgba(46,204,113,.25);
-
     border-radius:14px;
 
-    box-shadow:
-    0 15px 40px rgba(0,0,0,.45);
-
-    overflow:hidden;
 
     z-index:99999;
 
+
+    transition:.35s ease;
+
 }
+
+
+
 .notification-panel.active{
 
-    opacity:1;
-    visibility:visible;
 
-    transform:translateY(0);
+    transform:translateX(-50%) translateY(0);
+
+
+    opacity:1;
+
+    visibility:visible;
 
     pointer-events:auto;
 
 }
-
-
 /* ==========================
    HEADER
 ========================== */
