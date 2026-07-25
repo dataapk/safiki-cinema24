@@ -1765,6 +1765,142 @@ svg {
 
 /* END SETTINGS SECTION */
 
+/* LOG OUT CONFIRM POPUP */
+/* ==========================================
+   LOGOUT POPUP
+========================================== */
+
+.logout-popup{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.65);
+
+    z-index:999999;
+
+}
+
+
+.logout-popup.active{
+
+    display:flex;
+
+}
+
+
+.logout-popup-box{
+
+    width:360px;
+    max-width:90%;
+
+    background:linear-gradient(
+        135deg,
+        #027B5B,
+        #0F1B16
+    );
+
+    border-radius:16px;
+
+    padding:25px;
+
+    text-align:center;
+
+    color:#fff;
+
+    box-shadow:
+    0 0 30px rgba(2,123,91,.45);
+
+}
+
+
+.logout-popup-header i{
+
+    font-size:40px;
+
+    color:#E8C547;
+
+    margin-bottom:10px;
+
+}
+
+
+.logout-popup-header h3{
+
+    margin:0;
+
+    color:#fff;
+
+    font-size:20px;
+
+}
+
+
+.logout-popup-box p{
+
+    color:#d9e3df;
+
+    font-size:14px;
+
+    margin:18px 0;
+
+}
+
+
+.logout-popup-actions{
+
+    display:flex;
+
+    gap:12px;
+
+    justify-content:center;
+
+}
+
+
+.logout-popup-actions button{
+
+    padding:10px 25px;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.logout-cancel{
+
+    background:#1B2E26;
+
+    color:#fff;
+
+}
+
+
+.logout-confirm{
+
+    background:#E8C547;
+
+    color:#0F1B16;
+
+    box-shadow:
+    0 0 10px rgba(232,197,71,.5);
+
+}
+
+/* END LOG OUT CONFIRM POPUP */
+
+
+
 /* =========================================
         MY BONUS SECTION
 ========================================= */
