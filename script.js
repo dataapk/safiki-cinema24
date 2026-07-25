@@ -1692,32 +1692,37 @@ function openBonusTab(tab){
         btn.classList.remove("active");
     });
 
-   // Deposit Bonus
-if(tab==="deposit"){
 
-    document.getElementById("depositBonusContent").style.display="block";
-    document.getElementById("depositBonusTab").classList.add("active");
+    // Deposit Bonus
+    if(tab==="deposit"){
+
+        document.getElementById("depositBonusContent").style.display="block";
+        document.getElementById("depositBonusTab").classList.add("active");
+
+    }
+
+
+    // Cashback Bonus
+    else if(tab==="cashback"){
+
+        document.getElementById("cashbackBonusContent").style.display="block";
+        document.getElementById("cashbackBonusTab").classList.add("active");
+
+    }
+
+
+    // Referral Reward
+    else if(tab==="referral"){
+
+        document.getElementById("referralBonusContent").style.display="block";
+        document.getElementById("referralBonusTab").classList.add("active");
+
+    }
 
 }
 
 
-// Cashback Bonus
-else if(tab==="cashback"){
-
-    document.getElementById("cashbackBonusContent").style.display="block";
-    document.getElementById("cashbackBonusTab").classList.add("active");
-
-}
-
-
-// Referral Reward
-else if(tab==="referral"){
-
-    document.getElementById("referralBonusContent").style.display="block";
-    document.getElementById("referralBonusTab").classList.add("active");
-
-}
-
+// Close My Bonus
 function closeMyBonus(){
 
     document.getElementById("my-bonus-section").style.display="none";
