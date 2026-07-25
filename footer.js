@@ -37,6 +37,25 @@ window.footerToggleSidebar = function(){
     document.body.style.overflow="hidden";
 
 };
+
+// ===== FOOTER ACTIVE =====
+
+window.footerSetActive = function(element){
+
+    if(!element) return;
+
+
+    document.querySelectorAll('.footer-bottom-item')
+    .forEach(function(item){
+
+        item.classList.remove('active');
+
+    });
+
+
+    element.classList.add('active');
+
+};
 // ===== SIDEBAR TOGGLE =====
 
 window.footerToggleSidebar = function(){
