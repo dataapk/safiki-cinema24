@@ -374,49 +374,167 @@
 </header>
   <!-- এখানে header শেষ হবে -->
 
-<!-- ================= NOTIFICATION POPUP ================= -->
 
-<div id="notif-popup" class="custom-popup" style="display:none;">
+<!-- ================= NOTIFICATION PANEL ================= -->
 
-    <button
-    id="close-notif"
-    onclick="document.getElementById('notif-popup').style.display='none'">
+<div id="notification-panel" class="notification-panel">
 
-        ×
 
-    </button>
+    <!-- Header -->
 
-    <div class="notif-container">
+    <div class="notification-header">
 
-        <div class="notif-box-item">
+        <h3>
+            Notifications
+        </h3>
 
-            <span class="notif-date">
-                15-07-2026
-            </span>
 
-            <span class="notif-text">
-                আপনার প্রোফাইল আপডেট হয়েছে।
-            </span>
+        <button 
+        id="close-notification"
+        class="notification-close">
 
-        </div>
+            ×
 
-        <div class="notif-box-item">
-
-            <span class="notif-date">
-                14-07-2026
-            </span>
-
-            <span class="notif-text">
-                নতুন একটি মেসেজ এসেছে।
-            </span>
-
-        </div>
+        </button>
 
     </div>
 
-</div>
-<!-- ================= END NOTIFICATION POPUP ================= -->
 
+
+    <!-- Notification List -->
+
+    <div class="notification-list">
+
+
+
+        <!-- Notification Item -->
+
+        <div class="notification-item">
+
+
+            <!-- Date & Time -->
+
+            <div class="notification-time">
+
+                <span>
+                    15 JUL
+                </span>
+
+                <small>
+                    10:30 AM
+                </small>
+
+            </div>
+
+
+
+            <!-- Message -->
+
+            <div class="notification-content">
+
+                <h4>
+                    Profile Updated
+                </h4>
+
+                <p>
+                    Your profile has been successfully updated.
+                </p>
+
+            </div>
+
+
+
+            <!-- View Button -->
+
+            <button class="notification-view">
+
+                VIEW
+
+            </button>
+
+
+        </div>
+
+
+
+
+
+        <!-- Notification Item -->
+
+        <div class="notification-item">
+
+
+            <div class="notification-time">
+
+                <span>
+                    14 JUL
+                </span>
+
+                <small>
+                    09:20 AM
+                </small>
+
+            </div>
+
+
+
+            <div class="notification-content">
+
+                <h4>
+                    New Message
+                </h4>
+
+                <p>
+                    You have received a new notification.
+                </p>
+
+            </div>
+
+
+
+            <button class="notification-view">
+
+                VIEW
+
+            </button>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <!-- Pagination -->
+
+    <div class="notification-pagination">
+
+
+        <button>
+            &lt; Previous
+        </button>
+
+
+        <span>
+            1 2 3
+        </span>
+
+
+        <button>
+            Next &gt;
+        </button>
+
+
+    </div>
+
+
+
+</div>
+
+<!-- ================= END NOTIFICATION PANEL ================= -->
 
 
 <!-- ================= PROFILE MENU ================= -->
