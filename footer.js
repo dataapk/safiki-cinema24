@@ -281,16 +281,6 @@ if (footerSidebarOverlay) {
 }
 
 
-// ===== ESC KEY =====
-document.addEventListener("keydown", function(e){
-
-    if(e.key === "Escape" && isFooterSidebarOpen){
-        footerCloseSidebar();
-    }
-
-});
-
-
 // ===== AUTH STATE LISTENER =====
 // Login / Logout হলে Footer Menu Auto Update হবে
 
@@ -330,8 +320,66 @@ if(window.supabaseClient){
     });
 
 }
+// ===== ESC KEY + OUTSIDE CLICK CLOSE =====
+
+function closeFooterSidebar(){
+
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+    const menuBtn = document.getElementById("menuBtn");
 
 
+    if(sidebar){
+        sidebar.classList.remove("active");
+    }
+
+    if(overlay){
+        overlay.classList.remove("active");
+    }
+
+    if(menuBtn){
+        menuBtn.classList.remove("active");
+    }
+
+    document.body.style.overflow="";
+}
+
+
+// ESC KEY
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+
+        const sidebar = document.getElementById("sidebar");
+
+        if(sidebar && sidebar.classList.contains("active")){
+            closeFooterSidebar();
+        }
+
+    }
+
+});
+
+
+// OUTSIDE CLICK
+document.addEventListener("click", function(e){
+
+    const sidebar = document.getElementById("sidebar");
+    const menuBtn = document.getElementById("menuBtn");
+
+
+    if(
+        sidebar &&
+        sidebar.classList.contains("active") &&
+        !sidebar.contains(e.target) &&
+        !menuBtn.contains(e.target)
+    ){
+
+        closeFooterSidebar();
+
+    }
+
+});
 
 // ===== INITIALIZE =====
 footerCloseSidebar();
