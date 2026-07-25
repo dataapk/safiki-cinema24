@@ -3127,6 +3127,7 @@ END MY BONUS SECTION
 .notification-panel{
 
     position:fixed;
+     display:flex;
 
     top:70px;
     left:50%;
@@ -3148,6 +3149,16 @@ END MY BONUS SECTION
     overflow:hidden;
 
     z-index:99999;
+
+}
+.notification-panel.active{
+
+    opacity:1;
+    visibility:visible;
+
+    transform:translateY(0);
+
+    pointer-events:auto;
 
 }
 
