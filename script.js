@@ -672,6 +672,44 @@ function toggleNotificationPanel(event) {
     }
 
 }
+// CLOSE BUTTON
+
+const closeNotification=document.getElementById('close-notification');
+
+if(closeNotification){
+    closeNotification.addEventListener('click',(e)=>{
+        e.stopPropagation();
+
+        const panel=document.getElementById('notification-panel');
+
+        if(panel){
+            panel.classList.remove('active');
+        }
+    });
+}
+
+// --- Outside Click Handler ---
+window.addEventListener('click',(event)=>{
+    const notificationPanel=document.getElementById('notification-panel');
+    const profileSidebar=document.getElementById('profile-sidebar');
+    const logoutModal=document.getElementById('logout-confirm-popup');
+
+    if(notificationPanel&&notificationPanel.classList.contains('active')&&!notificationPanel.
+       contains(event.target)&&!event.target.closest('.notification-btn')){
+        notificationPanel.classList.remove('active');
+    }
+
+    if(profileSidebar&&profileSidebar.classList.contains('active')&&!profileSidebar.
+       contains(event.target)&&!event.target.closest('.profile-btn')){
+        profileSidebar.classList.remove('active');
+    }
+
+    if(logoutModal&&event.target===logoutModal){
+        closeLogoutPopup();
+    }
+});
+   
+// END Outside Click Handler ---
 
 // প্রোফাইলের জন্য আলাদা ফাংশন
 // ======================================
@@ -2374,30 +2412,7 @@ function updateLogoutUI(){
 
 }
 
-// --- Outside Click Handler ---
-window.addEventListener('click',(event)=>{
-    const notificationPanel=document.getElementById('notification-panel');
-    const profileSidebar=document.getElementById('profile-sidebar');
-    const logoutModal=document.getElementById('logout-confirm-popup');
 
-    if(notificationPanel&&notificationPanel.classList.contains('active')&&!notificationPanel.
-       contains(event.target)&&!event.target.closest('.notification-btn')){
-        notificationPanel.classList.remove('active');
-    }
-
-    if(profileSidebar&&profileSidebar.classList.contains('active')&&!profileSidebar.
-       contains(event.target)&&!event.target.closest('.profile-btn')){
-        profileSidebar.classList.remove('active');
-    }
-
-    if(logoutModal&&event.target===logoutModal){
-        closeLogoutPopup();
-    }
-});
-
-    // Close logout popup if clicking outside
-   
-// END Outside Click Handler ---
 // হেডার আপডেট করার মূল ফাংশন
 // ১. লগইন/লগআউট স্ট্যাটাস অনুযায়ী হেডার আপডেট করার ফাংশন
 // =========================
