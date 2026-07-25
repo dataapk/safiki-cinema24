@@ -1103,6 +1103,63 @@ css_content = """/* ========================================= */
   border-radius: 3px;
 }
 
+/* =========================================
+        MY BONUS SECTION
+========================================= */
+
+#my-bonus-section{
+
+    position:fixed;
+
+    top:70px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:720px;
+
+    max-width:94%;
+
+    height:80vh;
+
+    overflow-y:auto;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    box-shadow:0 20px 60px var(--shadow);
+
+    z-index:9998;
+
+    display:none;
+
+    padding:20px;
+
+    box-sizing:border-box;
+
+}
+
+/* Keep inside profile menu */
+
+.profile-menu{
+
+    position:relative;
+
+}
+
+/* =========================================
+        BONUS HEADER
+========================================= */
+
+
+/* ==========================================
+END MY BONUS SECTION
+========================================== */
+
 #my-bonus-section::-webkit-scrollbar-thumb:hover {
   background: var(--bonus-green);
 }
