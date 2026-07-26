@@ -237,20 +237,48 @@ linear-gradient(
 
 /* Wallet Button */
 
+/* ================= Wallet Trigger ================= */
+
 .wallet-trigger {
-    background: var(--gold);
-    color: #111;
-    padding: 12px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    transition: .3s;
+
+    background: linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a
+    );
+
+    color:#ffffff;
+
+    padding:12px 20px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:600;
+
+    border:1px solid #22c55e;
+
+    transition:.3s ease;
+
+    box-shadow:none;
 }
 
+
 .wallet-trigger:hover {
-    background: var(--gold-hover);
+
+    background: linear-gradient(
+        135deg,
+        #2dd46f,
+        #16a34a
+    );
+
+    box-shadow:none;
+
 }
 
 /* ================= Wallet Dropdown ================= */
