@@ -69,21 +69,15 @@
 
 
 
-    /* Bonus */
-    --bonus-green:#22c55e;
-
-    --bonus-green-dark:#15803d;
-
+   /* Bonus */
+--bonus-green:#1d8548;
+--bonus-green-dark:#146c3a;
 
 
-    /* Status */
-    --success:#22c55e;
-
-    --danger:#ef4444;
-
-    --warning:#d6c61a;
-
-}
+/* Status */
+--success:#1d8548;
+--danger:#ef4444;
+--warning:#d6c61a;
 
 
 
