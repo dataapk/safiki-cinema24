@@ -1,5 +1,5 @@
 
-js_content = """/* ==========================================
+/* ==========================================
    LANDING PAGE — FULL JAVASCRIPT
    Hero Slider | Auto Slide | Interactions
 ========================================== */
@@ -345,11 +345,3 @@ js_content = """/* ==========================================
   });
 
 })();
-"""
-
-with open('/mnt/agents/output/landing-page.js', 'w', encoding='utf-8') as f:
-    f.write(js_content)
-
-print(f"✅ Landing Page JS created!")
-print(f"📄 Size: {len(js_content)} characters | ~{len(js_content.splitlines())} lines")
-
