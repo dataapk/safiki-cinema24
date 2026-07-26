@@ -2173,31 +2173,422 @@
     </div>
    
 
-<!-- হিরো সেকশন স্টার্ট -->
-<section class="hero-section">
-    <div class="hero-slider">
-        <!-- স্লাইড ১ -->
-        <div class="slide">
-            <img src="image/banner.png" alt="Promotion Banner">
+<!-- ======================================================
+     🔴 start: HERO SECTION
+====================================================== -->
+
+<!-- ===== 2. HERO BANNER SLIDER ===== -->
+<section class="hero-banner-section" id="heroBanner">
+    <div class="hero-slider" id="heroSlider">
+        
+        <!-- Slide 1 -->
+        <div class="hero-slide active" style="background: linear-gradient(135deg, var(--header-green), var(--header-mid));">
+            <div class="hero-content">
+                <span class="hero-badge" style="background: var(--yellow); color: #1a1a1a;">WELCOME OFFER</span>
+                <h2 class="hero-title">150% First Deposit Bonus</h2>
+                <p class="hero-sub">Join now & get up to ৳ 10,000 bonus on your first deposit</p>
+                <button class="hero-btn" style="background: var(--primary);">Join Now</button>
+            </div>
+            <div class="hero-glow"></div>
         </div>
-        <!-- স্লাইড ২ -->
-        <div class="slide">
-            <img src="image/banner.png" alt="Promotion Banner">
+
+        <!-- Slide 2 -->
+        <div class="hero-slide" style="background: linear-gradient(135deg, #1a1a2e, var(--surface));">
+            <div class="hero-content">
+                <span class="hero-badge" style="background: var(--danger); color: #fff;">HOT</span>
+                <h2 class="hero-title">Daily Cashback Up To 7%</h2>
+                <p class="hero-sub">Play more, earn more — weekly & monthly rewards included</p>
+                <button class="hero-btn" style="background: var(--primary);">Claim Now</button>
+            </div>
+            <div class="hero-glow"></div>
         </div>
-        <!-- স্লাইড ৩ -->
-        <div class="slide">
-            <img src="image/banner.png" alt="Promotion Banner">
+
+        <!-- Slide 3 -->
+        <div class="hero-slide" style="background: linear-gradient(135deg, var(--header-brown), #1a1a1a);">
+            <div class="hero-content">
+                <span class="hero-badge" style="background: var(--yellow); color: #1a1a1a;">REFER & EARN</span>
+                <h2 class="hero-title">20% Referral Reward</h2>
+                <p class="hero-sub">Invite friends & earn 20% of their total deposit forever</p>
+                <button class="hero-btn" style="background: var(--primary);">Get Code</button>
+            </div>
+            <div class="hero-glow"></div>
         </div>
+
     </div>
 
-    <!-- স্লাইডার ডট ইন্ডিকেটর -->
-    <div class="slider-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+    <!-- Slider Dots -->
+    <div class="hero-dots">
+        <span class="hero-dot active" onclick="goToSlide(0)"></span>
+        <span class="hero-dot" onclick="goToSlide(1)"></span>
+        <span class="hero-dot" onclick="goToSlide(2)"></span>
     </div>
 </section>
-<!-- হিরো সেকশন ইন্ড -->
+
+<!-- ===== 3. GAMES MARQUEE (20+ Emojis) ===== -->
+<section class="games-marquee-section" id="gamesMarquee">
+    <div class="section-header">
+        <h3 class="section-title" style="color: var(--text);">
+            <i class="fas fa-gamepad" style="color: var(--primary);"></i> Popular Games
+        </h3>
+    </div>
+    <div class="marquee-track">
+        <div class="marquee-content">
+            <span class="game-emoji">🏏</span>
+            <span class="game-emoji">⚽</span>
+            <span class="game-emoji">🎾</span>
+            <span class="game-emoji">🏀</span>
+            <span class="game-emoji">🏐</span>
+            <span class="game-emoji">🏑</span>
+            <span class="game-emoji">🥊</span>
+            <span class="game-emoji">🏇</span>
+            <span class="game-emoji">🎯</span>
+            <span class="game-emoji">🎱</span>
+            <span class="game-emoji">🏈</span>
+            <span class="game-emoji">⚾</span>
+            <span class="game-emoji">🏸</span>
+            <span class="game-emoji">🥋</span>
+            <span class="game-emoji">🎰</span>
+            <span class="game-emoji">🃏</span>
+            <span class="game-emoji">🎲</span>
+            <span class="game-emoji">🎮</span>
+            <span class="game-emoji">✈️</span>
+            <span class="game-emoji">🎣</span>
+            <span class="game-emoji">🚴</span>
+            <span class="game-emoji">🏓</span>
+            <span class="game-emoji">🎳</span>
+            <span class="game-emoji">🥅</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="game-emoji">🏏</span>
+            <span class="game-emoji">⚽</span>
+            <span class="game-emoji">🎾</span>
+            <span class="game-emoji">🏀</span>
+            <span class="game-emoji">🏐</span>
+            <span class="game-emoji">🎰</span>
+            <span class="game-emoji">🃏</span>
+            <span class="game-emoji">✈️</span>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 4. OFFER / PROMOTION CARDS (3+3 Grid) ===== -->
+<section class="offers-section" id="offersSection">
+    <div class="section-header">
+        <h3 class="section-title" style="color: var(--text);">
+            <i class="fas fa-gift" style="color: var(--yellow);"></i> Promotions & Bonuses
+        </h3>
+    </div>
+    <div class="offers-grid">
+
+        <!-- Card 1: Daily Bonus -->
+        <div class="offer-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="offer-icon-wrap" style="background: rgba(29,133,72,0.15);">
+                <i class="fas fa-calendar-day" style="color: var(--primary);"></i>
+            </div>
+            <h4 class="offer-title" style="color: var(--text);">Daily Bonus</h4>
+            <p class="offer-rate" style="color: var(--yellow);">2% Cashback</p>
+            <p class="offer-desc" style="color: var(--text-muted);">Get rewarded every day you play</p>
+            <span class="offer-tag" style="background: var(--primary); color: #fff;">Active</span>
+        </div>
+
+        <!-- Card 2: Weekly Bonus -->
+        <div class="offer-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="offer-icon-wrap" style="background: rgba(214,198,26,0.15);">
+                <i class="fas fa-calendar-week" style="color: var(--yellow);"></i>
+            </div>
+            <h4 class="offer-title" style="color: var(--text);">Weekly Bonus</h4>
+            <p class="offer-rate" style="color: var(--yellow);">5% Cashback</p>
+            <p class="offer-desc" style="color: var(--text-muted);">Bigger rewards every week</p>
+            <span class="offer-tag" style="background: var(--yellow); color: #1a1a1a;">Hot</span>
+        </div>
+
+        <!-- Card 3: Monthly Bonus -->
+        <div class="offer-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="offer-icon-wrap" style="background: rgba(239,68,68,0.15);">
+                <i class="fas fa-calendar-alt" style="color: var(--danger);"></i>
+            </div>
+            <h4 class="offer-title" style="color: var(--text);">Monthly Bonus</h4>
+            <p class="offer-rate" style="color: var(--danger);">7% Cashback</p>
+            <p class="offer-desc" style="color: var(--text-muted);">Massive monthly returns</p>
+            <span class="offer-tag" style="background: var(--danger); color: #fff;">Best</span>
+        </div>
+
+        <!-- Card 4: First Deposit -->
+        <div class="offer-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="offer-icon-wrap" style="background: rgba(29,133,72,0.15);">
+                <i class="fas fa-hand-holding-usd" style="color: var(--primary);"></i>
+            </div>
+            <h4 class="offer-title" style="color: var(--text);">First Deposit</h4>
+            <p class="offer-rate" style="color: var(--yellow);">150% Bonus</p>
+            <p class="offer-desc" style="color: var(--text-muted);">Up to ৳ 10,000 on first deposit</p>
+            <span class="offer-tag" style="background: var(--primary); color: #fff;">New</span>
+        </div>
+
+        <!-- Card 5: Cashback -->
+        <div class="offer-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="offer-icon-wrap" style="background: rgba(214,198,26,0.15);">
+                <i class="fas fa-undo-alt" style="color: var(--yellow);"></i>
+            </div>
+            <h4 class="offer-title" style="color: var(--text);">Cashback</h4>
+            <p class="offer-rate" style="color: var(--yellow);">Up to 7%</p>
+            <p class="offer-desc" style="color: var(--text-muted);">Lose less, win more daily</p>
+            <span class="offer-tag" style="background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border);">Auto</span>
+        </div>
+
+        <!-- Card 6: Referral -->
+        <div class="offer-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="offer-icon-wrap" style="background: rgba(41,121,255,0.15);">
+                <i class="fas fa-user-plus" style="color: #448aff;"></i>
+            </div>
+            <h4 class="offer-title" style="color: var(--text);">Referral</h4>
+            <p class="offer-rate" style="color: #448aff;">20% Reward</p>
+            <p class="offer-desc" style="color: var(--text-muted);">Earn from friends deposits</p>
+            <span class="offer-tag" style="background: #448aff; color: #fff;">Earn</span>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== 5. RECENT WINNERS (Sliding Cards) ===== -->
+<section class="winners-section" id="winnersSection">
+    <div class="section-header">
+        <h3 class="section-title" style="color: var(--text);">
+            <i class="fas fa-trophy" style="color: var(--yellow);"></i> Recent Winners
+        </h3>
+        <a href="#" class="view-all" style="color: var(--primary);">View All <i class="fas fa-chevron-right"></i></a>
+    </div>
+    <div class="winners-slider">
+        <div class="winners-track" id="winnersTrack">
+
+            <!-- Winner Card 1 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, var(--primary), var(--primary-hover));">R</div>
+                <span class="winner-name" style="color: var(--text);">Rahim H.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Cricket</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 45,200</span>
+            </div>
+
+            <!-- Winner Card 2 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #ef4444, #ff5252);">K</div>
+                <span class="winner-name" style="color: var(--text);">Karim A.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Football</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 32,500</span>
+            </div>
+
+            <!-- Winner Card 3 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #2979ff, #448aff);">S</div>
+                <span class="winner-name" style="color: var(--text);">Sadia K.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Aviator</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 78,000</span>
+            </div>
+
+            <!-- Winner Card 4 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, var(--yellow), #e8d52a); color: #1a1a1a;">T</div>
+                <span class="winner-name" style="color: var(--text);">Tanvir M.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Slots</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 15,800</span>
+            </div>
+
+            <!-- Winner Card 5 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #9c27b0, #ce93d8);">N</div>
+                <span class="winner-name" style="color: var(--text);">Nusrat J.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Casino</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 52,400</span>
+            </div>
+
+            <!-- Winner Card 6 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, var(--primary), #16a34a);">A</div>
+                <span class="winner-name" style="color: var(--text);">Arif K.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Basketball</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 28,900</span>
+            </div>
+
+            <!-- Winner Card 7 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #ff9100, #ffc400);">M</div>
+                <span class="winner-name" style="color: var(--text);">Mitu R.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Tennis</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 19,600</span>
+            </div>
+
+            <!-- Winner Card 8 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #00bcd4, #4dd0e1);">J</div>
+                <span class="winner-name" style="color: var(--text);">Jubayer S.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Horse Race</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 63,100</span>
+            </div>
+
+            <!-- Winner Card 9 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #e91e63, #f48fb1);">P</div>
+                <span class="winner-name" style="color: var(--text);">Priya D.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Dice</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 11,400</span>
+            </div>
+
+            <!-- Winner Card 10 -->
+            <div class="winner-card" style="background: var(--surface); border: 1px solid var(--border);">
+                <div class="winner-avatar" style="background: linear-gradient(135deg, #795548, #a1887f);">H</div>
+                <span class="winner-name" style="color: var(--text);">Hasan M.</span>
+                <span class="winner-game" style="color: var(--text-muted);">Darts</span>
+                <span class="winner-amount" style="color: var(--yellow);">৳ 37,750</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== 6. WHY CHOOSE US ===== -->
+<section class="why-us-section" id="whyUsSection">
+    <div class="section-header">
+        <h3 class="section-title" style="color: var(--text);">
+            <i class="fas fa-star" style="color: var(--yellow);"></i> Why Choose Us
+        </h3>
+    </div>
+    <div class="why-us-grid">
+
+        <!-- Feature 1 -->
+        <div class="why-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="why-icon" style="background: rgba(29,133,72,0.15); color: var(--primary);">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h4 style="color: var(--text);">Fast Payout</h4>
+            <p style="color: var(--text-muted);">Withdraw your winnings within minutes. No delays, no hassle.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="why-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="why-icon" style="background: rgba(214,198,26,0.15); color: var(--yellow);">
+                <i class="fas fa-headset"></i>
+            </div>
+            <h4 style="color: var(--text);">24/7 Support</h4>
+            <p style="color: var(--text-muted);">Our team is always online to help you anytime, anywhere.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="why-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="why-icon" style="background: rgba(41,121,255,0.15); color: #448aff;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4 style="color: var(--text);">100% Secure</h4>
+            <p style="color: var(--text-muted);">Advanced encryption keeps your data and funds safe.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="why-card" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="why-icon" style="background: rgba(239,68,68,0.15); color: var(--danger);">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <h4 style="color: var(--text);">Best Odds</h4>
+            <p style="color: var(--text-muted);">Competitive odds across all sports and casino games.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== 7. CRYPTO PAYMENT METHODS ===== -->
+<section class="payment-section" id="paymentSection">
+    <div class="section-header">
+        <h3 class="section-title" style="color: var(--text);">
+            <i class="fas fa-coins" style="color: var(--yellow);"></i> We Accept Crypto
+        </h3>
+        <p class="section-sub" style="color: var(--text-muted);">Fast, secure & anonymous transactions</p>
+    </div>
+    <div class="crypto-grid">
+
+        <div class="crypto-item" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="crypto-icon" style="color: #f7931a;">₿</div>
+            <span class="crypto-name" style="color: var(--text);">Bitcoin</span>
+            <span class="crypto-code" style="color: var(--text-muted);">BTC</span>
+        </div>
+
+        <div class="crypto-item" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="crypto-icon" style="color: #627eea;">Ξ</div>
+            <span class="crypto-name" style="color: var(--text);">Ethereum</span>
+            <span class="crypto-code" style="color: var(--text-muted);">ETH</span>
+        </div>
+
+        <div class="crypto-item" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="crypto-icon" style="color: #26a17b;">₮</div>
+            <span class="crypto-name" style="color: var(--text);">Tether</span>
+            <span class="crypto-code" style="color: var(--text-muted);">USDT</span>
+        </div>
+
+        <div class="crypto-item" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="crypto-icon" style="color: #f0b90b;">B</div>
+            <span class="crypto-name" style="color: var(--text);">BNB</span>
+            <span class="crypto-code" style="color: var(--text-muted);">BNB</span>
+        </div>
+
+        <div class="crypto-item" style="background: var(--surface); border: 1px solid var(--border);">
+            <div class="crypto-icon" style="color: #14f195;">S</div>
+            <span class="crypto-name" style="color: var(--text);">Solana</span>
+            <span class="crypto-code" style="color: var(--text-muted);">SOL</span>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="main-footer" id="mainFooter" style="background: var(--surface); border-top: 1px solid var(--border);">
+    <div class="footer-top">
+        <div class="footer-brand">
+            <h4 style="color: var(--text);">SPORTS BET</h4>
+            <p style="color: var(--text-muted);">The most trusted online betting platform</p>
+        </div>
+        <div class="footer-links">
+            <div class="link-col">
+                <h5 style="color: var(--text);">Company</h5>
+                <a href="#" style="color: var(--text-muted);">About Us</a>
+                <a href="#" style="color: var(--text-muted);">Contact</a>
+                <a href="#" style="color: var(--text-muted);">Affiliate</a>
+            </div>
+            <div class="link-col">
+                <h5 style="color: var(--text);">Support</h5>
+                <a href="#" style="color: var(--text-muted);">Help Center</a>
+                <a href="#" style="color: var(--text-muted);">Live Chat</a>
+                <a href="#" style="color: var(--text-muted);">FAQ</a>
+            </div>
+            <div class="link-col">
+                <h5 style="color: var(--text);">Legal</h5>
+                <a href="#" style="color: var(--text-muted);">Terms</a>
+                <a href="#" style="color: var(--text-muted);">Privacy</a>
+                <a href="#" style="color: var(--text-muted);">Responsible Gaming</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom" style="border-top: 1px solid var(--border);">
+        <p style="color: var(--text-muted);">© 2026 Sports Bet. All rights reserved.</p>
+        <div class="footer-social">
+            <a href="#" style="color: var(--text-muted);"><i class="fab fa-telegram"></i></a>
+            <a href="#" style="color: var(--text-muted);"><i class="fab fa-twitter"></i></a>
+            <a href="#" style="color: var(--text-muted);"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== STICKY BOTTOM BAR (Mobile) ===== -->
+<div class="sticky-bottom-bar" id="stickyBottomBar" style="background: var(--surface); border-top: 1px solid var(--border);">
+    <button class="sticky-btn login" style="background: transparent; color: var(--text); border: 1px solid var(--border);">
+        <i class="fas fa-sign-in-alt"></i> Login
+    </button>
+    <button class="sticky-btn register" style="background: var(--primary); color: #fff;">
+        <i class="fas fa-user-plus"></i> Register
+    </button>
+    <button class="sticky-btn deposit" style="background: var(--yellow); color: #1a1a1a;">
+        <i class="fas fa-wallet"></i> Deposit
+    </button>
+</div>
+
+<!-- ==========================================
+   END LANDING PAGE
+========================================== -->
+
 <!-- ======================================================
      🔴 END: HERO SECTION
 ====================================================== -->
@@ -2205,30 +2596,7 @@
 
 <!-- ======================================================
      🟢 START: CATEGORY SECTION
-====================================================== -->
-<!-- ক্যাটাগরি সেকশন স্টার্ট -->
-<section class="category-section">
-    <div class="category-wrapper">
-        <div class="category-item active">
-            <div class="category-icon"><i class="fas fa-th-large"></i></div>
-            <span>All</span>
-        </div>
-        <div class="category-item">
-            <div class="category-icon"><i class="fas fa-dharmachakra"></i></div>
-            <span>Wheel</span>
-        </div>
-        <div class="category-item">
-            <div class="category-icon"><i class="fas fa-dice-d6"></i></div>
-            <span>Dice</span>
-        </div>
-        <div class="category-item">
-            <div class="category-icon"><i class="fas fa-rocket"></i></div>
-            <span>Crash</span>
-        </div>
-        <!-- প্রয়োজনে এখানে আরও ক্যাটাগরি আইটেম যুক্ত করতে পারবেন -->
-    </div>
-</section>
-<!-- ক্যাটাগরি সেকশন ইন্ড -->
+
 <!-- ======================================================
      🔴 END: CATEGORY SECTION
 ====================================================== -->
@@ -2302,33 +2670,6 @@
      🔴 END: POPULAR GAMES
 ====================================================== -->
 <!-- লাইভ উইনার সেকশন স্টার্ট -->
-<section class="live-winners-section">
-    <div class="section-header">
-        <h2>
-            <i class="fas fa-trophy" style="color: #ffd700;"></i> Live Winners
-            <span class="live-indicator"></span> <!-- শিরোনামের ডান পাশে ডট -->
-        </h2>
-    </div>
-    
-    <div class="winners-list-container">
-        <div class="winners-list">
-            <!-- ৮-১০ জন উইনারের লিস্ট -->
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player1</span><span class="win-amount">$120.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player2</span><span class="win-amount">$550.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player3</span><span class="win-amount">$90.50</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player4</span><span class="win-amount">$2,100.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player5</span><span class="win-amount">$340.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player6</span><span class="win-amount">$75.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player7</span><span class="win-amount">$890.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player8</span><span class="win-amount">$1,500.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player9</span><span class="win-amount">$420.00</span></div>
-            <div class="winner-item"><span><i class="fas fa-user"></i> Player10</span><span class="win-amount">$2,800.00</span></div>
-        </div>
-    </div>
-</section>
-<!-- লাইভ উইনার সেকশন ইন্ড -->
- </div>
-
 
 
 
