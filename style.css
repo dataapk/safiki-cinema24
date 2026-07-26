@@ -257,12 +257,19 @@ linear-gradient(
 /* ================= CONTROL BOX ================= */
 
 .main-control-box {
-    display: flex;
-    align-items: center;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border-green);
+
+    border-radius:12px;
+
+    overflow:hidden;
+
 }
 
 #member-controls,
@@ -271,7 +278,7 @@ linear-gradient(
 }
 .form-input {
 
-    background: var(--input-bg);
+    background:var(--input-bg);
 
     border:1px solid var(--input-border);
 
@@ -292,11 +299,16 @@ linear-gradient(
 
 .form-input:focus {
 
-    border-color:var(--gold);
+    border-color:var(--yellow);
 
-    box-shadow:0 0 12px rgba(232,197,71,.18);
+    outline:none;
+
+    box-shadow:none;
 
 }
+
+
+
 
 #guest-actions-area {
     display: flex;
@@ -306,11 +318,19 @@ linear-gradient(
 }
 
 .currency-trigger {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    cursor: pointer;
-    gap: 8px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:10px 15px;
+
+    cursor:pointer;
+
+    gap:8px;
+
+    color:var(--text);
+
 }
 
 /* Wallet Button */
@@ -450,47 +470,76 @@ linear-gradient(
 /* ================= Back Button ================= */
 
 .back-box {
-    display: flex;
-    align-items: center;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: .3s;
-    gap: 8px;
-    width: fit-content;
+
+    display:flex;
+
+    align-items:center;
+
+    background:var(--yellow);
+
+    border:1px solid var(--yellow);
+
+    padding:8px 15px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    gap:8px;
+
+    width:fit-content;
+
+    color:#111;
+
 }
+
 
 .back-box:hover {
-    border-color: var(--primary);
+
+    background:var(--yellow-hover);
+
+    border-color:var(--yellow-hover);
+
 }
+
 
 .back-box:active {
-    background: var(--gold);
-    border-color: var(--gold);
+
+    transform:scale(.97);
+
+    background:var(--yellow-hover);
+
 }
 
-.back-box:active button,
-.back-box:active span {
-    color: #111;
-}
 
 .back-box button {
-    background: none;
-    border: none;
-    color: var(--text);
-    font-size: 18px;
-    padding: 0;
-    cursor: pointer;
+
+    background:none;
+
+    border:none;
+
+    color:#111;
+
+    font-size:18px;
+
+    padding:0;
+
+    cursor:pointer;
+
 }
+
 
 .back-box span {
-    color: var(--text);
-    font-size: 14px;
-    font-weight: 500;
-}
 
+    color:#111;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
 
 /* ===========================
    PROFILE USER ACTION SECTION START
