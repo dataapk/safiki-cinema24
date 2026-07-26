@@ -376,6 +376,7 @@
     StickyBar.init();
     SmoothScroll.init();
     ScrollAnimations.init();
+     updateHomeView();
     
     console.log('Landing Page JS initialized');
   });
