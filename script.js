@@ -2508,6 +2508,10 @@ if (user) {
     }
 
 }
+ }  // updateHeaderAuth function close
+
+    // Make globally available
+window.updateHeaderAuth = updateHeaderAuth;
 
 // =========================
 // Logout Popup
