@@ -6,6 +6,42 @@
 
 (function() {
   'use strict';
+   (function() {
+  'use strict';
+
+
+  /* ==========================================
+     HOME VIEW SWITCH
+     Guest / Member Section
+  ========================================== */
+
+  function updateHomeView(){
+
+      const guestSection = document.getElementById("guest-section");
+      const memberSection = document.getElementById("member-section");
+
+
+      if(!guestSection || !memberSection) return;
+
+
+      if(currentUser){
+
+          guestSection.style.display = "none";
+          memberSection.style.display = "block";
+
+      }else{
+
+          guestSection.style.display = "block";
+          memberSection.style.display = "none";
+
+      }
+
+  }
+
+
+  /* ==========================================
+     2. HERO BANNER SLIDER
+  ========================================== */
 
   /* ==========================================
      2. HERO BANNER SLIDER
