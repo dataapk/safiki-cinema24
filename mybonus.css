@@ -166,7 +166,6 @@
 /* ==========================================
    BONUS TABS
 ========================================== */
-
 .bonus-tabs{
 
     display:flex;
@@ -175,10 +174,13 @@
 
     padding:14px;
 
-    background:#071417;
+    background:#252525;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:12px;
 
 }
-
 
 
 .bonus-menu-btn{
