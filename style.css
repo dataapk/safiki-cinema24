@@ -133,31 +133,31 @@ svg {
     justify-content:space-between;
     align-items:center;
 
-    padding:10px 20px;
     height:70px;
+    padding:10px 20px;
 
-    color:var(--text);
+    color:#fff;
 
-    /* Premium 365 style header */
     background:
     linear-gradient(
-        90deg,
-        #072e16 0%,
-        #151a1e 55%,
-        #301934 100%
+        120deg,
+        #09251b 0%,
+        #111b1d 45%,
+        #171923 70%,
+        #24162a 100%
     );
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,0.45);
 
     position:sticky;
     top:0;
-
     z-index:9999;
-
-    box-sizing:border-box;
-
-    border-bottom:1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-    0 5px 25px rgba(0,0,0,0.45);
 
 }
 
