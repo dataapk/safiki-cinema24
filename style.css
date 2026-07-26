@@ -266,6 +266,8 @@ linear-gradient(
     transition:.3s ease;
 
     box-shadow:none;
+     /* শুধু ডান পাশের corner rounded */
+    border-radius:0 10px 10px 0;
 }
 
 
