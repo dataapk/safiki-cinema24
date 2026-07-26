@@ -3,14 +3,19 @@
 :root {
 
     /* ===============================
-       PREMIUM DARK THEME
+       PREMIUM SOFT DARK THEME
     =============================== */
 
+
+    /* Main Background */
     --bg:#061513;
 
+
+    /* Cards / Sections */
     --surface:#0A211B;
 
     --surface-2:#10352B;
+
 
 
     /* Primary Green */
@@ -19,24 +24,21 @@
     --primary-hover:#00E676;
 
 
+
     /* Gold Accent */
     --gold:#FFC107;
 
     --gold-hover:#FFD54F;
 
 
-    /* Purple Premium Accent */
-    --purple:#6A1B9A;
 
-    --purple-light:#9C27B0;
-
-
-    /* Header Gradient */
+    /* Soft Header Colors */
     --header-green:#072E16;
 
-    --header-dark:#151A1E;
+    --header-mid:#0D211B;
 
-    --header-purple:#301934;
+    --header-dark:#101C1A;
+
 
 
     /* Text */
@@ -45,35 +47,41 @@
     --text-muted:#AFC2BC;
 
 
-    /* Border */
+
+    /* Borders */
     --border:#1B4D3E;
 
-    --border-soft:rgba(255,255,255,0.08);
+    --border-soft:rgba(255,255,255,0.06);
+
 
 
     /* Shadow */
-    --shadow:rgba(0,0,0,.55);
+    --shadow:rgba(0,0,0,.45);
 
 
-    /* Input */
+
+    /* Input Fields */
     --input-bg:#04110F;
 
     --input-border:#164438;
 
 
-    /* Bonus / Premium Cards */
+
+    /* Bonus Cards */
     --bonus-green:#00C853;
 
     --bonus-green-dark:#007B3E;
 
 
-    /* Glass Effect */
-    --glass-bg:rgba(255,255,255,0.05);
 
-    --glass-border:rgba(255,255,255,0.08);
+    /* Status Colors */
+    --success:#00C853;
+
+    --danger:#FF5252;
+
+    --warning:#FFC107;
 
 }
-
 html,
 body {
     width: 100%;
