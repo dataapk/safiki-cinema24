@@ -8,28 +8,27 @@
 
 
     /* Main Background */
-    --bg:#061513;
+    --bg:#21180b;
 
 
     /* Cards / Sections */
-    --surface:#0A211B;
+   
+    --surface:#1A1209;
 
-    --surface-2:#10352B;
+    --surface-2:#21170C;
 
 
 
     /* Primary Green */
-    --primary:#00C853;
+    --primary:#1d8548;
 
-    --primary-hover:#00E676;
+    --primary-hover:#069c53;
 
 
 
-    /* Gold Accent */
-    --gold:#FFC107;
-
-    --gold-hover:#FFD54F;
-
+    /* Yellow Accent */
+   --yellow:#d6c61a;
+--yellow-hover:#e8d52a;
 
 
     /* Soft Header Colors */
