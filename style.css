@@ -145,14 +145,13 @@ svg {
 
     color:#fff;
 
-    background:
-    linear-gradient(
-        135deg,
-        #281c0e 0%,
-        #1d2515 45%,
-        #0b3b2d 100%
-    );
-
+   background:
+linear-gradient(
+    135deg,
+    #0b3b2d 0%,
+    #1d2515 45%,
+    #281c0e 100%
+);
     position:sticky;
     top:0;
     z-index:9999;
