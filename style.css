@@ -148,9 +148,9 @@ svg {
     background:
 linear-gradient(
 135deg,
-#061513 0%,
-#0B241D 50%,
-#281C0E 100%
+#13690d 30%,
+#bdbd04 30%,
+#281C0E 50%
 );
 
     backdrop-filter:blur(18px);
