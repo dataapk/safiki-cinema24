@@ -94,7 +94,7 @@
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 
-    filter:drop-shadow(0 0 8px rgba(2,123,91,.75));
+    filter:none;
 
 }
 
@@ -103,10 +103,9 @@
 
     color:#22c55e;
 
-    filter:drop-shadow(0 0 8px rgba(34,197,94,.75));
+    filter:none;
 
 }
-
 /* ================= USER CARD ================= */
 
 .footer-user-card{
