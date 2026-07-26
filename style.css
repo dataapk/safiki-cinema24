@@ -2,37 +2,76 @@
 
 :root {
 
+    /* ===============================
+       PREMIUM DARK THEME
+    =============================== */
+
     --bg:#061513;
 
     --surface:#0A211B;
 
     --surface-2:#10352B;
 
+
+    /* Primary Green */
     --primary:#00C853;
 
     --primary-hover:#00E676;
 
+
+    /* Gold Accent */
     --gold:#FFC107;
 
     --gold-hover:#FFD54F;
 
+
+    /* Purple Premium Accent */
+    --purple:#6A1B9A;
+
+    --purple-light:#9C27B0;
+
+
+    /* Header Gradient */
+    --header-green:#072E16;
+
+    --header-dark:#151A1E;
+
+    --header-purple:#301934;
+
+
+    /* Text */
     --text:#FFFFFF;
 
     --text-muted:#AFC2BC;
 
+
+    /* Border */
     --border:#1B4D3E;
 
+    --border-soft:rgba(255,255,255,0.08);
+
+
+    /* Shadow */
     --shadow:rgba(0,0,0,.55);
-     --input-bg: #04110F;
-    --input-border: #164438;
 
-}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+    /* Input */
+    --input-bg:#04110F;
+
+    --input-border:#164438;
+
+
+    /* Bonus / Premium Cards */
+    --bonus-green:#00C853;
+
+    --bonus-green-dark:#007B3E;
+
+
+    /* Glass Effect */
+    --glass-bg:rgba(255,255,255,0.05);
+
+    --glass-border:rgba(255,255,255,0.08);
+
 }
 
 html,
