@@ -3300,7 +3300,9 @@ svg {
 /* ===============================
             SIGNUP BUTTON
 ================================= */
-
+/* ===============================
+            SIGNUP BUTTON
+================================= */
 
 .signup-btn{
 
@@ -3314,50 +3316,36 @@ svg {
 
     border:1px solid #22c55e;
 
+    position:relative;
 
-    /* নিচের Gold Base */
+    transform:translateY(-3px);
 
-    box-shadow:
-
-    0 7px 0 #d4af37,
-
-    0 14px 25px rgba(212,175,55,.35);
-
+    box-shadow:none;
 
     animation:signupBounce 1.8s ease-in-out infinite;
+
+    transition:.3s ease;
 
 }
 
 
 
-/* Green Button Press Animation */
-
+/* ===============================
+        SOFT UP DOWN ANIMATION
+================================= */
 
 @keyframes signupBounce{
 
-
     0%,100%{
 
-        transform:translateY(0);
-
-        box-shadow:
-
-        0 7px 0 #d4af37,
-
-        0 14px 25px rgba(212,175,55,.35);
+        transform:translateY(-3px);
 
     }
 
 
     50%{
 
-        transform:translateY(5px);
-
-        box-shadow:
-
-        0 2px 0 #d4af37,
-
-        0 8px 18px rgba(212,175,55,.25);
+        transform:translateY(2px);
 
     }
 
@@ -3366,147 +3354,33 @@ svg {
 
 
 /* ===============================
-        MOUSE CLICK EFFECT
+        REMOVE CLICK EFFECT
 ================================= */
 
-
-.signup-btn::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:-18px;
-
-    left:50%;
-
-    width:14px;
-
-    height:20px;
-
-    transform:translateX(-50%);
-
-    border:2px solid #fff;
-
-    border-radius:8px;
-
-
-    opacity:.9;
-
-
-    animation:mouseClick 1.8s infinite;
-
-}
-
-
-/* Mouse Down Line */
-
-
+.signup-btn::before,
 .signup-btn::after{
 
-    content:"";
-
-    position:absolute;
-
-    top:4px;
-
-    left:50%;
-
-    width:3px;
-
-    height:7px;
-
-    background:#fff;
-
-    border-radius:5px;
-
-    transform:translateX(-50%);
-
-    animation:mousePress 1.8s infinite;
+    display:none;
 
 }
 
 
 
-@keyframes mouseClick{
-
-
-    0%{
-
-        transform:translate(-50%,0);
-
-        opacity:0;
-
-    }
-
-
-    25%{
-
-        opacity:1;
-
-    }
-
-
-    55%{
-
-        transform:translate(-50%,20px);
-
-        opacity:1;
-
-    }
-
-
-    75%,100%{
-
-        transform:translate(-50%,0);
-
-        opacity:0;
-
-    }
-
-}
-
-
-
-@keyframes mousePress{
-
-
-    0%,35%{
-
-        height:7px;
-
-    }
-
-
-    55%{
-
-        height:3px;
-
-    }
-
-
-    75%,100%{
-
-        height:7px;
-
-    }
-
-}
-
-
-/* Hover */
+/* ===============================
+            HOVER
+================================= */
 
 .signup-btn:hover{
 
-    transform:translateY(-2px);
+    transform:translateY(-5px);
 
-    box-shadow:
-
-    0 9px 0 #d4af37,
-
-    0 18px 35px rgba(212,175,55,.55);
+    box-shadow:none;
 
 }
+
+
+
+   
 
 /* Click */
 
@@ -3516,6 +3390,9 @@ svg {
     transform:scale(.96);
 
 }
+/* ===============================
+      END   SIGNUP BUTTON
+================================= */
 
 .auth-modal{
     position:fixed;
