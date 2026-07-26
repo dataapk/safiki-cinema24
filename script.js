@@ -2476,16 +2476,24 @@ if (user) {
     if (memberControls) memberControls.style.display = "flex";
     if (userArea) userArea.style.display = "flex";
     if (guestArea) guestArea.style.display = "none";
+
+
+    // Update Home Member View
+    if(window.updateHomeView){
+        updateHomeView(true);
+    }
+
+
     // Footer Menu Update
-if(window.footerUpdateUserUI){
+    if(window.footerUpdateUserUI){
 
-    footerUpdateUserUI({
-        name: user.user_metadata?.name || "Player",
-        vip: user.user_metadata?.vip || "VIP 0",
-        avatar: user.user_metadata?.avatar || "images/default-avatar.png"
-    });
+        footerUpdateUserUI({
+            name: user.user_metadata?.name || "Player",
+            vip: user.user_metadata?.vip || "VIP 0",
+            avatar: user.user_metadata?.avatar || "images/default-avatar.png"
+        });
 
-}
+    }
 
 } else {
 
@@ -2493,7 +2501,12 @@ if(window.footerUpdateUserUI){
     if (userArea) userArea.style.display = "none";
     if (guestArea) guestArea.style.display = "flex";
 
-   }
+
+    // Update Home Guest View
+    if(window.updateHomeView){
+        updateHomeView(false);
+    }
+
 }
 
 // =========================
