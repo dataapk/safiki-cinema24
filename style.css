@@ -147,10 +147,10 @@ svg {
 
     background:
 linear-gradient(
-135deg,
-#13690d 30%,
-#bdbd04 30%,
-#281C0E 50%
+  135deg,
+  #003b2f 0%,   /* Deep Green base */
+  #124e42 70%,  /* Transitions into lighter ribbon green */
+  #ffdf00 100%  /* Ends with a vibrant yellow accent flare */
 );
 
     backdrop-filter:blur(18px);
