@@ -139,13 +139,12 @@ svg {
     color:#fff;
 
     background:
-    linear-gradient(
-        120deg,
-        #09251b 0%,
-        #111b1d 45%,
-        #171923 70%,
-        #24162a 100%
-    );
+linear-gradient(
+135deg,
+#061513 0%,
+#0B241D 50%,
+#281C0E 100%
+);
 
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
