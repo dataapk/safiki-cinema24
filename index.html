@@ -2226,6 +2226,10 @@
 </section>
 
 <!-- ===== 3. GAMES MARQUEE (20+ Emojis) ===== -->
+<!-- ===== GUEST CONTENT START ===== -->
+
+<div id="guest-section">
+    
 <section class="games-marquee-section" id="gamesMarquee">
     <div class="section-header">
         <h3 class="section-title" style="color: var(--text);">
@@ -2348,8 +2352,115 @@
 
     </div>
 </section>
+    <!-- ===== GUEST CONTENT END ===== -->
 
-<!-- ===== 5. RECENT WINNERS (Sliding Cards) ===== -->
+</div>
+
+<!-- ===== MEMBER CONTENT START ===== -->
+
+<div id="member-section" style="display:none;">
+
+    <!-- ======================================================
+     DASHBOARD — AFTER LOGIN BODY SECTION
+     2 Cards (Casino + Sports) | Search Bar | Games Grid
+====================================================== -->
+
+<!-- ===== 2 BIG CARDS: CASINO & SPORTS ===== -->
+<section class="dash-category-section" id="dashCategorySection">
+    <div class="dash-category-grid">
+
+        <!-- Casino Card -->
+        <div class="dash-cat-card casino-card" id="casinoMainCard" onclick="selectMainCategory('casino')">
+            <div class="dash-cat-icon-wrap" style="background: linear-gradient(135deg, #9c27b0, #ce93d8);">
+                <i class="fas fa-dice"></i>
+            </div>
+            <div class="dash-cat-info">
+                <h3 class="dash-cat-title">Casino</h3>
+                <p class="dash-cat-desc">Slots, Aviator, Live Games & more</p>
+                <span class="dash-cat-count">50+ Games</span>
+            </div>
+            <div class="dash-cat-arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <!-- Sports Card -->
+        <div class="dash-cat-card sports-card" id="sportsMainCard" onclick="selectMainCategory('sports')">
+            <div class="dash-cat-icon-wrap" style="background: linear-gradient(135deg, #1d8548, #16a34a);">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <div class="dash-cat-info">
+                <h3 class="dash-cat-title">Sports</h3>
+                <p class="dash-cat-desc">Cricket, Football, Tennis & more</p>
+                <span class="dash-cat-count">30+ Events</span>
+            </div>
+            <div class="dash-cat-arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== SEARCH BAR ===== -->
+<section class="dash-searchbar-section" id="dashSearchbarSection">
+    <div class="dash-searchbar-box">
+        
+        <!-- Category Dropdown -->
+        <div class="dash-sb-category-wrap">
+            <select class="dash-sb-category-select" id="dashSbCategorySelect" onchange="filterDashboardGames()">
+                <option value="all">All Games</option>
+                <option value="casino">Casino</option>
+                <option value="sports">Sports</option>
+            </select>
+            <i class="fas fa-chevron-down dash-sb-cat-arrow"></i>
+        </div>
+
+        <!-- Search Input -->
+        <div class="dash-sb-input-wrap">
+            <i class="fas fa-search dash-sb-search-icon"></i>
+            <input 
+                type="text" 
+                class="dash-sb-input" 
+                id="dashSbInput" 
+                placeholder="Search games..." 
+                oninput="filterDashboardGames()"
+            >
+        </div>
+
+        <!-- Search Button -->
+        <button class="dash-sb-btn" onclick="filterDashboardGames()">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </button>
+
+    </div>
+</section>
+
+<!-- ===== SUB-CATEGORY CARDS (Hidden by default) ===== -->
+<section class="dash-subcat-section" id="dashSubcatSection" style="display: none;">
+    <div class="dash-subcat-header">
+        <button class="dash-back-btn" onclick="backToMainDashboard()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h3 class="dash-subcat-title" id="dashSubcatTitle">Casino Games</h3>
+    </div>
+    <div class="dash-subcat-grid" id="dashSubcatGrid">
+        <!-- Sub-cards injected by JS -->
+    </div>
+</section>
+
+<!-- ===== GAMES GRID ===== -->
+<section class="dash-gamesgrid-section" id="dashGamesgridSection">
+    <div class="dash-gamesgrid-wrap" id="dashGamesgridWrap">
+        <!-- Games injected by JS -->
+    </div>
+</section>
+    <!-- ===== MEMBER CONTENT END ===== -->
+</div>
+
+    
+  <!-- ===== 5. RECENT WINNERS (Sliding Cards) ===== -->
 <section class="winners-section" id="winnersSection">
     <div class="section-header">
         <h3 class="section-title" style="color: var(--text);">
