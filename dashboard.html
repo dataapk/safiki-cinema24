@@ -1,1 +1,854 @@
 
+
+<!-- ======================================================
+     DASHBOARD — AFTER LOGIN BODY SECTION
+     2 Cards (Casino + Sports) | Search Bar | Games Grid
+====================================================== -->
+
+<!-- ===== 2 BIG CARDS: CASINO & SPORTS ===== -->
+<section class="dash-category-section" id="dashCategorySection">
+    <div class="dash-category-grid">
+
+        <!-- Casino Card -->
+        <div class="dash-cat-card casino-card" id="casinoMainCard" onclick="selectMainCategory('casino')">
+            <div class="dash-cat-icon-wrap" style="background: linear-gradient(135deg, #9c27b0, #ce93d8);">
+                <i class="fas fa-dice"></i>
+            </div>
+            <div class="dash-cat-info">
+                <h3 class="dash-cat-title">Casino</h3>
+                <p class="dash-cat-desc">Slots, Aviator, Live Games & more</p>
+                <span class="dash-cat-count">50+ Games</span>
+            </div>
+            <div class="dash-cat-arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <!-- Sports Card -->
+        <div class="dash-cat-card sports-card" id="sportsMainCard" onclick="selectMainCategory('sports')">
+            <div class="dash-cat-icon-wrap" style="background: linear-gradient(135deg, #1d8548, #16a34a);">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <div class="dash-cat-info">
+                <h3 class="dash-cat-title">Sports</h3>
+                <p class="dash-cat-desc">Cricket, Football, Tennis & more</p>
+                <span class="dash-cat-count">30+ Events</span>
+            </div>
+            <div class="dash-cat-arrow-icon">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== SEARCH BAR ===== -->
+<section class="dash-searchbar-section" id="dashSearchbarSection">
+    <div class="dash-searchbar-box">
+        
+        <!-- Category Dropdown -->
+        <div class="dash-sb-category-wrap">
+            <select class="dash-sb-category-select" id="dashSbCategorySelect" onchange="filterDashboardGames()">
+                <option value="all">All Games</option>
+                <option value="casino">Casino</option>
+                <option value="sports">Sports</option>
+            </select>
+            <i class="fas fa-chevron-down dash-sb-cat-arrow"></i>
+        </div>
+
+        <!-- Search Input -->
+        <div class="dash-sb-input-wrap">
+            <i class="fas fa-search dash-sb-search-icon"></i>
+            <input 
+                type="text" 
+                class="dash-sb-input" 
+                id="dashSbInput" 
+                placeholder="Search games..." 
+                oninput="filterDashboardGames()"
+            >
+        </div>
+
+        <!-- Search Button -->
+        <button class="dash-sb-btn" onclick="filterDashboardGames()">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </button>
+
+    </div>
+</section>
+
+<!-- ===== SUB-CATEGORY CARDS (Hidden by default) ===== -->
+<section class="dash-subcat-section" id="dashSubcatSection" style="display: none;">
+    <div class="dash-subcat-header">
+        <button class="dash-back-btn" onclick="backToMainDashboard()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h3 class="dash-subcat-title" id="dashSubcatTitle">Casino Games</h3>
+    </div>
+    <div class="dash-subcat-grid" id="dashSubcatGrid">
+        <!-- Sub-cards injected by JS -->
+    </div>
+</section>
+
+<!-- ===== GAMES GRID ===== -->
+<section class="dash-gamesgrid-section" id="dashGamesgridSection">
+    <div class="dash-gamesgrid-wrap" id="dashGamesgridWrap">
+        <!-- Games injected by JS -->
+    </div>
+</section>
+
+<!-- ===== BIG WINNERS (Same as before) ===== -->
+<section class="big-winners-section" id="bigWinnersSection">
+    <div class="section-header">
+        <h3 class="section-title">
+            <i class="fas fa-trophy"></i> Big Winners
+        </h3>
+        <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+    </div>
+    <div class="big-winners-slider">
+        <div class="big-winners-track" id="bigWinnersTrack">
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #1d8548, #16a34a);">R</div>
+                <span class="big-winner-name">Rahim H.</span>
+                <span class="big-winner-game">Cricket</span>
+                <span class="big-winner-amount">৳ 1,25,000</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #ef4444, #ff5252);">K</div>
+                <span class="big-winner-name">Karim A.</span>
+                <span class="big-winner-game">Aviator</span>
+                <span class="big-winner-amount">৳ 78,500</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #d6c61a, #e8d52a); color: #1a1a1a;">S</div>
+                <span class="big-winner-name">Sadia K.</span>
+                <span class="big-winner-game">Slots</span>
+                <span class="big-winner-amount">৳ 2,45,000</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #2979ff, #448aff);">T</div>
+                <span class="big-winner-name">Tanvir M.</span>
+                <span class="big-winner-game">Football</span>
+                <span class="big-winner-amount">৳ 95,200</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #9c27b0, #ce93d8);">N</div>
+                <span class="big-winner-name">Nusrat J.</span>
+                <span class="big-winner-game">Aviator</span>
+                <span class="big-winner-amount">৳ 3,10,000</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #ff9100, #ffc400);">A</div>
+                <span class="big-winner-name">Arif K.</span>
+                <span class="big-winner-game">Cricket</span>
+                <span class="big-winner-amount">৳ 1,85,000</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #00bcd4, #4dd0e1);">M</div>
+                <span class="big-winner-name">Mitu R.</span>
+                <span class="big-winner-game">Slots</span>
+                <span class="big-winner-amount">৳ 67,800</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #e91e63, #f48fb1);">J</div>
+                <span class="big-winner-name">Jubayer S.</span>
+                <span class="big-winner-game">Football</span>
+                <span class="big-winner-amount">৳ 1,42,000</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #795548, #a1887f);">P</div>
+                <span class="big-winner-name">Priya D.</span>
+                <span class="big-winner-game">Aviator</span>
+                <span class="big-winner-amount">৳ 5,50,000</span>
+            </div>
+
+            <div class="big-winner-card">
+                <div class="big-winner-avatar" style="background: linear-gradient(135deg, #1d8548, #16a34a);">H</div>
+                <span class="big-winner-name">Hasan M.</span>
+                <span class="big-winner-game">Cricket</span>
+                <span class="big-winner-amount">৳ 98,000</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ===== END DASHBOARD BODY ===== -->
+
+css_content = """/* ======================================================
+   DASHBOARD STYLES — Casino | Sports | Search | Games | Winners
+   ====================================================== */
+
+/* ---------- Base Variables ---------- */
+:root {
+  --bg-dark: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #252540;
+  --bg-input: #16162a;
+  --border-color: #2a2a45;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6b6b8a;
+  --accent-green: #16a34a;
+  --accent-purple: #9c27b0;
+  --accent-gold: #ffc400;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Reset & Base ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* ======================================================
+   1. CATEGORY SECTION — 2 Big Cards
+   ====================================================== */
+
+.dash-category-section {
+  padding: 24px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dash-category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.dash-cat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dash-cat-card:hover::before {
+  opacity: 1;
+}
+
+.dash-cat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.dash-cat-card:active {
+  transform: translateY(-2px);
+}
+
+/* Icon Wrap */
+.dash-cat-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Info */
+.dash-cat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-cat-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.dash-cat-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-cat-count {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+/* Arrow */
+.dash-cat-arrow-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.dash-cat-card:hover .dash-cat-arrow-icon {
+  background: rgba(255,255,255,0.12);
+  color: var(--text-primary);
+  transform: translateX(3px);
+}
+
+/* ======================================================
+   2. SEARCH BAR SECTION
+   ====================================================== */
+
+.dash-searchbar-section {
+  padding: 0 16px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dash-searchbar-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.dash-searchbar-box:focus-within {
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: var(--shadow-md);
+}
+
+/* Category Dropdown */
+.dash-sb-category-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dash-sb-category-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 32px 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+  min-width: 120px;
+}
+
+.dash-sb-category-select:hover,
+.dash-sb-category-select:focus {
+  border-color: rgba(255,255,255,0.2);
+  background: var(--bg-card-hover);
+}
+
+.dash-sb-cat-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* Search Input */
+.dash-sb-input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dash-sb-search-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.dash-sb-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 14px 10px 38px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition);
+}
+
+.dash-sb-input::placeholder {
+  color: var(--text-muted);
+}
+
+.dash-sb-input:hover,
+.dash-sb-input:focus {
+  border-color: rgba(255,255,255,0.2);
+  background: var(--bg-card-hover);
+}
+
+/* Search Button */
+.dash-sb-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--accent-green), #22c55e);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: var(--transition);
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.dash-sb-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+  filter: brightness(1.1);
+}
+
+.dash-sb-btn:active {
+  transform: translateY(0);
+}
+
+.dash-sb-btn i {
+  font-size: 13px;
+}
+
+/* ======================================================
+   3. SUB-CATEGORY SECTION
+   ====================================================== */
+
+.dash-subcat-section {
+  padding: 0 16px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dash-subcat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dash-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.dash-back-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.dash-subcat-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.dash-subcat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+/* Sub-category cards (injected by JS) */
+.dash-subcat-grid .subcat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.dash-subcat-grid .subcat-card:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.dash-subcat-grid .subcat-card i {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.dash-subcat-grid .subcat-card span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ======================================================
+   4. GAMES GRID SECTION
+   ====================================================== */
+
+.dash-gamesgrid-section {
+  padding: 0 16px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dash-gamesgrid-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+/* Individual game cards (injected by JS) */
+.dash-gamesgrid-wrap .game-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.dash-gamesgrid-wrap .game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.dash-gamesgrid-wrap .game-card img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+.dash-gamesgrid-wrap .game-card .game-info {
+  padding: 12px;
+}
+
+.dash-gamesgrid-wrap .game-card .game-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-gamesgrid-wrap .game-card .game-category {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ======================================================
+   5. BIG WINNERS SECTION
+   ====================================================== */
+
+.big-winners-section {
+  padding: 0 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  color: var(--accent-gold);
+}
+
+.view-all {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-green);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+
+.view-all:hover {
+  color: #4ade80;
+  gap: 6px;
+}
+
+/* Slider / Track */
+.big-winners-slider {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  padding-bottom: 8px;
+}
+
+.big-winners-slider::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.big-winners-track {
+  display: flex;
+  gap: 12px;
+  padding: 4px;
+}
+
+/* Winner Card */
+.big-winner-card {
+  flex: 0 0 auto;
+  width: 140px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px 12px;
+  text-align: center;
+  transition: var(--transition);
+  cursor: default;
+}
+
+.big-winner-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.big-winner-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 auto 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.big-winner-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.big-winner-game {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.big-winner-amount {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-shadow: 0 2px 4px rgba(255, 196, 0, 0.15);
+}
+
+/* ======================================================
+   RESPONSIVE DESIGN
+   ====================================================== */
+
+@media (max-width: 640px) {
+  .dash-category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-searchbar-box {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .dash-sb-category-wrap {
+    width: 100%;
+  }
+
+  .dash-sb-category-select {
+    width: 100%;
+  }
+
+  .dash-sb-input-wrap {
+    width: calc(100% - 60px);
+  }
+
+  .dash-sb-btn {
+    width: 52px;
+    padding: 10px;
+    justify-content: center;
+  }
+
+  .dash-sb-btn span {
+    display: none;
+  }
+
+  .dash-subcat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dash-gamesgrid-wrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .big-winner-card {
+    width: 130px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .dash-gamesgrid-wrap {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dash-subcat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .dash-gamesgrid-wrap {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ======================================================
+   UTILITY / ACCESSIBILITY
+   ====================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+.dash-cat-card:focus-visible,
+.dash-sb-btn:focus-visible,
+.dash-back-btn:focus-visible,
+.subcat-card:focus-visible,
+.game-card:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+"""
+
+with open('/mnt/agents/output/dashboard_styles.css', 'w', encoding='utf-8') as f:
+    f.write(css_content)
+
+print("CSS file saved successfully!")
+print(f"Total lines: {len(css_content.splitlines())}")
+
+
