@@ -13,32 +13,29 @@
      HOME VIEW SWITCH
      Guest / Member Section
   ========================================== */
+function updateHomeView(isLoggedIn){
 
-  function updateHomeView(){
+    const guestSection = document.getElementById("guest-section");
+    const memberSection = document.getElementById("member-section");
 
-      const guestSection = document.getElementById("guest-section");
-      const memberSection = document.getElementById("member-section");
-
-
-      if(!guestSection || !memberSection) return;
+    if(!guestSection || !memberSection) return;
 
 
-      if(currentUser){
+    if(isLoggedIn){
 
-          guestSection.style.display = "none";
-          memberSection.style.display = "block";
+        guestSection.style.display = "none";
+        memberSection.style.display = "block";
 
-      }else{
+    }else{
 
-          guestSection.style.display = "block";
-          memberSection.style.display = "none";
+        guestSection.style.display = "block";
+        memberSection.style.display = "none";
 
-      }
+    }
 
-  }
-   window.updateHomeView = updateHomeView;
+}
 
-
+window.updateHomeView = updateHomeView;
   /* ==========================================
      2. HERO BANNER SLIDER
   ========================================== */
