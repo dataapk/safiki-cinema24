@@ -3306,7 +3306,7 @@ svg {
 
 .signup-btn{
 
-    color:#fff;
+    color:#ffffff;
 
     background:linear-gradient(
         135deg,
@@ -3318,27 +3318,30 @@ svg {
 
     position:relative;
 
-    transform:translateY(-3px);
+    transform:translateY(-2px);
 
-    box-shadow:none;
+    box-shadow:
+    0 3px 0 #d6c61a;
 
     animation:signupBounce 1.8s ease-in-out infinite;
 
     transition:.3s ease;
-
 }
 
 
 
 /* ===============================
-        SOFT UP DOWN ANIMATION
+        SOFT BOUNCE EFFECT
 ================================= */
 
 @keyframes signupBounce{
 
     0%,100%{
 
-        transform:translateY(-3px);
+        transform:translateY(-2px);
+
+        box-shadow:
+        0 3px 0 #d6c61a;
 
     }
 
@@ -3347,15 +3350,16 @@ svg {
 
         transform:translateY(2px);
 
+        box-shadow:
+        0 1px 0 #d6c61a;
+
     }
 
 }
 
 
 
-/* ===============================
-        REMOVE CLICK EFFECT
-================================= */
+/* Remove Bubble Effect */
 
 .signup-btn::before,
 .signup-btn::after{
@@ -3366,28 +3370,14 @@ svg {
 
 
 
-/* ===============================
-            HOVER
-================================= */
+/* Hover */
 
 .signup-btn:hover{
 
-    transform:translateY(-5px);
+    transform:translateY(-3px);
 
-    box-shadow:none;
-
-}
-
-
-
-   
-
-/* Click */
-
-.login-btn:active,
-.signup-btn:active{
-
-    transform:scale(.96);
+    box-shadow:
+    0 3px 0 #d6c61a;
 
 }
 /* ===============================
