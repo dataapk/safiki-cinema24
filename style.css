@@ -626,13 +626,19 @@ linear-gradient(
 @media (max-width:480px){
 
     #profile-sidebar{
-        width:45%;
+
+        width:85%;
+
     }
 
 }
 /* ==========================================
    HEADER
 ========================================== */
+/* ==========================
+   PROFILE SIDEBAR HEADER
+========================== */
+
 .profile-sidebar-header{
 
     position:relative;
@@ -643,7 +649,7 @@ linear-gradient(
 
     align-items:center;
 
-    padding:20px;
+    padding:12px 20px;
 
 }
 
@@ -748,6 +754,9 @@ linear-gradient(
 /* ==========================================
    ITEM
 ========================================== */
+/* ==========================================
+   PROFILE SIDEBAR ITEMS
+========================================== */
 
 .profile-sidebar-item{
 
@@ -755,27 +764,29 @@ linear-gradient(
 
     align-items:center;
 
-    gap:14px;
+    gap:12px;
 
-    height:52px;
+    height:46px;
 
-    padding:0 18px;
+    padding:0 16px;
 
     color:#fff;
 
     cursor:pointer;
 
-    border-bottom:1px solid rgba(255,255,255,.08);
+    border-bottom:1px solid rgba(255,255,255,.06);
 
     transition:.25s;
 
 }
 
+
 .profile-sidebar-item:hover{
 
-    background:rgba(255,255,255,.05);
+    background:rgba(255,255,255,.04);
 
 }
+
 
 .profile-sidebar-item i{
 
@@ -783,12 +794,11 @@ linear-gradient(
 
     text-align:center;
 
-    font-size:17px;
+    font-size:16px;
 
     color:#ffffff;
 
 }
-
 .profile-sidebar-item span{
 
     font-size:15px;
@@ -798,24 +808,47 @@ linear-gradient(
 }
 
 /* ==========================================
-   LOGOUT
+   LOGOUT PREMIUM BUTTON
 ========================================== */
 
 .logout-item{
 
-    color:#ff5b5b;
+    background:#d6c61a;
+
+    color:#111111;
+
+    border-radius:10px;
+
+    margin-top:10px;
+
+    border-bottom:none;
+
+    transition:.25s ease;
 
 }
+
 
 .logout-item i{
 
-    color:#ff5b5b;
+    color:#111111;
 
 }
 
+
 .logout-item span{
 
-    color:#ff5b5b;
+    color:#111111;
+
+    font-weight:600;
+
+}
+
+
+/* Hover */
+
+.logout-item:hover{
+
+    background:#e8d52a;
 
 }
 /* ===============================
