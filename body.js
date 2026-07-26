@@ -36,6 +36,7 @@
       }
 
   }
+   window.updateHomeView = updateHomeView;
 
 
   /* ==========================================
