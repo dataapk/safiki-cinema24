@@ -148,10 +148,9 @@ svg {
     background:
     linear-gradient(
         135deg,
-        #1a1208 0%,
-        #24170a 25%,
-        #b8a51a 55%,
-        #123b2d 100%
+        #281c0e 0%,
+        #1d2515 45%,
+        #0b3b2d 100%
     );
 
     position:sticky;
