@@ -148,10 +148,12 @@ svg {
     background:
 linear-gradient(
   135deg,
-  #ffdf00 30%, /* Yellow now at the beginning */
-  #003b2f 30%, /* Transitions directly to Deep Green */
-  #124e42 50%  /* Ribbon Green */
+  #281c0e 0%,    /* Starts with dark accent */
+  #281c0e 10%,   /* Holds solid up to 10% */
+  #ffdf00 45%,   /* Smoothly transitions into yellow */
+  #003b2f 100%   /* Seamlessly blends down into deep green */
 );
+
 
 
     backdrop-filter:blur(18px);
