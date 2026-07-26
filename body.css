@@ -1,1 +1,837 @@
-jhjhgj
+
+css_content = """/* ==========================================
+   LANDING PAGE — FULL CSS
+   Premium Soft Dark Theme
+========================================== */
+
+/* ─── Section Base ─── */
+section {
+  padding: 24px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title i {
+  font-size: 20px;
+}
+
+.section-sub {
+  font-size: 13px;
+  margin: 4px 0 0 0;
+}
+
+.view-all {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.25s ease;
+}
+
+.view-all:hover {
+  opacity: 0.8;
+}
+
+.view-all i {
+  font-size: 10px;
+}
+
+/* ==========================================
+   2. HERO BANNER SLIDER
+========================================== */
+
+.hero-banner-section {
+  position: relative;
+  padding: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 20px;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 480px;
+  z-index: 2;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.hero-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.hero-btn {
+  padding: 10px 28px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  filter: brightness(1.1);
+}
+
+.hero-glow {
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Dots */
+.hero-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 0;
+  background: var(--bg);
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.3;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-dot.active {
+  opacity: 1;
+  background: var(--primary);
+  box-shadow: 0 0 8px rgba(29,133,72,0.4);
+  width: 22px;
+  border-radius: 4px;
+}
+
+.hero-dot:hover {
+  opacity: 0.6;
+}
+
+/* ==========================================
+   3. GAMES MARQUEE
+========================================== */
+
+.games-marquee-section {
+  padding: 16px;
+  overflow: hidden;
+}
+
+.marquee-track {
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  width: max-content;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.game-emoji {
+  font-size: 32px;
+  line-height: 1;
+  filter: grayscale(0.2);
+  opacity: 0.85;
+  transition: all 0.3s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.game-emoji:hover {
+  filter: grayscale(0);
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* ==========================================
+   4. OFFERS / PROMOTION CARDS
+========================================== */
+
+.offers-section {
+  padding: 20px 16px;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.offer-card {
+  border-radius: 12px;
+  padding: 18px 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  border-color: rgba(29,133,72,0.3) !important;
+}
+
+.offer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--yellow));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.offer-card:hover::before {
+  opacity: 1;
+}
+
+.offer-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.offer-icon-wrap i {
+  font-size: 22px;
+}
+
+.offer-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.offer-rate {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+}
+
+.offer-desc {
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.offer-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+}
+
+/* ==========================================
+   5. RECENT WINNERS SLIDER
+========================================== */
+
+.winners-section {
+  padding: 20px 16px;
+  overflow: hidden;
+}
+
+.winners-slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.winners-track {
+  display: flex;
+  gap: 10px;
+  animation: winnersSlide 18s linear infinite;
+  width: max-content;
+}
+
+.winners-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes winnersSlide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.winner-card {
+  flex: 0 0 auto;
+  width: 130px;
+  border-radius: 10px;
+  padding: 14px 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.winner-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+.winner-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 auto 8px;
+  color: #fff;
+}
+
+.winner-name {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.winner-game {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.winner-amount {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ==========================================
+   6. WHY CHOOSE US
+========================================== */
+
+.why-us-section {
+  padding: 20px 16px;
+}
+
+.why-us-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.why-card {
+  border-radius: 12px;
+  padding: 20px 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  border-color: rgba(29,133,72,0.25) !important;
+}
+
+.why-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 22px;
+}
+
+.why-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.why-card p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ==========================================
+   7. CRYPTO PAYMENT METHODS
+========================================== */
+
+.payment-section {
+  padding: 20px 16px;
+}
+
+.payment-section .section-header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.crypto-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.crypto-item {
+  border-radius: 12px;
+  padding: 18px 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.crypto-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  border-color: rgba(29,133,72,0.25) !important;
+}
+
+.crypto-icon {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.crypto-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.crypto-code {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.main-footer {
+  padding: 32px 16px 16px;
+  margin-top: 20px;
+}
+
+.footer-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding-bottom: 24px;
+}
+
+.footer-brand h4 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-brand p {
+  font-size: 12px;
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.link-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-col h5 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px 0;
+}
+
+.link-col a {
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.link-col a:hover {
+  color: var(--primary) !important;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-bottom p {
+  font-size: 11px;
+  margin: 0;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-social a {
+  font-size: 16px;
+  transition: all 0.25s ease;
+}
+
+.footer-social a:hover {
+  color: var(--primary) !important;
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   STICKY BOTTOM BAR (Mobile)
+========================================== */
+
+.sticky-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 14px;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.sticky-btn {
+  flex: 1;
+  padding: 12px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+}
+
+.sticky-btn i {
+  font-size: 14px;
+}
+
+.sticky-btn.login:hover {
+  background: rgba(255,255,255,0.05) !important;
+}
+
+.sticky-btn.register:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.sticky-btn.deposit:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+  .hero-slider {
+    height: 160px;
+  }
+  
+  .hero-title {
+    font-size: 18px;
+  }
+  
+  .hero-sub {
+    font-size: 12px;
+  }
+  
+  .offers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .offer-card {
+    padding: 14px 10px;
+  }
+  
+  .offer-icon-wrap {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .offer-icon-wrap i {
+    font-size: 18px;
+  }
+  
+  .offer-title {
+    font-size: 13px;
+  }
+  
+  .offer-rate {
+    font-size: 16px;
+  }
+  
+  .why-us-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .crypto-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .footer-top {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .footer-links {
+    gap: 24px;
+  }
+  
+  .sticky-bottom-bar {
+    display: flex;
+  }
+  
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-slider {
+    height: 150px;
+  }
+  
+  .hero-title {
+    font-size: 16px;
+  }
+  
+  .offers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .offer-card {
+    padding: 12px 8px;
+  }
+  
+  .winner-card {
+    width: 110px;
+    padding: 12px 8px;
+  }
+  
+  .winner-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+  }
+  
+  .winner-amount {
+    font-size: 12px;
+  }
+  
+  .why-us-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .why-card {
+    padding: 16px 10px;
+  }
+  
+  .why-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+  
+  .crypto-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .crypto-item {
+    padding: 14px 6px;
+  }
+  
+  .crypto-icon {
+    font-size: 22px;
+  }
+  
+  .crypto-name {
+    font-size: 11px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .game-emoji {
+    font-size: 26px;
+  }
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section {
+  animation: fadeInUp 0.5s ease backwards;
+}
+
+section:nth-of-type(1) { animation-delay: 0.05s; }
+section:nth-of-type(2) { animation-delay: 0.1s; }
+section:nth-of-type(3) { animation-delay: 0.15s; }
+section:nth-of-type(4) { animation-delay: 0.2s; }
+section:nth-of-type(5) { animation-delay: 0.25s; }
+section:nth-of-type(6) { animation-delay: 0.3s; }
+section:nth-of-type(7) { animation-delay: 0.35s; }
+"""
+
+with open('/mnt/agents/output/landing-page-style.css', 'w', encoding='utf-8') as f:
+    f.write(css_content)
+
+print(f"✅ Landing Page CSS created!")
+print(f"📄 Size: {len(css_content)} characters | ~{len(css_content.splitlines())} lines")
+
