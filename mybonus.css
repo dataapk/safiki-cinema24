@@ -19,6 +19,7 @@
    MY BONUS MAIN PANEL
 ========================================== */
 #my-bonus-section{
+   display:none;
 
     position:fixed;
 
