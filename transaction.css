@@ -1,135 +1,30 @@
-
 /* ========================================= */
-/* TRANSACTION HISTORY PREMIUM CSS */
-/* DIGIBET24 */
+/* TRANSACTION HISTORY FILTER */
 /* ========================================= */
 
-.transaction-container{
-
-    position:fixed;
-
-    top:70px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:95%;
-    max-width:520px;
-
-    max-height:82vh;
-
-    overflow:hidden;
-
-    border-radius:18px;
-
-    background:#0d1117;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-    0 15px 45px rgba(0,0,0,.45);
-
-    z-index:999999;
-
+.transaction-history-filter{
+    position:relative;
+    margin:12px 0 16px;
 }
 
+.transaction-history-btn{
 
-/* ================= Header ================= */
-
-.transaction-header{
-
-    height:58px;
+    width:100%;
 
     display:flex;
-
+    justify-content:space-between;
     align-items:center;
 
-    justify-content:center;
+    padding:12px 14px;
 
-    position:relative;
+    border:1px solid #2f3d52;
+    border-radius:12px;
 
-    background:linear-gradient(
-        135deg,
-        #1d8548,
-        #26b45d
-    );
-
-}
-
-.transaction-header h2{
-
-    color:#ffffff;
-
-    font-size:18px;
-
-    font-weight:700;
-
-    margin:0;
-
-    letter-spacing:.3px;
-
-}
-
-.transaction-header h2 i{
-
-    margin-right:8px;
-
-}
-
-.transaction-close-btn{
-
-    position:absolute;
-
-    right:12px;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    width:34px;
-    height:34px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:rgba(0,0,0,.18);
-
-    color:#fff;
-
-    cursor:pointer;
-
-}
-
-
-/* ================= Tabs ================= */
-
-.transaction-tabs{
-
-    display:flex;
-
-    padding:12px;
-
-    gap:10px;
-
-}
-
-.transaction-tab{
-
-    flex:1;
-
-    height:42px;
-
-    border:none;
-
-    border-radius:10px;
-
-     background:#1b2430;
+    background:#1b2430;
 
     color:#ffffff;
 
     font-size:14px;
-
     font-weight:600;
 
     cursor:pointer;
@@ -138,14 +33,299 @@
 
 }
 
-.transaction-tab.active{
+.transaction-history-btn:hover{
 
-   background:#1d8548;
+    border-color:#2fbf71;
+
+}
+
+.transaction-history-btn span{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+}
+
+.transaction-history-btn i:last-child{
+
+    color:#d4b14c;
+
+}
+
+
+/* ========================================= */
+/* HISTORY DROPDOWN */
+/* ========================================= */
+
+.transaction-history-list{
+
+    display:none;
+
+    position:absolute;
+
+    top:105%;
+    left:0;
+
+    width:100%;
+
+    background:#151b24;
+
+    border:1px solid #2f3d52;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    z-index:999;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
+
+.transaction-history-list.show{
+
+    display:block;
+
+}
+
+.transaction-history-list div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 14px;
+
+    cursor:pointer;
+
+    color:#ffffff;
+
+    transition:.20s;
+
+}
+
+.transaction-history-list div:hover{
+
+    background:#2fbf71;
 
     color:#ffffff;
 
 }
-/* Hover করলে */
+
+.transaction-history-list i{
+
+    width:18px;
+
+    text-align:center;
+
+}
+
+
+/* ========================================= */
+/* TRANSACTION CARD */
+/* ========================================= */
+
+.transaction-history-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    background:#1b2430;
+
+    border:1px solid #2f3d52;
+
+    border-radius:14px;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.transaction-history-card:hover{
+
+    border-color:#2fbf71;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.30);
+
+}
+
+
+/* LEFT */
+
+.transaction-history-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+.transaction-history-type{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#ffffff;
+
+    font-weight:600;
+
+}
+
+.transaction-history-type i{
+
+    color:#2fbf71;
+
+}
+
+.transaction-history-amount{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+}
+
+
+/* STATUS */
+
+.transaction-history-status{
+
+    display:inline-flex;
+
+    width:max-content;
+
+    padding:4px 10px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.transaction-history-status.completed{
+
+    background:#2fbf71;
+
+    color:#ffffff;
+
+}
+
+.transaction-history-status.pending{
+
+    background:#d4b14c;
+
+    color:#111827;
+
+}
+
+.transaction-history-status.rejected{
+
+    background:#ef4444;
+
+    color:#ffffff;
+
+}
+
+
+/* RIGHT */
+
+.transaction-history-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:6px;
+
+    text-align:right;
+
+}
+
+.transaction-history-link{
+
+    color:#d4b14c;
+
+    font-size:15px;
+
+}
+
+.transaction-history-date{
+
+    color:#d1d5db;
+
+    font-size:12px;
+
+    line-height:1.4;
+
+}
+
+.transaction-history-id{
+
+    color:#8fa0b8;
+
+    font-size:11px;
+
+    word-break:break-all;
+
+}
+
+
+/* ========================================= */
+/* PAGINATION */
+/* ========================================= */
+
+.transaction-pagination button{
+
+    color:#ffffff;
+
+    transition:.20s;
+
+}
+
+.transaction-pagination button:hover{
+
+    background:#d4b14c;
+
+    color:#111827;
+
+}
+
+
+/* ========================================= */
+/* DEPOSIT / WITHDRAW TAB */
+/* ========================================= */
+
+.transaction-tab.active{
+
+    background:#2fbf71;
+
+    color:#ffffff;
+
+}
 
 .transaction-tab:hover{
 
@@ -156,276 +336,28 @@
 }
 
 
-/* ================= Filter ================= */
-
-.transaction-filter{
-
-    padding:0 12px 12px;
-
-}
-
-.currency-filter-btn{
-
-    width:100%;
-
-    height:42px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:0 14px;
-
-    background:#161d29;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:10px;
-
-    color:#ffffff;
-
-    cursor:pointer;
-
-}
-
-
-/* ================= List ================= */
-
-.transaction-list{
-
-    padding:0 12px;
-
-    max-height:48vh;
-
-    overflow-y:auto;
-
-}
-
-
-/* ================= Card ================= */
-
-.transaction-card{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:flex-start;
-
-    background:#161d29;
-
-    border:1px solid rgba(255,255,255,.06);
-
-    border-radius:12px;
-
-    padding:14px;
-
-    margin-bottom:10px;
-
-    transition:.25s;
-
-}
-
-.transaction-card:hover{
-
-    border-color:#1d8548;
-
-    transform:translateY(-2px);
-
-}
-
-
-/* Left */
-
-.transaction-left h4{
-
-    margin:0;
-
-    color:#ffffff;
-
-    font-size:15px;
-
-    font-weight:700;
-
-}
-
-.transaction-amount{
-
-    display:block;
-
-    margin-top:6px;
-
-    color:#ffffff;
-
-    font-size:17px;
-
-    font-weight:700;
-
-}
-
-.transaction-status{
-
-    display:inline-block;
-
-    margin-top:8px;
-
-    padding:5px 10px;
-
-    border-radius:30px;
-
-    font-size:12px;
-
-    font-weight:700;
-
-}
-
-.transaction-status.completed{
-
-    background:#1d8548;
-
-    color:#ffffff;
-
-}
-
-.transaction-status.pending{
-
-    background:#f0ad4e;
-
-    color:#ffffff;
-
-}
-
-.transaction-status.rejected{
-
-    background:#dc3545;
-
-    color:#ffffff;
-
-}
-
-
-/* Right */
-
-.transaction-right{
-
-    text-align:right;
-
-}
-
-.tx-link{
-
-    display:inline-flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    width:28px;
-
-    height:28px;
-
-    border-radius:50%;
-
-    background:#1d8548;
-
-    color:#ffffff;
-
-    text-decoration:none;
-
-    margin-bottom:8px;
-
-}
-
-.transaction-date{
-
-    display:block;
-
-    color:#98a6b8;
-
-    font-size:12px;
-
-}
-
-.transaction-id{
-
-    display:block;
-
-    margin-top:5px;
-
-    color:#7f8b99;
-
-    font-size:11px;
-
-    word-break:break-all;
-
-}
-
-
-/* ================= Pagination ================= */
-
-.transaction-pagination{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    padding:14px;
-
-}
-
-.transaction-pagination button{
-
-    border:none;
-
-    background:none;
-
-    color:#ffffff;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-}
-
-.transaction-pagination button:hover{
-
-    color:#26b45d;
-
-}
-
-
-/* ================= Mobile ================= */
+/* ========================================= */
+/* MOBILE */
+/* ========================================= */
 
 @media(max-width:600px){
 
-.transaction-container{
+    .transaction-history-card{
 
-    width:96%;
+        padding:12px;
 
-    top:65px;
+    }
 
-    max-height:84vh;
+    .transaction-history-amount{
 
-}
+        font-size:16px;
 
-.transaction-card{
+    }
 
-    flex-direction:column;
+    .transaction-history-date{
 
-    gap:12px;
+        font-size:11px;
 
-}
-
-.transaction-right{
-
-    text-align:left;
+    }
 
 }
-
-}
-
-
