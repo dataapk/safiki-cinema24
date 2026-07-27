@@ -1195,50 +1195,83 @@
     </div>
 
 
-    <!-- Currency Filter -->
-    <div class="transaction-filter">
+ 
+<!-- Currency Filter -->
+<div class="transaction-filter">
 
-        <button class="currency-filter-btn"
-                onclick="toggleCurrencyDropdown()">
+    <button class="currency-filter-btn"
+            onclick="toggleCurrencyDropdown()">
 
-            <span id="selectedCurrency">
+        <span id="selectedCurrency">
 
-                All
+            <i class="fas fa-globe"></i>
+            All
 
-            </span>
+        </span>
 
-            <i class="fas fa-chevron-down"></i>
+        <i class="fas fa-chevron-down dropdown-arrow"></i>
 
-        </button>
+    </button>
 
 
-        <!-- Dropdown -->
-        <div id="currency-dropdown"
-             class="currency-dropdown">
+    <!-- Dropdown -->
+    <div id="currency-dropdown"
+         class="currency-dropdown">
 
-            <div onclick="filterCurrency('ALL')">All</div>
+        <div onclick="filterCurrency('ALL')">
+            <i class="fas fa-globe"></i>
+            All
+        </div>
 
-            <div onclick="filterCurrency('BTC')">BTC</div>
+        <div onclick="filterCurrency('BTC')">
+            <i class="fab fa-bitcoin"></i>
+            BTC
+        </div>
 
-            <div onclick="filterCurrency('ETH')">ETH</div>
+        <div onclick="filterCurrency('ETH')">
+            <i class="fab fa-ethereum"></i>
+            ETH
+        </div>
 
-            <div onclick="filterCurrency('USDT')">USDT</div>
+        <div onclick="filterCurrency('USDT')">
+            <i class="fas fa-coins"></i>
+            USDT
+        </div>
 
-            <div onclick="filterCurrency('BNB')">BNB</div>
+        <div onclick="filterCurrency('BNB')">
+            <i class="fas fa-coins"></i>
+            BNB
+        </div>
 
-            <div onclick="filterCurrency('SOL')">SOL</div>
+        <div onclick="filterCurrency('SOL')">
+            <i class="fas fa-circle"></i>
+            SOL
+        </div>
 
-            <div onclick="filterCurrency('DOGE')">DOGE</div>
+        <div onclick="filterCurrency('TRX')">
+            <i class="fas fa-bolt"></i>
+            TRX
+        </div>
 
-            <div onclick="filterCurrency('TRX')">TRX</div>
+        <div onclick="filterCurrency('DOGE')">
+            <i class="fas fa-dog"></i>
+            DOGE
+        </div>
 
-            <div onclick="filterCurrency('LTC')">LTC</div>
+        <div onclick="filterCurrency('LTC')">
+            <i class="fas fa-coins"></i>
+            LTC
+        </div>
 
-            <div onclick="filterCurrency('XRP')">XRP</div>
-
+        <div onclick="filterCurrency('XRP')">
+            <i class="fas fa-wave-square"></i>
+            XRP
         </div>
 
     </div>
+
+</div>
+
 
 
     <!-- Transaction List -->
