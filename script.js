@@ -2713,8 +2713,18 @@ if(window.footerCheckUser){
 // ==============================
 // PAGE LOAD
 // ==============================
+
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Browser যেন আগের Scroll Position মনে না রাখে
+    if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+    }
+
+    // সবসময় Top থেকে শুরু হবে
+    window.scrollTo(0, 0);
+
+    // Header Update
     updateHeaderAuth();
 
 });
