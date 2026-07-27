@@ -120,6 +120,81 @@
 /* ============================= */
 /*  PROFILE SIDEBAR SECTION CSS */
 /* ============================= */
+/* ============================= */
+/* PROFILE SIDEBAR ITEM */
+/* ============================= */
+
+.profile-sidebar-item{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    width:100%;
+
+    padding:12px 14px;
+
+    margin-bottom:6px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    color:#ffffff;
+
+    transition:all .25s ease;
+
+    background:transparent;
+
+    box-sizing:border-box;
+
+}
+
+.profile-sidebar-item i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:16px;
+
+    color:#22c55e;
+
+}
+
+.profile-sidebar-item span{
+
+    flex:1;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#ffffff;
+
+}
+
+.profile-sidebar-item:hover{
+
+    background:rgba(34,197,94,.12);
+
+    transform:translateX(4px);
+
+}
+
+.profile-sidebar-item.logout-item{
+
+    margin-bottom:0;
+
+    color:#ff6b6b;
+
+}
+
+.profile-sidebar-item.logout-item i{
+
+    color:#ff6b6b;
+
+}
 
 /* ============================= */
 /* PERSONAL DETAILS SECTION CSS */
