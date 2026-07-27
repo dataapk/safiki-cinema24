@@ -611,7 +611,11 @@ svg {
     max-width: 94%;
     height: 80vh;
     overflow-y: auto;
-    background: var(--surface);
+    background: linear-gradient(
+    180deg,
+    #333333,
+    #292823
+);
     border: 1px solid var(--border);
     border-radius: 18px;
     box-shadow: 0 20px 60px var(--shadow);
