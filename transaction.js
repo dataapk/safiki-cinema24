@@ -13,6 +13,7 @@ let currentCurrency = "ALL";
 // ===============================
 
 function openTransaction(){
+    lockBodyScroll();
 
     document.getElementById("transaction-history-section").style.display = "block";
 
@@ -27,6 +28,7 @@ function openTransaction(){
 function closeTransaction(){
 
     document.getElementById("transaction-history-section").style.display="none";
+   unlockBodyScroll();
 
 }
 /* ========================================= */
