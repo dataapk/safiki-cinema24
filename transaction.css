@@ -124,7 +124,7 @@
 
     border-radius:10px;
 
-    background:#1b2430;
+     background:#1b2430;
 
     color:#ffffff;
 
@@ -140,9 +140,18 @@
 
 .transaction-tab.active{
 
-    background:#1d8548;
+   background:#1d8548;
 
     color:#ffffff;
+
+}
+/* Hover করলে */
+
+.transaction-tab:hover{
+
+    background:#d4b14c;
+
+    color:#111827;
 
 }
 
