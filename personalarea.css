@@ -95,7 +95,8 @@
     top: 70px;
     right: 0;
 
-   width:160px !important;         /* আগে 50% ছিল */
+   width:170px !important;         /* আগে 50% ছিল */
+   padding-bottom:40px;
 
     max-width: 90vw;
 
