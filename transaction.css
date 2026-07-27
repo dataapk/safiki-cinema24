@@ -7,8 +7,9 @@
 
     position:fixed;
 
-    top:70px;
-    left:50%;
+top:70px;
+bottom:0;
+height:auto;
 
     transform:translateX(-50%);
 
