@@ -14,10 +14,11 @@ let currentCurrency = "ALL";
 
 function openTransaction(){
 
-    document.getElementById("transaction-history-section").style.display="block";
+    document.getElementById("transaction-history-section").style.display = "block";
+
+    loadTransactionHistory();
 
 }
-
 
 // ===============================
 // Close
@@ -30,121 +31,73 @@ function closeTransaction(){
 }
 
 
-// ===============================
-// Deposit
-// ===============================
 
-function showDepositHistory(){
+/* ===============================
+   TRANSACTION HISTORY DROPDOWN
+================================ */
 
-    currentTransactionTab="deposit";
+function toggleTransactionHistory(){
 
-    document.getElementById("deposit-tab").classList.add("active");
-
-    document.getElementById("withdraw-tab").classList.remove("active");
-
-    loadTransactionHistory();
-
-}
-
-
-// ===============================
-// Withdrawal
-// ===============================
-
-function showWithdrawHistory(){
-
-    currentTransactionTab="withdraw";
-
-    document.getElementById("withdraw-tab").classList.add("active");
-
-    document.getElementById("deposit-tab").classList.remove("active");
-
-    loadTransactionHistory();
-
-}
-
-
-// ===============================
-// Currency Dropdown
-// ===============================
-
-function toggleCurrencyDropdown(){
-
-    const dropdown=document.getElementById("currency-dropdown");
+    const dropdown = document.getElementById("transaction-history-list");
 
     dropdown.classList.toggle("show");
 
 }
 
 
-// ===============================
-// Currency Filter
-// ===============================
+/* ===============================
+   TRANSACTION HISTORY FILTER
+================================ */
 
-function filterCurrency(currency){
+function filterTransactionHistory(history){
 
-    currentCurrency=currency;
+    currentCurrency = history;
 
-    document.getElementById("selectedCurrency").innerText=currency;
+    document.getElementById("transactionHistorySelected").innerHTML =
+        document.querySelector(
+            '#transaction-history-list div[onclick="filterTransactionHistory(\'' + history + '\')"]'
+        ).innerHTML;
 
-    document.getElementById("currency-dropdown").classList.remove("show");
+    document.getElementById("transaction-history-list")
+        .classList.remove("show");
 
     loadTransactionHistory();
 
 }
 
 
-// ===============================
-// Load Transaction
-// (Temporary Demo)
-// ===============================
+/* ===============================
+   TRANSACTION EXPLORER
+================================ */
 
-function loadTransactionHistory(){
+function openTransactionExplorer(txid){
 
-    console.log("TAB :",currentTransactionTab);
+    console.log("Explorer :", txid);
 
-    console.log("Currency :",currentCurrency);
-
-    // Supabase will connect here later.
+    // Future
+    // window.open("https://blockchain-explorer/" + txid,"_blank");
 
 }
 
 
-// ===============================
-// Previous Page
-// ===============================
-
-function previousTransactionPage(){
-
-    console.log("Previous Page");
-
-}
-
-
-// ===============================
-// Next Page
-// ===============================
-
-function nextTransactionPage(){
-
-    console.log("Next Page");
-
-}
-
-
-// ===============================
-// Click Outside Close Dropdown
-// ===============================
+/* ===============================
+   CLICK OUTSIDE CLOSE
+================================ */
 
 document.addEventListener("click",function(e){
 
-    const dropdown=document.getElementById("currency-dropdown");
+    const dropdown =
+        document.getElementById("transaction-history-list");
 
-    const button=document.querySelector(".currency-filter-btn");
+    const button =
+        document.querySelector(".transaction-history-btn");
 
     if(!dropdown || !button) return;
 
-    if(!button.contains(e.target) && !dropdown.contains(e.target)){
+    if(
+        !button.contains(e.target) &&
+        !dropdown.contains(e.target)
+    ){
 
         dropdown.classList.remove("show");
 
