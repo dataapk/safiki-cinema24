@@ -184,9 +184,9 @@
 
 .profile-sidebar-item.logout-item{
 
-    margin-bottom:0;
-
-    color:#ff6b6b;
+ color:#ff6b6b;
+   margin:0;
+    padding:12px 14px 6px 14px;
 
 }
 
