@@ -17,8 +17,8 @@
     width:96%;
     max-width:430px;
 
-  height:calc(100vh - 70px);
-    overflow:hidden;
+  height:80vh;
+    overflow-y:auto;
 
     display:none;
 
@@ -32,6 +32,8 @@
    
 
     z-index:99999;
+    padding:20px;
+    box-sizing:border-box;
 
 }
 
