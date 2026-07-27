@@ -17,7 +17,6 @@
 <!-- মেইন ওয়ালেট বক্স -->
 <!-- মেইন ওয়ালেট বক্স -->
 <!-- HEADER SECTION START -->
-
 <header class="header">
     <div class="logo">Logo</div>
 
@@ -1152,188 +1151,185 @@
 <!-- ================= END PROOF OF ADDRESS ================= -->
 
     
-    <!-- Transaction History Section -->
+
+<!-- ========================================= -->
+<!-- TRANSACTION HISTORY SECTION -->
+<!-- ========================================= -->
 
 <div id="transaction-history-section" class="transaction-container">
 
-    <div class="trans-header">
+    <!-- Header -->
+    <div class="transaction-header">
 
-        <h3>Transaction History</h3>
+        <h2>
+            <i class="fas fa-receipt"></i>
+            Transaction History
+        </h2>
 
-        <button 
-            class="close-trans" 
-            onclick="closeTransaction()">
+        <button class="transaction-close-btn"
+                onclick="closeTransaction()">
+            <i class="fas fa-times"></i>
+        </button>
 
-            ×
+    </div>
+
+
+    <!-- Deposit / Withdrawal Tabs -->
+    <div class="transaction-tabs">
+
+        <button id="deposit-tab"
+                class="transaction-tab active"
+                onclick="showDepositHistory()">
+
+            Deposit
+
+        </button>
+
+        <button id="withdraw-tab"
+                class="transaction-tab"
+                onclick="showWithdrawHistory()">
+
+            Withdrawal
 
         </button>
 
     </div>
 
 
-    <!-- Top Tabs -->
+    <!-- Currency Filter -->
+    <div class="transaction-filter">
 
-    <div class="trans-tabs">
+        <button class="currency-filter-btn"
+                onclick="toggleCurrencyDropdown()">
 
-        <button 
-            class="tab-btn active" 
-            onclick="switchTransTab('deposits')">
+            <span id="selectedCurrency">
 
-            Deposits
+                All
 
-        </button>
+            </span>
 
-
-        <button 
-            class="tab-btn" 
-            onclick="switchTransTab('withdrawals')">
-
-            Withdrawals
+            <i class="fas fa-chevron-down"></i>
 
         </button>
 
 
-        <button 
-            class="tab-btn" 
-            onclick="switchTransTab('exchanges')">
+        <!-- Dropdown -->
+        <div id="currency-dropdown"
+             class="currency-dropdown">
 
-            Exchanges
+            <div onclick="filterCurrency('ALL')">All</div>
 
-        </button>
+            <div onclick="filterCurrency('BTC')">BTC</div>
 
+            <div onclick="filterCurrency('ETH')">ETH</div>
 
-        <button 
-            class="tab-btn" 
-            onclick="switchTransTab('promo')">
+            <div onclick="filterCurrency('USDT')">USDT</div>
 
-            Promo
+            <div onclick="filterCurrency('BNB')">BNB</div>
 
-        </button>
+            <div onclick="filterCurrency('SOL')">SOL</div>
 
-    </div>
+            <div onclick="filterCurrency('DOGE')">DOGE</div>
 
-<!-- Controls -->
+            <div onclick="filterCurrency('TRX')">TRX</div>
 
-<div class="trans-controls">
+            <div onclick="filterCurrency('LTC')">LTC</div>
 
-   <!-- Currency Dropdown -->
-
-<div class="transaction-currency-dropdown">
-
-    <button class="transaction-currency-btn"
-            onclick="toggleTransactionCurrencyDropdown()">
-
-        <span id="selected-transaction-currency">
-            All Currency
-        </span>
-
-        <i class="fas fa-chevron-down"></i>
-
-    </button>
-
-    <div
-        id="transaction-currency-menu"
-        class="transaction-currency-menu">
-
-        <div
-    class="transaction-currency-option"
-    onclick="selectTransactionCurrency('all')">
-
-            All Currency
-
-        </div>
-
-        <div
-    class="transaction-currency-option"
-    onclick="selectTransactionCurrency('USDT')">
-
-            USDT
-
-        </div>
-
-        <div
-    class="transaction-currency-option"
-    onclick="selectTransactionCurrency('BTC')">
-
-            BTC
-
-        </div>
-
-        <div
-    class="transaction-currency-option"
-    onclick="selectTransactionCurrency('ETH')">
-
-            ETH
+            <div onclick="filterCurrency('XRP')">XRP</div>
 
         </div>
 
     </div>
-
-</div>
-
-
-    <!-- Filter Buttons -->
-
-    <div class="filter-btns">
-
-        <button 
-            class="filter-btn"
-            onclick="filterBy('archived')">
-
-            Archived
-
-        </button>
-
-
-        <button 
-            class="filter-btn active"
-            onclick="filterBy('latest')">
-
-            Latest
-
-        </button>
-
-    </div>
-
-
-</div>
 
 
     <!-- Transaction List -->
+    <div id="transaction-list"
+         class="transaction-list">
 
-    <div id="trans-list-container" class="trans-list">
 
-        <!-- Supabase data load here -->
+        <!-- Transaction Card Example -->
+
+        <div class="transaction-card">
+
+            <!-- Left -->
+
+            <div class="transaction-left">
+
+                <h4>BTC Deposit</h4>
+
+                <span class="transaction-amount">
+
+                    +0.005 BTC
+
+                </span>
+
+                <span class="transaction-status completed">
+
+                    Completed
+
+                </span>
+
+            </div>
+
+
+            <!-- Right -->
+
+            <div class="transaction-right">
+
+                <a href="#"
+                   class="tx-link">
+
+                    <i class="fas fa-up-right-from-square"></i>
+
+                </a>
+
+                <span class="transaction-date">
+
+                    27 Jul 2026 14:38 UTC
+
+                </span>
+
+                <span class="transaction-id">
+
+                    TXID :
+                    9A8F4D79C31...
+
+                </span>
+
+            </div>
+
+        </div>
+
 
     </div>
 
-    <div class="trans-pagination">
 
-    <button id="prev-page"
-            class="page-btn"
-            onclick="previousTransactionPage()"
-            disabled>
+    <!-- Pagination -->
 
-        ← Previous
+    <div class="transaction-pagination">
 
-    </button>
+        <button onclick="previousTransactionPage()">
 
-    <span id="page-number">
+            <i class="fas fa-angle-left"></i>
 
-        Page 1
+            Previous
 
-    </span>
+        </button>
 
-    <button id="next-page"
-            class="page-btn"
-            onclick="nextTransactionPage()">
 
-        Next →
+        <button onclick="nextTransactionPage()">
 
-    </button>
+            Next
+
+            <i class="fas fa-angle-right"></i>
+
+        </button>
+
+    </div>
 
 </div>
-    </div> <!-- END transaction-history-section -->
+
+
 
     <!-- TRANSACTIONS SUBMENU END  -->
 
