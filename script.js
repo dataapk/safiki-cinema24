@@ -2510,9 +2510,15 @@ if (user) {
 }
  }  // updateHeaderAuth function close
 
-    // Make globally available
+   // Make globally available
 window.updateHeaderAuth = updateHeaderAuth;
 
+// First Header Load
+document.addEventListener("DOMContentLoaded", async () => {
+
+    await updateHeaderAuth();
+
+});
 // =========================
 // Logout Popup
 // =========================
