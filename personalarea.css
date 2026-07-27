@@ -84,12 +84,45 @@
     color:#000;
 
 }
+
+/* ============================= */
+/* PROFILE SIDEBAR SECTION CSS */
+/* ============================= */
+#profile-sidebar{
+
+    position: fixed;
+
+    top: 70px;
+    right: 0;
+
+    width: 320px;          /* আগে 50% ছিল */
+
+    max-width: 90vw;
+
+    transform: translateX(100%);
+    transition: transform .35s ease;
+
+    z-index: 99999;
+
+    background: linear-gradient(
+        180deg,
+        #050505,
+        #111827
+    );
+
+}
+
+
+/* ============================= */
+/*  PROFILE SIDEBAR SECTION CSS */
+/* ============================= */
+
 /* ============================= */
 /* PERSONAL DETAILS SECTION CSS */
 /* ============================= */
 
 .personal-tab-content {
-    width:70%;
+    width:100%;
 }
 
 
