@@ -9,7 +9,7 @@
 
     position:fixed;
 
-    top:70px;
+    top:65px;
     left:50%;
 
     transform:translateX(-50%);
@@ -17,7 +17,7 @@
     width:96%;
     max-width:430px;
 
-   height:calc(100vh - 95px);
+  height:calc(100vh - 70px);
     overflow:hidden;
 
     display:none;
@@ -29,6 +29,7 @@
     border-radius:16px;
 
     box-shadow:0 12px 35px rgba(0,0,0,.45);
+   
 
     z-index:99999;
 
