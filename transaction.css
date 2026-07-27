@@ -497,19 +497,21 @@
 /* PAGINATION */
 /* ========================================= */
 
-.transaction-pagination button{
+.transaction-pagination{
 
-    color:#ffffff;
+    position:absolute;
 
-    transition:.20s;
+    bottom:12px;
 
-}
+    left:0;
 
-.transaction-pagination button:hover{
+    width:100%;
 
-    background:#d4b14c;
+    display:flex;
 
-    color:#111827;
+    justify-content:center;
+
+    gap:12px;
 
 }
 
