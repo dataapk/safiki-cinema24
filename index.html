@@ -1153,6 +1153,47 @@
 <!-- TRANSACTION HISTORY SECTION -->
 <!-- ========================================= -->
 
+<div id="transaction-history-section"
+     class="transaction-container"
+     style="display:none;">
+
+    <!-- Header -->
+    <div class="transaction-header">
+
+        <button class="transaction-close-btn"
+                onclick="closeTransaction()">
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+        <h3>Transaction History</h3>
+
+    </div>
+
+    <!-- Tabs -->
+    <div class="transaction-tabs">
+
+        <button id="deposit-tab"
+                class="transaction-tab active"
+                onclick="showDepositHistory()">
+
+            Deposit
+
+        </button>
+
+        <button id="withdraw-tab"
+                class="transaction-tab"
+                onclick="showWithdrawHistory()">
+
+            Withdrawal
+
+        </button>
+
+    </div>
+
+    <!-- এখান থেকে Transaction History Filter শুরু হবে -->
+
 <!-- Transaction History Filter -->
 <div class="transaction-history-filter">
 
