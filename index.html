@@ -1152,118 +1152,72 @@
 <!-- ========================================= -->
 <!-- TRANSACTION HISTORY SECTION -->
 <!-- ========================================= -->
+```html
+<!-- Transaction History Filter -->
+<div class="transaction-history-filter">
 
-<div id="transaction-history-section"
-     class="transaction-container"
-     style="display:none;">
+    <button class="transaction-history-btn"
+            onclick="toggleTransactionHistory()">
 
-    <!-- Header -->
-    <div class="transaction-header">
-
-        <h2>
-            <i class="fas fa-receipt"></i>
-            Transaction History
-        </h2>
-
-        <button class="transaction-close-btn"
-                onclick="closeTransaction()">
-            <i class="fas fa-times"></i>
-        </button>
-
-    </div>
-
-
-    <!-- Deposit / Withdrawal Tabs -->
-    <div class="transaction-tabs">
-
-        <button id="deposit-tab"
-                class="transaction-tab active"
-                onclick="showDepositHistory()">
-
-            Deposit
-
-        </button>
-
-        <button id="withdraw-tab"
-                class="transaction-tab"
-                onclick="showWithdrawHistory()">
-
-            Withdrawal
-
-        </button>
-
-    </div>
-
-
- 
-<!-- Currency Filter -->
-<div class="transaction-filter">
-
-    <button class="currency-filter-btn"
-            onclick="toggleCurrencyDropdown()">
-
-        <span id="selectedCurrency">
-
+        <span id="transactionHistorySelected">
             <i class="fas fa-globe"></i>
             All
-
         </span>
 
-        <i class="fas fa-chevron-down dropdown-arrow"></i>
+        <i class="fas fa-chevron-down"></i>
 
     </button>
 
 
-    <!-- Dropdown -->
-    <div id="currency-dropdown"
-         class="currency-dropdown">
+    <div id="transaction-history-list"
+         class="transaction-history-list">
 
-        <div onclick="filterCurrency('ALL')">
+        <div onclick="filterTransactionHistory('ALL')">
             <i class="fas fa-globe"></i>
             All
         </div>
 
-        <div onclick="filterCurrency('BTC')">
+        <div onclick="filterTransactionHistory('BTC')">
             <i class="fab fa-bitcoin"></i>
             BTC
         </div>
 
-        <div onclick="filterCurrency('ETH')">
+        <div onclick="filterTransactionHistory('ETH')">
             <i class="fab fa-ethereum"></i>
             ETH
         </div>
 
-        <div onclick="filterCurrency('USDT')">
+        <div onclick="filterTransactionHistory('USDT')">
             <i class="fas fa-coins"></i>
             USDT
         </div>
 
-        <div onclick="filterCurrency('BNB')">
+        <div onclick="filterTransactionHistory('BNB')">
             <i class="fas fa-coins"></i>
             BNB
         </div>
 
-        <div onclick="filterCurrency('SOL')">
+        <div onclick="filterTransactionHistory('SOL')">
             <i class="fas fa-circle"></i>
             SOL
         </div>
 
-        <div onclick="filterCurrency('TRX')">
+        <div onclick="filterTransactionHistory('TRX')">
             <i class="fas fa-bolt"></i>
             TRX
         </div>
 
-        <div onclick="filterCurrency('DOGE')">
-            <i class="fas fa-dog"></i>
+        <div onclick="filterTransactionHistory('DOGE')">
+            <i class="fas fa-coins"></i>
             DOGE
         </div>
 
-        <div onclick="filterCurrency('LTC')">
+        <div onclick="filterTransactionHistory('LTC')">
             <i class="fas fa-coins"></i>
             LTC
         </div>
 
-        <div onclick="filterCurrency('XRP')">
+        <div onclick="filterTransactionHistory('XRP')">
             <i class="fas fa-wave-square"></i>
             XRP
         </div>
@@ -1271,96 +1225,64 @@
     </div>
 
 </div>
+    <!-- ================= TRANSACTION CARD ================= -->
 
+<div class="transaction-history-card"
+     onclick="openTransactionExplorer('TX_ID_HERE')">
 
+    <!-- LEFT -->
+    <div class="transaction-history-left">
 
-    <!-- Transaction List -->
-    <div id="transaction-list"
-         class="transaction-list">
+        <div class="transaction-history-type">
 
+            <i class="fas fa-arrow-down"></i>
 
-        <!-- Transaction Card Example -->
-
-        <div class="transaction-card">
-
-            <!-- Left -->
-
-            <div class="transaction-left">
-
-                <h4>BTC Deposit</h4>
-
-                <span class="transaction-amount">
-
-                    +0.005 BTC
-
-                </span>
-
-                <span class="transaction-status completed">
-
-                    Completed
-
-                </span>
-
-            </div>
-
-
-            <!-- Right -->
-
-            <div class="transaction-right">
-
-                <a href="#"
-                   class="tx-link">
-
-                    <i class="fas fa-up-right-from-square"></i>
-
-                </a>
-
-                <span class="transaction-date">
-
-                    27 Jul 2026 14:38 UTC
-
-                </span>
-
-                <span class="transaction-id">
-
-                    TXID :
-                    9A8F4D79C31...
-
-                </span>
-
-            </div>
+            <span>Deposit</span>
 
         </div>
 
+        <div class="transaction-history-amount">
+
+            +0.025 BTC
+
+        </div>
+
+        <span class="transaction-history-status completed">
+
+            Completed
+
+        </span>
 
     </div>
 
 
-    <!-- Pagination -->
+    <!-- RIGHT -->
+    <div class="transaction-history-right">
 
-    <div class="transaction-pagination">
+        <div class="transaction-history-link">
 
-        <button onclick="previousTransactionPage()">
+            <i class="fas fa-up-right-from-square"></i>
 
-            <i class="fas fa-angle-left"></i>
+        </div>
 
-            Previous
+        <div class="transaction-history-date">
 
-        </button>
+            27 Jul 2026
+            <br>
+            07:45 PM
 
+        </div>
 
-        <button onclick="nextTransactionPage()">
+        <div class="transaction-history-id">
 
-            Next
+            TX: 9A8X45B2...
 
-            <i class="fas fa-angle-right"></i>
-
-        </button>
+        </div>
 
     </div>
 
 </div>
-   
+
 
 
 
