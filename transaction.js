@@ -29,6 +29,42 @@ function closeTransaction(){
     document.getElementById("transaction-history-section").style.display="none";
 
 }
+/* ========================================= */
+/* SHOW DEPOSIT HISTORY */
+/* ========================================= */
+
+function showDepositHistory(){
+
+    currentTransactionTab = "deposit";
+
+    document.getElementById("deposit-tab")
+        .classList.add("active");
+
+    document.getElementById("withdraw-tab")
+        .classList.remove("active");
+
+    loadTransactionHistory();
+
+}
+
+
+/* ========================================= */
+/* SHOW WITHDRAW HISTORY */
+/* ========================================= */
+
+function showWithdrawHistory(){
+
+    currentTransactionTab = "withdraw";
+
+    document.getElementById("withdraw-tab")
+        .classList.add("active");
+
+    document.getElementById("deposit-tab")
+        .classList.remove("active");
+
+    loadTransactionHistory();
+
+}
 
 
 
