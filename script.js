@@ -179,6 +179,24 @@ function sortAssets(type) {
 
     items.forEach(item => menu.appendChild(item));
 }
+// ===============================
+// BODY SCROLL LOCK
+// ===============================
+
+function lockBodyScroll(){
+
+    document.body.style.overflow = "hidden";
+
+}
+
+function unlockBodyScroll(){
+
+    document.body.style.overflow = "";
+
+}
+// ===============================
+// END BODY SCROLL LOCK
+// ===============================
 
 // ৩. ফেভারিট ফিল্টার ফাংশন
 function filterFavorites() {
