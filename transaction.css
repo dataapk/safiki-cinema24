@@ -464,6 +464,11 @@
     text-align:right;
 
 }
+.transaction-history-right:hover{
+
+    opacity:.85;
+
+}
 
 .transaction-history-link{
 
