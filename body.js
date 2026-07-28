@@ -421,6 +421,7 @@ function openGame(mainType, subType, gameId) {
     // Add your game open logic here
     // e.g., window.location.href = `/game/${mainType}/${subType}/${gameId}`;
 }
+   window.openGame = openGame;   // ← এই লাইনে বসবে
 
 // ===== INITIALIZE ON PAGE LOAD =====
 document.addEventListener('DOMContentLoaded', function() {
