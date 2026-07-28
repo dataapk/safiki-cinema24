@@ -1140,38 +1140,36 @@
    Using Root Variables (Bet365 Dark Theme)
 ====================================================== */
 /* ----- MAIN CATEGORY SECTION ----- */
+/* ----- MAIN CATEGORY SECTION ----- */
 .casino-sports-main-section {
-    padding: 0 12px 12px 12px;
+    padding: 0 16px 16px 16px;
     background: var(--bg);
 }
 
 .main-category-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ----- MAIN CARDS (Side by Side — LOCKED) ----- */
+/* ----- MAIN CARDS ----- */
 .main-cat-card {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    gap: 8px;
-    padding: 12px 10px;
+    gap: 12px;
+    padding: 16px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    min-width: 0;
 }
 
-/* Top accent line */
 .main-cat-card::before {
     content: '';
     position: absolute;
@@ -1185,8 +1183,8 @@
 }
 
 .main-cat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
     border-color: var(--border-green);
 }
 
@@ -1198,71 +1196,45 @@
     transform: translateY(-1px) scale(0.98);
 }
 
-/* Icon — compact */
+/* Icon */
 .main-cat-icon-wrap {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     color: #fff;
     flex-shrink: 0;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
-/* Info — shrinkable */
+/* Title only */
 .main-cat-info {
     flex: 1;
     min-width: 0;
-    overflow: hidden;
 }
 
 .main-cat-title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--text);
-    margin: 0 0 2px 0;
-    letter-spacing: 0.2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0;
+    letter-spacing: 0.3px;
 }
 
-.main-cat-desc {
-    font-size: 10px;
-    color: var(--text-muted);
-    margin: 0 0 4px 0;
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.main-cat-count {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 600;
-    color: var(--primary);
-    background: rgba(29, 133, 72, 0.12);
-    padding: 2px 6px;
-    border-radius: 20px;
-    border: 1px solid var(--border-green);
-    white-space: nowrap;
-}
-
-/* Arrow — compact */
+/* Arrow */
 .main-cat-arrow-icon {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: var(--surface-2);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
-    font-size: 10px;
+    font-size: 11px;
     transition: all 0.25s ease;
     flex-shrink: 0;
     border: 1px solid var(--border);
@@ -1275,12 +1247,40 @@
     transform: translateX(2px);
 }
 
-/* ===== RESPONSIVE — Still 2 columns, just smaller ===== */
-@media (max-width: 768px) {
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
     .casino-sports-main-section {
-        padding: 0 10px 10px 10px;
+        padding: 0 12px 12px 12px;
     }
     
+    .main-category-grid {
+        gap: 10px;
+    }
+    
+    .main-cat-card {
+        padding: 14px 12px;
+        gap: 10px;
+        border-radius: 12px;
+    }
+    
+    .main-cat-icon-wrap {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .main-cat-title {
+        font-size: 15px;
+    }
+    
+    .main-cat-arrow-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 360px) {
     .main-category-grid {
         gap: 8px;
     }
@@ -1288,7 +1288,7 @@
     .main-cat-card {
         padding: 12px 10px;
         gap: 8px;
-        border-radius: 12px;
+        border-radius: 10px;
     }
     
     .main-cat-icon-wrap {
@@ -1302,100 +1302,10 @@
         font-size: 14px;
     }
     
-    .main-cat-desc {
-        font-size: 10px;
-    }
-    
-    .main-cat-count {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-    
     .main-cat-arrow-icon {
         width: 24px;
         height: 24px;
         font-size: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .casino-sports-main-section {
-        padding: 0 10px 10px 10px;
-    }
-    
-    .main-category-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-    }
-    
-    .main-cat-card {
-        padding: 10px 8px;
-        gap: 6px;
-        border-radius: 10px;
-    }
-    
-    .main-cat-icon-wrap {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
-        border-radius: 8px;
-    }
-    
-    .main-cat-title {
-        font-size: 12px;
-    }
-    
-    .main-cat-desc {
-        font-size: 9px;
-        margin-bottom: 3px;
-    }
-    
-    .main-cat-count {
-        font-size: 8px;
-        padding: 1px 5px;
-    }
-    
-    .main-cat-arrow-icon {
-        width: 22px;
-        height: 22px;
-        font-size: 9px;
-    }
-}
-
-@media (max-width: 360px) {
-    .main-category-grid {
-        gap: 6px;
-    }
-    
-    .main-cat-card {
-        padding: 8px 6px;
-        gap: 5px;
-        border-radius: 8px;
-    }
-    
-    .main-cat-icon-wrap {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-    }
-    
-    .main-cat-title {
-        font-size: 11px;
-    }
-    
-    .main-cat-desc {
-        font-size: 8px;
-    }
-    
-    .main-cat-count {
-        font-size: 7px;
-        padding: 1px 4px;
-    }
-    
-    .main-cat-arrow-icon {
-        width: 20px;
-        height: 20px;
-        font-size: 8px;
     }
 }
 
