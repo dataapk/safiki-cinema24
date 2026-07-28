@@ -39,6 +39,9 @@
     width: 100%;
     height: 240px;
     overflow: hidden;
+   display: flex;
+    align-items: center;  /* Vertical center */
+    justify-content: center;
 }
 
 /* Individual slide — full width, no border-radius container */
@@ -81,6 +84,9 @@
     position: relative;
     z-index: 3;
     max-width: 600px;
+   text-align: center;
+   display: flex;
+   flex-direction: column;
 }
 
 .hero-badge {
