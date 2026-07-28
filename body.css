@@ -282,6 +282,122 @@
         display: none;
     }
 }
+/* ======================================================
+   GAMES MARQUEE SECTION — CONTINUOUS SCROLL
+====================================================== */
+
+.games-marquee-section {
+    padding: 16px 0;
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Fade edges for smooth look */
+.games-marquee-section::before,
+.games-marquee-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.games-marquee-section::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg), transparent);
+}
+
+.games-marquee-section::after {
+    right: 0;
+    background: linear-gradient(-90deg, var(--bg), transparent);
+}
+
+.section-header {
+    padding: 0 16px;
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.section-title i {
+    font-size: 18px;
+}
+
+/* Marquee Track */
+.marquee-track {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Marquee Content — continuous scroll */
+.marquee-content {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: marqueeScroll 25s linear infinite;
+    /* Touch/click won't stop it */
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Individual emoji items */
+.game-emoji {
+    font-size: 36px;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: grayscale(0.2);
+    transition: filter 0.2s ease, transform 0.2s ease;
+    cursor: default;
+}
+
+/* Optional: hover effect (but scroll won't pause) */
+.marquee-track:hover .game-emoji {
+    filter: grayscale(0);
+}
+
+/* Keyframes — Right to Left continuous */
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .game-emoji {
+        font-size: 30px;
+    }
+    
+    .marquee-content {
+        animation-duration: 20s;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-emoji {
+        font-size: 26px;
+        gap: 14px;
+    }
+    
+    .marquee-content {
+        animation-duration: 18s;
+    }
+}
+
  ======================================================
    CASINO & SPORTS SECTION STYLES
    Using Root Variables (Bet365 Dark Theme)
