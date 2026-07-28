@@ -133,6 +133,299 @@ window.updateHomeView = updateHomeView;
     setTimeout(() => HeroSlider.startAutoSlide(), 8000); // Resume after 8s
   };
 
+
+   /* ======================================================
+   CASINO & SPORTS SECTION JAVASCRIPT
+====================================================== */
+
+// ===== DOM ELEMENTS =====
+const heroBanner = document.getElementById('heroBanner');
+const mainCategorySection = document.getElementById('mainCategorySection');
+const casinoSubSection = document.getElementById('casinoSubSection');
+const sportsSubSection = document.getElementById('sportsSubSection');
+
+// Sub-banner sliders
+const casinoSlider = document.getElementById('casinoSlider');
+const sportsSlider = document.getElementById('sportsSlider');
+
+// Auto-slide intervals
+let casinoSlideInterval = null;
+let sportsSlideInterval = null;
+
+// Current slide indices
+let casinoCurrentSlide = 0;
+let sportsCurrentSlide = 0;
+
+// ===== SELECT MAIN CATEGORY (Casino or Sports) =====
+function selectMainCategory(category) {
+    // Hide hero banner (main slider)
+    if (heroBanner) {
+        heroBanner.style.display = 'none';
+    }
+    
+    // Hide main category cards section
+    if (mainCategorySection) {
+        mainCategorySection.style.display = 'none';
+    }
+    
+    // Hide both sub-sections first (reset)
+    if (casinoSubSection) casinoSubSection.style.display = 'none';
+    if (sportsSubSection) sportsSubSection.style.display = 'none';
+    
+    // Show selected sub-section
+    if (category === 'casino') {
+        if (casinoSubSection) {
+            casinoSubSection.style.display = 'block';
+            casinoCurrentSlide = 0;
+            updateSubSlider('casino', 0);
+            startAutoSlide('casino');
+        }
+    } else if (category === 'sports') {
+        if (sportsSubSection) {
+            sportsSubSection.style.display = 'block';
+            sportsCurrentSlide = 0;
+            updateSubSlider('sports', 0);
+            startAutoSlide('sports');
+        }
+    }
+    
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== BACK TO MAIN DASHBOARD =====
+function backToMainDashboard() {
+    // Show hero banner again
+    if (heroBanner) {
+        heroBanner.style.display = 'block';
+    }
+    
+    // Show main category cards
+    if (mainCategorySection) {
+        mainCategorySection.style.display = 'block';
+    }
+    
+    // Hide both sub-sections
+    if (casinoSubSection) casinoSubSection.style.display = 'none';
+    if (sportsSubSection) sportsSubSection.style.display = 'none';
+    
+    // Stop auto-slides
+    stopAutoSlide('casino');
+    stopAutoSlide('sports');
+    
+    // Reset active sub-categories
+    document.querySelectorAll('.subcat-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== SUB-BANNER SLIDER =====
+function goToSubSlide(type, index) {
+    updateSubSlider(type, index);
+    
+    if (type === 'casino') {
+        casinoCurrentSlide = index;
+        resetAutoSlide('casino');
+    } else if (type === 'sports') {
+        sportsCurrentSlide = index;
+        resetAutoSlide('sports');
+    }
+}
+
+function updateSubSlider(type, index) {
+    const sliderId = type === 'casino' ? 'casinoSlider' : 'sportsSlider';
+    const slider = document.getElementById(sliderId);
+    
+    if (!slider) return;
+    
+    const slides = slider.querySelectorAll('.sub-slide');
+    const dots = slider.parentElement.querySelectorAll('.sub-dot');
+    
+    slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+    });
+    
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+}
+
+// ===== AUTO SLIDE (4 seconds) =====
+function startAutoSlide(type) {
+    stopAutoSlide(type);
+    
+    const interval = setInterval(() => {
+        if (type === 'casino') {
+            casinoCurrentSlide = (casinoCurrentSlide + 1) % 3;
+            updateSubSlider('casino', casinoCurrentSlide);
+        } else if (type === 'sports') {
+            sportsCurrentSlide = (sportsCurrentSlide + 1) % 3;
+            updateSubSlider('sports', sportsCurrentSlide);
+        }
+    }, 4000);
+    
+    if (type === 'casino') {
+        casinoSlideInterval = interval;
+    } else {
+        sportsSlideInterval = interval;
+    }
+}
+
+function stopAutoSlide(type) {
+    if (type === 'casino' && casinoSlideInterval) {
+        clearInterval(casinoSlideInterval);
+        casinoSlideInterval = null;
+    } else if (type === 'sports' && sportsSlideInterval) {
+        clearInterval(sportsSlideInterval);
+        sportsSlideInterval = null;
+    }
+}
+
+function resetAutoSlide(type) {
+    startAutoSlide(type);
+}
+
+// ===== SELECT SUB-CATEGORY =====
+function selectSubCategory(mainType, subType, element) {
+    // Remove active from all subcat items in this section
+    const parentGrid = element.closest('.subcat-grid');
+    if (parentGrid) {
+        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+    
+    // Add active to clicked item
+    element.classList.add('active');
+    
+    // Get games area
+    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
+    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
+    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
+    
+    const gamesArea = document.getElementById(gamesAreaId);
+    const gamesTitle = document.getElementById(gamesTitleId);
+    const gamesGrid = document.getElementById(gamesGridId);
+    
+    if (gamesTitle) {
+        gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
+    }
+    
+    if (gamesGrid) {
+        // Generate sample games (replace with your real data)
+        gamesGrid.innerHTML = generateSampleGames(mainType, subType);
+    }
+    
+    if (gamesArea) {
+        gamesArea.style.display = 'block';
+        // Scroll to games area smoothly
+        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// ===== VIEW ALL SUB-CATEGORIES =====
+function viewAllSubCategories(mainType, element) {
+    // Remove active from all
+    const parentGrid = element.closest('.subcat-grid');
+    if (parentGrid) {
+        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+    
+    element.classList.add('active');
+    
+    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
+    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
+    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
+    
+    const gamesTitle = document.getElementById(gamesTitleId);
+    const gamesGrid = document.getElementById(gamesGridId);
+    const gamesArea = document.getElementById(gamesAreaId);
+    
+    if (gamesTitle) {
+        gamesTitle.textContent = 'All ' + capitalizeFirst(mainType) + ' Games';
+    }
+    
+    if (gamesGrid) {
+        gamesGrid.innerHTML = generateAllGames(mainType);
+    }
+    
+    if (gamesArea) {
+        gamesArea.style.display = 'block';
+        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// ===== HELPER: Capitalize First Letter =====
+function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// ===== SAMPLE GAME GENERATORS (Replace with your real data) =====
+function generateSampleGames(mainType, subType) {
+    const games = [];
+    const count = 6;
+    
+    for (let i = 1; i <= count; i++) {
+        games.push(`
+            <div class="game-card" onclick="openGame('${mainType}', '${subType}', ${i})">
+                <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
+                    <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
+                </div>
+                <div class="game-info">
+                    <span class="game-name">${capitalizeFirst(subType)} ${i}</span>
+                    <span class="game-tag">${mainType.toUpperCase()}</span>
+                </div>
+            </div>
+        `);
+    }
+    
+    return games.join('');
+}
+
+function generateAllGames(mainType) {
+    const subCats = mainType === 'casino' 
+        ? ['slots', 'aviator', 'live', 'roulette', 'blackjack', 'poker', 'baccarat', 'crash', 'fishing']
+        : ['cricket', 'football', 'basketball', 'tennis', 'volleyball', 'boxing', 'hockey', 'rugby', 'golf'];
+    
+    let html = '';
+    subCats.forEach(sub => {
+        for (let i = 1; i <= 3; i++) {
+            html += `
+                <div class="game-card" onclick="openGame('${mainType}', '${sub}', ${i})">
+                    <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
+                        <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
+                    </div>
+                    <div class="game-info">
+                        <span class="game-name">${capitalizeFirst(sub)} ${i}</span>
+                        <span class="game-tag">${mainType.toUpperCase()}</span>
+                    </div>
+                </div>
+            `;
+        }
+    });
+    
+    return html;
+}
+
+// ===== OPEN GAME (Placeholder) =====
+function openGame(mainType, subType, gameId) {
+    console.log(`Opening ${mainType} > ${subType} > Game ${gameId}`);
+    // Add your game open logic here
+    // e.g., window.location.href = `/game/${mainType}/${subType}/${gameId}`;
+}
+
+// ===== INITIALIZE ON PAGE LOAD =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure sub-sections are hidden on load
+    if (casinoSubSection) casinoSubSection.style.display = 'none';
+    if (sportsSubSection) sportsSubSection.style.display = 'none';
+});
+
   /* ==========================================
      3. GAMES MARQUEE — CSS handles animation
      (No JS needed for basic marquee)
