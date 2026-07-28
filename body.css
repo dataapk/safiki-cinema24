@@ -1144,45 +1144,44 @@
    CASINO & SPORTS MAIN CARDS
 ========================================== */
 
+/* ==========================================
+   CASINO & SPORTS MAIN CARDS
+========================================== */
+
 .casino-sports-main-section{
-    padding:0 16px 16px;
+    padding:0 14px 16px;
     background:var(--bg);
 }
 
 .main-category-grid{
 
-    display:flex;
+    display:grid;
 
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
 
-    gap:10px;
+    gap:14px;
 
-    max-width:1200px;
-
-    margin:0 auto;
+    width:100%;
 
 }
 
-/* ==========================
-   CARD
-========================== */
+/* ===================== CARD ===================== */
 
 .main-cat-card{
 
     position:relative;
 
-    display:flex:1;
-   
+    display:flex;
 
     flex-direction:column;
 
-    justify-content:flex-start;
-
     align-items:center;
 
-    min-height:95px;
+    justify-content:center;
 
-    padding:10px 10px 12px;
+    min-height:105px;
+
+    padding:14px 12px;
 
     background:var(--surface);
 
@@ -1192,7 +1191,7 @@
 
     cursor:pointer;
 
-    transition:.30s;
+    transition:.30s ease;
 
     overflow:hidden;
 
@@ -1200,79 +1199,75 @@
 
 .main-cat-card:hover{
 
-    transform:translateY(-3px);
+    transform:translateY(-2px);
 
     border-color:var(--primary);
 
-    box-shadow:0 12px 28px rgba(0,0,0,.35);
+    box-shadow:0 8px 18px rgba(0,0,0,.30);
 
 }
 
-/* ==========================
-   ICON
-========================== */
+/* ===================== ICON ===================== */
 
 .main-cat-icon-wrap{
-
-    position:absolute;
-
-    top:14px;
-
-    left:50%;
-
-    transform:translateX(-50%);
 
     width:48px;
 
     height:48px;
 
-    font-size:24px;
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    color:#fff;
+
+    margin-bottom:10px;
 
 }
 
-/* ==========================
-   TITLE
-========================== */
+/* ===================== TITLE ===================== */
 
 .main-cat-info{
 
-    position:absolute;
-
-    bottom:12px;
-
-    left:50%;
-
-    transform:translateX(-50%);
+    text-align:center;
 
     width:100%;
-
-    text-align:center;
 
 }
 
 .main-cat-title{
 
+    margin:0;
+
     font-size:15px;
 
     font-weight:700;
 
+    color:var(--text);
+
 }
 
-/* ==========================
-   ARROW
-========================== */
+/* ===================== ARROW ===================== */
 
 .main-cat-arrow-icon{
 
     position:absolute;
 
-    top:34px;
-
     right:10px;
 
-    width:22px;
+    top:50%;
 
-    height:22px;
+    transform:translateY(-50%);
+
+    width:24px;
+
+    height:24px;
 
     border-radius:50%;
 
@@ -1282,15 +1277,15 @@
 
     justify-content:center;
 
-    background:rgba(255,255,255,.05);
+    background:var(--surface-2);
 
-    border:1px solid rgba(255,255,255,.08);
+    border:1px solid var(--border);
 
     color:var(--text-muted);
 
     font-size:10px;
 
-    transition:all .25s ease;
+    transition:.25s;
 
 }
 
@@ -1298,26 +1293,15 @@
 
     background:var(--primary);
 
-    border-color:var(--primary);
-
     color:#fff;
 
-    transform:translateX(2px);
+    border-color:var(--primary);
 
 }
 
-
-/* ==========================
-   MOBILE
-========================== */
+/* ===================== MOBILE ===================== */
 
 @media(max-width:480px){
-
-.casino-sports-main-section{
-
-    padding:0 12px 12px;
-
-}
 
 .main-category-grid{
 
@@ -1327,39 +1311,35 @@
 
 .main-cat-card{
 
-    min-height:118px;
+    min-height:95px;
 
-    padding:15px 10px;
+    padding:12px 10px;
 
 }
 
 .main-cat-icon-wrap{
 
-    width:46px;
+    width:42px;
 
-    height:46px;
+    height:42px;
 
     font-size:20px;
+
+    margin-bottom:8px;
 
 }
 
 .main-cat-title{
 
-    font-size:15px;
+    font-size:14px;
 
 }
 
 .main-cat-arrow-icon{
 
-    top:22px;
-
-    right:10px;
-
     width:22px;
 
     height:22px;
-
-    font-size:10px;
 
 }
 
