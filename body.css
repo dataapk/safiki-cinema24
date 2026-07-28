@@ -1235,6 +1235,42 @@
     transform:rotate(90deg);
 
 }
+@media(max-width:480px){
+
+.main-cat-card{
+
+    min-height:110px;
+
+    padding:15px 10px;
+
+}
+
+.main-cat-icon-wrap{
+
+    width:46px;
+    height:46px;
+
+    font-size:20px;
+
+}
+
+.main-cat-title{
+
+    font-size:15px;
+
+}
+
+.main-cat-arrow-icon{
+
+    width:24px;
+    height:24px;
+
+    top:10px;
+    right:10px;
+
+}
+
+}
 /* ======================================================
    SUB SECTIONS (Casino & Sports)
 ====================================================== */
