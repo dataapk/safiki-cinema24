@@ -1,4 +1,208 @@
+/* ======================================================
+   HERO BANNER SLIDER
+====================================================== */
 
+.hero-banner-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    padding: 0 16px;
+    margin-bottom: 0;
+}
+
+.hero-slider {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 220px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 60%;
+}
+
+.hero-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.hero-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 10px 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    line-height: 1.2;
+}
+
+.hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    margin: 0 0 18px 0;
+    line-height: 1.5;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    max-width: 90%;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    filter: brightness(1.1);
+}
+
+.hero-btn:active {
+    transform: translateY(0);
+}
+
+.hero-glow {
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Slider Dots */
+.hero-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding-bottom: 4px;
+}
+
+.hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-dot.active {
+    background: var(--primary);
+    width: 24px;
+    border-radius: 5px;
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(29, 133, 72, 0.4);
+}
+
+.hero-dot:hover {
+    background: var(--text-muted);
+    border-color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-slider {
+        height: 180px;
+        border-radius: 12px;
+    }
+    
+    .hero-slide {
+        padding: 0 24px;
+    }
+    
+    .hero-content {
+        max-width: 80%;
+    }
+    
+    .hero-title {
+        font-size: 20px;
+    }
+    
+    .hero-sub {
+        font-size: 12px;
+        margin-bottom: 14px;
+    }
+    
+    .hero-btn {
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+    
+    .hero-glow {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-slider {
+        height: 160px;
+    }
+    
+    .hero-slide {
+        padding: 0 18px;
+    }
+    
+    .hero-title {
+        font-size: 17px;
+    }
+    
+    .hero-sub {
+        font-size: 11px;
+    }
+    
+    .hero-btn {
+        padding: 8px 16px;
+        font-size: 11px;
+    }
+}
  ======================================================
    CASINO & SPORTS SECTION STYLES
    Using Root Variables (Bet365 Dark Theme)
