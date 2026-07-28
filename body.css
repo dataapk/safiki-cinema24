@@ -972,6 +972,203 @@
     }
 }
 
+/* ======================================================
+   CRYPTO PAYMENT — COMPACT ICON GRID
+====================================================== */
+
+.crypto-section {
+    padding: 16px;
+    background: var(--bg);
+}
+
+/* Main box */
+.crypto-main-box {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 16px !important;
+    padding: 20px 16px 16px 16px !important;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle top glow */
+.crypto-main-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--yellow), var(--primary), transparent);
+    opacity: 0.6;
+}
+
+/* Header */
+.crypto-box-header {
+    text-align: center;
+    margin-bottom: 18px !important;
+}
+
+.crypto-box-title {
+    color: var(--text) !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    margin: 0 0 5px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+.crypto-box-sub {
+    color: var(--text-muted) !important;
+    font-size: 12px !important;
+    margin: 0 !important;
+}
+
+/* ===== ICONS GRID: 8 per row ===== */
+.crypto-icons-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+}
+
+/* Individual crypto box — compact */
+.crypto-icon-box {
+    background: var(--surface-2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    padding: 10px 4px 8px 4px !important;
+    text-align: center;
+    cursor: default;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Image wrap */
+.crypto-img-wrap {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 auto 6px auto !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.crypto-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Fallback text */
+.crypto-img-wrap span {
+    font-size: 22px !important;
+    font-weight: 800;
+}
+
+/* Crypto code text */
+.crypto-code-text {
+    color: var(--text-muted) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    display: block;
+    letter-spacing: 0.3px;
+}
+
+/* ===== HOVER STATE ===== */
+.crypto-icon-box:hover {
+    transform: translateY(-4px) scale(1.05);
+    border-color: var(--border-green) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    background: var(--surface) !important;
+}
+
+.crypto-icon-box:hover .crypto-code-text {
+    color: var(--text) !important;
+}
+
+/* ===== FOOTER ===== */
+.crypto-box-footer {
+    text-align: center;
+    margin-top: 14px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid var(--border) !important;
+}
+
+.crypto-box-footer p {
+    color: var(--text-muted) !important;
+    font-size: 11px !important;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.crypto-box-footer i {
+    color: var(--primary);
+    font-size: 12px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .crypto-icons-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .crypto-icons-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+    }
+    
+    .crypto-icon-box {
+        padding: 8px 3px 6px 3px !important;
+        border-radius: 8px !important;
+    }
+    
+    .crypto-img-wrap {
+        width: 28px !important;
+        height: 28px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .crypto-img-wrap span {
+        font-size: 18px !important;
+    }
+    
+    .crypto-code-text {
+        font-size: 9px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .crypto-icons-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+    
+    .crypto-main-box {
+        padding: 16px 12px 12px 12px !important;
+        border-radius: 12px !important;
+    }
+    
+    .crypto-box-title {
+        font-size: 14px !important;
+    }
+    
+    .crypto-box-sub {
+        font-size: 11px !important;
+    }
+}
+
 
  ======================================================
    CASINO & SPORTS SECTION STYLES
