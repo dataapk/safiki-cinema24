@@ -1180,15 +1180,15 @@
 
     align-items:center;
 
-    min-height:130px;
+    min-height:95px;
 
-    padding:18px 14px 16px;
+    padding:10px 10px 12px;
 
     background:var(--surface);
 
     border:1px solid var(--border);
 
-    border-radius:16px;
+    border-radius:14px;
 
     cursor:pointer;
 
@@ -1214,23 +1214,19 @@
 
 .main-cat-icon-wrap{
 
-    width:54px;
+    position:absolute;
 
-    height:54px;
+    top:14px;
 
-    border-radius:14px;
+    left:50%;
 
-    display:flex;
+    transform:translateX(-50%);
 
-    align-items:center;
+    width:48px;
 
-    justify-content:center;
+    height:48px;
 
-    font-size:22px;
-
-    color:#fff;
-
-    margin-top:2px;
+    font-size:24px;
 
 }
 
@@ -1240,9 +1236,15 @@
 
 .main-cat-info{
 
-    width:100%;
+    position:absolute;
 
-    margin-top:12px;
+    bottom:12px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:100%;
 
     text-align:center;
 
@@ -1250,15 +1252,9 @@
 
 .main-cat-title{
 
-    margin:0;
-
-    font-size:16px;
+    font-size:15px;
 
     font-weight:700;
-
-    color:var(--text);
-
-    letter-spacing:.3px;
 
 }
 
