@@ -1140,9 +1140,26 @@
    Using Root Variables (Bet365 Dark Theme)
 ====================================================== */
 
+/* ======================================================
+   CASINO & SPORTS — MAIN CARDS + SUB SECTIONS
+   Side-by-side cards | No tap highlight | Smooth transitions
+====================================================== */
+
+/* ----- TAP HIGHLIGHT REMOVE (Mobile touch) ----- */
+.main-cat-card,
+.subcat-item,
+.sub-back-btn,
+.view-all-btn,
+.sub-dot {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    outline: none;
+}
+
 /* ----- MAIN CATEGORY SECTION ----- */
 .casino-sports-main-section {
-    padding: 16px;
+    padding: 0 16px 16px 16px;
     background: var(--bg);
 }
 
@@ -1154,20 +1171,22 @@
     margin: 0 auto;
 }
 
+/* ----- MAIN CARDS (Side by Side) ----- */
 .main-cat-card {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px;
+    padding: 18px 14px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
 }
 
+/* Top accent line */
 .main-cat-card::before {
     content: '';
     position: absolute;
@@ -1181,8 +1200,8 @@
 }
 
 .main-cat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px var(--shadow);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
     border-color: var(--border-green);
 }
 
@@ -1191,12 +1210,12 @@
 }
 
 .main-cat-card:active {
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(0.98);
 }
 
 .main-cat-icon-wrap {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -1204,7 +1223,7 @@
     font-size: 22px;
     color: #fff;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 .main-cat-info {
@@ -1260,29 +1279,26 @@
     transform: translateX(2px);
 }
 
-/* ----- SUB SECTIONS (Casino & Sports) ----- */
+/* ======================================================
+   SUB SECTIONS (Casino & Sports)
+====================================================== */
+
 .casino-sub-section,
 .sports-sub-section {
     padding: 0 16px 16px 16px;
     background: var(--bg);
-    animation: fadeInUp 0.35s ease;
+    animation: subSectionFadeIn 0.4s ease;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes subSectionFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ----- SUB BANNER (Small Slider) ----- */
 .sub-banner {
     position: relative;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
     margin-bottom: 16px;
     box-shadow: 0 4px 16px var(--shadow);
@@ -1291,7 +1307,7 @@
 
 .sub-slider {
     position: relative;
-    height: 140px;
+    height: 130px;
     overflow: hidden;
 }
 
@@ -1303,10 +1319,10 @@
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
 .sub-slide.active {
@@ -1321,15 +1337,15 @@
 }
 
 .sub-slide-content h3 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: #fff;
-    margin: 0 0 6px 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    margin: 0 0 5px 0;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.35);
 }
 
 .sub-slide-content p {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255,255,255,0.85);
     margin: 0;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -1338,7 +1354,7 @@
 .sub-badge {
     display: inline-block;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
     padding: 3px 10px;
     border-radius: 4px;
     margin-bottom: 8px;
@@ -1357,27 +1373,27 @@
 }
 
 .sub-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: rgba(255,255,255,0.35);
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: none;
+    padding: 0;
 }
 
 .sub-dot.active {
     background: var(--yellow);
-    width: 20px;
+    width: 18px;
     border-radius: 4px;
-    border-color: var(--yellow);
 }
 
 .sub-dot:hover {
     background: rgba(255,255,255,0.6);
 }
 
-/* ----- SUB CATEGORY HEADER ROW ----- */
+/* ----- SUB CATEGORY HEADER ----- */
 .subcat-header-row {
     display: flex;
     align-items: center;
@@ -1406,6 +1422,10 @@
     color: var(--primary);
 }
 
+.sub-back-btn:active {
+    transform: scale(0.97);
+}
+
 .sub-back-btn i {
     font-size: 12px;
 }
@@ -1423,7 +1443,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .subcat-row {
@@ -1437,25 +1457,25 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 14px 8px;
+    gap: 7px;
+    padding: 14px 6px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     text-align: center;
-    min-height: 80px;
+    min-height: 78px;
 }
 
 .subcat-item i {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--text-muted);
     transition: color 0.2s ease;
 }
 
 .subcat-item span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--text-muted);
     transition: color 0.2s ease;
@@ -1464,8 +1484,8 @@
 .subcat-item:hover {
     background: var(--surface-2);
     border-color: var(--border-green);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 .subcat-item:hover i,
@@ -1473,10 +1493,14 @@
     color: var(--text);
 }
 
+.subcat-item:active {
+    transform: translateY(-1px) scale(0.97);
+}
+
 .subcat-item.active {
     background: linear-gradient(135deg, var(--primary), var(--bonus-green-dark));
     border-color: var(--primary);
-    box-shadow: 0 4px 16px rgba(29, 133, 72, 0.25);
+    box-shadow: 0 4px 14px rgba(29, 133, 72, 0.25);
 }
 
 .subcat-item.active i,
@@ -1484,7 +1508,7 @@
     color: #fff;
 }
 
-/* View All Button */
+/* View All */
 .subcat-item.view-all-btn {
     background: linear-gradient(135deg, var(--surface-2), var(--surface));
     border: 1px dashed var(--border-green);
@@ -1514,10 +1538,10 @@
 .selected-games-area {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 16px;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.3s ease;
+    margin-bottom: 16px;
+    animation: subSectionFadeIn 0.3s ease;
 }
 
 .selected-games-title {
@@ -1542,11 +1566,11 @@
 
 .selected-games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 12px;
 }
 
-/* ----- GAMES GRID SECTION (Default) ----- */
+/* ----- DEFAULT GAMES GRID ----- */
 .games-grid-section {
     padding: 0 16px 16px 16px;
     background: var(--bg);
@@ -1554,92 +1578,45 @@
 
 .games-grid-wrap {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 12px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ----- RESPONSIVE ----- */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .main-category-grid {
-        gap: 10px;
-    }
+    .main-category-grid { gap: 10px; }
+    .main-cat-card { padding: 14px 12px; gap: 10px; }
+    .main-cat-icon-wrap { width: 44px; height: 44px; font-size: 18px; }
+    .main-cat-title { font-size: 15px; }
+    .main-cat-desc { font-size: 11px; }
     
-    .main-cat-card {
-        padding: 12px;
-        gap: 10px;
-    }
+    .sub-slider { height: 115px; }
+    .sub-slide { padding: 0 18px; }
+    .sub-slide-content h3 { font-size: 15px; }
+    .sub-slide-content p { font-size: 11px; }
     
-    .main-cat-icon-wrap {
-        width: 44px;
-        height: 44px;
-        font-size: 18px;
-    }
-    
-    .main-cat-title {
-        font-size: 15px;
-    }
-    
-    .main-cat-desc {
-        font-size: 11px;
-    }
-    
-    .sub-slider {
-        height: 120px;
-    }
-    
-    .sub-slide-content h3 {
-        font-size: 15px;
-    }
-    
-    .sub-slide-content p {
-        font-size: 12px;
-    }
-    
-    .subcat-row {
-        gap: 8px;
-    }
-    
-    .subcat-item {
-        padding: 10px 4px;
-        min-height: 70px;
-    }
-    
-    .subcat-item i {
-        font-size: 18px;
-    }
-    
-    .subcat-item span {
-        font-size: 10px;
-    }
+    .subcat-row { gap: 8px; }
+    .subcat-item { padding: 12px 4px; min-height: 72px; border-radius: 10px; }
+    .subcat-item i { font-size: 18px; }
+    .subcat-item span { font-size: 10px; }
     
     .selected-games-grid,
-    .games-grid-wrap {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
+    .games-grid-wrap { grid-template-columns: repeat(3, 1fr); gap: 10px; }
 }
 
 @media (max-width: 480px) {
-    .main-category-grid {
-        grid-template-columns: 1fr;
-    }
+    .main-category-grid { grid-template-columns: 1fr; gap: 10px; }
+    .main-cat-card { padding: 16px 14px; }
     
-    .subcat-row {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .subcat-row.down-row {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    .subcat-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .subcat-row.down-row { grid-template-columns: repeat(3, 1fr); }
     
     .selected-games-grid,
-    .games-grid-wrap {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .games-grid-wrap { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     
-    .sub-slider {
-        height: 110px;
-    }
+    .sub-slider { height: 110px; }
+    .selected-games-area { padding: 14px; }
 }
+
