@@ -820,6 +820,159 @@
         gap: 8px;
     }
 }
+/* ======================================================
+   WHY CHOOSE US — 4 CARDS
+====================================================== */
+
+.why-us-section {
+    padding: 16px;
+    background: var(--bg);
+}
+
+.why-us-section .section-header {
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+
+/* Grid: 4 columns desktop, 2 tablet, 1 mobile */
+.why-us-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Individual card */
+.why-card {
+    padding: 22px 16px;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px;
+    text-align: center;
+    cursor: default;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Top accent line */
+.why-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Glow behind */
+.why-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle, rgba(29, 133, 72, 0.06) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Icon circle */
+.why-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px auto;
+    font-size: 22px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+/* Title */
+.why-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--text) !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* Description */
+.why-card p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--text-muted) !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== HOVER STATE ===== */
+.why-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-green) !important;
+}
+
+.why-card:hover::before {
+    opacity: 1;
+}
+
+.why-card:hover::after {
+    opacity: 1;
+}
+
+.why-card:hover .why-icon {
+    transform: scale(1.12) rotate(-3deg);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .why-us-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .why-us-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .why-card {
+        padding: 18px 14px;
+    }
+    
+    .why-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 20px;
+    }
+    
+    .why-card h4 {
+        font-size: 14px;
+    }
+    
+    .why-card p {
+        font-size: 11px;
+    }
+}
+
+
  ======================================================
    CASINO & SPORTS SECTION STYLES
    Using Root Variables (Bet365 Dark Theme)
