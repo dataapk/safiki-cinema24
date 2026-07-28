@@ -1,5 +1,5 @@
 /* ======================================================
-   HERO BANNER SLIDER — FULL WIDTH + GREEN/YELLOW
+   HERO BANNER — SMOOTH MERGE + BODY BG + WHITE DOTS
 ====================================================== */
 
 .hero-banner-section {
@@ -7,17 +7,19 @@
     width: 100%;
     background: var(--bg);
     overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 
-/* Decorative background shapes */
+/* Subtle green + yellow glow in background */
 .hero-banner-section::before {
     content: '';
     position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, rgba(29, 133, 72, 0.15) 0%, transparent 70%);
+    top: -80px;
+    right: -60px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(29, 133, 72, 0.08) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
 }
@@ -25,26 +27,24 @@
 .hero-banner-section::after {
     content: '';
     position: absolute;
-    bottom: -80px;
-    left: -80px;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(214, 198, 26, 0.1) 0%, transparent 70%);
+    bottom: -60px;
+    left: -40px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(214, 198, 26, 0.06) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
 }
 
+/* Slider container */
 .hero-slider {
     position: relative;
     width: 100%;
-    height: 240px;
+    height: 220px;
     overflow: hidden;
-   display: flex;
-    align-items: center;  /* Vertical center */
-    justify-content: center;
 }
 
-/* Individual slide — full width, no border-radius container */
+/* ===== SLIDES — SMOOTH CROSSFADE MERGE ===== */
 .hero-slide {
     position: absolute;
     top: 0;
@@ -53,76 +53,82 @@
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 5%;
+    justify-content: center;
+    padding: 0;
     opacity: 0;
-    transform: translateX(50px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
     z-index: 1;
+    transition: opacity 0.8s ease-in-out;
 }
 
-/* Override inline styles with Green + Yellow theme */
-.hero-slide:nth-child(1) {
-    background: linear-gradient(135deg, var(--header-green) 0%, var(--primary) 50%, var(--header-mid) 100%) !important;
-}
-
-.hero-slide:nth-child(2) {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--bonus-green-dark) 60%, var(--header-green) 100%) !important;
-}
-
-.hero-slide:nth-child(3) {
-    background: linear-gradient(135deg, var(--header-green) 0%, var(--header-mid) 40%, var(--primary) 100%) !important;
-}
-
+/* Active slide */
 .hero-slide.active {
     opacity: 1;
-    transform: translateX(0);
     z-index: 2;
 }
 
-/* Content area */
+/* Override backgrounds with green + yellow tint */
+.hero-slide:nth-child(1) {
+    background: linear-gradient(135deg, var(--header-green) 0%, var(--primary) 60%, rgba(214,198,26,0.15) 100%) !important;
+}
+
+.hero-slide:nth-child(2) {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--header-green) 50%, rgba(214,198,26,0.1) 100%) !important;
+}
+
+.hero-slide:nth-child(3) {
+    background: linear-gradient(135deg, var(--header-mid) 0%, var(--header-green) 70%, rgba(29,133,72,0.3) 100%) !important;
+}
+
+/* Content — perfectly centered */
 .hero-content {
     position: relative;
     z-index: 3;
+    text-align: center;
     max-width: 600px;
-   text-align: center;
-   display: flex;
-   flex-direction: column;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Badge */
 .hero-badge {
     display: inline-block;
     font-size: 11px;
     font-weight: 800;
     padding: 5px 14px;
     border-radius: 4px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
     background: var(--yellow) !important;
     color: #1a1a1a !important;
-    box-shadow: 0 2px 12px rgba(214, 198, 26, 0.3);
+    box-shadow: 0 2px 10px rgba(214, 198, 26, 0.25);
 }
 
+/* Title */
 .hero-title {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 800;
     color: #fff;
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
     line-height: 1.2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
+/* Subtitle */
 .hero-sub {
-    font-size: 15px;
+    font-size: 14px;
     color: rgba(255,255,255,0.85);
-    margin: 0 0 22px 0;
+    margin: 0 0 20px 0;
     line-height: 1.5;
     max-width: 480px;
 }
 
+/* Button */
 .hero-btn {
     display: inline-block;
-    padding: 14px 32px;
+    padding: 13px 30px;
     border: none;
     border-radius: 8px;
     background: var(--yellow) !important;
@@ -130,107 +136,71 @@
     font-size: 14px;
     font-weight: 800;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(214, 198, 26, 0.3);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(214, 198, 26, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .hero-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(214, 198, 26, 0.45);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(214, 198, 26, 0.4);
     background: var(--yellow-hover) !important;
 }
 
-.hero-btn:active {
-    transform: translateY(-1px);
-}
-
-/* Glow effect behind content */
+/* Glow decoration behind content */
 .hero-glow {
     position: absolute;
     top: 50%;
-    right: 10%;
-    transform: translateY(-50%);
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, rgba(214, 198, 26, 0.12) 0%, transparent 65%);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(214, 198, 26, 0.06) 0%, transparent 60%);
     pointer-events: none;
     z-index: 1;
 }
 
-/* Floating shape decoration */
-.hero-slide::before {
-    content: '';
-    position: absolute;
-    top: 20%;
-    right: 15%;
-    width: 80px;
-    height: 80px;
-    border: 2px solid rgba(214, 198, 26, 0.2);
-    border-radius: 50%;
-    animation: floatShape 6s ease-in-out infinite;
-    pointer-events: none;
-}
-
-.hero-slide::after {
-    content: '';
-    position: absolute;
-    bottom: 15%;
-    right: 25%;
-    width: 40px;
-    height: 40px;
-    background: rgba(29, 133, 72, 0.15);
-    border-radius: 50%;
-    animation: floatShape 4s ease-in-out infinite reverse;
-    pointer-events: none;
-}
-
-@keyframes floatShape {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-15px) scale(1.05); }
-}
-
-/* Slider Dots */
+/* ===== DOTS — WHITE, SMALL, MINIMAL ===== */
 .hero-dots {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    padding: 16px 0;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    padding-bottom: 0;
+    margin: 0;
     position: relative;
     z-index: 3;
 }
 
 .hero-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.3);
     cursor: pointer;
     transition: all 0.3s ease;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 .hero-dot.active {
-    background: var(--yellow);
-    width: 28px;
-    border-radius: 5px;
-    border-color: var(--yellow);
-    box-shadow: 0 0 10px rgba(214, 198, 26, 0.4);
+    background: #fff;
+    width: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 6px rgba(255,255,255,0.3);
 }
 
 .hero-dot:hover {
-    background: var(--text-muted);
+    background: rgba(255, 255, 255, 0.6);
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .hero-slider {
-        height: 200px;
-    }
-    
-    .hero-slide {
-        padding: 0 24px;
+        height: 190px;
     }
     
     .hero-title {
@@ -239,28 +209,22 @@
     
     .hero-sub {
         font-size: 13px;
-        max-width: 90%;
+        margin-bottom: 16px;
     }
     
     .hero-btn {
-        padding: 12px 24px;
+        padding: 11px 24px;
         font-size: 13px;
     }
     
-    .hero-glow {
-        width: 200px;
-        height: 200px;
-        right: 5%;
+    .hero-content {
+        padding: 0 16px;
     }
 }
 
 @media (max-width: 480px) {
     .hero-slider {
-        height: 180px;
-    }
-    
-    .hero-slide {
-        padding: 0 18px;
+        height: 170px;
     }
     
     .hero-title {
@@ -269,7 +233,7 @@
     
     .hero-sub {
         font-size: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
     }
     
     .hero-btn {
@@ -277,11 +241,12 @@
         font-size: 12px;
     }
     
-    .hero-slide::before,
-    .hero-slide::after {
-        display: none;
+    .hero-badge {
+        font-size: 10px;
+        padding: 4px 10px;
     }
 }
+
 /* ======================================================
    GAMES MARQUEE SECTION — CONTINUOUS SCROLL
 ====================================================== */
