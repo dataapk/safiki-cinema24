@@ -1180,6 +1180,11 @@
     justify-content:center;
 
     min-height:105px;
+    width:100%;
+
+    min-width:0;
+
+    box-sizing:border-box;
 
     padding:14px 12px;
 
