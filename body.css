@@ -397,6 +397,222 @@
         animation-duration: 18s;
     }
 }
+/* ======================================================
+   OFFERS / PROMOTION CARDS (3+3 Grid)
+====================================================== */
+
+.offers-section {
+    padding: 16px;
+    background: var(--bg);
+}
+
+.section-header {
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+.section-title i {
+    font-size: 18px;
+}
+
+/* ----- Grid Layout ----- */
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ----- Individual Card ----- */
+.offer-card {
+    position: relative;
+    padding: 18px 14px;
+    background: var(--surface) !important;
+    border: none !important;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Subtle top accent line */
+.offer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Glow behind card on hover/active */
+.offer-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(29, 133, 72, 0.08) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Icon wrap */
+.offer-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px auto;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Text styles */
+.offer-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: var(--text) !important;
+}
+
+.offer-rate {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+}
+
+.offer-desc {
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 0 0 12px 0;
+    color: var(--text-muted) !important;
+}
+
+/* Tag badge */
+.offer-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== HOVER STATE ===== */
+.offer-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+}
+
+.offer-card:hover::before {
+    opacity: 1;
+}
+
+.offer-card:hover::after {
+    opacity: 1;
+}
+
+.offer-card:hover .offer-icon-wrap {
+    transform: scale(1.1);
+}
+
+/* ===== ACTIVE / EXPANDED STATE (Clicked card lifts up) ===== */
+.offer-card.active {
+    transform: translateY(-10px) scale(1.06);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 30px rgba(29, 133, 72, 0.1);
+    z-index: 10;
+    background: var(--surface-2) !important;
+}
+
+.offer-card.active::before {
+    opacity: 1;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--yellow), var(--primary));
+}
+
+.offer-card.active::after {
+    opacity: 1;
+}
+
+.offer-card.active .offer-icon-wrap {
+    transform: scale(1.15);
+}
+
+/* ===== MINIMIZED STATE (When grid has active card, others shrink) ===== */
+.offers-grid.has-active .offer-card:not(.active) {
+    transform: scale(0.92);
+    opacity: 0.5;
+    filter: grayscale(0.4);
+    pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .offers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .offer-card {
+        padding: 14px 10px;
+    }
+    
+    .offer-icon-wrap {
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+    }
+    
+    .offer-title {
+        font-size: 12px;
+    }
+    
+    .offer-rate {
+        font-size: 15px;
+    }
+    
+    .offer-desc {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .offers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .offer-card {
+        padding: 14px 10px;
+        border-radius: 12px;
+    }
+}
+
 
  ======================================================
    CASINO & SPORTS SECTION STYLES
