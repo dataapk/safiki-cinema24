@@ -1151,11 +1151,11 @@
 
 .main-category-grid{
 
-    display:grid;
+    display:flex;
 
     grid-template-columns:repeat(2,1fr);
 
-    gap:14px;
+    gap:10px;
 
     max-width:1200px;
 
@@ -1171,7 +1171,8 @@
 
     position:relative;
 
-    display:flex;
+    display:flex:1;
+    width:100%;
 
     flex-direction:column;
 
