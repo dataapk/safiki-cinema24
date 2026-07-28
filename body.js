@@ -192,6 +192,7 @@ function selectMainCategory(category) {
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+   window.selectMainCategory = selectMainCategory;
 
 // ===== BACK TO MAIN DASHBOARD =====
 function backToMainDashboard() {
