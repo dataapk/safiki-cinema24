@@ -222,6 +222,7 @@ function backToMainDashboard() {
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+   window.backToMainDashboard = backToMainDashboard;
 
 // ===== SUB-BANNER SLIDER =====
 function goToSubSlide(type, index) {
@@ -326,6 +327,7 @@ function selectSubCategory(mainType, subType, element) {
         gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
+   window.selectSubCategory = selectSubCategory;
 
 // ===== VIEW ALL SUB-CATEGORIES =====
 function viewAllSubCategories(mainType, element) {
