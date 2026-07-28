@@ -1155,7 +1155,7 @@
 
 .main-category-grid{
 
-    display:grid;
+    display:flex;
 
     grid-template-columns:repeat(2,minmax(0,1fr));
 
@@ -1171,7 +1171,10 @@
 
     position:relative;
 
-    display:flex;
+    flex:1;
+
+    min-width:0;
+
 
     flex-direction:column;
 
