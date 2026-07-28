@@ -1140,78 +1140,150 @@
    Using Root Variables (Bet365 Dark Theme)
 ====================================================== */
 /* ----- MAIN CATEGORY SECTION ----- */
-/* ----- MAIN CARDS ----- */
+/* ==========================================
+   CASINO & SPORTS MAIN CARDS
+========================================== */
+
+.casino-sports-main-section{
+    padding:0 16px 16px;
+    background:var(--bg);
+}
+
+.main-category-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:14px;
+
+    max-width:1200px;
+
+    margin:0 auto;
+
+}
+
+/* ==========================
+   CARD
+========================== */
+
 .main-cat-card{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+
     position:relative;
 
-    min-height:120px;
+    display:flex;
 
-    padding:18px 14px;
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    align-items:center;
+
+    min-height:130px;
+
+    padding:18px 14px 16px;
 
     background:var(--surface);
+
     border:1px solid var(--border);
-    border-radius:14px;
+
+    border-radius:16px;
 
     cursor:pointer;
+
+    transition:.30s;
+
     overflow:hidden;
 
-    transition:.30s ease;
 }
 
 .main-cat-card:hover{
+
     transform:translateY(-3px);
+
     border-color:var(--primary);
-    box-shadow:0 10px 24px rgba(0,0,0,.35);
+
+    box-shadow:0 12px 28px rgba(0,0,0,.35);
+
 }
 
+/* ==========================
+   ICON
+========================== */
+
 .main-cat-icon-wrap{
-    width:52px;
-    height:52px;
+
+    width:54px;
+
+    height:54px;
 
     border-radius:14px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     font-size:22px;
+
     color:#fff;
 
-    margin-bottom:12px;
+    margin-top:2px;
+
 }
 
+/* ==========================
+   TITLE
+========================== */
+
 .main-cat-info{
+
     width:100%;
+
+    margin-top:12px;
+
     text-align:center;
+
 }
 
 .main-cat-title{
+
     margin:0;
+
     font-size:16px;
+
     font-weight:700;
+
     color:var(--text);
+
     letter-spacing:.3px;
+
 }
+
+/* ==========================
+   ARROW
+========================== */
 
 .main-cat-arrow-icon{
 
     position:absolute;
 
-    right:12px;
-    top:12px;
+    top:28px;
 
-    width:28px;
-    height:28px;
+    right:14px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width:26px;
+
+    height:26px;
 
     border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
     background:var(--surface-2);
 
@@ -1222,6 +1294,7 @@
     font-size:11px;
 
     transition:.25s;
+
 }
 
 .main-cat-card:hover .main-cat-arrow-icon{
@@ -1232,14 +1305,31 @@
 
     color:#fff;
 
-    transform:rotate(90deg);
+    transform:translateX(3px);
 
 }
+
+/* ==========================
+   MOBILE
+========================== */
+
 @media(max-width:480px){
+
+.casino-sports-main-section{
+
+    padding:0 12px 12px;
+
+}
+
+.main-category-grid{
+
+    gap:10px;
+
+}
 
 .main-cat-card{
 
-    min-height:110px;
+    min-height:118px;
 
     padding:15px 10px;
 
@@ -1248,6 +1338,7 @@
 .main-cat-icon-wrap{
 
     width:46px;
+
     height:46px;
 
     font-size:20px;
@@ -1262,15 +1353,20 @@
 
 .main-cat-arrow-icon{
 
-    width:24px;
-    height:24px;
+    top:22px;
 
-    top:10px;
     right:10px;
 
+    width:22px;
+
+    height:22px;
+
+    font-size:10px;
+
 }
 
 }
+
 /* ======================================================
    SUB SECTIONS (Casino & Sports)
 ====================================================== */
