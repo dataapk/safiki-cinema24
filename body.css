@@ -613,6 +613,176 @@
     }
 }
 
+/* ======================================================
+   RECENT WINNERS — CONTINUOUS SLIDING CARDS
+====================================================== */
+
+.winners-section {
+    padding: 16px;
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Fade edges for smooth look */
+.winners-section::before,
+.winners-section::after {
+    content: '';
+    position: absolute;
+    top: 40px; /* below header */
+    width: 60px;
+    height: calc(100% - 72px);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.winners-section::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg), transparent);
+}
+
+.winners-section::after {
+    right: 0;
+    background: linear-gradient(-90deg, var(--bg), transparent);
+}
+
+/* Section header with View All */
+.winners-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 0 4px;
+}
+
+.winners-section .view-all {
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: gap 0.2s ease;
+}
+
+.winners-section .view-all:hover {
+    gap: 8px;
+}
+
+/* Slider container */
+.winners-slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Track — continuous scroll */
+.winners-track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: winnersScroll 30s linear infinite;
+    pointer-events: none; /* Touch won't stop */
+    user-select: none;
+}
+
+/* Individual winner card */
+.winner-card {
+    flex-shrink: 0;
+    width: 190px;
+    padding: 16px 14px;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+/* Avatar circle */
+.winner-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px auto;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Text styles */
+.winner-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: var(--text) !important;
+}
+
+.winner-game {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-muted) !important;
+}
+
+.winner-amount {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--yellow) !important;
+    letter-spacing: 0.3px;
+}
+
+/* Keyframes — Right to Left continuous */
+@keyframes winnersScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .winner-card {
+        width: 150px;
+        padding: 14px 10px;
+    }
+    
+    .winner-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+    }
+    
+    .winner-name {
+        font-size: 12px;
+    }
+    
+    .winner-amount {
+        font-size: 14px;
+    }
+    
+    .winners-track {
+        animation-duration: 22s;
+    }
+}
+
+@media (max-width: 480px) {
+    .winner-card {
+        width: 130px;
+    }
+    
+    .winners-track {
+        animation-duration: 18s;
+    }
+}
 
  ======================================================
    CASINO & SPORTS SECTION STYLES
