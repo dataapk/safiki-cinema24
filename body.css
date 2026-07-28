@@ -616,6 +616,9 @@
 /* ======================================================
    RECENT WINNERS — CONTINUOUS SLIDING CARDS
 ====================================================== */
+/* ======================================================
+   RECENT WINNERS — 5+ VISIBLE, TALL CARDS, CONTINUOUS
+====================================================== */
 
 .winners-section {
     padding: 16px;
@@ -624,14 +627,14 @@
     position: relative;
 }
 
-/* Fade edges for smooth look */
+/* Fade edges */
 .winners-section::before,
 .winners-section::after {
     content: '';
     position: absolute;
-    top: 40px; /* below header */
-    width: 60px;
-    height: calc(100% - 72px);
+    top: 50px;
+    width: 50px;
+    height: calc(100% - 80px);
     z-index: 2;
     pointer-events: none;
 }
@@ -646,7 +649,7 @@
     background: linear-gradient(-90deg, var(--bg), transparent);
 }
 
-/* Section header with View All */
+/* Header */
 .winners-section .section-header {
     display: flex;
     justify-content: space-between;
@@ -669,7 +672,7 @@
     gap: 8px;
 }
 
-/* Slider container */
+/* Slider */
 .winners-slider {
     width: 100%;
     overflow: hidden;
@@ -679,66 +682,79 @@
 /* Track — continuous scroll */
 .winners-track {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     width: max-content;
-    animation: winnersScroll 30s linear infinite;
-    pointer-events: none; /* Touch won't stop */
+    animation: winnersScroll 35s linear infinite;
+    pointer-events: none;
     user-select: none;
 }
 
-/* Individual winner card */
+/* ===== TALL WINNER CARD ===== */
 .winner-card {
     flex-shrink: 0;
-    width: 190px;
-    padding: 16px 14px;
+    width: 148px;
+    padding: 20px 12px 18px 12px;
     background: var(--surface) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 14px;
+    border-radius: 16px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
     transition: transform 0.3s ease;
 }
 
-/* Avatar circle */
+/* Avatar — bigger */
 .winner-avatar {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 10px auto;
-    font-size: 18px;
+    margin: 0 0 12px 0;
+    font-size: 20px;
     font-weight: 800;
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    flex-shrink: 0;
 }
 
-/* Text styles */
+/* Name */
 .winner-name {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
     color: var(--text) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
+/* Game */
 .winner-game {
     display: block;
     font-size: 11px;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: var(--text-muted) !important;
 }
 
+/* Amount — bigger */
 .winner-amount {
     display: block;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--yellow) !important;
     letter-spacing: 0.3px;
+    margin-top: auto;
 }
 
-/* Keyframes — Right to Left continuous */
+/* Keyframes */
 @keyframes winnersScroll {
     0% {
         transform: translateX(0);
@@ -751,14 +767,15 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .winner-card {
-        width: 150px;
-        padding: 14px 10px;
+        width: 130px;
+        min-height: 150px;
+        padding: 18px 10px 16px 10px;
     }
     
     .winner-avatar {
-        width: 40px;
-        height: 40px;
-        font-size: 15px;
+        width: 46px;
+        height: 46px;
+        font-size: 18px;
     }
     
     .winner-name {
@@ -770,20 +787,39 @@
     }
     
     .winners-track {
-        animation-duration: 22s;
+        animation-duration: 28s;
     }
 }
 
 @media (max-width: 480px) {
     .winner-card {
-        width: 130px;
+        width: 115px;
+        min-height: 145px;
+        padding: 16px 8px 14px 8px;
+        border-radius: 14px;
+    }
+    
+    .winner-avatar {
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .winner-game {
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+    
+    .winner-amount {
+        font-size: 13px;
     }
     
     .winners-track {
-        animation-duration: 18s;
+        animation-duration: 24s;
+        gap: 8px;
     }
 }
-
  ======================================================
    CASINO & SPORTS SECTION STYLES
    Using Root Variables (Bet365 Dark Theme)
