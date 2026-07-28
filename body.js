@@ -362,6 +362,7 @@ function viewAllSubCategories(mainType, element) {
         gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
+   window.viewAllSubCategories = viewAllSubCategories;
 
 // ===== HELPER: Capitalize First Letter =====
 function capitalizeFirst(str) {
