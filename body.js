@@ -316,10 +316,24 @@ function selectSubCategory(mainType, subType, element) {
         gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
     }
     
-    if (gamesGrid) {
-        // Generate sample games (replace with your real data)
+   if (gamesGrid) {
+
+    if (mainType === "sports") {
+
+        // Sports-এর জন্য নতুন সিস্টেম
+        switchSportsTab(
+            "live",
+            document.querySelector(".sports-filter.active")
+        );
+
+    } else {
+
+        // Casino আগের মতোই থাকবে
         gamesGrid.innerHTML = generateSampleGames(mainType, subType);
+
     }
+
+}
     
     if (gamesArea) {
         gamesArea.style.display = 'block';
