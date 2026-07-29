@@ -247,45 +247,47 @@
     }
 }
 /* ==========================================
-   SPORTS FILTER CONTAINER
+   SPORTS FILTER HEADER
+   Live | Upcoming | Featured
 ========================================== */
 
+
 .sports-filter-tabs{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
 
     width:100%;
 
-    padding:6px;
+    display:flex;
 
-    margin:16px 0 18px;
+    gap:8px;
+
+    padding:6px;
 
     background:var(--surface);
 
     border:1px solid var(--border);
 
-    border-radius:14px;
+    border-radius:16px;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
+    margin-bottom:18px;
+
 }
 
-/* ==========================================
-   FILTER BUTTON
-========================================== */
+
+/* Tab Button */
 
 .sports-filter{
 
     flex:1;
 
-    height:42px;
+    height:38px;
 
     border:none;
 
     border-radius:10px;
 
-    background:transparent;
+    background:var(--surface-2);
+
+    color:var(--text-muted);
 
     display:flex;
 
@@ -297,28 +299,25 @@
 
     cursor:pointer;
 
-    color:var(--text-muted);
-
     font-size:14px;
 
     font-weight:600;
 
-    transition:.25s ease;
+    transition:.25s;
+
 }
+
+
 
 .sports-filter i{
 
-    font-size:15px;
+    font-size:14px;
 
 }
 
-.sports-filter:hover{
 
-    background:rgba(47,191,113,.10);
 
-    color:var(--text);
-
-}
+/* Active Tab */
 
 .sports-filter.active{
 
@@ -326,31 +325,65 @@
 
     color:#fff;
 
-    box-shadow:0 4px 10px rgba(47,191,113,.30);
+}
+
+
+
+.sports-filter:hover{
+
+    background:rgba(47,191,113,.15);
 
 }
 
+
+
+
+
 /* ==========================================
-   MATCH LIST
+   SPORTS MATCH LIST
 ========================================== */
 
+
 .sports-match-list{
+
+    width:100%;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:10px;
-
-    margin-top:14px;
+    gap:12px;
 
 }
 
+
+
+
+
+/* League Wrapper */
+
+.sports-league-section{
+
+    width:100%;
+
+}
+
+
+
+
+
 /* ==========================================
-   MATCH CARD
+   HORIZONTAL MATCH CARD
 ========================================== */
 
+
 .sports-match-item{
+
+
+    width:100%;
+
+    min-height:58px;
+
 
     display:flex;
 
@@ -358,35 +391,47 @@
 
     justify-content:space-between;
 
-    padding:14px 16px;
+
+    padding:12px 15px;
+
 
     background:var(--surface);
 
+
     border:1px solid var(--border);
 
-    border-radius:12px;
+
+    border-radius:14px;
+
 
     cursor:pointer;
 
-    transition:.25s ease;
+
+    transition:.25s;
+
 
 }
+
+
+
+
 
 .sports-match-item:hover{
 
     border-color:var(--primary);
 
-    transform:translateY(-2px);
-
-    background:var(--surface-2);
+    transform:translateY(-1px);
 
 }
 
-/* ==========================================
-   LEFT SIDE
-========================================== */
+
+
+
+
+/* Left Side */
 
 .match-left{
+
 
     display:flex;
 
@@ -394,55 +439,19 @@
 
     gap:12px;
 
+
 }
+
+
+
+
 
 .match-left i{
 
-    width:22px;
 
-    text-align:center;
+    width:32px;
 
-    color:var(--primary);
-
-    font-size:18px;
-
-}
-
-.match-name{
-
-    display:flex;
-
-    flex-direction:column;
-
-    font-size:15px;
-
-    font-weight:600;
-
-    color:var(--text);
-
-}
-
-.match-name small{
-
-    margin-top:2px;
-
-    font-size:12px;
-
-    color:var(--text-muted);
-
-    font-weight:500;
-
-}
-
-/* ==========================================
-   RIGHT SIDE
-========================================== */
-
-.match-arrow{
-
-    width:34px;
-
-    height:34px;
+    height:32px;
 
     display:flex;
 
@@ -450,121 +459,272 @@
 
     justify-content:center;
 
+
     border-radius:50%;
+
 
     background:var(--surface-2);
 
-    border:1px solid var(--border);
 
-    color:var(--text-muted);
+    color:var(--primary);
 
-    transition:.25s ease;
 
-}
+    font-size:16px;
 
-.sports-match-item:hover .match-arrow{
-
-    background:var(--primary);
-
-    color:#fff;
-
-    border-color:var(--primary);
 
 }
 
-/* ==========================================
-   LIVE BADGE
-========================================== */
 
-.live-badge{
 
-    padding:4px 8px;
 
-    border-radius:6px;
 
-    background:#e53935;
-
-    color:#fff;
-
-    font-size:11px;
-
-    font-weight:700;
-
-}
-
-.upcoming-badge{
-
-    padding:4px 8px;
-
-    border-radius:6px;
-
-    background:#1976d2;
-
-    color:#fff;
-
-    font-size:11px;
-
-    font-weight:700;
-
-}
-
-.featured-badge{
-
-    padding:4px 8px;
-
-    border-radius:6px;
-
-    background:#ff9800;
-
-    color:#fff;
-
-    font-size:11px;
-
-    font-weight:700;
-
-}
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:768px){
-
-.sports-filter-tabs{
-
-    gap:6px;
-
-    padding:5px;
-
-}
-
-.sports-filter{
-
-    height:40px;
-
-    font-size:13px;
-
-}
 
 .match-name{
 
-    font-size:14px;
+
+    color:var(--text);
+
+
+    font-size:15px;
+
+
+    font-weight:600;
+
 
 }
 
-.match-name small{
 
-    font-size:11px;
+
+
+
+
+.match-left small{
+
+
+    display:block;
+
+
+    margin-top:3px;
+
+
+    color:var(--text-muted);
+
+
+    font-size:12px;
+
 
 }
+
+
+
+
+
+/* Right Arrow */
+
 
 .match-arrow{
 
+
     width:30px;
+
 
     height:30px;
 
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    border-radius:50%;
+
+
+    background:var(--surface-2);
+
+
+    border:1px solid var(--border);
+
+
+    color:var(--text-muted);
+
+
+    transition:.25s;
+
+
 }
+
+
+
+
+.sports-match-item:hover .match-arrow{
+
+
+    background:var(--primary);
+
+
+    color:#fff;
+
+
+}
+
+
+
+
+
+/* ==========================================
+   MARKET DROPDOWN
+========================================== */
+
+
+.market-dropdown{
+
+
+    display:none;
+
+
+    margin-top:8px;
+
+
+    padding:10px;
+
+
+    background:var(--surface-2);
+
+
+    border:1px solid var(--border);
+
+
+    border-radius:12px;
+
+
+}
+
+
+
+
+
+.market-dropdown.open{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:8px;
+
+
+}
+
+
+
+
+.market-option{
+
+
+    padding:10px 12px;
+
+
+    background:var(--surface);
+
+
+    border-radius:8px;
+
+
+    color:var(--text);
+
+
+    font-size:14px;
+
+
+    cursor:pointer;
+
+
+    transition:.2s;
+
+
+}
+
+
+
+
+.market-option:hover{
+
+
+    background:var(--primary);
+
+
+    color:#fff;
+
+
+}
+
+
+
+
+
+/* ==========================================
+   ACTIVE SPORT COLOR
+========================================== */
+
+
+.cricket-section .match-left i{
+
+    color:#2FBF71;
+
+}
+
+
+.football-section .match-left i{
+
+    color:#2FBF71;
+
+}
+
+
+
+
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+
+@media(max-width:480px){
+
+
+    .sports-filter{
+
+        font-size:12px;
+
+    }
+
+
+    .sports-filter i{
+
+        display:none;
+
+    }
+
+
+    .match-name{
+
+        font-size:14px;
+
+    }
+
+
+    .sports-match-item{
+
+        padding:11px 12px;
+
+    }
+
 
 }
 /* ==========================================
