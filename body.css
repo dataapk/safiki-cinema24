@@ -246,7 +246,301 @@
         padding: 4px 10px;
     }
 }
+/* ==========================================
+   SPORTS FILTER TABS
+========================================== */
 
+.sports-filter-tabs{
+
+    display:flex;
+
+    gap:10px;
+
+    width:100%;
+
+    margin-bottom:14px;
+
+}
+
+
+.sports-filter{
+
+    flex:1;
+
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    color:var(--text-muted);
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+.sports-filter i{
+
+    font-size:13px;
+
+}
+
+
+
+.sports-filter.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    border-color:var(--primary);
+
+}
+
+
+
+.sports-filter:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+
+
+
+/* ==========================================
+   SPORTS LEAGUE LIST
+========================================== */
+
+
+.sports-league-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+
+
+.sports-league-item{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+}
+
+
+
+
+/* League Header */
+
+.league-header{
+
+    height:48px;
+
+    padding:0 16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+
+.league-header:hover{
+
+    background:rgba(255,255,255,.04);
+
+}
+
+
+
+.league-name{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--text);
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+
+
+.league-name i{
+
+    color:var(--primary);
+
+    font-size:16px;
+
+}
+
+
+
+
+/* ==========================================
+   MATCH LIST
+========================================== */
+
+
+.league-matches{
+
+    border-top:1px solid var(--border);
+
+    padding:10px;
+
+}
+
+
+
+.match-item{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:12px;
+
+    background:var(--surface-2);
+
+    border-radius:10px;
+
+    margin-bottom:8px;
+
+    color:var(--text);
+
+    font-size:14px;
+
+}
+
+
+
+.match-item:last-child{
+
+    margin-bottom:0;
+
+}
+
+
+
+.match-item small{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+}
+
+
+
+.match-item span{
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+
+@media(max-width:480px){
+
+
+    .sports-filter-tabs{
+
+        gap:8px;
+
+    }
+
+
+    .sports-filter{
+
+        height:38px;
+
+        font-size:13px;
+
+    }
+
+
+    .league-header{
+
+        padding:0 12px;
+
+    }
+
+
+    .match-item{
+
+        padding:10px;
+
+        font-size:13px;
+
+    }
+
+
+}
+/* ==========================================
+   END SPORTS FILTER TABS
+========================================== */
 /* ======================================================
    GAMES MARQUEE SECTION — CONTINUOUS SCROLL
 ====================================================== */
