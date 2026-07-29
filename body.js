@@ -370,25 +370,220 @@ function capitalizeFirst(str) {
 }
 
 // ===== SAMPLE GAME GENERATORS (Replace with your real data) =====
+// ===== GENERATE SAMPLE GAMES =====
 function generateSampleGames(mainType, subType) {
+
+
+    // ==================================
+    // SPORTS SYSTEM
+    // ==================================
+    if (mainType === 'sports') {
+
+
+        return `
+
+        <!-- SPORTS FILTER TABS -->
+        <div class="sports-filter-tabs">
+
+
+            <div class="sports-filter active">
+                <i class="fas fa-broadcast-tower"></i>
+                Live
+            </div>
+
+
+            <div class="sports-filter">
+                <i class="fas fa-calendar-alt"></i>
+                Upcoming
+            </div>
+
+
+            <div class="sports-filter">
+                <i class="fas fa-star"></i>
+                Featured
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SPORTS LEAGUES -->
+
+        <div class="sports-league-list">
+
+
+            <div class="sports-league-item">
+
+                <div class="league-header">
+                    <div class="league-name">
+                        <i class="fas fa-baseball-ball"></i>
+                        T20 Cricket
+                    </div>
+
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+
+
+                <div class="league-matches">
+
+                    <div class="match-item">
+
+                        <div>
+                            India vs Australia
+                            <small>Live T20 Match</small>
+                        </div>
+
+                        <span>LIVE</span>
+
+                    </div>
+
+
+                    <div class="match-item">
+
+                        <div>
+                            Bangladesh vs Pakistan
+                            <small>Live T20 Match</small>
+                        </div>
+
+                        <span>LIVE</span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="sports-league-item">
+
+                <div class="league-header">
+
+                    <div class="league-name">
+                        <i class="fas fa-trophy"></i>
+                        IPL
+                    </div>
+
+                    <i class="fas fa-chevron-down"></i>
+
+                </div>
+
+
+                <div class="league-matches">
+
+                    <div class="match-item">
+
+                        Mumbai Indians vs Chennai Super Kings
+                        <span>UPCOMING</span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="sports-league-item">
+
+                <div class="league-header">
+
+                    <div class="league-name">
+                        <i class="fas fa-globe"></i>
+                        ODI Cricket
+                    </div>
+
+                    <i class="fas fa-chevron-down"></i>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+        `;
+
+
+    }
+
+
+
+
+    // ==================================
+    // CASINO SYSTEM (OLD SYSTEM)
+    // ==================================
+
     const games = [];
     const count = 6;
-    
+
+
     for (let i = 1; i <= count; i++) {
+
+
         games.push(`
-            <div class="game-card" onclick="openGame('${mainType}', '${subType}', ${i})">
-                <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
-                    <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
+
+            <div class="game-card" 
+                 onclick="openGame('${mainType}', '${subType}', ${i})">
+
+
+                <div class="game-thumb" 
+                     style="
+                     background: linear-gradient(
+                     135deg,
+                     var(--surface-2),
+                     var(--surface)
+                     );">
+
+
+                    <i class="fas fa-gamepad"
+                    style="
+                    font-size:28px;
+                    color:var(--text-muted);
+                    ">
+                    </i>
+
+
                 </div>
+
+
+
                 <div class="game-info">
-                    <span class="game-name">${capitalizeFirst(subType)} ${i}</span>
-                    <span class="game-tag">${mainType.toUpperCase()}</span>
+
+                    <span class="game-name">
+                        ${capitalizeFirst(subType)} ${i}
+                    </span>
+
+
+                    <span class="game-tag">
+                        ${mainType.toUpperCase()}
+                    </span>
+
+
                 </div>
+
+
+
             </div>
+
         `);
+
+
     }
-    
+
+
+
     return games.join('');
+
 }
 
 function generateAllGames(mainType) {
