@@ -316,19 +316,14 @@ function selectSubCategory(mainType, subType, element) {
         gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
     }
     
-   if (gamesGrid) {
+  if (gamesGrid) {
 
     if (mainType === "sports") {
 
-        // Sports-এর জন্য নতুন সিস্টেম
-        switchSportsTab(
-            "live",
-            document.querySelector(".sports-filter.active")
-        );
+        loadSportContent(subType);
 
     } else {
 
-        // Casino আগের মতোই থাকবে
         gamesGrid.innerHTML = generateSampleGames(mainType, subType);
 
     }
@@ -342,6 +337,191 @@ function selectSubCategory(mainType, subType, element) {
     }
 }
    window.selectSubCategory = selectSubCategory;
+
+
+ // ==========================================
+// LOAD SPORTS CONTENT
+// ==========================================
+
+function loadSportContent(sportType) {
+
+    const gamesGrid = document.getElementById("sportsGamesGrid");
+
+    if (!gamesGrid) return;
+
+
+
+    // Default Live Tab Active
+    const activeTab = document.querySelector(".sports-filter");
+
+    document.querySelectorAll(".sports-filter").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+
+    if (activeTab) {
+        activeTab.classList.add("active");
+    }
+
+
+
+    // =========================
+    // CRICKET
+    // =========================
+
+    if (sportType === "cricket") {
+
+
+        gamesGrid.innerHTML = `
+
+            <div class="sports-match-item" onclick="toggleMarket(this)">
+
+                <div class="match-left">
+
+                    <i class="fas fa-baseball-ball"></i>
+
+                    <div>
+                        <div class="match-name">
+                            India vs Australia
+                        </div>
+
+                        <small>
+                            Live T20 Match
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="match-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+
+            </div>
+
+
+            <div class="market-dropdown">
+
+                <div class="market-option">
+                    Winner
+                </div>
+
+                <div class="market-option">
+                    Total Runs
+                </div>
+
+                <div class="market-option">
+                    Over / Under
+                </div>
+
+            </div>
+
+
+        `;
+
+    }
+
+
+
+    // =========================
+    // FOOTBALL
+    // =========================
+
+    else if (sportType === "football") {
+
+
+        gamesGrid.innerHTML = `
+
+            <div class="sports-match-item" onclick="toggleMarket(this)">
+
+                <div class="match-left">
+
+                    <i class="fas fa-futbol"></i>
+
+                    <div>
+                        <div class="match-name">
+                            Premier League
+                        </div>
+
+                        <small>
+                            Live Football Match
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="match-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="market-dropdown">
+
+                <div class="market-option">
+                    Match Winner
+                </div>
+
+                <div class="market-option">
+                    Over / Under Goals
+                </div>
+
+                <div class="market-option">
+                    Both Teams Score
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    // =========================
+    // OTHER SPORTS
+    // =========================
+
+    else {
+
+
+        gamesGrid.innerHTML = `
+
+            <div class="sports-match-item">
+
+                <div class="match-left">
+
+                    <i class="fas fa-gamepad"></i>
+
+                    <div>
+
+                        <div class="match-name">
+                            ${capitalizeFirst(sportType)} Live Event
+                        </div>
+
+                        <small>
+                            Add your content here
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+window.loadSportContent = loadSportContent;  
 // ==========================================
 // SPORTS FILTER TAB
 // ==========================================
