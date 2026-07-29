@@ -328,6 +328,61 @@ function selectSubCategory(mainType, subType, element) {
     }
 }
    window.selectSubCategory = selectSubCategory;
+// ==========================================
+// SPORTS FILTER TAB
+// ==========================================
+
+let currentSportTab = "live";
+
+function switchSportsTab(tab, element) {
+
+    // Save current tab
+    currentSportTab = tab;
+
+    // Remove active from all buttons
+    document.querySelectorAll(".sports-filter").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    // Active current button
+    element.classList.add("active");
+
+    // Games container
+    const gamesGrid = document.getElementById("sportsGamesGrid");
+
+    if (!gamesGrid) return;
+
+    // ===== DEMO CONTENT =====
+    if (tab === "live") {
+
+        gamesGrid.innerHTML = `
+            <!-- Live matches will load here -->
+            <!-- ADD YOUR API KEY HERE -->
+        `;
+
+    }
+
+    else if (tab === "upcoming") {
+
+        gamesGrid.innerHTML = `
+            <!-- Upcoming matches will load here -->
+            <!-- ADD YOUR API KEY HERE -->
+        `;
+
+    }
+
+    else if (tab === "featured") {
+
+        gamesGrid.innerHTML = `
+            <!-- Featured matches will load here -->
+            <!-- ADD YOUR API KEY HERE -->
+        `;
+
+    }
+
+}
+
+   
 
 // ===== VIEW ALL SUB-CATEGORIES =====
 function viewAllSubCategories(mainType, element) {
