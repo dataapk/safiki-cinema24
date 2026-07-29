@@ -385,13 +385,8 @@ function loadSportContent(sportType) {
 
                     <div>
                         <div class="match-name">
-                            India vs Australia
-                        </div>
-
-                        <small>
-                            Live T20 Match
-                        </small>
-                    </div>
+    India vs Australia - T20 Match
+</div>
 
                 </div>
 
