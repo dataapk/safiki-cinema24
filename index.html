@@ -2633,23 +2633,86 @@
         </div>
     </div>
 
-    <!-- Selected Category Games -->
-    <div class="selected-games-area" id="sportsSelectedGames">
-        <h4 class="selected-games-title" id="sportsSelectedTitle">All Events</h4>
-        <div class="selected-games-grid" id="sportsGamesGrid">
-            <!-- Games injected by JS -->
-        </div>
+   <!-- ===== SPORTS SELECTED CONTENT (FINAL MODEL V2) ===== -->
+<div class="selected-games-area" id="sportsSelectedGames">
+
+    <!-- Dynamic Sport Title -->
+    <h4 class="selected-games-title" id="sportsSelectedTitle">
+        All Events
+    </h4>
+
+    <!-- ===== FILTER BAR ===== -->
+    <div class="sports-filter-tabs">
+
+        <button class="sports-filter active"
+                onclick="switchSportsTab('live', this)">
+            <i class="fas fa-broadcast-tower"></i>
+            <span>Live</span>
+        </button>
+
+        <button class="sports-filter"
+                onclick="switchSportsTab('upcoming', this)">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Upcoming</span>
+        </button>
+
+        <button class="sports-filter"
+                onclick="switchSportsTab('featured', this)">
+            <i class="fas fa-star"></i>
+            <span>Featured</span>
+        </button>
+
     </div>
+
+    <!-- ===== DYNAMIC MATCH LIST ===== -->
+    <div id="sportsGamesGrid" class="sports-match-list">
+
+        <!--
+        Dynamic Content
+
+        Cricket → Live
+        Cricket → Upcoming
+        Cricket → Featured
+
+        Football → Live
+        Football → Upcoming
+        Football → Featured
+
+        Basketball → ...
+
+        Tennis → ...
+
+        Volleyball → ...
+
+        Boxing → ...
+
+        Hockey → ...
+
+        Rugby → ...
+
+        Golf → ...
+
+        API will load everything here.
+        -->
+
+    </div>
+</div>
 </section>
 
-<!-- ===== GAMES GRID (Default) ===== -->
-<section class="games-grid-section" id="gamesGridSection">
-    <div class="games-grid-wrap" id="gamesGridWrap">
-        <!-- Games injected by JS -->
+<!-- ===== CASINO ONLY ===== -->
+
+<section id="gamesGridSection">
+
+    <div id="gamesGridWrap">
+
+        <!-- Casino Games -->
+
     </div>
+
 </section>
     <!-- ===== MEMBER CONTENT END ===== -->
 </div>
+
 
     
   <!-- ===== 5. RECENT WINNERS (Sliding Cards) ===== -->
