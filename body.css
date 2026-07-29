@@ -253,14 +253,23 @@
 /* ==========================================
    FILTER BAR
 ========================================== */
-
 .sports-filter-tabs{
 
     display:flex;
 
-    gap:10px;
+    width:100%;
 
     margin-bottom:18px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
 
 }
 
@@ -269,15 +278,11 @@
 
     flex:1;
 
-    height:42px;
+    height:44px;
 
     border:none;
 
-    border-radius:12px;
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
+    background:transparent;
 
     display:flex;
 
@@ -297,6 +302,38 @@
 
     font-weight:600;
 
+    border-right:1px solid var(--border);
+
+}
+
+
+.sports-filter:last-child{
+
+    border-right:none;
+
+}
+
+
+.sports-filter.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+.sports-filter:hover{
+
+    background:rgba(47,191,113,.12);
+
+}
+
+
+.sports-filter.active:hover{
+
+    background:var(--primary);
+
 }
 
 
@@ -311,11 +348,6 @@
 }
 
 
-.sports-filter:hover{
-
-    transform:translateY(-2px);
-
-}
 
 
 /* ==========================================
