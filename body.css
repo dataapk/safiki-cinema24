@@ -247,19 +247,20 @@
     }
 }
 /* ==========================================
-   SPORTS FILTER TABS
+   SPORTS FILTER CONTAINER
 ========================================== */
 
-/* ==========================================
-   FILTER BAR
-========================================== */
 .sports-filter-tabs{
-
     display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
 
     width:100%;
 
-    margin-bottom:18px;
+    padding:6px;
+
+    margin:16px 0 18px;
 
     background:var(--surface);
 
@@ -267,20 +268,22 @@
 
     border-radius:14px;
 
-    overflow:hidden;
-
     box-shadow:0 4px 12px rgba(0,0,0,.18);
-
 }
 
+/* ==========================================
+   FILTER BUTTON
+========================================== */
 
 .sports-filter{
 
     flex:1;
 
-    height:44px;
+    height:42px;
 
     border:none;
+
+    border-radius:10px;
 
     background:transparent;
 
@@ -292,50 +295,30 @@
 
     gap:6px;
 
-    color:var(--text-muted);
-
     cursor:pointer;
 
-    transition:.25s;
+    color:var(--text-muted);
 
     font-size:14px;
 
     font-weight:600;
 
-    border-right:1px solid var(--border);
-
+    transition:.25s ease;
 }
 
+.sports-filter i{
 
-.sports-filter:last-child{
-
-    border-right:none;
-
-}
-
-
-.sports-filter.active{
-
-    background:var(--primary);
-
-    color:#fff;
+    font-size:15px;
 
 }
-
 
 .sports-filter:hover{
 
-    background:rgba(47,191,113,.12);
+    background:rgba(47,191,113,.10);
+
+    color:var(--text);
 
 }
-
-
-.sports-filter.active:hover{
-
-    background:var(--primary);
-
-}
-
 
 .sports-filter.active{
 
@@ -343,12 +326,9 @@
 
     color:#fff;
 
-    border-color:var(--primary);
+    box-shadow:0 4px 10px rgba(47,191,113,.30);
 
 }
-
-
-
 
 /* ==========================================
    MATCH LIST
@@ -362,10 +342,13 @@
 
     gap:10px;
 
+    margin-top:14px;
+
 }
 
-
-/* Match Row */
+/* ==========================================
+   MATCH CARD
+========================================== */
 
 .sports-match-item{
 
@@ -385,10 +368,9 @@
 
     cursor:pointer;
 
-    transition:.25s;
+    transition:.25s ease;
 
 }
-
 
 .sports-match-item:hover{
 
@@ -396,8 +378,13 @@
 
     transform:translateY(-2px);
 
+    background:var(--surface-2);
+
 }
 
+/* ==========================================
+   LEFT SIDE
+========================================== */
 
 .match-left{
 
@@ -409,21 +396,23 @@
 
 }
 
-
 .match-left i{
 
     width:22px;
 
     text-align:center;
 
-    font-size:18px;
-
     color:var(--primary);
+
+    font-size:18px;
 
 }
 
-
 .match-name{
+
+    display:flex;
+
+    flex-direction:column;
 
     font-size:15px;
 
@@ -433,14 +422,27 @@
 
 }
 
+.match-name small{
+
+    margin-top:2px;
+
+    font-size:12px;
+
+    color:var(--text-muted);
+
+    font-weight:500;
+
+}
+
+/* ==========================================
+   RIGHT SIDE
+========================================== */
 
 .match-arrow{
 
-    width:28px;
+    width:34px;
 
-    height:28px;
-
-    border-radius:50%;
+    height:34px;
 
     display:flex;
 
@@ -448,16 +450,17 @@
 
     justify-content:center;
 
+    border-radius:50%;
+
     background:var(--surface-2);
 
     border:1px solid var(--border);
 
     color:var(--text-muted);
 
-    transition:.25s;
+    transition:.25s ease;
 
 }
-
 
 .sports-match-item:hover .match-arrow{
 
@@ -465,16 +468,79 @@
 
     color:#fff;
 
+    border-color:var(--primary);
+
 }
 
+/* ==========================================
+   LIVE BADGE
+========================================== */
+
+.live-badge{
+
+    padding:4px 8px;
+
+    border-radius:6px;
+
+    background:#e53935;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+.upcoming-badge{
+
+    padding:4px 8px;
+
+    border-radius:6px;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+.featured-badge{
+
+    padding:4px 8px;
+
+    border-radius:6px;
+
+    background:#ff9800;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
 
 /* ==========================================
    MOBILE
 ========================================== */
 
-@media(max-width:480px){
+@media(max-width:768px){
+
+.sports-filter-tabs{
+
+    gap:6px;
+
+    padding:5px;
+
+}
 
 .sports-filter{
+
+    height:40px;
 
     font-size:13px;
 
@@ -483,6 +549,20 @@
 .match-name{
 
     font-size:14px;
+
+}
+
+.match-name small{
+
+    font-size:11px;
+
+}
+
+.match-arrow{
+
+    width:30px;
+
+    height:30px;
 
 }
 
