@@ -2642,51 +2642,298 @@
     </h4>
 
     <!-- ===== FILTER BAR ===== -->
-    <div class="sports-filter-tabs">
+<!-- ===== DYNAMIC MATCH LIST ===== -->
+<div id="sportsGamesGrid" class="sports-match-list">
 
-        <button class="sports-filter active"
-                onclick="switchSportsTab('live', this)">
-            <i class="fas fa-broadcast-tower"></i>
-            <span>Live</span>
-        </button>
 
-        <button class="sports-filter"
-                onclick="switchSportsTab('upcoming', this)">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Upcoming</span>
-        </button>
+    <!-- =========================
+         CRICKET SECTION
+    ========================== -->
 
-        <button class="sports-filter"
-                onclick="switchSportsTab('featured', this)">
-            <i class="fas fa-star"></i>
-            <span>Featured</span>
-        </button>
+    <div class="sports-league-section cricket-section">
+
+        <div class="sports-match-item" onclick="toggleMarket(this)">
+
+            <div class="match-left">
+
+                <i class="fas fa-baseball-ball"></i>
+
+                <div>
+                    <div class="match-name">
+                        India vs Australia
+                    </div>
+
+                    <small>
+                        T20 Cricket
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="match-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+        </div>
+
+
+        <div class="market-dropdown">
+
+            <div class="market-option">
+                Winner
+            </div>
+
+            <div class="market-option">
+                Total Runs
+            </div>
+
+            <div class="market-option">
+                Over / Under
+            </div>
+
+        </div>
+
+
+
+        <div class="sports-match-item" onclick="toggleMarket(this)">
+
+            <div class="match-left">
+
+                <i class="fas fa-baseball-ball"></i>
+
+                <div>
+                    <div class="match-name">
+                        Bangladesh vs Pakistan
+                    </div>
+
+                    <small>
+                        T20 Cricket
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="match-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+        </div>
+
+
+        <div class="market-dropdown">
+
+            <div class="market-option">
+                Winner
+            </div>
+
+            <div class="market-option">
+                Total Runs
+            </div>
+
+            <div class="market-option">
+                Over / Under
+            </div>
+
+        </div>
+
 
     </div>
 
-    <!-- ===== DYNAMIC MATCH LIST ===== -->
-   <div id="sportsGamesGrid" class="sports-match-list">
 
-    <!-- JS will load match list here -->
 
-        Basketball → ...
 
-        Tennis → ...
+    <!-- =========================
+         FOOTBALL SECTION
+    ========================== -->
 
-        Volleyball → ...
+    <div class="sports-league-section football-section">
 
-        Boxing → ...
 
-        Hockey → ...
+        <div class="sports-match-item" onclick="toggleMarket(this)">
 
-        Rugby → ...
+            <div class="match-left">
 
-        Golf → ...
+                <i class="fas fa-futbol"></i>
+
+                <div>
+                    <div class="match-name">
+                        Premier League
+                    </div>
+
+                    <small>
+                        Football
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="match-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="market-dropdown">
+
+            <div class="market-option">
+                Match Winner
+            </div>
+
+            <div class="market-option">
+                Double Chance
+            </div>
+
+            <div class="market-option">
+                Over / Under Goals
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- =========================
+         BASKETBALL SECTION
+    ========================== -->
+
+    <div class="sports-league-section">
+
+
+        <div class="sports-match-item" onclick="toggleMarket(this)">
+
+            <div class="match-left">
+
+                <i class="fas fa-basketball-ball"></i>
+
+                <div>
+
+                    <div class="match-name">
+                        NBA Match
+                    </div>
+
+                    <small>
+                        Basketball
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="match-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+
+        </div>
+
+
+        <div class="market-dropdown">
+
+            <div class="market-option">
+                Match Winner
+            </div>
+
+            <div class="market-option">
+                Total Points
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- =========================
+         TENNIS SECTION
+    ========================== -->
+
+
+    <div class="sports-league-section">
+
+
+        <div class="sports-match-item" onclick="toggleMarket(this)">
+
+            <div class="match-left">
+
+                <i class="fas fa-table-tennis"></i>
+
+                <div>
+
+                    <div class="match-name">
+                        Grand Slam Match
+                    </div>
+
+                    <small>
+                        Tennis
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="match-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="market-dropdown">
+
+            <div class="market-option">
+                Match Winner
+            </div>
+
+            <div class="market-option">
+                Set Winner
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- =========================
+         OTHER SPORTS
+    ========================== -->
+
+
+    <!--
+        Volleyball → Add your content here
+
+        Boxing → Add your content here
+
+        Hockey → Add your content here
+
+        Rugby → Add your content here
+
+        Golf → Add your content here
+
 
         API will load everything here.
-        -->
+    -->
 
-    </div>
+
+</div>
 </div>
 </section>
 
