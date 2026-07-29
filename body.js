@@ -381,6 +381,7 @@ function switchSportsTab(tab, element) {
     }
 
 }
+   window.switchSportsTab = switchSportsTab;
 
    
 
