@@ -250,15 +250,17 @@
    SPORTS FILTER TABS
 ========================================== */
 
+/* ==========================================
+   FILTER BAR
+========================================== */
+
 .sports-filter-tabs{
 
     display:flex;
 
     gap:10px;
 
-    width:100%;
-
-    margin-bottom:14px;
+    margin-bottom:18px;
 
 }
 
@@ -269,6 +271,14 @@
 
     height:42px;
 
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
     display:flex;
 
     align-items:center;
@@ -277,31 +287,17 @@
 
     gap:6px;
 
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
     color:var(--text-muted);
-
-    font-size:14px;
-
-    font-weight:600;
 
     cursor:pointer;
 
     transition:.25s;
 
-}
+    font-size:14px;
 
-
-.sports-filter i{
-
-    font-size:13px;
+    font-weight:600;
 
 }
-
 
 
 .sports-filter.active{
@@ -315,7 +311,6 @@
 }
 
 
-
 .sports-filter:hover{
 
     transform:translateY(-2px);
@@ -323,15 +318,11 @@
 }
 
 
-
-
-
 /* ==========================================
-   SPORTS LEAGUE LIST
+   MATCH LIST
 ========================================== */
 
-
-.sports-league-list{
+.sports-match-list{
 
     display:flex;
 
@@ -342,35 +333,23 @@
 }
 
 
+/* Match Row */
 
-.sports-league-item{
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:12px;
-
-    overflow:hidden;
-
-}
-
-
-
-
-/* League Header */
-
-.league-header{
-
-    height:48px;
-
-    padding:0 16px;
+.sports-match-item{
 
     display:flex;
 
     align-items:center;
 
     justify-content:space-between;
+
+    padding:14px 16px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
 
     cursor:pointer;
 
@@ -379,114 +358,76 @@
 }
 
 
+.sports-match-item:hover{
 
-.league-header:hover{
+    border-color:var(--primary);
 
-    background:rgba(255,255,255,.04);
+    transform:translateY(-2px);
 
 }
 
 
-
-.league-name{
+.match-left{
 
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    gap:12px;
 
-    color:var(--text);
+}
+
+
+.match-left i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    color:var(--primary);
+
+}
+
+
+.match-name{
 
     font-size:15px;
 
     font-weight:600;
 
-}
-
-
-
-.league-name i{
-
-    color:var(--primary);
-
-    font-size:16px;
+    color:var(--text);
 
 }
 
 
+.match-arrow{
 
+    width:28px;
 
-/* ==========================================
-   MATCH LIST
-========================================== */
+    height:28px;
 
-
-.league-matches{
-
-    border-top:1px solid var(--border);
-
-    padding:10px;
-
-}
-
-
-
-.match-item{
+    border-radius:50%;
 
     display:flex;
 
     align-items:center;
 
-    justify-content:space-between;
-
-    padding:12px;
+    justify-content:center;
 
     background:var(--surface-2);
 
-    border-radius:10px;
-
-    margin-bottom:8px;
-
-    color:var(--text);
-
-    font-size:14px;
-
-}
-
-
-
-.match-item:last-child{
-
-    margin-bottom:0;
-
-}
-
-
-
-.match-item small{
-
-    display:block;
-
-    margin-top:4px;
+    border:1px solid var(--border);
 
     color:var(--text-muted);
 
-    font-size:12px;
+    transition:.25s;
 
 }
 
 
-
-.match-item span{
-
-    padding:5px 10px;
-
-    border-radius:20px;
-
-    font-size:11px;
-
-    font-weight:700;
+.sports-match-item:hover .match-arrow{
 
     background:var(--primary);
 
@@ -495,47 +436,23 @@
 }
 
 
-
-
 /* ==========================================
    MOBILE
 ========================================== */
 
-
 @media(max-width:480px){
 
+.sports-filter{
 
-    .sports-filter-tabs{
+    font-size:13px;
 
-        gap:8px;
+}
 
-    }
+.match-name{
 
+    font-size:14px;
 
-    .sports-filter{
-
-        height:38px;
-
-        font-size:13px;
-
-    }
-
-
-    .league-header{
-
-        padding:0 12px;
-
-    }
-
-
-    .match-item{
-
-        padding:10px;
-
-        font-size:13px;
-
-    }
-
+}
 
 }
 /* ==========================================
@@ -1907,26 +1824,31 @@
 }
 
 /* ----- SELECTED GAMES AREA ----- */
-.selected-games-area {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
-    animation: subSectionFadeIn 0.3s ease;
+/* ==========================================
+   SPORTS MODEL V2
+========================================== */
+
+.selected-games-area{
+
+    width:100%;
+
+    margin-top:18px;
+
 }
 
-.selected-games-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-    margin: 0 0 14px 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+
+.selected-games-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+    margin-bottom:14px;
+
 }
+
 
 .selected-games-title::before {
     content: '';
