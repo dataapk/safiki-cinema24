@@ -3,6 +3,8 @@
    LANDING PAGE — FULL JAVASCRIPT
    Hero Slider | Auto Slide | Interactions
 ========================================== */
+let currentSportType = "cricket";
+let currentSportTab = "live";
 
 (function() {
   'use strict';
@@ -319,6 +321,7 @@ function selectSubCategory(mainType, subType, element) {
   if (gamesGrid) {
 
     if (mainType === "sports") {
+       currentSportType = subType;
 
         loadSportContent(subType);
 
@@ -526,53 +529,154 @@ window.loadSportContent = loadSportContent;
 // SPORTS FILTER TAB
 // ==========================================
 
-let currentSportTab = "live";
-
 function switchSportsTab(tab, element) {
 
-    // Save current tab
+
     currentSportTab = tab;
 
-    // Remove active from all buttons
-    document.querySelectorAll(".sports-filter").forEach(btn => {
+
+    document.querySelectorAll(".sports-filter")
+    .forEach(btn=>{
         btn.classList.remove("active");
     });
 
-    // Active current button
-    element.classList.add("active");
 
-    // Games container
+    if(element){
+        element.classList.add("active");
+    }
+
+
+
     const gamesGrid = document.getElementById("sportsGamesGrid");
 
-    if (!gamesGrid) return;
 
-    // ===== DEMO CONTENT =====
-    if (tab === "live") {
+    if(!gamesGrid) return;
 
-        gamesGrid.innerHTML = `
-            <!-- Live matches will load here -->
-            <!-- ADD YOUR API KEY HERE -->
-        `;
+
+
+    // Current Sport অনুযায়ী Load
+
+    if(currentSportType === "cricket"){
+
+
+        if(tab === "live"){
+
+
+            gamesGrid.innerHTML = `
+
+            <div class="sports-match-item" onclick="toggleMarket(this)">
+
+                <div class="match-left">
+
+                    <i class="fas fa-baseball-ball"></i>
+
+                    <div>
+                        <div class="match-name">
+                            India vs Australia
+                        </div>
+
+                        <small>
+                            Live T20 Match
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="match-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+
+            </div>
+
+
+            <div class="market-dropdown">
+
+                <div class="market-option">
+                    Winner
+                </div>
+
+                <div class="market-option">
+                    Total Runs
+                </div>
+
+            </div>
+
+            `;
+
+
+        }
+
+
+        else if(tab === "upcoming"){
+
+
+            gamesGrid.innerHTML = `
+
+            <div class="sports-match-item">
+
+                <div class="match-left">
+
+                    <i class="fas fa-calendar"></i>
+
+                    <div>
+
+                        <div class="match-name">
+                            Bangladesh vs Pakistan
+                        </div>
+
+                        <small>
+                            Upcoming T20 Match
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            `;
+
+
+        }
+
+
+        else if(tab === "featured"){
+
+
+            gamesGrid.innerHTML = `
+
+            <div class="sports-match-item">
+
+                <div class="match-left">
+
+                    <i class="fas fa-star"></i>
+
+                    <div>
+
+                        <div class="match-name">
+                            IPL Featured Match
+                        </div>
+
+                        <small>
+                            Featured Cricket
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            `;
+
+        }
+
 
     }
 
-    else if (tab === "upcoming") {
-
-        gamesGrid.innerHTML = `
-            <!-- Upcoming matches will load here -->
-            <!-- ADD YOUR API KEY HERE -->
-        `;
-
-    }
-
-    else if (tab === "featured") {
-
-        gamesGrid.innerHTML = `
-            <!-- Featured matches will load here -->
-            <!-- ADD YOUR API KEY HERE -->
-        `;
-
-    }
 
 }
    window.switchSportsTab = switchSportsTab;
