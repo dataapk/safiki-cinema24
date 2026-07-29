@@ -397,6 +397,62 @@ function switchSportsTab(tab, element) {
 }
    window.switchSportsTab = switchSportsTab;
 
+
+ // ==========================================
+// SPORTS MARKET DROPDOWN TOGGLE
+// ==========================================
+
+function toggleMarket(element) {
+
+    const dropdown = element.nextElementSibling;
+
+    if (!dropdown) return;
+
+
+    // Close other dropdowns
+    document.querySelectorAll(".market-dropdown.open")
+        .forEach(item => {
+
+            if (item !== dropdown) {
+                item.classList.remove("open");
+            }
+
+        });
+
+
+
+    // Toggle current dropdown
+
+    dropdown.classList.toggle("open");
+
+
+
+    // Arrow rotate
+
+    const arrow = element.querySelector(".match-arrow i");
+
+
+    if (arrow) {
+
+        if (dropdown.classList.contains("open")) {
+
+            arrow.classList.remove("fa-chevron-down");
+            arrow.classList.add("fa-chevron-up");
+
+        } else {
+
+            arrow.classList.remove("fa-chevron-up");
+            arrow.classList.add("fa-chevron-down");
+
+        }
+
+    }
+
+}
+
+
+window.toggleMarket = toggleMarket;  
+
    
 
 // ===== VIEW ALL SUB-CATEGORIES =====
