@@ -376,198 +376,108 @@
    HORIZONTAL MATCH CARD
 ========================================== */
 
+/* ==========================================
+   SPORTS HORIZONTAL MATCH CARD
+========================================== */
 
 .sports-match-item{
 
-
     width:100%;
-
-    min-height:58px;
-
+    height:48px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
-
-    padding:12px 15px;
-
+    padding:0 14px;
 
     background:var(--surface);
 
-
     border:1px solid var(--border);
 
-
-    border-radius:14px;
-
+    border-radius:10px;
 
     cursor:pointer;
 
-
     transition:.25s;
 
-
 }
-
-
-
 
 
 .sports-match-item:hover{
 
     border-color:var(--primary);
 
-    transform:translateY(-1px);
-
 }
 
 
-
-
-
-/* Left Side */
+/* LEFT AREA */
 
 .match-left{
-
 
     display:flex;
 
     align-items:center;
 
-    gap:12px;
+    gap:10px;
 
+    min-width:0;
 
 }
-
-
-
 
 
 .match-left i{
 
-
-    width:32px;
-
-    height:32px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    border-radius:50%;
-
-
-    background:var(--surface-2);
-
+    font-size:16px;
 
     color:var(--primary);
 
-
-    font-size:16px;
-
-
 }
 
 
-
-
-
+/* SINGLE LINE TEXT */
 
 .match-name{
 
-
-    color:var(--text);
-
-
-    font-size:15px;
-
+    font-size:14px;
 
     font-weight:600;
 
+    color:var(--text);
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
 
 }
 
 
 
-
-
-
-.match-left small{
-
-
-    display:block;
-
-
-    margin-top:3px;
-
-
-    color:var(--text-muted);
-
-
-    font-size:12px;
-
-
-}
-
-
-
-
-
-/* Right Arrow */
-
+/* RIGHT ARROW */
 
 .match-arrow{
 
+    width:24px;
 
-    width:30px;
+    height:24px;
 
-
-    height:30px;
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    justify-content:center;
-
+    flex-shrink:0;
 
     border-radius:50%;
 
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
     background:var(--surface-2);
 
-
-    border:1px solid var(--border);
-
-
     color:var(--text-muted);
 
-
-    transition:.25s;
-
-
-}
-
-
-
-
-.sports-match-item:hover .match-arrow{
-
-
-    background:var(--primary);
-
-
-    color:#fff;
-
+    font-size:12px;
 
 }
 
@@ -578,30 +488,24 @@
 /* ==========================================
    MARKET DROPDOWN
 ========================================== */
-
+/* Dropdown Market */
 
 .market-dropdown{
 
-
     display:none;
 
+    margin-top:6px;
 
-    margin-top:8px;
-
-
-    padding:10px;
-
-
-    background:var(--surface-2);
-
+    background:var(--surface);
 
     border:1px solid var(--border);
 
+    border-radius:10px;
 
-    border-radius:12px;
-
+    padding:8px;
 
 }
+
 
 
 
@@ -626,27 +530,23 @@
 
 .market-option{
 
+    height:34px;
 
-    padding:10px 12px;
+    display:flex;
 
+    align-items:center;
 
-    background:var(--surface);
-
+    padding:0 12px;
 
     border-radius:8px;
 
+    background:var(--surface-2);
 
     color:var(--text);
 
+    font-size:13px;
 
-    font-size:14px;
-
-
-    cursor:pointer;
-
-
-    transition:.2s;
-
+    margin-bottom:5px;
 
 }
 
@@ -661,6 +561,13 @@
 
     color:#fff;
 
+
+}
+/* Open */
+
+.sports-match-item.open + .market-dropdown{
+
+    display:block;
 
 }
 
