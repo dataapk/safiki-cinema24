@@ -381,28 +381,29 @@ return;
    BACK TO SPORTS
 ========================================== */
 
-function backToSportsCategories(){
+function backToSportsCategories() {
 
     // Hide Full Sports Page
-    document.getElementById("sportsFullView").style.display = "none";
+    document.getElementById("sportsFullPage").style.display = "none";
 
-    // Show Sports Categories Again
+    // Show Main Categories
+    document.getElementById("mainCategorySection").style.display = "";
+
+    // Show Sports Categories
     document.getElementById("sportsSubSection").style.display = "";
 
-    // Show Selected Games Again
+    // Show Old Area
     document.getElementById("sportsSelectedGames").style.display = "";
 
-    // Show Default Section Again
+    // Show Games Grid
     document.getElementById("gamesGridSection").style.display = "";
 
     // Reset
     currentSportType = "";
     currentSportTab = "live";
-
 }
 
 window.backToSportsCategories = backToSportsCategories;
-
    // ==========================================
 // SPORTS TAB SWITCH
 // ==========================================
