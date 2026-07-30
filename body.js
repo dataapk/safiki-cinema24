@@ -311,7 +311,7 @@ function selectSubCategory(mainType, subType, element) {
     element.classList.add("active");
 
 
-   // ==========================
+// ==========================
 // SPORTS
 // ==========================
 
@@ -320,42 +320,48 @@ if (mainType === "sports") {
     // Save Current Sport
     currentSportType = subType;
 
-    // Hide Sports Top Area
-    document.getElementById("sportsSubSection").style.display = "none";
+    // Hide Sports Category Section
+    const sportsSub = document.getElementById("sportsSubSection");
+    if (sportsSub) sportsSub.style.display = "none";
 
-    // Hide Selected Games Area
-    document.getElementById("sportsSelectedGames").style.display = "none";
+    // Hide Old Selected Games
+    const selectedGames = document.getElementById("sportsSelectedGames");
+    if (selectedGames) selectedGames.style.display = "none";
 
-    // Hide Default Games Grid (Casino Section থাকবে)
-    document.getElementById("gamesGridSection").style.display = "none";
+    // Hide Default Games Grid
+    const gamesGrid = document.getElementById("gamesGridSection");
+    if (gamesGrid) gamesGrid.style.display = "none";
 
-    // Show Full Sports View
-    document.getElementById("sportsFullPage")style.display = "block";
+    // Show Full Sports Page
+    const fullPage = document.getElementById("sportsFullPage");
+    if (fullPage) fullPage.style.display = "block";
 
-    // Change Header Title
-    document.getElementById("sportsPageTitle").textContent =
-        capitalizeFirst(subType);
+    // Update Header Title
+    const pageTitle = document.getElementById("sportsPageTitle");
+    if (pageTitle) {
+        pageTitle.textContent = capitalizeFirst(subType);
+    }
 
-    // Default Tab
+    // Save Current Sport
     currentSportTab = "live";
 
-    // Reset Active Button
-    document.querySelectorAll(".sports-filter").forEach(btn=>{
+    // Reset Active Tab
+    document.querySelectorAll(".sports-filter").forEach(btn => {
         btn.classList.remove("active");
     });
 
-    const firstTab = document.querySelector(".sports-filter[data-tab='live']") ||
-                     document.querySelector(".sports-filter");
+    const firstTab =
+        document.querySelector(".sports-filter[data-tab='live']") ||
+        document.querySelector(".sports-filter");
 
-    if(firstTab){
+    if (firstTab) {
         firstTab.classList.add("active");
     }
 
-    // Load Current Sport
+    // Load Live Tab
     switchSportsTab("live", firstTab);
 
     return;
-
 }
   
    /* ==========================================
