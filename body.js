@@ -293,99 +293,42 @@ function resetAutoSlide(type) {
 
 // ===== SELECT SUB-CATEGORY =====
 function selectSubCategory(mainType, subType, element) {
-
-    // Remove active
-    const parentGrid = element.closest(".subcat-grid");
-
+    // Remove active from all subcat items in this section
+    const parentGrid = element.closest('.subcat-grid');
     if (parentGrid) {
-        parentGrid.querySelectorAll(".subcat-item").forEach(item => {
-            item.classList.remove("active");
+        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
+            item.classList.remove('active');
         });
     }
-
-    // Active current
-    element.classList.add("active");
-
-    // ==========================
-    // SPORTS
-    // ==========================
-
-   if (mainType === "sports") {
-
-    currentSportType = subType;
-
     
-
-    // Change Title
-    document.getElementById("sportsPageTitle").textContent =
-        capitalizeFirst(subType);
-
-    // Default Live
-    const firstBtn = document.querySelector(".sports-filter");
-
-    switchSportsTab("live", firstBtn);
-
-    return;
-}
-
-    // Hide ONLY Banner
-    const banner = document.getElementById("sportsSubBanner");
-
-    if (banner) {
-        banner.style.display = "";
-    }
-
-    // Show Sports Full Page
-    const fullPage = document.getElementById("sportsFullPage");
-    if (fullPage) fullPage.style.display = "block";
-
-    // Change Title
-    const title = document.getElementById("sportsPageTitle");
-    if (title) {
-        title.textContent = capitalizeFirst(subType);
-    }
-
-    // Default Live Tab
-    document.querySelectorAll(".sports-filter").forEach(btn=>{
-        btn.classList.remove("active");
-    });
-
-    const firstTab =
-        document.querySelector(".sports-filter[onclick*='live']") ||
-        document.querySelector(".sports-filter");
-
-    if(firstTab){
-        firstTab.classList.add("active");
-    }
-
-    switchSportsTab("live", firstTab);
-
-    return;
-}
-
-    // ==========================
-    // CASINO (OLD)
-    // ==========================
-
-    const gamesArea = document.getElementById("casinoSelectedGames");
-    const gamesTitle = document.getElementById("casinoSelectedTitle");
-
+    // Add active to clicked item
+    element.classList.add('active');
+    
+    // Get games area
+    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
+    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
+    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
+    
+    const gamesArea = document.getElementById(gamesAreaId);
+    const gamesTitle = document.getElementById(gamesTitleId);
+    const gamesGrid = document.getElementById(gamesGridId);
+    
     if (gamesTitle) {
-        gamesTitle.textContent = capitalizeFirst(subType) + " Games";
+        gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
     }
-
+    
+    if (gamesGrid) {
+        // Generate sample games (replace with your real data)
+        gamesGrid.innerHTML = generateSampleGames(mainType, subType);
+    }
+    
     if (gamesArea) {
-        gamesArea.style.display = "block";
-        gamesArea.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
+        gamesArea.style.display = 'block';
+        // Scroll to games area smoothly
+        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
 }
-
-window.selectSubCategory = selectSubCategory;
-
+   window.selectSubCategory = selectSubCategory;
 
 // ===== VIEW ALL SUB-CATEGORIES =====
 function viewAllSubCategories(mainType, element) {
