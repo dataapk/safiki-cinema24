@@ -3,6 +3,8 @@
    LANDING PAGE — FULL JAVASCRIPT
    Hero Slider | Auto Slide | Interactions
 ========================================== */
+let currentSportType = "";
+let currentSportTab = "live";
 
 (function() {
   'use strict';
@@ -355,6 +357,7 @@ if (mainType === "sports") {
     return;
 
 }
+  
    /* ==========================================
    BACK TO SPORTS
 ========================================== */
@@ -380,6 +383,102 @@ function backToSportsCategories(){
 }
 
 window.backToSportsCategories = backToSportsCategories;
+
+   // ==========================================
+// SPORTS TAB SWITCH
+// ==========================================
+
+function switchSportsTab(tab, element) {
+
+    currentSportTab = tab;
+
+    // Active Button
+    document.querySelectorAll(".sports-filter").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (element) {
+        element.classList.add("active");
+    }
+
+    // Current Sport
+    if (!currentSportType) return;
+
+    const container = document.getElementById("sportsGamesGrid");
+
+    if (!container) return;
+
+    // ==========================
+    // CRICKET
+    // ==========================
+
+    if (currentSportType === "cricket") {
+
+        if (tab === "live") {
+
+            container.innerHTML = getCricketLiveHTML();
+
+        }
+
+        else if (tab === "upcoming") {
+
+            container.innerHTML = getCricketUpcomingHTML();
+
+        }
+
+        else {
+
+            container.innerHTML = getCricketFeaturedHTML();
+
+        }
+
+    }
+
+    // ==========================
+    // FOOTBALL
+    // ==========================
+
+    else if (currentSportType === "football") {
+
+        if (tab === "live") {
+
+            container.innerHTML = getFootballLiveHTML();
+
+        }
+
+        else if (tab === "upcoming") {
+
+            container.innerHTML = getFootballUpcomingHTML();
+
+        }
+
+        else {
+
+            container.innerHTML = getFootballFeaturedHTML();
+
+        }
+
+    }
+
+    // ==========================
+    // OTHER SPORTS
+    // ==========================
+
+    else {
+
+        container.innerHTML = `
+            <div class="sports-empty">
+                <i class="fas fa-tools"></i>
+                <h3>${currentSportType.toUpperCase()}</h3>
+                <p>Content Coming Soon...</p>
+            </div>
+        `;
+
+    }
+
+}
+
+window.switchSportsTab = switchSportsTab;
 
 
     // ==========================
