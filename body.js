@@ -167,8 +167,8 @@ function selectMainCategory(category) {
     
     // Hide main category cards section
     if (mainCategorySection) {
-    mainCategorySection.style.display = 'none';
-  }
+        mainCategorySection.style.display = 'none';
+    }
     
     // Hide both sub-sections first (reset)
     if (casinoSubSection) casinoSubSection.style.display = 'none';
@@ -195,7 +195,6 @@ function selectMainCategory(category) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
    window.selectMainCategory = selectMainCategory;
-
 // ===== BACK TO MAIN DASHBOARD =====
 function backToMainDashboard() {
     // Show hero banner again
