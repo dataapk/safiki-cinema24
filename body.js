@@ -371,14 +371,11 @@ if (mainType === "sports") {
         document.querySelector(".sports-filter");
 
     if (firstTab) {
-        firstTab.classList.add("active");
-    }
-
-    // Load Live Tab
+    firstTab.classList.add("active");
     switchSportsTab("live", firstTab);
-
-    return;
 }
+
+return;
   
    /* ==========================================
    BACK TO SPORTS
