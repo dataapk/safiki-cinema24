@@ -314,8 +314,7 @@ function selectSubCategory(mainType, subType, element) {
 
     currentSportType = subType;
 
-    // Show Full Page
-    document.getElementById("sportsFullPage").style.display = "block";
+    
 
     // Change Title
     document.getElementById("sportsPageTitle").textContent =
