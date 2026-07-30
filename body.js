@@ -386,16 +386,16 @@ function backToSportsCategories() {
     // Hide Full Sports Page
     document.getElementById("sportsFullPage").style.display = "none";
 
-    // Show Main Categories
+    // Show Main Category Again
     document.getElementById("mainCategorySection").style.display = "";
 
-    // Show Sports Categories
+    // Show Sports Categories Again
     document.getElementById("sportsSubSection").style.display = "";
 
-    // Show Old Area
+    // Show Old Selected Area
     document.getElementById("sportsSelectedGames").style.display = "";
 
-    // Show Games Grid
+    // Show Default Games Grid
     document.getElementById("gamesGridSection").style.display = "";
 
     // Reset
