@@ -496,67 +496,7 @@ window.backToSportsCategories = backToSportsCategories;
 // SPORTS TAB SWITCH
 // ==========================
 
-   // ==========================
-// SPORTS TAB SWITCH
-// ==========================
-
-function switchSportsTab(tab, element) {
-
-    currentSportTab = tab;
-
-    // Active Button
-    document.querySelectorAll(".sports-filter").forEach(btn=>{
-        btn.classList.remove("active");
-    });
-
-    if(element){
-        element.classList.add("active");
-    }
-
-    // Hide All Lists
-    document.getElementById("sports-live-list").style.display = "none";
-    document.getElementById("sports-upcoming-list").style.display = "none";
-    document.getElementById("sports-featured-list").style.display = "none";
-
-    // Show Current List
-    let currentList = null;
-
-    if(tab==="live"){
-        currentList = document.getElementById("sports-live-list");
-    }
-
-    if(tab==="upcoming"){
-        currentList = document.getElementById("sports-upcoming-list");
-    }
-
-    if(tab==="featured"){
-        currentList = document.getElementById("sports-featured-list");
-    }
-
-    if(currentList){
-
-        currentList.style.display = "block";
-
-        // Hide Every Sport
-        currentList.querySelectorAll(".sport-group").forEach(group=>{
-            group.style.display = "none";
-        });
-
-        // Show Selected Sport
-        currentList
-        .querySelectorAll(
-            '.sport-group[data-sport="'+currentSportType+'"]'
-        )
-        .forEach(group=>{
-            group.style.display = "block";
-        });
-
-    }
-
-}
-
-window.switchSportsTab = switchSportsTab;
-   
+ 
 
 // ===== OPEN GAME (Placeholder) =====
 function openGame(mainType, subType, gameId) {
