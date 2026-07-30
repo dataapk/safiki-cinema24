@@ -170,26 +170,42 @@ function selectMainCategory(category) {
         mainCategorySection.style.display = 'none';
     }
     
-    // Hide both sub-sections first (reset)
-    if (casinoSubSection) casinoSubSection.style.display = 'none';
-    if (sportsSubSection) sportsSubSection.style.display = 'none';
-    
-    // Show selected sub-section
-    if (category === 'casino') {
-        if (casinoSubSection) {
-            casinoSubSection.style.display = 'block';
-            casinoCurrentSlide = 0;
-            updateSubSlider('casino', 0);
-            startAutoSlide('casino');
-        }
-    } else if (category === 'sports') {
-        if (sportsSubSection) {
-            sportsSubSection.style.display = 'block';
-            sportsCurrentSlide = 0;
-            updateSubSlider('sports', 0);
-            startAutoSlide('sports');
-        }
+   // Hide both sub-sections first (reset)
+if (casinoSubSection) casinoSubSection.style.display = "none";
+if (sportsSubSection) sportsSubSection.style.display = "none";
+
+// Show selected sub-section
+if (category === "casino") {
+
+    if (casinoSubSection) {
+
+        casinoSubSection.style.display = "block";
+
+        casinoCurrentSlide = 0;
+
+        updateSubSlider("casino", 0);
+
+        startAutoSlide("casino");
+
     }
+
+}
+
+else if (category === "sports") {
+
+    if (sportsSubSection) {
+
+        sportsSubSection.style.display = "block";
+
+        sportsCurrentSlide = 0;
+
+        updateSubSlider("sports", 0);
+
+        startAutoSlide("sports");
+
+    }
+
+}
     
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
