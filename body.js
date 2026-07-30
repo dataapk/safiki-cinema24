@@ -292,42 +292,34 @@ function resetAutoSlide(type) {
 
 // ===== SELECT SUB-CATEGORY =====
 function selectSubCategory(mainType, subType, element) {
-    // Remove active from all subcat items in this section
-    const parentGrid = element.closest('.subcat-grid');
+
+    // Remove active
+    const parentGrid = element.closest(".subcat-grid");
     if (parentGrid) {
-        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
-            item.classList.remove('active');
+        parentGrid.querySelectorAll(".subcat-item").forEach(item => {
+            item.classList.remove("active");
         });
     }
-    
-    // Add active to clicked item
-    element.classList.add('active');
-    
-    // Get games area
-    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
-    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
-    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
-    
-    const gamesArea = document.getElementById(gamesAreaId);
-    const gamesTitle = document.getElementById(gamesTitleId);
-    const gamesGrid = document.getElementById(gamesGridId);
-    
-    if (gamesTitle) {
-        gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
-    }
-    
-  if (gamesGrid) {
-    // No auto-generated HTML
-    gamesGrid.innerHTML = "";
-}
 
-if (gamesArea) {
-    gamesArea.style.display = "block";
-    gamesArea.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-}
+    element.classList.add("active");
+
+    if (mainType === "sports") {
+
+        // Hide Main Category
+        document.getElementById("mainCategorySection").style.display = "none";
+
+        // Hide Sports Sub Section (Banner + Sub Categories)
+        document.getElementById("sportsSubSection").style.display = "none";
+
+        // Show Full Sports Page
+        document.getElementById("sportsFullPage").style.display = "block";
+
+        // Change Header Title
+        document.getElementById("sportsPageTitle").textContent =
+            capitalizeFirst(subType);
+
+        return;
+    }
 
 }
 
