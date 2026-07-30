@@ -309,37 +309,77 @@ function selectSubCategory(mainType, subType, element) {
     element.classList.add("active");
 
 
-    // ==========================
-    // SPORTS
-    // ==========================
+   // ==========================
+// SPORTS
+// ==========================
 
-    if (mainType === "sports") {
+if (mainType === "sports") {
 
-        // Hide Sports Categories
-        document.getElementById("sportsSubcatGrid").style.display = "none";
+    // Save Current Sport
+    currentSportType = subType;
 
-        // Show Full Sports Page
-        document.getElementById("sportsFullView").style.display = "block";
+    // Hide Sports Top Area
+    document.getElementById("sportsCategoriesSection").style.display = "none";
 
-        // Change Header Title
-        document.getElementById("sportsPageTitle").textContent =
-            capitalizeFirst(subType);
+    // Hide Selected Games Area
+    document.getElementById("sportsSelectedGames").style.display = "none";
 
-        // Save Current Sport
-        currentSportType = subType;
+    // Hide Default Games Grid (Casino Section থাকবে)
+    document.getElementById("gamesGridSection").style.display = "none";
 
-        // Default Tab
-        currentSportTab = "live";
+    // Show Full Sports View
+    document.getElementById("sportsFullView").style.display = "block";
 
-        // Open Default Content
-        switchSportsTab(
-            "live",
-            document.querySelector(".sports-filter.active")
-        );
+    // Change Header Title
+    document.getElementById("sportsPageTitle").textContent =
+        capitalizeFirst(subType);
 
-        return;
+    // Default Tab
+    currentSportTab = "live";
 
+    // Reset Active Button
+    document.querySelectorAll(".sports-filter").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    const firstTab = document.querySelector(".sports-filter[data-tab='live']") ||
+                     document.querySelector(".sports-filter");
+
+    if(firstTab){
+        firstTab.classList.add("active");
     }
+
+    // Load Current Sport
+    switchSportsTab("live", firstTab);
+
+    return;
+
+}
+   /* ==========================================
+   BACK TO SPORTS
+========================================== */
+
+function backToSportsCategories(){
+
+    // Hide Full Sports Page
+    document.getElementById("sportsFullView").style.display = "none";
+
+    // Show Sports Categories Again
+    document.getElementById("sportsCategoriesSection").style.display = "";
+
+    // Show Selected Games Again
+    document.getElementById("sportsSelectedGames").style.display = "";
+
+    // Show Default Section Again
+    document.getElementById("gamesGridSection").style.display = "";
+
+    // Reset
+    currentSportType = "";
+    currentSportTab = "live";
+
+}
+
+window.backToSportsCategories = backToSportsCategories;
 
 
     // ==========================
