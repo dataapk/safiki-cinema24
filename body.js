@@ -456,44 +456,57 @@ window.backToSportsCategories = backToSportsCategories;
 // SPORTS TAB SWITCH
 // ==========================
 
-let currentSportTab = "live";
-
 function switchSportsTab(tab, element) {
 
     currentSportTab = tab;
 
     // Active Button
-    document.querySelectorAll(".sports-filter").forEach(btn => {
+    document.querySelectorAll(".sports-filter").forEach(btn=>{
         btn.classList.remove("active");
     });
 
-    if (element) {
+    if(element){
         element.classList.add("active");
     }
 
-    // Hide All
-    const live = document.getElementById("sports-live-list");
-    const upcoming = document.getElementById("sports-upcoming-list");
-    const featured = document.getElementById("sports-featured-list");
+    // Hide All Lists
+    document.getElementById("sports-live-list").style.display = "none";
+    document.getElementById("sports-upcoming-list").style.display = "none";
+    document.getElementById("sports-featured-list").style.display = "none";
 
-    if (live) live.style.display = "none";
-    if (upcoming) upcoming.style.display = "none";
-    if (featured) featured.style.display = "none";
+    // Show Current List
+    let currentList = null;
 
-    // Show Selected
-    switch (tab) {
+    if(tab==="live"){
+        currentList = document.getElementById("sports-live-list");
+    }
 
-        case "live":
-            if (live) live.style.display = "block";
-            break;
+    if(tab==="upcoming"){
+        currentList = document.getElementById("sports-upcoming-list");
+    }
 
-        case "upcoming":
-            if (upcoming) upcoming.style.display = "block";
-            break;
+    if(tab==="featured"){
+        currentList = document.getElementById("sports-featured-list");
+    }
 
-        case "featured":
-            if (featured) featured.style.display = "block";
-            break;
+    if(currentList){
+
+        currentList.style.display = "block";
+
+        // Hide Every Sport
+        currentList.querySelectorAll(".sport-group").forEach(group=>{
+            group.style.display = "none";
+        });
+
+        // Show Selected Sport
+        currentList
+        .querySelectorAll(
+            '.sport-group[data-sport="'+currentSportType+'"]'
+        )
+        .forEach(group=>{
+            group.style.display = "block";
+        });
+
     }
 
 }
