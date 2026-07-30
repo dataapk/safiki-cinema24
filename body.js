@@ -393,16 +393,9 @@ function viewAllSubCategories(mainType, element) {
     }
     
     if (gamesArea) {
-
-    gamesArea.style.display = 'block';
-
-    const offset = 80; // এখানে নিজের মতো পরিবর্তন করবে এটাই তোমার Control।
-
-    window.scrollTo({
-        top: gamesArea.offsetTop - offset,
-        behavior: 'smooth'
-    });
-
+        gamesArea.style.display = 'block';
+        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
    window.viewAllSubCategories = viewAllSubCategories;
 
