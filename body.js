@@ -3,8 +3,6 @@
    LANDING PAGE — FULL JAVASCRIPT
    Hero Slider | Auto Slide | Interactions
 ========================================== */
-let currentSportType = "";
-let currentSportTab = "live";
 
 (function() {
   'use strict';
@@ -136,7 +134,7 @@ window.updateHomeView = updateHomeView;
   };
 
 
-  /* ======================================================
+   /* ======================================================
    CASINO & SPORTS SECTION JAVASCRIPT
 ====================================================== */
 
@@ -197,7 +195,6 @@ function selectMainCategory(category) {
    window.selectMainCategory = selectMainCategory;
 
 // ===== BACK TO MAIN DASHBOARD =====
-
 function backToMainDashboard() {
     // Show hero banner again
     if (heroBanner) {
@@ -205,7 +202,9 @@ function backToMainDashboard() {
     }
     
     // Show main category cards
-  
+    if (mainCategorySection) {
+        mainCategorySection.style.display = 'block';
+    }
     
     // Hide both sub-sections
     if (casinoSubSection) casinoSubSection.style.display = 'none';
@@ -293,236 +292,42 @@ function resetAutoSlide(type) {
 
 // ===== SELECT SUB-CATEGORY =====
 function selectSubCategory(mainType, subType, element) {
-
-    // Remove active class
-    const parentGrid = element.closest(".subcat-grid");
-
+    // Remove active from all subcat items in this section
+    const parentGrid = element.closest('.subcat-grid');
     if (parentGrid) {
-
-        parentGrid.querySelectorAll(".subcat-item").forEach(item => {
-
-            item.classList.remove("active");
-
+        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
+            item.classList.remove('active');
         });
-
     }
-
-    element.classList.add("active");
-
-
-// ==========================
-// SPORTS
-// ==========================
-
-if (mainType === "sports") {
-
-    // Save Current Sport
-    currentSportType = subType;
-
-    // Hide Sports Category Section
-    const sportsSub = document.getElementById("sportsSubSection");
-    if (sportsSub) sportsSub.style.display = "none";
-
-    // Hide Old Selected Games
-    const selectedGames = document.getElementById("sportsSelectedGames");
-    if (selectedGames) selectedGames.style.display = "none";
-
-    // Hide Default Games Grid
-    const gamesGrid = document.getElementById("gamesGridSection");
-    if (gamesGrid) gamesGrid.style.display = "none";
-
-    // Show Full Sports Page
-    const fullPage = document.getElementById("sportsFullPage");
-    if (fullPage) fullPage.style.display = "block";
-
-    // Update Header Title
-    const pageTitle = document.getElementById("sportsPageTitle");
-    if (pageTitle) {
-        pageTitle.textContent = capitalizeFirst(subType);
-    }
-
-    // Save Current Sport
-    currentSportTab = "live";
-
-    // Reset Active Tab
-    document.querySelectorAll(".sports-filter").forEach(btn => {
-        btn.classList.remove("active");
-    });
-
-    const firstTab =
-        document.querySelector(".sports-filter[data-tab='live']") ||
-        document.querySelector(".sports-filter");
-
-    if (firstTab) {
-    firstTab.classList.add("active");
-    switchSportsTab("live", firstTab);
-}
-
-return;
-  
-   /* ==========================================
-   BACK TO SPORTS
-========================================== */
-
-function backToSportsCategories() {
-
-    // Hide Full Sports Page
-    document.getElementById("sportsFullPage").style.display = "none";
-
-    // Show Main Category Again
-   
-
-    // Show Sports Categories Again
-    document.getElementById("sportsSubSection").style.display = "";
-
-    // Show Old Selected Area
-    document.getElementById("sportsSelectedGames").style.display = "";
-
-    // Show Default Games Grid
-    document.getElementById("gamesGridSection").style.display = "";
-
-    // Reset
-    currentSportType = "";
-    currentSportTab = "live";
-}
-
-window.backToSportsCategories = backToSportsCategories;
-   // ==========================================
-// SPORTS TAB SWITCH
-// ==========================================
-
-function switchSportsTab(tab, element) {
-
-    currentSportTab = tab;
-
-    // Active Button
-    document.querySelectorAll(".sports-filter").forEach(btn => {
-        btn.classList.remove("active");
-    });
-
-    if (element) {
-        element.classList.add("active");
-    }
-
-    // Current Sport
-    if (!currentSportType) return;
-
-    const container = document.getElementById("sportsGamesGrid");
-
-    if (!container) return;
-
-    // ==========================
-    // CRICKET
-    // ==========================
-
-    if (currentSportType === "cricket") {
-
-        if (tab === "live") {
-
-            container.innerHTML = getCricketLiveHTML();
-
-        }
-
-        else if (tab === "upcoming") {
-
-            container.innerHTML = getCricketUpcomingHTML();
-
-        }
-
-        else {
-
-            container.innerHTML = getCricketFeaturedHTML();
-
-        }
-
-    }
-
-    // ==========================
-    // FOOTBALL
-    // ==========================
-
-    else if (currentSportType === "football") {
-
-        if (tab === "live") {
-
-            container.innerHTML = getFootballLiveHTML();
-
-        }
-
-        else if (tab === "upcoming") {
-
-            container.innerHTML = getFootballUpcomingHTML();
-
-        }
-
-        else {
-
-            container.innerHTML = getFootballFeaturedHTML();
-
-        }
-
-    }
-
-    // ==========================
-    // OTHER SPORTS
-    // ==========================
-
-    else {
-
-        container.innerHTML = `
-            <div class="sports-empty">
-                <i class="fas fa-tools"></i>
-                <h3>${currentSportType.toUpperCase()}</h3>
-                <p>Content Coming Soon...</p>
-            </div>
-        `;
-
-    }
-
-}
-
-window.switchSportsTab = switchSportsTab;
-
-
-    // ==========================
-    // CASINO
-    // ==========================
-
-    const gamesArea = document.getElementById("casinoSelectedGames");
-    const gamesTitle = document.getElementById("casinoSelectedTitle");
-    const gamesGrid = document.getElementById("casinoGamesGrid");
-
+    
+    // Add active to clicked item
+    element.classList.add('active');
+    
+    // Get games area
+    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
+    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
+    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
+    
+    const gamesArea = document.getElementById(gamesAreaId);
+    const gamesTitle = document.getElementById(gamesTitleId);
+    const gamesGrid = document.getElementById(gamesGridId);
+    
     if (gamesTitle) {
-
-        gamesTitle.textContent =
-            capitalizeFirst(subType) + " Games";
-
+        gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
     }
-
+    
     if (gamesGrid) {
-
-        gamesGrid.innerHTML =
-            generateSampleGames(mainType, subType);
-
+        // Generate sample games (replace with your real data)
+        gamesGrid.innerHTML = generateSampleGames(mainType, subType);
     }
-
+    
     if (gamesArea) {
-
-        gamesArea.style.display = "block";
-
-        gamesArea.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "start"
-
-        });
-
+        gamesArea.style.display = 'block';
+        // Scroll to games area smoothly
+        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
 }
-
-window.selectSubCategory = selectSubCategory;
+   window.selectSubCategory = selectSubCategory;
 
 // ===== VIEW ALL SUB-CATEGORIES =====
 function viewAllSubCategories(mainType, element) {
