@@ -1914,3 +1914,62 @@
 }
 
 }
+
+.live-badge{
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    background:#e53935;
+
+    color:#fff;
+
+    padding:5px 10px;
+
+    border-radius:30px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+.live-dot{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    animation:livePulse .9s infinite;
+
+}
+
+@keyframes livePulse{
+
+    0%{
+
+        opacity:1;
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        opacity:.35;
+        transform:scale(.65);
+
+    }
+
+    100%{
+
+        opacity:1;
+        transform:scale(1);
+
+    }
+
+}
