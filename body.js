@@ -294,6 +294,9 @@ function resetAutoSlide(type) {
 // ===== SELECT SUB-CATEGORY =====
 // ===== SELECT SUB-CATEGORY =====
 function selectSubCategory(mainType, subType, element) {
+   window.currentSportType = subType;
+
+console.log("CURRENT SPORT =", window.currentSportType);
 
     // Active Style
     const parentGrid = element.closest(".subcat-grid");
@@ -400,6 +403,8 @@ function viewAllSubCategories(mainType, element) {
 
    // ===== SWITCH SPORTS TAB =====
 function switchSportsTab(tab, btn) {
+   console.log("TAB =", tab);
+console.log("SPORT =", window.currentSportType);
 
     // Active Button
     document.querySelectorAll(".sports-filter").forEach(b => {
@@ -442,9 +447,11 @@ function switchSportsTab(tab, btn) {
         `.sport-group[data-sport="${sport}"]`
     );
 
-    if (currentGroup) {
-        currentGroup.style.display = "block";
-    }
+   if (currentGroup) {
+    currentGroup.style.display = "block";
+}
+
+console.log("Current Group =", currentGroup);
 
     // Scroll Top
     const page = document.getElementById("sportsFullPage");
