@@ -313,25 +313,40 @@ function selectSubCategory(mainType, subType, element) {
 
     if (mainType === "sports") {
 
-        // Hide ONLY Banner
-        const banner = document.getElementById("sportsSubBanner");
+    // Hide ONLY Banner
+    const banner = document.getElementById("sportsSubBanner");
 
-if (banner) {
-    banner.style.display = "";
-}
-
-        // Show Sports Full Page
-        const fullPage = document.getElementById("sportsFullPage");
-        if (fullPage) fullPage.style.display = "block";
-
-        // Change Title
-        const title = document.getElementById("sportsPageTitle");
-        if (title) {
-            title.textContent = capitalizeFirst(subType);
-        }
-
-        return;
+    if (banner) {
+        banner.style.display = "";
     }
+
+    // Show Sports Full Page
+    const fullPage = document.getElementById("sportsFullPage");
+    if (fullPage) fullPage.style.display = "block";
+
+    // Change Title
+    const title = document.getElementById("sportsPageTitle");
+    if (title) {
+        title.textContent = capitalizeFirst(subType);
+    }
+
+    // Default Live Tab
+    document.querySelectorAll(".sports-filter").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+
+    const firstTab =
+        document.querySelector(".sports-filter[onclick*='live']") ||
+        document.querySelector(".sports-filter");
+
+    if(firstTab){
+        firstTab.classList.add("active");
+    }
+
+    switchSportsTab("live", firstTab);
+
+    return;
+}
 
     // ==========================
     // CASINO (OLD)
