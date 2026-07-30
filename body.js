@@ -3,6 +3,8 @@
    LANDING PAGE — FULL JAVASCRIPT
    Hero Slider | Auto Slide | Interactions
 ========================================== */
+let currentSportTab = "live";
+let currentSportType = "";
 
 (function() {
   'use strict';
