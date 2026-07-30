@@ -446,6 +446,8 @@ console.log("SPORT =", window.currentSportType);
     const currentGroup = currentList.querySelector(
         `.sport-group[data-sport="${sport}"]`
     );
+   console.log("Current List =", currentList);
+console.log("Current Group =", currentGroup);
 
    if (currentGroup) {
     currentGroup.style.display = "block";
