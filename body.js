@@ -321,7 +321,7 @@ if (mainType === "sports") {
     currentSportType = subType;
 
     // Hide Sports Top Area
-    document.getElementById("sportsCategoriesSection").style.display = "none";
+    document.getElementById("sportsSubSection").style.display = "none";
 
     // Hide Selected Games Area
     document.getElementById("sportsSelectedGames").style.display = "none";
@@ -330,7 +330,7 @@ if (mainType === "sports") {
     document.getElementById("gamesGridSection").style.display = "none";
 
     // Show Full Sports View
-    document.getElementById("sportsFullView").style.display = "block";
+    document.getElementById("sportsFullPage")style.display = "block";
 
     // Change Header Title
     document.getElementById("sportsPageTitle").textContent =
@@ -368,7 +368,7 @@ function backToSportsCategories(){
     document.getElementById("sportsFullView").style.display = "none";
 
     // Show Sports Categories Again
-    document.getElementById("sportsCategoriesSection").style.display = "";
+    document.getElementById("sportsSubSection").style.display = "";
 
     // Show Selected Games Again
     document.getElementById("sportsSelectedGames").style.display = "";
