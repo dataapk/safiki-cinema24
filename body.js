@@ -395,6 +395,25 @@ function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+   // ===== HELPER: Capitalize First Letter =====
+   function backToSportsCategories() {
+
+    // Hide Full Sports Page
+    const fullPage = document.getElementById("sportsFullPage");
+    if (fullPage) {
+        fullPage.style.display = "none";
+    }
+
+    // Show Banner Again
+    const banner = document.getElementById("sportsSubBanner");
+    if (banner) {
+        banner.style.display = "";
+    }
+
+}
+
+window.backToSportsCategories = backToSportsCategories;
+
 
 
 // ===== OPEN GAME (Placeholder) =====
