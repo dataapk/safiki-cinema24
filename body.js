@@ -166,9 +166,7 @@ function selectMainCategory(category) {
     }
     
     // Hide main category cards section
-    if (mainCategorySection) {
-        mainCategorySection.style.display = 'none';
-    }
+   
     
    // Hide both sub-sections first (reset)
 if (casinoSubSection) casinoSubSection.style.display = "none";
@@ -220,9 +218,7 @@ function backToMainDashboard() {
     }
     
     // Show main category cards
-    if (mainCategorySection) {
-        mainCategorySection.style.display = 'block';
-    }
+  
     
     // Hide both sub-sections
     if (casinoSubSection) casinoSubSection.style.display = 'none';
@@ -387,7 +383,7 @@ function backToSportsCategories() {
     document.getElementById("sportsFullPage").style.display = "none";
 
     // Show Main Category Again
-    document.getElementById("mainCategorySection").style.display = "";
+   
 
     // Show Sports Categories Again
     document.getElementById("sportsSubSection").style.display = "";
