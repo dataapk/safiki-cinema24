@@ -419,6 +419,11 @@ window.backToSportsCategories = backToSportsCategories;
 // ==========================
 
 function switchSportsTab(tab, button) {
+   console.log(tab);
+
+console.log(document.getElementById("sports-live-list"));
+console.log(document.getElementById("sports-upcoming-list"));
+console.log(document.getElementById("sports-featured-list"));
 
     // Remove Active
     document.querySelectorAll(".sports-filter").forEach(btn => {
