@@ -313,7 +313,10 @@ function selectSubCategory(mainType, subType, element) {
 
         // Hide ONLY Banner
         const banner = document.getElementById("sportsSubBanner");
-        if (banner) banner.style.display = "none";
+
+if (banner) {
+    banner.style.display = "";
+}
 
         // Show Sports Full Page
         const fullPage = document.getElementById("sportsFullPage");
