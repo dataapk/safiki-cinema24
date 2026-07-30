@@ -136,7 +136,7 @@ window.updateHomeView = updateHomeView;
   };
 
 
-   /* ======================================================
+  /* ======================================================
    CASINO & SPORTS SECTION JAVASCRIPT
 ====================================================== */
 
@@ -166,44 +166,30 @@ function selectMainCategory(category) {
     }
     
     // Hide main category cards section
-   
+    if (mainCategorySection) {
+        mainCategorySection.style.display = 'none';
+    }
     
-   // Hide both sub-sections first (reset)
-if (casinoSubSection) casinoSubSection.style.display = "none";
-if (sportsSubSection) sportsSubSection.style.display = "none";
-
-// Show selected sub-section
-if (category === "casino") {
-
-    if (casinoSubSection) {
-
-        casinoSubSection.style.display = "block";
-
-        casinoCurrentSlide = 0;
-
-        updateSubSlider("casino", 0);
-
-        startAutoSlide("casino");
-
+    // Hide both sub-sections first (reset)
+    if (casinoSubSection) casinoSubSection.style.display = 'none';
+    if (sportsSubSection) sportsSubSection.style.display = 'none';
+    
+    // Show selected sub-section
+    if (category === 'casino') {
+        if (casinoSubSection) {
+            casinoSubSection.style.display = 'block';
+            casinoCurrentSlide = 0;
+            updateSubSlider('casino', 0);
+            startAutoSlide('casino');
+        }
+    } else if (category === 'sports') {
+        if (sportsSubSection) {
+            sportsSubSection.style.display = 'block';
+            sportsCurrentSlide = 0;
+            updateSubSlider('sports', 0);
+            startAutoSlide('sports');
+        }
     }
-
-}
-
-else if (category === "sports") {
-
-    if (sportsSubSection) {
-
-        sportsSubSection.style.display = "block";
-
-        sportsCurrentSlide = 0;
-
-        updateSubSlider("sports", 0);
-
-        startAutoSlide("sports");
-
-    }
-
-}
     
     // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -211,6 +197,7 @@ else if (category === "sports") {
    window.selectMainCategory = selectMainCategory;
 
 // ===== BACK TO MAIN DASHBOARD =====
+
 function backToMainDashboard() {
     // Show hero banner again
     if (heroBanner) {
