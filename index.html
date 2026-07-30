@@ -2633,22 +2633,89 @@
         </div>
     </div>
 
-    <!-- Selected Category Games -->
-    <div class="selected-games-area" id="sportsSelectedGames">
-        <h4 class="selected-games-title" id="sportsSelectedTitle">All Events</h4>
-        <div class="selected-games-grid" id="sportsGamesGrid">
-            <!-- Games injected by JS -->
-        </div>
+  <!-- =========================
+     SPORTS FULL PAGE VIEW
+========================== -->
+
+<div class="sports-full-view" id="sportsFullView" style="display:none;">
+
+    <!-- Header -->
+    <div class="sports-full-header">
+
+        <button class="sports-back-btn" onclick="backToSportsCategories()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <h3 id="sportsPageTitle">Cricket</h3>
+
     </div>
+
+
+    <!-- Filter Tabs -->
+    <div class="sports-filter-tabs">
+
+        <button class="sports-filter active"
+                onclick="switchSportsTab('live',this)">
+            🔴 Live
+        </button>
+
+        <button class="sports-filter"
+                onclick="switchSportsTab('upcoming',this)">
+            📅 Upcoming
+        </button>
+
+        <button class="sports-filter"
+                onclick="switchSportsTab('featured',this)">
+            ⭐ Featured
+        </button>
+
+    </div>
+
+
+    <!-- Dynamic Sports Content -->
+
+    <div class="sports-content-area" id="sportsContentArea">
+
+        <!--
+        ====================================
+
+        HERE ONLY SPORT CONTENT WILL LOAD
+
+        Cricket
+        Football
+        Basketball
+        Tennis
+        Volleyball
+        Boxing
+        Hockey
+        Rugby
+        Golf
+
+        ====================================
+
+        ADD YOUR API HERE
+
+        -->
+
+    </div>
+
+</div>
+
+<!-- =========================
+     CASINO (UNCHANGED)
+========================== -->
+
+<section class="games-grid-section" id="gamesGridSection">
+
+    <div class="games-grid-wrap" id="gamesGridWrap">
+
+        <!-- Casino Games -->
+
+    </div>
+
 </section>
 
-<!-- ===== GAMES GRID (Default) ===== -->
-<section class="games-grid-section" id="gamesGridSection">
-    <div class="games-grid-wrap" id="gamesGridWrap">
-        <!-- Games injected by JS -->
-    </div>
-</section>
-    <!-- ===== MEMBER CONTENT END ===== -->
+<!-- ===== MEMBER CONTENT END ===== -->
 </div>
 
     
