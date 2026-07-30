@@ -414,6 +414,53 @@ function capitalizeFirst(str) {
 
 window.backToSportsCategories = backToSportsCategories;
 
+   // ==========================
+// SPORTS TAB SWITCH
+// ==========================
+
+function switchSportsTab(tab, button) {
+
+    // Remove Active
+    document.querySelectorAll(".sports-filter").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    // Active Current
+    if (button) {
+        button.classList.add("active");
+    }
+
+    // Hide All
+    const live = document.getElementById("sports-live-list");
+    const upcoming = document.getElementById("sports-upcoming-list");
+    const featured = document.getElementById("sports-featured-list");
+
+    if (live) live.style.display = "none";
+    if (upcoming) upcoming.style.display = "none";
+    if (featured) featured.style.display = "none";
+
+    // Show Selected
+    switch (tab) {
+
+        case "live":
+            if (live) live.style.display = "block";
+            break;
+
+        case "upcoming":
+            if (upcoming) upcoming.style.display = "block";
+            break;
+
+        case "featured":
+            if (featured) featured.style.display = "block";
+            break;
+    }
+
+    // Save Current Tab
+    currentSportTab = tab;
+}
+
+window.switchSportsTab = switchSportsTab;
+
 
 
 // ===== OPEN GAME (Placeholder) =====
