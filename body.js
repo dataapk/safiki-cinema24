@@ -420,21 +420,23 @@ window.backToSportsCategories = backToSportsCategories;
 // SPORTS TAB SWITCH
 // ==========================
 
-function switchSportsTab(tab, button) {
-   console.log(tab);
+   // ==========================
+// SPORTS TAB SWITCH
+// ==========================
 
-console.log(document.getElementById("sports-live-list"));
-console.log(document.getElementById("sports-upcoming-list"));
-console.log(document.getElementById("sports-featured-list"));
+let currentSportTab = "live";
 
-    // Remove Active
+function switchSportsTab(tab, element) {
+
+    currentSportTab = tab;
+
+    // Active Button
     document.querySelectorAll(".sports-filter").forEach(btn => {
         btn.classList.remove("active");
     });
 
-    // Active Current
-    if (button) {
-        button.classList.add("active");
+    if (element) {
+        element.classList.add("active");
     }
 
     // Hide All
@@ -462,13 +464,10 @@ console.log(document.getElementById("sports-featured-list"));
             break;
     }
 
-    // Save Current Tab
-    currentSportTab = tab;
 }
 
 window.switchSportsTab = switchSportsTab;
-
-
+   
 
 // ===== OPEN GAME (Placeholder) =====
 function openGame(mainType, subType, gameId) {
