@@ -316,18 +316,22 @@ function selectSubCategory(mainType, subType, element) {
         gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
     }
     
-    if (gamesGrid) {
-        // Generate sample games (replace with your real data)
-        gamesGrid.innerHTML = generateSampleGames(mainType, subType);
-    }
-    
-    if (gamesArea) {
-        gamesArea.style.display = 'block';
-        // Scroll to games area smoothly
-        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  if (gamesGrid) {
+    // No auto-generated HTML
+    gamesGrid.innerHTML = "";
 }
-   window.selectSubCategory = selectSubCategory;
+
+if (gamesArea) {
+    gamesArea.style.display = "block";
+    gamesArea.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+}
+
+window.selectSubCategory = selectSubCategory;
 
 // ===== VIEW ALL SUB-CATEGORIES =====
 function viewAllSubCategories(mainType, element) {
@@ -369,52 +373,7 @@ function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// ===== SAMPLE GAME GENERATORS (Replace with your real data) =====
-function generateSampleGames(mainType, subType) {
-    const games = [];
-    const count = 6;
-    
-    for (let i = 1; i <= count; i++) {
-        games.push(`
-            <div class="game-card" onclick="openGame('${mainType}', '${subType}', ${i})">
-                <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
-                    <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
-                </div>
-                <div class="game-info">
-                    <span class="game-name">${capitalizeFirst(subType)} ${i}</span>
-                    <span class="game-tag">${mainType.toUpperCase()}</span>
-                </div>
-            </div>
-        `);
-    }
-    
-    return games.join('');
-}
 
-function generateAllGames(mainType) {
-    const subCats = mainType === 'casino' 
-        ? ['slots', 'aviator', 'live', 'roulette', 'blackjack', 'poker', 'baccarat', 'crash', 'fishing']
-        : ['cricket', 'football', 'basketball', 'tennis', 'volleyball', 'boxing', 'hockey', 'rugby', 'golf'];
-    
-    let html = '';
-    subCats.forEach(sub => {
-        for (let i = 1; i <= 3; i++) {
-            html += `
-                <div class="game-card" onclick="openGame('${mainType}', '${sub}', ${i})">
-                    <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
-                        <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
-                    </div>
-                    <div class="game-info">
-                        <span class="game-name">${capitalizeFirst(sub)} ${i}</span>
-                        <span class="game-tag">${mainType.toUpperCase()}</span>
-                    </div>
-                </div>
-            `;
-        }
-    });
-    
-    return html;
-}
 
 // ===== OPEN GAME (Placeholder) =====
 function openGame(mainType, subType, gameId) {
