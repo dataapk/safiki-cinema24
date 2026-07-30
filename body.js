@@ -311,7 +311,24 @@ function selectSubCategory(mainType, subType, element) {
     // SPORTS
     // ==========================
 
-    if (mainType === "sports") {
+   if (mainType === "sports") {
+
+    currentSportType = subType;
+
+    // Show Full Page
+    document.getElementById("sportsFullPage").style.display = "block";
+
+    // Change Title
+    document.getElementById("sportsPageTitle").textContent =
+        capitalizeFirst(subType);
+
+    // Default Live
+    const firstBtn = document.querySelector(".sports-filter");
+
+    switchSportsTab("live", firstBtn);
+
+    return;
+}
 
     // Hide ONLY Banner
     const banner = document.getElementById("sportsSubBanner");
