@@ -190,7 +190,7 @@ function selectMainCategory(category) {
     }
     
     // Scroll to top smoothly
-    window.scrollTo({ top: 50, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
    window.selectMainCategory = selectMainCategory;
 
