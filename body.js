@@ -435,7 +435,27 @@ function backToTrending() {
 }
 
 window.backToTrending = backToTrending;
+// ==========================================
+// SPORTS - OPEN GAME
+// ==========================================
 
+function openSportsGame(sport, gameId) {
+
+    // Identify selected sport
+    console.log("SPORT:", sport);
+
+    // Identify selected game
+    console.log("GAME ID:", gameId);
+
+    // Temporary test message
+    alert(
+        "Sports Game Opened\n\n" +
+        "Sport: " + sport + "\n" +
+        "Game ID: " + gameId
+    );
+}
+
+window.openSportsGame = openSportsGame;
 
 
 
