@@ -1,30 +1,58 @@
+// ==========================================
+// SPORTS.JS
+// SPORTS FULL GAME VIEW
+// ==========================================
+
+console.log("SPORTS.JS LOADED");
+
+
+// ==========================================
+// OPEN SPORTS GAME
+// ==========================================
+
 function openSportsGame(sport, gameId) {
 
     const games = {
-"cricket-live-1": {
-    sport: "cricket",
-    title: "Bangladesh vs India",
-    status: "LIVE",
-    league: "T20 International",
-    homeTeam: "Bangladesh",
-    awayTeam: "India"
-}
+
+        "cricket-live-1": {
+            sport: "cricket",
+            title: "Bangladesh vs India",
+            status: "LIVE",
+            league: "T20 International",
+            homeTeam: "Bangladesh",
+            awayTeam: "India"
+        },
 
         "cricket-live-2": {
             sport: "cricket",
             title: "Australia vs Pakistan",
             status: "LIVE",
-            league: "T20 International"
+            league: "T20 International",
+            homeTeam: "Australia",
+            awayTeam: "Pakistan"
         }
 
     };
 
+
+    // ==========================================
+    // FIND GAME
+    // ==========================================
+
     const game = games[gameId];
 
     if (!game) {
-        console.log("Game not found:", gameId);
+
+        console.log("Sports game not found:", gameId);
+
         return;
+
     }
+
+
+    // ==========================================
+    // FIND GAME PAGE
+    // ==========================================
 
     const gamePage =
         document.getElementById("sports-game-page");
@@ -35,221 +63,373 @@ function openSportsGame(sport, gameId) {
     const gameContent =
         document.getElementById("sports-game-content");
 
+
     if (!gamePage || !gameContent) {
+
         console.log("Sports game page not found");
+
         return;
+
     }
 
-    gameTitle.textContent =
-        sport === "cricket"
-            ? "🏏 Cricket"
-            : "⚽ Football";
+
+    // ==========================================
+    // PAGE TITLE
+    // ==========================================
+
+    if (gameTitle) {
+
+        gameTitle.textContent =
+            sport === "cricket"
+                ? "🏏 Cricket"
+                : "⚽ Football";
+
+    }
 
 
-gameContent.innerHTML = `
+    // ==========================================
+    // GAME CONTENT
+    // ==========================================
 
-    <!-- ==========================================
-         LIVE MATCH HEADER
-    ========================================== -->
+    gameContent.innerHTML = `
 
-    <div class="sports-game-match-header">
+        <!-- ==========================================
+             LIVE MATCH HEADER
+        ========================================== -->
 
-        <div class="sports-game-live-badge">
-            <span class="live-dot"></span>
-            LIVE
-        </div>
+        <div class="sports-game-match-header">
 
-        <div class="sports-game-match-title">
-            ${game.title}
-        </div>
+            <div class="sports-game-live-badge">
 
-        <div class="sports-game-league">
-            ${game.league}
-        </div>
+                <span class="live-dot"></span>
 
-    </div>
+                LIVE
 
-
-    <!-- ==========================================
-         MATCH ANIMATION / VIDEO
-    ========================================== -->
-
-    <div class="sports-game-hero">
-
-        <div class="sports-game-animation">
-
-            <div class="sports-animation-live">
-                ● LIVE
             </div>
 
-            <div class="sports-animation-icon">
-                🏏
-            </div>
 
-            <div class="sports-animation-title">
+            <div class="sports-game-match-title">
+
                 ${game.title}
+
             </div>
 
-            <div class="sports-animation-subtitle">
-                Live Match Centre
-            </div>
 
-        </div>
+            <div class="sports-game-league">
 
-    </div>
-
-
-    <!-- ==========================================
-         BETTING SECTION
-    ========================================== -->
-
-    <div class="sports-betting-box">
-
-        <div class="sports-betting-title">
-            Match Betting
-        </div>
-
-
-        <!-- MATCH WINNER -->
-
-        <div class="sports-market">
-
-            <div class="sports-market-title">
-                Match Winner
-            </div>
-
-            <div class="sports-bet-options">
-
-                <button class="sports-bet-option">
-
-                    <span>
-                        Bangladesh
-                    </span>
-
-                    <strong>
-                        1.85
-                    </strong>
-
-                </button>
-
-
-                <button class="sports-bet-option">
-
-                    <span>
-                        India
-                    </span>
-
-                    <strong>
-                        1.65
-                    </strong>
-
-                </button>
+                ${game.league}
 
             </div>
 
         </div>
 
 
-        <!-- TOTAL RUNS -->
 
-        <div class="sports-market">
+        <!-- ==========================================
+             MATCH ANIMATION / VIDEO BOX
+        ========================================== -->
 
-            <div class="sports-market-title">
-                Total Runs
-            </div>
+        <div class="sports-game-hero">
 
-            <div class="sports-bet-options">
+            <div class="sports-game-animation">
 
-                <button class="sports-bet-option">
+                <div class="sports-animation-live">
 
-                    <span>
-                        Over 180.5
-                    </span>
+                    ● LIVE
 
-                    <strong>
-                        1.90
-                    </strong>
-
-                </button>
+                </div>
 
 
-                <button class="sports-bet-option">
+                <div class="sports-animation-icon">
 
-                    <span>
-                        Under 180.5
-                    </span>
+                    🏏
 
-                    <strong>
-                        1.80
-                    </strong>
+                </div>
 
-                </button>
+
+                <div class="sports-animation-title">
+
+                    ${game.title}
+
+                </div>
+
+
+                <div class="sports-animation-subtitle">
+
+                    Live Match Centre
+
+                </div>
 
             </div>
 
         </div>
 
 
-        <!-- BET TOTAL -->
 
-        <div class="sports-total-bet">
+        <!-- ==========================================
+             BETTING SECTION
+        ========================================== -->
 
-            <span>
-                Total Bet
-            </span>
+        <div class="sports-betting-box">
 
-            <strong>
-                ৳0
-            </strong>
+
+            <div class="sports-betting-title">
+
+                Match Betting
+
+            </div>
+
+
+
+            <!-- ======================================
+                 MATCH WINNER
+            ====================================== -->
+
+            <div class="sports-market">
+
+                <div class="sports-market-title">
+
+                    Match Winner
+
+                </div>
+
+
+                <div class="sports-bet-options">
+
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                    >
+
+                        <span>
+
+                            ${game.homeTeam}
+
+                        </span>
+
+
+                        <strong>
+
+                            1.85
+
+                        </strong>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                    >
+
+                        <span>
+
+                            ${game.awayTeam}
+
+                        </span>
+
+
+                        <strong>
+
+                            1.65
+
+                        </strong>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 TOTAL RUNS
+            ====================================== -->
+
+            <div class="sports-market">
+
+                <div class="sports-market-title">
+
+                    Total Runs
+
+                </div>
+
+
+                <div class="sports-bet-options">
+
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                    >
+
+                        <span>
+
+                            Over 180.5
+
+                        </span>
+
+
+                        <strong>
+
+                            1.90
+
+                        </strong>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                    >
+
+                        <span>
+
+                            Under 180.5
+
+                        </span>
+
+
+                        <strong>
+
+                            1.80
+
+                        </strong>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 TOTAL BET
+            ====================================== -->
+
+            <div class="sports-total-bet">
+
+                <span>
+
+                    Total Bet
+
+                </span>
+
+
+                <strong>
+
+                    ৳0
+
+                </strong>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 PLACE BET
+            ====================================== -->
+
+            <button
+                type="button"
+                class="sports-place-bet"
+            >
+
+                PLACE BET
+
+            </button>
+
 
         </div>
 
+    `;
 
-        <!-- PLACE BET -->
 
-        <button class="sports-place-bet">
 
-            PLACE BET
-
-        </button>
-
-    </div>
-
-`;
-
-    // Show game page
+    // ==========================================
+    // FIND EXISTING SPORTS SECTIONS
+    // ==========================================
 
     const sportsSubSection =
-    document.getElementById("sports-sub-section");
+        document.getElementById("sports-sub-section");
 
-const trendingPage =
-    document.getElementById("sports-trending-page");
+    const trendingPage =
+        document.getElementById("sports-trending-page");
 
-const cricketEventsPage =
-    document.getElementById("cricket-events-page");
+    const cricketEventsPage =
+        document.getElementById("cricket-events-page");
 
-const footballEventsPage =
-    document.getElementById("football-events-page");
+    const footballEventsPage =
+        document.getElementById("football-events-page");
 
-// Hide normal sports content
-if (sportsSubSection) {
-    sportsSubSection.style.display = "none";
+
+
+    // ==========================================
+    // HIDE NORMAL SPORTS CONTENT
+    // ==========================================
+
+    if (sportsSubSection) {
+
+        sportsSubSection.style.display = "none";
+
+    }
+
+
+    if (trendingPage) {
+
+        trendingPage.style.display = "none";
+
+    }
+
+
+    if (cricketEventsPage) {
+
+        cricketEventsPage.style.display = "none";
+
+    }
+
+
+    if (footballEventsPage) {
+
+        footballEventsPage.style.display = "none";
+
+    }
+
+
+
+    // ==========================================
+    // SHOW FULL GAME PAGE
+    // ==========================================
+
+    gamePage.style.display = "block";
+
+
+    // Prevent browser from jumping to another section
+
+    window.scrollTo(0, 0);
+
 }
 
-if (trendingPage) {
-    trendingPage.style.display = "none";
-}
 
-if (cricketEventsPage) {
-    cricketEventsPage.style.display = "none";
-}
 
-if (footballEventsPage) {
-    footballEventsPage.style.display = "none";
-}
-   gamePage.style.display = "block";
+// ==========================================
+// BACK FROM SPORTS GAME
+// ==========================================
+
+function backFromSportsGame() {
+
+    window.location.reload();
 
 }
+
 
 
 // ==========================================
@@ -257,4 +437,21 @@ if (footballEventsPage) {
 // ==========================================
 
 window.openSportsGame = openSportsGame;
+
 window.backFromSportsGame = backFromSportsGame;
+
+
+
+// ==========================================
+// DEBUG
+// ==========================================
+
+console.log(
+    "openSportsGame TYPE:",
+    typeof window.openSportsGame
+);
+
+console.log(
+    "backFromSportsGame TYPE:",
+    typeof window.backFromSportsGame
+);
