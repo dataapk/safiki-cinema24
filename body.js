@@ -474,7 +474,35 @@ function restoreSportsGame() {
     sessionStorage.removeItem("selectedSportsGameId");
 
     // Full Game View will be opened here
+   const games = {
+    "cricket-live-1": "Bangladesh vs India",
+    "cricket-live-2": "Australia vs Pakistan"
+};
+
+const gameName = games[gameId];
+
+if (gameName) {
+    const title = document.createElement("div");
+
+    title.textContent = gameName;
+
+    title.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 99999;
+        padding: 14px 24px;
+        background: #1F252D;
+        color: #2FBF71;
+        border: 1px solid rgba(47,191,113,.35);
+        border-radius: 10px;
+        font-weight: 700;
+    `;
+
+    document.body.appendChild(title);
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
