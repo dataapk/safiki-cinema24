@@ -247,8 +247,14 @@ if (cricketEventsPage) {
 if (footballEventsPage) {
     footballEventsPage.style.display = "none";
 }
-    gamePage.style.display = "block";
-
-    window.openSportsGame = openSportsGame;
+   gamePage.style.display = "block";
 
 }
+
+
+// ==========================================
+// GLOBAL FUNCTIONS
+// ==========================================
+
+window.openSportsGame = openSportsGame;
+window.backFromSportsGame = backFromSportsGame;
