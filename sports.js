@@ -103,6 +103,35 @@ function openSportsGame(sport, gameId) {
     `;
 
     // Show game page
+
+    const sportsSubSection =
+    document.getElementById("sports-sub-section");
+
+const trendingPage =
+    document.getElementById("sports-trending-page");
+
+const cricketEventsPage =
+    document.getElementById("cricket-events-page");
+
+const footballEventsPage =
+    document.getElementById("football-events-page");
+
+// Hide normal sports content
+if (sportsSubSection) {
+    sportsSubSection.style.display = "none";
+}
+
+if (trendingPage) {
+    trendingPage.style.display = "none";
+}
+
+if (cricketEventsPage) {
+    cricketEventsPage.style.display = "none";
+}
+
+if (footballEventsPage) {
+    footballEventsPage.style.display = "none";
+}
     gamePage.style.display = "block";
 
     window.openSportsGame = openSportsGame;
