@@ -226,3 +226,323 @@
     }
 
 }
+
+
+ <!-- ==========================================
+         LIVE MATCH HEADER
+    ========================================== -->
+
+.sports-game-match-header {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 14px;
+
+    margin-bottom: 12px;
+
+    background: #232831;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+
+.sports-game-live-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 10px;
+
+    margin-bottom: 7px;
+
+    background: rgba(47,191,113,.12);
+
+    border: 1px solid rgba(47,191,113,.3);
+
+    border-radius: 20px;
+
+    color: #2FBF71;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.live-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #2FBF71;
+
+    box-shadow: 0 0 8px rgba(47,191,113,.7);
+}
+
+
+.sports-game-match-title {
+    color: #fff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    margin-bottom: 4px;
+}
+
+
+.sports-game-league {
+    color: #9fa6b2;
+
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   MATCH ANIMATION
+========================================== */
+
+.sports-game-animation {
+
+    width: 100%;
+    height: 240px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(47,191,113,.12),
+            transparent 60%
+        ),
+        #15191f;
+
+    border: 1px solid rgba(47,191,113,.22);
+
+    border-radius: 12px;
+}
+
+
+.sports-animation-live {
+
+    color: #2FBF71;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    margin-bottom: 12px;
+}
+
+
+.sports-animation-icon {
+
+    font-size: 48px;
+
+    margin-bottom: 8px;
+}
+
+
+.sports-animation-title {
+
+    color: #fff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+.sports-animation-subtitle {
+
+    color: #8e96a3;
+
+    font-size: 12px;
+
+    margin-top: 5px;
+}
+
+
+/* ==========================================
+   BETTING
+========================================== */
+
+.sports-betting-title {
+
+    color: #fff;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    margin-bottom: 14px;
+}
+
+
+.sports-market {
+
+    margin-bottom: 14px;
+}
+
+
+.sports-market-title {
+
+    color: #c9ced6;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+
+.sports-bet-options {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 8px;
+}
+
+
+.sports-bet-option {
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    padding: 10px 12px;
+
+    background: #1d2128;
+
+    border: 1px solid rgba(255,255,255,.07);
+
+    border-radius: 9px;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+
+.sports-bet-option:hover {
+
+    border-color: #2FBF71;
+
+}
+
+
+.sports-bet-option strong {
+
+    color: #2FBF71;
+
+}
+
+
+.sports-total-bet {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 12px;
+
+    margin-top: 5px;
+
+    background: #181c22;
+
+    border-radius: 9px;
+
+    color: #c9ced6;
+
+    font-size: 13px;
+}
+
+
+.sports-total-bet strong {
+
+    color: #fff;
+
+    font-size: 15px;
+}
+
+
+.sports-place-bet {
+
+    width: 100%;
+
+    min-height: 46px;
+
+    margin-top: 10px;
+
+    background: #2FBF71;
+
+    border: none;
+
+    border-radius: 9px;
+
+    color: #fff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+
+.sports-place-bet:hover {
+
+    background: #28A862;
+
+}
+
+
+@media(max-width:768px) {
+
+    .sports-game-match-title {
+        font-size: 16px;
+    }
+
+    .sports-game-animation {
+        height: 190px;
+    }
+
+    .sports-bet-options {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
