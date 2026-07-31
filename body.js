@@ -291,74 +291,37 @@ function resetAutoSlide(type) {
 }
 
 // ===== SELECT SUB-CATEGORY =====
-function selectSubCategory(mainType, subType, element) {
-    // Remove active from all subcat items in this section
-    const parentGrid = element.closest('.subcat-grid');
-    if (parentGrid) {
-        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
-            item.classList.remove('active');
-        });
-    }
-    
-    // Add active to clicked item
-    element.classList.add('active');
-    
-    // Get games area
-    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
-    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
-    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
-    
-    const gamesArea = document.getElementById(gamesAreaId);
-    const gamesTitle = document.getElementById(gamesTitleId);
-    const gamesGrid = document.getElementById(gamesGridId);
-    
-    if (gamesTitle) {
-        gamesTitle.textContent = capitalizeFirst(subType) + ' Games';
-    }
-    
-    if (gamesGrid) {
-        // Generate sample games (replace with your real data)
-        gamesGrid.innerHTML = generateSampleGames(mainType, subType);
-    }
-    
-    if (gamesArea) {
-        gamesArea.style.display = 'block';
-        // Scroll to games area smoothly
-        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-   window.selectSubCategory = selectSubCategory;
 
-// ===== VIEW ALL SUB-CATEGORIES =====
-   
-function viewAllSubCategories(mainType, element) {
+function selectSubCategory(pageId, element) {
 
     // Active Button
     const parentGrid = element.closest(".subcat-grid");
 
     if (parentGrid) {
+
         parentGrid.querySelectorAll(".subcat-item").forEach(item => {
+
             item.classList.remove("active");
+
         });
+
     }
 
     element.classList.add("active");
 
 
-    // ===========================
-    // Hide Trending Page
-    // ===========================
+    // Hide Trending
 
-    const trendingPage = document.getElementById("sports-trending-page");
+    const trending = document.getElementById("sports-trending-page");
 
-    if (trendingPage) {
-        trendingPage.style.display = "none";
+    if (trending) {
+
+        trending.style.display = "none";
+
     }
 
 
-    // ===========================
-    // Hide All Event Pages
-    // ===========================
+    // Hide All Pages
 
     const pages = [
 
@@ -387,63 +350,15 @@ function viewAllSubCategories(mainType, element) {
     });
 
 
-    // ===========================
-    // Show Selected Event Page
-    // ===========================
+    // Show Selected Page
 
-    let targetPage = "";
+    const currentPage = document.getElementById(pageId);
 
-    switch (mainType) {
+    if (currentPage) {
 
-        case "cricket":
-            targetPage = "cricket-events-page";
-            break;
+        currentPage.style.display = "block";
 
-        case "football":
-            targetPage = "football-events-page";
-            break;
-
-        case "basketball":
-            targetPage = "basketball-events-page";
-            break;
-
-        case "tennis":
-            targetPage = "tennis-events-page";
-            break;
-
-        case "volleyball":
-            targetPage = "volleyball-events-page";
-            break;
-
-        case "boxing":
-            targetPage = "boxing-events-page";
-            break;
-
-        case "hockey":
-            targetPage = "hockey-events-page";
-            break;
-
-        case "rugby":
-            targetPage = "rugby-events-page";
-            break;
-
-        case "golf":
-            targetPage = "golf-events-page";
-            break;
-
-        default:
-            targetPage = "sports-trending-page";
-            break;
-
-    }
-
-    const page = document.getElementById(targetPage);
-
-    if (page) {
-
-        page.style.display = "block";
-
-        page.scrollIntoView({
+        currentPage.scrollIntoView({
 
             behavior: "smooth",
             block: "start"
@@ -454,7 +369,9 @@ function viewAllSubCategories(mainType, element) {
 
 }
 
-window.viewAllSubCategories = viewAllSubCategories;
+window.selectSubCategory = selectSubCategory;
+
+   
 
 // ===== HELPER: Capitalize First Letter =====
 function capitalizeFirst(str) {
