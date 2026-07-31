@@ -1,6 +1,6 @@
 // ==========================================
 // SPORTS.JS
-// SPORTS FULL GAME PAGE
+// SPORTS GAME PAGE
 // ==========================================
 
 
@@ -8,7 +8,7 @@
 // SPORTS GAME DATA
 // ==========================================
 
-const sportsGames = {
+const SportsGameState = {
 
     "cricket-live-1": {
         sport: "cricket",
@@ -33,25 +33,42 @@ const sportsGames = {
 
 function openSportsGame(sport, gameId) {
 
-    window.location.href =
-        "sports-game.html?sport=" +
-        encodeURIComponent(sport) +
-        "&game=" +
+    const game = SportsGameState[gameId];
+
+    if (!game) {
+
+        console.log("Sports game not found:", gameId);
+
+        return;
+
+    }
+
+
+    // URL change + full page reload
+
+    const url =
+        window.location.pathname +
+        "?sportsGame=" +
         encodeURIComponent(gameId);
 
+
+    window.location.href = url;
+
 }
+
 
 window.openSportsGame = openSportsGame;
 
 
 // ==========================================
-// RENDER SPORTS GAME PAGE
+// OPEN SPORTS GAME PAGE AFTER RELOAD
 // ==========================================
 
-function renderSportsGamePage() {
+function openSportsGamePage() {
 
     const params =
         new URLSearchParams(window.location.search);
+
 
     const gameId =
         params.get("sportsGame");
@@ -67,12 +84,25 @@ function renderSportsGamePage() {
 
 
     const game =
-        sportsGames[gameId];
+        SportsGameState[gameId];
 
 
     if (!game) {
 
-        console.log("Invalid sports game:", gameId);
+        return;
+
+    }
+
+
+    const section =
+        document.getElementById("sports-game-page");
+
+
+    if (!section) {
+
+        console.log(
+            "sports-game-page not found"
+        );
 
         return;
 
@@ -80,140 +110,138 @@ function renderSportsGamePage() {
 
 
     // ======================================
-    // CREATE GAME PAGE
+    // GAME PAGE CONTENT
     // ======================================
 
-    let gamePage =
+    const title =
         document.getElementById(
-            "sports-full-game-page"
+            "sports-game-title"
         );
 
 
-    if (gamePage) {
+    const content =
+        document.getElementById(
+            "sports-game-content"
+        );
 
-        gamePage.remove();
+
+    if (title) {
+
+        title.textContent =
+            game.sport === "cricket"
+                ? "🏏 Cricket"
+                : "Sports";
 
     }
 
 
-    gamePage =
-        document.createElement("div");
+    if (content) {
+
+        content.innerHTML = `
+
+            <div class="sports-section">
+
+                <div class="sports-section-title">
+
+                    ${game.title}
+
+                </div>
 
 
-    gamePage.id =
-        "sports-full-game-page";
+                <div class="sports-league-item">
+
+                    <div class="league-header">
+
+                        <div class="league-name">
+
+                            ${game.title}
+
+                        </div>
 
 
-    gamePage.innerHTML = `
+                        <span class="event-live">
 
-        <div class="sports-page-header">
+                            ● ${game.status}
 
-            <button
-                class="sports-back-btn"
-                onclick="backFromSportsGame()">
-
-                <i class="fas fa-arrow-left"></i>
-
-                Back
-
-            </button>
-
-
-            <div class="sports-page-title">
-
-                🏏 Cricket
-
-            </div>
-
-        </div>
-
-
-        <div class="sports-section">
-
-
-            <div class="sports-section-title">
-
-                🏏 ${game.title}
-
-            </div>
-
-
-            <div class="sports-league-item">
-
-                <div class="league-header">
-
-                    <div class="league-name">
-
-                        ${game.title}
+                        </span>
 
                     </div>
 
+                </div>
 
-                    <span class="event-live">
 
-                        ● ${game.status}
+                <div class="sports-league-item">
 
-                    </span>
+                    <div class="league-header">
+
+                        <div class="league-name">
+
+                            League
+
+                        </div>
+
+
+                        <span class="countdown-badge">
+
+                            ${game.league}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sports-league-item">
+
+                    <div class="league-header">
+
+                        <div class="league-name">
+
+                            Match ID
+
+                        </div>
+
+
+                        <span class="countdown-badge">
+
+                            ${gameId}
+
+                        </span>
+
+                    </div>
 
                 </div>
 
             </div>
 
+        `;
 
-            <div class="sports-league-item">
-
-                <div class="league-header">
-
-                    <div class="league-name">
-
-                        League
-
-                    </div>
-
-
-                    <span class="countdown-badge">
-
-                        ${game.league}
-
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="sports-league-item">
-
-                <div class="league-header">
-
-                    <div class="league-name">
-
-                        Match ID
-
-                    </div>
-
-
-                    <span class="countdown-badge">
-
-                        ${gameId}
-
-                    </span>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    `;
+    }
 
 
     // ======================================
-    // HIDE SPORTS HOME CONTENT ONLY
+    // SHOW GAME PAGE
     // ======================================
 
-    const sportsPages = [
+    section.style.display = "block";
+
+
+    requestAnimationFrame(() => {
+
+        section.style.opacity = "1";
+
+        section.style.transform =
+            "translateY(0)";
+
+    });
+
+
+    // ======================================
+    // HIDE SPORTS HOME SECTIONS
+    // ======================================
+
+    const sportsHomeSections = [
 
         "sports-trending-page",
         "cricket-events-page",
@@ -229,7 +257,7 @@ function renderSportsGamePage() {
     ];
 
 
-    sportsPages.forEach(function(id) {
+    sportsHomeSections.forEach(id => {
 
         const element =
             document.getElementById(id);
@@ -242,52 +270,6 @@ function renderSportsGamePage() {
 
     });
 
-
-    // Hide sports subcategory area
-
-    const sportsGrid =
-        document.getElementById(
-            "sportsSubcatGrid"
-        );
-
-
-    if (sportsGrid) {
-
-        const gridParent =
-            sportsGrid.closest(
-                ".subcat-grid"
-            );
-
-
-        if (gridParent) {
-
-            gridParent.style.display = "none";
-
-        }
-
-    }
-
-
-    // ======================================
-    // INSERT GAME PAGE
-    // ======================================
-
-    document.body.appendChild(gamePage);
-
-
-    // ======================================
-    // SHOW GAME PAGE
-    // ======================================
-
-    gamePage.style.display = "block";
-
-
-    // ======================================
-    // TOP
-    // ======================================
-
-    window.scrollTo(0, 0);
-
 }
 
 
@@ -296,6 +278,9 @@ function renderSportsGamePage() {
 // ==========================================
 
 function backFromSportsGame() {
+
+    // Remove game state from URL
+    // Then reload the original page
 
     window.location.href =
         window.location.pathname;
@@ -308,14 +293,14 @@ window.backFromSportsGame =
 
 
 // ==========================================
-// PAGE LOAD
+// CHECK SPORTS GAME ON PAGE LOAD
 // ==========================================
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        renderSportsGamePage();
+        openSportsGamePage();
 
     }
 );
