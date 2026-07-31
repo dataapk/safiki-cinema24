@@ -1869,7 +1869,23 @@
 
     width:100%;
 
-    margin-top:14px;
+    margin-top:18px;
+
+    animation:fadeSports .28s ease;
+
+}
+
+@keyframes fadeSports{
+
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 
 }
 
@@ -1884,19 +1900,23 @@
 
     align-items:center;
 
-    justify-content:space-between;
+    gap:14px;
 
-    gap:10px;
+    margin-bottom:18px;
 
-    margin-bottom:15px;
+}
 
-    padding:10px 14px;
+.sports-page-title{
 
-    background:#232831;
+    flex:1;
 
-    border:1px solid rgba(255,255,255,.08);
+    font-size:18px;
 
-    border-radius:12px;
+    font-weight:700;
+
+    color:#ffffff;
+
+    letter-spacing:.3px;
 
 }
 
@@ -1907,21 +1927,33 @@
 
 .sports-back-btn{
 
-    background:#2FBF71;
+    min-width:95px;
 
-    color:#fff;
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
 
     border:none;
 
-    border-radius:8px;
+    border-radius:12px;
 
-    padding:7px 14px;
+    background:#1F252D;
 
-    cursor:pointer;
+    border:1px solid rgba(47,191,113,.25);
+
+    color:#2FBF71;
 
     font-size:13px;
 
-    font-weight:600;
+    font-weight:700;
+
+    cursor:pointer;
 
     transition:.25s;
 
@@ -1929,26 +1961,11 @@
 
 .sports-back-btn:hover{
 
-    background:#28a862;
+    background:#28303A;
 
-}
+    border-color:#2FBF71;
 
-
-/* ==========================================
-   TITLE
-========================================== */
-
-.sports-page-title{
-
-    flex:1;
-
-    text-align:center;
-
-    font-size:16px;
-
-    font-weight:700;
-
-    color:#fff;
+    transform:translateY(-2px);
 
 }
 
@@ -1959,15 +1976,13 @@
 
 .sports-section{
 
-    background:#232831;
+    background:transparent;
 
-    border:1px solid rgba(255,255,255,.08);
+    border:none;
 
-    border-radius:12px;
+    padding:0;
 
-    padding:12px;
-
-    margin-bottom:14px;
+    margin-bottom:18px;
 
 }
 
@@ -1978,32 +1993,46 @@
 
 .sports-section-title{
 
-    color:#2FBF71;
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#ffffff;
 
     font-size:15px;
 
     font-weight:700;
 
-    margin-bottom:12px;
+    margin-bottom:14px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 
 }
 
 
 /* ==========================================
-   EVENT ITEM
+   EVENT CARD
 ========================================== */
 
 .sports-league-item{
 
-    background:#1d2128;
+    background:#1F252D;
 
     border:1px solid rgba(255,255,255,.06);
 
-    border-radius:10px;
+    border-radius:14px;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
+
+    overflow:hidden;
 
     transition:.25s;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.18);
 
 }
 
@@ -2016,6 +2045,12 @@
 .sports-league-item:hover{
 
     border-color:#2FBF71;
+
+    background:#252D37;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 24px rgba(0,0,0,.28);
 
 }
 
@@ -2032,9 +2067,9 @@
 
     align-items:center;
 
-    gap:12px;
+    gap:16px;
 
-    padding:12px;
+    padding:15px 16px;
 
     cursor:pointer;
 
@@ -2047,20 +2082,30 @@
 
 .league-name{
 
-    color:#fff;
+    flex:1;
+
+    color:#ffffff;
 
     font-size:14px;
 
     font-weight:600;
 
+    line-height:1.45;
+
 }
 
 
 /* ==========================================
-   LIVE
+   LIVE BADGE
 ========================================== */
 
 .event-live{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
 
     color:#2FBF71;
 
@@ -2068,20 +2113,40 @@
 
     font-weight:700;
 
+    white-space:nowrap;
+
+}
+
+.event-live::before{
+
+    content:"";
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:#2FBF71;
+
+    box-shadow:0 0 8px rgba(47,191,113,.75);
+
 }
 
 
 /* ==========================================
-   UPCOMING
+   UPCOMING BADGE
 ========================================== */
 
 .countdown-badge{
 
-    color:#ffb84d;
+    color:#F5B041;
 
     font-size:12px;
 
     font-weight:700;
+
+    white-space:nowrap;
 
 }
 
@@ -2094,13 +2159,37 @@
 
 .sports-page-header{
 
-    padding:10px;
+    gap:10px;
+
+    margin-bottom:14px;
+
+}
+
+.sports-back-btn{
+
+    min-width:82px;
+
+    height:36px;
+
+    font-size:12px;
 
 }
 
 .sports-page-title{
 
-    font-size:15px;
+    font-size:16px;
+
+}
+
+.sports-section-title{
+
+    font-size:14px;
+
+}
+
+.league-header{
+
+    padding:13px;
 
 }
 
@@ -2111,6 +2200,7 @@
 }
 
 .event-live,
+
 .countdown-badge{
 
     font-size:11px;
