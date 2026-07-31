@@ -2634,12 +2634,439 @@
     </div>
 
   <!-- =========================
-     SPORTS FULL PAGE VIEW
+    start default Trending event SPORTS
 ========================== -->
+    <!-- ==========================================
+     SPORTS - TRENDING EVENTS (DEFAULT)
+========================================== -->
+
+<div id="sports-trending-page">
+
+    <!-- Header -->
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToSportsHome()">
+            ← Back
+        </button>
+
+        <div class="sports-page-title">
+            🔥 Trending Events
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         TRENDING LIVE EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔥 Live Now
+        </div>
+
+
+        <!-- Cricket -->
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-live-1')">
+
+                <div class="league-name">
+                    🏏 Bangladesh vs India
+                </div>
+
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Football -->
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-live-1')">
+
+                <div class="league-name">
+                    ⚽ Real Madrid vs Barcelona
+                </div>
+
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Basketball -->
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('basketball-live-1')">
+
+                <div class="league-name">
+                    🏀 Lakers vs Celtics
+                </div>
+
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Volleyball -->
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('volleyball-live-1')">
+
+                <div class="league-name">
+                    🏐 Brazil vs Italy
+                </div>
+
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Tennis -->
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('tennis-live-1')">
+
+                <div class="league-name">
+                    🎾 ATP World Tour Finals
+                </div>
+
+                <span class="live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    <!-- ===== END TRENDING  ===== -->
+    <!-- ==========================================
+     CRICKET EVENTS
+========================================== -->
+
+<div id="cricket-events-page" style="display:none;">
+
+    <!-- Header -->
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+            ← Back
+        </button>
+
+        <div class="sports-page-title">
+            🏏 Cricket Events
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         LIVE EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-live-1')">
+
+                <div class="league-name">
+                    Bangladesh vs India
+                </div>
+
+                <span class="event-live">
+                    ● LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-live-2')">
+
+                <div class="league-name">
+                    Australia vs Pakistan
+                </div>
+
+                <span class="event-live">
+                    ● LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         UPCOMING EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-upcoming-1')">
+
+                <div class="league-name">
+                    England vs New Zealand
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-upcoming-2')">
+
+                <div class="league-name">
+                    South Africa vs Sri Lanka
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FEATURED EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-featured-1')">
+
+                <div class="league-name">
+                    Asia Cup Special
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('cricket-featured-2')">
+
+                <div class="league-name">
+                    World Test Championship
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+   <!-- ==========================================
+     FOOTBALL EVENTS
+========================================== -->
+
+<div id="football-events-page" style="display:none;">
+
+    <!-- Header -->
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+            ← Back
+        </button>
+
+        <div class="sports-page-title">
+            ⚽ Football Events
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         LIVE EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-live-1')">
+
+                <div class="league-name">
+                    Real Madrid vs Barcelona
+                </div>
+
+                <span class="event-live">
+                    ● LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-live-2')">
+
+                <div class="league-name">
+                    Manchester City vs Liverpool
+                </div>
+
+                <span class="event-live">
+                    ● LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         UPCOMING EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-upcoming-1')">
+
+                <div class="league-name">
+                    Arsenal vs Chelsea
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-upcoming-2')">
+
+                <div class="league-name">
+                    Bayern Munich vs Dortmund
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FEATURED EVENTS
+    ========================== -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-featured-1')">
+
+                <div class="league-name">
+                    UEFA Champions League
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sports-league-item">
+
+            <div class="league-header"
+                 onclick="openMatch('football-featured-2')">
+
+                <div class="league-name">
+                    FIFA Club World Cup
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div> 
     
 
     <!-- Casino Games --> 
-    </div>
+   
 </section> 
      </div>
     <!-- ===== MEMBER CONTENT END ===== -->
