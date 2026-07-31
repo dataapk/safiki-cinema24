@@ -451,6 +451,37 @@ function openSportsGame(sport, gameId) {
 
 window.openSportsGame = openSportsGame;
 
+   // ==========================================
+// RESTORE SELECTED SPORTS GAME AFTER RELOAD
+// ==========================================
+
+function restoreSportsGame() {
+
+    const sport = sessionStorage.getItem("selectedSportsSport");
+    const gameId = sessionStorage.getItem("selectedSportsGameId");
+
+    // No selected game
+    if (!sport || !gameId) {
+        return;
+    }
+
+    console.log("RESTORING SPORTS GAME");
+    console.log("SPORT:", sport);
+    console.log("GAME ID:", gameId);
+
+    // Clear saved selection
+    sessionStorage.removeItem("selectedSportsSport");
+    sessionStorage.removeItem("selectedSportsGameId");
+
+    // Full Game View will be opened here
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    restoreSportsGame();
+
+});
+
 
 // ===== OPEN GAME (Placeholder) =====
 function openGame(mainType, subType, gameId) {
