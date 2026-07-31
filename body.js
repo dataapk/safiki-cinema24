@@ -368,10 +368,10 @@ if (currentPage) {
         window.pageYOffset -
         headerOffset;
 
-    window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-    });
+   window.scrollTo({
+    top: 70,
+    behavior: 'smooth'
+});
 
 }
 
