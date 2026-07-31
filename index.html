@@ -2576,62 +2576,119 @@
         </div>
     </div>
 
-    <!-- Sports Sub Categories -->
-    <div class="subcat-header-row">
-        <button class="sub-back-btn" onclick="backToMainDashboard()">
-            <i class="fas fa-arrow-left"></i> Back
-        </button>
-        <h3 class="subcat-section-title">Sports Events</h3>
+   <!-- Sports Sub Categories -->
+
+<div class="subcat-header-row">
+
+    <button class="sub-back-btn"
+            onclick="backToMainDashboard()">
+
+        <i class="fas fa-arrow-left"></i>
+
+        Back
+
+    </button>
+
+    <h3 class="subcat-section-title">
+
+        ⚽ Sports Events
+
+    </h3>
+
+</div>
+
+
+<div class="subcat-grid" id="sportsSubcatGrid">
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','cricket',this)">
+
+        🏏
+
+        <span>Cricket</span>
+
     </div>
-    
-    <div class="subcat-grid" id="sportsSubcatGrid">
-        <!-- Top Row: 5 items -->
-        <div class="subcat-row top-row">
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'cricket', this)">
-                <i class="fas fa-baseball-ball"></i>
-                <span>Cricket</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'football', this)">
-                <i class="fas fa-futbol"></i>
-                <span>Football</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'basketball', this)">
-                <i class="fas fa-basketball-ball"></i>
-                <span>Basket</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'tennis', this)">
-                <i class="fas fa-table-tennis"></i>
-                <span>Tennis</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'volleyball', this)">
-                <i class="fas fa-volleyball-ball"></i>
-                <span>Volley</span>
-            </div>
-        </div>
-        <!-- Down Row: 4 items + View All -->
-        <div class="subcat-row down-row">
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'boxing', this)">
-                <i class="fas fa-hand-rock"></i>
-                <span>Boxing</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'hockey', this)">
-                <i class="fas fa-hockey-puck"></i>
-                <span>Hockey</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'rugby', this)">
-                <i class="fas fa-football-ball"></i>
-                <span>Rugby</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('sports', 'golf', this)">
-                <i class="fas fa-golf-ball"></i>
-                <span>Golf</span>
-            </div>
-            <div class="subcat-item view-all-btn" onclick="viewAllSubCategories('sports', this)">
-                <i class="fas fa-th-large"></i>
-                <span>View All</span>
-            </div>
-        </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','football',this)">
+
+        ⚽
+
+        <span>Football</span>
+
     </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','basketball',this)">
+
+        🏀
+
+        <span>Basketball</span>
+
+    </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','tennis',this)">
+
+        🎾
+
+        <span>Tennis</span>
+
+    </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','volleyball',this)">
+
+        🏐
+
+        <span>Volleyball</span>
+
+    </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','boxing',this)">
+
+        🥊
+
+        <span>Boxing</span>
+
+    </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','hockey',this)">
+
+        🏒
+
+        <span>Hockey</span>
+
+    </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','rugby',this)">
+
+        🏉
+
+        <span>Rugby</span>
+
+    </div>
+
+
+    <div class="subcat-item"
+         onclick="selectSubCategory('sports','golf',this)">
+
+        ⛳
+
+        <span>Golf</span>
+
+    </div>
+</div>
 
   <!-- =========================
     start default Trending event SPORTS
