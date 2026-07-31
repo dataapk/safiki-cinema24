@@ -441,22 +441,15 @@ window.backToTrending = backToTrending;
 
 function openSportsGame(sport, gameId) {
 
-    // Identify selected sport
-    console.log("SPORT:", sport);
+    // Save selected sports game before reload
+    sessionStorage.setItem("selectedSportsSport", sport);
+    sessionStorage.setItem("selectedSportsGameId", gameId);
 
-    // Identify selected game
-    console.log("GAME ID:", gameId);
-
-    // Temporary test message
-    alert(
-        "Sports Game Opened\n\n" +
-        "Sport: " + sport + "\n" +
-        "Game ID: " + gameId
-    );
+    // Reload the page
+    window.location.reload();
 }
 
 window.openSportsGame = openSportsGame;
-
 
 
 // ===== OPEN GAME (Placeholder) =====
