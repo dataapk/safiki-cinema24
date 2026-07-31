@@ -504,12 +504,6 @@ if (gameName) {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-
-    restoreSportsGame();
-
-});
-
 
 // ===== OPEN GAME (Placeholder) =====
 function openGame(mainType, subType, gameId) {
