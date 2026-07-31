@@ -371,59 +371,73 @@ function selectSubCategory(pageId, element) {
 
 window.selectSubCategory = selectSubCategory;
 
-   
+   // ===========================
+// BACK TO TRENDING
+// ===========================
 
-// ===== HELPER: Capitalize First Letter =====
-function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+function backToTrending() {
 
-// ===== SAMPLE GAME GENERATORS (Replace with your real data) =====
-function generateSampleGames(mainType, subType) {
-    const games = [];
-    const count = 6;
-    
-    for (let i = 1; i <= count; i++) {
-        games.push(`
-            <div class="game-card" onclick="openGame('${mainType}', '${subType}', ${i})">
-                <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
-                    <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
-                </div>
-                <div class="game-info">
-                    <span class="game-name">${capitalizeFirst(subType)} ${i}</span>
-                    <span class="game-tag">${mainType.toUpperCase()}</span>
-                </div>
-            </div>
-        `);
-    }
-    
-    return games.join('');
-}
+    // Hide All Event Pages
 
-function generateAllGames(mainType) {
-    const subCats = mainType === 'casino' 
-        ? ['slots', 'aviator', 'live', 'roulette', 'blackjack', 'poker', 'baccarat', 'crash', 'fishing']
-        : ['cricket', 'football', 'basketball', 'tennis', 'volleyball', 'boxing', 'hockey', 'rugby', 'golf'];
-    
-    let html = '';
-    subCats.forEach(sub => {
-        for (let i = 1; i <= 3; i++) {
-            html += `
-                <div class="game-card" onclick="openGame('${mainType}', '${sub}', ${i})">
-                    <div class="game-thumb" style="background: linear-gradient(135deg, var(--surface-2), var(--surface));">
-                        <i class="fas fa-gamepad" style="font-size: 28px; color: var(--text-muted);"></i>
-                    </div>
-                    <div class="game-info">
-                        <span class="game-name">${capitalizeFirst(sub)} ${i}</span>
-                        <span class="game-tag">${mainType.toUpperCase()}</span>
-                    </div>
-                </div>
-            `;
+    const pages = [
+
+        "cricket-events-page",
+        "football-events-page",
+        "basketball-events-page",
+        "tennis-events-page",
+        "volleyball-events-page",
+        "boxing-events-page",
+        "hockey-events-page",
+        "rugby-events-page",
+        "golf-events-page"
+
+    ];
+
+    pages.forEach(id => {
+
+        const page = document.getElementById(id);
+
+        if (page) {
+
+            page.style.display = "none";
+
         }
+
     });
-    
-    return html;
+
+
+    // Show Trending
+
+    const trending = document.getElementById("sports-trending-page");
+
+    if (trending) {
+
+        trending.style.display = "block";
+
+        trending.scrollIntoView({
+
+            behavior: "smooth",
+            block: "start"
+
+        });
+
+    }
+
+
+    // Remove Active Button
+
+    document.querySelectorAll(".subcat-item").forEach(item => {
+
+        item.classList.remove("active");
+
+    });
+
 }
+
+window.backToTrending = backToTrending;
+
+
+
 
 // ===== OPEN GAME (Placeholder) =====
 function openGame(mainType, subType, gameId) {
