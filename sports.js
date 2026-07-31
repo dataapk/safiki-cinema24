@@ -33,27 +33,13 @@ const sportsGames = {
 
 function openSportsGame(sport, gameId) {
 
-    const game = sportsGames[gameId];
-
-    if (!game) {
-
-        console.log("Sports game not found:", gameId);
-
-        return;
-
-    }
-
-
-    const url =
-        window.location.pathname +
-        "?sportsGame=" +
+    window.location.href =
+        "sports-game.html?sport=" +
+        encodeURIComponent(sport) +
+        "&game=" +
         encodeURIComponent(gameId);
 
-
-    window.location.href = url;
-
 }
-
 
 window.openSportsGame = openSportsGame;
 
