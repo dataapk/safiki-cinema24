@@ -2836,10 +2836,11 @@
 <!-- ============================================
      CRICKET EVENTS — FULL PAGE VIEW
      ============================================ -->
+========================================== -->
 
 <div id="cricket-events-page" style="display:none;">
 
-    <!-- ====== HEADER ====== -->
+    <!-- Header -->
     <div class="sports-page-header">
 
         <button class="sports-back-btn"
@@ -2854,384 +2855,50 @@
     </div>
 
 
-    <!-- ====== LIVE STREAM BOX ====== -->
-    <div class="cricket-live-stream-box">
+  <!-- =========================
+     LIVE EVENTS
+========================== -->
 
-        <!-- Loading State -->
-        <div class="stream-loading" id="stream-loader">
-            <div class="stream-spinner"></div>
-            <p>Loading Live Stream...</p>
+<div class="sports-section">
+
+<div class="sports-section-title">
+    🔴 Live Events
+</div>
+
+<div class="sports-league-item">
+
+    <div class="league-header"
+         onclick="openSportsGame('cricket', 'cricket-live-1')">
+
+        <div class="league-name">
+            Bangladesh vs India
         </div>
 
-        <!-- Live Stream Iframe / Video Player -->
-        <!-- [API: Embed live cricket stream URL here] -->
-        <div class="stream-player" id="stream-player" style="display:none;">
-            <iframe 
-                id="cricket-live-iframe"
-                src="" 
-                frameborder="0" 
-                allowfullscreen
-                title="Live Cricket Stream">
-            </iframe>
-        </div>
-
-        <!-- Fallback: No Stream Available -->
-        <div class="stream-offline" id="stream-offline" style="display:none;">
-            <div class="offline-icon">📡</div>
-            <p>Stream Currently Offline</p>
-            <span>Please check back later or select another event.</span>
-        </div>
+        <span class="event-live">
+            ● LIVE
+        </span>
 
     </div>
 
+</div>
 
-    <!-- ====== MATCH INFO BAR ====== -->
-    <div class="cricket-match-info-bar">
+<div class="sports-league-item">
 
-        <!-- [API: Live Match Status] -->
-        <div class="match-status-live">
-            <span class="live-dot">●</span> LIVE
+    <div class="league-header"
+         onclick="openSportsGame('cricket', 'cricket-live-2')">
+
+        <div class="league-name">
+            Australia vs Pakistan
         </div>
 
-        <!-- [API: Teams Playing] -->
-        <div class="match-teams">
-            <span class="team-home">{HOME_TEAM}</span>
-            <span class="vs-text">VS</span>
-            <span class="team-away">{AWAY_TEAM}</span>
-        </div>
-
-        <!-- [API: Current Score] -->
-        <div class="match-score">
-            <span class="score-runs">{RUNS}</span>
-            <span class="score-wickets">/{WICKETS}</span>
-            <span class="score-overs">({OVERS} ov)</span>
-        </div>
+        <span class="event-live">
+            ● LIVE
+        </span>
 
     </div>
 
+</div>
 
-    <!-- ====== BETTING OPTIONS SECTION ====== -->
-    <div class="cricket-betting-section">
-
-        <div class="betting-section-title">
-            📊 Betting Markets
-        </div>
-
-
-        <!-- --- Market 1: Match Winner --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">🏆 Total Game — Which Team Will Win?</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Team 1 Odds] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{TEAM_1_NAME}</span>
-                    <span class="bet-odds">{TEAM_1_ODDS}</span>
-                </button>
-
-                <!-- [API: Draw Odds] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Draw</span>
-                    <span class="bet-odds">{DRAW_ODDS}</span>
-                </button>
-
-                <!-- [API: Team 2 Odds] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{TEAM_2_NAME}</span>
-                    <span class="bet-odds">{TEAM_2_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 2: Total Runs --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">📈 Total Runs (Match)</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Over Odds] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Over {TOTAL_RUNS_LINE}</span>
-                    <span class="bet-odds">{OVER_ODDS}</span>
-                </button>
-
-                <!-- [API: Under Odds] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Under {TOTAL_RUNS_LINE}</span>
-                    <span class="bet-odds">{UNDER_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 3: First Over Runs --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">1️⃣ First Over Runs</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: First Over Options] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Over {FIRST_OVER_LINE}</span>
-                    <span class="bet-odds">{FIRST_OVER_OVER_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Under {FIRST_OVER_LINE}</span>
-                    <span class="bet-odds">{FIRST_OVER_UNDER_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Exactly {EXACT_RUNS}</span>
-                    <span class="bet-odds">{EXACT_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 4: Second Over Runs --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">2️⃣ Second Over Runs</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Second Over Options] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Over {SECOND_OVER_LINE}</span>
-                    <span class="bet-odds">{SECOND_OVER_OVER_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Under {SECOND_OVER_LINE}</span>
-                    <span class="bet-odds">{SECOND_OVER_UNDER_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 5: Top Batsman --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">👑 Top Batsman</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Batsman List] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{BATSMAN_1_NAME}</span>
-                    <span class="bet-odds">{BATSMAN_1_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{BATSMAN_2_NAME}</span>
-                    <span class="bet-odds">{BATSMAN_2_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{BATSMAN_3_NAME}</span>
-                    <span class="bet-odds">{BATSMAN_3_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 6: Total Sixes --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">💥 Total Sixes in Match</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Sixes Options] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Over {SIXES_LINE}</span>
-                    <span class="bet-odds">{SIXES_OVER_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Under {SIXES_LINE}</span>
-                    <span class="bet-odds">{SIXES_UNDER_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 7: Total Wickets --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">🎯 Total Wickets</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Wickets Options] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Over {WICKETS_LINE}</span>
-                    <span class="bet-odds">{WICKETS_OVER_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Under {WICKETS_LINE}</span>
-                    <span class="bet-odds">{WICKETS_UNDER_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 8: Coin Toss Winner --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">🪙 Coin Toss Winner</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Toss Options] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{TOSS_TEAM_1}</span>
-                    <span class="bet-odds">{TOSS_TEAM_1_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">{TOSS_TEAM_2}</span>
-                    <span class="bet-odds">{TOSS_TEAM_2_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 9: First Innings Runs --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">🥇 First Innings Total Runs</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: First Innings Options] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Over {FIRST_INNINGS_LINE}</span>
-                    <span class="bet-odds">{FIRST_INNINGS_OVER_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Under {FIRST_INNINGS_LINE}</span>
-                    <span class="bet-odds">{FIRST_INNINGS_UNDER_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- --- Market 10: Method of Dismissal (Next Wicket) --- -->
-        <div class="betting-market-card">
-
-            <div class="market-header">
-                <div class="market-name">🚪 Method of Next Dismissal</div>
-                <div class="market-toggle">▼</div>
-            </div>
-
-            <div class="market-options">
-
-                <!-- [API: Dismissal Methods] -->
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Caught</span>
-                    <span class="bet-odds">{CAUGHT_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Bowled</span>
-                    <span class="bet-odds">{BOWLED_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">LBW</span>
-                    <span class="bet-odds">{LBW_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Run Out</span>
-                    <span class="bet-odds">{RUN_OUT_ODDS}</span>
-                </button>
-
-                <button class="bet-option-btn">
-                    <span class="bet-team-name">Stumped</span>
-                    <span class="bet-odds">{STUMPED_ODDS}</span>
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ====== LIVE COMMENTARY / SCORE TICKER ====== -->
-    <div class="cricket-live-ticker">
-
-        <div class="ticker-label">📢 Live Updates:</div>
-
-        <!-- [API: Live Commentary Feed] -->
-        <div class="ticker-content" id="live-commentary">
-            <p>{LIVE_COMMENTARY_LINE_1}</p>
-            <p>{LIVE_COMMENTARY_LINE_2}</p>
-            <p>{LIVE_COMMENTARY_LINE_3}</p>
-        </div>
-
-    </div>
-
-
-    <!-- ====== FOOTER (Still Visible) ====== -->
-    <div class="sports-page-footer">
-        <p>© 2026 Your Website Name. All rights reserved.</p>
-    </div>
 
 </div>
 <!-- ============================================
