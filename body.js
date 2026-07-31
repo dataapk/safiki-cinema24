@@ -352,20 +352,26 @@ function selectSubCategory(pageId, element) {
 
     // Show Selected Page
 
-    const currentPage = document.getElementById(pageId);
+   const currentPage = document.getElementById(pageId);
 
-    if (currentPage) {
+if (currentPage) {
 
-        currentPage.style.display = "block";
+    currentPage.style.display = "block";
 
-        currentPage.scrollIntoView({
+    const headerOffset = 85;
 
-            behavior: "smooth",
-            block: "start"
+    const elementPosition =
+        currentPage.getBoundingClientRect().top;
 
-        });
+    const offsetPosition =
+        elementPosition +
+        window.pageYOffset -
+        headerOffset;
 
-    }
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+    });
 
 }
 
