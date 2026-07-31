@@ -1850,3 +1850,272 @@
 }
 
 }
+
+/* ==========================================
+   SPORTS EVENT PAGES
+========================================== */
+
+#sports-trending-page,
+#cricket-events-page,
+#football-events-page,
+#basketball-events-page,
+#tennis-events-page,
+#volleyball-events-page,
+#boxing-events-page,
+#hockey-events-page,
+#rugby-events-page,
+#golf-events-page{
+
+    display:none;
+
+    width:100%;
+
+    margin-top:14px;
+
+}
+
+
+/* ==========================================
+   PAGE HEADER
+========================================== */
+
+.sports-page-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:15px;
+
+    padding:10px 14px;
+
+    background:#232831;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:12px;
+
+}
+
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.sports-back-btn{
+
+    background:#2FBF71;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:7px 14px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.sports-back-btn:hover{
+
+    background:#28a862;
+
+}
+
+
+/* ==========================================
+   TITLE
+========================================== */
+
+.sports-page-title{
+
+    flex:1;
+
+    text-align:center;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+
+/* ==========================================
+   SECTION
+========================================== */
+
+.sports-section{
+
+    background:#232831;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:12px;
+
+    padding:12px;
+
+    margin-bottom:14px;
+
+}
+
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.sports-section-title{
+
+    color:#2FBF71;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+
+/* ==========================================
+   EVENT ITEM
+========================================== */
+
+.sports-league-item{
+
+    background:#1d2128;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:10px;
+
+    margin-bottom:10px;
+
+    transition:.25s;
+
+}
+
+.sports-league-item:last-child{
+
+    margin-bottom:0;
+
+}
+
+.sports-league-item:hover{
+
+    border-color:#2FBF71;
+
+}
+
+
+/* ==========================================
+   EVENT HEADER
+========================================== */
+
+.league-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px;
+
+    cursor:pointer;
+
+}
+
+
+/* ==========================================
+   LEAGUE NAME
+========================================== */
+
+.league-name{
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+/* ==========================================
+   LIVE
+========================================== */
+
+.event-live{
+
+    color:#2FBF71;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   UPCOMING
+========================================== */
+
+.countdown-badge{
+
+    color:#ffb84d;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+.sports-page-header{
+
+    padding:10px;
+
+}
+
+.sports-page-title{
+
+    font-size:15px;
+
+}
+
+.league-name{
+
+    font-size:13px;
+
+}
+
+.event-live,
+.countdown-badge{
+
+    font-size:11px;
+
+}
+
+}
