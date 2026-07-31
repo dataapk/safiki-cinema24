@@ -330,39 +330,131 @@ function selectSubCategory(mainType, subType, element) {
    window.selectSubCategory = selectSubCategory;
 
 // ===== VIEW ALL SUB-CATEGORIES =====
+   
 function viewAllSubCategories(mainType, element) {
-    // Remove active from all
-    const parentGrid = element.closest('.subcat-grid');
+
+    // Active Button
+    const parentGrid = element.closest(".subcat-grid");
+
     if (parentGrid) {
-        parentGrid.querySelectorAll('.subcat-item').forEach(item => {
-            item.classList.remove('active');
+        parentGrid.querySelectorAll(".subcat-item").forEach(item => {
+            item.classList.remove("active");
         });
     }
-    
-    element.classList.add('active');
-    
-    const gamesAreaId = mainType === 'casino' ? 'casinoSelectedGames' : 'sportsSelectedGames';
-    const gamesTitleId = mainType === 'casino' ? 'casinoSelectedTitle' : 'sportsSelectedTitle';
-    const gamesGridId = mainType === 'casino' ? 'casinoGamesGrid' : 'sportsGamesGrid';
-    
-    const gamesTitle = document.getElementById(gamesTitleId);
-    const gamesGrid = document.getElementById(gamesGridId);
-    const gamesArea = document.getElementById(gamesAreaId);
-    
-    if (gamesTitle) {
-        gamesTitle.textContent = 'All ' + capitalizeFirst(mainType) + ' Games';
+
+    element.classList.add("active");
+
+
+    // ===========================
+    // Hide Trending Page
+    // ===========================
+
+    const trendingPage = document.getElementById("sports-trending-page");
+
+    if (trendingPage) {
+        trendingPage.style.display = "none";
     }
-    
-    if (gamesGrid) {
-        gamesGrid.innerHTML = generateAllGames(mainType);
+
+
+    // ===========================
+    // Hide All Event Pages
+    // ===========================
+
+    const pages = [
+
+        "cricket-events-page",
+        "football-events-page",
+        "basketball-events-page",
+        "tennis-events-page",
+        "volleyball-events-page",
+        "boxing-events-page",
+        "hockey-events-page",
+        "rugby-events-page",
+        "golf-events-page"
+
+    ];
+
+    pages.forEach(id => {
+
+        const page = document.getElementById(id);
+
+        if (page) {
+
+            page.style.display = "none";
+
+        }
+
+    });
+
+
+    // ===========================
+    // Show Selected Event Page
+    // ===========================
+
+    let targetPage = "";
+
+    switch (mainType) {
+
+        case "cricket":
+            targetPage = "cricket-events-page";
+            break;
+
+        case "football":
+            targetPage = "football-events-page";
+            break;
+
+        case "basketball":
+            targetPage = "basketball-events-page";
+            break;
+
+        case "tennis":
+            targetPage = "tennis-events-page";
+            break;
+
+        case "volleyball":
+            targetPage = "volleyball-events-page";
+            break;
+
+        case "boxing":
+            targetPage = "boxing-events-page";
+            break;
+
+        case "hockey":
+            targetPage = "hockey-events-page";
+            break;
+
+        case "rugby":
+            targetPage = "rugby-events-page";
+            break;
+
+        case "golf":
+            targetPage = "golf-events-page";
+            break;
+
+        default:
+            targetPage = "sports-trending-page";
+            break;
+
     }
-    
-    if (gamesArea) {
-        gamesArea.style.display = 'block';
-        gamesArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const page = document.getElementById(targetPage);
+
+    if (page) {
+
+        page.style.display = "block";
+
+        page.scrollIntoView({
+
+            behavior: "smooth",
+            block: "start"
+
+        });
+
     }
+
 }
-   window.viewAllSubCategories = viewAllSubCategories;
+
+window.viewAllSubCategories = viewAllSubCategories;
 
 // ===== HELPER: Capitalize First Letter =====
 function capitalizeFirst(str) {
