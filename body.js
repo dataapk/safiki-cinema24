@@ -220,7 +220,7 @@ function backToMainDashboard() {
     });
     
     // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top:-50, behavior: 'smooth' });
 }
    window.backToMainDashboard = backToMainDashboard;
 
