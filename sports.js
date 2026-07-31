@@ -1,7 +1,30 @@
 // ==========================================
 // SPORTS.JS
-// SPORTS FULL GAME VIEW
+// SPORTS GAME PAGE
 // ==========================================
+
+
+// ==========================================
+// SPORTS GAME DATA
+// ==========================================
+
+const sportsGames = {
+
+    "cricket-live-1": {
+        sport: "cricket",
+        title: "Bangladesh vs India",
+        status: "LIVE",
+        league: "T20 International"
+    },
+
+    "cricket-live-2": {
+        sport: "cricket",
+        title: "Australia vs Pakistan",
+        status: "LIVE",
+        league: "T20 International"
+    }
+
+};
 
 
 // ==========================================
@@ -10,26 +33,7 @@
 
 function openSportsGame(sport, gameId) {
 
-    const games = {
-
-        "cricket-live-1": {
-            sport: "cricket",
-            title: "Bangladesh vs India",
-            status: "LIVE",
-            league: "T20 International"
-        },
-
-        "cricket-live-2": {
-            sport: "cricket",
-            title: "Australia vs Pakistan",
-            status: "LIVE",
-            league: "T20 International"
-        }
-
-    };
-
-
-    const game = games[gameId];
+    const game = sportsGames[gameId];
 
     if (!game) {
 
@@ -40,61 +44,106 @@ function openSportsGame(sport, gameId) {
     }
 
 
-    // Find Cricket Events Page
+    // Create new URL
 
-    const cricketPage =
-        document.getElementById("cricket-events-page");
+    const url =
+        window.location.pathname +
+        "?sportsGame=" +
+        encodeURIComponent(gameId);
 
 
-    if (!cricketPage) {
+    // Reload and open the game page
 
-        console.log("Cricket Events Page not found");
+    window.location.href = url;
+
+}
+
+
+window.openSportsGame = openSportsGame;
+
+
+// ==========================================
+// RENDER SPORTS GAME PAGE
+// ==========================================
+
+function renderSportsGamePage() {
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+
+    const gameId =
+        params.get("sportsGame");
+
+
+    // No sports game selected
+
+    if (!gameId) {
 
         return;
 
     }
 
 
-    // Hide existing Cricket Event content
-
-    Array.from(cricketPage.children).forEach(function(child) {
-
-        if (!child.classList.contains("sports-game-view")) {
-
-            child.style.display = "none";
-
-        }
-
-    });
+    const game =
+        sportsGames[gameId];
 
 
-    // Remove old game view
+    if (!game) {
 
-    const oldGameView =
-        document.getElementById("sports-game-view");
-
-
-    if (oldGameView) {
-
-        oldGameView.remove();
+        return;
 
     }
 
 
-    // Create Full Game View
+    // ======================================
+    // FIND MAIN CONTENT
+    // ======================================
 
-    const gameView =
+    const mainContent =
+        document.querySelector(".main-content");
+
+
+    if (!mainContent) {
+
+        console.log("Main content not found");
+
+        return;
+
+    }
+
+
+    // ======================================
+    // HIDE EXISTING MAIN PAGE CONTENT
+    // ======================================
+
+    Array.from(mainContent.children).forEach(function(child) {
+
+        child.style.display = "none";
+
+    });
+
+
+    // ======================================
+    // CREATE SPORTS GAME PAGE
+    // ======================================
+
+    const gamePage =
         document.createElement("div");
 
 
-    gameView.id = "sports-game-view";
+    gamePage.id =
+        "sports-full-game-page";
 
-    gameView.className = "sports-game-view";
+
+    gamePage.className =
+        "sports-full-game-page";
 
 
-    gameView.innerHTML = `
+    gamePage.innerHTML = `
 
         <div class="sports-page-header">
+
 
             <button class="sports-back-btn"
                     onclick="backFromSportsGame()">
@@ -112,10 +161,12 @@ function openSportsGame(sport, gameId) {
 
             </div>
 
+
         </div>
 
 
         <div class="sports-section">
+
 
             <div class="sports-section-title">
 
@@ -126,7 +177,9 @@ function openSportsGame(sport, gameId) {
 
             <div class="sports-league-item">
 
+
                 <div class="league-header">
+
 
                     <div class="league-name">
 
@@ -141,14 +194,18 @@ function openSportsGame(sport, gameId) {
 
                     </span>
 
+
                 </div>
+
 
             </div>
 
 
             <div class="sports-league-item">
 
+
                 <div class="league-header">
+
 
                     <div class="league-name">
 
@@ -163,14 +220,18 @@ function openSportsGame(sport, gameId) {
 
                     </span>
 
+
                 </div>
+
 
             </div>
 
 
             <div class="sports-league-item">
 
+
                 <div class="league-header">
+
 
                     <div class="league-name">
 
@@ -185,41 +246,39 @@ function openSportsGame(sport, gameId) {
 
                     </span>
 
+
                 </div>
 
+
             </div>
+
 
         </div>
 
     `;
 
 
-    // Add Full Game View
+    // ======================================
+    // INSERT GAME PAGE
+    // ======================================
 
-    cricketPage.appendChild(gameView);
-
-
-    // Keep Cricket Events Page visible
-
-    cricketPage.style.display = "block";
+    mainContent.appendChild(gamePage);
 
 
-    // Scroll to top
+    // ======================================
+    // SHOW GAME PAGE
+    // ======================================
 
-    window.scrollTo({
+    gamePage.style.display = "block";
 
-        top: 0,
 
-        behavior: "smooth"
+    // ======================================
+    // START AT TOP
+    // ======================================
 
-    });
+    window.scrollTo(0, 0);
 
 }
-
-
-// Make available to inline onclick
-
-window.openSportsGame = openSportsGame;
 
 
 // ==========================================
@@ -228,11 +287,24 @@ window.openSportsGame = openSportsGame;
 
 function backFromSportsGame() {
 
-    window.location.reload();
+    // Remove sportsGame from URL
+
+    window.location.href =
+        window.location.pathname;
 
 }
 
 
-// Make available to inline onclick
+window.backFromSportsGame =
+    backFromSportsGame;
 
-window.backFromSportsGame = backFromSportsGame;
+
+// ==========================================
+// CHECK GAME PAGE ON LOAD
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    renderSportsGamePage();
+
+});
