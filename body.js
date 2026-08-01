@@ -251,6 +251,8 @@ window.hideSportsBetSlip = hideSportsBetSlip;
 
 // ===== BACK TO MAIN DASHBOARD =====
 function backToMainDashboard() {
+
+      hideSportsBetSlip();
     // Show hero banner again
     if (heroBanner) {
         heroBanner.style.display = 'block';
