@@ -10,6 +10,7 @@
     display: none;
     width: 100%;
     box-sizing: border-box;
+ transform:translateY(-12px);
 
     /* Header-এর সাথে লাগানো */
     margin-top: 2px;
