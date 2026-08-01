@@ -455,30 +455,68 @@ if (sportsSubcatGrid) {
 
 function backFromSportsGame() {
 
-    // Hide Full Sports Game View
+    // Hide Full Game View
     const gamePage = document.getElementById("sports-game-page");
-
     if (gamePage) {
         gamePage.style.display = "none";
     }
 
-    // Restore Previous Sports Event Page
-    if (window.currentSportsPage) {
+    // Hide All Event Pages
+    const pages = [
+        "cricket-events-page",
+        "football-events-page",
+        "basketball-events-page",
+        "tennis-events-page",
+        "volleyball-events-page",
+        "boxing-events-page",
+        "hockey-events-page",
+        "rugby-events-page",
+        "golf-events-page"
+    ];
 
-        const sportsEventPage =
-            document.getElementById(window.currentSportsPage);
-
-        if (sportsEventPage) {
-
-            sportsEventPage.style.display = "block";
-
-            sportsEventPage.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
+    pages.forEach(id => {
+        const page = document.getElementById(id);
+        if (page) {
+            page.style.display = "none";
         }
+    });
 
+    // Restore Sports Banner
+    const sportsSubBanner = document.getElementById("sportsSubBanner");
+    if (sportsSubBanner) {
+        sportsSubBanner.style.display = "block";
+    }
+
+    // Restore Sports Header
+    const sportsHeader = document.querySelector(".subcat-header-row");
+    if (sportsHeader) {
+        sportsHeader.style.display = "flex";
+    }
+
+    // Restore Sports Sub Categories
+    const sportsGrid = document.getElementById("sportsSubcatGrid");
+    if (sportsGrid) {
+        sportsGrid.style.display = "grid";
+    }
+
+    // Show Trending Again
+    const trending = document.getElementById("sports-trending-page");
+    if (trending) {
+        trending.style.display = "block";
+    }
+
+    // Remove Active Button
+    document.querySelectorAll("#sportsSubcatGrid .subcat-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Scroll Back To Sports Section
+    const sportsSection = document.getElementById("sportsSubSection");
+    if (sportsSection) {
+        sportsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
     }
 
 }
