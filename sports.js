@@ -37,22 +37,7 @@ function openSportsGame(sport, gameId) {
 
     };
 
-    // ==========================================
-    // FIND GAME
-    // ==========================================
-
-    const game = games[gameId];
-
-    if (!game) {
-
-        console.log("Sports game not found:", gameId);
-
-        return;
-
-    }
-
-    // ... বাকি তোমার কোড
-}
+  
 
 
     // ==========================================
