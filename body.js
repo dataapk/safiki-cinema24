@@ -347,9 +347,16 @@ function resetAutoSlide(type) {
     startAutoSlide(type);
 }
 
-// ===== SELECT SUB-CATEGORY =====function selectSubCategory(pageId, element) {
 
+// ==========================================
+// SELECT SPORTS SUB CATEGORY
+// ==========================================
+
+function selectSubCategory(pageId, element) {
+
+    // ----------------------------
     // Active Button
+    // ----------------------------
 
     const parentGrid = element.closest(".subcat-grid");
 
@@ -366,7 +373,23 @@ function resetAutoSlide(type) {
     element.classList.add("active");
 
 
+    // ----------------------------
+    // Keep Sports Section Visible
+    // ----------------------------
+
+    const sportsSubSection =
+        document.getElementById("sports-sub-section");
+
+    if (sportsSubSection) {
+
+        sportsSubSection.style.display = "block";
+
+    }
+
+
+    // ----------------------------
     // Hide Trending
+    // ----------------------------
 
     const trending =
         document.getElementById("sports-trending-page");
@@ -378,7 +401,9 @@ function resetAutoSlide(type) {
     }
 
 
+    // ----------------------------
     // Hide All Event Pages
+    // ----------------------------
 
     const pages = [
 
@@ -396,7 +421,8 @@ function resetAutoSlide(type) {
 
     pages.forEach(id => {
 
-        const page = document.getElementById(id);
+        const page =
+            document.getElementById(id);
 
         if (page) {
 
@@ -407,7 +433,9 @@ function resetAutoSlide(type) {
     });
 
 
-    // Show Selected Page
+    // ----------------------------
+    // Show Selected Event Page
+    // ----------------------------
 
     const currentPage =
         document.getElementById(pageId);
@@ -426,6 +454,11 @@ function resetAutoSlide(type) {
     }
 
 }
+
+
+// ==========================================
+// GLOBAL
+// ==========================================
 
 window.selectSubCategory = selectSubCategory;
 
