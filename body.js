@@ -365,15 +365,10 @@ function selectSubCategory(pageId, element) {
 
     element.classList.add("active");
 
-
-    // Hide Trending
-
-    const trending =
-        document.getElementById("sports-trending-page");
-
     
-   // Hide Trending const trending = 
-   document.getElementById("sports-trending-page");
+   // Hide Trending
+   
+   const trending =  document.getElementById("sports-trending-page");
    if (trending) { trending.style.display = "none"; }
 
 
