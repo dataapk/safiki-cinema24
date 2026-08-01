@@ -12,6 +12,9 @@ console.log("SPORTS.JS LOADED");
 
 function openSportsGame(sport, gameId) {
 
+    // কোন Event Page থেকে Game Open হয়েছে সেটা মনে রাখো
+    window.currentSportsPage = sport + "-events-page";
+
     const games = {
 
         "cricket-live-1": {
@@ -33,6 +36,23 @@ function openSportsGame(sport, gameId) {
         }
 
     };
+
+    // ==========================================
+    // FIND GAME
+    // ==========================================
+
+    const game = games[gameId];
+
+    if (!game) {
+
+        console.log("Sports game not found:", gameId);
+
+        return;
+
+    }
+
+    // ... বাকি তোমার কোড
+}
 
 
     // ==========================================
@@ -450,16 +470,31 @@ if (sportsSubcatGrid) {
 
 function backFromSportsGame() {
 
-    // Reload-এর পরে Sports Sub Menu Restore হবে
-    sessionStorage.setItem("restoreSportsSubMenu", "true");
+    // Hide Full Sports Game View
+    const gamePage = document.getElementById("sports-game-page");
 
-    window.location.reload();
+    if (gamePage) {
+        gamePage.style.display = "none";
+    }
 
-}
+    // Restore Previous Sports Event Page
+    if (window.currentSportsPage) {
 
-function restoreSportsSubMenu() {
+        const sportsEventPage =
+            document.getElementById(window.currentSportsPage);
 
-    selectMainCategory("sports");
+        if (sportsEventPage) {
+
+            sportsEventPage.style.display = "block";
+
+            sportsEventPage.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+    }
 
 }
 
@@ -469,16 +504,6 @@ function restoreSportsSubMenu() {
 
 window.openSportsGame = openSportsGame;
 window.backFromSportsGame = backFromSportsGame;
-window.restoreSportsSubMenu = restoreSportsSubMenu;
-
-if (sessionStorage.getItem("restoreSportsSubMenu") === "true") {
-
-    sessionStorage.removeItem("restoreSportsSubMenu");
-
-    restoreSportsSubMenu();
-
-}
-
 
 
 // ==========================================
