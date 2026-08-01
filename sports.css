@@ -11,13 +11,16 @@
     width: 100%;
     box-sizing: border-box;
 
-    /* Main header থেকে নিচে কতটা থাকবে */
-    margin-top: 85px;
+    /* Header-এর সাথে লাগানো */
+    margin-top: 2px;
 
-    /* Footer-এর আগে নিচে space */
+    /* Footer-এর আগে */
     margin-bottom: 70px;
 
     padding: 0 14px;
+
+    background: var(--bg);
+    min-height: calc(100vh - 72px);
 }
 /* ==========================================
     SPORTS GAME FULL VIEW
@@ -25,8 +28,10 @@
 
 .sports-game-view{
 
-    padding-top:20px;
+    width:100%;
+    box-sizing:border-box;
 
+    padding-top:5px;
     padding-bottom:20px;
 
 }
