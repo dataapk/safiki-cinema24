@@ -172,27 +172,82 @@ function selectMainCategory(category) {
     if (casinoSubSection) casinoSubSection.style.display = 'none';
     if (sportsSubSection) sportsSubSection.style.display = 'none';
     
-    // Show selected sub-section
-    if (category === 'casino') {
-        if (casinoSubSection) {
-            casinoSubSection.style.display = 'block';
-            casinoCurrentSlide = 0;
-            updateSubSlider('casino', 0);
-            startAutoSlide('casino');
-        }
-    } else if (category === 'sports') {
-        if (sportsSubSection) {
-            sportsSubSection.style.display = 'block';
-            sportsCurrentSlide = 0;
-            updateSubSlider('sports', 0);
-            startAutoSlide('sports');
-        }
+   // Show selected sub-section
+if (category === 'casino') {
+
+    if (casinoSubSection) {
+
+        casinoSubSection.style.display = 'block';
+
+        casinoCurrentSlide = 0;
+
+        updateSubSlider('casino', 0);
+
+        startAutoSlide('casino');
+
     }
-    
-    // Scroll to top smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Hide Sports Bet Slip
+    hideSportsBetSlip();
+
 }
-   window.selectMainCategory = selectMainCategory;
+else if (category === 'sports') {
+
+    if (sportsSubSection) {
+
+        sportsSubSection.style.display = 'block';
+
+        sportsCurrentSlide = 0;
+
+        updateSubSlider('sports', 0);
+
+        startAutoSlide('sports');
+
+    }
+
+    // Show Sports Bet Slip
+    showSportsBetSlip();
+
+}
+
+// Scroll to top smoothly
+window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+});
+
+}
+
+window.selectMainCategory = selectMainCategory;
+function showSportsBetSlip() {
+
+    const slip = document.getElementById("sportsBetSlip");
+
+    if (slip) {
+
+        slip.style.display = "flex";
+
+    }
+
+}
+
+function hideSportsBetSlip() {
+
+    const slip = document.getElementById("sportsBetSlip");
+
+    if (slip) {
+
+        slip.style.display = "none";
+
+    }
+
+}
+
+window.showSportsBetSlip = showSportsBetSlip;
+window.hideSportsBetSlip = hideSportsBetSlip;
+   
+
+   
 
 // ===== BACK TO MAIN DASHBOARD =====
 function backToMainDashboard() {
