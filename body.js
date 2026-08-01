@@ -347,10 +347,10 @@ function resetAutoSlide(type) {
     startAutoSlide(type);
 }
 
-// ===== SELECT SUB-CATEGORY =====
-function selectSubCategory(pageId, element) {
+// ===== SELECT SUB-CATEGORY =====function selectSubCategory(pageId, element) {
 
     // Active Button
+
     const parentGrid = element.closest(".subcat-grid");
 
     if (parentGrid) {
@@ -365,11 +365,17 @@ function selectSubCategory(pageId, element) {
 
     element.classList.add("active");
 
-    
-   // Hide Trending
-   
-   const trending =  document.getElementById("sports-trending-page");
-   if (trending) { trending.style.display = "none"; }
+
+    // Hide Trending
+
+    const trending =
+        document.getElementById("sports-trending-page");
+
+    if (trending) {
+
+        trending.style.display = "none";
+
+    }
 
 
     // Hide All Event Pages
@@ -420,14 +426,6 @@ function selectSubCategory(pageId, element) {
     }
 
 }
-
-window.selectSubCategory = selectSubCategory;
-
-    // Show Selected Page
-
-   const currentPage = document.getElementById(pageId);
-   if (currentPage) { currentPage.style.display = 
-      "block"; currentPage.scrollIntoView({ behavior: "smooth", block: "start" }); } }
 
 window.selectSubCategory = selectSubCategory;
 
