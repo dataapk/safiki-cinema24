@@ -348,7 +348,6 @@ function resetAutoSlide(type) {
 }
 
 // ===== SELECT SUB-CATEGORY =====
-
 function selectSubCategory(pageId, element) {
 
     // Active Button
@@ -366,24 +365,69 @@ function selectSubCategory(pageId, element) {
 
     element.classList.add("active");
 
-   const trending =
-document.getElementById("sports-trending-page");
+
+    // Hide Trending
+
+    const trending =
+        document.getElementById("sports-trending-page");
+
+    if (trending) {
+
+        trending.style.display = "none";
+
+    }
 
 
-// Hide Trending const trending = document.getElementById("sports-trending-page");
-   if (trending) { trending.style.display = "none"; }
-   // Hide All Pages const pages =
-   [ "cricket-events-page", 
-    "football-events-page", 
-    "basketball-events-page",
-    "tennis-events-page",
-    "volleyball-events-page", 
-    "boxing-events-page",
-    "hockey-events-page",
-    "rugby-events-page", 
-    "golf-events-page" ];
-   pages.forEach(id => { const page = document.getElementById(id);
-                        if (page) { page.style.display = "none"; } });
+    // Hide All Event Pages
+
+    const pages = [
+
+        "cricket-events-page",
+        "football-events-page",
+        "basketball-events-page",
+        "tennis-events-page",
+        "volleyball-events-page",
+        "boxing-events-page",
+        "hockey-events-page",
+        "rugby-events-page",
+        "golf-events-page"
+
+    ];
+
+    pages.forEach(id => {
+
+        const page = document.getElementById(id);
+
+        if (page) {
+
+            page.style.display = "none";
+
+        }
+
+    });
+
+
+    // Show Selected Page
+
+    const currentPage =
+        document.getElementById(pageId);
+
+    if (currentPage) {
+
+        currentPage.style.display = "block";
+
+        currentPage.scrollIntoView({
+
+            behavior: "smooth",
+            block: "start"
+
+        });
+
+    }
+
+}
+
+window.selectSubCategory = selectSubCategory;
 
     // Show Selected Page
 
