@@ -71,6 +71,16 @@ function openSportsGame(sport, gameId) {
         return;
 
     }
+    // Hide only Sports Banner
+
+const sportsBanner = 
+    document.getElementById("heroBanner");
+
+if (sportsBanner) {
+
+    sportsBanner.style.display = "none";
+
+}
 
 
     // ==========================================
