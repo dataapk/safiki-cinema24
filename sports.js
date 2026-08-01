@@ -450,7 +450,87 @@ if (sportsSubcatGrid) {
 
 function backFromSportsGame() {
 
+    // Reload-এর পরে Sports Sub Menu Restore হবে
+    sessionStorage.setItem("restoreSportsSubMenu", "true");
+
     window.location.reload();
+
+}
+
+function restoreSportsSubMenu() {
+
+    // Main Hero Hide
+    if (heroBanner) {
+        heroBanner.style.display = "none";
+    }
+
+    // Main Category Hide
+    if (mainCategorySection) {
+        mainCategorySection.style.display = "none";
+    }
+
+    // Sports Section Show
+    if (sportsSubSection) {
+        sportsSubSection.style.display = "block";
+    }
+
+    // Sports Banner Show
+    const sportsSubBanner =
+        document.getElementById("sportsSubBanner");
+
+    if (sportsSubBanner) {
+        sportsSubBanner.style.display = "block";
+    }
+
+    // Sports Header Show
+    const sportsSubHeader =
+        document.getElementById("sportsSubHeader");
+
+    if (sportsSubHeader) {
+        sportsSubHeader.style.display = "flex";
+    }
+
+    // Sports Sub Menu Show
+    const sportsSubcatGrid =
+        document.getElementById("sportsSubcatGrid");
+
+    if (sportsSubcatGrid) {
+        sportsSubcatGrid.style.display = "grid";
+    }
+
+    // Trending Show
+    const trending =
+        document.getElementById("sports-trending-page");
+
+    if (trending) {
+        trending.style.display = "block";
+    }
+
+    // Hide All Event Pages
+    const pages = [
+        "cricket-events-page",
+        "football-events-page",
+        "basketball-events-page",
+        "tennis-events-page",
+        "volleyball-events-page",
+        "boxing-events-page",
+        "hockey-events-page",
+        "rugby-events-page",
+        "golf-events-page",
+        "sports-game-page"
+    ];
+
+    pages.forEach(id => {
+        const page = document.getElementById(id);
+        if (page) {
+            page.style.display = "none";
+        }
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 }
 
@@ -461,8 +541,16 @@ function backFromSportsGame() {
 // ==========================================
 
 window.openSportsGame = openSportsGame;
-
 window.backFromSportsGame = backFromSportsGame;
+window.restoreSportsSubMenu = restoreSportsSubMenu;
+
+if (sessionStorage.getItem("restoreSportsSubMenu") === "true") {
+
+    sessionStorage.removeItem("restoreSportsSubMenu");
+
+    restoreSportsSubMenu();
+
+}
 
 
 
