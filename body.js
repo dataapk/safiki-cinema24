@@ -371,11 +371,10 @@ function selectSubCategory(pageId, element) {
     const trending =
         document.getElementById("sports-trending-page");
 
-    if (trending) {
-
-        trending.style.display = "none";
-
-    }
+    
+   // Hide Trending const trending = 
+   document.getElementById("sports-trending-page");
+   if (trending) { trending.style.display = "none"; }
 
 
     // Hide All Event Pages
@@ -431,7 +430,9 @@ window.selectSubCategory = selectSubCategory;
 
     // Show Selected Page
 
-   const currentPage = document.getElementById(pageId); if (currentPage) { currentPage.style.display = "block"; currentPage.scrollIntoView({ behavior: "smooth", block: "start" }); } }
+   const currentPage = document.getElementById(pageId);
+   if (currentPage) { currentPage.style.display = 
+      "block"; currentPage.scrollIntoView({ behavior: "smooth", block: "start" }); } }
 
 window.selectSubCategory = selectSubCategory;
 
@@ -503,13 +504,6 @@ window.backToTrending = backToTrending;
 // SPORTS - OPEN GAME
 // ==========================================
 
-// ==========================================
-// SPORTS - OPEN GAME
-// ==========================================
-
-   // ==========================================
-// RESTORE SELECTED SPORTS GAME AFTER RELOAD
-// ==========================================
 
 
 // ===== OPEN GAME (Placeholder) =====
