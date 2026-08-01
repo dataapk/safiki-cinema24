@@ -367,27 +367,20 @@ function selectSubCategory(pageId, element) {
     element.classList.add("active");
 
 
- // Hide Trending
-
-const trending =
-document.getElementById("sports-trending-page");
-
-if (trending) {
-
-    trending.style.display = "none";
-
-}
-
-// Show Sports Sub Section Again
-
-const sportsSubSection =
-document.getElementById("sports-sub-section");
-
-if (sportsSubSection) {
-
-    sportsSubSection.style.display = "block";
-
-}
+// Hide Trending const trending = document.getElementById("sports-trending-page");
+   if (trending) { trending.style.display = "none"; }
+   // Hide All Pages const pages =
+   [ "cricket-events-page", 
+    "football-events-page", 
+    "basketball-events-page",
+    "tennis-events-page",
+    "volleyball-events-page", 
+    "boxing-events-page",
+    "hockey-events-page",
+    "rugby-events-page", 
+    "golf-events-page" ];
+   pages.forEach(id => { const page = document.getElementById(id);
+                        if (page) { page.style.display = "none"; } });
 
     // Show Selected Page
 
