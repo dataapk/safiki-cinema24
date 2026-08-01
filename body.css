@@ -2208,3 +2208,173 @@
 }
 
 }
+
+/* ==========================================
+   SPORTS FLOATING BET SLIP
+========================================== */
+
+.sports-betslip-float{
+
+    position:fixed;
+
+    right:18px;
+
+    bottom:90px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:linear-gradient(135deg,#2FBF71,#1fa85f);
+
+    color:#fff;
+
+    padding:12px 16px;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    z-index:99999;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.35),
+        0 0 18px rgba(47,191,113,.28);
+
+    transition:.25s ease;
+
+    user-select:none;
+
+}
+
+.sports-betslip-float:hover{
+
+    transform:translateY(-3px) scale(1.02);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.45),
+        0 0 24px rgba(47,191,113,.45);
+
+}
+
+/* ==========================================
+   ICON
+========================================== */
+
+.sports-betslip-icon{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:16px;
+
+}
+
+/* ==========================================
+   TEXT
+========================================== */
+
+.sports-betslip-text{
+
+    font-size:14px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+}
+
+/* ==========================================
+   COUNT BADGE
+========================================== */
+
+.sports-betslip-count{
+
+    min-width:24px;
+
+    height:24px;
+
+    padding:0 6px;
+
+    border-radius:50px;
+
+    background:#ffffff;
+
+    color:#2FBF71;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    line-height:1;
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+.sports-betslip-float{
+
+    right:14px;
+
+    bottom:82px;
+
+    padding:10px 14px;
+
+    gap:8px;
+
+}
+
+.sports-betslip-icon{
+
+    width:34px;
+
+    height:34px;
+
+    font-size:14px;
+
+}
+
+.sports-betslip-text{
+
+    font-size:13px;
+
+}
+
+.sports-betslip-count{
+
+    min-width:22px;
+
+    height:22px;
+
+    font-size:11px;
+
+}
+
+}
+
+/* ==========================================
+   END SPORTS FLOATING BET SLIP
+========================================== */
