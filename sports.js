@@ -81,15 +81,20 @@ if (sportsSubBanner) {
     sportsSubBanner.style.display = "none";
 
 }
-// Hide Sports Sub Header
+// Hide Sports Header
+const sportsSubHeader =
+    document.getElementById("sportsSubHeader");
 
+if (sportsSubHeader) {
+    sportsSubHeader.style.display = "none";
+}
+
+// Hide Sports Sub Category Grid
 const sportsSubcatGrid =
     document.getElementById("sportsSubcatGrid");
 
 if (sportsSubcatGrid) {
-
     sportsSubcatGrid.style.display = "none";
-
 }
 
     // ==========================================
