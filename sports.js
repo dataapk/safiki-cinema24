@@ -81,7 +81,16 @@ if (sportsSubBanner) {
     sportsSubBanner.style.display = "none";
 
 }
+// Hide Sports Sub Category Menu
 
+const sportsSubcatGrid =
+    document.getElementById("sportsSubcatGrid");
+
+if (sportsSubcatGrid) {
+
+    sportsSubcatGrid.style.display = "none";
+
+}
 
     // ==========================================
     // PAGE TITLE
