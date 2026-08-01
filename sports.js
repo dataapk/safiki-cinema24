@@ -81,14 +81,14 @@ if (sportsSubBanner) {
     sportsSubBanner.style.display = "none";
 
 }
-// Hide Sports Sub Category Menu
+// Hide Sports Sub Header
 
-const sportsSubcatGrid =
-    document.getElementById("sportsSubcatGrid");
+const sportsSubHeader =
+    document.getElementById("sportsSubHeader");
 
-if (sportsSubcatGrid) {
+if (sportsSubHeader) {
 
-    sportsSubcatGrid.style.display = "none";
+    sportsSubHeader.style.display = "none";
 
 }
 
