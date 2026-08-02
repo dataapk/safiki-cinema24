@@ -494,7 +494,9 @@
 
     max-width:94%;
 
-    height:80vh;
+    bottom:70px;
+
+    height:auto;
 
     overflow-y:auto;
 
