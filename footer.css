@@ -475,41 +475,46 @@
 }
 
 /* ==========================================
-   MY BETS PAGES
+   MY BETS MAIN PANEL
 ========================================== */
 
-#my-bets-page {
+#my-bets-page{
 
     display:none;
 
     position:fixed;
 
-    left:10px;
-    right:10px;
+    top:70px;
 
-    bottom:75px;
+    left:50%;
 
-    width:auto;
+    transform:translateX(-50%);
 
-    max-height:70vh;
+    width:720px;
+
+    max-width:94%;
+
+    height:80vh;
 
     overflow-y:auto;
 
-    background:var(--bg);
+    overflow-x:hidden;
 
-    border-radius:16px;
+    background:var(--surface);
 
-    z-index:99998;
+    border:1px solid var(--border);
 
-    padding:12px;
+    border-radius:18px;
+
+    box-shadow:0 20px 60px var(--shadow);
+
+    z-index:9998;
+
+    padding:20px;
 
     box-sizing:border-box;
 
-    box-shadow:
-        0 10px 35px rgba(0,0,0,.45);
-
 }
-
 /* ==========================================
    HEADER
 ========================================== */
@@ -873,25 +878,21 @@
 
 @media(max-width:768px){
 
-#my-bets-page {
+#my-bets-page{
 
-    top:8px;
+    top:60px;
 
-    left:8px;
+    width:94%;
 
-    right:8px;
+    max-width:94%;
 
-    bottom:70px;
+    height:75vh;
 
-    max-height:75vh;
-
-    padding:10px;
+    padding:12px;
 
 }
 
-
 }
-
 
 .mybets-header {
 
