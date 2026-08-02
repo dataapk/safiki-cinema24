@@ -475,26 +475,30 @@
 }
 
 /* ==========================================
-   MY BETS SECTION
+   MY BETS PAGES
 ========================================== */
 
-#my-bets-section {
+#my-bets-page {
 
     display:none;
 
+    position:fixed;
+
+    top:0;
+    left:0;
+
     width:100%;
+    height:calc(100vh - 70px);
 
-    min-height:calc(100vh - 70px);
+    z-index:99998;
 
-    box-sizing:border-box;
-
-    padding:12px 14px 90px;
+    overflow-y:auto;
 
     background:var(--bg);
 
-    color:var(--text);
+    padding:12px 14px 90px;
 
-    animation:myBetsFadeIn .25s ease;
+    box-sizing:border-box;
 
 }
 
@@ -863,7 +867,7 @@
 @media(max-width:768px){
 
 
-#my-bets-section {
+#my-bets-page {
 
     padding:8px 10px 80px;
 
