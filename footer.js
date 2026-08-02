@@ -263,7 +263,7 @@ window.footerGoToBonus      = () => alert("Bonus");
 window.footerGoToRefer      = () => alert("Refer");
 window.footerGoToSupport    = () => alert("Support");
 window.footerOpenSearch     = () => alert("Search");
-window.footerOpenMyBets = footerOpenMyBets;
+
 window.footerGoHome         = () => alert("Home");
 
 
@@ -1059,6 +1059,7 @@ sportsActiveBets.length;
 
 
 }
+window.footerOpenMyBets = footerOpenMyBets;
 
 
 
