@@ -263,7 +263,7 @@ window.footerGoToBonus      = () => alert("Bonus");
 window.footerGoToRefer      = () => alert("Refer");
 window.footerGoToSupport    = () => alert("Support");
 window.footerOpenSearch     = () => alert("Search");
-window.footerOpenMyBets = () => alert("My Bets");
+window.footerOpenMyBets = footerOpenMyBets;
 window.footerGoHome         = () => alert("Home");
 
 
