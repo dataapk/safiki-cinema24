@@ -473,3 +473,455 @@
     }
 
 }
+
+/* ==========================================
+   MY BETS SECTION
+========================================== */
+
+#my-bets-section {
+
+    display:none;
+
+    width:100%;
+
+    min-height:calc(100vh - 70px);
+
+    box-sizing:border-box;
+
+    padding:12px 14px 90px;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    animation:myBetsFadeIn .25s ease;
+
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.mybets-header {
+
+    width:100%;
+
+    min-height:52px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:10px 14px;
+
+    margin-bottom:12px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    box-sizing:border-box;
+
+}
+
+
+.mybets-back-btn {
+
+    width:34px;
+
+    height:34px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--surface-2);
+
+    color:var(--text);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+}
+
+
+.mybets-title {
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+
+/* ==========================================
+   MAIN SPORTS / CASINO TABS
+========================================== */
+
+.mybets-main-tabs {
+
+    width:100%;
+
+    display:flex;
+
+    gap:8px;
+
+    padding:5px;
+
+    margin-bottom:12px;
+
+    background:var(--surface);
+
+    border-radius:12px;
+
+}
+
+
+.mybets-main-tab {
+
+    flex:1;
+
+    border:none;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    background:transparent;
+
+    color:var(--text-muted);
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+}
+
+
+.mybets-main-tab.active {
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+/* ==========================================
+   SUB TABS
+========================================== */
+
+.mybets-sub-tabs {
+
+    width:100%;
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:14px;
+
+}
+
+
+.mybets-sub-tab {
+
+    flex:1;
+
+    padding:9px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:var(--surface);
+
+    color:var(--text-muted);
+
+    font-size:13px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.mybets-sub-tab.active {
+
+    background:var(--primary);
+
+    border-color:var(--primary);
+
+    color:#fff;
+
+}
+
+
+/* ==========================================
+   BET CARD
+========================================== */
+
+.sports-bet-card,
+.casino-bet-card {
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:10px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    box-sizing:border-box;
+
+}
+
+
+.bet-row {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:8px;
+
+    font-size:13px;
+
+}
+
+
+.bet-label {
+
+    color:var(--text-muted);
+
+}
+
+
+.bet-value {
+
+    color:var(--text);
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.bet-win {
+
+    color:#2FBF71;
+
+    font-weight:800;
+
+}
+
+
+.bet-loss {
+
+    color:#96964B;
+
+    font-weight:800;
+
+}
+
+
+.bet-pending {
+
+    color:#E6C15A;
+
+    font-weight:800;
+
+}
+
+
+/* ==========================================
+   VIEW BUTTON (CASINO)
+========================================== */
+
+.bet-view-btn {
+
+    padding:7px 12px;
+
+    border-radius:8px;
+
+    background:var(--surface-2);
+
+    color:var(--text);
+
+    border:1px solid var(--border);
+
+    font-size:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+/* ==========================================
+   TOP WINNER
+========================================== */
+
+.top-winner-card {
+
+    width:100%;
+
+    padding:14px;
+
+    background:var(--surface);
+
+    border-radius:12px;
+
+    border:1px solid var(--border);
+
+}
+
+
+.top-winner-name {
+
+    color:var(--primary);
+
+    font-weight:800;
+
+}
+
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.mybets-empty {
+
+    text-align:center;
+
+    padding:35px 10px;
+
+    color:var(--text-muted);
+
+    font-size:14px;
+
+}
+
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
+@keyframes myBetsFadeIn {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:768px){
+
+
+#my-bets-section {
+
+    padding:8px 10px 80px;
+
+}
+
+
+.mybets-header {
+
+    min-height:48px;
+
+    padding:9px 10px;
+
+}
+
+
+.mybets-title {
+
+    font-size:16px;
+
+}
+
+
+.mybets-main-tab {
+
+    padding:9px;
+
+    font-size:13px;
+
+}
+
+
+.mybets-sub-tab {
+
+    padding:8px;
+
+    font-size:12px;
+
+}
+
+
+.sports-bet-card,
+.casino-bet-card {
+
+    padding:12px;
+
+}
+
+
+.bet-row {
+
+    font-size:12px;
+
+}
+
+
+}
+
+
+/* ==========================================
+   END MY BETS CSS
+========================================== */
