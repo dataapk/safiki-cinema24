@@ -360,6 +360,714 @@ document.addEventListener("keydown", function(e){
 
 });
 
+/* ==========================================
+   MY BETS SYSTEM
+========================================== */
+
+
+/* ==============================
+   DATA STORAGE
+============================== */
+
+let sportsActiveBets = JSON.parse(
+    localStorage.getItem("sportsActiveBets")
+) || [];
+
+
+let sportsBetHistory = JSON.parse(
+    localStorage.getItem("sportsBetHistory")
+) || [];
+
+
+let casinoBetHistory = JSON.parse(
+    localStorage.getItem("casinoBetHistory")
+) || [];
+
+
+let casinoTopWinners = JSON.parse(
+    localStorage.getItem("casinoTopWinners")
+) || [];
+
+
+
+/* ==============================
+   OPEN MY BETS
+============================== */
+
+function footerOpenMyBets(){
+
+
+    // Hide Other Pages
+
+    document.querySelectorAll(
+        ".page-section"
+    ).forEach(page=>{
+
+        page.style.display="none";
+
+    });
+
+
+
+    const myBets =
+    document.getElementById(
+        "my-bets-section"
+    );
+
+
+    if(myBets){
+
+        myBets.style.display="block";
+
+    }
+
+
+
+    // Default Sports
+
+    openSportsBets();
+
+
+
+    updateMyBetsCount();
+
+
+}
+
+
+
+/* ==============================
+   BACK FROM MY BETS
+============================== */
+
+
+function backFromMyBets(){
+
+
+    const myBets =
+    document.getElementById(
+        "my-bets-section"
+    );
+
+
+    if(myBets){
+
+        myBets.style.display="none";
+
+    }
+
+
+
+    if(window.currentSportsPage){
+
+
+        const page =
+        document.getElementById(
+            window.currentSportsPage
+        );
+
+
+        if(page){
+
+            page.style.display="block";
+
+        }
+
+    }
+
+
+}
+
+
+
+/* ==============================
+   SPORTS / CASINO TAB
+============================== */
+
+
+function openSportsBets(){
+
+
+    document
+    .getElementById(
+        "sports-bets-section"
+    )
+    .style.display="block";
+
+
+    document
+    .getElementById(
+        "casino-bets-section"
+    )
+    .style.display="none";
+
+
+
+    setMainTab(
+        "sportsTab"
+    );
+
+
+    renderSportsActive();
+
+
+}
+
+
+
+function openCasinoBets(){
+
+
+    document
+    .getElementById(
+        "sports-bets-section"
+    )
+    .style.display="none";
+
+
+    document
+    .getElementById(
+        "casino-bets-section"
+    )
+    .style.display="block";
+
+
+
+    setMainTab(
+        "casinoTab"
+    );
+
+
+    renderCasinoHistory();
+
+
+}
+
+
+
+/* ==============================
+   ACTIVE / HISTORY SPORTS
+============================== */
+
+
+function openSportsActive(){
+
+
+    document
+    .getElementById(
+        "sports-active-container"
+    )
+    .style.display="block";
+
+
+    document
+    .getElementById(
+        "sports-history-container"
+    )
+    .style.display="none";
+
+
+}
+
+
+
+function openSportsHistory(){
+
+
+    document
+    .getElementById(
+        "sports-active-container"
+    )
+    .style.display="none";
+
+
+    document
+    .getElementById(
+        "sports-history-container"
+    )
+    .style.display="block";
+
+
+    renderSportsHistory();
+
+
+}
+
+
+
+/* ==============================
+   CASINO
+============================== */
+
+
+function openCasinoHistory(){
+
+
+    document
+    .getElementById(
+        "casino-history-container"
+    )
+    .style.display="block";
+
+
+    document
+    .getElementById(
+        "casino-topwinner-container"
+    )
+    .style.display="none";
+
+
+}
+
+
+
+function openCasinoTopWinner(){
+
+
+    document
+    .getElementById(
+        "casino-history-container"
+    )
+    .style.display="none";
+
+
+    document
+    .getElementById(
+        "casino-topwinner-container"
+    )
+    .style.display="block";
+
+
+    renderTopWinner();
+
+
+}
+
+
+
+/* ==============================
+   TAB ACTIVE
+============================== */
+
+
+function setMainTab(id){
+
+
+    document
+    .querySelectorAll(
+        ".mybets-main-tab"
+    )
+    .forEach(btn=>{
+
+        btn.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    const btn =
+    document.getElementById(id);
+
+
+    if(btn){
+
+        btn.classList.add(
+            "active"
+        );
+
+    }
+
+
+}
+
+
+
+/* ==============================
+   SPORTS ACTIVE RENDER
+============================== */
+
+
+function renderSportsActive(){
+
+
+const box =
+document.getElementById(
+"sports-active-container"
+);
+
+
+
+if(!box) return;
+
+
+
+if(
+sportsActiveBets.length===0
+){
+
+box.innerHTML=
+`
+<div class="mybets-empty">
+
+No Active Bet
+
+</div>
+`;
+
+return;
+
+}
+
+
+
+box.innerHTML=
+sportsActiveBets.map(
+bet=>{
+
+
+return `
+
+<div class="sports-bet-card">
+
+
+<div class="bet-row">
+
+<span class="bet-label">
+Match
+</span>
+
+<span class="bet-value">
+${bet.match}
+</span>
+
+</div>
+
+
+<div class="bet-row">
+
+<span>
+Odds
+</span>
+
+<span>
+${bet.odds}
+</span>
+
+</div>
+
+
+<div class="bet-row">
+
+<span>
+Stake
+</span>
+
+<span>
+${bet.amount}
+</span>
+
+</div>
+
+
+<div class="bet-pending">
+Pending
+</div>
+
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+
+/* ==============================
+   SPORTS HISTORY
+============================== */
+
+
+function renderSportsHistory(){
+
+
+const box =
+document.getElementById(
+"sports-history-container"
+);
+
+
+
+if(!box)return;
+
+
+
+if(
+sportsBetHistory.length===0
+){
+
+box.innerHTML=
+`
+<div class="mybets-empty">
+No History
+</div>
+`;
+
+return;
+
+}
+
+
+
+box.innerHTML =
+sportsBetHistory.map(
+bet=>{
+
+
+return`
+
+<div class="sports-bet-card">
+
+
+<div class="bet-row">
+
+<span>
+${bet.time}
+</span>
+
+</div>
+
+
+<div class="bet-row">
+
+<span>
+Bet ID
+</span>
+
+<span>
+${bet.id}
+</span>
+
+</div>
+
+
+<div class="bet-row">
+
+<span>
+${bet.match}
+</span>
+
+</div>
+
+
+<div class="${
+bet.result==="WIN"
+?
+"bet-win"
+:
+"bet-loss"
+}">
+
+${bet.result}
+
+</div>
+
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+
+/* ==============================
+   CASINO HISTORY
+============================== */
+
+
+function renderCasinoHistory(){
+
+
+const box =
+document.getElementById(
+"casino-history-container"
+);
+
+
+if(!box)return;
+
+
+if(
+casinoBetHistory.length===0
+){
+
+box.innerHTML=
+`
+<div class="mybets-empty">
+No Casino Bet
+</div>
+`;
+
+return;
+
+}
+
+
+box.innerHTML =
+casinoBetHistory.map(
+bet=>{
+
+
+return`
+
+<div class="casino-bet-card">
+
+
+<div class="bet-row">
+
+${bet.time}
+
+</div>
+
+
+<div class="bet-row">
+
+Bet ID:
+${bet.id}
+
+</div>
+
+
+<div class="bet-row">
+
+${bet.game}
+
+</div>
+
+
+<div class="${
+bet.result==="WIN"
+?
+"bet-win"
+:
+"bet-loss"
+}">
+
+${bet.result}
+
+</div>
+
+
+<button class="bet-view-btn">
+
+View →
+
+</button>
+
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+
+/* ==============================
+   TOP WINNER
+============================== */
+
+
+function renderTopWinner(){
+
+
+const box =
+document.getElementById(
+"casino-topwinner-container"
+);
+
+
+if(!box)return;
+
+
+
+box.innerHTML =
+casinoTopWinners.map(
+item=>{
+
+
+return`
+
+<div class="top-winner-card">
+
+<div class="top-winner-name">
+
+${item.name}
+
+</div>
+
+<div>
+
+${item.game}
+
+</div>
+
+
+<div class="bet-win">
+
+${item.amount}
+
+</div>
+
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+
+/* ==============================
+   FOOTER BADGE
+============================== */
+
+
+function updateMyBetsCount(){
+
+
+const badge =
+document.getElementById(
+"myBetsCount"
+);
+
+
+if(!badge)return;
+
+
+badge.innerText =
+sportsActiveBets.length;
+
+
+}
+
+
+
+/* ==========================================
+   END MY BETS SYSTEM
+========================================== */
+
+
+
 
 // OUTSIDE CLICK
 document.addEventListener("click", function(e){
