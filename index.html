@@ -3881,6 +3881,153 @@
 
 </div>
 
+    <!-- ==========================================
+     MY BETS PAGE
+========================================== -->
+
+<section id="my-bets-page" style="display:none;">
+
+    <!-- Header -->
+    <div class="mybets-header">
+
+        <button class="mybets-back-btn"
+                onclick="backFromMyBets()">
+
+            <i class="fas fa-arrow-left"></i>
+
+        </button>
+
+        <div class="mybets-title">
+
+            My Bets
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         SPORTS / CASINO
+    ========================== -->
+
+    <div class="mybets-main-tabs">
+
+        <button id="sportsTab"
+                class="mybets-main-tab active"
+                onclick="openSportsBets()">
+
+            Sports
+
+        </button>
+
+        <button id="casinoTab"
+                class="mybets-main-tab"
+                onclick="openCasinoBets()">
+
+            Casino
+
+        </button>
+
+    </div>
+
+    <!-- =====================================
+         SPORTS
+    ====================================== -->
+
+    <div id="sports-bets-section">
+
+        <!-- Active / History -->
+
+        <div class="mybets-sub-tabs">
+
+            <button id="sportsActiveTab"
+                    class="mybets-sub-tab active"
+                    onclick="openSportsActive()">
+
+                Active
+
+            </button>
+
+            <button id="sportsHistoryTab"
+                    class="mybets-sub-tab"
+                    onclick="openSportsHistory()">
+
+                History
+
+            </button>
+
+        </div>
+
+        <!-- Active Bets -->
+
+        <div id="sports-active-container">
+
+            <!-- JavaScript -->
+
+        </div>
+
+        <!-- History -->
+
+        <div id="sports-history-container"
+             style="display:none;">
+
+            <!-- JavaScript -->
+
+        </div>
+
+    </div>
+
+    <!-- =====================================
+         CASINO
+    ====================================== -->
+
+    <div id="casino-bets-section"
+         style="display:none;">
+
+        <div class="mybets-sub-tabs">
+
+            <button id="casinoMyBetTab"
+                    class="mybets-sub-tab active"
+                    onclick="openCasinoHistory()">
+
+                My Bet
+
+            </button>
+
+            <button id="casinoWinnerTab"
+                    class="mybets-sub-tab"
+                    onclick="openCasinoTopWinner()">
+
+                Top Winner
+
+            </button>
+
+        </div>
+
+        <!-- Casino History -->
+
+        <div id="casino-history-container">
+
+            <!-- JavaScript -->
+
+        </div>
+
+        <!-- Top Winner -->
+
+        <div id="casino-topwinner-container"
+             style="display:none;">
+
+            <!-- JavaScript -->
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     END MY BETS PAGE
+========================================== -->
+
 <!-- ================= FOOTER ================= -->
 
 <footer class="footer-bottom">
@@ -3905,14 +4052,14 @@
 
         </div>
 
-        <div class="footer-bottom-item"
-             id="historyBtn"
-             onclick="footerSetActive(this); footerOpenBetHistory()">
+       <div class="footer-bottom-item"
+     id="myBetsBtn"
+     onclick="footerSetActive(this); footerOpenMyBets()">
 
-            <i class="fas fa-ticket-alt"></i>
-           <span>My Bets</span>
+    <i class="fas fa-ticket-alt"></i>
+    <span>My Bets</span>
 
-        </div>
+</div>
 
         <div class="footer-bottom-item"
              id="homeBtn"
