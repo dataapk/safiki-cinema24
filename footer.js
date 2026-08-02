@@ -446,7 +446,7 @@ function backFromMyBets(){
 
     const myBets =
     document.getElementById(
-        "my-bets-section"
+        "my-bets-page"
     );
 
 
