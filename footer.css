@@ -873,10 +873,22 @@
 
 @media(max-width:768px){
 
-
 #my-bets-page {
 
-    padding:8px 10px 80px;
+    top:8px;
+
+    left:8px;
+
+    right:8px;
+
+    bottom:70px;
+
+    max-height:75vh;
+
+    padding:10px;
+
+}
+
 
 }
 
