@@ -186,8 +186,15 @@ svg {
     display:block;
 
 }
+   /* ==========================================
+  GLOBAL POP UP OPEN BODY SCROLL OFF
+========================================== */
+body.modal-open{
 
+    overflow:hidden;
 
+}
+   
 
 /* ==========================================
    MOBILE
