@@ -396,41 +396,38 @@ let casinoTopWinners = JSON.parse(
 
 function footerOpenMyBets(){
 
+    const myBets =
+    document.getElementById("my-bets-page");
+
+
+    // Toggle Open / Close
+    if(myBets.style.display === "block"){
+
+        myBets.style.display = "none";
+
+        return;
+
+    }
+
 
     // Hide Other Pages
-
-    document.querySelectorAll(
-        ".page-section"
-    ).forEach(page=>{
+    document.querySelectorAll(".page-section").forEach(page=>{
 
         page.style.display="none";
 
     });
 
 
-
-    const myBets =
-    document.getElementById(
-       "my-bets-page"
-    );
-
-
-    if(myBets){
-
-        myBets.style.display="block";
-
-    }
-
+    myBets.style.display="block";
 
 
     // Default Sports
-
     openSportsBets();
 
-
+    // Default Active
+    openSportsActive();
 
     updateMyBetsCount();
-
 
 }
 
@@ -552,20 +549,14 @@ function openCasinoBets(){
 
 function openSportsActive(){
 
+    document.getElementById("sports-active-container").style.display="block";
 
-    document
-    .getElementById(
-        "sports-active-container"
-    )
-    .style.display="block";
+    document.getElementById("sports-history-container").style.display="none";
 
 
-    document
-    .getElementById(
-        "sports-history-container"
-    )
-    .style.display="none";
+    document.getElementById("sportsActiveTab").classList.add("active");
 
+    document.getElementById("sportsHistoryTab").classList.remove("active");
 
 }
 
