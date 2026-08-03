@@ -264,7 +264,11 @@ window.footerGoToRefer      = () => alert("Refer");
 window.footerGoToSupport    = () => alert("Support");
 window.footerOpenSearch     = () => alert("Search");
 
-window.footerGoHome         = () => alert("Home");
+window.footerGoHome = () => {
+
+    window.location.reload();
+
+};
 
 
 // ===== OVERLAY CLICK =====
