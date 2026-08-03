@@ -573,23 +573,17 @@ function openSportsActive(){
 
 function openSportsHistory(){
 
+    document.getElementById("sports-active-container").style.display="none";
 
-    document
-    .getElementById(
-        "sports-active-container"
-    )
-    .style.display="none";
+    document.getElementById("sports-history-container").style.display="block";
 
 
-    document
-    .getElementById(
-        "sports-history-container"
-    )
-    .style.display="block";
+    // Active Tab Change
+    document.getElementById("sportsActiveTab").classList.remove("active");
+    document.getElementById("sportsHistoryTab").classList.add("active");
 
 
     renderSportsHistory();
-
 
 }
 
@@ -602,20 +596,22 @@ function openSportsHistory(){
 
 function openCasinoHistory(){
 
+    document
+    .getElementById("casino-history-container")
+    .style.display = "block";
 
     document
-    .getElementById(
-        "casino-history-container"
-    )
-    .style.display="block";
+    .getElementById("casino-topwinner-container")
+    .style.display = "none";
 
+    // Active Tab Change
+    document
+    .getElementById("casinoMyBetTab")
+    .classList.add("active");
 
     document
-    .getElementById(
-        "casino-topwinner-container"
-    )
-    .style.display="none";
-
+    .getElementById("casinoWinnerTab")
+    .classList.remove("active");
 
 }
 
