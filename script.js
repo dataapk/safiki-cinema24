@@ -30,11 +30,17 @@ function lockBodyScroll(){
 
     document.body.classList.add("modal-open");
 
+    document.body.style.overflow = "hidden";
+    document.body.style.overflowY = "hidden";
+
 }
 
 function unlockBodyScroll(){
 
     document.body.classList.remove("modal-open");
+
+    document.body.style.overflow = "";
+    document.body.style.overflowY = "";
 
 }
 
