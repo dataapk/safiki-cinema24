@@ -575,6 +575,149 @@ function openCasinoSection(){
 }
 
 /* ================================
+   SPORTS SUB SECTION START
+==================================*/
+function adminSportsCricket(){
+
+
+    document.querySelectorAll(
+        ".admin-sport-section"
+    )
+    .forEach(section=>{
+
+        section.style.display="none";
+
+    });
+
+
+
+    document.getElementById(
+        "adminCricketSection"
+    )
+    .style.display="block";
+
+
+
+    openCricketLive();
+
+}
+
+
+
+
+function openCricketLive(btn){
+
+
+    hideCricketTabs();
+
+
+    document.getElementById(
+        "cricketLive"
+    )
+    .style.display="block";
+
+
+    setActiveCricketTab(btn);
+
+}
+
+
+
+
+function openCricketUpcoming(btn){
+
+
+    hideCricketTabs();
+
+
+    document.getElementById(
+        "cricketUpcoming"
+    )
+    .style.display="block";
+
+
+    setActiveCricketTab(btn);
+
+}
+
+
+
+
+function openCricketFeatured(btn){
+
+
+    hideCricketTabs();
+
+
+    document.getElementById(
+        "cricketFeatured"
+    )
+    .style.display="block";
+
+
+    setActiveCricketTab(btn);
+
+}
+
+
+
+
+
+function hideCricketTabs(){
+
+
+    document.querySelectorAll(
+        ".cricket-content"
+    )
+    .forEach(item=>{
+
+        item.style.display="none";
+
+    });
+
+
+}
+
+
+
+
+function setActiveCricketTab(btn){
+
+
+    document.querySelectorAll(
+        ".cricket-tabs button"
+    )
+    .forEach(button=>{
+
+        button.classList.remove(
+            "active"
+        );
+
+    });
+
+
+
+    if(btn){
+
+        btn.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* ================================
+   END SPORTS SUB SECTION
+==================================*/
+
+
+
+
+
+
+/* ================================
    GAME NAME MAP
 ==================================*/
 
