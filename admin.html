@@ -641,155 +641,113 @@ if (!localStorage.getItem("adminAuth")) {
 <!-- =================================== -->
 <!-- GAMES SECTION START -->
 <!-- =================================== -->
+<!-- =================================== -->
+<!-- GAMES SECTION START -->
+<!-- =================================== -->
 
 <div id="gamesSection"
      class="admin-section"
      style="display:none;">
 
+
     <!-- TITLE -->
-    <h2>Games Control Panel</h2>
-   
-    <!-- ===================================
-     SPORTS SECTION
-=================================== -->
 
-<div class="sports-control-section">
-
-    <h3>Sports</h3>
+    <h2>
+        Games Control Panel
+    </h2>
 
 
-    <button onclick="openSportsControl()">
-        Open Sports Control
-    </button>
+
+    <!-- CATEGORY TABS -->
+
+    <div class="games-category-tabs">
 
 
-    <div class="sports-game-list">
+        <button 
+            class="games-category-btn"
+            onclick="openSportsSection()">
 
-        <div class="sports-game-item">
-            Cricket
-        </div>
+            Sports
 
-
-        <div class="sports-game-item">
-            Football
-        </div>
+        </button>
 
 
-        <div class="sports-game-item">
-            Tennis
-        </div>
 
+        <button 
+            class="games-category-btn"
+            onclick="openCasinoSection()">
 
-        <div class="sports-game-item">
-            Basketball
-        </div>
+            Casino
 
-
-        <div class="sports-game-item esports-off">
-            Esports (OFF)
-        </div>
-
-
-        <div class="sports-game-item">
-            Others
-        </div>
+        </button>
 
 
     </div>
 
-</div>
 
 
-<hr>
-<!-- ===================================
-     CASINO SECTION START
-=================================== -->
+    <!-- ===================================
+         SPORTS SECTION
+    =================================== -->
 
-<div class="casino-control-wrapper">
-
-
-    <!-- CASINO BUTTON -->
-
-    <button 
-        class="casino-control-btn"
-        onclick="openCasinoControl()">
-
-        Open Casino Control
-
-    </button>
-
-
-
-    <!-- CASINO CONTENT -->
-
-    <div id="casinoSection"
+    <div id="sportsSection"
+         class="games-category-content"
          style="display:none;">
 
 
         <h3>
-            Casino Control
+            Sports Section
         </h3>
 
 
 
-        <!-- CASINO ACTION BAR -->
-
-        <div class="games-top-bar">
+        <div class="sports-list">
 
 
-            <button onclick="openAddGame()">
-
-                + Add Game
-
-            </button>
+            <div class="sports-item">
+                Cricket
+            </div>
 
 
-
-            <button onclick="switchToTableView()">
-
-                Table View
-
-            </button>
+            <div class="sports-item">
+                Football
+            </div>
 
 
-
-            <button onclick="switchToCardView()">
-
-                Card / Grid View
-
-            </button>
+            <div class="sports-item">
+                Tennis
+            </div>
 
 
-
-        </div>
-
-
-
-        <hr>
+            <div class="sports-item">
+                Basketball
+            </div>
 
 
+            <div class="sports-item esports-off">
+                Esports (OFF)
+            </div>
 
-        <!-- CASINO GAME LIST AREA -->
 
-        <div id="casinoGamesContainer">
-
-
-            <!-- Existing Casino Game Table / Card এখানে থাকবে -->
+            <div class="sports-item">
+                Others
+            </div>
 
 
         </div>
-
 
 
     </div>
 
 
-</div>
-
-
 <!-- ===================================
-     CASINO SECTION END
+     CASINO SECTION
 =================================== -->
+
+<div id="casinoSection"
+     class="games-category-content"
+     style="display:none;">
+
 
     <!-- ========================= -->
     <!-- TABLE VIEW -->
@@ -800,6 +758,7 @@ if (!localStorage.getItem("adminAuth")) {
         <table class="games-table">
 
             <thead>
+
                 <tr>
                     <th>Game ID</th>
                     <th>Game Name</th>
@@ -807,6 +766,7 @@ if (!localStorage.getItem("adminAuth")) {
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
+
             </thead>
 
             <tbody>
