@@ -664,19 +664,19 @@
 }
 
 
-.mybets-sub-tab {
+.mybets-sub-tab{
 
     flex:1;
 
-    padding:9px;
+    height:42px;
+
+    border:none;
 
     border-radius:10px;
 
-    border:1px solid var(--border);
+    background:transparent;
 
-    background:var(--surface);
-
-    color:var(--text-muted);
+    color:#bfbfbf;
 
     font-size:13px;
 
@@ -684,18 +684,23 @@
 
     cursor:pointer;
 
+    transition:.25s;
+
+}
+
+
+.mybets-sub-tab.active{
+
+    background:#2FBF71;
+
+    color:#ffffff;
+
+    box-shadow:0 4px 14px rgba(47,191,113,.30);
+
 }
 
 
-.mybets-sub-tab.active {
 
-    background:var(--primary);
-
-    border-color:var(--primary);
-
-    color:#fff;
-
-}
 
 
 /* ==========================================
