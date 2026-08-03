@@ -586,21 +586,29 @@
    MAIN SPORTS / CASINO TABS
 ========================================== */
 
-.mybets-main-tabs {
+.mybets-main-tabs{
 
     width:100%;
 
     display:flex;
 
-    gap:8px;
+    align-items:center;
 
-    padding:5px;
+    gap:4px;
 
-    margin-bottom:12px;
+    padding:4px;
 
-    background:var(--surface);
+    margin-bottom:14px;
 
-    border-radius:12px;
+    background:#1F1D1A;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:14px;
+
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.03);
+
+    overflow:hidden;
 
 }
 
