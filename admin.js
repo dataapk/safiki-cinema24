@@ -511,6 +511,68 @@ function openGameSettings(gameId) {
         getGameName(gameId);
 
 }
+/* ================================
+   GAME sub section start
+==================================*/
+
+
+function openSportsSection(){
+
+    const sports =
+    document.getElementById(
+        "sportsSection"
+    );
+
+    const casino =
+    document.getElementById(
+        "casinoSection"
+    );
+
+
+    if(sports){
+
+        sports.style.display = "block";
+
+    }
+
+
+    if(casino){
+
+        casino.style.display = "none";
+
+    }
+
+}
+
+
+
+function openCasinoSection(){
+
+    const sports =
+    document.getElementById(
+        "sportsSection"
+    );
+
+    const casino =
+    document.getElementById(
+        "casinoSection"
+    );
+
+
+    if(sports){
+
+        sports.style.display = "none";
+
+    }
+
+
+    if(casino){
+
+        casino.style.display = "block";
+
+    }
+
+}
 
 /* ================================
    GAME NAME MAP
