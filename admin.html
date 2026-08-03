@@ -684,59 +684,140 @@ if (!localStorage.getItem("adminAuth")) {
 
 
 
-    <!-- ===================================
-         SPORTS SECTION
-    =================================== -->
+   <!-- ===================================
+     SPORTS SECTION
+=================================== -->
 
-    <div id="sportsSection"
-         class="games-category-content"
-         style="display:none;">
-
-
-        <h3>
-            Sports Section
-        </h3>
+<div id="sportsSection"
+     class="games-category-content"
+     style="display:none;">
 
 
+    <h3 class="subcat-section-title">
+        ⚽ Sports Events
+    </h3>
 
-        <div class="sports-list">
 
 
-            <div class="sports-item">
+    <div class="subcat-grid"
+         id="adminSportsGrid">
+
+
+
+        <!-- Cricket -->
+
+        <div class="subcat-item"
+             onclick="adminSportsCricket(this)">
+
+            🏏
+
+            <span>
                 Cricket
-            </div>
-
-
-            <div class="sports-item">
-                Football
-            </div>
-
-
-            <div class="sports-item">
-                Tennis
-            </div>
-
-
-            <div class="sports-item">
-                Basketball
-            </div>
-
-
-            <div class="sports-item esports-off">
-                Esports (OFF)
-            </div>
-
-
-            <div class="sports-item">
-                Others
-            </div>
-
+            </span>
 
         </div>
 
 
+
+
+        <!-- Football -->
+
+        <div class="subcat-item"
+             onclick="adminSportsFootball(this)">
+
+            ⚽
+
+            <span>
+                Football
+            </span>
+
+        </div>
+
+
+
+
+        <!-- Tennis -->
+
+        <div class="subcat-item"
+             onclick="adminSportsTennis(this)">
+
+            🎾
+
+            <span>
+                Tennis
+            </span>
+
+        </div>
+
+
+
+
+        <!-- Basketball -->
+
+        <div class="subcat-item"
+             onclick="adminSportsBasketball(this)">
+
+            🏀
+
+            <span>
+                Basketball
+            </span>
+
+        </div>
+
+
+
+
+        <!-- Volleyball -->
+
+        <div class="subcat-item"
+             onclick="adminSportsVolleyball(this)">
+
+            🏐
+
+            <span>
+                Volleyball
+            </span>
+
+        </div>
+
+
+
+
+        <!-- Esports OFF -->
+
+        <div class="subcat-item esports-off">
+
+            🎮
+
+            <span>
+                Esports
+            </span>
+
+        </div>
+
+
+
+
+        <!-- Others -->
+
+        <div class="subcat-item"
+             onclick="adminSportsOthers(this)">
+
+            🏆
+
+            <span>
+                Others
+            </span>
+
+        </div>
+
+
+
     </div>
 
+
+</div>
 
 <!-- ===================================
      CASINO SECTION
