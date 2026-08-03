@@ -191,7 +191,13 @@ svg {
 ========================================== */
 body.modal-open{
 
-    overflow:hidden;
+    overflow:hidden !important;
+
+    overflow-y:hidden !important;
+
+    overflow-x:hidden !important;
+
+    touch-action:none;
 
 }
    
