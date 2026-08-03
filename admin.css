@@ -470,9 +470,180 @@ button[onclick="saveGameSettings()"]{
 }
 
 
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .settings-grid {
         grid-template-columns: 1fr;
     }
 }
+/* ===================================
+   SPORTS EVENTS SECTION
+=================================== */
+
+
+.subcat-section-title{
+
+    font-size:20px;
+
+    font-weight:600;
+
+    color:var(--text);
+
+    margin:20px 0;
+
+}
+
+
+
+/* SPORTS GRID */
+
+.subcat-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(90px, 1fr));
+
+    gap:15px;
+
+    width:100%;
+
+}
+
+
+
+/* SPORTS CARD */
+
+.subcat-item{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    min-height:95px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+    color:var(--text);
+
+}
+
+
+
+/* ICON */
+
+.subcat-item:first-line{
+
+    font-size:32px;
+
+}
+
+
+
+/* TEXT */
+
+.subcat-item span{
+
+    margin-top:8px;
+
+    font-size:13px;
+
+    font-weight:500;
+
+    color:var(--text-muted);
+
+}
+
+
+
+/* HOVER */
+
+.subcat-item:hover{
+
+    transform:translateY(-3px);
+
+    border-color:var(--primary);
+
+}
+
+
+
+/* ACTIVE SELECTED */
+
+.subcat-item.active{
+
+    background:rgba(47,191,113,.15);
+
+    border-color:var(--primary);
+
+}
+
+
+
+.subcat-item.active span{
+
+    color:var(--primary);
+
+}
+
+
+
+/* ESPORTS OFF */
+
+.subcat-item.esports-off{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+
+    .subcat-grid{
+
+        grid-template-columns:
+        repeat(3,1fr);
+
+        gap:10px;
+
+    }
+
+
+    .subcat-item{
+
+        min-height:85px;
+
+    }
+
+
+    .subcat-item span{
+
+        font-size:12px;
+
+    }
+
+
+}
+
+/* ===================================
+    END SPORTS EVENTS SECTION
+=================================== */
