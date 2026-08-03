@@ -440,14 +440,11 @@ function footerOpenMyBets(){
 
 
 function backFromMyBets(){
+
     unlockBodyScroll();
 
-
     const myBets =
-    document.getElementById(
-        "my-bets-page"
-    );
-
+    document.getElementById("my-bets-page");
 
     if(myBets){
 
@@ -455,16 +452,10 @@ function backFromMyBets(){
 
     }
 
-
-
     if(window.currentSportsPage){
 
-
         const page =
-        document.getElementById(
-            window.currentSportsPage
-        );
-
+        document.getElementById(window.currentSportsPage);
 
         if(page){
 
@@ -474,6 +465,10 @@ function backFromMyBets(){
 
     }
 
+    // Reset Footer Active
+    footerSetActive(
+        document.getElementById("homeBtn")
+    );
 
 }
 
