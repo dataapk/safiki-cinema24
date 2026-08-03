@@ -395,6 +395,7 @@ let casinoTopWinners = JSON.parse(
 ============================== */
 
 function footerOpenMyBets(){
+    lockBodyScroll();
 
     const myBets =
     document.getElementById("my-bets-page");
@@ -439,6 +440,7 @@ function footerOpenMyBets(){
 
 
 function backFromMyBets(){
+    unlockBodyScroll();
 
 
     const myBets =
