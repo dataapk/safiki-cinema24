@@ -819,6 +819,178 @@ if (!localStorage.getItem("adminAuth")) {
 
 </div>
 
+    <!-- ===================================
+     CRICKET CONTROL SECTION
+=================================== -->
+
+<div id="adminCricketSection"
+     class="admin-sport-section"
+     style="display:none;">
+
+
+    <h3>
+        🏏 Cricket Control
+    </h3>
+
+
+
+    <!-- Cricket Tabs -->
+
+    <div class="cricket-tabs">
+
+
+        <button onclick="openCricketLive(this)">
+            🔴 Live Events
+        </button>
+
+
+        <button onclick="openCricketUpcoming(this)">
+            📅 Upcoming Events
+        </button>
+
+
+        <button onclick="openCricketFeatured(this)">
+            ⭐ Featured Events
+        </button>
+
+
+    </div>
+
+
+
+
+
+    <!-- LIVE -->
+
+    <div id="cricketLive"
+         class="cricket-content">
+
+
+        <h4>
+            🔴 Live Cricket Matches
+        </h4>
+
+
+
+        <div class="match-card">
+
+
+            <h5>
+                T20 International
+            </h5>
+
+
+            <p>
+                🇧🇩 Bangladesh 
+                VS 
+                🇮🇳 India
+            </p>
+
+
+            <p>
+                Status:
+                Live
+            </p>
+
+
+
+            <div class="market-list">
+
+
+                <div>
+                    Total Runs
+                    <button>
+                        ON
+                    </button>
+                </div>
+
+
+
+                <div>
+                    Over / Under
+                    <button>
+                        ON
+                    </button>
+                </div>
+
+
+
+                <div>
+                    Match Winner
+                    <button>
+                        ON
+                    </button>
+                </div>
+
+
+
+            </div>
+
+
+
+            <button>
+                Edit Match
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- UPCOMING -->
+
+    <div id="cricketUpcoming"
+         class="cricket-content"
+         style="display:none;">
+
+
+        <h4>
+            📅 Upcoming Cricket
+        </h4>
+
+
+        <p>
+            No Upcoming Match
+        </p>
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- FEATURED -->
+
+    <div id="cricketFeatured"
+         class="cricket-content"
+         style="display:none;">
+
+
+        <h4>
+            ⭐ Featured Cricket
+        </h4>
+
+
+        <p>
+            No Featured Match
+        </p>
+
+
+    </div>
+
+
+
+</div>
+
 <!-- ===================================
      CASINO SECTION
 =================================== -->
