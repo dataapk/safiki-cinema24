@@ -648,26 +648,7 @@ if (!localStorage.getItem("adminAuth")) {
 
     <!-- TITLE -->
     <h2>Games Control Panel</h2>
-
-    <!-- TOP ACTION BAR -->
-    <div class="games-top-bar">
-
-        <button onclick="openAddGame()">
-            + Add Game
-        </button>
-
-        <button onclick="switchToTableView()">
-            Table View
-        </button>
-
-        <button onclick="switchToCardView()">
-            Card / Grid View
-        </button>
-
-    </div>
-
-    <hr>
-
+   
     <!-- ===================================
      SPORTS SECTION
 =================================== -->
@@ -720,6 +701,95 @@ if (!localStorage.getItem("adminAuth")) {
 
 
 <hr>
+<!-- ===================================
+     CASINO SECTION START
+=================================== -->
+
+<div class="casino-control-wrapper">
+
+
+    <!-- CASINO BUTTON -->
+
+    <button 
+        class="casino-control-btn"
+        onclick="openCasinoControl()">
+
+        Open Casino Control
+
+    </button>
+
+
+
+    <!-- CASINO CONTENT -->
+
+    <div id="casinoSection"
+         style="display:none;">
+
+
+        <h3>
+            Casino Control
+        </h3>
+
+
+
+        <!-- CASINO ACTION BAR -->
+
+        <div class="games-top-bar">
+
+
+            <button onclick="openAddGame()">
+
+                + Add Game
+
+            </button>
+
+
+
+            <button onclick="switchToTableView()">
+
+                Table View
+
+            </button>
+
+
+
+            <button onclick="switchToCardView()">
+
+                Card / Grid View
+
+            </button>
+
+
+
+        </div>
+
+
+
+        <hr>
+
+
+
+        <!-- CASINO GAME LIST AREA -->
+
+        <div id="casinoGamesContainer">
+
+
+            <!-- Existing Casino Game Table / Card এখানে থাকবে -->
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ===================================
+     CASINO SECTION END
+=================================== -->
 
     <!-- ========================= -->
     <!-- TABLE VIEW -->
