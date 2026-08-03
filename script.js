@@ -21,6 +21,25 @@ let userBalances = {
     "trx": 3000.00 
 };
 let timeLeft = 30; // এখানে এটি ডিফাইন করে দাও
+
+/* ==========================================
+   GLOBAL BODY SCROLL CONTROL
+========================================== */
+
+function lockBodyScroll(){
+
+    document.body.classList.add("modal-open");
+
+}
+
+function unlockBodyScroll(){
+
+    document.body.classList.remove("modal-open");
+
+}
+
+
+
 /* --- ব্যালেন্স এবং কারেন্সি আপডেট ডিসপ্লে --- */
 function updateDisplayedBalance() {
     // ১. ইউজার বর্তমানে কোন কারেন্সি সিলেক্ট করে আছে তা নেওয়া
