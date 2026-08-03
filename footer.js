@@ -610,23 +610,24 @@ function openCasinoHistory(){
 
 function openCasinoTopWinner(){
 
+    document
+    .getElementById("casino-history-container")
+    .style.display = "none";
 
     document
-    .getElementById(
-        "casino-history-container"
-    )
-    .style.display="none";
+    .getElementById("casino-topwinner-container")
+    .style.display = "block";
 
+    // Active Tab Change
+    document
+    .getElementById("casinoMyBetTab")
+    .classList.remove("active");
 
     document
-    .getElementById(
-        "casino-topwinner-container"
-    )
-    .style.display="block";
-
+    .getElementById("casinoWinnerTab")
+    .classList.add("active");
 
     renderTopWinner();
-
 
 }
 
