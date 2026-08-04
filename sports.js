@@ -534,43 +534,24 @@ let sportsBetSlip = [];
 // ADD TO BET SLIP
 // ==========================================
 
-
 function addToBetSlip(betData, button){
 
+    console.log("ADD BET FUNCTION RUNNING");
+    console.log("BET DATA:", betData);
 
-    console.log(
-        "Bet Added:",
-        betData
-    );
-
-
-    // Add Data
 
     sportsBetSlip.push(betData);
 
 
-
-    // Open Popup
-
-    openSportsBetSlip();
-
-
-
-    // Show Floating Button
-
-    const floatSlip =
-        document.getElementById("sportsBetSlip");
-
-
-    if(floatSlip){
-
-        floatSlip.style.display = "flex";
-
-    }
-
+    console.log(
+        "CURRENT BET SLIP:",
+        sportsBetSlip
+    );
 
 
     updateSportsBetSlip();
+
+}
 
 
 
