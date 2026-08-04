@@ -1,15 +1,14 @@
-/* ==========================================
-        SPORTS GAME DATABASE
-========================================== */
+========
+// SPORTS.JS
+// SPORTS FULL GAME VIEW
+// ==========================================
+
 console.log("SPORTS.JS LOADED");
 
-let sportsBetSlip = [];
-let addtoBetSlip = [];
 
 // ==========================================
 // OPEN SPORTS GAME
 // ==========================================
-console.log("OPEN FUNCTION REACHED");
 
 function openSportsGame(sport, gameId) {
 
@@ -448,10 +447,6 @@ if (sportsSubcatGrid) {
 
 }
 
-console.log("OPEN FUNCTION CLOSED");
-
-window.openSportsGame = openSportsGame;
-
 
 
 // ==========================================
@@ -525,6 +520,13 @@ function backFromSportsGame() {
     }
 
 }
+
+// ==========================================
+// GLOBAL FUNCTIONS
+// ==========================================
+
+window.openSportsGame = openSportsGame;
+window.backFromSportsGame = backFromSportsGame;
 
 
 /* ==========================================
@@ -947,8 +949,7 @@ if(sportsBetSlipButton){
 // GLOBAL FUNCTIONS
 // ==========================================
 
-window.openSportsGame = openSportsGame;
-window.backFromSportsGame = backFromSportsGame;
+
 window.addToBetSlip = addToBetSlip;
 window.removeSportsBet = removeSportsBet;
 window.clearSportsBetSlip = clearSportsBetSlip;
