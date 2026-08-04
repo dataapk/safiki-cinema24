@@ -1,22 +1,24 @@
-// ==========================================
-// SPORTS.JS
-// SPORTS FULL GAME VIEW
-// ==========================================
+/* ==========================================
+        SPORTS GAME DATABASE
+========================================== */
 
 let sportsBetSlip = [];
 
 
-// ==========================================
-// OPEN SPORTS GAME
-// ==========================================
+/* ==========================================
+        OPEN SPORTS GAME
+========================================== */
 
 function openSportsGame(sport, gameId) {
-    
 
-    // কোন Event Page থেকে Game Open হয়েছে সেটা মনে রাখো
+    // কোন Page থেকে এসেছে মনে রাখো
     window.currentSportsPage = sport + "-events-page";
 
     const games = {
+
+        /* ===============================
+              CRICKET
+        =============================== */
 
         "cricket-live-1": {
             sport: "cricket",
@@ -34,27 +36,208 @@ function openSportsGame(sport, gameId) {
             league: "T20 International",
             homeTeam: "Australia",
             awayTeam: "Pakistan"
+        },
+
+
+        /* ===============================
+              FOOTBALL
+        =============================== */
+
+        "football-live-1": {
+            sport: "football",
+            title: "Real Madrid vs Barcelona",
+            status: "LIVE",
+            league: "La Liga",
+            homeTeam: "Real Madrid",
+            awayTeam: "Barcelona"
+        },
+
+        "football-live-2": {
+            sport: "football",
+            title: "Liverpool vs Arsenal",
+            status: "LIVE",
+            league: "Premier League",
+            homeTeam: "Liverpool",
+            awayTeam: "Arsenal"
+        },
+
+
+        /* ===============================
+              TENNIS
+        =============================== */
+
+        "tennis-live-1": {
+            sport: "tennis",
+            title: "Alcaraz vs Sinner",
+            status: "LIVE",
+            league: "ATP Tour",
+            homeTeam: "Alcaraz",
+            awayTeam: "Sinner"
+        },
+
+
+        /* ===============================
+              BASKETBALL
+        =============================== */
+
+        "basketball-live-1": {
+            sport: "basketball",
+            title: "Lakers vs Celtics",
+            status: "LIVE",
+            league: "NBA",
+            homeTeam: "Lakers",
+            awayTeam: "Celtics"
+        },
+
+
+        /* ===============================
+              HOCKEY
+        =============================== */
+
+        "hockey-live-1": {
+            sport: "hockey",
+            title: "India vs Pakistan",
+            status: "LIVE",
+            league: "FIH Pro League",
+            homeTeam: "India",
+            awayTeam: "Pakistan"
+        },
+
+
+        /* ===============================
+              VOLLEYBALL
+        =============================== */
+
+        "volleyball-live-1": {
+            sport: "volleyball",
+            title: "Brazil vs Japan",
+            status: "LIVE",
+            league: "FIVB Nations League",
+            homeTeam: "Brazil",
+            awayTeam: "Japan"
+        },
+
+
+        /* ===============================
+              HANDBALL
+        =============================== */
+
+        "handball-live-1": {
+            sport: "handball",
+            title: "Denmark vs France",
+            status: "LIVE",
+            league: "EHF Championship",
+            homeTeam: "Denmark",
+            awayTeam: "France"
+        },
+
+
+        /* ===============================
+              BASEBALL
+        =============================== */
+
+        "baseball-live-1": {
+            sport: "baseball",
+            title: "Yankees vs Dodgers",
+            status: "LIVE",
+            league: "MLB",
+            homeTeam: "Yankees",
+            awayTeam: "Dodgers"
+        },
+
+
+        /* ===============================
+              OTHERS
+        =============================== */
+
+        "others-live-1": {
+            sport: "others",
+            title: "Demo Match",
+            status: "LIVE",
+            league: "International",
+            homeTeam: "Team A",
+            awayTeam: "Team B"
         }
 
     };
-   
-
-  
-
-
-    // ==========================================
-    // FIND GAME
-    // ==========================================
 
     const game = games[gameId];
 
     if (!game) {
 
-        console.log("Sports game not found:", gameId);
+        console.log("Sports game not found :", gameId);
 
         return;
 
     }
+
+    // এখান থেকে নিচে তোমার আগের render code থাকবে...
+}
+
+window.openSportsGame = openSportsGame;
+
+/* ==========================================
+        BACK FROM SPORTS GAME
+========================================== */
+
+function backFromSportsGame() {
+
+    const gamePage =
+        document.getElementById("sports-game-page");
+
+    if (gamePage) {
+
+        gamePage.style.display = "none";
+
+    }
+
+    // Sports Header Show
+    const sportsSubHeader =
+        document.getElementById("sportsSubHeader");
+
+    if (sportsSubHeader) {
+
+        sportsSubHeader.style.display = "block";
+
+    }
+
+    // Sports Banner Show
+    const sportsSubBanner =
+        document.getElementById("sportsSubBanner");
+
+    if (sportsSubBanner) {
+
+        sportsSubBanner.style.display = "block";
+
+    }
+
+    // Sports Category Grid Show
+    const sportsSubcatGrid =
+        document.getElementById("sportsSubcatGrid");
+
+    if (sportsSubcatGrid) {
+
+        sportsSubcatGrid.style.display = "grid";
+
+    }
+
+    // আবার আগের Sports Section-এ ফিরে যাও
+    if (window.currentSportsPage) {
+
+        const page =
+            document.getElementById(window.currentSportsPage);
+
+        if (page) {
+
+            page.style.display = "block";
+
+        }
+
+    }
+
+}
+
+window.backFromSportsGame = backFromSportsGame;
 
 
     // ==========================================
@@ -386,6 +569,7 @@ function closeSportsBetSlip(){
       WINDOW EXPORT
 ================================ */
 
+
 window.addToBetSlip = addToBetSlip;
 window.removeSportsBet = removeSportsBet;
 window.clearSportsBetSlip = clearSportsBetSlip;
@@ -568,77 +752,6 @@ window.closeSportsBetSlip = closeSportsBetSlip;
 
 
 
-// ==========================================
-// BACK FROM SPORTS GAME
-// ==========================================
-
-function backFromSportsGame() {
-
-    // Hide Full Game View
-    const gamePage = document.getElementById("sports-game-page");
-    if (gamePage) {
-        gamePage.style.display = "none";
-    }
-
-    // Hide All Event Pages
-    const pages = [
-        "cricket-events-page",
-        "football-events-page",
-        "basketball-events-page",
-        "tennis-events-page",
-        "volleyball-events-page",
-        "boxing-events-page",
-        "hockey-events-page",
-        "rugby-events-page",
-        "golf-events-page"
-    ];
-
-    pages.forEach(id => {
-        const page = document.getElementById(id);
-        if (page) {
-            page.style.display = "none";
-        }
-    });
-
-    // Restore Sports Banner
-    const sportsSubBanner = document.getElementById("sportsSubBanner");
-    if (sportsSubBanner) {
-        sportsSubBanner.style.display = "block";
-    }
-
-    // Restore Sports Header
-    const sportsHeader = document.querySelector(".subcat-header-row");
-    if (sportsHeader) {
-        sportsHeader.style.display = "flex";
-    }
-
-    // Restore Sports Sub Categories
-    const sportsGrid = document.getElementById("sportsSubcatGrid");
-    if (sportsGrid) {
-        sportsGrid.style.display = "grid";
-    }
-
-    // Show Trending Again
-    const trending = document.getElementById("sports-trending-page");
-    if (trending) {
-        trending.style.display = "block";
-    }
-
-    // Remove Active Button
-    document.querySelectorAll("#sportsSubcatGrid .subcat-item").forEach(item => {
-        item.classList.remove("active");
-    });
-
-    // Scroll Back To Sports Section
-    const sportsSection = document.getElementById("sportsSubSection");
-    if (sportsSection) {
-        sportsSection.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-    }
-
-}
 /* ==========================================
         BET SLIP POPUP
 ========================================== */
@@ -708,15 +821,6 @@ if(sportsBetSlipButton){
 
 }
 
-
-
-
-// ==========================================
-// GLOBAL FUNCTIONS
-// ==========================================
-
-window.openSportsGame = openSportsGame;
-window.backFromSportsGame = backFromSportsGame;
 
 
 // ==========================================
