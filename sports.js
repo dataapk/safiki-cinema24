@@ -707,20 +707,20 @@ function clearSportsBetSlip(){
     sportsBetSlip = [];
 
 
-
     updateSportsBetSlip();
 
 
 
-    const floatSlip =
+    // Floating Button Hide করবে না
+    const count =
         document.getElementById(
-            "sportsBetSlip"
+            "sportsBetSlipCount"
         );
 
 
-    if(floatSlip){
+    if(count){
 
-        floatSlip.style.display="none";
+        count.textContent = "0";
 
     }
 
