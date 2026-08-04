@@ -210,34 +210,192 @@ if (sportsSubcatGrid) {
 
 
 
-/* ======================================
-        ADD TO BET SLIP
-====================================== */
+/* ==========================================
+        SPORTS BET SLIP SYSTEM
+========================================== */
 
-function addToBetSlip(betData, button) {
+let sportsBetSlip = [];
 
-    console.log("Bet Added :", betData);
+/* ===============================
+      ADD BET
+================================ */
 
-    // Popup Open
+function addToBetSlip(betData, btn){
+
+    // একই বেট দুইবার এড না হয়
+    const exists = sportsBetSlip.find(item =>
+        item.eventId === betData.eventId &&
+        item.market === betData.market &&
+        item.selection === betData.selection
+    );
+
+    if(exists){
+        return;
+    }
+
+    sportsBetSlip.push(betData);
+
+    updateSportsBetSlip();
+
     openSportsBetSlip();
-
-    // Floating Button Show
-    document.getElementById("sportsBetSlip").style.display = "flex";
-
-    // Count Update (অস্থায়ী)
-    const count = document.getElementById("sportsBetSlipCount");
-
-    let total = parseInt(count.textContent || "0", 10);
-
-    total++;
-
-    count.textContent = total;
 
 }
 
-/* HTML থেকে Call করার জন্য */
-window.addToBetSlip = addToBetSlip;
+/* ===============================
+      UPDATE BETSLIP
+================================ */
 
+function updateSportsBetSlip(){
+
+    const container = document.getElementById("sportsBetSlipContainer");
+
+    const count = document.getElementById("sportsBetSlipCount");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    sportsBetSlip.forEach((bet,index)=>{
+
+        container.innerHTML += `
+
+        <div class="sports-slip-card">
+
+            <div class="sports-slip-match">
+
+                <strong>${bet.home}</strong>
+
+                <span>vs</span>
+
+                <strong>${bet.away}</strong>
+
+            </div>
+
+            <div class="sports-slip-market">
+
+                ${bet.market}
+
+            </div>
+
+            <div class="sports-slip-selection">
+
+                ${bet.selection}
+
+            </div>
+
+            <div class="sports-slip-odds">
+
+                Odds : ${bet.odds}
+
+            </div>
+
+            <button
+                class="sports-remove-btn"
+                onclick="removeSportsBet(${index})">
+
+                Remove
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    if(count){
+
+        count.innerText = sportsBetSlip.length;
+
+        document.getElementById("sportsBetSlip").style.display =
+            sportsBetSlip.length ? "flex" : "none";
+
+    }
+
+}
+
+/* ===============================
+      REMOVE SINGLE BET
+================================ */
+
+function removeSportsBet(index){
+
+    sportsBetSlip.splice(index,1);
+
+    updateSportsBetSlip();
+
+}
+
+/* ===============================
+      CLEAR ALL BETS
+================================ */
+
+function clearSportsBetSlip(){
+
+    sportsBetSlip = [];
+
+    updateSportsBetSlip();
+
+    closeSportsBetSlip();
+
+}
+
+/* ===============================
+      PLACE BET
+================================ */
+
+function placeSportsBet(){
+
+    if(sportsBetSlip.length===0){
+
+        alert("No Bet Selected");
+
+        return;
+
+    }
+
+    console.log("BET DATA",sportsBetSlip);
+
+    alert("Bet Placed Successfully");
+
+    sportsBetSlip=[];
+
+    updateSportsBetSlip();
+
+    closeSportsBetSlip();
+
+}
+
+/* ===============================
+      OPEN POPUP
+================================ */
+
+function openSportsBetSlip(){
+
+    document.getElementById("sportsBetSlipPopup").style.display="block";
+
+}
+
+/* ===============================
+      CLOSE POPUP
+================================ */
+
+function closeSportsBetSlip(){
+
+    document.getElementById("sportsBetSlipPopup").style.display="none";
+
+}
+
+/* ===============================
+      WINDOW EXPORT
+================================ */
+
+window.addToBetSlip = addToBetSlip;
+window.removeSportsBet = removeSportsBet;
+window.clearSportsBetSlip = clearSportsBetSlip;
+window.placeSportsBet = placeSportsBet;
+window.openSportsBetSlip = openSportsBetSlip;
+window.closeSportsBetSlip = closeSportsBetSlip;
 
 
             <!-- ======================================
