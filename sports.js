@@ -560,21 +560,18 @@ let currentBetMode = "single";
 // OPEN BET SLIP POPUP
 // ==========================================
 
+let sportsBetSlip = [];
+
+
 function addToBetSlip(betData, button){
 
     console.log("BET ADDED:", betData);
 
 
-    sportsBetSlip.push({
-
-        ...betData,
-
-        id: Date.now()
-
-    });
+    sportsBetSlip.push(betData);
 
 
-    // Floating Button Show
+    // Floating button show
 
     const floatButton =
         document.getElementById("sportsBetSlip");
@@ -585,6 +582,23 @@ function addToBetSlip(betData, button){
         floatButton.style.display = "flex";
 
     }
+
+
+    // Count update
+
+    const count =
+        document.getElementById("sportsBetSlipCount");
+
+
+    if(count){
+
+        count.textContent =
+            sportsBetSlip.length;
+
+    }
+
+
+}
 
 
     // শুধু Count এবং List Update হবে
