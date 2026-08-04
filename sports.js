@@ -287,6 +287,7 @@ if (sportsSubcatGrid) {
                 </div>
 
             </div>
+            window.addToBetSlip = addToBetSlip;
 
 
 
