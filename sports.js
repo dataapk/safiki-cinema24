@@ -593,17 +593,7 @@ function closeSportsBetSlip(){
 
 }
 
-/* ===============================
-      WINDOW EXPORT
-================================ */
 
-
-window.addToBetSlip = addToBetSlip;
-window.removeSportsBet = removeSportsBet;
-window.clearSportsBetSlip = clearSportsBetSlip;
-window.placeSportsBet = placeSportsBet;
-window.openSportsBetSlip = openSportsBetSlip;
-window.closeSportsBetSlip = closeSportsBetSlip;
 
 
             <!-- ======================================
@@ -848,6 +838,18 @@ if(sportsBetSlipButton){
     );
 
 }
+
+/* ===============================
+      WINDOW EXPORT
+================================ */
+
+
+window.addToBetSlip = addToBetSlip;
+window.removeSportsBet = removeSportsBet;
+window.clearSportsBetSlip = clearSportsBetSlip;
+window.placeSportsBet = placeSportsBet;
+window.openSportsBetSlip = openSportsBetSlip;
+window.closeSportsBetSlip = closeSportsBetSlip;
 
 
 
