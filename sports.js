@@ -223,29 +223,44 @@ if (sportsSubcatGrid) {
                 </div>
 
 
-                <div class="sports-bet-options">
+                <button
+    type="button"
+    class="sports-bet-option"
 
+    onclick="
+        addToBetSlip({
 
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                    >
+            eventId:'${game.id}',
 
-                        <span>
+            market:'Match Winner',
 
-                            ${game.homeTeam}
+            selection:'${game.homeTeam}',
 
-                        </span>
+            odds:1.85,
 
+            home:'${game.homeTeam}',
 
-                        <strong>
+            away:'${game.awayTeam}'
 
-                            1.85
+        },this)
 
-                        </strong>
+    "
 
-                    </button>
+>
 
+    <span>
+
+        ${game.homeTeam}
+
+    </span>
+
+    <strong>
+
+        1.85
+
+    </strong>
+
+</button>
 
 
                     <button
@@ -517,6 +532,384 @@ function backFromSportsGame() {
             behavior: "smooth",
             block: "start"
         });
+    }
+
+}
+
+
+/* ==========================================
+        BET SLIP POPUP
+========================================== */
+
+.sports-betslip-popup{
+
+    position:fixed;
+
+    left:50%;
+
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:95%;
+
+    max-width:420px;
+
+    max-height:85vh;
+
+    background:#1f1f23;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    z-index:99999;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.65);
+
+}
+
+
+
+/* HEADER */
+
+.sports-betslip-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px;
+
+    background:#2a2a30;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sports-betslip-header h3{
+
+    margin:0;
+
+    color:#fff;
+
+    font-size:20px;
+
+    font-weight:600;
+
+}
+
+
+.sports-betslip-close{
+
+    border:none;
+
+    background:none;
+
+    color:#fff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+
+
+/* TABS */
+
+.sports-betslip-tabs{
+
+    display:flex;
+
+    gap:10px;
+
+    padding:15px;
+
+    background:#222228;
+
+}
+
+
+.sports-betslip-tabs button{
+
+    flex:1;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#34343c;
+
+    color:#ddd;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+.sports-betslip-tabs button.active{
+
+    background:#2fbf71;
+
+    color:#fff;
+
+}
+
+
+
+/* BET LIST */
+
+.sports-betslip-list{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:15px;
+
+}
+
+
+.sports-empty-slip{
+
+    text-align:center;
+
+    color:#aaa;
+
+    padding:40px 10px;
+
+    font-size:15px;
+
+}
+
+
+
+/* BET CARD */
+
+.bet-item{
+
+    background:#2d2d34;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+}
+
+
+.bet-item h4{
+
+    margin:0 0 6px;
+
+    color:#fff;
+
+    font-size:15px;
+
+}
+
+
+.bet-item p{
+
+    margin:0;
+
+    color:#bfbfbf;
+
+    font-size:13px;
+
+}
+
+
+
+/* STAKE */
+
+.sports-stake-box{
+
+    padding:15px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sports-stake-box label{
+
+    display:block;
+
+    color:#ccc;
+
+    margin-bottom:8px;
+
+}
+
+
+.sports-stake-box input{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#34343c;
+
+    color:#fff;
+
+    font-size:15px;
+
+    outline:none;
+
+}
+
+
+
+/* SUMMARY */
+
+.sports-slip-summary{
+
+    padding:15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sports-slip-summary div{
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+
+.sports-slip-summary span{
+
+    color:#bfbfbf;
+
+}
+
+
+.sports-slip-summary strong{
+
+    color:#2fbf71;
+
+    font-size:16px;
+
+}
+
+
+
+/* BUTTONS */
+
+.sports-slip-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    padding:15px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sports-clear-btn{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#555;
+
+    color:#fff;
+
+    cursor:pointer;
+
+}
+
+
+.sports-placebet-btn{
+
+    flex:2;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2fbf71;
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+
+
+/* SCROLL */
+
+.sports-betslip-list::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+
+.sports-betslip-list::-webkit-scrollbar-thumb{
+
+    background:#555;
+
+    border-radius:20px;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .sports-betslip-popup{
+
+        width:96%;
+
+        max-height:90vh;
+
+        border-radius:16px;
+
     }
 
 }
