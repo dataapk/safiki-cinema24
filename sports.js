@@ -4,6 +4,7 @@
 console.log("SPORTS.JS LOADED");
 
 let sportsBetSlip = [];
+let addtoBetSlip = [];
 
 // ==========================================
 // OPEN SPORTS GAME
