@@ -3876,9 +3876,13 @@
 
 </div>
 
-  <!-- ==========================================
-     SPORTS FLOATING BET SLIP BUTTON
-========================================== -->
+<!-- ==================================
+     SPORTS BET SLIP SYSTEM
+     (GLOBAL FLOATING COMPONENT)
+================================== -->
+
+
+<!-- Floating Button -->
 
 <div id="sportsBetSlip"
      class="sports-betslip-float"
@@ -3886,33 +3890,42 @@
      onclick="openSportsBetSlip()">
 
     <div class="sports-betslip-icon">
-
         🎫
-
     </div>
-
 
     <div class="sports-betslip-text">
-
         Bet Slip
-
     </div>
 
-
-    <div class="sports-betslip-count"
-         id="sportsBetSlipCount">
-
+    <div id="sportsBetSlipCount"
+         class="sports-betslip-count">
         0
-
     </div>
 
 </div>
 
+    <button
+    class="sports-bet-option"
+    onclick="
+    addToBetSlip({
+        eventId:'${game.id}',
+        market:'Match Winner',
+        selection:'${game.homeTeam}',
+        odds:1.85
+    },this)
+">
+
+    ${game.homeTeam}
+
+    <strong>
+        1.85
+    </strong>
+
+</button>
 
 
-<!-- ==========================================
-     SPORTS BET SLIP POPUP
-========================================== -->
+
+<!-- Popup -->
 
 
 <div id="sportsBetSlipPopup"
@@ -3920,34 +3933,57 @@
      style="display:none;">
 
 
-    <!-- HEADER -->
+    <!-- Header -->
 
     <div class="sports-betslip-header">
 
         <h3>
-
             Bet Slip
-
         </h3>
 
 
         <button
             type="button"
-            class="sports-betslip-close"
             onclick="closeSportsBetSlip()">
 
             ✕
 
         </button>
 
+
     </div>
 
 
 
-    <!-- BET LIST -->
+    <!-- Single / Multiple Tabs -->
 
-    <div id="sportsBetSlipContent"
-         class="sports-betslip-content">
+    <div class="sports-betslip-tabs">
+
+
+        <button
+            class="active"
+            onclick="switchBetMode('single')">
+
+            Single
+
+        </button>
+
+
+        <button
+            onclick="switchBetMode('multiple')">
+
+            Multiple
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- Selected Bets -->
+
+    <div id="sportsBetSlipContent">
 
 
         <div class="empty-betslip">
@@ -3961,18 +3997,49 @@
 
 
 
-    <!-- FOOTER -->
+    <!-- Stake -->
 
+    <div class="sports-betslip-stake">
+
+
+        <label>
+            Stake
+        </label>
+
+
+        <input
+            id="sportsBetStake"
+            type="number"
+            placeholder="Enter Amount">
+
+
+    </div>
+
+
+
+    <!-- Total -->
+
+    <div class="sports-betslip-total">
+
+        Total Odds:
+        <span id="sportsTotalOdds">
+            0
+        </span>
+
+    </div>
+
+
+
+    <!-- Footer Buttons -->
 
     <div class="sports-betslip-footer">
 
 
         <button
             type="button"
-            class="sports-clear-btn"
             onclick="clearSportsBetSlip()">
 
-            Clear
+            Remove Bets
 
         </button>
 
@@ -3980,7 +4047,6 @@
 
         <button
             type="button"
-            class="sports-placebet-btn"
             onclick="placeSportsBet()">
 
             Place Bet
@@ -3992,9 +4058,10 @@
 
 
 </div>
-    </div>
 
-<!-- ================= FOOTER ================= -->
+
+
+<!-- ================= FOOTER MAIN ================= -->
 
 <footer class="footer-bottom">
 
