@@ -522,6 +522,328 @@ function backFromSportsGame() {
 }
 
 // ==========================================
+// SPORTS BET SLIP SYSTEM
+// ==========================================
+
+
+let sportsBetSlip = [];
+
+
+
+// ==========================================
+// ADD TO BET SLIP
+// ==========================================
+
+
+function addToBetSlip(betData, button){
+
+
+    console.log(
+        "Bet Added:",
+        betData
+    );
+
+
+    // Add Data
+
+    sportsBetSlip.push(betData);
+
+
+
+    // Open Popup
+
+    openSportsBetSlip();
+
+
+
+    // Show Floating Button
+
+    const floatSlip =
+        document.getElementById("sportsBetSlip");
+
+
+    if(floatSlip){
+
+        floatSlip.style.display = "flex";
+
+    }
+
+
+
+    updateSportsBetSlip();
+
+
+
+    // Button Active
+
+    if(button){
+
+        button.classList.add(
+            "selected"
+        );
+
+    }
+
+
+}
+
+
+
+
+// ==========================================
+// UPDATE BET SLIP UI
+// ==========================================
+
+
+function updateSportsBetSlip(){
+
+
+    const count =
+        document.getElementById(
+            "sportsBetSlipCount"
+        );
+
+
+    if(count){
+
+        count.textContent =
+            sportsBetSlip.length;
+
+    }
+
+
+
+    const content =
+        document.getElementById(
+            "sportsBetSlipContent"
+        );
+
+
+
+    if(!content){
+
+        return;
+
+    }
+
+
+
+    if(
+        sportsBetSlip.length === 0
+    ){
+
+        content.innerHTML = `
+
+            <div class="empty-betslip">
+
+                No Bets Selected
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+
+
+    content.innerHTML = sportsBetSlip.map(
+        (bet,index)=>`
+
+
+        <div class="betslip-item">
+
+
+            <div>
+
+                <strong>
+                    ${bet.market}
+                </strong>
+
+
+                <br>
+
+
+                <span>
+                    ${bet.selection}
+                </span>
+
+
+            </div>
+
+
+
+            <div>
+
+                ${bet.odds}
+
+            </div>
+
+
+        </div>
+
+
+        `
+    ).join("");
+
+
+
+}
+
+
+
+
+// ==========================================
+// CLEAR BET SLIP
+// ==========================================
+
+
+function clearSportsBetSlip(){
+
+
+    sportsBetSlip = [];
+
+
+
+    updateSportsBetSlip();
+
+
+
+    const floatSlip =
+        document.getElementById(
+            "sportsBetSlip"
+        );
+
+
+    if(floatSlip){
+
+        floatSlip.style.display="none";
+
+    }
+
+
+}
+
+
+
+
+
+// ==========================================
+// PLACE BET
+// ==========================================
+
+
+function placeSportsBet(){
+
+
+    if(
+        sportsBetSlip.length === 0
+    ){
+
+        alert(
+            "Please select a bet first"
+        );
+
+
+        return;
+
+    }
+
+
+
+    console.log(
+        "BET PLACED:",
+        sportsBetSlip
+    );
+
+
+
+    alert(
+        "Bet placed successfully"
+    );
+
+
+
+    clearSportsBetSlip();
+
+
+}
+
+
+
+// ==========================================
+// OPEN / CLOSE POPUP
+// ==========================================
+
+
+function openSportsBetSlip(){
+
+
+    const popup =
+        document.getElementById(
+            "sportsBetSlipPopup"
+        );
+
+
+    if(popup){
+
+        popup.style.display="block";
+
+    }
+
+
+}
+
+
+
+function closeSportsBetSlip(){
+
+
+    const popup =
+        document.getElementById(
+            "sportsBetSlipPopup"
+        );
+
+
+    if(popup){
+
+        popup.style.display="none";
+
+    }
+
+
+}
+
+
+
+// ==========================================
+// GLOBAL EXPORT
+// ==========================================
+
+
+window.addToBetSlip =
+    addToBetSlip;
+
+
+window.clearSportsBetSlip =
+    clearSportsBetSlip;
+
+
+window.placeSportsBet =
+    placeSportsBet;
+
+
+window.openSportsBetSlip =
+    openSportsBetSlip;
+
+
+window.closeSportsBetSlip =
+    closeSportsBetSlip;
+
+// ==========================================
 // GLOBAL FUNCTIONS
 // ==========================================
 
