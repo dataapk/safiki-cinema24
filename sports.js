@@ -211,83 +211,98 @@ if (sportsSubcatGrid) {
 
 
             <!-- ======================================
-                 MATCH WINNER
+                 addToBetSlip
             ====================================== -->
+<div class="sports-market">
 
-            <div class="sports-market">
+    <div class="sports-market-title">
 
-                <div class="sports-market-title">
+        Match Winner
 
-                    Match Winner
+    </div>
 
-                </div>
+    <div class="sports-bet-options">
 
+        <!-- HOME -->
 
-                <button
-    type="button"
-    class="sports-bet-option"
+        <button
+            type="button"
+            class="sports-bet-option"
 
-    onclick="
-        addToBetSlip({
+            onclick="
+                addToBetSlip({
 
-            eventId:'${game.id}',
+                    eventId:'${game.id}',
 
-            market:'Match Winner',
+                    market:'Match Winner',
 
-            selection:'${game.homeTeam}',
+                    selection:'${game.homeTeam}',
 
-            odds:1.85,
+                    odds:1.85,
 
-            home:'${game.homeTeam}',
+                    home:'${game.homeTeam}',
 
-            away:'${game.awayTeam}'
+                    away:'${game.awayTeam}'
 
-        },this)
+                },this)
+            ">
 
-    "
+            <span>
 
->
+                ${game.homeTeam}
 
-    <span>
+            </span>
 
-        ${game.homeTeam}
+            <strong>
 
-    </span>
+                1.85
 
-    <strong>
+            </strong>
 
-        1.85
-
-    </strong>
-
-</button>
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                    >
-
-                        <span>
-
-                            ${game.awayTeam}
-
-                        </span>
+        </button>
 
 
-                        <strong>
+        <!-- AWAY -->
 
-                            1.65
+        <button
+            type="button"
+            class="sports-bet-option"
 
-                        </strong>
+            onclick="
+                addToBetSlip({
 
-                    </button>
+                    eventId:'${game.id}',
 
+                    market:'Match Winner',
 
-                </div>
+                    selection:'${game.awayTeam}',
 
-            </div>
-            window.addToBetSlip = addToBetSlip;
+                    odds:1.65,
+
+                    home:'${game.homeTeam}',
+
+                    away:'${game.awayTeam}'
+
+                },this)
+            ">
+
+            <span>
+
+                ${game.awayTeam}
+
+            </span>
+
+            <strong>
+
+                1.65
+
+            </strong>
+
+        </button>
+
+    </div>
+
+</div>
 
 
 
