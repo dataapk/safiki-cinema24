@@ -1,6 +1,7 @@
 /* ==========================================
         SPORTS GAME DATABASE
 ========================================== */
+console.log("SPORTS.JS LOADED");
 
 let sportsBetSlip = [];
 
