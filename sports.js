@@ -564,14 +564,33 @@ function addToBetSlip(betData, button){
 
     console.log("BET ADDED:", betData);
 
+
     sportsBetSlip.push({
+
         ...betData,
+
         id: Date.now()
+
     });
+
+
+    // Floating Button Show
+
+    const floatButton =
+        document.getElementById("sportsBetSlip");
+
+
+    if(floatButton){
+
+        floatButton.style.display = "flex";
+
+    }
+
+
+    // শুধু Count এবং List Update হবে
 
     updateSportsBetSlip();
 
-    openSportsBetSlip();
 
 }
 
