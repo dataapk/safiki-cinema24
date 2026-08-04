@@ -3876,42 +3876,116 @@
 
 </div>
 
-<!-- ==================================
-     SPORTS BET SLIP SYSTEM
-     (GLOBAL FLOATING COMPONENT)
-================================== -->
 
+     <!-- START ADD TO BET SLIP -->
 
-<!-- Floating Button -->
+   <button
+type="button"
+class="sports-bet-option"
+
+onclick="
+addToBetSlip({
+
+    betId:'${gameId}-home',
+
+    eventId:'${gameId}',
+
+    market:'Match Winner',
+
+    selection:'${game.homeTeam}',
+
+    odds:1.85
+
+},this)
+"
+>
+
+<span>
+${game.homeTeam}
+</span>
+
+<strong>
+1.85
+</strong>
+
+</button>
+
+    <!-- END ADD TO BET SLIP -->
+    <!-- ==========================================
+     SPORTS FLOATING BET SLIP BUTTON
+========================================== -->
 
 <div id="sportsBetSlip"
      class="sports-betslip-float"
      style="display:none;"
      onclick="openSportsBetSlip()">
 
+
     <div class="sports-betslip-icon">
         🎫
     </div>
+
 
     <div class="sports-betslip-text">
         Bet Slip
     </div>
 
+
     <div id="sportsBetSlipCount"
          class="sports-betslip-count">
+
         0
+
     </div>
+
+
+</div>
+    <!-- ==========================================
+     SPORTS FLOATING BET SLIP BUTTON
+========================================== -->
+
+<div id="sportsBetSlip"
+     class="sports-betslip-float"
+     style="display:none;"
+     onclick="openSportsBetSlip()">
+
+
+    <div class="sports-betslip-icon">
+        🎫
+    </div>
+
+
+    <div class="sports-betslip-text">
+        Bet Slip
+    </div>
+
+
+    <div id="sportsBetSlipCount"
+         class="sports-betslip-count">
+
+        0
+
+    </div>
+
 
 </div>
 
-     <!-- START ADD TO BET SLIP -->
 
-    <button
+
+
+<!-- ==========================================
+     ADD TO BET SLIP BUTTON
+========================================== -->
+
+
+<button
     type="button"
     class="sports-bet-option"
 
     onclick="
         addToBetSlip({
+
+            betId:'${gameId}-home',
 
             eventId:'${gameId}',
 
@@ -3921,22 +3995,260 @@
 
             odds:1.85
 
-        },this)
+        }, this)
     "
 >
 
+
     <span>
+
         ${game.homeTeam}
+
     </span>
 
 
     <strong>
+
         1.85
+
     </strong>
+
 
 </button>
 
-    <!-- END ADD TO BET SLIP -->
+
+
+<!-- ==========================================
+     SPORTS FLOATING BET SLIP BUTTON
+========================================== -->
+
+<div id="sportsBetSlip"
+     class="sports-betslip-float"
+     style="display:none;"
+     onclick="openSportsBetSlip()">
+
+
+    <div class="sports-betslip-icon">
+        🎫
+    </div>
+
+
+    <div class="sports-betslip-text">
+        Bet Slip
+    </div>
+
+
+    <div id="sportsBetSlipCount"
+         class="sports-betslip-count">
+
+        0
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     ADD TO BET SLIP BUTTON
+========================================== -->
+
+
+<button
+    type="button"
+    class="sports-bet-option"
+
+    onclick="
+        addToBetSlip({
+
+            betId:'${gameId}-home',
+
+            eventId:'${gameId}',
+
+            market:'Match Winner',
+
+            selection:'${game.homeTeam}',
+
+            odds:1.85
+
+        }, this)
+    "
+>
+
+
+    <span>
+
+        ${game.homeTeam}
+
+    </span>
+
+
+    <strong>
+
+        1.85
+
+    </strong>
+
+
+</button>
+
+
+
+
+<!-- ==========================================
+     BET SLIP POPUP
+========================================== -->
+
+
+<div id="sportsBetSlipPopup"
+     class="sports-betslip-popup"
+     style="display:none;">
+
+
+
+    <!-- HEADER -->
+
+    <div class="sports-betslip-header">
+
+
+        <h3>
+
+            Bet Slip
+
+        </h3>
+
+
+
+        <button
+            type="button"
+            onclick="closeSportsBetSlip()">
+
+            ✕
+
+        </button>
+
+
+    </div>
+
+
+
+
+    <!-- SINGLE / MULTIPLE -->
+
+    <div class="sports-betslip-tabs">
+
+
+        <button class="active"
+                onclick="switchBetMode('single')">
+
+            Single
+
+        </button>
+
+
+
+        <button
+                onclick="switchBetMode('multiple')">
+
+            Multiple
+
+        </button>
+
+
+    </div>
+
+
+
+
+    <!-- BET CONTENT -->
+
+    <div id="sportsBetSlipContent">
+
+
+        <div class="empty-betslip">
+
+            No Bets Selected
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- STAKE -->
+
+    <div class="sports-betslip-stake">
+
+
+        <label>
+
+            Stake
+
+        </label>
+
+
+        <input
+            id="sportsBetStake"
+            type="number"
+            placeholder="Enter Amount">
+
+
+    </div>
+
+
+
+
+    <!-- TOTAL ODDS -->
+
+    <div class="sports-betslip-total">
+
+
+        Total Odds:
+
+        <span id="sportsTotalOdds">
+
+            0
+
+        </span>
+
+
+    </div>
+
+
+
+
+    <!-- BUTTONS -->
+
+    <div class="sports-betslip-footer">
+
+
+        <button
+            type="button"
+            onclick="clearallSportsBetSlip()">
+
+            Clear All Bets
+
+        </button>
+
+
+
+        <button
+            type="button"
+            onclick="placeSportsBet()">
+
+            Place Bet
+
+        </button>
+
+
+    </div>
+
+
+
+</div>
 
 
 <!-- Popup -->
