@@ -355,7 +355,6 @@ gameContent.innerHTML = `
 
 `;
 
-window.openSportsGame = openSportsGame;
 
 
 
@@ -420,7 +419,6 @@ function backFromSportsGame() {
 
 }
 
-window.backFromSportsGame = backFromSportsGame;
 
 
 /* ==========================================
