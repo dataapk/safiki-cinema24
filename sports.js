@@ -560,19 +560,18 @@ let currentBetMode = "single";
 // OPEN BET SLIP POPUP
 // ==========================================
 
-function openSportsBetSlip(){
+function addToBetSlip(betData, button){
 
-    const popup =
-        document.getElementById(
-            "sportsBetSlipPopup"
-        );
+    console.log("BET ADDED:", betData);
 
+    sportsBetSlip.push({
+        ...betData,
+        id: Date.now()
+    });
 
-    if(popup){
+    updateSportsBetSlip();
 
-        popup.style.display = "block";
-
-    }
+    openSportsBetSlip();
 
 }
 
