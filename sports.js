@@ -9,6 +9,7 @@ let addtoBetSlip = [];
 // ==========================================
 // OPEN SPORTS GAME
 // ==========================================
+console.log("OPEN FUNCTION REACHED");
 
 function openSportsGame(sport, gameId) {
 
@@ -446,6 +447,10 @@ if (sportsSubcatGrid) {
     window.scrollTo(0, 0);
 
 }
+
+console.log("OPEN FUNCTION CLOSED");
+
+window.openSportsGame = openSportsGame;
 
 
 
