@@ -957,8 +957,10 @@ window.closeSportsBetSlip = closeSportsBetSlip;
 // DEBUG
 // ==========================================
 
+window.openSportsGame = openSportsGame;
+
 console.log(
-    "openSportsGame TYPE:",
+    "EXPORT CHECK:",
     typeof window.openSportsGame
 );
 
