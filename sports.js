@@ -3,7 +3,7 @@
 // SPORTS FULL GAME VIEW
 // ==========================================
 
-console.log("SPORTS.JS LOADED");
+let sportsBetSlip = [];
 
 
 // ==========================================
@@ -11,7 +11,7 @@ console.log("SPORTS.JS LOADED");
 // ==========================================
 
 function openSportsGame(sport, gameId) {
-    console.log("Before openSportsGame");
+    
 
     // কোন Event Page থেকে Game Open হয়েছে সেটা মনে রাখো
     window.currentSportsPage = sport + "-events-page";
@@ -37,7 +37,7 @@ function openSportsGame(sport, gameId) {
         }
 
     };
-    console.log("After openSportsGame");
+   
 
   
 
@@ -215,12 +215,6 @@ if (sportsSubcatGrid) {
 /* ==========================================
         SPORTS BET SLIP SYSTEM
 ========================================== */
-
-let sportsBetSlip = [];
-
-/* ===============================
-      ADD BET
-================================ */
 
 function addToBetSlip(betData, btn){
 
