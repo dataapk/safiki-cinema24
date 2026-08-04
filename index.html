@@ -4099,6 +4099,158 @@
     </div>
 
 </div>
+    <!-- ==========================================
+        SPORTS BET SLIP POPUP
+========================================== -->
+
+<div id="sportsBetSlipPopup"
+     class="sports-betslip-popup"
+     style="display:none;">
+
+    <!-- Header -->
+    <div class="sports-betslip-header">
+
+        <h3>
+            Bet Slip
+        </h3>
+
+        <button
+            class="sports-betslip-close"
+            onclick="closeSportsBetSlip()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+
+
+    <!-- Tabs -->
+
+    <div class="sports-betslip-tabs">
+
+        <button
+            id="singleBetTab"
+            class="active">
+
+            Single
+
+        </button>
+
+
+        <button
+            id="multipleBetTab">
+
+            Multiple
+
+        </button>
+
+
+        <button
+            id="systemBetTab">
+
+            System
+
+        </button>
+
+    </div>
+
+
+
+    <!-- Selection List -->
+
+    <div id="sportsBetSlipList"
+         class="sports-betslip-list">
+
+        <!-- JS এখানে Bet Add করবে -->
+
+        <div class="sports-empty-slip">
+
+            No Bet Selected
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Stake -->
+
+    <div class="sports-stake-box">
+
+        <label>
+
+            Stake
+
+        </label>
+
+        <input
+            type="number"
+            id="sportsStakeInput"
+            placeholder="Enter Stake">
+
+    </div>
+
+
+
+    <!-- Summary -->
+
+    <div class="sports-slip-summary">
+
+        <div>
+
+            <span>Total Odds</span>
+
+            <strong id="sportsTotalOdds">
+
+                0.00
+
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>Possible Win</span>
+
+            <strong id="sportsPossibleWin">
+
+                0.00
+
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Bottom Buttons -->
+
+    <div class="sports-slip-actions">
+
+        <button
+            class="sports-clear-btn"
+            onclick="clearSportsBetSlip()">
+
+            Clear Bets
+
+        </button>
+
+
+        <button
+            class="sports-placebet-btn"
+            onclick="placeSportsBet()">
+
+            Place Bet
+
+        </button>
+
+    </div>
+
+</div>
 
       <!-- ==========================================
      SPORTS FLOATING BET SLIP
