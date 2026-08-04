@@ -11,6 +11,7 @@ console.log("SPORTS.JS LOADED");
 // ==========================================
 
 function openSportsGame(sport, gameId) {
+    console.log("Before openSportsGame");
 
     // কোন Event Page থেকে Game Open হয়েছে সেটা মনে রাখো
     window.currentSportsPage = sport + "-events-page";
@@ -36,6 +37,7 @@ function openSportsGame(sport, gameId) {
         }
 
     };
+    console.log("After openSportsGame");
 
   
 
