@@ -210,99 +210,33 @@ if (sportsSubcatGrid) {
 
 
 
-            <!-- ======================================
-                 addToBetSlip
-            ====================================== -->
-<div class="sports-market">
+/* ======================================
+        ADD TO BET SLIP
+====================================== */
 
-    <div class="sports-market-title">
+function addToBetSlip(betData, button) {
 
-        Match Winner
+    console.log("Bet Added :", betData);
 
-    </div>
+    // Popup Open
+    openSportsBetSlip();
 
-    <div class="sports-bet-options">
+    // Floating Button Show
+    document.getElementById("sportsBetSlip").style.display = "flex";
 
-        <!-- HOME -->
+    // Count Update (অস্থায়ী)
+    const count = document.getElementById("sportsBetSlipCount");
 
-        <button
-            type="button"
-            class="sports-bet-option"
+    let total = parseInt(count.textContent || "0", 10);
 
-            onclick="
-                addToBetSlip({
+    total++;
 
-                    eventId:'${game.id}',
+    count.textContent = total;
 
-                    market:'Match Winner',
+}
 
-                    selection:'${game.homeTeam}',
-
-                    odds:1.85,
-
-                    home:'${game.homeTeam}',
-
-                    away:'${game.awayTeam}'
-
-                },this)
-            ">
-
-            <span>
-
-                ${game.homeTeam}
-
-            </span>
-
-            <strong>
-
-                1.85
-
-            </strong>
-
-        </button>
-
-
-        <!-- AWAY -->
-
-        <button
-            type="button"
-            class="sports-bet-option"
-
-            onclick="
-                addToBetSlip({
-
-                    eventId:'${game.id}',
-
-                    market:'Match Winner',
-
-                    selection:'${game.awayTeam}',
-
-                    odds:1.65,
-
-                    home:'${game.homeTeam}',
-
-                    away:'${game.awayTeam}'
-
-                },this)
-            ">
-
-            <span>
-
-                ${game.awayTeam}
-
-            </span>
-
-            <strong>
-
-                1.65
-
-            </strong>
-
-        </button>
-
-    </div>
-
-</div>
+/* HTML থেকে Call করার জন্য */
+window.addToBetSlip = addToBetSlip;
 
 
 
