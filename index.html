@@ -3904,18 +3904,31 @@
 
 </div>
 
-    <button
-    class="sports-bet-option"
-    onclick="
-    addToBetSlip({
-        eventId:'cricket-live-1',
-        market:'Match Winner',
-        selection:'${game.homeTeam}',
-        odds:1.85
-    },this)
-">
+     <!-- START ADD TO BET SLIP -->
 
-    ${game.homeTeam}
+    <button
+    type="button"
+    class="sports-bet-option"
+
+    onclick="
+        addToBetSlip({
+
+            eventId:'${gameId}',
+
+            market:'Match Winner',
+
+            selection:'${game.homeTeam}',
+
+            odds:1.85
+
+        },this)
+    "
+>
+
+    <span>
+        ${game.homeTeam}
+    </span>
+
 
     <strong>
         1.85
@@ -3923,6 +3936,7 @@
 
 </button>
 
+    <!-- END ADD TO BET SLIP -->
 
 
 <!-- Popup -->
