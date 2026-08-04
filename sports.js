@@ -973,3 +973,17 @@ console.log(
     "backFromSportsGame TYPE:",
     typeof window.backFromSportsGame
 );
+
+console.log(
+    "CHECK FUNCTION:",
+    typeof openSportsGame
+);
+
+
+window.openSportsGame = openSportsGame;
+
+
+console.log(
+    "CHECK WINDOW:",
+    typeof window.openSportsGame
+);
