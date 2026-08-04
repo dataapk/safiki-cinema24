@@ -175,7 +175,189 @@ function openSportsGame(sport, gameId) {
     // এখান থেকে নিচে তোমার আগের render code থাকবে...
 }
 
+
+
+// ==========================================
+// FIND GAME PAGE
+// ==========================================
+
+const gamePage =
+    document.getElementById("sports-game-page");
+
+const gameTitle =
+    document.getElementById("sports-game-title");
+
+const gameContent =
+    document.getElementById("sports-game-content");
+
+
+if (!gamePage || !gameContent) {
+
+    console.log("Sports game page not found");
+
+    return;
+
+}
+// ==========================================
+// SHOW GAME PAGE
+// ==========================================
+
+gamePage.style.display = "block";
+
+// ==========================================
+// GAME CONTENT RENDER
+// ==========================================
+
+gameContent.innerHTML = `
+
+<div class="sports-game-match-header">
+
+    <div class="sports-game-live-badge">
+        <span class="live-dot"></span>
+        LIVE
+    </div>
+
+
+    <div class="sports-game-match-title">
+
+        ${game.title}
+
+    </div>
+
+
+    <div class="sports-game-league">
+
+        ${game.league}
+
+    </div>
+
+</div>
+
+
+
+<div class="sports-game-hero">
+
+    <div class="sports-game-animation">
+
+        <div class="sports-animation-icon">
+
+            🏏
+
+        </div>
+
+
+        <div class="sports-animation-title">
+
+            ${game.title}
+
+        </div>
+
+
+        <div class="sports-animation-subtitle">
+
+            Live Match Centre
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="sports-betting-box">
+
+
+    <div class="sports-betting-title">
+
+        Match Betting
+
+    </div>
+
+
+
+    <div class="sports-market">
+
+
+        <div class="sports-market-title">
+
+            Match Winner
+
+        </div>
+
+
+        <div class="sports-bet-options">
+
+
+            <button
+                class="sports-bet-option"
+                onclick="addToBetSlip({
+
+                    eventId:'${gameId}',
+
+                    market:'Match Winner',
+
+                    selection:'${game.homeTeam}',
+
+                    odds:1.85
+
+                },this)"
+            >
+
+                <span>
+                    ${game.homeTeam}
+                </span>
+
+
+                <strong>
+                    1.85
+                </strong>
+
+
+            </button>
+
+
+
+            <button
+                class="sports-bet-option"
+                onclick="addToBetSlip({
+
+                    eventId:'${gameId}',
+
+                    market:'Match Winner',
+
+                    selection:'${game.awayTeam}',
+
+                    odds:1.65
+
+                },this)"
+            >
+
+                <span>
+                    ${game.awayTeam}
+                </span>
+
+
+                <strong>
+                    1.65
+                </strong>
+
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+`;
+
 window.openSportsGame = openSportsGame;
+
+
 
 /* ==========================================
         BACK FROM SPORTS GAME
