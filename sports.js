@@ -542,3 +542,390 @@ console.log(
     "backFromSportsGame TYPE:",
     typeof window.backFromSportsGame
 );
+
+
+// ==========================================
+// SPORTS BET SLIP SYSTEM
+// ==========================================
+
+
+let sportsBetSlip = [];
+
+let currentBetMode = "single";
+
+
+
+
+// ==========================================
+// OPEN BET SLIP POPUP
+// ==========================================
+
+function openSportsBetSlip(){
+
+    const popup =
+        document.getElementById(
+            "sportsBetSlipPopup"
+        );
+
+
+    if(popup){
+
+        popup.style.display = "block";
+
+    }
+
+}
+
+
+
+
+
+// ==========================================
+// CLOSE BET SLIP POPUP
+// ==========================================
+
+function closeSportsBetSlip(){
+
+    const popup =
+        document.getElementById(
+            "sportsBetSlipPopup"
+        );
+
+
+    if(popup){
+
+        popup.style.display = "none";
+
+    }
+
+}
+
+
+
+
+// ==========================================
+// ADD TO BET SLIP
+// ==========================================
+
+function addToBetSlip(betData, button){
+
+
+    console.log(
+        "BET ADDED:",
+        betData
+    );
+
+
+
+    // Add Bet
+
+    sportsBetSlip.push({
+
+        ...betData,
+
+        id:
+        Date.now()
+
+    });
+
+
+
+    // Show Floating Button
+
+    const floatButton =
+        document.getElementById(
+            "sportsBetSlip"
+        );
+
+
+    if(floatButton){
+
+        floatButton.style.display = "flex";
+
+    }
+
+
+
+    updateSportsBetSlip();
+
+
+
+    // Open Popup
+
+    openSportsBetSlip();
+
+
+
+}
+
+
+
+
+
+// ==========================================
+// UPDATE BET SLIP UI
+// ==========================================
+
+function updateSportsBetSlip(){
+
+
+    const count =
+        document.getElementById(
+            "sportsBetSlipCount"
+        );
+
+
+    if(count){
+
+        count.textContent =
+            sportsBetSlip.length;
+
+    }
+
+
+
+
+    const content =
+        document.getElementById(
+            "sportsBetSlipContent"
+        );
+
+
+
+    if(!content){
+
+        return;
+
+    }
+
+
+
+    if(
+        sportsBetSlip.length === 0
+    ){
+
+        content.innerHTML = `
+
+        <div class="empty-betslip">
+
+            No Bets Selected
+
+        </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+
+
+
+    content.innerHTML =
+    sportsBetSlip.map(
+        (bet,index)=>`
+
+
+        <div class="betslip-item">
+
+
+            <div>
+
+                <strong>
+                    ${bet.market}
+                </strong>
+
+
+                <br>
+
+
+                <span>
+                    ${bet.selection}
+                </span>
+
+
+                <br>
+
+
+                Odds:
+                ${bet.odds}
+
+
+            </div>
+
+
+
+            <button
+                type="button"
+                onclick="removeSingleBet(${bet.id})">
+
+                Remove
+
+            </button>
+
+
+        </div>
+
+
+        `
+    ).join("");
+
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// REMOVE SINGLE BET
+// ==========================================
+
+function removeSingleBet(id){
+
+
+    sportsBetSlip =
+        sportsBetSlip.filter(
+            bet => bet.id !== id
+        );
+
+
+
+    updateSportsBetSlip();
+
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// CLEAR ALL BET SLIP
+// ==========================================
+
+function clearallSportsBetSlip(){
+
+
+    sportsBetSlip = [];
+
+
+
+    updateSportsBetSlip();
+
+
+
+    console.log(
+        "ALL BETS CLEARED"
+    );
+
+
+}
+
+
+
+
+
+// ==========================================
+// SWITCH SINGLE / MULTIPLE
+// ==========================================
+
+function switchBetMode(mode){
+
+
+    currentBetMode = mode;
+
+
+
+    console.log(
+        "BET MODE:",
+        currentBetMode
+    );
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// PLACE BET
+// ==========================================
+
+function placeSportsBet(){
+
+
+    if(
+        sportsBetSlip.length === 0
+    ){
+
+        alert(
+            "Please select bet first"
+        );
+
+
+        return;
+
+    }
+
+
+
+    console.log(
+        "PLACE BET:",
+        sportsBetSlip
+    );
+
+
+
+    alert(
+        "Bet Submitted Successfully"
+    );
+
+
+
+}
+
+
+
+
+
+
+
+// ==========================================
+// GLOBAL EXPORT
+// ==========================================
+
+window.openSportsBetSlip =
+    openSportsBetSlip;
+
+
+window.closeSportsBetSlip =
+    closeSportsBetSlip;
+
+
+window.addToBetSlip =
+    addToBetSlip;
+
+
+window.removeSingleBet =
+    removeSingleBet;
+
+
+window.clearallSportsBetSlip =
+    clearallSportsBetSlip;
+
+
+window.switchBetMode =
+    switchBetMode;
+
+
+window.placeSportsBet =
+    placeSportsBet;
