@@ -3875,6 +3875,122 @@
 </nav>
 
 </div>
+    <!-- ==========================================
+     SPORTS FLOATING BET SLIP BUTTON
+========================================== -->
+
+<div id="sportsBetSlip"
+     class="sports-betslip-float"
+     style="display:none;"
+     onclick="openSportsBetSlip()">
+
+    <div class="sports-betslip-icon">
+
+        🎫
+
+    </div>
+
+
+    <div class="sports-betslip-text">
+
+        Bet Slip
+
+    </div>
+
+
+    <div class="sports-betslip-count"
+         id="sportsBetSlipCount">
+
+        0
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     SPORTS BET SLIP POPUP
+========================================== -->
+
+
+<div id="sportsBetSlipPopup"
+     class="sports-betslip-popup"
+     style="display:none;">
+
+
+    <!-- HEADER -->
+
+    <div class="sports-betslip-header">
+
+        <h3>
+
+            Bet Slip
+
+        </h3>
+
+
+        <button
+            type="button"
+            class="sports-betslip-close"
+            onclick="closeSportsBetSlip()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+
+
+    <!-- BET LIST -->
+
+    <div id="sportsBetSlipContent"
+         class="sports-betslip-content">
+
+
+        <div class="empty-betslip">
+
+            No Bets Selected
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+
+    <div class="sports-betslip-footer">
+
+
+        <button
+            type="button"
+            class="sports-clear-btn"
+            onclick="clearSportsBetSlip()">
+
+            Clear
+
+        </button>
+
+
+
+        <button
+            type="button"
+            class="sports-placebet-btn"
+            onclick="placeSportsBet()">
+
+            Place Bet
+
+        </button>
+
+
+    </div>
+
+
+</div>
 
 <!-- ================= FOOTER ================= -->
 
