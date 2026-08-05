@@ -281,7 +281,7 @@ console.log(
 );
 
 
-// ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও =====
+// ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও ====
 function updateSlipBalance() {
     const balanceEl = document.getElementById('slipBalance');
     if (!balanceEl) return;
