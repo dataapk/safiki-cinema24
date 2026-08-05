@@ -156,6 +156,61 @@ let sportsSlideInterval = null;
 let casinoCurrentSlide = 0;
 let sportsCurrentSlide = 0;
 
+// ==========================================
+// CURRENCY SELECTION + BALANCE SYSTEM
+// ==========================================
+
+function selectCurrency(name, image, balance) {
+    // ✅ ১. UI আপডেট — সিলেক্টেড কারেন্সি হাইলাইট
+    document.querySelectorAll('.currency-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+    event.currentTarget.classList.add('selected');
+
+    // ✅ ২. localStorage এ সেভ
+    localStorage.setItem('selectedCurrency', name);       // "USDT"
+    localStorage.setItem('selectedCurrencyImage', image); // "image/usdt.png"
+    localStorage.setItem('selectedBalance', balance);     // "$100.00"
+
+    // ✅ ৩. গ্লোবাল ভেরিয়েবল আপডেট (বেট স্লিপ ব্যবহার করবে)
+    window.selectedCurrency = name;
+    window.selectedBalance = balance;
+
+    // ✅ ৪. বেট স্লিপ হেডার আপডেট (যদো ওপেন থাকে)
+    updateSlipBalance();
+
+    // ✅ ৫. টোস্ট দেখাও
+    showToast(`${name} selected`, 'success');
+
+    // ✅ ৬. ওয়ালেট মোডাল/ড্রপডাউন ক্লোজ করো (যদো থাকে)
+    closeWalletModal?.();
+}
+
+// ==========================================
+// PAGE LOAD এ আগের সিলেকশন রিস্টোর
+// ==========================================
+function restoreSelectedCurrency() {
+    const savedCurrency = localStorage.getItem('selectedCurrency');
+    const savedBalance = localStorage.getItem('selectedBalance');
+    const savedImage = localStorage.getItem('selectedCurrencyImage');
+
+    if (savedCurrency) {
+        window.selectedCurrency = savedCurrency;
+        window.selectedBalance = savedBalance || '$0.00';
+        window.selectedCurrencyImage = savedImage;
+
+        // UI তে হাইলাইট রিস্টোর
+        document.querySelectorAll('.currency-option').forEach(opt => {
+            if (opt.querySelector('.name')?.textContent === savedCurrency) {
+                opt.classList.add('selected');
+            }
+        });
+    }
+}
+
+
+   
+
 // ===== SELECT MAIN CATEGORY (Casino or Sports) =====
 function selectMainCategory(category) {
     // Hide hero banner (main slider)
@@ -780,16 +835,18 @@ document.addEventListener('DOMContentLoaded', function() {
      INITIALIZATION
   ========================================== */
 
-  document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
     HeroSlider.init();
     GamesMarquee.init();
     WinnersSlider.init();
     StickyBar.init();
     SmoothScroll.init();
     ScrollAnimations.init();
-     updateHomeView();
+    updateHomeView();
+    
+    restoreSelectedCurrency();     // ✅ শুধু এই লাইন যোগ করো
     
     console.log('Landing Page JS initialized');
   });
 
-})();
+})();  // ← এটা আগের মতোই থাকবে, কাটবে না
