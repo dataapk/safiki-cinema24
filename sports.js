@@ -660,7 +660,7 @@ function placeSportsBet() {
 
     // ===== Balance Check =====
     let balanceStr = localStorage.getItem('selectedBalance');
-    console.log('Current balance from storage:', balanceStr); // ডিবাগ
+    console.log('Balance before bet:', balanceStr);
     
     if (!balanceStr || balanceStr === 'null') {
         showToast('Please select a currency first!', 'error');
@@ -679,18 +679,18 @@ function placeSportsBet() {
     let newBalance = currentBalance - totalStake;
     let newBalanceStr = currencySymbol + newBalance.toFixed(2);
     
-    // localStorage আপডেট
+    // ✅ localStorage আপডেট
     localStorage.setItem('selectedBalance', newBalanceStr);
-    console.log('New balance saved:', newBalanceStr); // ডিবাগ
+    console.log('New balance:', newBalanceStr);
     
     // ✅ বেট স্লিপ আপডেট
     updateSlipBalance();
     
-    // ✅ মেইন UI আপডেট (নতুন)
-    const savedCurrency = localStorage.getItem('selectedCurrency');
+    // ✅ মেইন UI আপডেট (সব জায়গায়)
+    const savedCurrency = localStorage.getItem('selectedCurrency') || 'USDT';
     updateMainWalletUI(savedCurrency, newBalanceStr);
 
-    // Place Bet
+    // ===== Place Bet =====
     console.log('Bet placed:', { 
         mode: currentMode, 
         bets: betSlip, 
