@@ -161,29 +161,42 @@ let sportsCurrentSlide = 0;
 // ==========================================
 
 function selectCurrency(name, image, balance) {
-    // ✅ ১. UI আপডেট — সিলেক্টেড কারেন্সি হাইলাইট
+    // ✅ ১. UI হাইলাইট
     document.querySelectorAll('.currency-option').forEach(opt => {
         opt.classList.remove('selected');
     });
-    event.currentTarget.classList.add('selected');
+    
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('selected');
+    }
 
-    // ✅ ২. localStorage এ সেভ
-    localStorage.setItem('selectedCurrency', name);       // "USDT"
-    localStorage.setItem('selectedCurrencyImage', image); // "image/usdt.png"
-    localStorage.setItem('selectedBalance', balance);     // "$100.00"
+    // ✅ ২. localStorage এ সেভ (STRING হিসেবে)
+    localStorage.setItem('selectedCurrency', name);
+    localStorage.setItem('selectedCurrencyImage', image);
+    localStorage.setItem('selectedBalance', String(balance));
 
-    // ✅ ৩. গ্লোবাল ভেরিয়েবল আপডেট (বেট স্লিপ ব্যবহার করবে)
+    // ✅ ৩. গ্লোবাল ভেরিয়েবল
     window.selectedCurrency = name;
     window.selectedBalance = balance;
 
-    // ✅ ৪. বেট স্লিপ হেডার আপডেট (যদো ওপেন থাকে)
-    updateSlipBalance();
+    // ✅ ৪. মেইন UI আপডেট (ওয়ালেট ব্যালেন্স)
+    const mainBalanceEl = document.querySelector('.currency-option.selected .balance');
+    if (mainBalanceEl) {
+        mainBalanceEl.textContent = balance;
+    }
 
-    // ✅ ৫. টোস্ট দেখাও
+    // ✅ ৫. বেট স্লিপ হেডার আপডেট
+    if (typeof updateSlipBalance === 'function') {
+        updateSlipBalance();
+    }
+
+    // ✅ ৬. টোস্ট
     showToast(`${name} selected`, 'success');
 
-    // ✅ ৬. ওয়ালেট মোডাল/ড্রপডাউন ক্লোজ করো (যদো থাকে)
-    closeWalletModal?.();
+    // ✅ ৭. মোডাল ক্লোজ
+    if (typeof closeWalletModal === 'function') {
+        closeWalletModal();
+    }
 }
 
 // ==========================================
