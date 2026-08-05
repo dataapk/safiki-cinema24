@@ -250,25 +250,33 @@ function selectCurrency(name, image, balance) {
     }
 }
 
+   
+
 // ==========================================
 // PAGE LOAD এ আগের সিলেকশন রিস্টোর
 // ==========================================
 function restoreSelectedCurrency() {
     const savedCurrency = localStorage.getItem('selectedCurrency');
     const savedBalance = localStorage.getItem('selectedBalance');
-    const savedImage = localStorage.getItem('selectedCurrencyImage');
 
-    if (savedCurrency) {
-        window.selectedCurrency = savedCurrency;
-        window.selectedBalance = savedBalance || '$0.00';
-        window.selectedCurrencyImage = savedImage;
+    console.log('Restoring:', savedCurrency, savedBalance); // ডিবাগ
 
-        // UI তে হাইলাইট রিস্টোর
+    if (savedCurrency && savedBalance) {
+        // মেইন UI রিস্টোর
+        updateMainWalletUI(savedCurrency, savedBalance);
+        
+        // UI হাইলাইট রিস্টোর
         document.querySelectorAll('.currency-option').forEach(opt => {
-            if (opt.querySelector('.name')?.textContent === savedCurrency) {
+            const nameEl = opt.querySelector('.name');
+            if (nameEl && nameEl.textContent.trim() === savedCurrency) {
                 opt.classList.add('selected');
             }
         });
+        
+        // বেট স্লিপ রেডি থাকলে আপডেট
+        if (typeof updateSlipBalance === 'function') {
+            updateSlipBalance();
+        }
     }
 }
 
