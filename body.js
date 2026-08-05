@@ -161,119 +161,30 @@ let sportsCurrentSlide = 0;
 // ==========================================
 
 function selectCurrency(name, image, balance) {
-    console.log('Selecting:', name, balance);
-    
-    // ১. UI হাইলাইট
+    // ✅ ১. UI আপডেট — সিলেক্টেড কারেন্সি হাইলাইট
     document.querySelectorAll('.currency-option').forEach(opt => {
         opt.classList.remove('selected');
     });
-    
-    const clickedEl = event?.currentTarget || event?.target;
-    if (clickedEl) {
-        clickedEl.classList.add('selected');
-    }
+    event.currentTarget.classList.add('selected');
 
-    // ২. localStorage
-    const balanceStr = String(balance);
-    localStorage.setItem('selectedCurrency', name);
-    localStorage.setItem('selectedCurrencyImage', image);
-    localStorage.setItem('selectedBalance', balanceStr);
+    // ✅ ২. localStorage এ সেভ
+    localStorage.setItem('selectedCurrency', name);       // "USDT"
+    localStorage.setItem('selectedCurrencyImage', image); // "image/usdt.png"
+    localStorage.setItem('selectedBalance', balance);     // "$100.00"
 
-    // ৩. গ্লোবাল
+    // ✅ ৩. গ্লোবাল ভেরিয়েবল আপডেট (বেট স্লিপ ব্যবহার করবে)
     window.selectedCurrency = name;
-    window.selectedBalance = balanceStr;
+    window.selectedBalance = balance;
 
-    // ✅ ৪. হেডারের ট্রিগার আপডেট (নতুন যোগ করা)
-    const triggerImg = document.getElementById('selected-currency-img');
-    const triggerBalance = document.getElementById('selected-balance');
-    
-    if (triggerImg) triggerImg.src = image;
-    if (triggerImg) triggerImg.alt = name;
-    if (triggerBalance) triggerBalance.textContent = balanceStr;
+    // ✅ ৪. বেট স্লিপ হেডার আপডেট (যদো ওপেন থাকে)
+    updateSlipBalance();
 
-    // ৫. বেট স্লিপ আপডেট
-    if (typeof updateSlipBalance === 'function') {
-        updateSlipBalance();
-    }
-
+    // ✅ ৫. টোস্ট দেখাও
     showToast(`${name} selected`, 'success');
-    
-    // ড্রপডাউন ক্লোজ
-    const menu = document.getElementById('currency-menu');
-    if (menu) menu.style.display = 'none';
-}
 
-   function updateMainWalletUI(currency, balance) {
-    console.log('Updating main UI:', currency, balance);
-    
-    // ✅ ১. হেডারের মেইন ট্রিগার ব্যালেন্স আপডেট (তোমার ID)
-    const selectedBalance = document.getElementById('selected-balance');
-    if (selectedBalance) {
-        selectedBalance.textContent = balance;
-        console.log('Header balance updated to:', balance);
-    }
-    
-    // ✅ ২. ড্রপডাউনের ম্যাচিং কারেন্সি আপডেট
-    document.querySelectorAll('.currency-option').forEach(opt => {
-        const nameEl = opt.querySelector('.name');
-        if (nameEl && nameEl.textContent.trim() === currency) {
-            const balEl = opt.querySelector('.balance');
-            if (balEl) balEl.textContent = balance;
-        }
-    });
+    // ✅ ৬. ওয়ালেট মোডাল/ড্রপডাউন ক্লোজ করো (যদো থাকে)
+    closeWalletModal?.();
 }
-    
-    // ✅ ২. হেডার/ন্যাভবার ব্যালেন্স আপডেট (যদো থাকে)
-    const headerBalance = document.getElementById('headerBalance');
-    const navBalance = document.getElementById('navBalance');
-    const walletBalance = document.getElementById('walletBalance');
-    
-    if (headerBalance) headerBalance.textContent = balance;
-    if (navBalance) navBalance.textContent = balance;
-    if (walletBalance) walletBalance.textContent = balance;
-    
-    // ✅ ৩. data-attribute দিয়ে সেভ (পরে রিস্টোর করতে)
-    document.body.setAttribute('data-last-currency', currency);
-    document.body.setAttribute('data-last-balance', balance);
-}
-
-      function updateSlipBalance() {
-    const balanceEl = document.getElementById('slipBalance');
-    if (!balanceEl) {
-        console.log('slipBalance element not found!');
-        return;
-    }
-
-    // localStorage থেকে নাও
-    let balance = localStorage.getItem('selectedBalance');
-    let currency = localStorage.getItem('selectedCurrency');
-    
-    console.log('Slip balance check:', balance, currency); // ডিবাগ
-    
-    // যদো null বা empty
-    if (!balance || balance === 'null' || balance === 'undefined') {
-        balance = '$0.00';
-    }
-    
-    // UI আপডেট
-    balanceEl.textContent = balance;
-    
-    // last value আপডেট (অ্যানিমেশনের জন্য)
-    let current = parseFloat(balance.replace(/[^0-9.]/g, '')) || 0;
-    lastBalanceValue = current;
-    
-    console.log('Slip balance set to:', balance); // ডিবাগ
-}
-      
-    
-    // অপশন ২: যদো আলাদা হেডার ব্যালেন্স থাকে (তোমার UI অনুযায়ী)
-    const headerBalance = document.getElementById('headerBalance');
-    if (headerBalance) {
-        headerBalance.textContent = balance;
-    }
-}
-
-   
 
 // ==========================================
 // PAGE LOAD এ আগের সিলেকশন রিস্টোর
@@ -281,25 +192,19 @@ function selectCurrency(name, image, balance) {
 function restoreSelectedCurrency() {
     const savedCurrency = localStorage.getItem('selectedCurrency');
     const savedBalance = localStorage.getItem('selectedBalance');
+    const savedImage = localStorage.getItem('selectedCurrencyImage');
 
-    console.log('Restoring:', savedCurrency, savedBalance); // ডিবাগ
+    if (savedCurrency) {
+        window.selectedCurrency = savedCurrency;
+        window.selectedBalance = savedBalance || '$0.00';
+        window.selectedCurrencyImage = savedImage;
 
-    if (savedCurrency && savedBalance) {
-        // মেইন UI রিস্টোর
-        updateMainWalletUI(savedCurrency, savedBalance);
-        
-        // UI হাইলাইট রিস্টোর
+        // UI তে হাইলাইট রিস্টোর
         document.querySelectorAll('.currency-option').forEach(opt => {
-            const nameEl = opt.querySelector('.name');
-            if (nameEl && nameEl.textContent.trim() === savedCurrency) {
+            if (opt.querySelector('.name')?.textContent === savedCurrency) {
                 opt.classList.add('selected');
             }
         });
-        
-        // বেট স্লিপ রেডি থাকলে আপডেট
-        if (typeof updateSlipBalance === 'function') {
-            updateSlipBalance();
-        }
     }
 }
 
