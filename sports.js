@@ -732,5 +732,129 @@ function showToast(msg, type) {
     setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 2500);
 }
 
+
+// ===== STATE =====
+let activeBets = [];
+let sportsHistory = [];
+let casinoBets = [];
+
+// ===== ১. Open/Close History Panel =====
+function footerOpenBetHistory() {
+    const panel = document.getElementById('betHistoryPanel');
+    if (panel) {
+        panel.style.display = 'block';
+        renderActiveBets();
+        renderBetHistory();
+    }
+}
+
+function closeBetHistory() {
+    const panel = document.getElementById('betHistoryPanel');
+    if (panel) panel.style.display = 'none';
+}
+
+// ===== ২. Main Tab Switch (Sports / Casino) =====
+function switchHistoryTab(tab) {
+    document.querySelectorAll('.history-main-tab').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    document.getElementById('historySports').style.display = tab === 'sports' ? 'flex' : 'none';
+    document.getElementById('historyCasino').style.display = tab === 'casino' ? 'flex' : 'none';
+}
+
+// ===== ৩. Sports Sub Tab Switch =====
+function switchSportsSubTab(subTab) {
+    const tabs = document.querySelectorAll('#historySports .history-sub-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    document.getElementById('sportsActiveList').style.display = subTab === 'active' ? 'block' : 'none';
+    document.getElementById('sportsHistoryList').style.display = subTab === 'history' ? 'block' : 'none';
+    
+    if (subTab === 'active') renderActiveBets();
+    if (subTab === 'history') renderBetHistory();
+}
+
+// ===== ৪. Casino Sub Tab Switch =====
+function switchCasinoSubTab(subTab) {
+    const tabs = document.querySelectorAll('#historyCasino .history-sub-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    document.getElementById('casinoMyBetsList').style.display = subTab === 'mybets' ? 'block' : 'none';
+    document.getElementById('casinoWinnersList').style.display = subTab === 'winners' ? 'block' : 'none';
+}
+
+// ===== ৫. Render Active Bets =====
+function renderActiveBets() {
+    const container = document.getElementById('sportsActiveList');
+    if (!container) return;
+    
+    if (activeBets.length === 0) {
+        container.innerHTML = '<div class="empty-history">No active bets</div>';
+        return;
+    }
+    
+    let html = '';
+    activeBets.forEach(bet => {
+        html += `
+            <div class="active-bet-card" data-active-id="${bet.id}">
+                <div class="bet-title">${bet.eventName}</div>
+                <div class="bet-detail">${bet.market}</div>
+                <div class="bet-odds">Odds: @${bet.odds.toFixed(2)}</div>
+                <div class="bet-stake">Stake: ৳${bet.stake.toFixed(2)} | Potential: ৳${bet.potentialWin.toFixed(2)}</div>
+                <button class="cashout-btn" onclick="cashOutBet('${bet.id}')">Cash Out (৳${(bet.stake * 0.85).toFixed(2)})</button>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// ===== ৬. Render Bet History =====
+function renderBetHistory() {
+    const container = document.getElementById('sportsHistoryList');
+    if (!container) return;
+    
+    if (sportsHistory.length === 0) {
+        container.innerHTML = '<div class="empty-history">No bet history</div>';
+        return;
+    }
+    
+    let html = '';
+    sportsHistory.forEach(bet => {
+        const statusClass = bet.status === 'lost' ? 'lost' : '';
+        const statusText = bet.status === 'won' ? 'Won' : bet.status === 'lost' ? 'Lost' : 'Cashed Out';
+        
+        html += `
+            <div class="history-bet-card ${statusClass}">
+                <div class="status ${bet.status}">${statusText}</div>
+                <div style="font-weight:bold;">${bet.eventName}</div>
+                <div style="color:#888;font-size:12px;">${bet.market} | @${bet.odds.toFixed(2)}</div>
+                <div style="margin-top:4px;">Stake: ৳${bet.stake.toFixed(2)} | Return: ৳${bet.returnAmount.toFixed(2)}</div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// ===== ৭. Cash Out =====
+function cashOutBet(betId) {
+    const betIndex = activeBets.findIndex(b => b.id === betId);
+    if (betIndex === -1) return;
+    
+    const bet = activeBets[betIndex];
+    const cashAmount = bet.stake * 0.85; // 85% cash out
+    
+    if (!confirm(`Cash out ৳${cashAmount.toFixed(2)} now?`)) return;
+    
+    // Add to history
+    sportsHistory.unshift({
+        ...bet,
+        status: 'cashed',
+        returnAmount: cashAmount,
+        settledAt: new
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => updateBetCount());
