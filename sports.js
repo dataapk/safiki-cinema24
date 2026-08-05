@@ -840,21 +840,21 @@ function renderBetHistory() {
 }
 
 // ===== ৭. Cash Out =====
-function cashOutBet(betId) {
-    const betIndex = activeBets.findIndex(b => b.id === betId);
-    if (betIndex === -1) return;
+// function cashOutBet(betId) {
+   //  const betIndex = activeBets.findIndex(b => b.id === betId);
+ //    if (betIndex === -1) return;
     
-    const bet = activeBets[betIndex];
-    const cashAmount = bet.stake * 0.85; // 85% cash out
+ //    const bet = activeBets[betIndex];
+  //   const cashAmount = bet.stake * 0.85; // 85% cash out
     
-    if (!confirm(`Cash out ৳${cashAmount.toFixed(2)} now?`)) return;
+  //   if (!confirm(`Cash out ৳${cashAmount.toFixed(2)} now?`)) return;
     
     // Add to history
-    sportsHistory.unshift({
-        ...bet,
-        status: 'cashed',
-        returnAmount: cashAmount,
-        settledAt: new
+   //  sportsHistory.unshift({
+      //   ...bet,
+       //  status: 'cashed',
+       //  returnAmount: cashAmount,
+       //  settledAt: new
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => updateBetCount());
