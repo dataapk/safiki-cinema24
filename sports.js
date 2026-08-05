@@ -461,25 +461,35 @@ function renderBetSlip() {
                             ${bets[0].eventName}
                         </div>`;
             
-            bets.forEach(bet => {
-                html += `
-    <div class="bet-item" data-bet-id="${bet.id}">
-        <div class="bet-info">
-            <div class="bet-market">${bet.market}</div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-                <div class="bet-date">${bet.addedAt}</div>
-                <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
+      bets.forEach(bet => {
+    html += `
+        <div class="bet-item" data-bet-id="${bet.id}">
+            
+            <!-- ✅ Top Right: Close Button -->
+            <button class="remove-btn" onclick="removeSingleBet('${bet.id}')" style="position:absolute;top:12px;right:12px;">×</button>
+            
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-right:30px;">
+                
+                <!-- Left: Market, Date, Stake -->
+                <div style="flex:1;">
+                    <div class="bet-market">${bet.market}</div>
+                    <div class="bet-date">${bet.addedAt}</div>
+                    <div class="stake-box" style="margin-top:6px;">
+                        <input type="number" placeholder="Stake ($)" style="width:90px;padding:4px 6px;font-size:13px;" 
+                            value="${bet.stake > 0 ? bet.stake : ''}"
+                            oninput="updateStake('${bet.id}', this.value)">
+                    </div>
+                </div>
+                
+                <!-- Right: Odds, Return -->
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-top:24px;">
+                    <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
+                    <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
+                </div>
+                
             </div>
-        </div>
-        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
-        <div class="stake-box" style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;">
-            <input type="number" placeholder="Stake ($)" style="width:65%;padding:5px 8px;font-size:13px;" 
-                value="${bet.stake > 0 ? bet.stake : ''}"
-                oninput="updateStake('${bet.id}', this.value)">
-            <span class="returns" style="white-space:nowrap;text-align:right;font-size:13px;">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
-        </div>
-    </div>`;
-            });
+        </div>`;
+});
             html += '</div>';
         });
         
