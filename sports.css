@@ -756,6 +756,17 @@
     color: #4ade80;  /* সবুজ — ফিক্সড, কমলে লাল হবে না */
 }
 
+/* ===== স্টেক ইনপুট ছোট ===== */
+.stake-box input {
+    width: 110px;           /* ছোট */
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #0f0f1a;
+    color: white;
+}
+
 .betslip-close {
     width: 36px;
     height: 36px;
@@ -861,19 +872,29 @@
     transform: scale(0.95);
 }
 
+/* ===== অডস ডান পাশে ===== */
 .bet-info {
-    margin-bottom: 8px;
+    position: relative;
+    padding-right: 10px;
 }
 
 .bet-market {
     font-weight: bold;
     color: #fff;
+    margin-bottom: 2px;
 }
 
 .bet-odds {
+    position: absolute;
+    right: 0;
+    top: 0;
     color: #ff6b00;
+    font-weight: bold;
     font-size: 14px;
 }
 
 .bet-date {
-   
+    color: #888;
+    font-size: 11px;
+    margin-top: 2px;
+}
