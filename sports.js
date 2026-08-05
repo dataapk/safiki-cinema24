@@ -509,16 +509,31 @@ function renderBetSlip() {
                         </div>`;
             
             bets.forEach(bet => {
-                html += `
-                    <div class="bet-item" data-bet-id="${bet.id}">
-                        <div class="bet-info">
-                            <div class="bet-market">${bet.market}</div>
-                            <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
-                            <div class="bet-date">${bet.addedAt}</div>
-                        </div>
-                        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
-                    </div>`;
-            });
+    html += `
+        <div class="bet-item" data-bet-id="${bet.id}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                
+                <!-- বাম পাশে: Market, Date, Stake -->
+                <div style="flex:1;">
+                    <div class="bet-market">${bet.market}</div>
+                    <div class="bet-date">${bet.addedAt}</div>
+                    <div class="stake-box" style="margin-top:6px;">
+                        <input type="number" placeholder="Stake ($)" style="width:90px;padding:4px 6px;font-size:13px;" 
+                            value="${bet.stake > 0 ? bet.stake : ''}"
+                            oninput="updateStake('${bet.id}', this.value)">
+                    </div>
+                </div>
+                
+                <!-- ডান পাশে: Close, Odds, Return (নিচে নিচে) -->
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                    <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
+                    <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
+                    <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
+                </div>
+                
+            </div>
+        </div>`;
+});
             html += '</div>';
         });
         
