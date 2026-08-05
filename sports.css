@@ -772,27 +772,20 @@
 }
 
 /* ✅ Input ছোট (৩০% কমানো) */
+/* ===== Stake input ছোট ===== */
+.stake-box {
+    margin-top: 10px;
+}
+
 .stake-box input {
-    width: 90px;           /* ছোট */
-    padding: 5px 8px;
+    width: 90px;
+    height: 32px;
+    padding: 4px 6px;
     font-size: 13px;
     border-radius: 6px;
     border: 1px solid #333;
     background: #0f0f1a;
     color: white;
-    height: 32px;
-    flex-shrink: 0;
-}
-
-/* ✅ Return একেবারে ডান পাশে */
-.stake-box .returns {
-    color: #4ade80;
-    font-size: 13px;
-    margin-left: auto;     /* ডানে ঠেলে দেয় */
-    text-align: right;
-    white-space: nowrap;
- float: right;
-    margin-top: 4px;
 }
 
 .betslip-close {
@@ -917,17 +910,21 @@
 
 /* ✅ Odds — ডান পাশে নিচে (Date-এর পাশে) */
 .bet-info .bet-odds {
-    grid-column: 2;
+    position: absolute;
+    top: 44px;            /* ×-এর নিচে */
+    right: 12px;
+    margin: 0;
     color: #ff6b00;
     font-weight: bold;
-    font-size: 13px;
-    text-align: right;
- float: right;
-  margin-left: 10px;
 }
 
-.bet-date {
+/* ===== বাম পাশে (normal flow, নিচে নিচে) ===== */
+.bet-info .bet-market {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.bet-info .bet-date {
     color: #888;
     font-size: 11px;
-    margin-top: 2px;
 }
