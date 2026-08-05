@@ -1697,163 +1697,10 @@
     .sub-slider { height: 110px; }
     .selected-games-area { padding: 14px; }
 }
-
-/* ==========================================
-   SPORTS SUB CATEGORY GRID
-========================================== */
-
-#sportsSubcatGrid{
-
-    display:grid;
-
-    grid-template-columns:repeat(5,1fr);
-
-    gap:10px;
-
-    margin-top:15px;
-
-}
-
-
-/* ============================= */
-
-#sportsSubcatGrid .subcat-item{
-
-    background:#20242d;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:12px;
-
-    height:72px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    user-select:none;
-
-}
-
-
-/* Hover */
-
-#sportsSubcatGrid .subcat-item:hover{
-
-    transform:translateY(-2px);
-
-    border-color:#2FBF71;
-
-}
-
-
-/* Active */
-
-#sportsSubcatGrid .subcat-item.active{
-
-    background:#2FBF71;
-
-    color:#fff;
-
-    border-color:#2FBF71;
-
-}
-
-
-/* Icon */
-
-#sportsSubcatGrid .subcat-item{
-
-    font-size:26px;
-
-}
-
-
-/* Text */
-
-#sportsSubcatGrid .subcat-item span{
-
-    margin-top:6px;
-
-    font-size:12px;
-
-    font-weight:600;
-
-    white-space:nowrap;
-
-}
-
-
-/* ==========================================
-   TABLET
-========================================== */
-
-@media(max-width:900px){
-
-#sportsSubcatGrid{
-
-    grid-template-columns:repeat(5,1fr);
-
-    gap:8px;
-
-}
-
-#sportsSubcatGrid .subcat-item{
-
-    height:68px;
-
-}
-
-}
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:600px){
-
-#sportsSubcatGrid{
-
-    grid-template-columns:repeat(5,1fr);
-
-    gap:6px;
-
-}
-
-#sportsSubcatGrid .subcat-item{
-
-    height:62px;
-
-    border-radius:10px;
-
-}
-
-#sportsSubcatGrid .subcat-item{
-
-    font-size:22px;
-
-}
-
-#sportsSubcatGrid .subcat-item span{
-
-    font-size:10px;
-
-}
-
-}
-
 /* ==========================================
    SPORTS EVENT PAGES
 ========================================== */
+
 
 #cricket-events-page,
 #football-events-page,
@@ -1869,23 +1716,7 @@
 
     width:100%;
 
-    margin-top:18px;
-
-    animation:fadeSports .28s ease;
-
-}
-
-@keyframes fadeSports{
-
-    from{
-        opacity:0;
-        transform:translateY(12px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    margin-top:14px;
 
 }
 
@@ -1900,23 +1731,19 @@
 
     align-items:center;
 
-    gap:14px;
+    justify-content:space-between;
 
-    margin-bottom:18px;
+    gap:10px;
 
-}
+    margin-bottom:15px;
 
-.sports-page-title{
+    padding:10px 14px;
 
-    flex:1;
+    background:#232831;
 
-    font-size:18px;
+    border:1px solid rgba(255,255,255,.08);
 
-    font-weight:700;
-
-    color:#ffffff;
-
-    letter-spacing:.3px;
+    border-radius:12px;
 
 }
 
@@ -1927,33 +1754,21 @@
 
 .sports-back-btn{
 
-    min-width:95px;
+    background:#2FBF71;
 
-    height:40px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:8px;
+    color:#fff;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:8px;
 
-    background:#1F252D;
+    padding:7px 14px;
 
-    border:1px solid rgba(47,191,113,.25);
-
-    color:#2FBF71;
+    cursor:pointer;
 
     font-size:13px;
 
-    font-weight:700;
-
-    cursor:pointer;
+    font-weight:600;
 
     transition:.25s;
 
@@ -1961,11 +1776,26 @@
 
 .sports-back-btn:hover{
 
-    background:#28303A;
+    background:#28a862;
 
-    border-color:#2FBF71;
+}
 
-    transform:translateY(-2px);
+
+/* ==========================================
+   TITLE
+========================================== */
+
+.sports-page-title{
+
+    flex:1;
+
+    text-align:center;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#fff;
 
 }
 
@@ -1976,13 +1806,15 @@
 
 .sports-section{
 
-    background:transparent;
+    background:#232831;
 
-    border:none;
+    border:1px solid rgba(255,255,255,.08);
 
-    padding:0;
+    border-radius:12px;
 
-    margin-bottom:18px;
+    padding:12px;
+
+    margin-bottom:14px;
 
 }
 
@@ -1993,46 +1825,32 @@
 
 .sports-section-title{
 
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    color:#ffffff;
+    color:#2FBF71;
 
     font-size:15px;
 
     font-weight:700;
 
-    margin-bottom:14px;
-
-    padding-bottom:10px;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
+    margin-bottom:12px;
 
 }
 
 
 /* ==========================================
-   EVENT CARD
+   EVENT ITEM
 ========================================== */
 
 .sports-league-item{
 
-    background:#1F252D;
+    background:#1d2128;
 
     border:1px solid rgba(255,255,255,.06);
 
-    border-radius:14px;
+    border-radius:10px;
 
-    margin-bottom:12px;
-
-    overflow:hidden;
+    margin-bottom:10px;
 
     transition:.25s;
-
-    box-shadow:0 8px 18px rgba(0,0,0,.18);
 
 }
 
@@ -2045,12 +1863,6 @@
 .sports-league-item:hover{
 
     border-color:#2FBF71;
-
-    background:#252D37;
-
-    transform:translateY(-2px);
-
-    box-shadow:0 12px 24px rgba(0,0,0,.28);
 
 }
 
@@ -2067,9 +1879,9 @@
 
     align-items:center;
 
-    gap:16px;
+    gap:12px;
 
-    padding:15px 16px;
+    padding:12px;
 
     cursor:pointer;
 
@@ -2082,30 +1894,20 @@
 
 .league-name{
 
-    flex:1;
-
-    color:#ffffff;
+    color:#fff;
 
     font-size:14px;
 
     font-weight:600;
 
-    line-height:1.45;
-
 }
 
 
 /* ==========================================
-   LIVE BADGE
+   LIVE
 ========================================== */
 
 .event-live{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
 
     color:#2FBF71;
 
@@ -2113,40 +1915,20 @@
 
     font-weight:700;
 
-    white-space:nowrap;
-
-}
-
-.event-live::before{
-
-    content:"";
-
-    width:7px;
-
-    height:7px;
-
-    border-radius:50%;
-
-    background:#2FBF71;
-
-    box-shadow:0 0 8px rgba(47,191,113,.75);
-
 }
 
 
 /* ==========================================
-   UPCOMING BADGE
+   UPCOMING
 ========================================== */
 
 .countdown-badge{
 
-    color:#F5B041;
+    color:#ffb84d;
 
     font-size:12px;
 
     font-weight:700;
-
-    white-space:nowrap;
 
 }
 
@@ -2159,37 +1941,13 @@
 
 .sports-page-header{
 
-    gap:10px;
-
-    margin-bottom:14px;
-
-}
-
-.sports-back-btn{
-
-    min-width:82px;
-
-    height:36px;
-
-    font-size:12px;
+    padding:10px;
 
 }
 
 .sports-page-title{
 
-    font-size:16px;
-
-}
-
-.sports-section-title{
-
-    font-size:14px;
-
-}
-
-.league-header{
-
-    padding:13px;
+    font-size:15px;
 
 }
 
@@ -2199,3 +1957,11 @@
 
 }
 
+.event-live,
+.countdown-badge{
+
+    font-size:11px;
+
+}
+
+}
