@@ -677,6 +677,15 @@ function placeSportsBet() {
     // Update slip header if open
     updateSlipBalance();
 
+    // ✅ মেইন UI ও আপডেট (নতুন যোগ করা)
+    const selectedOption = document.querySelector('.currency-option.selected');
+    if (selectedOption) {
+        const mainBalanceEl = selectedOption.querySelector('.balance');
+        if (mainBalanceEl) {
+            mainBalanceEl.textContent = newBalanceStr;
+        }
+    }
+
     // ===== Place Bet =====
     console.log('Bet placed:', { 
         mode: currentMode, 
