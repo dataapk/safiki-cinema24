@@ -748,7 +748,8 @@ function showToast(msg, type) {
     document.body.appendChild(t);
     setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 2500);
 }
-
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => updateBetCount());
 
 // ===== STATE =====
 // ==========================================
@@ -1023,5 +1024,4 @@ function saveBetToActive() {
 
 // ===== ৯. CASINO SECTION (Placeholder) =====
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => updateBetCount());
+
