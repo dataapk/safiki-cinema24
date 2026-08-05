@@ -3930,41 +3930,60 @@
 </div>
 <!-- ==========================================
      SPORTS FLOATING BET SLIP BUTTON
-========================================== --><!-- ===== ১. ফ্লোটিং বাটন (রাখবে) ===== -->
+========================================== -->
 <div id="sportsBetSlip" class="sports-betslip-float" style="display:none;" onclick="openSportsBetSlip()">
-    <div class="sports-betslip-icon"><i class="fas fa-ticket-alt"></i></div>
+    <div class="sports-betslip-icon">
+        <i class="fas fa-ticket-alt"></i>
+    </div>
     <div class="sports-betslip-text">Bet Slip</div>
     <div class="sports-betslip-count" id="sportsBetSlipCount">0</div>
 </div>
 
-<!-- ===== ২. প্যানেল (রাখবে) ===== -->
+
+<!-- ==========================================
+     BET SLIP PANEL (POPUP)
+========================================== -->
 <div id="sportsBetSlipPanel" class="sports-betslip-panel" style="display:none;">
+    
     <div class="betslip-overlay" onclick="closeSportsBetSlip()"></div>
+    
     <div class="betslip-content">
+        
         <div class="betslip-header">
             <h3>Bet Slip</h3>
             <button type="button" class="betslip-close" onclick="closeSportsBetSlip()">×</button>
         </div>
+        
         <div class="bet-mode-tabs">
             <button type="button" class="mode-tab active" onclick="switchBetMode('single')">Single</button>
             <button type="button" class="mode-tab" onclick="switchBetMode('multiple')">Multiple</button>
         </div>
+        
         <div class="betslip-body" id="betSlipBody">
             <div class="empty-slip">Your bet slip is empty</div>
         </div>
+        
         <div class="multiple-section" id="multipleSection" style="display:none;">
             <div class="stake-input-box">
                 <input type="number" id="multiStake" placeholder="Enter Stake" oninput="calculateReturns()">
             </div>
             <div class="multi-summary">
-                <div class="summary-row"><span>Total Odds:</span><strong id="totalOdds">0.00</strong></div>
-                <div class="summary-row"><span>Potential Win:</span><strong id="potentialWin">৳0.00</strong></div>
+                <div class="summary-row">
+                    <span>Total Odds:</span>
+                    <strong id="totalOdds">0.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Potential Win:</span>
+                    <strong id="potentialWin">৳0.00</strong>
+                </div>
             </div>
         </div>
+        
         <div class="betslip-footer">
             <button type="button" class="btn-clear" onclick="clearAllSportsBetSlip()">Clear All Bets</button>
             <button type="button" class="btn-place" onclick="placeSportsBet()">Place Bet</button>
         </div>
+        
     </div>
 </div>
 
