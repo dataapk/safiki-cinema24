@@ -644,6 +644,7 @@ function placeSportsBet() {
         }
         totalStake = betSlip.reduce((sum, b) => sum + b.stake, 0);
     } else {
+        // Multiple: need 2+ different events
         const eventIds = [...new Set(betSlip.map(b => b.eventId))];
         if (eventIds.length < 2) {
             showToast('Need bets from 2+ different matches for multi!', 'error');
@@ -658,15 +659,8 @@ function placeSportsBet() {
         totalStake = stake;
     }
 
-    // ===== Balance Check =====
-    let balanceStr = localStorage.getItem('selectedBalance');
-    console.log('Balance before bet:', balanceStr);
-    
-    if (!balanceStr || balanceStr === 'null') {
-        showToast('Please select a currency first!', 'error');
-        return;
-    }
-
+    // ===== Balance Check & Deduction =====
+    let balanceStr = localStorage.getItem('selectedBalance') || '$0.00';
     let currencySymbol = balanceStr.match(/[^0-9.,]/g)?.[0] || '$';
     let currentBalance = parseFloat(balanceStr.replace(/[^0-9.]/g, '')) || 0;
 
@@ -678,17 +672,10 @@ function placeSportsBet() {
     // Deduct balance
     let newBalance = currentBalance - totalStake;
     let newBalanceStr = currencySymbol + newBalance.toFixed(2);
-    
-    // ✅ localStorage আপডেট
     localStorage.setItem('selectedBalance', newBalanceStr);
-    console.log('New balance:', newBalanceStr);
     
-    // ✅ বেট স্লিপ আপডেট
+    // Update slip header if open
     updateSlipBalance();
-    
-    // ✅ মেইন UI আপডেট (সব জায়গায়)
-    const savedCurrency = localStorage.getItem('selectedCurrency') || 'USDT';
-    updateMainWalletUI(savedCurrency, newBalanceStr);
 
     // ===== Place Bet =====
     console.log('Bet placed:', { 
@@ -699,7 +686,7 @@ function placeSportsBet() {
     });
     
     showToast('Bet placed successfully!', 'success');
-   
+    
     // Clear slip
     betSlip = [];
     saveSlip();
@@ -712,6 +699,7 @@ function placeSportsBet() {
     const mstake = document.getElementById('multiStake');
     if (mstake) mstake.value = '';
 }
+
 // ===== HELPERS =====
 function saveSlip() {
     localStorage.setItem('sportsBetSlip', JSON.stringify(betSlip));
@@ -731,10 +719,6 @@ function showToast(msg, type) {
     document.body.appendChild(t);
     setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 2500);
 }
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => updateBetCount());
-
-// ===== STATE =====
-// ==========================================
-// BET HISTORY & CASH OUT SYSTEM
-// ==========================================
