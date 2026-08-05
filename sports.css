@@ -649,17 +649,22 @@
 
 /* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
 /* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
+/* ===== প্যানেল কন্টেন্ট (ফ্লোটিং কার্ড) ===== */
 .betslip-content {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 50%;                    /* মাঝখান থেকে শুরু */
+    right: 15px;               /* ডান পাশে একটু গ্যাপ */
     width: 360px;
-    height: 100%;
-    background: #1a1a2e;
+    height: auto;              /* কন্টেন্ট অনুযায়ী ছোট-বড় */
+    max-height: 70vh;          /* ✅ স্ক্রিনের ৭০% এর বেশি নয় */
+    transform: translateY(-50%); /* ✅ মাঝখানে সেন্টার */
+    background: #0f0f1a;
     color: white;
     display: flex;
-    flex-direction: column;  /* কলাম লেআউট — উপর থেকে নিচ */
-    overflow: hidden;        /* মেইন কন্টেন্ট অভারফ্লো হাইড */
+    flex-direction: column;
+    border-radius: 16px;       /* ✅ সব কোনায় গোল */
+    box-shadow: -8px 0 30px rgba(0,0,0,0.6);
+    overflow: hidden;
 }
 
 /* ===== বডি (বেট আইটেমগুলো) — স্ক্রল হবে ===== */
@@ -676,9 +681,9 @@
     border-top: 2px solid #333;
     background: #16213e;     /* আলাদা ব্যাকগ্রাউন্ড */
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-shrink: 0;          /* ছোট হবে না */
-    position: sticky;        /* নিচে লেগে থাকবে */
+    /*position: sticky;        /* নিচে লেগে থাকবে */
     bottom: 0;
 }
 
