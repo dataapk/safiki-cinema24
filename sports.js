@@ -644,7 +644,6 @@ function placeSportsBet() {
         }
         totalStake = betSlip.reduce((sum, b) => sum + b.stake, 0);
     } else {
-        // Multiple: need 2+ different events
         const eventIds = [...new Set(betSlip.map(b => b.eventId))];
         if (eventIds.length < 2) {
             showToast('Need bets from 2+ different matches for multi!', 'error');
@@ -659,8 +658,15 @@ function placeSportsBet() {
         totalStake = stake;
     }
 
-    // ===== Balance Check & Deduction =====
-    let balanceStr = localStorage.getItem('selectedBalance') || '$0.00';
+    // ===== Balance Check =====
+    let balanceStr = localStorage.getItem('selectedBalance');
+    console.log('Current balance from storage:', balanceStr); // ডিবাগ
+    
+    if (!balanceStr || balanceStr === 'null') {
+        showToast('Please select a currency first!', 'error');
+        return;
+    }
+
     let currencySymbol = balanceStr.match(/[^0-9.,]/g)?.[0] || '$';
     let currentBalance = parseFloat(balanceStr.replace(/[^0-9.]/g, '')) || 0;
 
@@ -672,21 +678,19 @@ function placeSportsBet() {
     // Deduct balance
     let newBalance = currentBalance - totalStake;
     let newBalanceStr = currencySymbol + newBalance.toFixed(2);
-    localStorage.setItem('selectedBalance', newBalanceStr);
     
-    // Update slip header if open
+    // localStorage আপডেট
+    localStorage.setItem('selectedBalance', newBalanceStr);
+    console.log('New balance saved:', newBalanceStr); // ডিবাগ
+    
+    // ✅ বেট স্লিপ আপডেট
     updateSlipBalance();
+    
+    // ✅ মেইন UI আপডেট (নতুন)
+    const savedCurrency = localStorage.getItem('selectedCurrency');
+    updateMainWalletUI(savedCurrency, newBalanceStr);
 
-    // ✅ মেইন UI ও আপডেট (নতুন যোগ করা)
-    const selectedOption = document.querySelector('.currency-option.selected');
-    if (selectedOption) {
-        const mainBalanceEl = selectedOption.querySelector('.balance');
-        if (mainBalanceEl) {
-            mainBalanceEl.textContent = newBalanceStr;
-        }
-    }
-
-    // ===== Place Bet =====
+    // Place Bet
     console.log('Bet placed:', { 
         mode: currentMode, 
         bets: betSlip, 
@@ -708,7 +712,6 @@ function placeSportsBet() {
     const mstake = document.getElementById('multiStake');
     if (mstake) mstake.value = '';
 }
-
 // ===== HELPERS =====
 function saveSlip() {
     localStorage.setItem('sportsBetSlip', JSON.stringify(betSlip));
