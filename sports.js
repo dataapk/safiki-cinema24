@@ -463,20 +463,22 @@ function renderBetSlip() {
             
             bets.forEach(bet => {
                 html += `
-                    <div class="bet-item" data-bet-id="${bet.id}">
-                        <div class="bet-info">
-                            <div class="bet-market">${bet.market}</div>
-                            <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
-                            <div class="bet-date">${bet.addedAt}</div>
-                        </div>
-                        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
-                        <div class="stake-box">
-                            <input type="number" placeholder="Stake (৳)" 
-                                value="${bet.stake > 0 ? bet.stake : ''}"
-                                oninput="updateStake('${bet.id}', this.value)">
-                            <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
-                        </div>
-                    </div>`;
+    <div class="bet-item" data-bet-id="${bet.id}">
+        <div class="bet-info">
+            <div class="bet-market">${bet.market}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                <div class="bet-date">${bet.addedAt}</div>
+                <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
+            </div>
+        </div>
+        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
+        <div class="stake-box" style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;">
+            <input type="number" placeholder="Stake ($)" style="width:65%;padding:5px 8px;font-size:13px;" 
+                value="${bet.stake > 0 ? bet.stake : ''}"
+                oninput="updateStake('${bet.id}', this.value)">
+            <span class="returns" style="white-space:nowrap;text-align:right;font-size:13px;">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
+        </div>
+    </div>`;
             });
             html += '</div>';
         });
