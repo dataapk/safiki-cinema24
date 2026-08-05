@@ -586,691 +586,140 @@
 /* ==========================================
    SPORTS FLOATING BET SLIP
 ========================================== */
-
-.sports-betslip-float{
-
-    position:fixed;
-
-    right:16px;
-
-    bottom:90px;
-
-    width:54px;
-    height:54px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    background:#96964B;
-
-    color:#ffffff;
-
-    border-radius:50%;
-
-    cursor:pointer;
-
-    z-index:99999;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.45);
-
-    transition:.25s ease;
-
-    user-select:none;
-
-}
-
-
-/* Hover */
-
-.sports-betslip-float:hover{
-
-    transform:translateY(-3px);
-
-}
-
-
-/* ==========================================
-   ICON
-========================================== */
-
-.sports-betslip-icon{
-
-    width:auto;
-
-    height:auto;
-
-    background:none;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:#ffffff;
-
-    font-size:22px;
-
-}
-
-
-/* ==========================================
-   HIDE TEXT
-========================================== */
-
-.sports-betslip-text{
-
-    display:none;
-
-}
-
-
-/* ==========================================
-   COUNT BADGE
-========================================== */
-
-.sports-betslip-count{
-
-    position:absolute;
-
-    top:-3px;
-
-    right:-3px;
-
-
-    min-width:20px;
-
-    height:20px;
-
-    padding:0 5px;
-
-    border-radius:50%;
-
-
-    background:#2FBF71;
-
-    color:#ffffff;
-
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    font-size:11px;
-
-    font-weight:800;
-
-}
-
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:768px){
-
-    .sports-betslip-float{
-
-        width:50px;
-
-        height:50px;
-
-        right:12px;
-
-        bottom:78px;
-
-    }
-
-
-    .sports-betslip-icon{
-
-        font-size:20px;
-
-    }
-
-
-    .sports-betslip-count{
-
-        min-width:19px;
-
-        height:19px;
-
-        font-size:10px;
-
-    }
-
-}
-
-
-/* ==========================================
-   END SPORTS FLOATING BET SLIP
-========================================== */
-
-/* ==========================================
-   SPORTS FLOATING BET SLIP BUTTON
-========================================== */
-
+/* ===== ফ্লোটিং বাটন ===== */
 .sports-betslip-float {
-
     position: fixed;
-
+    bottom: 20px;
     right: 20px;
-    bottom: 90px;
-
-    display: none;
-
+    background: #ff6b00;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    display: flex;
     align-items: center;
-    gap: 12px;
-
-    background: #0f9d58;
-
-    color: #ffffff;
-
-    padding: 14px 18px;
-
-    border-radius: 30px;
-
+    gap: 8px;
     cursor: pointer;
-
-    z-index: 9999;
-
-    box-shadow:
-    0 8px 25px rgba(0,0,0,0.35);
-
-    transition: 0.3s ease;
-
+    z-index: 9998;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-weight: bold;
+    border: none;
 }
-
-
-.sports-betslip-float:hover {
-
-    transform: translateY(-3px);
-
-}
-
-
-.sports-betslip-icon {
-
-    font-size: 22px;
-
-}
-
-
-.sports-betslip-text {
-
-    font-size: 15px;
-
-    font-weight: 600;
-
-}
-
 
 .sports-betslip-count {
-
-    min-width: 28px;
-
-    height: 28px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    background:#ffffff;
-
-    color:#0f9d58;
-
-    border-radius:50%;
-
-    font-weight:700;
-
+    background: white;
+    color: #ff6b00;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
 }
 
-
-
-
-/* ==========================================
-   BET SLIP POPUP
-========================================== */
-
-
-.sports-betslip-popup {
-
-
+/* ===== প্যানেল ওভারলে ===== */
+.sports-betslip-panel {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
 
+.betslip-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
 
-    right: 20px;
-
-    bottom: 160px;
-
-
+/* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
+.betslip-content {
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 360px;
-
-
-    background:#151515;
-
-
-    color:#ffffff;
-
-
-    border-radius:16px;
-
-
-    overflow:hidden;
-
-
-    z-index:10000;
-
-
-    box-shadow:
-
-    0 15px 40px rgba(0,0,0,.5);
-
-
-    border:1px solid rgba(255,255,255,.08);
-
-
+    height: 100%;
+    background: #1a1a2e;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
-
-
-
-/* ==========================================
-   HEADER
-========================================== */
-
-
-.sports-betslip-header {
-
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-
-    padding:16px;
-
-
-    background:#1d1d1d;
-
-
+.betslip-header {
+    padding: 16px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-
-.sports-betslip-header h3 {
-
-
-    margin:0;
-
-    font-size:18px;
-
-
+.betslip-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
 }
 
-
-
-.sports-betslip-header button {
-
-
-    background:none;
-
-    border:none;
-
-    color:#ffffff;
-
-    font-size:22px;
-
-    cursor:pointer;
-
-
+.bet-mode-tabs {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid #333;
 }
 
-
-
-
-/* ==========================================
-   SINGLE MULTIPLE TABS
-========================================== */
-
-
-.sports-betslip-tabs {
-
-
-    display:flex;
-
-    border-bottom:1px solid #333;
-
-
+.mode-tab {
+    flex: 1;
+    padding: 10px;
+    background: #333;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
 }
 
-
-
-.sports-betslip-tabs button {
-
-
-    flex:1;
-
-    padding:12px;
-
-    background:#222;
-
-    color:#aaa;
-
-    border:none;
-
-    cursor:pointer;
-
+.mode-tab.active {
+    background: #ff6b00;
 }
 
-
-
-.sports-betslip-tabs button.active {
-
-
-    background:#0f9d58;
-
-    color:white;
-
-    font-weight:600;
-
+.betslip-body {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
 }
 
-
-
-
-
-/* ==========================================
-   BET CONTENT
-========================================== */
-
-
-#sportsBetSlipContent {
-
-
-    padding:15px;
-
-    max-height:300px;
-
-    overflow-y:auto;
-
-
+.empty-slip {
+    text-align: center;
+    color: #888;
+    padding: 40px 0;
 }
 
-
-
-.empty-betslip {
-
-
-    text-align:center;
-
-    color:#999;
-
-    padding:25px 0;
-
-
+.bet-item {
+    background: #16213e;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    position: relative;
 }
 
-
-
-
-
-/* ==========================================
-   SINGLE BET ITEM
-========================================== */
-
-
-.betslip-item {
-
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-
-    background:#222;
-
-
-    padding:12px;
-
-
-    margin-bottom:10px;
-
-
-    border-radius:10px;
-
-
+.bet-info {
+    margin-bottom: 8px;
 }
 
-
-
-.betslip-item strong {
-
-
-    color:#0f9d58;
-
-
+.bet-market {
+    font-weight: bold;
+    color: #fff;
 }
 
-
-
-.betslip-item button {
-
-
-    background:#e74c3c;
-
-    color:white;
-
-    border:none;
-
-    padding:6px 10px;
-
-    border-radius:6px;
-
-    cursor:pointer;
-
-
+.bet-odds {
+    color: #ff6b00;
+    font-size: 14px;
 }
 
-
-
-
-
-/* ==========================================
-   STAKE
-========================================== */
-
-
-.sports-betslip-stake {
-
-
-    padding:15px;
-
-}
-
-
-
-.sports-betslip-stake label {
-
-
-    display:block;
-
-    margin-bottom:8px;
-
-}
-
-
-
-#sportsBetStake {
-
-
-    width:100%;
-
-    padding:12px;
-
-
-    background:#222;
-
-    color:white;
-
-
-    border:1px solid #444;
-
-
-    border-radius:8px;
-
-
-}
-
-
-
-
-/* ==========================================
-   TOTAL ODDS
-========================================== */
-
-
-.sports-betslip-total {
-
-
-    padding:15px;
-
-    border-top:1px solid #333;
-
-    font-weight:600;
-
-
-}
-
-
-
-#sportsTotalOdds {
-
-
-    color:#0f9d58;
-
-}
-
-
-
-
-
-/* ==========================================
-   FOOTER BUTTONS
-========================================== */
-
-
-.sports-betslip-footer {
-
-
-    display:flex;
-
-    gap:10px;
-
-    padding:15px;
-
-
-}
-
-
-
-.sports-betslip-footer button {
-
-
-    flex:1;
-
-
-    padding:12px;
-
-
-    border:none;
-
-
-    border-radius:8px;
-
-
-    cursor:pointer;
-
-
-    font-weight:600;
-
-
-}
-
-
-
-
-.sports-betslip-footer button:first-child {
-
-
-    background:#333;
-
-    color:white;
-
-
-}
-
-
-
-.sports-placebet-btn {
-
-
-    background:#0f9d58;
-
-    color:white;
-
-
-}
-
-
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-
-@media(max-width:600px){
-
-
-.sports-betslip-popup {
-
-
-    right:10px;
-
-    left:10px;
-
-    bottom:120px;
-
-    width:auto;
-
-
-}
-
-
-
-.sports-betslip-float {
-
-
-    right:15px;
-
-    bottom:80px;
-
-
-}
-
-
-
-}
+.bet-date {
+   
