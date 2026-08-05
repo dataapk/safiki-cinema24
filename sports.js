@@ -400,68 +400,42 @@ function renderBetSlip() {
         return;
     }
 
-    // ==========================================
-    // AUTO-GROUP: Same event vs Different event
-    // ==========================================
+    // Group by event
     const eventGroups = {};
     betSlip.forEach(bet => {
         if (!eventGroups[bet.eventId]) eventGroups[bet.eventId] = [];
         eventGroups[bet.eventId].push(bet);
     });
 
-    // Same event = forced single (2+ bets from same match)
-    const sameEventBets = [];
-    // Different events = multi eligible (1 bet per match)
+    // For MULTI: only unique events (1 bet per event)
     const uniqueEventBets = [];
-    
     Object.keys(eventGroups).forEach(eid => {
-        if (eventGroups[eid].length > 1) {
-            sameEventBets.push(...eventGroups[eid]);
-        } else {
+        if (eventGroups[eid].length === 1) {
             uniqueEventBets.push(...eventGroups[eid]);
         }
     });
 
     // ==========================================
-    // FILTER BY MODE
+    // SINGLE MODE: Show ALL bets individually
     // ==========================================
-    let displayBets = [];
-    let emptyMsg = '';
-    
     if (currentMode === 'single') {
-        displayBets = sameEventBets;
-        emptyMsg = 'No same-event selections. Add 2+ bets from one match.';
-    } else {
-        displayBets = uniqueEventBets;
-        emptyMsg = 'Add bets from different matches for multi.';
-    }
-
-    if (displayBets.length === 0) {
-        container.innerHTML = `<div class="empty-slip">${emptyMsg}</div>`;
-        if (multiSection) multiSection.style.display = 'none';
-        updateTotalDisplay();
-        return;
-    }
-
-    // ==========================================
-    // RENDER
-    // ==========================================
-    const grouped = {};
-    displayBets.forEach(bet => {
-        if (!grouped[bet.eventId]) grouped[bet.eventId] = [];
-        grouped[bet.eventId].push(bet);
-    });
-
-    let html = '';
-    Object.keys(grouped).forEach(eid => {
-        const bets = grouped[eid];
-        html += `<div class="event-group">
-                    <div style="color:#ff6b00;font-weight:bold;margin-bottom:8px;font-size:13px;">
-                        ${bets[0].eventName}
-                    </div>`;
+        let html = '';
         
-        bets.forEach(bet => {
-            if (currentMode === 'single') {
+        // Group by event for display
+        const grouped = {};
+        betSlip.forEach(bet => {
+            if (!grouped[bet.eventId]) grouped[bet.eventId] = [];
+            grouped[bet.eventId].push(bet);
+        });
+
+        Object.keys(grouped).forEach(eid => {
+            const bets = grouped[eid];
+            html += `<div class="event-group">
+                        <div style="color:#ff6b00;font-weight:bold;margin-bottom:8px;font-size:13px;">
+                            ${bets[0].eventName}
+                        </div>`;
+            
+            bets.forEach(bet => {
                 html += `
                     <div class="bet-item" data-bet-id="${bet.id}">
                         <div class="bet-info">
@@ -477,29 +451,42 @@ function renderBetSlip() {
                             <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
                         </div>
                     </div>`;
-            } else {
-                html += `
-                    <div class="bet-item" data-bet-id="${bet.id}">
-                        <div class="bet-info">
-                            <div class="bet-market">${bet.market}</div>
-                            <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
-                            <div class="bet-date">${bet.addedAt}</div>
-                        </div>
-                        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
-                    </div>`;
-            }
+            });
+            html += '</div>';
         });
-        html += '</div>';
-    });
+        
+        container.innerHTML = html;
+        if (multiSection) multiSection.style.display = 'none';
+    }
     
-    container.innerHTML = html;
-    
-    // Show multi stake input only for multiple mode
-    if (currentMode === 'multiple' && multiSection) {
-        multiSection.style.display = 'block';
+    // ==========================================
+    // MULTIPLE MODE: Only different events
+    // ==========================================
+    else {
+        if (uniqueEventBets.length === 0) {
+            container.innerHTML = '<div class="empty-slip">Add bets from different matches for multi.</div>';
+            if (multiSection) multiSection.style.display = 'none';
+            updateTotalDisplay();
+            return;
+        }
+
+        let html = '';
+        uniqueEventBets.forEach(bet => {
+            html += `
+                <div class="bet-item" data-bet-id="${bet.id}">
+                    <div class="bet-info">
+                        <div class="bet-market" style="font-weight:bold;">${bet.eventName}</div>
+                        <div class="bet-market">${bet.market}</div>
+                        <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
+                        <div class="bet-date">${bet.addedAt}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
+                </div>`;
+        });
+        
+        container.innerHTML = html;
+        if (multiSection) multiSection.style.display = 'block';
         calculateReturns();
-    } else if (multiSection) {
-        multiSection.style.display = 'none';
     }
     
     updateTotalDisplay();
@@ -521,11 +508,12 @@ function updateStake(betId, value) {
     updateTotalDisplay();
 }
 
+
 // ===== 8. CALCULATE =====
 function calculateReturns() {
     if (currentMode !== 'multiple') return;
     
-    // Only unique-event bets count for multi
+    // Only unique-event bets for multi
     const eventGroups = {};
     betSlip.forEach(bet => {
         if (!eventGroups[bet.eventId]) eventGroups[bet.eventId] = [];
@@ -534,12 +522,9 @@ function calculateReturns() {
     
     const uniqueEventBets = [];
     Object.keys(eventGroups).forEach(eid => {
-        if (eventGroups[eid].length === 1) {
-            uniqueEventBets.push(...eventGroups[eid]);
-        }
+        if (eventGroups[eid].length === 1) uniqueEventBets.push(...eventGroups[eid]);
     });
     
-    // Need at least 2 different events for multi
     if (uniqueEventBets.length < 2) {
         document.getElementById('totalOdds').textContent = '0.00';
         document.getElementById('potentialWin').textContent = '৳0.00';
@@ -548,13 +533,9 @@ function calculateReturns() {
     
     let totalOdds = uniqueEventBets.reduce((acc, b) => acc * b.odds, 1);
     const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
-    const potentialWin = stake * totalOdds;
     
-    const totalOddsEl = document.getElementById('totalOdds');
-    const potentialWinEl = document.getElementById('potentialWin');
-    
-    if (totalOddsEl) totalOddsEl.textContent = totalOdds.toFixed(2);
-    if (potentialWinEl) potentialWinEl.textContent = `৳${potentialWin.toFixed(2)}`;
+    document.getElementById('totalOdds').textContent = totalOdds.toFixed(2);
+    document.getElementById('potentialWin').textContent = `৳${(stake * totalOdds).toFixed(2)}`;
 }
 
 // ===== 9. UPDATE COUNT & DISPLAY =====
@@ -579,17 +560,8 @@ function updateTotalDisplay() {
     if (!totalEl) return;
     
     if (currentMode === 'single') {
-        // Only sum same-event bets
-        const eventGroups = {};
-        betSlip.forEach(bet => {
-            if (!eventGroups[bet.eventId]) eventGroups[bet.eventId] = [];
-            eventGroups[bet.eventId].push(bet);
-        });
-        const sameEventBets = [];
-        Object.keys(eventGroups).forEach(eid => {
-            if (eventGroups[eid].length > 1) sameEventBets.push(...eventGroups[eid]);
-        });
-        const total = sameEventBets.reduce((s, b) => s + (b.stake || 0), 0);
+        // Sum ALL stakes
+        const total = betSlip.reduce((s, b) => s + (b.stake || 0), 0);
         totalEl.textContent = `৳${total.toFixed(2)}`;
     } else {
         const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
@@ -604,30 +576,23 @@ function placeSportsBet() {
         return;
     }
 
-    // Group to check what we're placing
-    const eventGroups = {};
-    betSlip.forEach(bet => {
-        if (!eventGroups[bet.eventId]) eventGroups[bet.eventId] = [];
-        eventGroups[bet.eventId].push(bet);
-    });
-
     if (currentMode === 'single') {
-        // Only same-event bets allowed in single mode
-        const sameEventBets = [];
-        Object.keys(eventGroups).forEach(eid => {
-            if (eventGroups[eid].length > 1) sameEventBets.push(...eventGroups[eid]);
-        });
-        
-        if (sameEventBets.length === 0) {
-            showToast('No same-event bets to place!', 'error');
-            return;
-        }
-        if (sameEventBets.some(b => !b.stake || b.stake <= 0)) {
+        // ALL bets can be placed as single
+        const emptyStake = betSlip.some(b => !b.stake || b.stake <= 0);
+        if (emptyStake) {
             showToast('Please enter stake for all bets!', 'error');
             return;
         }
+        
+        console.log('Single bets placed:', betSlip);
     } else {
-        // Only unique-event bets allowed in multi mode
+        // MULTI: only unique events
+        const eventGroups = {};
+        betSlip.forEach(bet => {
+            if (!eventGroups[bet.eventId]) eventGroups[bet.eventId] = [];
+            eventGroups[bet.eventId].push(bet);
+        });
+        
         const uniqueEventBets = [];
         Object.keys(eventGroups).forEach(eid => {
             if (eventGroups[eid].length === 1) uniqueEventBets.push(...eventGroups[eid]);
@@ -637,14 +602,16 @@ function placeSportsBet() {
             showToast('Need bets from 2+ different matches for multi!', 'error');
             return;
         }
+        
         const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
         if (stake <= 0) {
             showToast('Please enter your total stake!', 'error');
             return;
         }
+        
+        console.log('Multi bet placed:', uniqueEventBets);
     }
 
-    console.log('Bet placed:', { mode: currentMode, bets: betSlip });
     showToast('Bet placed successfully!', 'success');
     
     betSlip = [];
