@@ -763,8 +763,8 @@
 
 /* ===== স্টেক ইনপুট ছোট ===== */
 .stake-box input {
-    width: 110px;           /* ছোট */
-    padding: 6px 10px;
+    width: 60px;           /* ছোট */
+    padding: 7px 10px;
     font-size: 14px;
     border-radius: 6px;
     border: 1px solid #333;
