@@ -791,6 +791,8 @@
     margin-left: auto;     /* ডানে ঠেলে দেয় */
     text-align: right;
     white-space: nowrap;
+ float: right;
+    margin-top: 4px;
 }
 
 .betslip-close {
@@ -920,6 +922,8 @@
     font-weight: bold;
     font-size: 13px;
     text-align: right;
+ float: right;
+  margin-left: 10px;
 }
 
 .bet-date {
