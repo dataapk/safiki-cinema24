@@ -841,15 +841,24 @@
 }
 
 /* ডান কলাম (Close + Odds + Return) */
-.bet-item > div:first-child > div:last-child {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    min-width: 70px;
+/* ===== বেট আইটেম (পজিশন রিলেটিভ লাগবে) ===== */
+.bet-item {
+    position: relative;        /* ✅ এটা যোগ করো */
+    background: #16213e;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #2a2a4a;
+    min-height: 100px;         /* ডান কলামের জায়গা */
+    padding-right: 90px;       /* ডানে Odds+Return এর জায়গা */
+    padding-top: 14px;
 }
 
-.remove-btn {
+/* ===== বেট কার্ডের রিমুভ বাটন (টপ-রাইট) ===== */
+.bet-item .remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -861,8 +870,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 1;
-    padding: 0;
+    z-index: 2;
 }
 
 .bet-odds {
