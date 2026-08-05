@@ -586,7 +586,11 @@
 /* ==========================================
    SPORTS FLOATING BET SLIP
 ========================================== */
-/* ===== ফ্লোটিং বাটন ===== */
+/* ==========================================
+   SPORTS BET SLIP - FINAL CSS
+   ========================================== */
+
+/* ===== ১. ফ্লোটিং বাটন (নিচে ডানে) ===== */
 .sports-betslip-float {
     position: fixed;
     bottom: 80px;
@@ -603,32 +607,33 @@
     z-index: 9998;
     box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
     border: none;
-    font-size: 22px;     /* আইকন বড় */
+    font-size: 22px;
+    transition: transform 0.2s;
 }
 
-.sports-betslip-float .sports-betslip-text {
-    display: none;       /* টেক্সট হাইড */
+.sports-betslip-float:active {
+    transform: scale(0.95);
 }
 
 .sports-betslip-count {
     position: absolute;
-    top: -4px;
-    right: -4px;
+    top: -5px;
+    right: -5px;
     background: #ff0000;
     color: white;
-    min-width: 20px;
-    height: 20px;
+    min-width: 22px;
+    height: 22px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
     border: 2px solid white;
-    padding: 0 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-/* ===== প্যানেল ওভারলে ===== */
+/* ===== ২. প্যানেল ওভারলে ===== */
 .sports-betslip-panel {
     position: fixed;
     top: 0;
@@ -644,80 +649,29 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
 }
 
-/* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
-/* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
-/* ===== প্যানেল কন্টেন্ট (ফ্লোটিং কার্ড) ===== */
+/* ===== ৩. প্যানেল কন্টেন্ট (ফ্লোটিং কার্ড) ===== */
 .betslip-content {
     position: absolute;
-    top: 50%;                    /* মাঝখান থেকে শুরু */
-    right: 15px;               /* ডান পাশে একটু গ্যাপ */
+    top: 50%;
+    right: 15px;
     width: 360px;
-    height: auto;              /* কন্টেন্ট অনুযায়ী ছোট-বড় */
-    max-height: 70vh;          /* ✅ স্ক্রিনের ৭০% এর বেশি নয় */
-    transform: translateY(-50%); /* ✅ মাঝখানে সেন্টার */
+    height: auto;
+    max-height: 70vh;
+    transform: translateY(-50%);
     background: #0f0f1a;
     color: white;
     display: flex;
     flex-direction: column;
-    border-radius: 16px;       /* ✅ সব কোনায় গোল */
+    border-radius: 16px;
     box-shadow: -8px 0 30px rgba(0,0,0,0.6);
     overflow: hidden;
 }
 
-/* ===== বডি (বেট আইটেমগুলো) — স্ক্রল হবে ===== */
-.betslip-body {
-    flex: 1;                 /* বাকি সব জায়গা নেবে */
-    padding: 16px;
-    overflow-y: auto;        /* বেশি হলে স্ক্রল */
-    min-height: 0;           /* ফ্লেক্স বাগ ফিক্স */
-}
-
-/* ===== ফুটার (নিচে স্টিকি) ===== */
-.betslip-footer {
-    padding: 16px;
-    border-top: 2px solid #333;
-    background: #16213e;     /* আলাদা ব্যাকগ্রাউন্ড */
-    display: flex;
-    gap: 12px;
-    flex-shrink: 0;          /* ছোট হবে না */
-    /*position: sticky;        /* নিচে লেগে থাকবে */
-    bottom: 0;
-}
-
-.btn-clear, .btn-place {
-    flex: 1;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all 0.2s;
-}
-
-.btn-clear {
-    background: #444;
-    color: white;
-}
-
-.btn-clear:hover {
-    background: #555;
-}
-
-.btn-place {
-    background: #ff6b00;
-    color: white;
-}
-
-.btn-place:hover {
-    background: #ff8533;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
-}
-
+/* ===== ৪. হেডার ===== */
 .betslip-header {
     padding: 16px 20px;
     border-bottom: 1px solid #2a2a4a;
@@ -726,7 +680,7 @@
     align-items: center;
     background: #16162a;
     flex-shrink: 0;
-    gap: 12px;
+    gap: 10px;
 }
 
 .betslip-header h3 {
@@ -734,50 +688,198 @@
     font-size: 18px;
     color: #fff;
     font-weight: 600;
+    white-space: nowrap;
 }
 
-/* ===== ব্যালেন্স UI ===== */
+/* ব্যালেন্স (মাঝখানে) */
 .betslip-balance {
     display: flex;
     flex-direction: column;
     align-items: center;
     background: #0f0f1a;
-    padding: 6px 16px;
+    padding: 5px 12px;
     border-radius: 8px;
     border: 1px solid #2a2a4a;
-    min-width: 100px;
+    min-width: 90px;
 }
 
 .balance-label {
-    font-size: 10px;
+    font-size: 9px;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .balance-amount {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
-    color: #4ade80;  /* সবুজ — ফিক্সড, কমলে লাল হবে না */
+    color: #4ade80;
+    position: relative;
+    transition: color 0.3s;
 }
 
-/* ===== স্টেক ইনপুট ছোট ===== */
-/* ===== ২. Stake Box: Input ছোট + Return ডানে ===== */
-.stake-box {
+/* ব্যালেন্স অ্যানিমেশন */
+.balance-amount.up {
+    color: #4ade80;
+}
+.balance-amount.up::before {
+    content: "▲ ";
+    font-size: 10px;
+}
+
+.balance-amount.down {
+    color: #ff4444;
+}
+.balance-amount.down::before {
+    content: "▼ ";
+    font-size: 10px;
+}
+
+/* ক্লোজ বাটন */
+.betslip-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ff4444;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.betslip-close:hover {
+    background: #ff2222;
+    transform: scale(1.1);
+}
+
+/* ===== ৫. মোড ট্যাব ===== */
+.bet-mode-tabs {
+    display: flex;
+    padding: 10px;
+    gap: 8px;
+    background: #0f0f1a;
+    border-bottom: 1px solid #2a2a4a;
+    flex-shrink: 0;
+}
+
+.mode-tab {
+    flex: 1;
+    padding: 10px;
+    background: #1e1e3f;
+    border: 1px solid #2a2a4a;
+    color: #888;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.mode-tab.active {
+    background: #ff6b00;
+    color: white;
+    border-color: #ff6b00;
+}
+
+/* ===== ৬. বডি (স্ক্রলেবল) ===== */
+.betslip-body {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.empty-slip {
+    text-align: center;
+    color: #666;
+    padding: 40px 20px;
+    font-size: 14px;
+}
+
+/* ===== ৭. ইভেন্ট গ্রুপ ===== */
+.event-group {
+    margin-bottom: 16px;
+}
+
+/* ===== ৮. বেট আইটেম ===== */
+.bet-item {
+    background: #16213e;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #2a2a4a;
+}
+
+/* বাম-ডান লেআউট */
+.bet-item > div:first-child {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* বাম কলাম */
+.bet-item > div:first-child > div:first-child {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.bet-market {
+    font-weight: bold;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.bet-date {
+    color: #888;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+/* ডান কলাম (Close + Odds + Return) */
+.bet-item > div:first-child > div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 70px;
+}
+
+.remove-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ff4444;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 8px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
 }
 
-/* ✅ Input ছোট (৩০% কমানো) */
-/* ===== Stake input ছোট ===== */
-.stake-box {
-    margin-top: 10px;
+.bet-odds {
+    color: #ff6b00;
+    font-weight: bold;
+    font-size: 13px;
 }
 
-.stake-box input {
+.returns {
+    color: #4ade80;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Stake input (ছোট) */
+.stake-box input,
+.bet-item input[type="number"] {
     width: 90px;
     height: 32px;
     padding: 4px 6px;
@@ -788,143 +890,116 @@
     color: white;
 }
 
-.betslip-close {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
-    color: white;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    padding: 0 0 2px 0;  /* X টা ঠিকমতো মাঝখানে */
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(238, 90, 90, 0.4);
-}
-
-.betslip-close:hover {
-    background: linear-gradient(135deg, #ff5252, #d32f2f);
-    transform: rotate(90deg) scale(1.1);
-    box-shadow: 0 6px 15px rgba(211, 47, 47, 0.5);
-}
-
-.betslip-close:active {
-    transform: rotate(90deg) scale(0.95);
-}
-
-.bet-mode-tabs {
-    display: flex;
-    padding: 10px;
-    gap: 10px;
-    border-bottom: 1px solid #333;
-}
-
-.mode-tab {
-    flex: 1;
-    padding: 10px;
-    background: #333;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 6px;
-}
-
-.mode-tab.active {
-    background: #ff6b00;
-}
-
-.betslip-body {
-    flex: 1;
+/* ===== ৯. মাল্টি সেকশন ===== */
+.multiple-section {
     padding: 16px;
-    overflow-y: auto;
+    border-top: 1px solid #2a2a4a;
+    background: #16162a;
+    flex-shrink: 0;
 }
 
-.empty-slip {
-    text-align: center;
-    color: #888;
-    padding: 40px 0;
-}
-
-/* ===== প্রতিটা বেট আইটেম (প্যারেন্টে relative লাগবে) ===== */
-.bet-item {
-    background: #16213e;
-    padding: 16px 40px 16px 16px;  /* ডান পাশে 40px gap — × বাটনের জায়গা */
-    border-radius: 10px;
-    margin-bottom: 12px;
-    position: relative;            /* ✅ এটা লাগবে — না হলে absolute কাজ করবে না */
-    border: 1px solid #2a2a4a;
-}
-
-/* ===== রিমুভ বাটন (×) — ডান পাশে উপরে ===== */
-.remove-btn {
-    position: absolute;            /* ✅ প্যারেন্টের সাথে লক হবে */
-    top: 12px;                     /* উপর থেকে 12px */
-    right: 12px;                   /* ডান থেকে 12px */
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;            /* গোল */
-    background: #ff4444;           /* লাল */
+.stake-input-box input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #0f0f1a;
     color: white;
-    border: 2px solid #ff6666;
     font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.multi-summary {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #2a2a4a;
+}
+
+.summary-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    padding: 0 0 2px 0;            /* × টা ঠিক মাঝখানে */
-    z-index: 2;                    /* অন্য টেক্সটের উপরে */
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.summary-row span {
+    color: #888;
+}
+
+.summary-row strong {
+    color: #4ade80;
+    font-size: 16px;
+}
+
+/* ===== ১০. ফুটার ===== */
+.betslip-footer {
+    padding: 16px;
+    border-top: 2px solid #2a2a4a;
+    background: #16162a;
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.btn-clear {
+    flex: 1;
+    padding: 14px;
+    background: #2a2a4a;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
     transition: all 0.2s;
 }
 
-.remove-btn:hover {
-    background: #ff2222;
-    transform: scale(1.15);
-    box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+.btn-clear:hover {
+    background: #ff4444;
+    color: white;
 }
 
-.remove-btn:active {
-    transform: scale(0.95);
-}
-
-/* ===== অডস ডান পাশে ===== */
-.bet-info {
-    display: grid;
-    grid-template-columns: 1fr auto;  /* বামে Date, ডানে Odds */
- gap: 4px;
-    padding-right: 30px;              /* Remove button এর জায়গা */
-}
-}
-
-.bet-market {
+.btn-place {
+    flex: 1;
+    padding: 14px;
+    background: #ff6b00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
     font-weight: bold;
-    color: #fff;
-    margin-bottom: 2px;
+    font-size: 14px;
+    transition: all 0.2s;
 }
 
-/* ✅ Odds — ডান পাশে নিচে (Date-এর পাশে) */
-.bet-info .bet-odds {
-    position: absolute;
-    top: 44px;            /* ×-এর নিচে */
-    right: 12px;
-    margin: 0;
-    color: #ff6b00;
-    font-weight: bold;
+.btn-place:hover {
+    background: #ff8533;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
 }
 
-/* ===== বাম পাশে (normal flow, নিচে নিচে) ===== */
-.bet-info .bet-market {
-    font-weight: bold;
-    margin-bottom: 4px;
+/* ===== ১১. টোস্ট ===== */
+.bet-slip-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 99999;
+    font-family: inherit;
 }
 
-.bet-info .bet-date {
-    color: #888;
-    font-size: 11px;
+.bet-slip-toast.toast-success {
+    background: #22c55e;
+}
+
+.bet-slip-toast.toast-error {
+    background: #ef4444;
+}
+
+.bet-slip-toast.toast-info {
+    background: #3b82f6;
 }
