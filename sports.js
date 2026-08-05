@@ -520,30 +520,32 @@ function renderBetSlip() {
             
             bets.forEach(bet => {
     html += `
-        <div class="bet-item" data-bet-id="${bet.id}">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="bet-item" data-bet-id="${bet.id}" style="position:relative;padding-top:14px;">
+            
+            <!-- ✅ Bet Card এর Top-Right এ × -->
+            <button class="remove-btn" onclick="removeSingleBet('${bet.id}')" style="position:absolute;top:10px;right:10px;z-index:2;">×</button>
+            
+            <!-- Left Side: Market, Date, Stake -->
+            <div style="padding-right:40px;">
+                <div class="bet-market" style="font-weight:bold;color:#fff;font-size:14px;margin-bottom:4px;">${bet.market}</div>
+                <div class="bet-date" style="color:#888;font-size:11px;margin-bottom:8px;">${bet.addedAt}</div>
                 
-                <!-- বাম পাশে: Market, Cross, Stake -->
-                <div style="flex:1;">
-                    <div class="bet-market">${bet.market}</div>
-                    <button class="remove-btn" onclick="removeSingleBet('${bet.id}')" style="margin:4px 0;">×</button>
-                    <div class="stake-box" style="margin-top:4px;">
-                        <input type="number" placeholder="Stake ($)" style="width:90px;padding:4px 6px;font-size:13px;" 
-                            value="${bet.stake > 0 ? bet.stake : ''}"
-                            oninput="updateStake('${bet.id}', this.value)">
-                    </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <input type="number" placeholder="Stake ($)" style="width:90px;padding:4px 6px;font-size:13px;border-radius:6px;border:1px solid #333;background:#0f0f1a;color:white;height:32px;" 
+                        value="${bet.stake > 0 ? bet.stake : ''}"
+                        oninput="updateStake('${bet.id}', this.value)">
                 </div>
-                
-                <!-- ডান পাশে: Date, Odds, Return (নিচে নিচে) -->
-                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:80px;">
-                    <div class="bet-date">${bet.addedAt}</div>
-                    <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
-                    <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
-                </div>
-                
             </div>
+            
+            <!-- Right Side: Odds (top), Return (bottom) -->
+            <div style="position:absolute;right:10px;bottom:14px;text-align:right;">
+                <div class="bet-odds" style="color:#ff6b00;font-weight:bold;font-size:13px;margin-bottom:4px;">@ ${bet.odds.toFixed(2)}</div>
+                <span class="returns" style="color:#4ade80;font-size:13px;white-space:nowrap;">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
+            </div>
+            
         </div>`;
-});
+  });
+            
             html += '</div>';
         });
         
