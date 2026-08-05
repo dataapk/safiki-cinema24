@@ -670,11 +670,32 @@
 }
 
 .betslip-close {
-    background: none;
-    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
     color: white;
-    font-size: 24px;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0 0 2px 0;  /* X টা ঠিকমতো মাঝখানে */
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(238, 90, 90, 0.4);
+}
+
+.betslip-close:hover {
+    background: linear-gradient(135deg, #ff5252, #d32f2f);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 6px 15px rgba(211, 47, 47, 0.5);
+}
+
+.betslip-close:active {
+    transform: rotate(90deg) scale(0.95);
 }
 
 .bet-mode-tabs {
