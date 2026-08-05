@@ -161,41 +161,92 @@ let sportsCurrentSlide = 0;
 // ==========================================
 
 function selectCurrency(name, image, balance) {
-    // ✅ ১. UI হাইলাইট
+    console.log('selectCurrency called:', name, balance); // ডিবাগ
+    
+    // ১. UI হাইলাইট
     document.querySelectorAll('.currency-option').forEach(opt => {
         opt.classList.remove('selected');
     });
     
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('selected');
+    // event.currentTarget ঠিকমতো কাজ করবে
+    const clickedEl = event.currentTarget;
+    if (clickedEl) {
+        clickedEl.classList.add('selected');
     }
 
-    // ✅ ২. localStorage এ সেভ (STRING হিসেবে)
+    // ২. localStorage এ সেভ (অবশ্যই STRING)
+    const balanceStr = String(balance);
     localStorage.setItem('selectedCurrency', name);
     localStorage.setItem('selectedCurrencyImage', image);
-    localStorage.setItem('selectedBalance', String(balance));
+    localStorage.setItem('selectedBalance', balanceStr);
 
-    // ✅ ৩. গ্লোবাল ভেরিয়েবল
+    // ৩. গ্লোবাল ভেরিয়েবল
     window.selectedCurrency = name;
-    window.selectedBalance = balance;
+    window.selectedBalance = balanceStr;
 
-    // ✅ ৪. মেইন UI আপডেট (ওয়ালেট ব্যালেন্স)
-    const mainBalanceEl = document.querySelector('.currency-option.selected .balance');
-    if (mainBalanceEl) {
-        mainBalanceEl.textContent = balance;
-    }
+    // ৪. মেইন UI আপডেট
+    updateMainWalletUI(name, balanceStr);
 
-    // ✅ ৫. বেট স্লিপ হেডার আপডেট
+    // ৫. বেট স্লিপ আপডেট
     if (typeof updateSlipBalance === 'function') {
         updateSlipBalance();
     }
 
-    // ✅ ৬. টোস্ট
     showToast(`${name} selected`, 'success');
-
-    // ✅ ৭. মোডাল ক্লোজ
+    
+    // মোডাল ক্লোজ
     if (typeof closeWalletModal === 'function') {
         closeWalletModal();
+    }
+}
+
+   function updateMainWalletUI(currency, balance) {
+    console.log('Updating main UI:', currency, balance); // ডিবাগ
+    
+    // তোমার মেইন ওয়ালেট ব্যালেন্স এলিমেন্ট খোঁজা
+    // অপশন ১: যদো .balance ক্লাস থাকে
+    const selectedOption = document.querySelector('.currency-option.selected');
+    if (selectedOption) {
+        const balanceEl = selectedOption.querySelector('.balance');
+        if (balanceEl) {
+            balanceEl.textContent = balance;
+            console.log('Main balance updated to:', balance);
+        }
+    }
+
+      function updateSlipBalance() {
+    const balanceEl = document.getElementById('slipBalance');
+    if (!balanceEl) {
+        console.log('slipBalance element not found!');
+        return;
+    }
+
+    // localStorage থেকে নাও
+    let balance = localStorage.getItem('selectedBalance');
+    let currency = localStorage.getItem('selectedCurrency');
+    
+    console.log('Slip balance check:', balance, currency); // ডিবাগ
+    
+    // যদো null বা empty
+    if (!balance || balance === 'null' || balance === 'undefined') {
+        balance = '$0.00';
+    }
+    
+    // UI আপডেট
+    balanceEl.textContent = balance;
+    
+    // last value আপডেট (অ্যানিমেশনের জন্য)
+    let current = parseFloat(balance.replace(/[^0-9.]/g, '')) || 0;
+    lastBalanceValue = current;
+    
+    console.log('Slip balance set to:', balance); // ডিবাগ
+}
+      
+    
+    // অপশন ২: যদো আলাদা হেডার ব্যালেন্স থাকে (তোমার UI অনুযায়ী)
+    const headerBalance = document.getElementById('headerBalance');
+    if (headerBalance) {
+        headerBalance.textContent = balance;
     }
 }
 
