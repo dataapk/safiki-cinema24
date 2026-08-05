@@ -9,14 +9,11 @@ console.log("SPORTS.JS LOADED");
 // ==========================================
 // OPEN SPORTS GAME
 // ==========================================
-
 function openSportsGame(sport, gameId) {
 
-    // কোন Event Page থেকে Game Open হয়েছে সেটা মনে রাখো
     window.currentSportsPage = sport + "-events-page";
 
     const games = {
-
         "cricket-live-1": {
             sport: "cricket",
             title: "Bangladesh vs India",
@@ -25,7 +22,6 @@ function openSportsGame(sport, gameId) {
             homeTeam: "Bangladesh",
             awayTeam: "India"
         },
-
         "cricket-live-2": {
             sport: "cricket",
             title: "Australia vs Pakistan",
@@ -34,163 +30,173 @@ function openSportsGame(sport, gameId) {
             homeTeam: "Australia",
             awayTeam: "Pakistan"
         }
-
     };
 
-  
-
-
-    // ==========================================
-    // FIND GAME
-    // ==========================================
-
     const game = games[gameId];
-
     if (!game) {
-
         console.log("Sports game not found:", gameId);
-
         return;
-
     }
 
-
-    // ==========================================
-    // FIND GAME PAGE
-    // ==========================================
-
-    const gamePage =
-        document.getElementById("sports-game-page");
-
-    const gameTitle =
-        document.getElementById("sports-game-title");
-
-    const gameContent =
-        document.getElementById("sports-game-content");
-
+    const gamePage = document.getElementById("sports-game-page");
+    const gameTitle = document.getElementById("sports-game-title");
+    const gameContent = document.getElementById("sports-game-content");
 
     if (!gamePage || !gameContent) {
-
         console.log("Sports game page not found");
-
         return;
-
     }
-   // Hide Sports Sub Banner Slider
 
-const sportsSubBanner =
-    document.getElementById("sportsSubBanner");
+    // Hide Sports Sub Banner Slider
+    const sportsSubBanner = document.getElementById("sportsSubBanner");
+    if (sportsSubBanner) {
+        sportsSubBanner.style.display = "none";
+    }
 
-if (sportsSubBanner) {
+    // Hide Sports Header
+    const sportsSubHeader = document.getElementById("sportsSubHeader");
+    if (sportsSubHeader) {
+        sportsSubHeader.style.display = "none";
+    }
 
-    sportsSubBanner.style.display = "none";
+    // Hide Sports Sub Category Grid
+    const sportsSubcatGrid = document.getElementById("sportsSubcatGrid");
+    if (sportsSubcatGrid) {
+        sportsSubcatGrid.style.display = "none";
+    }
 
-}
-// Hide Sports Header
-const sportsSubHeader =
-    document.getElementById("sportsSubHeader");
-
-if (sportsSubHeader) {
-    sportsSubHeader.style.display = "none";
-}
-
-// Hide Sports Sub Category Grid
-const sportsSubcatGrid =
-    document.getElementById("sportsSubcatGrid");
-
-if (sportsSubcatGrid) {
-    sportsSubcatGrid.style.display = "none";
-}
-
-    // ==========================================
-    // PAGE TITLE
-    // ==========================================
-
+    // Page Title
     if (gameTitle) {
-
-        gameTitle.textContent =
-            sport === "cricket"
-                ? "🏏 Cricket"
-                : "⚽ Football";
-
+        gameTitle.textContent = sport === "cricket" ? "🏏 Cricket" : "⚽ Football";
     }
 
-
     // ==========================================
-    // GAME CONTENT
+    // GAME CONTENT - INNERHTML START
     // ==========================================
-
+    
     gameContent.innerHTML = `
 
+        <!-- LIVE MATCH HEADER -->
+        <div class="sports-game-match-header">
+            <div class="sports-game-live-badge">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+            <div class="sports-game-match-title">${game.title}</div>
+            <div class="sports-game-league">${game.league}</div>
+        </div>
 
+        <!-- MATCH ANIMATION -->
+        <div class="sports-game-hero">
+            <div class="sports-game-animation">
+                <div class="sports-animation-live">● LIVE</div>
+                <div class="sports-animation-icon">🏏</div>
+                <div class="sports-animation-title">${game.title}</div>
+                <div class="sports-animation-subtitle">Live Match Centre</div>
+            </div>
+        </div>
 
+        <!-- BETTING SECTION -->
+        <div class="sports-betting-box">
 
+            <div class="sports-betting-title">Match Betting</div>
 
-    // ==========================================
-    // FIND EXISTING SPORTS SECTIONS
-    // ==========================================
+            <!-- MATCH WINNER -->
+            <div class="sports-market">
+                <div class="sports-market-title">Match Winner</div>
+                <div class="sports-bet-options">
+                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
+                        eventId: '${gameId}',
+                        eventName: '${game.title}',
+                        market: '${game.homeTeam}',
+                        odds: 1.85
+                    })">
+                        <span>${game.homeTeam}</span>
+                        <strong>1.85</strong>
+                    </button>
+                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
+                        eventId: '${gameId}',
+                        eventName: '${game.title}',
+                        market: '${game.awayTeam}',
+                        odds: 1.65
+                    })">
+                        <span>${game.awayTeam}</span>
+                        <strong>1.65</strong>
+                    </button>
+                </div>
+            </div>
 
-    const sportsSubSection =
-        document.getElementById("sports-sub-section");
+            <!-- TOTAL RUNS -->
+            <div class="sports-market">
+                <div class="sports-market-title">Total Runs</div>
+                <div class="sports-bet-options">
+                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
+                        eventId: '${gameId}',
+                        eventName: '${game.title}',
+                        market: 'Over 180.5',
+                        odds: 1.90
+                    })">
+                        <span>Over 180.5</span>
+                        <strong>1.90</strong>
+                    </button>
+                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
+                        eventId: '${gameId}',
+                        eventName: '${game.title}',
+                        market: 'Under 180.5',
+                        odds: 1.80
+                    })">
+                        <span>Under 180.5</span>
+                        <strong>1.80</strong>
+                    </button>
+                </div>
+            </div>
 
-    const trendingPage =
-        document.getElementById("sports-trending-page");
+            <!-- TOTAL BET -->
+            <div class="sports-total-bet" onclick="openSportsBetSlip()" style="cursor:pointer;">
+                <span>Total Bet</span>
+                <strong id="slipTotalAmount">৳0</strong>
+            </div>
 
-    const cricketEventsPage =
-        document.getElementById("cricket-events-page");
+            <!-- VIEW BET SLIP -->
+            <button type="button" class="sports-place-bet" onclick="openSportsBetSlip()">
+                VIEW BET SLIP
+            </button>
 
-    const footballEventsPage =
-        document.getElementById("football-events-page");
+        </div>
 
-
+    `;  // <-- ✅ এখানে `; দিয়ে স্ট্রিং শেষ
 
     // ==========================================
     // HIDE NORMAL SPORTS CONTENT
     // ==========================================
 
+    const sportsSubSection = document.getElementById("sports-sub-section");
+    const trendingPage = document.getElementById("sports-trending-page");
+    const cricketEventsPage = document.getElementById("cricket-events-page");
+    const footballEventsPage = document.getElementById("football-events-page");
+
     if (sportsSubSection) {
-
         sportsSubSection.style.display = "none";
-
     }
-
 
     if (trendingPage) {
-
         trendingPage.style.display = "none";
-
     }
-
 
     if (cricketEventsPage) {
-
         cricketEventsPage.style.display = "none";
-
     }
-
 
     if (footballEventsPage) {
-
         footballEventsPage.style.display = "none";
-
     }
 
-
-
-    // ==========================================
-    // SHOW FULL GAME PAGE
-    // ==========================================
-
+    // Show Full Game Page
     gamePage.style.display = "block";
 
-
-    // Prevent browser from jumping to another section
-
+    // Prevent browser from jumping
     window.scrollTo(0, 0);
-
 }
-
-
 
 // ==========================================
 // BACK FROM SPORTS GAME
