@@ -3739,6 +3739,59 @@
     <!-- এখান থেকেই তোমার Footer Menu শুরু হবে -->
    <!-- ================= FOOTER MENU ================= -->
 
+
+
+     <!-- START ADD TO BET SLIP -->
+
+
+
+
+<!-- ================= FOOTER MAIN ================= -->
+
+<footer class="footer-bottom">
+
+    <div class="footer-bottom-nav">
+
+        <div class="footer-bottom-item"
+     id="menuBtn"
+     onclick="footerSetActive(this); footerToggleSidebar()">
+
+    <i class="fas fa-bars"></i>
+    <span>Menu</span>
+
+</div>
+
+        <div class="footer-bottom-item"
+             id="searchBtn"
+             onclick="footerSetActive(this); footerOpenSearch()">
+
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+
+        </div>
+
+        <div class="footer-bottom-item"
+             id="historyBtn"
+             onclick="footerSetActive(this); footerOpenBetHistory()">
+
+            <i class="fas fa-history"></i>
+            <span>Bet History</span>
+
+        </div>
+
+        <div class="footer-bottom-item"
+             id="homeBtn"
+             onclick="footerSetActive(this); footerGoHome()">
+
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+
+        </div>
+
+    </div>
+
+</footer>
+    
 <nav class="footer-sidebar-menu">
 
     <!-- Casino -->
@@ -3876,57 +3929,9 @@
 
 </div>
 
-
-     <!-- START ADD TO BET SLIP -->
-
-
-
-
-<!-- ================= FOOTER MAIN ================= -->
-
-<footer class="footer-bottom">
-
-    <div class="footer-bottom-nav">
-
-        <div class="footer-bottom-item"
-     id="menuBtn"
-     onclick="footerSetActive(this); footerToggleSidebar()">
-
-    <i class="fas fa-bars"></i>
-    <span>Menu</span>
-
-</div>
-
-        <div class="footer-bottom-item"
-             id="searchBtn"
-             onclick="footerSetActive(this); footerOpenSearch()">
-
-            <i class="fas fa-search"></i>
-            <span>Search</span>
-
-        </div>
-
-        <div class="footer-bottom-item"
-             id="historyBtn"
-             onclick="footerSetActive(this); footerOpenBetHistory()">
-
-            <i class="fas fa-history"></i>
-            <span>Bet History</span>
-
-        </div>
-
-        <div class="footer-bottom-item"
-             id="homeBtn"
-             onclick="footerSetActive(this); footerGoHome()">
-
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-
-        </div>
-
-    </div>
-
-</footer>
+            <!-- ==========================================
+             ADD TO BETSLIP START 
+        ========================================== -->
 
             <!-- ==========================================
              LIVE MATCH HEADER
@@ -3998,194 +4003,6 @@
             </div>
 
         </div>
-
-
-
-        <!-- ==========================================
-             BETTING SECTION
-        ========================================== -->
-
-        <div class="sports-betting-box">
-
-
-            <div class="sports-betting-title">
-
-                Match Betting
-
-            </div>
-
-
-
-            <!-- ======================================
-                 MATCH WINNER
-            ====================================== -->
-
-            <div class="sports-market">
-
-                <div class="sports-market-title">
-
-                    Match Winner
-
-                </div>
-
-
-                <div class="sports-bet-options">
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                    >
-
-                        <span>
-
-                            ${game.homeTeam}
-
-                        </span>
-
-
-                        <strong>
-
-                            1.85
-
-                        </strong>
-
-                    </button>
-
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                    >
-
-                        <span>
-
-                            ${game.awayTeam}
-
-                        </span>
-
-
-                        <strong>
-
-                            1.65
-
-                        </strong>
-
-                    </button>
-
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ======================================
-                 TOTAL RUNS
-            ====================================== -->
-
-            <div class="sports-market">
-
-                <div class="sports-market-title">
-
-                    Total Runs
-
-                </div>
-
-
-                <div class="sports-bet-options">
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                    >
-
-                        <span>
-
-                            Over 180.5
-
-                        </span>
-
-
-                        <strong>
-
-                            1.90
-
-                        </strong>
-
-                    </button>
-
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                    >
-
-                        <span>
-
-                            Under 180.5
-
-                        </span>
-
-
-                        <strong>
-
-                            1.80
-
-                        </strong>
-
-                    </button>
-
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ======================================
-                 TOTAL BET
-            ====================================== -->
-
-            <div class="sports-total-bet">
-
-                <span>
-
-                    Total Bet
-
-                </span>
-
-
-                <strong>
-
-                    ৳0
-
-                </strong>
-
-            </div>
-
-
-
-            <!-- ======================================
-                 PLACE BET
-            ====================================== -->
-
-            <button
-                type="button"
-                class="sports-place-bet"
-            >
-
-                PLACE BET
-
-            </button>
-
-
-        </div>
-
-    `;
 
     <!-- ==========================================
      BETTING SECTION (আপডেটেড)
