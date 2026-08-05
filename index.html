@@ -3930,397 +3930,50 @@
 </div>
 <!-- ==========================================
      SPORTS FLOATING BET SLIP BUTTON
-========================================== -->
+========================================== --><!-- ===== ১. ফ্লোটিং বাটন (রাখবে) ===== -->
 <div id="sportsBetSlip" class="sports-betslip-float" style="display:none;" onclick="openSportsBetSlip()">
-    <div class="sports-betslip-icon">
-        <i class="fas fa-ticket-alt"></i>
-    </div>
+    <div class="sports-betslip-icon"><i class="fas fa-ticket-alt"></i></div>
     <div class="sports-betslip-text">Bet Slip</div>
     <div class="sports-betslip-count" id="sportsBetSlipCount">0</div>
 </div>
 
-
-<!-- ==========================================
-     BET SLIP PANEL (POPUP)
-========================================== -->
+<!-- ===== ২. প্যানেল (রাখবে) ===== -->
 <div id="sportsBetSlipPanel" class="sports-betslip-panel" style="display:none;">
-    
     <div class="betslip-overlay" onclick="closeSportsBetSlip()"></div>
-    
     <div class="betslip-content">
-        
         <div class="betslip-header">
             <h3>Bet Slip</h3>
             <button type="button" class="betslip-close" onclick="closeSportsBetSlip()">×</button>
         </div>
-        
         <div class="bet-mode-tabs">
             <button type="button" class="mode-tab active" onclick="switchBetMode('single')">Single</button>
             <button type="button" class="mode-tab" onclick="switchBetMode('multiple')">Multiple</button>
         </div>
-        
         <div class="betslip-body" id="betSlipBody">
             <div class="empty-slip">Your bet slip is empty</div>
         </div>
-        
         <div class="multiple-section" id="multipleSection" style="display:none;">
             <div class="stake-input-box">
                 <input type="number" id="multiStake" placeholder="Enter Stake" oninput="calculateReturns()">
             </div>
             <div class="multi-summary">
-                <div class="summary-row">
-                    <span>Total Odds:</span>
-                    <strong id="totalOdds">0.00</strong>
-                </div>
-                <div class="summary-row">
-                    <span>Potential Win:</span>
-                    <strong id="potentialWin">৳0.00</strong>
-                </div>
+                <div class="summary-row"><span>Total Odds:</span><strong id="totalOdds">0.00</strong></div>
+                <div class="summary-row"><span>Potential Win:</span><strong id="potentialWin">৳0.00</strong></div>
             </div>
         </div>
-        
         <div class="betslip-footer">
             <button type="button" class="btn-clear" onclick="clearAllSportsBetSlip()">Clear All Bets</button>
             <button type="button" class="btn-place" onclick="placeSportsBet()">Place Bet</button>
         </div>
-        
     </div>
 </div>
 
+    <!-- ======================================================
+     🔴 END: BETSLIP TOTAL SUB
+====================================================== -->
 
-            <!-- ==========================================
-             LIVE MATCH HEADER
-        ========================================== -->
 
-        <div class="sports-game-match-header">
 
-            <div class="sports-game-live-badge">
-
-                <span class="live-dot"></span>
-
-                LIVE
-
-            </div>
-
-
-            <div class="sports-game-match-title">
-
-                ${game.title}
-
-            </div>
-
-
-            <div class="sports-game-league">
-
-                ${game.league}
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ==========================================
-             MATCH ANIMATION / VIDEO BOX
-        ========================================== -->
-
-        <div class="sports-game-hero">
-
-            <div class="sports-game-animation">
-
-                <div class="sports-animation-live">
-
-                    ● LIVE
-
-                </div>
-
-
-                <div class="sports-animation-icon">
-
-                    🏏
-
-                </div>
-
-
-                <div class="sports-animation-title">
-
-                    ${game.title}
-
-                </div>
-
-
-                <div class="sports-animation-subtitle">
-
-                    Live Match Centre
-
-                </div>
-
-            </div>
-
-        </div>
-
-    <!-- ==========================================
-     BETTING SECTION (আপডেটেড)
-========================================== -->
-
-<div class="sports-betting-box">
-
-
-    <div class="sports-betting-title">
-
-        Match Betting
-
-    </div>
-
-
-
-    <!-- ======================================
-         MATCH WINNER
-    ====================================== -->
-
-    <div class="sports-market">
-
-        <div class="sports-market-title">
-
-            Match Winner
-
-        </div>
-
-
-        <div class="sports-bet-options">
-
-
-            <button
-                type="button"
-                class="sports-bet-option"
-                onclick="addToBetSlip({
-                    eventId: '${game.id}',
-                    eventName: '${game.title}',
-                    market: '${game.homeTeam}',
-                    odds: 1.85
-                })"
-            >
-
-                <span>
-
-                    ${game.homeTeam}
-
-                </span>
-
-
-                <strong>
-
-                    1.85
-
-                </strong>
-
-            </button>
-
-
-
-            <button
-                type="button"
-                class="sports-bet-option"
-                onclick="addToBetSlip({
-                    eventId: '${game.id}',
-                    eventName: '${game.title}',
-                    market: '${game.awayTeam}',
-                    odds: 1.65
-                })"
-            >
-
-                <span>
-
-                    ${game.awayTeam}
-
-                </span>
-
-
-                <strong>
-
-                    1.65
-
-                </strong>
-
-            </button>
-
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ======================================
-         TOTAL RUNS
-    ====================================== -->
-
-    <div class="sports-market">
-
-        <div class="sports-market-title">
-
-            Total Runs
-
-        </div>
-
-
-        <div class="sports-bet-options">
-
-
-            <button
-                type="button"
-                class="sports-bet-option"
-                onclick="addToBetSlip({
-                    eventId: '${game.id}',
-                    eventName: '${game.title}',
-                    market: 'Over 180.5',
-                    odds: 1.90
-                })"
-            >
-
-                <span>
-
-                    Over 180.5
-
-                </span>
-
-
-                <strong>
-
-                    1.90
-
-                </strong>
-
-            </button>
-
-
-
-            <button
-                type="button"
-                class="sports-bet-option"
-                onclick="addToBetSlip({
-                    eventId: '${game.id}',
-                    eventName: '${game.title}',
-                    market: 'Under 180.5',
-                    odds: 1.80
-                })"
-            >
-
-                <span>
-
-                    Under 180.5
-
-                </span>
-
-
-                <strong>
-
-                    1.80
-
-                </strong>
-
-            </button>
-
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ======================================
-         TOTAL BET (এটা এখন বেট স্লিপের টোটাল দেখাবে)
-    ====================================== -->
-
-    <div class="sports-total-bet" onclick="openSportsBetSlip()" style="cursor:pointer;">
-
-        <span>
-
-            Total Bet
-
-        </span>
-
-
-        <strong id="slipTotalAmount">
-
-            ৳0
-
-        </strong>
-
-    </div>
-
-
-
-    <!-- ======================================
-         PLACE BET (এটা এখন স্লিপ ওপেন করবে)
-    ====================================== -->
-
-    <button
-        type="button"
-        class="sports-place-bet"
-        onclick="openSportsBetSlip()"
-    >
-
-        VIEW BET SLIP
-
-    </button>
-
-
-</div>
-
-
-
-<!-- ==========================================
-     BET SLIP PANEL (নতুন যোগ করবে)
-========================================== -->
-
-<div id="sportsBetSlip" class="sports-betslip-panel" style="display:none;">
-
-    <div class="betslip-overlay" onclick="closeSportsBetSlip()"></div>
-
-    <div class="betslip-content">
-
-        <div class="betslip-header">
-            <h3>Bet Slip</h3>
-            <button type="button" class="betslip-close" onclick="closeSportsBetSlip()">×</button>
-        </div>
-
-        <div class="bet-mode-tabs">
-            <button type="button" class="mode-tab active" onclick="switchBetMode('single')">Single</button>
-            <button type="button" class="mode-tab" onclick="switchBetMode('multiple')">Multiple</button>
-        </div>
-
-        <div class="betslip-body" id="betSlipBody">
-
-            <!-- এখানে বেট আইটেমগুলো JS দিয়ে যোগ হবে -->
-
-        </div>
-
-        <div class="multiple-section" id="multipleSection" style="display:none;">
-            <div class="stake-input-box">
-                <input type="number" id="multiStake" placeholder="Enter Stake" oninput="calculateReturns()">
-            </div>
-            <div class="multi-summary">
-                <div class="summary-row">
-                    <span>Total Odds:</span>
-                    <strong id="totalOdds">0.00</strong>
-                </div>
-                <div class="summary-row">
-                    <span>Potential Win:</span>
-                    <strong id="potentialWin">৳0.00</strong>
-                </div>
-            </div>
-        </div>
-
-        <div class="betslip-footer">
-            <button type="button" class="btn-clear" onclick="clearAllSportsBetSlip()">Clear All Bets</button>
-            <button type="button" class="btn-place" onclick="placeSportsBet()">Place Bet</button>
-        </div>
-
-    </div>
-
-</div>
-    
 
 
 <!-- ======================================================
