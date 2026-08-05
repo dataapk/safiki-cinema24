@@ -173,7 +173,7 @@ function selectCurrency(name, image, balance) {
         clickedEl.classList.add('selected');
     }
 
-    // ২. localStorage (STRING)
+    // ২. localStorage
     const balanceStr = String(balance);
     localStorage.setItem('selectedCurrency', name);
     localStorage.setItem('selectedCurrencyImage', image);
@@ -183,8 +183,13 @@ function selectCurrency(name, image, balance) {
     window.selectedCurrency = name;
     window.selectedBalance = balanceStr;
 
-    // ৪. মেইন UI আপডেট
-    updateMainWalletUI(name, balanceStr);
+    // ✅ ৪. হেডারের ট্রিগার আপডেট (নতুন যোগ করা)
+    const triggerImg = document.getElementById('selected-currency-img');
+    const triggerBalance = document.getElementById('selected-balance');
+    
+    if (triggerImg) triggerImg.src = image;
+    if (triggerImg) triggerImg.alt = name;
+    if (triggerBalance) triggerBalance.textContent = balanceStr;
 
     // ৫. বেট স্লিপ আপডেট
     if (typeof updateSlipBalance === 'function') {
@@ -193,25 +198,30 @@ function selectCurrency(name, image, balance) {
 
     showToast(`${name} selected`, 'success');
     
-    if (typeof closeWalletModal === 'function') {
-        closeWalletModal();
-    }
+    // ড্রপডাউন ক্লোজ
+    const menu = document.getElementById('currency-menu');
+    if (menu) menu.style.display = 'none';
 }
 
    function updateMainWalletUI(currency, balance) {
-    console.log('Updating UI for:', currency, balance);
+    console.log('Updating main UI:', currency, balance);
     
-    // ✅ ১. সব .currency-option এর ভেতরে ব্যালেন্স আপডেট (মিল থাকলে)
+    // ✅ ১. হেডারের মেইন ট্রিগার ব্যালেন্স আপডেট (তোমার ID)
+    const selectedBalance = document.getElementById('selected-balance');
+    if (selectedBalance) {
+        selectedBalance.textContent = balance;
+        console.log('Header balance updated to:', balance);
+    }
+    
+    // ✅ ২. ড্রপডাউনের ম্যাচিং কারেন্সি আপডেট
     document.querySelectorAll('.currency-option').forEach(opt => {
         const nameEl = opt.querySelector('.name');
         if (nameEl && nameEl.textContent.trim() === currency) {
             const balEl = opt.querySelector('.balance');
-            if (balEl) {
-                balEl.textContent = balance;
-                console.log('Updated currency card:', currency, balance);
-            }
+            if (balEl) balEl.textContent = balance;
         }
     });
+}
     
     // ✅ ২. হেডার/ন্যাভবার ব্যালেন্স আপডেট (যদো থাকে)
     const headerBalance = document.getElementById('headerBalance');
