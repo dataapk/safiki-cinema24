@@ -481,8 +481,14 @@ function updateBetCount() {
     const countEl = document.getElementById('sportsBetSlipCount');
     const floatBtn = document.getElementById('sportsBetSlip');
     
-    if (countEl) countEl.textContent = betSlip.length;
-    if (floatBtn) floatBtn.style.display = betSlip.length > 0 ? 'flex' : 'none';
+    if (countEl) {
+        countEl.textContent = betSlip.length;  // 0 হলে 0 দেখাবে
+    }
+    
+    // ✅ স্পোর্টস পেইজে থাকলে সবসময় দেখা যাবে, কখনো হাইড হবে না
+    if (floatBtn) {
+        floatBtn.style.display = 'flex';
+    }
     
     updateTotalDisplay();
 }
