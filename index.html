@@ -3922,21 +3922,6 @@
 
 </div>
 
-    <!-- ==========================================
-     BETSLIP HEADER
-========================================== -->
-
-    <div class="betslip-header">
-    <h3>Bet Slip</h3>
-    
-    <!-- ✅ এটুকু যোগ করো (মাঝখানে) -->
-    <div class="betslip-balance">
-        <span class="balance-label">Balance</span>
-        <span class="balance-amount" id="slipBalance">$0.00</span>
-    </div>
-    
-    <button type="button" class="betslip-close" onclick="closeSportsBetSlip()">×</button>
-</div>
 
     
 <!-- ==========================================
@@ -3960,20 +3945,31 @@
     
     <div class="betslip-content">
         
+        <!-- ===== হেডার (ব্যালেন্স সহ) ===== -->
         <div class="betslip-header">
             <h3>Bet Slip</h3>
+            
+            <!-- ✅ ব্যালেন্স UI (মাঝখানে) -->
+            <div class="betslip-balance">
+                <span class="balance-label">Balance</span>
+                <span class="balance-amount" id="slipBalance">$0.00</span>
+            </div>
+            
             <button type="button" class="betslip-close" onclick="closeSportsBetSlip()">×</button>
         </div>
         
+        <!-- ===== মোড ট্যাব ===== -->
         <div class="bet-mode-tabs">
             <button type="button" class="mode-tab active" onclick="switchBetMode('single')">Single</button>
             <button type="button" class="mode-tab" onclick="switchBetMode('multiple')">Multiple</button>
         </div>
         
+        <!-- ===== বডি (বেট আইটেম) ===== -->
         <div class="betslip-body" id="betSlipBody">
             <div class="empty-slip">Your bet slip is empty</div>
         </div>
         
+        <!-- ===== মাল্টি সেকশন ===== -->
         <div class="multiple-section" id="multipleSection" style="display:none;">
             <div class="stake-input-box">
                 <input type="number" id="multiStake" placeholder="Enter Stake" oninput="calculateReturns()">
@@ -3990,6 +3986,7 @@
             </div>
         </div>
         
+        <!-- ===== ফুটার ===== -->
         <div class="betslip-footer">
             <button type="button" class="btn-clear" onclick="clearAllSportsBetSlip()">Clear All Bets</button>
             <button type="button" class="btn-place" onclick="placeSportsBet()">Place Bet</button>
