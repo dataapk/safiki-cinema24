@@ -281,6 +281,44 @@ console.log(
 );
 
 
+// ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও =====
+function updateSlipBalance() {
+    const balanceEl = document.getElementById('slipBalance');
+    if (!balanceEl) return;
+
+    // localStorage থেকে নাও (এখনকার জন্য)
+    let balance = localStorage.getItem('selectedBalance');
+
+    // যদো কিছু না থাকে, ডিফল্ট
+    if (!balance) {
+        balance = '$0.00';
+    }
+
+    balanceEl.textContent = balance;
+}
+
+// ===== সুপারবেস আপডেট (পরে শুধু এটা আনকমেন্ট করবে) =====
+/*
+async function syncBalanceFromSupabase() {
+    const userId = localStorage.getItem('userId');
+    const currency = localStorage.getItem('selectedCurrency') || 'USDT';
+    
+    const { data, error } = await supabase
+        .from('wallets')
+        .select('balance, currency_symbol')
+        .eq('user_id', userId)
+        .eq('currency', currency)
+        .single();
+    
+    if (data) {
+        const formatted = `${data.currency_symbol || '$'}${parseFloat(data.balance).toFixed(2)}`;
+        localStorage.setItem('selectedBalance', formatted);
+        updateSlipBalance();
+    }
+}
+*/
+
+
 // ==========================================
 // SPORTS BET SLIP SYSTEM
 // ==========================================
@@ -337,6 +375,7 @@ function openSportsBetSlip() {
     const panel = document.getElementById('sportsBetSlipPanel');
     if (panel) {
         panel.style.display = 'block';
+        updateSlipBalance();  // ✅ ব্যালেন্স দেখাও
         renderBetSlip();
     }
 }
@@ -565,15 +604,18 @@ function placeSportsBet() {
         return;
     }
 
+    let totalStake = 0;
+
+    // ===== Calculate total stake =====
     if (currentMode === 'single') {
         const emptyStake = betSlip.some(b => !b.stake || b.stake <= 0);
         if (emptyStake) {
             showToast('Please enter stake for all bets!', 'error');
             return;
         }
-        console.log('Single bets placed:', betSlip);
+        totalStake = betSlip.reduce((sum, b) => sum + b.stake, 0);
     } else {
-        // ✅ Check: 2+ different events?
+        // Multiple: need 2+ different events
         const eventIds = [...new Set(betSlip.map(b => b.eventId))];
         if (eventIds.length < 2) {
             showToast('Need bets from 2+ different matches for multi!', 'error');
@@ -585,11 +627,38 @@ function placeSportsBet() {
             showToast('Please enter your total stake!', 'error');
             return;
         }
-        console.log('Multi bet placed:', betSlip);
+        totalStake = stake;
     }
 
+    // ===== Balance Check & Deduction =====
+    let balanceStr = localStorage.getItem('selectedBalance') || '$0.00';
+    let currencySymbol = balanceStr.match(/[^0-9.,]/g)?.[0] || '$';
+    let currentBalance = parseFloat(balanceStr.replace(/[^0-9.]/g, '')) || 0;
+
+    if (currentBalance < totalStake) {
+        showToast('Insufficient balance!', 'error');
+        return;
+    }
+
+    // Deduct balance
+    let newBalance = currentBalance - totalStake;
+    let newBalanceStr = currencySymbol + newBalance.toFixed(2);
+    localStorage.setItem('selectedBalance', newBalanceStr);
+    
+    // Update slip header if open
+    updateSlipBalance();
+
+    // ===== Place Bet =====
+    console.log('Bet placed:', { 
+        mode: currentMode, 
+        bets: betSlip, 
+        totalStake: totalStake,
+        remainingBalance: newBalance 
+    });
+    
     showToast('Bet placed successfully!', 'success');
     
+    // Clear slip
     betSlip = [];
     saveSlip();
     updateBetCount();
