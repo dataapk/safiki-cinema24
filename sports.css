@@ -648,6 +648,7 @@
 }
 
 /* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
+/* ===== প্যানেল কন্টেন্ট (ডান পাশ থেকে স্লাইড) ===== */
 .betslip-content {
     position: absolute;
     top: 0;
@@ -657,8 +658,59 @@
     background: #1a1a2e;
     color: white;
     display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+    flex-direction: column;  /* কলাম লেআউট — উপর থেকে নিচ */
+    overflow: hidden;        /* মেইন কন্টেন্ট অভারফ্লো হাইড */
+}
+
+/* ===== বডি (বেট আইটেমগুলো) — স্ক্রল হবে ===== */
+.betslip-body {
+    flex: 1;                 /* বাকি সব জায়গা নেবে */
+    padding: 16px;
+    overflow-y: auto;        /* বেশি হলে স্ক্রল */
+    min-height: 0;           /* ফ্লেক্স বাগ ফিক্স */
+}
+
+/* ===== ফুটার (নিচে স্টিকি) ===== */
+.betslip-footer {
+    padding: 16px;
+    border-top: 2px solid #333;
+    background: #16213e;     /* আলাদা ব্যাকগ্রাউন্ড */
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;          /* ছোট হবে না */
+    position: sticky;        /* নিচে লেগে থাকবে */
+    bottom: 0;
+}
+
+.btn-clear, .btn-place {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-clear {
+    background: #444;
+    color: white;
+}
+
+.btn-clear:hover {
+    background: #555;
+}
+
+.btn-place {
+    background: #ff6b00;
+    color: white;
+}
+
+.btn-place:hover {
+    background: #ff8533;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
 }
 
 .betslip-header {
