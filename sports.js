@@ -157,13 +157,6 @@ function openSportsGame(sport, gameId) {
                 <strong id="slipTotalAmount">৳0</strong>
             </div>
 
-            <!-- VIEW BET SLIP -->
-            <button type="button" class="sports-place-bet" onclick="openSportsBetSlip()">
-                VIEW BET SLIP
-            </button>
-
-        </div>
-
     `;  // <-- ✅ এখানে `; দিয়ে স্ট্রিং শেষ
 
     // ==========================================
