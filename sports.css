@@ -783,12 +783,47 @@
     padding: 40px 0;
 }
 
+/* ===== প্রতিটা বেট আইটেম (প্যারেন্টে relative লাগবে) ===== */
 .bet-item {
     background: #16213e;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    position: relative;
+    padding: 16px 40px 16px 16px;  /* ডান পাশে 40px gap — × বাটনের জায়গা */
+    border-radius: 10px;
+    margin-bottom: 12px;
+    position: relative;            /* ✅ এটা লাগবে — না হলে absolute কাজ করবে না */
+    border: 1px solid #2a2a4a;
+}
+
+/* ===== রিমুভ বাটন (×) — ডান পাশে উপরে ===== */
+.remove-btn {
+    position: absolute;            /* ✅ প্যারেন্টের সাথে লক হবে */
+    top: 12px;                     /* উপর থেকে 12px */
+    right: 12px;                   /* ডান থেকে 12px */
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;            /* গোল */
+    background: #ff4444;           /* লাল */
+    color: white;
+    border: 2px solid #ff6666;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0 0 2px 0;            /* × টা ঠিক মাঝখানে */
+    z-index: 2;                    /* অন্য টেক্সটের উপরে */
+    transition: all 0.2s;
+}
+
+.remove-btn:hover {
+    background: #ff2222;
+    transform: scale(1.15);
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+}
+
+.remove-btn:active {
+    transform: scale(0.95);
 }
 
 .bet-info {
