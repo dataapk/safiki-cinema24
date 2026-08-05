@@ -806,13 +806,6 @@
 }
 
 /* ===== ৮. বেট আইটেম ===== */
-.bet-item {
-    background: #16213e;
-    padding: 12px 14px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #2a2a4a;
-}
 
 /* বাম-ডান লেআউট */
 .bet-item > div:first-child {
@@ -850,7 +843,7 @@
     margin-bottom: 10px;
     border: 1px solid #2a2a4a;
     min-height: 100px;         /* ডান কলামের জায়গা */
-    padding-right: 90px;       /* ডানে Odds+Return এর জায়গা */
+    padding-right: 20px;       /* ডানে Odds+Return এর জায়গা */
     padding-top: 14px;
 }
 
