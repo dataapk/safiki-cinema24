@@ -289,11 +289,10 @@ console.log(
 // SPORTS BET SLIP - sports.js
 // ==========================================
 
-// ----- STATE -----
+// ===== STATE =====
 let betSlip = [];
 let currentMode = 'single';
 
-// Load from localStorage on start
 if (localStorage.getItem('sportsBetSlip')) {
     try {
         betSlip = JSON.parse(localStorage.getItem('sportsBetSlip'));
@@ -303,17 +302,14 @@ if (localStorage.getItem('sportsBetSlip')) {
     }
 }
 
-
-// ==========================================
-// 1. addToBetSlip()
-// ==========================================
+// ===== 1. ADD =====
 function addToBetSlip(data) {
     const isDuplicate = betSlip.some(bet => 
         bet.eventId === data.eventId && bet.market === data.market
     );
     
     if (isDuplicate) {
-        showToast('This selection is already in your bet slip!', 'error');
+        showToast('Already added!', 'error');
         return;
     }
 
@@ -333,79 +329,50 @@ function addToBetSlip(data) {
     saveSlip();
     updateBetCount();
     renderBetSlip();
-    openSportsBetSlip();
     showToast('Added to bet slip!', 'success');
 }
 
-
-// ==========================================
-// 2. openSportsBetSlip()
-// ==========================================
+// ===== 2. OPEN / CLOSE =====
 function openSportsBetSlip() {
-    const panel = document.getElementById('sportsBetSlip');
+    const panel = document.getElementById('sportsBetSlipPanel');
     if (panel) {
         panel.style.display = 'block';
         renderBetSlip();
     }
 }
 
-
-// ==========================================
-// 3. closeSportsBetSlip()
-// ==========================================
 function closeSportsBetSlip() {
-    const panel = document.getElementById('sportsBetSlip');
-    if (panel) {
-        panel.style.display = 'none';
-    }
+    const panel = document.getElementById('sportsBetSlipPanel');
+    if (panel) panel.style.display = 'none';
 }
 
-
-// ==========================================
-// 4. removeSingleBet()
-// ==========================================
+// ===== 3. REMOVE =====
 function removeSingleBet(betId) {
     betSlip = betSlip.filter(bet => bet.id !== betId);
     saveSlip();
     updateBetCount();
     renderBetSlip();
-    
-    if (betSlip.length === 0) {
-        const multiSection = document.getElementById('multipleSection');
-        if (multiSection) multiSection.style.display = 'none';
-    }
 }
 
-
-// ==========================================
-// 5. clearAllSportsBetSlip()
-// ==========================================
+// ===== 4. CLEAR ALL =====
 function clearAllSportsBetSlip() {
     if (betSlip.length === 0) return;
+    if (!confirm('Clear all bets?')) return;
     
-    if (confirm('Are you sure you want to clear all bets?')) {
-        betSlip = [];
-        saveSlip();
-        updateBetCount();
-        renderBetSlip();
-        
-        const multiSection = document.getElementById('multipleSection');
-        if (multiSection) multiSection.style.display = 'none';
-        
-        showToast('All bets cleared!', 'info');
-    }
+    betSlip = [];
+    saveSlip();
+    updateBetCount();
+    renderBetSlip();
+    document.getElementById('multipleSection').style.display = 'none';
+    showToast('Cleared!', 'info');
 }
 
-
-// ==========================================
-// 6. switchBetMode()
-// ==========================================
+// ===== 5. MODE SWITCH =====
 function switchBetMode(mode) {
     currentMode = mode;
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
     
     const tabs = document.querySelectorAll('.mode-tab');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
     const multiSection = document.getElementById('multipleSection');
     
     if (mode === 'single') {
@@ -420,10 +387,7 @@ function switchBetMode(mode) {
     calculateReturns();
 }
 
-
-// ==========================================
-// 7. renderBetSlip()
-// ==========================================
+// ===== 6. RENDER =====
 function renderBetSlip() {
     const container = document.getElementById('betSlipBody');
     if (!container) return;
@@ -441,13 +405,9 @@ function renderBetSlip() {
     });
 
     let html = '';
-    
-    Object.keys(grouped).forEach(eventId => {
-        const bets = grouped[eventId];
-        const eventName = bets[0].eventName;
-        
-        html += `<div class="event-group">
-                    <div class="event-group-name">${eventName}</div>`;
+    Object.keys(grouped).forEach(eid => {
+        const bets = grouped[eid];
+        html += `<div class="event-group"><div style="color:#ff6b00;font-weight:bold;margin-bottom:8px;">${bets[0].eventName}</div>`;
         
         bets.forEach(bet => {
             if (currentMode === 'single') {
@@ -458,17 +418,14 @@ function renderBetSlip() {
                             <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
                             <div class="bet-date">${bet.addedAt}</div>
                         </div>
-                        <button type="button" class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
-                        <div class="single-stake stake-box">
-                            <input type="number" 
-                                   placeholder="Stake (৳)" 
-                                   value="${bet.stake > 0 ? bet.stake : ''}"
-                                   oninput="updateStake('${bet.id}', this.value)"
-                                   min="0">
+                        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
+                        <div class="stake-box">
+                            <input type="number" placeholder="Stake (৳)" 
+                                value="${bet.stake > 0 ? bet.stake : ''}"
+                                oninput="updateStake('${bet.id}', this.value)">
                             <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             } else {
                 html += `
                     <div class="bet-item" data-bet-id="${bet.id}">
@@ -477,209 +434,126 @@ function renderBetSlip() {
                             <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
                             <div class="bet-date">${bet.addedAt}</div>
                         </div>
-                        <button type="button" class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
-                    </div>
-                `;
+                        <button class="remove-btn" onclick="removeSingleBet('${bet.id}')">×</button>
+                    </div>`;
             }
         });
-        
-        html += `</div>`;
+        html += '</div>';
     });
     
     container.innerHTML = html;
     updateTotalDisplay();
-    
-    if (currentMode === 'multiple') {
-        calculateReturns();
-    }
+    if (currentMode === 'multiple') calculateReturns();
 }
 
-
-// ==========================================
-// 8. updateStake()
-// ==========================================
+// ===== 7. STAKE UPDATE =====
 function updateStake(betId, value) {
     const bet = betSlip.find(b => b.id === betId);
-    if (bet) {
-        bet.stake = parseFloat(value) || 0;
-        saveSlip();
-        
-        const item = document.querySelector(`[data-bet-id="${betId}"]`);
-        if (item) {
-            const returnSpan = item.querySelector('.returns');
-            if (returnSpan) {
-                returnSpan.textContent = `Return: ৳${(bet.stake * bet.odds).toFixed(2)}`;
-            }
-        }
-        
-        updateTotalDisplay();
+    if (!bet) return;
+    
+    bet.stake = parseFloat(value) || 0;
+    saveSlip();
+    
+    const item = document.querySelector(`[data-bet-id="${betId}"]`);
+    if (item) {
+        const ret = item.querySelector('.returns');
+        if (ret) ret.textContent = `Return: ৳${(bet.stake * bet.odds).toFixed(2)}`;
     }
+    updateTotalDisplay();
 }
 
-
-// ==========================================
-// 9. calculateReturns()
-// ==========================================
+// ===== 8. CALCULATE =====
 function calculateReturns() {
     if (currentMode !== 'multiple') return;
     
-    let totalOdds = 1;
-    betSlip.forEach(bet => {
-        totalOdds *= bet.odds;
-    });
-    
-    const stakeInput = document.getElementById('multiStake');
-    const stake = stakeInput ? (parseFloat(stakeInput.value) || 0) : 0;
-    const potentialWin = stake * totalOdds;
+    let totalOdds = betSlip.reduce((acc, b) => acc * b.odds, 1);
+    const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
     
     const totalOddsEl = document.getElementById('totalOdds');
     const potentialWinEl = document.getElementById('potentialWin');
     
     if (totalOddsEl) totalOddsEl.textContent = totalOdds.toFixed(2);
-    if (potentialWinEl) potentialWinEl.textContent = `৳${potentialWin.toFixed(2)}`;
+    if (potentialWinEl) potentialWinEl.textContent = `৳${(stake * totalOdds).toFixed(2)}`;
 }
 
-
-// ==========================================
-// 10. updateBetCount()
-// ==========================================
+// ===== 9. UPDATE COUNT & DISPLAY =====
 function updateBetCount() {
-    const badge = document.getElementById('betBadge');
-    if (badge) {
-        badge.textContent = betSlip.length;
-        badge.style.display = betSlip.length > 0 ? 'inline-block' : 'none';
-    }
+    const countEl = document.getElementById('sportsBetSlipCount');
+    const floatBtn = document.getElementById('sportsBetSlip');
+    
+    if (countEl) countEl.textContent = betSlip.length;
+    if (floatBtn) floatBtn.style.display = betSlip.length > 0 ? 'flex' : 'none';
+    
     updateTotalDisplay();
 }
 
-
-// ==========================================
-// 11. updateTotalDisplay()
-// ==========================================
 function updateTotalDisplay() {
     const totalEl = document.getElementById('slipTotalAmount');
     if (!totalEl) return;
     
     if (currentMode === 'single') {
-        const totalStake = betSlip.reduce((sum, bet) => sum + (bet.stake || 0), 0);
-        totalEl.textContent = `৳${totalStake.toFixed(2)}`;
+        const total = betSlip.reduce((s, b) => s + (b.stake || 0), 0);
+        totalEl.textContent = `৳${total.toFixed(2)}`;
     } else {
-        const stakeInput = document.getElementById('multiStake');
-        const stake = stakeInput ? (parseFloat(stakeInput.value) || 0) : 0;
+        const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
         totalEl.textContent = `৳${stake.toFixed(2)}`;
     }
 }
 
-
-// ==========================================
-// 12. placeSportsBet()
-// ==========================================
+// ===== 10. PLACE BET =====
 function placeSportsBet() {
     if (betSlip.length === 0) {
-        showToast('Your bet slip is empty!', 'error');
+        showToast('Empty slip!', 'error');
         return;
     }
 
     if (currentMode === 'single') {
-        const emptyStake = betSlip.some(bet => !bet.stake || bet.stake <= 0);
-        if (emptyStake) {
-            showToast('Please enter stake for all bets!', 'error');
+        if (betSlip.some(b => !b.stake || b.stake <= 0)) {
+            showToast('Enter stake for all bets!', 'error');
             return;
         }
     } else {
-        const stakeInput = document.getElementById('multiStake');
-        const stake = stakeInput ? (parseFloat(stakeInput.value) || 0) : 0;
+        const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
         if (stake <= 0) {
-            showToast('Please enter your total stake!', 'error');
+            showToast('Enter total stake!', 'error');
             return;
         }
     }
 
-    const betData = {
-        mode: currentMode,
-        bets: betSlip.map(bet => ({
-            eventId: bet.eventId,
-            eventName: bet.eventName,
-            market: bet.market,
-            odds: bet.odds,
-            stake: currentMode === 'single' ? bet.stake : 
-                   parseFloat(document.getElementById('multiStake').value) / betSlip.length
-        })),
-        totalStake: currentMode === 'single' 
-            ? betSlip.reduce((sum, b) => sum + b.stake, 0)
-            : parseFloat(document.getElementById('multiStake').value),
-        placedAt: new Date().toISOString()
-    };
-
-    console.log('Placing bet:', betData);
-    
-    // TODO: Replace with your API endpoint
-    // fetch('/api/place-bet', { 
-    //     method: 'POST', 
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(betData) 
-    // });
-    
-    showToast('Bet placed successfully!', 'success');
+    console.log('Bet placed:', { mode: currentMode, bets: betSlip });
+    showToast('Bet placed!', 'success');
     
     betSlip = [];
     saveSlip();
     updateBetCount();
     renderBetSlip();
+    closeSportsBetSlip();
     
-    const multiSection = document.getElementById('multipleSection');
-    if (multiSection) multiSection.style.display = 'none';
-    
-    const multiStake = document.getElementById('multiStake');
-    if (multiStake) multiStake.value = '';
+    const ms = document.getElementById('multipleSection');
+    if (ms) ms.style.display = 'none';
+    const mstake = document.getElementById('multiStake');
+    if (mstake) mstake.value = '';
 }
 
-
-// ==========================================
-// HELPERS
-// ==========================================
+// ===== HELPERS =====
 function saveSlip() {
     localStorage.setItem('sportsBetSlip', JSON.stringify(betSlip));
 }
 
-function showToast(message, type) {
+function showToast(msg, type) {
     const existing = document.querySelector('.bet-slip-toast');
     if (existing) existing.remove();
     
-    const toast = document.createElement('div');
-    toast.className = `bet-slip-toast toast-${type}`;
-    toast.textContent = message;
+    const t = document.createElement('div');
+    t.className = 'bet-slip-toast';
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;top:20px;left:50%;transform:translateX(-50%);
+        padding:12px 24px;border-radius:8px;color:white;font-weight:500;z-index:99999;`;
+    t.style.background = type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#3b82f6';
     
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 12px 24px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 500;
-        z-index: 9999;
-        animation: slideDown 0.3s ease;
-    `;
-    
-    if (type === 'success') toast.style.background = '#22c55e';
-    else if (type === 'error') toast.style.background = '#ef4444';
-    else toast.style.background = '#3b82f6';
-    
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.3s';
-        setTimeout(() => toast.remove(), 300);
-    }, 2500);
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 2500);
 }
 
-
-// ==========================================
-// INIT
-// ==========================================
-document.addEventListener('DOMContentLoaded', function() {
-    updateBetCount();
-});
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => updateBetCount());
