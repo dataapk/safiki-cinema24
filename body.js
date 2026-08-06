@@ -260,25 +260,41 @@ function updateBalanceUI(){
 // PAGE LOAD এ আগের সিলেকশন রিস্টোর
 // ==========================================
 function restoreSelectedCurrency() {
-    const savedCurrency = localStorage.getItem('selectedCurrency');
-    const savedBalance = localStorage.getItem('selectedBalance');
-    const savedImage = localStorage.getItem('selectedCurrencyImage');
 
-    if (savedCurrency) {
-        window.selectedCurrency = savedCurrency;
-        window.selectedBalance = savedBalance || '$0.00';
-        window.selectedCurrencyImage = savedImage;
+    loadWalletManager();
 
-        // UI তে হাইলাইট রিস্টোর
-        document.querySelectorAll('.currency-option').forEach(opt => {
-            if (opt.querySelector('.name')?.textContent === savedCurrency) {
-                opt.classList.add('selected');
-            }
-        });
+    const savedImage =
+        localStorage.getItem("selectedCurrencyImage");
+
+    const img =
+        document.getElementById("selected-currency-img");
+
+    if (img && savedImage) {
+
+        img.src = savedImage;
+
     }
+
+    document
+        .querySelectorAll(".currency-option")
+        .forEach(opt => {
+
+            opt.classList.remove("selected");
+
+            if (
+                opt.querySelector(".name")?.textContent.trim() ===
+                walletManager.currentCurrency
+            ) {
+
+                opt.classList.add("selected");
+
+            }
+
+        });
+
+    updateBalanceUI();
+
 }
-
-
    
 
 // ===== SELECT MAIN CATEGORY (Casino or Sports) =====
