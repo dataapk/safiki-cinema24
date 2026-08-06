@@ -670,12 +670,37 @@ function placeSportsBet() {
     }
 
     // Deduct balance
-    let newBalance = currentBalance - totalStake;
-    let newBalanceStr = currencySymbol + newBalance.toFixed(2);
-    localStorage.setItem('selectedBalance', newBalanceStr);
-    
-    // Update slip header if open
-    updateSlipBalance();
+
+let newBalance = currentBalance - totalStake;
+
+let newBalanceStr =
+    currencySymbol +
+    newBalance.toFixed(2);
+
+// Save
+
+localStorage.setItem(
+    "selectedBalance",
+    newBalanceStr
+);
+
+// ===== UPDATE HEADER =====
+
+const headerBalance =
+    document.getElementById(
+        "selected-balance"
+    );
+
+if(headerBalance){
+
+    headerBalance.textContent =
+        newBalanceStr;
+
+}
+
+// ===== UPDATE BET SLIP =====
+
+updateSlipBalance();
 
     // ===== Place Bet =====
     console.log('Bet placed:', { 
