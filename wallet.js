@@ -178,34 +178,7 @@ window.selectCurrency = selectCurrency;
 
 // ==========================================
 // RESTORE SELECTED CURRENCY
-// ==========================================
-function restoreSelectedCurrency(){
-
-    const img =
-        document.getElementById(
-            "selected-currency-img"
-        );
-
-    if(img){
-
-        const savedImage =
-            localStorage.getItem(
-                "selectedCurrencyImage"
-            );
-
-        if(savedImage){
-
-            img.src = savedImage;
-
-        }
-
-    }
-
-    updateBalanceUI();
-
-}
-window.restoreSelectedCurrency =
-    restoreSelectedCurrency;
+// =========================================
 
 
 // ==========================================
