@@ -73,48 +73,6 @@ function loadWalletManager(){
 // UPDATE BALANCE UI
 // ==========================================
 
-function updateBalanceUI(){
-
-    const balance =
-        getCurrentBalance();
-
-    const balanceText =
-        "$" + balance.toFixed(2);
-
-
-    // Header Balance
-
-    const headerBalance =
-        document.getElementById(
-            "selected-balance"
-        );
-
-    if(headerBalance){
-
-        headerBalance.textContent =
-            balanceText;
-
-    }
-
-
-    // Bet Slip Balance
-
-    const slipBalance =
-        document.getElementById(
-            "betslipBalance"
-        );
-
-    if(slipBalance){
-
-        slipBalance.textContent =
-            balanceText;
-
-    }
-
-}
-
-window.updateBalanceUI =
-    updateBalanceUI;
 
 
 // ==========================================
@@ -203,8 +161,6 @@ function selectCurrency(name, image, el){
 
     }
 
-    // Update Header + Bet Slip
-    updateBalanceUI();
 
     // Save Wallet
     saveWalletManager();
@@ -223,10 +179,7 @@ window.selectCurrency = selectCurrency;
 // ==========================================
 // RESTORE SELECTED CURRENCY
 // ==========================================
-
 function restoreSelectedCurrency(){
-
-    loadWalletManager();
 
     const img =
         document.getElementById(
@@ -251,7 +204,6 @@ function restoreSelectedCurrency(){
     updateBalanceUI();
 
 }
-
 window.restoreSelectedCurrency =
     restoreSelectedCurrency;
 
