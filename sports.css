@@ -649,7 +649,7 @@
 
     left:50%;
 
-    top:64px;      /* বাটনের নিচে */
+    top:30px;      /* বাটনের নিচে */
 
     transform:translateX(-50%);
 
