@@ -238,6 +238,41 @@ function selectCurrency(name, image){
 window.selectCurrency =
     selectCurrency;
 
+// ==========================================
+// RESTORE SELECTED CURRENCY
+// ==========================================
+
+function restoreSelectedCurrency(){
+
+    loadWalletManager();
+
+    const img =
+        document.getElementById(
+            "selected-currency-img"
+        );
+
+    if(img){
+
+        const savedImage =
+            localStorage.getItem(
+                "selectedCurrencyImage"
+            );
+
+        if(savedImage){
+
+            img.src = savedImage;
+
+        }
+
+    }
+
+    updateBalanceUI();
+
+}
+
+window.restoreSelectedCurrency =
+    restoreSelectedCurrency;
+
 
 // ==========================================
 // GLOBAL
@@ -257,3 +292,16 @@ window.getCurrentBalance =
 
 window.setCurrentBalance =
     setCurrentBalance;
+
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function(){
+
+        restoreSelectedCurrency();
+
+    }
+
+);
