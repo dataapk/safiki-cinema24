@@ -305,3 +305,5 @@ document.addEventListener(
     }
 
 );
+
+window.testWallet = "OK";
