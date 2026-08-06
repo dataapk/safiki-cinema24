@@ -3943,9 +3943,16 @@
     <div class="betslip-content">
         
         <div class="betslip-header">
-            <h3>Bet Slip</h3>
-            <button type="button" class="betslip-close" onclick="closeSportsBetSlip()">×</button>
-        </div>
+    <h3>Bet Slip</h3>
+    
+    <!-- ✅ এটা আছে কিনা চেক করো -->
+    <div class="betslip-balance">
+        <span class="balance-label">Balance</span>
+        <span class="balance-amount" id="slipBalance">$0.00</span>
+    </div>
+    
+    <button class="betslip-close" onclick="closeSportsBetSlip()">×</button>
+</div>
         
         <div class="bet-mode-tabs">
             <button type="button" class="mode-tab active" onclick="switchBetMode('single')">Single</button>
