@@ -668,39 +668,66 @@ function placeSportsBet() {
         showToast('Insufficient balance!', 'error');
         return;
     }
+// ==========================================
+// DEDUCT BALANCE
+// ==========================================
 
-    // Deduct balance
-
-let newBalance = currentBalance - totalStake;
+let newBalance =
+    currentBalance - totalStake;
 
 let newBalanceStr =
     currencySymbol +
     newBalance.toFixed(2);
 
-// Save
+
+// Save New Balance
 
 localStorage.setItem(
     "selectedBalance",
     newBalanceStr
 );
 
-// ===== UPDATE HEADER =====
+
+// Global Update
+
+window.selectedBalance =
+    newBalanceStr;
+
+
+// ==========================================
+// UPDATE MAIN HEADER BALANCE
+// ==========================================
 
 const headerBalance =
     document.getElementById(
         "selected-balance"
     );
 
-if(headerBalance){
+if (headerBalance) {
 
     headerBalance.textContent =
         newBalanceStr;
 
 }
 
-// ===== UPDATE BET SLIP =====
+
+// ==========================================
+// UPDATE BET SLIP BALANCE
+// ==========================================
 
 updateSlipBalance();
+
+
+// ==========================================
+// OPTIONAL
+// If updateBalanceUI exists
+// ==========================================
+
+if (typeof updateBalanceUI === "function") {
+
+    updateBalanceUI();
+
+}
 
     // ===== Place Bet =====
     console.log('Bet placed:', { 
