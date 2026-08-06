@@ -199,10 +199,15 @@ function updateBalanceUI(){
 
     if(header){
 
-        header.textContent =
-            balanceText;
+    console.log(
+        "balanceText =",
+        balanceText,
+        typeof balanceText
+    );
 
-    }
+    header.textContent = balanceText;
+
+}
 
 
     // ============================
