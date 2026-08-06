@@ -884,27 +884,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateHomeView();
 
-    // ============================
-    // LOAD SAVED BALANCE
-    // ============================
+    // Load Wallet
+    loadWalletManager();
 
-    const savedBalance =
-        localStorage.getItem("selectedBalance");
-
-    if (savedBalance) {
-
-        currentBalance =
-            parseFloat(
-                savedBalance.replace("$", "")
-            );
-
-    }
-
-    updateBalanceUI();
-
-    // ============================
-
+    // Restore Selected Currency + Balance
     restoreSelectedCurrency();
+
+    // Update Header + Bet Slip UI
+    updateBalanceUI();
 
     console.log("Landing Page JS initialized");
 
