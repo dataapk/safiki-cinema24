@@ -660,60 +660,26 @@ function placeSportsBet() {
     }
 
     // ===== Balance Check & Deduction =====
-    let balanceStr = localStorage.getItem('selectedBalance') || '$0.00';
-    let currencySymbol = balanceStr.match(/[^0-9.,]/g)?.[0] || '$';
-    let currentBalance = parseFloat(balanceStr.replace(/[^0-9.]/g, '')) || 0;
+    // ===== Balance Check =====
 
-    if (currentBalance < totalStake) {
-        showToast('Insufficient balance!', 'error');
-        return;
-    }
-// ==========================================
-// DEDUCT BALANCE
-// ==========================================
+let currentBalance = getCurrentBalance();
 
-let newBalance =
-    currentBalance - totalStake;
+if (currentBalance < totalStake) {
 
-let newBalanceStr =
-    currencySymbol +
-    newBalance.toFixed(2);
+    showToast("Insufficient balance!", "error");
 
-
-// Save New Balance
-
-localStorage.setItem(
-    "selectedBalance",
-    newBalanceStr
-);
-
-
-// Global Update
-
-window.selectedBalance =
-    newBalanceStr;
-
-
-// ==========================================
-// UPDATE MAIN HEADER BALANCE
-// ==========================================
-
-const headerBalance =
-    document.getElementById(
-        "selected-balance"
-    );
-
-if (headerBalance) {
-
-    headerBalance.textContent =
-        newBalanceStr;
+    return;
 
 }
+// ===== Deduct Wallet =====
 
+let newBalance = currentBalance - totalStake;
 
-// ==========================================
-// UPDATE BET SLIP BALANCE
-// ==========================================
+setCurrentBalance(newBalance);
+
+// Header + BetSlip Refresh
+
+updateBalanceUI();
 
 updateSlipBalance();
 
