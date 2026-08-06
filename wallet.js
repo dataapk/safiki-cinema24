@@ -42,8 +42,13 @@ function loadWalletManager(){
 
         try{
 
-            walletManager.balances =
-                JSON.parse(savedWallet);
+            walletManager.balances = {
+
+    ...walletManager.balances,
+
+    ...JSON.parse(savedWallet)
+
+};
 
         }catch(e){
 
