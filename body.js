@@ -186,6 +186,37 @@ function selectCurrency(name, image, balance) {
     closeWalletModal?.();
 }
 
+   // ==========================================
+// UPDATE BALANCE UI
+// ==========================================
+
+function updateBalanceUI() {
+
+    // Header Balance
+    const headerBalance =
+        document.getElementById("selected-balance");
+
+    if(headerBalance){
+
+        headerBalance.textContent =
+            "$" + currentBalance.toFixed(2);
+
+    }
+
+
+    // Bet Slip Balance
+    const betSlipBalance =
+        document.getElementById("betslipBalance");
+
+    if(betSlipBalance){
+
+        betSlipBalance.textContent =
+            "$" + currentBalance.toFixed(2);
+
+    }
+
+}
+
 // ==========================================
 // PAGE LOAD এ আগের সিলেকশন রিস্টোর
 // ==========================================
@@ -843,6 +874,7 @@ document.addEventListener('DOMContentLoaded', function() {
     SmoothScroll.init();
     ScrollAnimations.init();
     updateHomeView();
+      updateBalanceUI();
     
     restoreSelectedCurrency();     // ✅ শুধু এই লাইন যোগ করো
     
