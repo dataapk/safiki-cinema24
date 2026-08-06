@@ -635,19 +635,20 @@
 
 .sports-betslip-text{
 
-    margin-top:2px;
+    position:absolute;
 
-    font-size:6px;
+    bottom:10px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:8px;
 
     font-weight:600;
 
-    color:#070807;
+    color:#fff;
 
-    line-height:1;
-
-    letter-spacing:.3px;
-
-    user-select:none;
+    white-space:nowrap;
 
 }
 
