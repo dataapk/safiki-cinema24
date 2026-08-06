@@ -292,23 +292,18 @@ function updateSlipBalance() {
     if (!balanceEl) return;
 
 
-    // Wallet Manager থেকে Current Balance নাও
-
     let balance = 0;
 
-    if (window.getCurrentBalance) {
 
-        balance = getCurrentBalance();
+    if (typeof getCurrentBalance === "function") {
+
+        balance = getCurrentBalance() || 0;
 
     }
 
 
-    const balanceText =
-        "$" + Number(balance).toFixed(2);
-
-
     balanceEl.textContent =
-        balanceText;
+        "$" + Number(balance).toFixed(2);
 
 }
 
