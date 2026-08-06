@@ -169,40 +169,17 @@ function setCurrentBalance(amount){
 // SELECT CURRENCY
 // ==========================================
 
-function selectCurrency(name, image){
+function selectCurrency(name, image, el){
 
-    // বর্তমান Currency পরিবর্তন
+    // Current Currency
+    walletManager.currentCurrency = name;
 
-    walletManager.currentCurrency =
-        name;
+    // Save
+    localStorage.setItem("selectedCurrency", name);
+    localStorage.setItem("selectedCurrencyImage", image);
 
-
-    // Save Selected Currency
-
-    localStorage.setItem(
-
-        "selectedCurrency",
-
-        name
-
-    );
-
-
-    localStorage.setItem(
-
-        "selectedCurrencyImage",
-
-        image
-
-    );
-
-
-    // UI Image
-
-    const img =
-        document.getElementById(
-            "selected-currency-img"
-        );
+    // Update Image
+    const img = document.getElementById("selected-currency-img");
 
     if(img){
 
@@ -210,31 +187,38 @@ function selectCurrency(name, image){
 
     }
 
-
-    // Header + Bet Slip Balance Update
-
-    updateBalanceUI();
-
-
-    // Save Wallet
-
-    saveWalletManager();
-
-
-    // Highlight Selected Currency
-
+    // Remove Old Selected
     document
         .querySelectorAll(".currency-option")
-        .forEach(item=>{
+        .forEach(item => {
 
             item.classList.remove("selected");
 
         });
 
+    // Add Selected
+    if(el){
+
+        el.classList.add("selected");
+
+    }
+
+    // Update Header + Bet Slip
+    updateBalanceUI();
+
+    // Save Wallet
+    saveWalletManager();
+
+    // Close Dropdown (optional)
+    if(typeof headerDropdownMenu === "function"){
+
+        headerDropdownMenu("currency-menu");
+
+    }
+
 }
 
-window.selectCurrency =
-    selectCurrency;
+window.selectCurrency = selectCurrency;
 
 // ==========================================
 // RESTORE SELECTED CURRENCY
