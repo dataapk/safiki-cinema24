@@ -165,7 +165,7 @@ function updateBalanceUI(){
 
     let balance = 0;
 
-    // Wallet Manager থাকলে ওটাই ব্যবহার করো
+    // Wallet Manager থেকে Current Balance
     if(window.walletManager){
 
         balance =
@@ -175,17 +175,25 @@ function updateBalanceUI(){
 
     }
 
-    // না থাকলে পুরনো System
-    else{
-
-        balance = currentBalance || 0;
-
-    }
-
     const balanceText =
         "$" + Number(balance).toFixed(2);
 
-    // Header
+
+    // ============================
+    // UPDATE WALLET DROPDOWN
+    // ============================
+
+    if(typeof updateWalletDropdown === "function"){
+
+        updateWalletDropdown();
+
+    }
+
+
+    // ============================
+    // Header Balance
+    // ============================
+
     const header =
         document.getElementById("selected-balance");
 
@@ -196,16 +204,20 @@ function updateBalanceUI(){
 
     }
 
-   // Bet Slip
-const slip =
-    document.getElementById("slipBalance");
 
-if(slip){
+    // ============================
+    // Bet Slip Balance
+    // ============================
 
-    slip.textContent =
-        balanceText;
+    const slip =
+        document.getElementById("slipBalance");
 
-}
+    if(slip){
+
+        slip.textContent =
+            balanceText;
+
+    }
 
 }
 // ==========================================
