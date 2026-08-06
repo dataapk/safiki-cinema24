@@ -222,7 +222,7 @@ window.selectCurrency = selectCurrency;
 
  // =========================
     //  start UPDATE DROPDOWN
-    // =========================
+    // ========================
 
 function updateWalletDropdown(){
 
