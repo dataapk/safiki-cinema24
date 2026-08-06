@@ -196,16 +196,16 @@ function updateBalanceUI(){
 
     }
 
-    // Bet Slip
-    const slip =
-        document.getElementById("betslipBalance");
+   // Bet Slip
+const slip =
+    document.getElementById("slipBalance");
 
-    if(slip){
+if(slip){
 
-        slip.textContent =
-            balanceText;
+    slip.textContent =
+        balanceText;
 
-    }
+}
 
 }
 // ==========================================
