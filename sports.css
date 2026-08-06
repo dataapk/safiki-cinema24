@@ -933,10 +933,11 @@
 }
 
 /* ===== ১০. ফুটার ===== */
+
 .betslip-footer {
     padding: 16px;
-    border-top: 2px solid #2a2a4a;
-    background: #16162a;
+    border-top: 2px solid #2FBF71;
+    background: #1F1D1A;
     display: flex;
     gap: 12px;
     flex-shrink: 0;
@@ -945,41 +946,44 @@
 .btn-clear {
     flex: 1;
     padding: 14px;
-    background: #2a2a4a;
-    color: #ff4444;
-    border: 1px solid #ff4444;
+    background: #2A2825;
+    color: #2FBF71;
+    border: 1px solid #2FBF71;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
-    transition: all 0.2s;
+    transition: all .25s ease;
 }
 
 .btn-clear:hover {
-    background: #ff4444;
-    color: white;
+    background: #2FBF71;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(47,191,113,.35);
 }
 
 .btn-place {
     flex: 1;
     padding: 14px;
-    background: #ff6b00;
-    color: white;
+    background: #2FBF71;
+    color: #ffffff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
-    transition: all 0.2s;
+    transition: all .25s ease;
 }
 
 .btn-place:hover {
-    background: #ff8533;
+    background: #26A862;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+    box-shadow: 0 4px 14px rgba(47,191,113,.45);
 }
 
+
 /* ===== ১১. টোস্ট ===== */
+
 .bet-slip-toast {
     position: fixed;
     top: 20px;
@@ -987,20 +991,21 @@
     transform: translateX(-50%);
     padding: 12px 24px;
     border-radius: 8px;
-    color: white;
-    font-weight: 500;
+    color: #ffffff;
+    font-weight: 600;
     z-index: 99999;
     font-family: inherit;
+    box-shadow: 0 8px 25px rgba(0,0,0,.35);
 }
 
 .bet-slip-toast.toast-success {
-    background: #22c55e;
+    background: #2FBF71;
 }
 
 .bet-slip-toast.toast-error {
-    background: #ef4444;
+    background: #C62828;
 }
 
 .bet-slip-toast.toast-info {
-    background: #3b82f6;
+    background: #1E88E5;
 }
