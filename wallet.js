@@ -14,13 +14,15 @@ const walletManager = {
 
     balances: {
 
-        USDT: 100.00,
-        BTC: 1500.00,
-        ETH: 500.00,
-        DOGE: 80.00,
-        TRX: 120.00
+    USDT: 500.00,
+    BTC: 1500.00,
+    ETH: 500.00,
+    DOGE: 80.00,
+    TRX: 120.00,
+    SOL: 1450.00,
+    LTC: 1150.00
 
-    },
+},
 
     currentCurrency: "USDT"
 
