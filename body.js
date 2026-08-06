@@ -220,6 +220,8 @@ function updateBalanceUI(){
     }
 
 }
+   window.updateBalanceUI = updateBalanceUI;
+   
 // ==========================================
 // PAGE LOAD এ আগের সিলেকশন রিস্টোর
 // ==========================================
