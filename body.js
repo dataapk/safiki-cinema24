@@ -161,57 +161,77 @@ let sportsCurrentSlide = 0;
 // ==========================================
 
 function selectCurrency(name, image, balance) {
-    // ✅ ১. UI আপডেট — সিলেক্টেড কারেন্সি হাইলাইট
-    document.querySelectorAll('.currency-option').forEach(opt => {
+
+    // ১. UI Highlight
+    document.querySelectorAll('.currency-option').forEach(opt=>{
         opt.classList.remove('selected');
     });
+
     event.currentTarget.classList.add('selected');
 
-    // ✅ ২. localStorage এ সেভ
-    localStorage.setItem('selectedCurrency', name);       // "USDT"
-    localStorage.setItem('selectedCurrencyImage', image); // "image/usdt.png"
-    localStorage.setItem('selectedBalance', balance);     // "$100.00"
 
-    // ✅ ৩. গ্লোবাল ভেরিয়েবল আপডেট (বেট স্লিপ ব্যবহার করবে)
+    // ২. Save
+    localStorage.setItem("selectedCurrency",name);
+    localStorage.setItem("selectedCurrencyImage",image);
+    localStorage.setItem("selectedBalance",balance);
+
+
+    // ৩. Global
     window.selectedCurrency = name;
     window.selectedBalance = balance;
 
-    // ✅ ৪. বেট স্লিপ হেডার আপডেট (যদো ওপেন থাকে)
+
+    // ==============================
+    // NEW
+    // ==============================
+
+    currentBalance =
+        parseFloat(
+            balance.replace("$","")
+        );
+
+    updateBalanceUI();
+
+    // ==============================
+
+
     updateSlipBalance();
 
-    // ✅ ৫. টোস্ট দেখাও
-    showToast(`${name} selected`, 'success');
+    showToast(
+        `${name} selected`,
+        "success"
+    );
 
-    // ✅ ৬. ওয়ালেট মোডাল/ড্রপডাউন ক্লোজ করো (যদো থাকে)
     closeWalletModal?.();
-}
 
+}
    // ==========================================
 // UPDATE BALANCE UI
 // ==========================================
 
-function updateBalanceUI() {
+function updateBalanceUI(){
 
-    // Header Balance
-    const headerBalance =
+    const balanceText =
+        "$"+currentBalance.toFixed(2);
+
+    const header =
         document.getElementById("selected-balance");
 
-    if(headerBalance){
+    if(header){
 
-        headerBalance.textContent =
-            "$" + currentBalance.toFixed(2);
+        header.textContent =
+            balanceText;
 
     }
 
 
-    // Bet Slip Balance
-    const betSlipBalance =
+    const slip =
         document.getElementById("betslipBalance");
 
-    if(betSlipBalance){
+    if(slip){
 
-        betSlipBalance.textContent =
-            "$" + currentBalance.toFixed(2);
+        slip.textContent =
+            balanceText;
 
     }
 
@@ -862,23 +882,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  /* ==========================================
-     INITIALIZATION
-  ========================================== */
+ /* ==========================================
+   INITIALIZATION
+========================================== */
 
-   document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
     HeroSlider.init();
     GamesMarquee.init();
     WinnersSlider.init();
     StickyBar.init();
     SmoothScroll.init();
     ScrollAnimations.init();
-    updateHomeView();
-      updateBalanceUI();
-    
-    restoreSelectedCurrency();     // ✅ শুধু এই লাইন যোগ করো
-    
-    console.log('Landing Page JS initialized');
-  });
 
-})();  // ← এটা আগের মতোই থাকবে, কাটবে না
+    updateHomeView();
+
+    // ============================
+    // LOAD SAVED BALANCE
+    // ============================
+
+    const savedBalance =
+        localStorage.getItem("selectedBalance");
+
+    if (savedBalance) {
+
+        currentBalance =
+            parseFloat(
+                savedBalance.replace("$", "")
+            );
+
+    }
+
+    updateBalanceUI();
+
+    // ============================
+
+    restoreSelectedCurrency();
+
+    console.log("Landing Page JS initialized");
+
+});
+
+})();   // ← এটা আগের মতোই থাকবে
