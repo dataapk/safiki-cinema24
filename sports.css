@@ -592,24 +592,28 @@
 
 /* ===== ১. ফ্লোটিং বাটন (নিচে ডানে) ===== */
 
-.sports-betslip-float {
-    position: fixed;
-    bottom: 80px;
-    right: 15px;
-    width: 56px;
-    height: 56px;
-    background: #2FBF71;
-    color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 9998;
-    box-shadow: 0 4px 15px rgba(47,191,113,.45);
-    border: none;
-    font-size: 22px;
-    transition: all .25s ease;
+/* Floating Button */
+
+.sports-betslip-float{
+
+    position:fixed;
+
+    bottom:80px;
+    right:15px;
+
+    width:58px;
+    height:58px;
+
+    background:#2FBF71;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    z-index:9998;
+
+    box-shadow:0 4px 15px rgba(47,191,113,.45);
+
 }
 
 .sports-betslip-float:hover{
@@ -617,41 +621,49 @@
     box-shadow:0 6px 18px rgba(47,191,113,.55);
 }
 .sports-betslip-icon{
+
     position:absolute;
 
-    top:50%;
+    top:14px;
+
     left:50%;
 
-    transform:translate(-50%,-40%);
+    transform:translateX(-50%);
 
-    font-size:24px;
+    font-size:20px;
 
     line-height:1;
+
 }
+
 
 .sports-betslip-float:active {
     transform: scale(.95);
 }
 
+/* Text */
+
 .sports-betslip-text{
 
     position:absolute;
 
-    bottom:10px;
     left:50%;
+
+    top:64px;      /* বাটনের নিচে */
 
     transform:translateX(-50%);
 
-    font-size:8px;
+    font-size:9px;
 
     font-weight:600;
 
-    color:#fff;
+    color:#ffffff;
 
     white-space:nowrap;
 
-}
+    pointer-events:none;
 
+}
 
 .sports-betslip-count {
     position: absolute;
