@@ -649,11 +649,11 @@
 
     left:50%;
 
-    top:30px;      /* বাটনের নিচে */
+    top:40px;      /* বাটনের নিচে */
 
     transform:translateX(-50%);
 
-    font-size:12px;
+    font-size:8px;
 
     font-weight:600;
 
