@@ -67,9 +67,7 @@ function loadWalletManager(){
     }
 
 }
- loadWalletManager();
 
-updateBalanceUI();
 
 // ==========================================
 // UPDATE BALANCE UI
@@ -294,16 +292,14 @@ window.setCurrentBalance =
     setCurrentBalance;
 
 
-document.addEventListener(
+document.addEventListener("DOMContentLoaded", function () {
 
-    "DOMContentLoaded",
+    loadWalletManager();
 
-    function(){
+    restoreSelectedCurrency();
 
-        restoreSelectedCurrency();
+    updateBalanceUI();
 
-    }
-
-);
+});
 
 window.testWallet = "OK";
