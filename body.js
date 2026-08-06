@@ -156,55 +156,7 @@ let sportsSlideInterval = null;
 let casinoCurrentSlide = 0;
 let sportsCurrentSlide = 0;
 
-// ==========================================
-// CURRENCY SELECTION + BALANCE SYSTEM
-// ==========================================
 
-function selectCurrency(name, image, balance) {
-
-    // ১. UI Highlight
-    document.querySelectorAll('.currency-option').forEach(opt=>{
-        opt.classList.remove('selected');
-    });
-
-    event.currentTarget.classList.add('selected');
-
-
-    // ২. Save
-    localStorage.setItem("selectedCurrency",name);
-    localStorage.setItem("selectedCurrencyImage",image);
-    localStorage.setItem("selectedBalance",balance);
-
-
-    // ৩. Global
-    window.selectedCurrency = name;
-    window.selectedBalance = balance;
-
-
-    // ==============================
-    // NEW
-    // ==============================
-
-    currentBalance =
-        parseFloat(
-            balance.replace("$","")
-        );
-
-    updateBalanceUI();
-
-    // ==============================
-
-
-    updateSlipBalance();
-
-    showToast(
-        `${name} selected`,
-        "success"
-    );
-
-    closeWalletModal?.();
-
-}
    // ==========================================
 // UPDATE BALANCE UI
 // ==========================================
