@@ -1517,73 +1517,80 @@
 }
 
 /* ----- SUB CATEGORY GRID ----- */
-.subcat-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 18px;
+/* ===============================
+   SPORTS SUB CATEGORY GRID
+=============================== */
+
+.subcat-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:10px;
+
+    padding:10px;
+
 }
 
-.subcat-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+.subcat-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    height:70px;
+
+    background:#2A2825;
+
+    border:1px solid #4A4640;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    text-align:center;
+
 }
 
-.subcat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    padding: 14px 6px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    text-align: center;
-    min-height: 78px;
+.subcat-item:hover{
+
+    background:#34312D;
+
+    border-color:#2FBF71;
+
 }
 
-.subcat-item i {
-    font-size: 20px;
-    color: var(--text-muted);
-    transition: color 0.2s ease;
+.subcat-item.active{
+
+    background:#2FBF71;
+
+    color:#fff;
+
 }
 
-.subcat-item span {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    transition: color 0.2s ease;
+.subcat-item i{
+
+    font-size:22px;
+
+    margin-bottom:6px;
+
 }
 
-.subcat-item:hover {
-    background: var(--surface-2);
-    border-color: var(--border-green);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-}
+.subcat-item span{
 
-.subcat-item:hover i,
-.subcat-item:hover span {
-    color: var(--text);
-}
+    font-size:12px;
 
-.subcat-item:active {
-    transform: translateY(-1px) scale(0.97);
-}
+    font-weight:600;
 
-.subcat-item.active {
-    background: linear-gradient(135deg, var(--primary), var(--bonus-green-dark));
-    border-color: var(--primary);
-    box-shadow: 0 4px 14px rgba(29, 133, 72, 0.25);
-}
-
-.subcat-item.active i,
-.subcat-item.active span {
-    color: #fff;
 }
 
 /* View All */
