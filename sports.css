@@ -616,6 +616,18 @@
     background:#26A862;
     box-shadow:0 6px 18px rgba(47,191,113,.55);
 }
+.sports-betslip-icon{
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-40%);
+
+    font-size:24px;
+
+    line-height:1;
+}
 
 .sports-betslip-float:active {
     transform: scale(.95);
@@ -681,10 +693,14 @@
 
 .betslip-content{
 
-    position:relative;
+    position:absolute;
+
+    left:50%;
+    top:60%;
+
+    transform:translate(-50%,-50%);
 
     width:min(340px,92vw);
-
     max-height:80vh;
 
     display:flex;
@@ -700,10 +716,7 @@
 
     box-shadow:0 18px 50px rgba(0,0,0,.55);
 
-    color:#fff;
-
 }
-
 /* ===== ৪. হেডার ===== */
 
 .betslip-header {
