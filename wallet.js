@@ -205,10 +205,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadWalletManager();
 
-    restoreSelectedCurrency();
-
-    updateBalanceUI();
-
 });
 
 window.testWallet = "OK";
