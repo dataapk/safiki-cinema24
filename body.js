@@ -211,9 +211,29 @@ function selectCurrency(name, image, balance) {
 
 function updateBalanceUI(){
 
-    const balanceText =
-        "$"+currentBalance.toFixed(2);
+    let balance = 0;
 
+    // Wallet Manager থাকলে ওটাই ব্যবহার করো
+    if(window.walletManager){
+
+        balance =
+            walletManager.balances[
+                walletManager.currentCurrency
+            ] || 0;
+
+    }
+
+    // না থাকলে পুরনো System
+    else{
+
+        balance = currentBalance || 0;
+
+    }
+
+    const balanceText =
+        "$" + Number(balance).toFixed(2);
+
+    // Header
     const header =
         document.getElementById("selected-balance");
 
@@ -224,7 +244,7 @@ function updateBalanceUI(){
 
     }
 
-
+    // Bet Slip
     const slip =
         document.getElementById("betslipBalance");
 
@@ -236,7 +256,6 @@ function updateBalanceUI(){
     }
 
 }
-
 // ==========================================
 // PAGE LOAD এ আগের সিলেকশন রিস্টোর
 // ==========================================
