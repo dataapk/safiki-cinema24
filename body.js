@@ -907,7 +907,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update Header + Bet Slip UI
     updateBalanceUI();
 
-    console.log("Landing Page JS initialized");
+if(typeof updateWalletDropdown === "function"){
+
+    updateWalletDropdown();
+
+}
+
+console.log("Landing Page JS initialized");
 
 });
 
