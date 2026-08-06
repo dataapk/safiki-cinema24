@@ -213,6 +213,34 @@ function selectCurrency(name, image, el){
 
 window.selectCurrency = selectCurrency;
 
+ // =========================
+    //  start UPDATE DROPDOWN
+    // =========================
+
+function updateWalletDropdown(){
+
+    document.querySelectorAll(".currency-option")
+    .forEach(option=>{
+
+        const currency =
+            option.querySelector(".name")?.textContent;
+
+        const balance =
+            option.querySelector(".balance");
+
+        if(balance && walletManager.balances[currency] !== undefined){
+
+            balance.textContent =
+                "$" + walletManager.balances[currency].toFixed(2);
+
+        }
+
+    });
+
+}
+window.updateWalletDropdown =
+    updateWalletDropdown;
+
 // ==========================================
 // RESTORE SELECTED CURRENCY
 // =========================================
