@@ -282,19 +282,34 @@ console.log(
 
 
 // ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও ====
+// ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও ====
+
 function updateSlipBalance() {
-    const balanceEl = document.getElementById('slipBalance');
+
+    const balanceEl =
+        document.getElementById('slipBalance');
+
     if (!balanceEl) return;
 
-    // localStorage থেকে নাও (এখনকার জন্য)
-    let balance = localStorage.getItem('selectedBalance');
 
-    // যদো কিছু না থাকে, ডিফল্ট
-    if (!balance) {
-        balance = '$0.00';
+    // Wallet Manager থেকে Current Balance নাও
+
+    let balance = 0;
+
+    if (window.getCurrentBalance) {
+
+        balance = getCurrentBalance();
+
     }
 
-    balanceEl.textContent = balance;
+
+    const balanceText =
+        "$" + Number(balance).toFixed(2);
+
+
+    balanceEl.textContent =
+        balanceText;
+
 }
 
 // ===== সুপারবেস আপডেট (পরে শুধু এটা আনকমেন্ট করবে) =====
