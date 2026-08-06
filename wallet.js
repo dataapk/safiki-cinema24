@@ -126,18 +126,36 @@ function setCurrentBalance(amount){
 // ==========================================
 // SELECT CURRENCY
 // ==========================================
-
 function selectCurrency(name, image, el){
 
+    // =========================
     // Current Currency
+    // =========================
+
     walletManager.currentCurrency = name;
 
+    // =========================
     // Save
-    localStorage.setItem("selectedCurrency", name);
-    localStorage.setItem("selectedCurrencyImage", image);
+    // =========================
 
-    // Update Image
-    const img = document.getElementById("selected-currency-img");
+    localStorage.setItem(
+        "selectedCurrency",
+        name
+    );
+
+    localStorage.setItem(
+        "selectedCurrencyImage",
+        image
+    );
+
+    // =========================
+    // Header Image
+    // =========================
+
+    const img =
+        document.getElementById(
+            "selected-currency-img"
+        );
 
     if(img){
 
@@ -145,28 +163,47 @@ function selectCurrency(name, image, el){
 
     }
 
+    // =========================
     // Remove Old Selected
+    // =========================
+
     document
         .querySelectorAll(".currency-option")
-        .forEach(item => {
+        .forEach(item=>{
 
             item.classList.remove("selected");
 
         });
 
+    // =========================
     // Add Selected
+    // =========================
+
     if(el){
 
         el.classList.add("selected");
 
     }
 
-
+    // =========================
     // Save Wallet
+    // =========================
+
     saveWalletManager();
 
-    // Close Dropdown (optional)
-    if(typeof headerDropdownMenu === "function"){
+    // =========================
+    // Refresh Balance
+    // =========================
+
+    updateBalanceUI();
+
+    updateSlipBalance();
+
+    // =========================
+    // Close Dropdown
+    // =========================
+
+    if(typeof headerDropdownMenu==="function"){
 
         headerDropdownMenu("currency-menu");
 
