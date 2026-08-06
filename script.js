@@ -131,21 +131,7 @@ function headerDropdownMenu(id, event) {
 }
 
 /* ২. কারেন্সি সিলেকশন ফাংশন */
-function selectCurrency(name, img, balance) {
-    const headerImg = document.getElementById('selected-currency-img');
-    if (headerImg) {
-        headerImg.src = img;
-        headerImg.alt = name;
-    }
 
-    const headerBalance = document.getElementById('selected-balance');
-    if (headerBalance) {
-        headerBalance.innerText = balance;
-    }
-
-    // ড্রপডাউন মেনু ক্লোজ করা
-    headerDropdownMenu('currency-menu');
-}
 
 /* ৩. গ্লোবাল ক্লিক হ্যান্ডলার (এটি ঠিক করো) */
 document.addEventListener('click', function(event) {
