@@ -694,17 +694,6 @@ updateBalanceUI();
 updateSlipBalance();
 
 
-// ==========================================
-// OPTIONAL
-// If updateBalanceUI exists
-// ==========================================
-
-if (typeof updateBalanceUI === "function") {
-
-    updateBalanceUI();
-
-}
-
     // ===== Place Bet =====
     console.log('Bet placed:', { 
         mode: currentMode, 
