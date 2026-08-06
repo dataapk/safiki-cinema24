@@ -591,36 +591,43 @@
    ========================================== */
 
 /* ===== ১. ফ্লোটিং বাটন (নিচে ডানে) ===== */
+
 .sports-betslip-float {
     position: fixed;
     bottom: 80px;
     right: 15px;
     width: 56px;
     height: 56px;
-    background: #ff6b00;
-    color: white;
+    background: #2FBF71;
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 9998;
-    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+    box-shadow: 0 4px 15px rgba(47,191,113,.45);
     border: none;
     font-size: 22px;
-    transition: transform 0.2s;
+    transition: all .25s ease;
+}
+
+.sports-betslip-float:hover{
+    background:#26A862;
+    box-shadow:0 6px 18px rgba(47,191,113,.55);
 }
 
 .sports-betslip-float:active {
-    transform: scale(0.95);
+    transform: scale(.95);
 }
+
 
 .sports-betslip-count {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: #ff0000;
-    color: white;
+    background: #E53935;
+    color: #ffffff;
     min-width: 22px;
     height: 22px;
     border-radius: 50%;
@@ -629,11 +636,13 @@
     justify-content: center;
     font-size: 11px;
     font-weight: bold;
-    border: 2px solid white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
+
 /* ===== ২. প্যানেল ওভারলে ===== */
+
 .sports-betslip-panel {
     position: fixed;
     top: 0;
@@ -643,17 +652,16 @@
     z-index: 9999;
 }
 
+
 .betslip-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    inset: 0;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(6px);
 }
 
 /* ===== ৩. প্যানেল কন্টেন্ট (ফ্লোটিং কার্ড) ===== */
+
 .betslip-content {
     position: absolute;
     top: 50%;
@@ -662,23 +670,26 @@
     height: auto;
     max-height: 70vh;
     transform: translateY(-50%);
-    background: #0f0f1a;
-    color: white;
+    background: #1F1D1A;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     border-radius: 16px;
-    box-shadow: -8px 0 30px rgba(0,0,0,0.6);
+    box-shadow: -8px 0 30px rgba(0,0,0,.55);
     overflow: hidden;
+    border: 1px solid #2FBF71;
 }
 
+
 /* ===== ৪. হেডার ===== */
+
 .betslip-header {
     padding: 16px 20px;
-    border-bottom: 1px solid #2a2a4a;
+    border-bottom: 1px solid #3A3632;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #16162a;
+    background: #2A2825;
     flex-shrink: 0;
     gap: 10px;
 }
@@ -686,26 +697,28 @@
 .betslip-header h3 {
     margin: 0;
     font-size: 18px;
-    color: #fff;
+    color: #ffffff;
     font-weight: 600;
     white-space: nowrap;
 }
 
-/* ব্যালেন্স (মাঝখানে) */
+
+/* ===== ব্যালেন্স ===== */
+
 .betslip-balance {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #0f0f1a;
+    background: #34312D;
     padding: 5px 12px;
     border-radius: 8px;
-    border: 1px solid #2a2a4a;
+    border: 1px solid #4A4640;
     min-width: 90px;
 }
 
 .balance-label {
     font-size: 9px;
-    color: #888;
+    color: #BDBDBD;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -713,35 +726,20 @@
 .balance-amount {
     font-size: 15px;
     font-weight: bold;
-    color: #4ade80;
+    color: #2FBF71;
     position: relative;
-    transition: color 0.3s;
+    transition: color .3s;
 }
 
-/* ব্যালেন্স অ্যানিমেশন */
-.balance-amount.up {
-    color: #4ade80;
-}
-.balance-amount.up::before {
-    content: "▲ ";
-    font-size: 10px;
-}
 
-.balance-amount.down {
-    color: #ff4444;
-}
-.balance-amount.down::before {
-    content: "▼ ";
-    font-size: 10px;
-}
+/* ===== ক্লোজ বাটন ===== */
 
-/* ক্লোজ বাটন */
 .betslip-close {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #ff4444;
-    color: white;
+    background: #2FBF71;
+    color: #ffffff;
     border: none;
     font-size: 20px;
     cursor: pointer;
@@ -749,42 +747,50 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: all 0.2s;
+    transition: all .25s ease;
 }
 
 .betslip-close:hover {
-    background: #ff2222;
-    transform: scale(1.1);
+    background: #26A862;
+    transform: scale(1.08);
+    box-shadow: 0 0 10px rgba(47,191,113,.45);
 }
 
+
 /* ===== ৫. মোড ট্যাব ===== */
+
 .bet-mode-tabs {
     display: flex;
     padding: 10px;
     gap: 8px;
-    background: #0f0f1a;
-    border-bottom: 1px solid #2a2a4a;
+    background: #1F1D1A;
+    border-bottom: 1px solid #3A3632;
     flex-shrink: 0;
 }
 
 .mode-tab {
     flex: 1;
     padding: 10px;
-    background: #1e1e3f;
-    border: 1px solid #2a2a4a;
-    color: #888;
+    background: #2A2825;
+    border: 1px solid #4A4640;
+    color: #C9C9C9;
     cursor: pointer;
     border-radius: 6px;
     font-weight: bold;
-    transition: all 0.2s;
+    transition: all .25s ease;
+}
+
+.mode-tab:hover {
+    background: #34312D;
+    color: #ffffff;
 }
 
 .mode-tab.active {
-    background: #ff6b00;
-    color: white;
-    border-color: #ff6b00;
+    background: #2FBF71;
+    color: #ffffff;
+    border-color: #2FBF71;
+    box-shadow: 0 0 12px rgba(47,191,113,.35);
 }
-
 /* ===== ৬. বডি (স্ক্রলেবল) ===== */
 .betslip-body {
     flex: 1;
