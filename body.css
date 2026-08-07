@@ -2822,7 +2822,7 @@
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:12px;
 
-    width:100%;
+    width:calc(100% - 32px);
     max-width:430px;
 
     margin:0 auto;
