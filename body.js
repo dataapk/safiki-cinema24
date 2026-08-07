@@ -980,13 +980,19 @@ ${
 
     : bet.status === "WIN"
 
-    ? `
+? `
 
-        <div>
+<div>
 
-            Win
+    Win:
 
-        </div>
+    ${bet.winAmount || bet.possibleWin || 0}
+
+    ${bet.currency || ""}
+
+</div>
+
+`
 
     `
 
