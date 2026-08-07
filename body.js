@@ -935,9 +935,28 @@ function renderBetHistory(){
 
 
                 <div>
+
                     Stake:
+
                     ${bet.stake || 0}
+
                     ${bet.currency || ""}
+
+                </div>
+
+                ${
+                bet.status === "MATCH CANCELLED & REFUNDED"
+
+                ? `
+
+                <div>
+
+                    Refund:
+
+                    ${bet.refund || bet.stake}
+
+                    ${bet.currency || ""}
+
                 </div>
 
 
@@ -957,8 +976,8 @@ function renderBetHistory(){
             ? "win"
         : bet.status === "LOSE"
             ? "lose"
-        : bet.status === "REJECTED"
-            ? "rejected"
+        : bet.status === "MATCH CANCELLED & REFUNDED"
+               ? "refunded"
         : ""
     }">
 
@@ -1084,13 +1103,11 @@ function rejectBet(betId){
 
         ...bet,
 
-        status:"REJECTED",
+        status: "MATCH CANCELLED & REFUNDED",
 
-        refund:refund,
+refund: refund,
 
-        rejectedTime:
-            new Date().toLocaleString()
-
+refundedTime: new Date().toLocaleString()
     });
 
 
