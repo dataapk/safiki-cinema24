@@ -2689,3 +2689,222 @@
     }
 
 }
+/* ==========================================
+   MY BETS CARDS
+========================================== */
+
+.bets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* Active Bet Card */
+
+.active-bet-card,
+.history-bet-card {
+
+    background: #1f2229;
+
+    border: 1px solid #30343d;
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    color: #ffffff;
+
+    position: relative;
+
+}
+
+
+/* Bet ID Top */
+
+.bet-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-bottom: 10px;
+
+    margin-bottom: 12px;
+
+    border-bottom: 1px solid #30343d;
+
+}
+
+
+.bet-header span {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #b8bec8;
+
+}
+
+
+/* Bet Information */
+
+.bet-info {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+
+}
+
+
+.bet-info div {
+
+    font-size: 14px;
+
+    color: #d7dbe2;
+
+}
+
+
+/* Odds */
+
+.bet-info .odds {
+
+    color: #ffffff;
+
+    font-weight: 600;
+
+}
+
+
+/* Possible Win / Return */
+
+.possible-win,
+.cashout-amount {
+
+    color: #2fbf71;
+
+    font-weight: 700;
+
+}
+
+
+
+/* ==========================================
+   CASH OUT BUTTON
+========================================== */
+
+.cash-out-btn {
+
+    width: 100%;
+
+    margin-top: 14px;
+
+    padding: 11px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    background: #f2c94c;
+
+    color: #111;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.cash-out-btn:hover {
+
+    background: #ffd85c;
+
+}
+
+
+
+/* ==========================================
+   HISTORY STATUS COLORS
+========================================== */
+
+
+/* Cash Out */
+
+.status-cashed-out {
+
+    color: #f2c94c;
+
+    font-weight: 700;
+
+}
+
+
+/* Win */
+
+.status-win {
+
+    color: #2fbf71;
+
+    font-weight: 700;
+
+}
+
+
+/* Lose */
+
+.status-lose {
+
+    color: #ff5252;
+
+    font-weight: 700;
+
+}
+
+
+
+/* ==========================================
+   HISTORY CARD
+========================================== */
+
+.history-bet-card {
+
+    background: #191c22;
+
+}
+
+
+.history-bet-card .bet-info {
+
+    grid-template-columns: 1fr 1fr;
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .bet-info {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .active-bet-card,
+    .history-bet-card {
+
+        padding: 14px;
+
+    }
+
+}
