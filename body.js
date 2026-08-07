@@ -446,6 +446,9 @@ function openMyBets(){
 
     if(typeof renderActiveBets === "function"){
 
+
+      
+        cleanBetHistory();
         renderActiveBets();
 
     }
@@ -810,6 +813,7 @@ if(cashOutAmount <= 0){
 
 
     walletManager.betHistory.push(historyBet);
+     cleanBetHistory();
 
 
     // ==============================
@@ -962,6 +966,58 @@ function renderBetHistory(){
 
 
 window.renderBetHistory = renderBetHistory;
+
+
+   // ==========================================
+// CLEAN OLD BET HISTORY
+// KEEP ONLY LAST 7 DAYS
+// ==========================================
+
+function cleanBetHistory(){
+
+    if(
+        !walletManager.betHistory ||
+        walletManager.betHistory.length === 0
+    ){
+        return;
+    }
+
+
+    const now = new Date();
+
+
+    walletManager.betHistory =
+        walletManager.betHistory.filter(bet=>{
+
+
+            const betDate =
+                new Date(
+                    bet.cashOutTime ||
+                    bet.placedTime
+                );
+
+
+            const diffTime =
+                now - betDate;
+
+
+            const diffDays =
+                diffTime /
+                (1000 * 60 * 60 * 24);
+
+
+            return diffDays <= 7;
+
+
+        });
+
+
+    saveWalletManager();
+
+}
+
+
+window.cleanBetHistory = cleanBetHistory;
 
    
 
