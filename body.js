@@ -944,21 +944,20 @@ function renderBetHistory(){
                     ${bet.currency || ""}
 
                 </div>
-    
-${
+    ${
     bet.status === "MATCH CANCELLED & REFUNDED"
 
     ? `
 
-        <div>
+    <div>
 
-            Refund:
+        Refund:
 
-            ${bet.refund || bet.stake}
+        ${bet.refund || bet.stake}
 
-            ${bet.currency || ""}
+        ${bet.currency || ""}
 
-        </div>
+    </div>
 
     `
 
@@ -966,33 +965,31 @@ ${
 
     ? `
 
-        <div>
+    <div>
 
-            Cash Out:
+        Cash Out:
 
-            ${bet.cashOutAmount || 0}
+        ${bet.cashOutAmount || 0}
 
-            ${bet.currency || ""}
+        ${bet.currency || ""}
 
-        </div>
+    </div>
 
     `
 
     : bet.status === "WIN"
 
-? `
+    ? `
 
-<div>
+    <div>
 
-    Win:
+        Win:
 
-    ${bet.winAmount || bet.possibleWin || 0}
+        ${bet.winAmount || bet.possibleWin || 0}
 
-    ${bet.currency || ""}
+        ${bet.currency || ""}
 
-</div>
-
-`
+    </div>
 
     `
 
@@ -1000,11 +997,11 @@ ${
 
     ? `
 
-        <div>
+    <div>
 
-            No Win
+        No Win
 
-        </div>
+    </div>
 
     `
 
