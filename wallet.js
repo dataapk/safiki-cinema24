@@ -24,7 +24,11 @@ const walletManager = {
 
 },
 
-    currentCurrency: "USDT"
+    currentCurrency: "USDT",
+
+    activeBets: [],
+
+    betHistory: []
 
 };
 
@@ -72,8 +76,50 @@ function loadWalletManager(){
             savedCurrency;
 
     }
+  // ==========================================
+// LOAD ACTIVE BETS
+// ==========================================
+
+const savedActiveBets =
+    localStorage.getItem("activeBets");
+
+if(savedActiveBets){
+
+    try{
+
+        walletManager.activeBets =
+            JSON.parse(savedActiveBets);
+
+    }catch(e){
+
+        walletManager.activeBets = [];
+
+    }
 
 }
+
+// ==========================================
+// LOAD BET HISTORY
+// ==========================================
+
+const savedBetHistory =
+    localStorage.getItem("betHistory");
+
+if(savedBetHistory){
+
+    try{
+
+        walletManager.betHistory =
+            JSON.parse(savedBetHistory);
+
+    }catch(e){
+
+        walletManager.betHistory = [];
+
+    }
+
+}  
+
 
 
 // ==========================================
@@ -88,16 +134,28 @@ function loadWalletManager(){
 
 function saveWalletManager(){
 
+    // Wallet Balance
     localStorage.setItem(
-
         "walletBalances",
+        JSON.stringify(walletManager.balances)
+    );
 
-        JSON.stringify(
+    // Selected Currency
+    localStorage.setItem(
+        "selectedCurrency",
+        walletManager.currentCurrency
+    );
 
-            walletManager.balances
+    // Active Bets
+    localStorage.setItem(
+        "activeBets",
+        JSON.stringify(walletManager.activeBets)
+    );
 
-        )
-
+    // Bet History
+    localStorage.setItem(
+        "betHistory",
+        JSON.stringify(walletManager.betHistory)
     );
 
 }
