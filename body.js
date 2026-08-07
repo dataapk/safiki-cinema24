@@ -952,19 +952,27 @@ function renderBetHistory(){
 
                     <span class="bet-status ${
     
+    ${
     bet.status === "CASHED OUT"
         ? "cashed-out"
-        : bet.status === "WIN"
+
+    : bet.status === "WIN"
         ? "win"
-        : "lose"
 
+    : bet.status === "LOSE"
+        ? "lose"
+
+    : bet.status === "REJECTED"
+        ? "rejected"
+
+    : ""
 }">
-    ${bet.status || "COMPLETED"}
-</span>
 
-            </div>
+${bet.status || "COMPLETED"}
 
         </div>
+
+    </div>
 
         `;
 
@@ -1030,6 +1038,90 @@ function cleanBetHistory(){
 
 
 window.cleanBetHistory = cleanBetHistory;
+
+   // ==========================================
+// REJECT BET (SIMULATION)
+// ==========================================
+
+function rejectBet(betId){
+
+    const index =
+        walletManager.activeBets.findIndex(
+            bet=>bet.betId===betId
+        );
+
+    if(index===-1){
+
+        console.log("Bet Not Found");
+
+        return;
+
+    }
+
+
+    const bet =
+        walletManager.activeBets[index];
+
+
+    const refund =
+        Number(bet.stake || 0);
+
+
+    // Refund Wallet
+
+    walletManager.balances[
+        walletManager.currentCurrency
+    ] += refund;
+
+
+    // Remove Active
+
+    walletManager.activeBets.splice(
+        index,
+        1
+    );
+
+
+    // History
+
+    walletManager.betHistory.push({
+
+        ...bet,
+
+        status:"REJECTED",
+
+        refund:refund,
+
+        rejectedTime:
+            new Date().toLocaleString()
+
+    });
+
+
+    cleanBetHistory();
+
+
+    saveWalletManager();
+
+
+    updateBalanceUI();
+
+    updateSlipBalance();
+
+
+    renderActiveBets();
+
+    renderBetHistory();
+
+
+    showToast(
+        "Bet Rejected • Stake Refunded",
+        "success"
+    );
+
+}
+
+window.rejectBet = rejectBet;
 
    
 
