@@ -3756,14 +3756,13 @@
 
         </div>
 
-        <div class="footer-bottom-item"
-             id="historyBtn"
-             onclick="footerSetActive(this); footerOpenBetHistory()">
+        <div class="footer-item" onclick="openMyBets()">
 
-            <i class="fas fa-history"></i>
-            <span>Bet History</span>
+    <i class="fas fa-history"></i>
 
-        </div>
+    <span>My Bets</span>
+
+</div>
 
         <div class="footer-bottom-item"
              id="homeBtn"
@@ -3987,6 +3986,149 @@
      🔴 END: BETSLIP TOTAL SUB
 ====================================================== -->
 
+         <!-- ======================================================
+     🔴 START MY BETS SUB SECTION
+====================================================== -->
+<!-- ========================================= -->
+<!-- MY BETS POPUP -->
+<!-- ========================================= -->
+
+<div id="my-bets-popup" class="my-bets-popup">
+
+    <div class="my-bets-container">
+
+        <!-- Header -->
+        <div class="my-bets-header">
+
+            <h2>My Bets</h2>
+
+            <button class="close-my-bets" onclick="closeMyBets()">
+                <i class="fas fa-times"></i>
+            </button>
+
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="my-bets-main-tabs">
+
+            <button class="bets-main-tab active"
+                    data-tab="sports">
+                <i class="fas fa-futbol"></i>
+                Sports
+            </button>
+
+            <button class="bets-main-tab"
+                    data-tab="casino">
+                <i class="fas fa-dice"></i>
+                Casino
+            </button>
+
+        </div>
+
+        <!-- SPORTS -->
+        <div id="sports-bets-panel"
+             class="bets-panel active">
+
+            <!-- Sub Tabs -->
+            <div class="my-bets-sub-tabs">
+
+                <button class="bets-sub-tab active"
+                        data-subtab="active">
+                    Active Bets
+                </button>
+
+                <button class="bets-sub-tab"
+                        data-subtab="history">
+                    History
+                </button>
+
+            </div>
+
+            <!-- Active Bets -->
+            <div id="sports-active-list"
+                 class="bets-list">
+
+                <div class="empty-bets">
+
+                    <i class="fas fa-ticket-alt"></i>
+
+                    <p>No Active Bets</p>
+
+                </div>
+
+            </div>
+
+            <!-- History -->
+            <div id="sports-history-list"
+                 class="bets-list"
+                 style="display:none;">
+
+                <div class="empty-bets">
+
+                    <i class="fas fa-history"></i>
+
+                    <p>No Bet History</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CASINO -->
+        <div id="casino-bets-panel"
+             class="bets-panel"
+             style="display:none;">
+
+            <!-- Sub Tabs -->
+            <div class="my-bets-sub-tabs">
+
+                <button class="bets-sub-tab active"
+                        data-subtab="casino-active">
+                    Active Bets
+                </button>
+
+                <button class="bets-sub-tab"
+                        data-subtab="casino-history">
+                    History
+                </button>
+
+            </div>
+
+            <!-- Active -->
+            <div id="casino-active-list"
+                 class="bets-list">
+
+                <div class="empty-bets">
+
+                    <i class="fas fa-dice"></i>
+
+                    <p>No Casino Bets</p>
+
+                </div>
+
+            </div>
+
+            <!-- History -->
+            <div id="casino-history-list"
+                 class="bets-list"
+                 style="display:none;">
+
+                <div class="empty-bets">
+
+                    <i class="fas fa-history"></i>
+
+                    <p>No Casino History</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 
 
