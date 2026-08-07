@@ -2834,37 +2834,26 @@
 /* ==========================================
    HISTORY STATUS COLORS
 ========================================== */
+.bet-status.cashed-out {
 
-
-/* Cash Out */
-
-.status-cashed-out {
-
-    color: #f2c94c;
-
-    font-weight: 700;
+    background: #f2c94c;
+    color: #111;
 
 }
 
 
-/* Win */
+.bet-status.win {
 
-.status-win {
-
-    color: #2fbf71;
-
-    font-weight: 700;
+    background: #2fbf71;
+    color: #fff;
 
 }
 
 
-/* Lose */
+.bet-status.lose {
 
-.status-lose {
-
-    color: #ff5252;
-
-    font-weight: 700;
+    background: #e74c3c;
+    color: #fff;
 
 }
 
@@ -2876,7 +2865,7 @@
 
 .history-bet-card {
 
-    background: #191c22;
+    background: #1f345e;
 
 }
 
