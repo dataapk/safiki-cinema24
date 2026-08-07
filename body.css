@@ -2819,9 +2819,15 @@
 /* Grid */
 .why-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;              /* দুই কার্ডের মাঝে গ্যাপ */
-    padding:0 14px;        /* ডান-বামে প্যাডিং */
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+
+    width:100%;
+    max-width:430px;
+
+    margin:0 auto;
+
+    padding:0;
     box-sizing:border-box;
 }
 
@@ -2829,21 +2835,26 @@
 /* Card */
 
 .why-card{
+    width:100%;
+    box-sizing:border-box;
+
     background:linear-gradient(
         180deg,
         var(--surface),
         var(--surface-2)
     );
+
     border:1px solid var(--border);
     border-radius:14px;
-    padding:18px 14px;
-    text-align:center;
-    transition:.30s ease;
-    overflow:hidden;
-    position:relative;
-    width:100%;
-}
 
+    padding:15px 10px;
+
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+
+    transition:.30s ease;
+}
 
 /* Top Accent */
 
@@ -2924,30 +2935,32 @@
 @media (max-width:768px){
 
     .why-grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:12px;
-       padding:0 10px;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        max-width:390px;
+        gap:10px;
+        margin:0 auto;
+        padding:0;
     }
 
     .why-card{
-        padding:12px 10px;
+        padding:12px 8px;
         border-radius:12px;
     }
 
     .why-icon{
-        width:46px;
-        height:46px;
-        font-size:19px;
+        width:44px;
+        height:44px;
+        font-size:18px;
         margin-bottom:10px;
     }
 
     .why-card h4{
-        font-size:14px;
+        font-size:13px;
     }
 
     .why-card p{
         font-size:11px;
-        line-height:1.5;
+        line-height:1.45;
     }
 
     .why-us-section .section-title{
@@ -2957,7 +2970,6 @@
     .why-us-section .section-title i{
         font-size:16px;
     }
-
 }
 /* ==========================================
   END WHY CHOOSE US
