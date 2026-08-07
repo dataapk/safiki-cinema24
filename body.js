@@ -950,27 +950,23 @@ function renderBetHistory(){
 
                 <div class="bet-status">
 
-                    <span class="bet-status ${
-    
-    ${
-    bet.status === "CASHED OUT"
-        ? "cashed-out"
+    <span class="bet-status ${
+        bet.status === "CASHED OUT"
+            ? "cashed-out"
+        : bet.status === "WIN"
+            ? "win"
+        : bet.status === "LOSE"
+            ? "lose"
+        : bet.status === "REJECTED"
+            ? "rejected"
+        : ""
+    }">
 
-    : bet.status === "WIN"
-        ? "win"
+        ${bet.status || "COMPLETED"}
 
-    : bet.status === "LOSE"
-        ? "lose"
+        </span>
 
-    : bet.status === "REJECTED"
-        ? "rejected"
-
-    : ""
-}">
-
-${bet.status || "COMPLETED"}
-
-        </div>
+</div>
 
     </div>
 
