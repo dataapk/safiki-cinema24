@@ -981,27 +981,22 @@ function renderBetHistory(){
         : ""
     }">
 
-        ${bet.status || "COMPLETED"}
+       ${bet.status || "COMPLETED"}
 
-        </span>
+    </span>
 
-</div>
+</div> <!-- bet-status -->
 
-    </div>
+</div> <!-- history-bet-card -->
 
-        `;
+`;
 
+container.appendChild(card);
 
-        container.appendChild(card);
-
-
-    });
+});
 
 }
-
-
 window.renderBetHistory = renderBetHistory;
-
 
    // ==========================================
 // CLEAN OLD BET HISTORY
