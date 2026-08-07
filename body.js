@@ -8,7 +8,6 @@
   'use strict';
   
 
-
   /* ==========================================
      HOME VIEW SWITCH
      Guest / Member Section
