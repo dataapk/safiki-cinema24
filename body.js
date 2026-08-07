@@ -868,12 +868,9 @@ function renderBetHistory(){
     const container =
         document.getElementById("sports-history-list");
 
-
     if(!container) return;
 
-
     container.innerHTML = "";
-
 
     if(
         !walletManager.betHistory ||
@@ -894,45 +891,49 @@ function renderBetHistory(){
 
     }
 
-
     [...walletManager.betHistory]
-.reverse()
-.forEach(bet=>{
 
+    .reverse()
 
-    const card =
-        document.createElement("div");
+    .forEach(bet=>{
 
+        const card =
+            document.createElement("div");
 
         card.className =
             "history-bet-card";
-
 
         card.innerHTML = `
 
             <div class="bet-header">
 
                 <span>
+
                     Bet ID:
+
                     ${bet.betId}
+
                 </span>
 
             </div>
 
-
             <div class="bet-info">
 
                 <div>
-                    Date:
-                    ${bet.placedTime || "-"}
-                </div>
 
+                    Date:
+
+                    ${bet.placedTime || "-"}
+
+                </div>
 
                 <div>
-                    Odds:
-                    ${bet.odds || "-"}
-                </div>
 
+                    Odds:
+
+                    ${bet.odds || "-"}
+
+                </div>
 
                 <div>
 
@@ -959,42 +960,53 @@ function renderBetHistory(){
 
                 </div>
 
+                `
+
+                : `
 
                 <div>
+
                     Cash Out:
-                    ${bet.cashOutAmount || 0}
+
+                    ${bet.cashOutAmount || bet.possibleWin || 0}
+
                     ${bet.currency || ""}
+
                 </div>
 
+                `
+                }
 
-                <div class="bet-status">
+            </div>
 
-    <span class="bet-status ${
-        bet.status === "CASHED OUT"
-            ? "cashed-out"
-        : bet.status === "WIN"
-            ? "win"
-        : bet.status === "LOSE"
-            ? "lose"
-        : bet.status === "MATCH CANCELLED & REFUNDED"
-               ? "refunded"
-        : ""
-    }">
+            <div class="bet-status">
 
-       ${bet.status || "COMPLETED"}
+                <span class="bet-status ${
+                    bet.status === "CASHED OUT"
+                        ? "cashed-out"
+                    : bet.status === "WIN"
+                        ? "win"
+                    : bet.status === "LOSE"
+                        ? "lose"
+                    : bet.status === "MATCH CANCELLED & REFUNDED"
+                        ? "refunded"
+                    : ""
+                }">
 
-    </span>
+                    ${bet.status || "COMPLETED"}
 
-</div> <!-- bet-status -->
+                </span>
 
+            </div>
 
-`;
+        `;
 
-container.appendChild(card);
+        container.appendChild(card);
 
-});
+    });
 
 }
+
 window.renderBetHistory = renderBetHistory;
 
    // ==========================================
