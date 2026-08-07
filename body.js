@@ -564,7 +564,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 function renderActiveBets(){
 
     const container =
-        document.getElementById("active-bets-container");
+        document.getElementById("sports-active-list");
 
     if(!container) return;
 
