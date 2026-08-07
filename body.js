@@ -557,6 +557,104 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 });
 
+   // ==========================================
+// RENDER ACTIVE BETS
+// ==========================================
+
+function renderActiveBets(){
+
+    const container =
+        document.getElementById("active-bets-container");
+
+    if(!container) return;
+
+
+    container.innerHTML = "";
+
+
+    if(
+        !walletManager.activeBets ||
+        walletManager.activeBets.length === 0
+    ){
+
+        container.innerHTML = `
+            <div class="empty-bets">
+                No Active Bets
+            </div>
+        `;
+
+        return;
+    }
+
+
+    walletManager.activeBets.forEach(bet=>{
+
+
+        const card = document.createElement("div");
+
+        card.className = "active-bet-card";
+
+
+        card.innerHTML = `
+
+            <div class="bet-header">
+
+                <span>
+                    Bet ID:
+                    ${bet.betId}
+                </span>
+
+            </div>
+
+
+            <div class="bet-info">
+
+                <div>
+                    Date:
+                    ${bet.placedTime}
+                </div>
+
+
+                <div>
+                    Odds:
+                    ${bet.odds}
+                </div>
+
+
+                <div>
+                    Stake:
+                    ${bet.stake}
+                    ${bet.currency}
+                </div>
+
+
+                <div>
+                    Possible Win:
+                    ${bet.possibleWin}
+                    ${bet.currency}
+                </div>
+
+            </div>
+
+
+            <button 
+                class="cashout-btn"
+                onclick="cashOutBet('${bet.betId}')">
+
+                Cash Out
+
+            </button>
+
+        `;
+
+
+        container.appendChild(card);
+
+
+    });
+
+}
+
    
 
 // ===== SUB-BANNER SLIDER =====
