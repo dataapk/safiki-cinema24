@@ -402,14 +402,58 @@ function openMyBets(){
 
     if(!popup) return;
 
+
     popup.classList.add("show");
 
     document.body.style.overflow = "hidden";
 
+
+    // ==============================
+    // DEFAULT SPORTS ACTIVE TAB
+    // ==============================
+
+    const sportsBtn =
+        document.querySelector(
+            '[data-category="sports"]'
+        );
+
+    if(sportsBtn){
+
+        sportsBtn.click();
+
+    }
+
+
+    // ==============================
+    // DEFAULT ACTIVE BETS SUB TAB
+    // ==============================
+
+    const activeBtn =
+        document.querySelector(
+            '[data-subtab="active"]'
+        );
+
+    if(activeBtn){
+
+        activeBtn.click();
+
+    }
+
+
+    // ==============================
+    // RENDER ACTIVE BETS
+    // ==============================
+
+    if(typeof renderActiveBets === "function"){
+
+        renderActiveBets();
+
+    }
+
 }
 
-window.openMyBets = openMyBets;
 
+window.openMyBets = openMyBets;
 
 // ==========================================
 // CLOSE MY BETS
