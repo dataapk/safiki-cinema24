@@ -2601,25 +2601,23 @@
 
 }
 
-/* =========================================================
-   HISTORY STATUS
-========================================================= */
+/* ==========================================
+   HISTORY STATUS CENTER
+========================================== */
 
-.bet-status{
+.bet-status {
 
-    display:inline-flex;
+    display: flex;
 
-    align-items:center;
+    justify-content: center;
 
-    gap:6px;
+    align-items: center;
 
-    padding:5px 10px;
+    text-align: center;
 
-    border-radius:999px;
+    width: 100%;
 
-    font-size:12px;
-
-    font-weight:700;
+    margin-top: 12px;
 
 }
 
@@ -2863,9 +2861,37 @@
    HISTORY CARD
 ========================================== */
 
+/* ==========================================
+   HISTORY OUTER CARD
+========================================== */
+
 .history-bet-card {
 
-    background: #1f345e;
+    background: #1f2229;
+
+    border: 1px solid #30343d;
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+}
+
+
+
+/* ==========================================
+   HISTORY INNER STATUS CARD
+========================================== */
+
+.bet-status-box {
+
+    background: #292d36;
+
+    border-radius: 10px;
+
+    padding: 10px 12px;
+
+    margin-top: 12px;
 
 }
 
