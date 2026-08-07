@@ -649,7 +649,7 @@
     display: flex;
     gap: 10px;
     width: max-content;
-    animation: winnersScroll 35s linear infinite;
+    animation: winnersSlide 22s linear infinite;
     pointer-events: none;
     user-select: none;
 }
