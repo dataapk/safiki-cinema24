@@ -2854,9 +2854,9 @@
     color: #fff;
 
 }
-.bet-status.rejected{
+.bet-status.refunded{
 
-    background:#7f8c8d;
+    background:#3498db;
 
     color:#fff;
 
