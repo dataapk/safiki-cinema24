@@ -944,8 +944,7 @@ function renderBetHistory(){
                     ${bet.currency || ""}
 
                 </div>
-
-        // Amount Row        
+    
 ${
     bet.status === "MATCH CANCELLED & REFUNDED"
 
