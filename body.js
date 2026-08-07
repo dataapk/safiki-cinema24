@@ -556,6 +556,33 @@ document.addEventListener("DOMContentLoaded",()=>{
             tab.classList.add("active");
 
             const panel=tab.closest(".bets-panel");
+           // ==============================
+// LOAD TAB CONTENT
+// ==============================
+
+const subtab = tab.dataset.subtab;
+
+
+if(subtab === "active"){
+
+    if(typeof renderActiveBets === "function"){
+
+        renderActiveBets();
+
+    }
+
+}
+
+
+if(subtab === "history"){
+
+    if(typeof renderBetHistory === "function"){
+
+        renderBetHistory();
+
+    }
+
+}
 
             if(!panel) return;
 
