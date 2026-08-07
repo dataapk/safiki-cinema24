@@ -392,6 +392,69 @@ function backToMainDashboard() {
 }
    window.backToMainDashboard = backToMainDashboard;
 
+// ==========================================
+// OPEN MY BETS
+// ==========================================
+
+function openMyBets(){
+
+    const popup = document.getElementById("my-bets-popup");
+
+    if(!popup) return;
+
+    popup.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+window.openMyBets = openMyBets;
+
+
+// ==========================================
+// CLOSE MY BETS
+// ==========================================
+
+function closeMyBets(){
+
+    const popup = document.getElementById("my-bets-popup");
+
+    if(!popup) return;
+
+    popup.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+window.closeMyBets = closeMyBets;
+
+
+// ==========================================
+// CLOSE WHEN CLICK OUTSIDE
+// ==========================================
+
+document.addEventListener("click",function(e){
+
+    const popup = document.getElementById("my-bets-popup");
+
+    const container = document.querySelector(".my-bets-container");
+
+    if(!popup || !container) return;
+
+    if(
+        popup.classList.contains("show") &&
+        e.target === popup
+    ){
+
+        closeMyBets();
+
+    }
+
+});
+
+   
+
 // ===== SUB-BANNER SLIDER =====
 function goToSubSlide(type, index) {
     updateSubSlider(type, index);
