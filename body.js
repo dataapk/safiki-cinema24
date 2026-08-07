@@ -724,24 +724,23 @@ function cashOutBet(betId){
         walletManager.activeBets[betIndex];
 
 
-    // ==============================
-    // CASH OUT AMOUNT
-    // ==============================
+   // ==============================
+// CASH OUT AMOUNT
+// ==============================
 
-    const cashOutAmount =
-        Number(
-            bet.cashOut ||
-            bet.possibleWin ||
-            (bet.stake * bet.odds)
-        );
+const cashOutAmount =
+    Number(
+        bet.possibleWin ||
+        (bet.stake * bet.odds)
+    );
 
 
-    if(cashOutAmount <= 0){
+if(cashOutAmount <= 0){
 
-        console.log("Invalid Cash Out Amount");
-        return;
+    console.log("Invalid Cash Out Amount");
+    return;
 
-    }
+}
 
 
     // ==============================
