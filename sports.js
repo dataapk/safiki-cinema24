@@ -701,6 +701,47 @@ updateSlipBalance();
         totalStake: totalStake,
         remainingBalance: newBalance 
     });
+
+    // ==========================================
+// SAVE ACTIVE BET
+// ==========================================
+
+const activeBet = {
+
+    betId: "DG-" + Date.now(),
+
+    match: currentMode === "single"
+        ? betSlip[0].match
+        : "Multiple Bet",
+
+    market: currentMode,
+
+    selections: JSON.parse(JSON.stringify(betSlip)),
+
+    odds: currentMode === "single"
+        ? betSlip[0].odds
+        : getTotalOdds(),
+
+    stake: totalStake,
+
+    possibleWin: currentMode === "single"
+        ? betSlip[0].possibleWin
+        : totalStake * getTotalOdds(),
+
+    cashOut: totalStake,
+
+    currency: walletManager.currentCurrency,
+
+    status: "ACTIVE",
+
+    placedTime: new Date().toLocaleString()
+
+};
+
+walletManager.activeBets.push(activeBet);
+
+saveWalletManager();
+    
     
     showToast('Bet placed successfully!', 'success');
 
@@ -718,6 +759,28 @@ updateSlipBalance();
     const mstake = document.getElementById('multiStake');
     if (mstake) mstake.value = '';
 }
+
+// ==========================================
+// GET TOTAL ODDS
+// ==========================================
+
+function getTotalOdds(){
+
+    if(!betSlip.length) return 0;
+
+    let totalOdds = 1;
+
+    betSlip.forEach(bet=>{
+
+        totalOdds *= parseFloat(bet.odds);
+
+    });
+
+    return Number(totalOdds.toFixed(2));
+
+}
+
+window.getTotalOdds = getTotalOdds;
 
 // ===== HELPERS =====
 function saveSlip() {
