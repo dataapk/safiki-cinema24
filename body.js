@@ -895,11 +895,13 @@ function renderBetHistory(){
     }
 
 
-    walletManager.betHistory.forEach(bet=>{
+    [...walletManager.betHistory]
+.reverse()
+.forEach(bet=>{
 
 
-        const card =
-            document.createElement("div");
+    const card =
+        document.createElement("div");
 
 
         card.className =
