@@ -453,6 +453,110 @@ document.addEventListener("click",function(e){
 
 });
 
+   // ==========================================
+// MY BETS TAB SWITCH
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const mainTabs = document.querySelectorAll(".bets-main-tab");
+
+    mainTabs.forEach(tab => {
+
+        tab.addEventListener("click", () => {
+
+            // Active Button
+            mainTabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            // Panels
+            const sportsPanel = document.getElementById("sports-bets-panel");
+            const casinoPanel = document.getElementById("casino-bets-panel");
+
+            if(tab.dataset.tab === "sports"){
+
+                sportsPanel.style.display = "block";
+                casinoPanel.style.display = "none";
+
+            }else{
+
+                sportsPanel.style.display = "none";
+                casinoPanel.style.display = "block";
+
+            }
+
+        });
+
+    });
+
+});
+
+   // ==========================================
+// SPORTS / CASINO SUB TAB SWITCH
+// ==========================================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    const subTabs=document.querySelectorAll(".bets-sub-tab");
+
+    subTabs.forEach(tab=>{
+
+        tab.addEventListener("click",()=>{
+
+            const wrapper=tab.parentElement;
+
+            wrapper
+            .querySelectorAll(".bets-sub-tab")
+            .forEach(t=>t.classList.remove("active"));
+
+            tab.classList.add("active");
+
+            const panel=tab.closest(".bets-panel");
+
+            if(!panel) return;
+
+            const lists=panel.querySelectorAll(".bets-list");
+
+            lists.forEach(list=>{
+
+                list.style.display="none";
+
+            });
+
+            switch(tab.dataset.subtab){
+
+                case "active":
+
+                    document.getElementById("sports-active-list").style.display="flex";
+
+                break;
+
+                case "history":
+
+                    document.getElementById("sports-history-list").style.display="flex";
+
+                break;
+
+                case "casino-active":
+
+                    document.getElementById("casino-active-list").style.display="flex";
+
+                break;
+
+                case "casino-history":
+
+                    document.getElementById("casino-history-list").style.display="flex";
+
+                break;
+
+            }
+
+        });
+
+    });
+
+});
+
    
 
 // ===== SUB-BANNER SLIDER =====
