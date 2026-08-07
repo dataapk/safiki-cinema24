@@ -724,9 +724,16 @@ const activeBet = {
 
     stake: totalStake,
 
-    possibleWin: currentMode === "single"
-        ? betSlip[0].possibleWin
-        : totalStake * getTotalOdds(),
+    possibleWin:
+Number(
+    (
+        totalStake *
+        (currentMode === "single"
+            ? betSlip[0].odds
+            : getTotalOdds()
+        )
+    ).toFixed(2)
+),
 
     cashOut: totalStake,
 
