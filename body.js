@@ -987,7 +987,6 @@ function renderBetHistory(){
 
 </div> <!-- bet-status -->
 
-</div> <!-- history-bet-card -->
 
 `;
 
