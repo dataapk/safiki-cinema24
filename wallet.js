@@ -119,6 +119,7 @@ if(savedBetHistory){
     }
 
 }  
+ }   
 
 
 
