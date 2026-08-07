@@ -654,6 +654,7 @@ function renderActiveBets(){
     });
 
 }
+   window.renderActiveBets = renderActiveBets;
 
    
 
