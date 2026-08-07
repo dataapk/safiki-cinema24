@@ -700,6 +700,134 @@ function renderActiveBets(){
 }
    window.renderActiveBets = renderActiveBets;
 
+   // ==========================================
+// CASH OUT BET
+// ==========================================
+
+function cashOutBet(betId){
+
+    const betIndex =
+        walletManager.activeBets.findIndex(
+            bet => bet.betId === betId
+        );
+
+
+    if(betIndex === -1){
+
+        console.log("Bet not found");
+        return;
+
+    }
+
+
+    const bet =
+        walletManager.activeBets[betIndex];
+
+
+    // ==============================
+    // CASH OUT AMOUNT
+    // ==============================
+
+    const cashOutAmount =
+        Number(
+            bet.cashOut ||
+            bet.possibleWin ||
+            (bet.stake * bet.odds)
+        );
+
+
+    if(cashOutAmount <= 0){
+
+        console.log("Invalid Cash Out Amount");
+        return;
+
+    }
+
+
+    // ==============================
+    // ADD BALANCE
+    // ==============================
+
+    const currentBalance =
+        walletManager.balances[
+            walletManager.currentCurrency
+        ] || 0;
+
+
+    walletManager.balances[
+        walletManager.currentCurrency
+    ] =
+        Number(
+            (
+                currentBalance +
+                cashOutAmount
+            ).toFixed(2)
+        );
+
+
+    // ==============================
+    // MOVE TO HISTORY
+    // ==============================
+
+    const historyBet = {
+
+        ...bet,
+
+        status: "CASHED OUT",
+
+        cashOutAmount: cashOutAmount,
+
+        cashOutTime:
+            new Date().toLocaleString()
+
+    };
+
+
+    walletManager.betHistory.push(historyBet);
+
+
+    // ==============================
+    // REMOVE ACTIVE BET
+    // ==============================
+
+    walletManager.activeBets.splice(
+        betIndex,
+        1
+    );
+
+
+    // ==============================
+    // SAVE DATA
+    // ==============================
+
+    saveWalletManager();
+
+
+    // ==============================
+    // REFRESH UI
+    // ==============================
+
+    updateBalanceUI();
+
+    renderActiveBets();
+
+
+    console.log(
+        "Cash Out Completed:",
+        historyBet
+    );
+
+
+    showToast(
+        "Cash Out Successful!",
+        "success"
+    );
+
+}
+
+
+window.cashOutBet = cashOutBet;
+
    
 
 // ===== SUB-BANNER SLIDER =====
