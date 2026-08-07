@@ -1142,6 +1142,172 @@ refundedTime: new Date().toLocaleString()
 
 window.rejectBet = rejectBet;
 
+
+
+   // ==========================================
+// SETTLE BET (WIN / LOSE)
+// ==========================================
+
+function settleBet(betId, result){
+
+    const betIndex =
+        walletManager.activeBets.findIndex(
+            bet => bet.betId === betId
+        );
+
+    if(betIndex === -1){
+
+        console.log("Bet not found");
+        return;
+
+    }
+
+    const bet =
+        walletManager.activeBets[betIndex];
+
+    // ==============================
+    // VALIDATE RESULT
+    // ==============================
+
+    result =
+        String(result).toUpperCase();
+
+    if(
+        result !== "WIN" &&
+        result !== "LOSE"
+    ){
+
+        console.log("Invalid Result");
+        return;
+
+    }
+
+    // ==============================
+    // WIN AMOUNT
+    // ==============================
+
+    const winAmount =
+        Number(
+            bet.possibleWin ||
+            (bet.stake * bet.odds)
+        );
+
+    // ==============================
+    // CURRENT BALANCE
+    // ==============================
+
+    const currentBalance =
+        walletManager.balances[
+            bet.currency
+        ] || 0;
+
+    // ==============================
+    // ADD BALANCE (ONLY WIN)
+    // ==============================
+
+    if(result === "WIN"){
+
+        walletManager.balances[
+            bet.currency
+        ] =
+            Number(
+                (
+                    currentBalance +
+                    winAmount
+                ).toFixed(2)
+            );
+
+    }
+
+       // ==============================
+    // MOVE TO HISTORY
+    // ==============================
+
+    const historyBet = {
+
+        ...bet,
+
+        status: result,
+
+        winAmount:
+            result === "WIN"
+                ? winAmount
+                : 0,
+
+        lossAmount:
+            result === "LOSE"
+                ? bet.stake
+                : 0,
+
+        settledTime:
+            new Date().toLocaleString()
+
+    };
+
+    walletManager.betHistory.push(historyBet);
+
+    cleanBetHistory();
+
+    // ==============================
+    // REMOVE ACTIVE BET
+    // ==============================
+
+    walletManager.activeBets.splice(
+        betIndex,
+        1
+    );
+
+    // ==============================
+    // SAVE DATA
+    // ==============================
+
+    saveWalletManager();
+
+    // ==============================
+    // REFRESH UI
+    // ==============================
+
+    updateBalanceUI();
+
+    renderActiveBets();
+
+    renderBetHistory();
+
+    // ==============================
+    // LOG
+    // ==============================
+
+    console.log(
+        "Bet Settled:",
+        historyBet
+    );
+
+    // ==============================
+    // TOAST
+    // ==============================
+
+    if(result === "WIN"){
+
+        showToast(
+            "Bet Won!",
+            "success"
+        );
+
+    }else{
+
+        showToast(
+            "Bet Lost!",
+            "error"
+        );
+
+    }
+
+}
+
+window.settleBet = settleBet;
+
+   
+
    
 
 // ===== SUB-BANNER SLIDER =====
