@@ -3184,7 +3184,7 @@
 ==================================================*/
 
 .winner-card{
-    width:170px;
+    width:120px;
     flex-shrink:0;
 
     background:linear-gradient(
@@ -3372,7 +3372,7 @@
 
     .winner-card{
 
-        width:145px;
+        width:120px;
 
         padding:14px 10px;
 
