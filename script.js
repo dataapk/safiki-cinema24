@@ -45,7 +45,6 @@ function unlockBodyScroll(){
 }
 
 
-
 /* --- ব্যালেন্স এবং কারেন্সি আপডেট ডিসপ্লে --- */
 function updateDisplayedBalance() {
     // ১. ইউজার বর্তমানে কোন কারেন্সি সিলেক্ট করে আছে তা নেওয়া
