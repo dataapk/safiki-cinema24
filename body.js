@@ -827,6 +827,115 @@ if(cashOutAmount <= 0){
 
 window.cashOutBet = cashOutBet;
 
+
+   // ==========================================
+// RENDER BET HISTORY
+// ==========================================
+
+function renderBetHistory(){
+
+    const container =
+        document.getElementById("sports-history-list");
+
+
+    if(!container) return;
+
+
+    container.innerHTML = "";
+
+
+    if(
+        !walletManager.betHistory ||
+        walletManager.betHistory.length === 0
+    ){
+
+        container.innerHTML = `
+            <div class="empty-bets">
+
+                <i class="fas fa-history"></i>
+
+                <p>No Bet History</p>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    walletManager.betHistory.forEach(bet=>{
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "history-bet-card";
+
+
+        card.innerHTML = `
+
+            <div class="bet-header">
+
+                <span>
+                    Bet ID:
+                    ${bet.betId}
+                </span>
+
+            </div>
+
+
+            <div class="bet-info">
+
+                <div>
+                    Date:
+                    ${bet.placedTime || "-"}
+                </div>
+
+
+                <div>
+                    Odds:
+                    ${bet.odds || "-"}
+                </div>
+
+
+                <div>
+                    Stake:
+                    ${bet.stake || 0}
+                    ${bet.currency || ""}
+                </div>
+
+
+                <div>
+                    Cash Out:
+                    ${bet.cashOutAmount || 0}
+                    ${bet.currency || ""}
+                </div>
+
+
+                <div class="bet-status">
+
+                    ${bet.status || "COMPLETED"}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+
+    });
+
+}
+
+
+window.renderBetHistory = renderBetHistory;
+
    
 
 // ===== SUB-BANNER SLIDER =====
