@@ -382,10 +382,23 @@ function addToBetSlip(data) {
 
 // ===== 2. OPEN / CLOSE =====
 function openSportsBetSlip() {
-    const panel = document.getElementById('sportsBetSlipPanel');
+
+    const panel =
+        document.getElementById('sportsBetSlipPanel');
+
+    const betSlip =
+        document.getElementById('sportsBetSlip');
+
+    if (betSlip) {
+        betSlip.style.display = 'flex';
+    }
+
     if (panel) {
+
         panel.style.display = 'block';
-        updateSlipBalance();  // ✅ ব্যালেন্স দেখাও
+
+        updateSlipBalance();
+
         renderBetSlip();
     }
 }
