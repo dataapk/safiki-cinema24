@@ -275,25 +275,6 @@ window.footerOpenSearch  = () => alert("Search");
 
 window.footerGoHome = () => {
 
-    const betSlip =
-        document.getElementById("sportsBetSlip");
-
-    if(betSlip){
-
-        betSlip.style.display = "none";
-
-    }
-
-
-    const betSlipPanel =
-        document.getElementById("sportsBetSlipPanel");
-
-    if(betSlipPanel){
-
-        betSlipPanel.style.display = "none";
-
-    }
-
 
     window.location.reload();
 
@@ -1104,6 +1085,16 @@ document.addEventListener("click", function(e){
 
         closeFooterSidebar();
 
+    }
+
+});
+window.addEventListener("load", function () {
+
+    const betSlip =
+        document.getElementById("sportsBetSlip");
+
+    if (betSlip) {
+        betSlip.style.display = "none";
     }
 
 });
