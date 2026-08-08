@@ -1088,16 +1088,7 @@ document.addEventListener("click", function(e){
     }
 
 });
-window.addEventListener("load", function () {
 
-    const betSlip =
-        document.getElementById("sportsBetSlip");
-
-    if (betSlip) {
-        betSlip.style.display = "none";
-    }
-
-});
 
 // ===== INITIALIZE =====
 footerCloseSidebar();
