@@ -619,19 +619,28 @@ function calculateReturns() {
 
 // ===== 9. UPDATE COUNT & DISPLAY =====
 function updateBetCount() {
-    const countEl = document.getElementById('sportsBetSlipCount');
-    const floatBtn = document.getElementById('sportsBetSlip');
-    
+
+    const countEl =
+        document.getElementById('sportsBetSlipCount');
+
+    const floatBtn =
+        document.getElementById('sportsBetSlip');
+
+
     if (countEl) {
-        countEl.textContent = betSlip.length;  // 0 হলে 0 দেখাবে
+
+        countEl.textContent =
+            betSlip.length;
+
     }
-    
-    // ✅ স্পোর্টস পেইজে থাকলে সবসময় দেখা যাবে, কখনো হাইড হবে না
-    if (floatBtn) {
-        floatBtn.style.display = 'flex';
-    }
-    
+
+
+    // Bet Slip count update only
+    // Visibility is controlled separately
+
+
     updateTotalDisplay();
+
 }
 
 function updateTotalDisplay() {
