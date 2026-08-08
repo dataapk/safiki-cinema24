@@ -3021,7 +3021,7 @@
     display:flex;
     gap:14px;
     width:max-content;
-    animation:winnersScroll 35s linear infinite;
+    animation:winnersScroll 18s linear infinite;
 }
 
 .winners-slider:hover .winners-track{
