@@ -257,14 +257,43 @@ window.footerSetActive = function(element) {
 
 
 // ===== NAVIGATION =====
-window.footerGoToLogin      = () => alert("Login");
-window.footerGoToSignup     = () => alert("Sign Up");
-window.footerGoToBonus      = () => alert("Bonus");
-window.footerGoToRefer      = () => alert("Refer");
-window.footerGoToSupport    = () => alert("Support");
-window.footerOpenSearch     = () => alert("Search");
+
+window.footerGoToLogin   = () => alert("Login");
+
+window.footerGoToSignup  = () => alert("Sign Up");
+
+window.footerGoToBonus   = () => alert("Bonus");
+
+window.footerGoToRefer   = () => alert("Refer");
+
+window.footerGoToSupport = () => alert("Support");
+
+window.footerOpenSearch  = () => alert("Search");
+
+
+// ===== HOME =====
 
 window.footerGoHome = () => {
+
+    const betSlip =
+        document.getElementById("sportsBetSlip");
+
+    if(betSlip){
+
+        betSlip.style.display = "none";
+
+    }
+
+
+    const betSlipPanel =
+        document.getElementById("sportsBetSlipPanel");
+
+    if(betSlipPanel){
+
+        betSlipPanel.style.display = "none";
+
+    }
+
 
     window.location.reload();
 
