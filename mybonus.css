@@ -164,45 +164,25 @@
 /* ==========================================
    BONUS TABS
 ========================================== */
-.bonus-tabs{
-
-    display:flex;
-
-    gap:10px;
-
-    padding:14px;
-
-    background:#252525;
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    border-radius:12px;
-
+.bonus-tabs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 18px;
+    box-sizing: border-box;
 }
 
-
-.bonus-menu-btn{
-
-    flex:1;
-
-    height:42px;
-
-    border:none;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    color:#ffffff;
-
-    font-size:13px;
-
-    font-weight:600;
-
-    background:#163238;
-
-    transition:.3s;
-
+.bonus-menu-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
 
