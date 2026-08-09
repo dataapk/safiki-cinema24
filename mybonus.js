@@ -861,37 +861,3 @@ function loadReferralData(){
 /* ========================================= */
 /* BACKEND INTEGRATION GUIDE                 */
 /* ========================================= */
-
-/*
- * To connect with your backend, replace the demo data sections:
- *
- * 1. loadDepositBonusData()
- *    → fetch('/api/bonus/deposit-status')
- *    → Returns: { balance, wagerRequired, wagerCompleted, validUntil, bonusMode, status }
- *
- * 2. claimDepositBonus()
- *    → fetch('/api/bonus/claim-deposit', { method: 'POST' })
- *
- * 3. loadCashbackData()
- *    → fetch('/api/bonus/cashback-status')
- *    → Returns: { totalCashback, daily: {...}, weekly: {...}, monthly: {...} }
- *
- * 4. claimCashback(tier)
- *    → fetch('/api/bonus/claim-cashback', { method: 'POST', body: { tier } })
- *
- * 5. loadReferralData()
- *    → fetch('/api/bonus/referral-status')
- *    → Returns: { code, totalReferred, activeToday, totalDeposit, reward, users: [...] }
- *
- * 6. Bonus Mode Toggle
- *    → fetch('/api/bonus/toggle-mode', { method: 'POST', body: { mode: boolean } })
- *
- * All API calls should update BonusState and call render functions.
- */
-
-
-with open('/mnt/agents/output/mybonus.js', 'w', encoding='utf-8') as f:
-    f.write(js_content)
-
-print("✅ mybonus.js created successfully!")
-print(f"📄 Size: {len(js_content)} characters | ~{len(js_content.splitlines())} lines")
