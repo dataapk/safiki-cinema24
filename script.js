@@ -727,11 +727,15 @@ window.addEventListener('click',(event)=>{
         notificationPanel.classList.remove('active');
     }
 
-    if(profileSidebar&&profileSidebar.classList.contains('active')&&!profileSidebar.
-       contains(event.target)&&!event.target.closest('.profile-btn')){
-        profileSidebar.classList.remove('active');
-    }
-
+    if (
+    profileSidebar &&
+    !profileSidebar.contains(event.target) &&
+    !event.target.closest('.profile-btn')
+) {
+    profileSidebar.classList.remove('active');
+    profileSidebar.style.display = 'none';
+    profileSidebar.style.transform = 'translateX(100%)';
+}
     if(logoutModal&&event.target===logoutModal){
         closeLogoutPopup();
     }
