@@ -879,40 +879,61 @@ document.addEventListener("keydown",function(e){
 
 function openPersonalTab(tabName) {
 
-    // 1. সব ট্যাব কন্টেন্ট হাইড করা
+    // 1. সব Personal tab content hide
     const allContents =
         document.querySelectorAll('.personal-tab-content');
 
     allContents.forEach(content => {
         content.style.display = 'none';
     });
-    
-    // 2. সব ট্যাব বাটন থেকে active ক্লাস সরানো
-    const allTabs = document.querySelectorAll('.personal-tab');
+
+
+    // 2. সব Personal tab button থেকে active remove
+    const allTabs =
+        document.querySelectorAll('.personal-tab');
+
     allTabs.forEach(tab => {
         tab.classList.remove('active');
     });
-    
-    // 3. নির্বাচিত কন্টেন্ট দেখানো (ID ম্যাপিং)
+
+
+    // 3. Tab অনুযায়ী content ID
     let targetId = '';
-    
+
     if (tabName === 'details') {
-        targetId = 'personaldetailsSection'; // Personal Details
+
+        targetId = 'personaldetailsSection';
+
     } else if (tabName === 'verification') {
-        targetId = 'idVerificationSection'; // ID Verification
+
+        targetId = 'idVerificationSection';
+
     } else if (tabName === 'address') {
-        targetId = 'proofAddressSection'; // Proof Documents
+
+        targetId = 'proofAddressSection';
+
     }
-    
-    const selectedContent = document.getElementById(targetId);
+
+
+    // 4. নির্বাচিত content show
+    const selectedContent =
+        document.getElementById(targetId);
+
     if (selectedContent) {
         selectedContent.style.display = 'block';
     }
-    
-    // 4. ক্লিক করা বাটনে active ক্লাস যোগ করা
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
+
+
+    // 5. Tab name অনুযায়ী active button
+    const activeTab =
+        document.querySelector(
+            `.personal-tab[data-tab="${tabName}"]`
+        );
+
+    if (activeTab) {
+        activeTab.classList.add('active');
     }
+
 }
 
 // ============================================
