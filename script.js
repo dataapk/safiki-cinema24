@@ -2254,7 +2254,16 @@ finishDepositBonus();
 
 function openLogoutPopup(){
 
-    const popup = document.getElementById("logout-confirm-popup");
+    const profileSidebar =
+        document.getElementById("profile-sidebar");
+
+    if(profileSidebar){
+        profileSidebar.style.display = "none";
+    }
+
+
+    const popup =
+        document.getElementById("logout-confirm-popup");
 
     if(popup){
         popup.style.display = "flex";
