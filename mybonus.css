@@ -17,42 +17,39 @@
 
 /* ==========================================
    MY BONUS MAIN PANEL
-========================================== */
-#my-bonus-section{
-   display:none;
+#my-bonus-section {
 
-    position:fixed;
+    display: none;
 
-    top:70px;
+    position: fixed;
 
-    left:50%;
+    top: 65px;
+    left: 50%;
 
-    transform:translateX(-50%);
+    transform: translateX(-50%);
 
-    width:720px;
+    width: 96%;
+    max-width: 720px;
 
-    max-width:94%;
+    height: 80vh;
 
-    height:80vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 
-    overflow-y:auto;
+    background: var(--surface);
 
-    background:var(--surface);
+    border: 1px solid var(--border);
 
-    border:1px solid var(--border);
+    border-radius: 18px;
 
-    border-radius:18px;
+    box-shadow: 0 20px 60px var(--shadow);
 
-    box-shadow:0 20px 60px var(--shadow);
+    z-index: 9998;
 
-    z-index:9998;
+    padding: 20px;
 
-    padding:20px;
-
-    box-sizing:border-box;
-
+    box-sizing: border-box;
 }
-
 /* ==========================================
    BONUS HEADER
 ========================================== */
