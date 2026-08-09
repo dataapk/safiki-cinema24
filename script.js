@@ -790,9 +790,16 @@ let isProfileSidebarOpen = false;
 // Open
 function openProfileSidebar(){
 
-    const sidebar = document.getElementById("profile-sidebar");
+    const sidebar =
+        document.getElementById("profile-sidebar");
 
     if(!sidebar) return;
+
+
+    // Sidebar আবার visible করা
+    sidebar.style.display = "block";
+    sidebar.style.transform = "translateX(0)";
+
 
     sidebar.classList.add("active");
 
