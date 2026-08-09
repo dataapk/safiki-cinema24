@@ -946,6 +946,7 @@ function openPersonalTab(tabName) {
 
 // ===== Open/Close Personal Area =====
 function openPersonalArea() {
+    lockBodyScroll();
 
     // Profile Sidebar বন্ধ
     const profileSidebar =
@@ -980,6 +981,7 @@ function closePersonalArea() {
     if (section) {
         section.style.display = 'none';
     }
+    unlockBodyScroll();
 
 }
 
