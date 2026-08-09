@@ -940,41 +940,6 @@ function openPersonalTab(tabName) {
 // OPEN PERSONAL AREA (from Profile Menu)
 // ============================================
 
-
-// ===============================
-// Open Personal Area
-// ===============================
-
-function openPersonalArea() {
-
-    // Profile sidebar বন্ধ
-    closeProfileSidebar();
-
-    // Body scroll lock
-    lockBodyScroll();
-
-    // Personal Area show
-    document.getElementById("personal-area-section").style.display = "block";
-
-    // Default Personal Details tab
-    openPersonalTab("details");
-}
-
-
-// ===============================
-// Close Personal Area
-// ===============================
-
-function closePersonalArea() {
-
-    document.getElementById("personal-area-section").style.display = "none";
-
-    unlockBodyScroll();
-
-}
-// ============================================
-// CLOSE PERSONAL AREA
-// ============================================
 // ============================================
 // PERSONAL AREA — COMPLETE JAVASCRIPT
 // ============================================
