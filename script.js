@@ -916,15 +916,6 @@ function openPersonalTab(tabName) {
 
 function openPersonalArea() {
 
-    // Profile menu বন্ধ করা
-    const profileMenu =
-        document.getElementById('profile-menu');
-
-    if (profileMenu) {
-        profileMenu.style.display = 'none';
-    }
-
-
     // Profile sidebar বন্ধ করা
     const profileSidebar =
         document.getElementById('profile-sidebar');
@@ -941,6 +932,8 @@ function openPersonalArea() {
     if (personalArea) {
         personalArea.style.display = 'block';
     }
+
+}
     
     // Default: Personal Details ট্যাব ওপেন করা
     // সব কন্টেন্ট হাইড করা
