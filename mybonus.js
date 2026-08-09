@@ -902,7 +902,7 @@ function loadReferralData(){
  *
  * All API calls should update BonusState and call render functions.
  */
-"""
+
 
 with open('/mnt/agents/output/mybonus.js', 'w', encoding='utf-8') as f:
     f.write(js_content)
