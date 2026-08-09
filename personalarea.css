@@ -792,15 +792,17 @@ label {
     }
 
 
-    #personal-area-section{
+   #personal-area-section {
 
-        width:96%;
-        padding:14px;
+    width: 96%;
+    padding: 14px;
 
-        top:65px;
+    top: 65px;
 
-    }
+    overflow-x: hidden;
+    overflow-y: auto;
 
+    box-sizing: border-box;
 }
 
 
