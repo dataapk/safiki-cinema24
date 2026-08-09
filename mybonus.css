@@ -291,11 +291,12 @@
    DEPOSIT BONUS SECTION
 ========================================== */
 
-
-.bonus-tab-content{
-
-    padding:12px;
-
+.bonus-tab-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 
