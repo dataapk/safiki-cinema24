@@ -933,28 +933,39 @@ function openPersonalArea() {
         personalArea.style.display = 'block';
     }
 
-}
-    
+
     // Default: Personal Details ট্যাব ওপেন করা
     // সব কন্টেন্ট হাইড করা
     document.querySelectorAll('.personal-tab-content').forEach(content => {
         content.style.display = 'none';
     });
-    
+
+
     // Personal Details দেখানো
-    const detailsSection = document.getElementById('personaldetailsSection');
+    const detailsSection =
+        document.getElementById('personaldetailsSection');
+
     if (detailsSection) {
         detailsSection.style.display = 'block';
     }
-    
+
+
     // প্রথম ট্যাবে active ক্লাস যোগ করা
-    const allTabs = document.querySelectorAll('.personal-tab');
-    allTabs.forEach(tab => tab.classList.remove('active'));
-    
-    const firstTab = document.querySelector('.personal-tab');
+    const allTabs =
+        document.querySelectorAll('.personal-tab');
+
+    allTabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+
+    const firstTab =
+        document.querySelector('.personal-tab');
+
     if (firstTab) {
         firstTab.classList.add('active');
     }
+
 }
 
 // ============================================
