@@ -109,17 +109,39 @@ function closeMyBonus() {
  * Open the My Bonus section / modal
  */
 function openMyBonus() {
-  const section = document.getElementById('my-bonus-section');
-  if (section) {
-    section.style.display = 'block';
-    // Small delay for animation
-    requestAnimationFrame(() => {
-      section.style.opacity = '1';
-      section.style.transform = 'translateY(0)';
-    });
-  }
-  // Load default tab data
-  openBonusTab('deposit');
+
+    // Profile sidebar hide
+    const profileSidebar =
+        document.getElementById("profile-sidebar");
+
+    if(profileSidebar){
+        profileSidebar.style.display = "none";
+    }
+
+
+    const section =
+        document.getElementById('my-bonus-section');
+
+    if (section) {
+
+        section.style.display = 'block';
+
+        // Small delay for animation
+        requestAnimationFrame(() => {
+
+            section.style.opacity = '1';
+
+            section.style.transform =
+                'translateY(0)';
+
+        });
+
+    }
+
+
+    // Load default tab data
+    openBonusTab('deposit');
+
 }
 
 /* ========================================= */
