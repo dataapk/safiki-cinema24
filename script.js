@@ -941,87 +941,36 @@ function openPersonalTab(tabName) {
 // ============================================
 
 
+// ===============================
+// Open Personal Area
+// ===============================
+
 function openPersonalArea() {
 
-    // ==============================
-    // PROFILE SIDEBAR CLOSE
-    // ==============================
+    // Profile sidebar বন্ধ
+    closeProfileSidebar();
 
-    const profileSidebar =
-        document.getElementById("profile-sidebar");
+    // Body scroll lock
+    lockBodyScroll();
 
-    if (profileSidebar) {
-        profileSidebar.classList.remove("active");
-        profileSidebar.style.display = "none";
-        profileSidebar.style.transform = "translateX(100%)";
-    }
+    // Personal Area show
+    document.getElementById("personal-area-section").style.display = "block";
 
-
-    // ==============================
-    // PERSONAL AREA SHOW
-    // ==============================
-
-    const personalArea =
-        document.getElementById("personal-area-section");
-
-    if (personalArea) {
-        personalArea.style.display = "block";
-    }
-
-
-    // ==============================
-    // DEFAULT PERSONAL TAB
-    // ==============================
-
-    document
-        .querySelectorAll(".personal-tab-content")
-        .forEach(content => {
-            content.style.display = "none";
-        });
-
-
-    // Personal Details show
-
-    const detailsSection =
-        document.getElementById("personaldetailsSection");
-
-    if (detailsSection) {
-        detailsSection.style.display = "block";
-    }
-
-
-    // ==============================
-    // ACTIVE TAB
-    // ==============================
-
-    const allTabs =
-        document.querySelectorAll(".personal-tab");
-
-    allTabs.forEach(tab => {
-        tab.classList.remove("active");
-    });
-
-
-    const firstTab =
-        document.querySelector(".personal-tab");
-
-    if (firstTab) {
-        firstTab.classList.add("active");
-    }
-
+    // Default Personal Details tab
+    openPersonalTab("details");
 }
 
 
-
-// ============================================
-// CLOSE PERSONAL AREA
-// ============================================
+// ===============================
+// Close Personal Area
+// ===============================
 
 function closePersonalArea() {
-    const personalArea = document.getElementById('personal-area-section');
-    if (personalArea) {
-        personalArea.style.display = 'none';
-    }
+
+    document.getElementById("personal-area-section").style.display = "none";
+
+    unlockBodyScroll();
+
 }
 // ============================================
 // CLOSE PERSONAL AREA
