@@ -921,21 +921,22 @@ function openPersonalTab(tabName) {
 
 function openPersonalArea() {
 
-    // Profile sidebar বন্ধ করা
+    // Profile sidebar সম্পূর্ণ বন্ধ
     const profileSidebar =
-        document.getElementById('profile-sidebar');
+        document.getElementById("profile-sidebar");
 
     if (profileSidebar) {
-        profileSidebar.style.display = 'none';
+        profileSidebar.classList.remove("active");
+        profileSidebar.style.display = "none";
+        profileSidebar.style.transform = "translateX(100%)";
     }
-
 
     // Personal area দেখানো
     const personalArea =
-        document.getElementById('personal-area-section');
+        document.getElementById("personal-area-section");
 
     if (personalArea) {
-        personalArea.style.display = 'block';
+        personalArea.style.display = "block";
     }
 
 
