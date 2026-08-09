@@ -864,8 +864,20 @@ document.addEventListener("keydown",function(e){
 // ==============================
 
 function openPersonalTab(tabName) {
+
+    // Profile sidebar hide
+    const profileSidebar =
+        document.getElementById("profile-sidebar");
+
+    if(profileSidebar){
+        profileSidebar.style.display = "none";
+    }
+
+
     // 1. সব ট্যাব কন্টেন্ট হাইড করা
-    const allContents = document.querySelectorAll('.personal-tab-content');
+    const allContents =
+        document.querySelectorAll('.personal-tab-content');
+
     allContents.forEach(content => {
         content.style.display = 'none';
     });
