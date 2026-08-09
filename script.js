@@ -919,9 +919,13 @@ function openPersonalTab(tabName) {
 // OPEN PERSONAL AREA (from Profile Menu)
 // ============================================
 
+
 function openPersonalArea() {
 
-    // Profile sidebar সম্পূর্ণ বন্ধ
+    // ==============================
+    // PROFILE SIDEBAR CLOSE
+    // ==============================
+
     const profileSidebar =
         document.getElementById("profile-sidebar");
 
@@ -931,7 +935,11 @@ function openPersonalArea() {
         profileSidebar.style.transform = "translateX(100%)";
     }
 
-    // Personal area দেখানো
+
+    // ==============================
+    // PERSONAL AREA SHOW
+    // ==============================
+
     const personalArea =
         document.getElementById("personal-area-section");
 
@@ -940,39 +948,49 @@ function openPersonalArea() {
     }
 
 
-    // Default: Personal Details ট্যাব ওপেন করা
-    // সব কন্টেন্ট হাইড করা
-    document.querySelectorAll('.personal-tab-content').forEach(content => {
-        content.style.display = 'none';
-    });
+    // ==============================
+    // DEFAULT PERSONAL TAB
+    // ==============================
+
+    document
+        .querySelectorAll(".personal-tab-content")
+        .forEach(content => {
+            content.style.display = "none";
+        });
 
 
-    // Personal Details দেখানো
+    // Personal Details show
+
     const detailsSection =
-        document.getElementById('personaldetailsSection');
+        document.getElementById("personaldetailsSection");
 
     if (detailsSection) {
-        detailsSection.style.display = 'block';
+        detailsSection.style.display = "block";
     }
 
 
-    // প্রথম ট্যাবে active ক্লাস যোগ করা
+    // ==============================
+    // ACTIVE TAB
+    // ==============================
+
     const allTabs =
-        document.querySelectorAll('.personal-tab');
+        document.querySelectorAll(".personal-tab");
 
     allTabs.forEach(tab => {
-        tab.classList.remove('active');
+        tab.classList.remove("active");
     });
 
 
     const firstTab =
-        document.querySelector('.personal-tab');
+        document.querySelector(".personal-tab");
 
     if (firstTab) {
-        firstTab.classList.add('active');
+        firstTab.classList.add("active");
     }
 
 }
+
+
 
 // ============================================
 // CLOSE PERSONAL AREA
