@@ -915,14 +915,29 @@ function openPersonalTab(tabName) {
 // ============================================
 
 function openPersonalArea() {
+
     // Profile menu বন্ধ করা
-    const profileMenu = document.getElementById('profile-menu');
+    const profileMenu =
+        document.getElementById('profile-menu');
+
     if (profileMenu) {
         profileMenu.style.display = 'none';
     }
-    
+
+
+    // Profile sidebar বন্ধ করা
+    const profileSidebar =
+        document.getElementById('profile-sidebar');
+
+    if (profileSidebar) {
+        profileSidebar.style.display = 'none';
+    }
+
+
     // Personal area দেখানো
-    const personalArea = document.getElementById('personal-area-section');
+    const personalArea =
+        document.getElementById('personal-area-section');
+
     if (personalArea) {
         personalArea.style.display = 'block';
     }
