@@ -810,16 +810,19 @@ function openProfileSidebar(){
 // Close
 function closeProfileSidebar(){
 
-    const sidebar = document.getElementById("profile-sidebar");
+    const sidebar =
+        document.getElementById("profile-sidebar");
 
     if(!sidebar) return;
 
     sidebar.classList.remove("active");
 
+    sidebar.style.display = "none";
+    sidebar.style.transform = "translateX(100%)";
+
     isProfileSidebarOpen = false;
 
 }
-
 // Toggle
 function toggleProfileSidebar(event){
 
