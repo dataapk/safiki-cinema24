@@ -946,49 +946,91 @@ function openPersonalTab(tabName) {
 
 // ===== Open/Close Personal Area =====
 function openPersonalArea() {
-    const section = document.getElementById('personal-area-section');
+
+    // Profile Sidebar বন্ধ
+    const profileSidebar =
+        document.getElementById('profile-sidebar');
+
+    if (profileSidebar) {
+        profileSidebar.classList.remove('active');
+        profileSidebar.style.display = 'none';
+        profileSidebar.style.transform = 'translateX(100%)';
+    }
+
+
+    // Personal Area open
+    const section =
+        document.getElementById('personal-area-section');
+
     if (section) {
         section.style.display = 'block';
-        // Default open Personal Details
+
+        // Default: Personal Details
         openPersonalTab('details');
     }
+
 }
 
+
 function closePersonalArea() {
-    const section = document.getElementById('personal-area-section');
-    if (section) section.style.display = 'none';
+
+    const section =
+        document.getElementById('personal-area-section');
+
+    if (section) {
+        section.style.display = 'none';
+    }
+
 }
 
 // ===== Tab Switching =====
 function openPersonalTab(tabName) {
+
     // Hide all contents
     document.querySelectorAll('.personal-tab-content').forEach(el => {
         el.classList.remove('active');
         el.style.display = 'none';
     });
-    
+
+
     // Remove active from all tabs
-    document.querySelectorAll('.personal-tab').forEach(el => {
+    document.querySelectorAll('.personal-tab-btn').forEach(el => {
         el.classList.remove('active');
     });
-    
-    // Show selected content
+
+
+    // Content mapping
     const contentMap = {
         'details': 'personaldetailsSection',
         'verification': 'idVerificationSection',
         'address': 'proofAddressSection'
     };
-    
-    const selectedContent = document.getElementById(contentMap[tabName]);
+
+
+    // Show selected content
+    const targetId = contentMap[tabName];
+    const selectedContent = document.getElementById(targetId);
+
     if (selectedContent) {
         selectedContent.classList.add('active');
         selectedContent.style.display = 'block';
     }
-    
-    // Add active to clicked tab
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    }
+
+
+    // Active tab
+    document.querySelectorAll('.personal-tab-btn').forEach(tab => {
+
+        const onclickValue =
+            tab.getAttribute('onclick');
+
+        if (onclickValue &&
+            onclickValue.includes(`'${tabName}'`)) {
+
+            tab.classList.add('active');
+        }
+
+    });
+
 }
 
 // ===== Edit Mode Toggle =====
