@@ -128,42 +128,64 @@ function openBonusTab(tabName) {
  * Close the My Bonus section / modal
  */
 function closeMyBonus() {
-  const section = document.getElementById('my-bonus-section');
-  if (section) {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'all 0.3s ease';
-    
-    setTimeout(() => {
-      section.style.display = 'none';
-      // Reset for next open
-      section.style.opacity = '';
-      section.style.transform = '';
-      section.style.transition = '';
-    }, 300);
-  }
 
-  // Clear countdown to prevent memory leak
-  if (BonusState.countdownInterval) {
-    clearInterval(BonusState.countdownInterval);
-    BonusState.countdownInterval = null;
-  }
+    const section =
+        document.getElementById('my-bonus-section');
+
+    if (section) {
+
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'all 0.3s ease';
+
+
+        setTimeout(() => {
+
+            section.style.display = 'none';
+
+            // Reset for next open
+            section.style.opacity = '';
+            section.style.transform = '';
+            section.style.transition = '';
+
+            // Body scroll আবার চালু
+            unlockBodyScroll();
+
+        }, 300);
+    }
+
+
+    // Clear countdown to prevent memory leak
+    if (BonusState.countdownInterval) {
+
+        clearInterval(BonusState.countdownInterval);
+        BonusState.countdownInterval = null;
+
+    }
+
 }
-
 /**
  * Open the My Bonus section / modal
  */
 function openMyBonus() {
 
-    const profileSidebar = document.getElementById("profile-sidebar");
+    const profileSidebar =
+        document.getElementById("profile-sidebar");
 
     if (profileSidebar) {
         profileSidebar.style.display = "none";
     }
 
-    const section = document.getElementById('my-bonus-section');
+
+    // Body scroll বন্ধ
+    lockBodyScroll();
+
+
+    const section =
+        document.getElementById('my-bonus-section');
 
     if (section) {
+
         section.style.display = 'block';
 
         requestAnimationFrame(() => {
@@ -172,7 +194,10 @@ function openMyBonus() {
         });
     }
 
+
+    // Default tab
     openBonusTab('deposit');
+
 }
 
 /* ========================================= */
