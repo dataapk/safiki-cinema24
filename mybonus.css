@@ -18,19 +18,17 @@
 /* ==========================================
    MY BONUS MAIN PANEL
 #my-bonus-section {
-    display: none !important;
+    display: none;
 
     position: fixed;
-
     top: 65px;
     left: 50%;
+    transform: translateX(-50%);
 
     width: 96%;
     max-width: 720px;
 
-    height: calc(100vh - 80px);
-
-    transform: translateX(-50%);
+    height: 80vh;
 
     overflow-x: hidden;
     overflow-y: auto;
@@ -38,7 +36,6 @@
     background: var(--surface);
 
     border: 1px solid var(--border);
-
     border-radius: 18px;
 
     box-shadow: 0 20px 60px var(--shadow);
@@ -46,7 +43,6 @@
     z-index: 9998;
 
     padding: 20px;
-
     box-sizing: border-box;
 
     -webkit-overflow-scrolling: touch;
@@ -279,9 +275,12 @@
 ========================================== */
 
 .bonus-tab-content {
-   padding: 12x
+    display: none;
 }
 
+.bonus-tab-content.active {
+    display: block;
+}
 
 /* MAIN BONUS CARD */
 
