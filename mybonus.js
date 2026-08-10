@@ -47,32 +47,47 @@ const BonusState = {
  * @param {string} tabName - 'deposit' | 'cashback' | 'referral'
  */
 function openBonusTab(tabName) {
-  // Update tab buttons
-  document.querySelectorAll('.bonus-menu-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  
-  const activeBtn = document.getElementById(tabName + 'BonusTab');
-  if (activeBtn) activeBtn.classList.add('active');
 
-  // Update tab content
-  document.querySelectorAll('.bonus-tab-content').forEach(content => {
-    content.classList.remove('active');
-  });
+    // Update tab buttons
+    document.querySelectorAll('.bonus-menu-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
 
-  const activeContent = document.getElementById(tabName + 'BonusContent');
-  if (activeContent) activeContent.classList.add('active');
+    const activeBtn =
+        document.getElementById(tabName + 'BonusTab');
 
-  BonusState.activeTab = tabName;
+    if (activeBtn) {
+        activeBtn.classList.add('active');
+    }
 
-  // Load data for the selected tab
-  if (tabName === 'deposit') {
-    loadDepositBonusData();
-  } else if (tabName === 'cashback') {
-    loadCashbackData();
-  } else if (tabName === 'referral') {
-    loadReferralData();
-  }
+
+    // Update tab content
+    document.querySelectorAll('.bonus-tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+
+    const activeContent =
+        document.getElementById(tabName + 'BonusContent');
+
+    if (activeContent) {
+        activeContent.classList.add('active');
+    }
+
+
+    BonusState.activeTab = tabName;
+
+
+    // Load data for selected tab
+    if (tabName === 'deposit') {
+
+        loadDepositBonusData();
+
+    } else if (tabName === 'cashback') {
+
+        loadCashbackData();
+
+    }
+
 }
 
 /* ========================================= */
