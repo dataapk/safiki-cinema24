@@ -18,7 +18,6 @@
 /* ==========================================
    MY BONUS MAIN PANEL
 #my-bonus-section {
-
     display: none;
 
     position: fixed;
@@ -26,12 +25,11 @@
     top: 65px;
     left: 50%;
 
-    transform: translateX(-50%);
-
     width: 96%;
     max-width: 720px;
 
     height: 80vh;
+    max-height: calc(100vh - 80px);
 
     overflow-x: hidden;
     overflow-y: auto;
@@ -49,6 +47,21 @@
     padding: 20px;
 
     box-sizing: border-box;
+
+    /* Animation */
+    opacity: 0;
+
+    transform: translate(-50%, 20px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+#my-bonus-section.active {
+    opacity: 1;
+
+    transform: translate(-50%, 0);
 }
 /* ==========================================
    BONUS HEADER
