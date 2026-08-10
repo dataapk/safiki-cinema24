@@ -18,20 +18,19 @@
 /* ==========================================
    MY BONUS MAIN PANEL
 #my-bonus-section {
-    display: none;
+    display: none !important;
 
     position: fixed;
 
     top: 65px;
     left: 50%;
 
-    transform: translateX(-50%);
-
     width: 96%;
     max-width: 720px;
 
-    height: 80vh;
-    max-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
+
+    transform: translateX(-50%);
 
     overflow-x: hidden;
     overflow-y: auto;
@@ -49,6 +48,8 @@
     padding: 20px;
 
     box-sizing: border-box;
+
+    -webkit-overflow-scrolling: touch;
 }
 
 #my-bonus-section.active {
