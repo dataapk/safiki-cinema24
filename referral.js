@@ -1,9 +1,9 @@
 function openMyReferral() {
 
-    // Profile sidebar বন্ধ
     closeProfileSidebar();
 
-    // My Referral section open
+    lockBodyScroll();
+
     const section =
         document.getElementById("referralBonusContent");
 
@@ -22,5 +22,7 @@ function closeMyReferral() {
     if (section) {
         section.style.display = "none";
     }
+
+    unlockBodyScroll();
 
 }
