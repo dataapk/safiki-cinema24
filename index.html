@@ -1774,16 +1774,24 @@
     <!-- Header -->
     <div class="referral-header">
 
-        <h3 class="bonus-card-title">
-            My Referral Commission
-        </h3>
+    <button
+        class="close-referral"
+        onclick="closeMyReferral()"
+        aria-label="Close My Referral">
+        <i class="fas fa-times"></i>
+    </button>
 
+    <h3 class="bonus-card-title">
+        My Referral Commission
+    </h3>
 
-        <span class="referral-status pending" id="referralStatus">
-            PENDING
-        </span>
+    <span
+        class="referral-status pending"
+        id="referralStatus">
+        PENDING
+    </span>
 
-    </div>
+</div>
 
 
     <!-- Commission Balance -->
