@@ -48,7 +48,10 @@ const BonusState = {
  */
 function openBonusTab(tabName) {
 
+    // ===============================
     // Update tab buttons
+    // ===============================
+
     document.querySelectorAll('.bonus-menu-btn').forEach(btn => {
         btn.classList.remove('active');
     });
@@ -61,23 +64,50 @@ function openBonusTab(tabName) {
     }
 
 
-    // Update tab content
+    // ===============================
+    // Hide ALL tab contents
+    // ===============================
+
     document.querySelectorAll('.bonus-tab-content').forEach(content => {
         content.classList.remove('active');
+        content.style.display = 'none';
     });
 
-    const activeContent =
-        document.getElementById(tabName + 'BonusContent');
 
-    if (activeContent) {
-        activeContent.classList.add('active');
+    // ===============================
+    // Show selected tab content
+    // ===============================
+
+    const contentMap = {
+        deposit: 'depositBonusContent',
+        cashback: 'cashbackBonusContent'
+    };
+
+    const targetId = contentMap[tabName];
+
+    if (targetId) {
+
+        const activeContent =
+            document.getElementById(targetId);
+
+        if (activeContent) {
+            activeContent.classList.add('active');
+            activeContent.style.display = 'block';
+        }
     }
 
+
+    // ===============================
+    // Save active tab
+    // ===============================
 
     BonusState.activeTab = tabName;
 
 
-    // Load data for selected tab
+    // ===============================
+    // Load selected tab data
+    // ===============================
+
     if (tabName === 'deposit') {
 
         loadDepositBonusData();
