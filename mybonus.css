@@ -25,6 +25,8 @@
     top: 65px;
     left: 50%;
 
+    transform: translateX(-50%);
+
     width: 96%;
     max-width: 720px;
 
@@ -47,15 +49,6 @@
     padding: 20px;
 
     box-sizing: border-box;
-
-    /* Animation */
-    opacity: 0;
-
-    transform: translate(-50%, 20px);
-
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
 }
 
 #my-bonus-section.active {
