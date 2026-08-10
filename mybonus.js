@@ -127,17 +127,13 @@ function openBonusTab(tabName) {
  */
 function openMyBonus() {
 
-    const profileSidebar =
-        document.getElementById("profile-sidebar");
-
-    if (profileSidebar) {
-        profileSidebar.style.display = "none";
-    }
+    // Profile sidebar সম্পূর্ণ বন্ধ
+    closeProfileSidebar();
 
     // Body scroll বন্ধ
     lockBodyScroll();
 
-    // My Bonus open
+    // My Bonus popup open
     const section =
         document.getElementById("my-bonus-section");
 
