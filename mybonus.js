@@ -120,51 +120,9 @@ function openBonusTab(tabName) {
 
 }
 
-/* ========================================= */
-/* CLOSE BONUS SECTION                       */
-/* ========================================= */
-
-/**
- * Close the My Bonus section / modal
- */
-function closeMyBonus() {
-
-    const section =
-        document.getElementById('my-bonus-section');
-
-    if (section) {
-
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'all 0.3s ease';
 
 
-        setTimeout(() => {
 
-            section.style.display = 'none';
-
-            // Reset for next open
-            section.style.opacity = '';
-            section.style.transform = '';
-            section.style.transition = '';
-
-            // Body scroll আবার চালু
-            unlockBodyScroll();
-
-        }, 300);
-    }
-
-
-    // Clear countdown to prevent memory leak
-    if (BonusState.countdownInterval) {
-
-        clearInterval(BonusState.countdownInterval);
-        BonusState.countdownInterval = null;
-
-    }
-
-}
-/**
  * Open the My Bonus section / modal
  */
 function openMyBonus() {
@@ -176,30 +134,44 @@ function openMyBonus() {
         profileSidebar.style.display = "none";
     }
 
-
     // Body scroll বন্ধ
     lockBodyScroll();
 
-
+    // My Bonus open
     const section =
-        document.getElementById('my-bonus-section');
+        document.getElementById("my-bonus-section");
 
     if (section) {
-
-        section.style.display = 'block';
-
-        requestAnimationFrame(() => {
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        });
+        section.style.display = "block";
     }
 
-
     // Default tab
-    openBonusTab('deposit');
+    openBonusTab("deposit");
 
 }
 
+/* ========================================= */
+/* CLOSE BONUS SECTION                       */
+/* ========================================= */
+function closeMyBonus() {
+
+    const section =
+        document.getElementById("my-bonus-section");
+
+    if (section) {
+        section.style.display = "none";
+    }
+
+    // Countdown clear
+    if (BonusState.countdownInterval) {
+        clearInterval(BonusState.countdownInterval);
+        BonusState.countdownInterval = null;
+    }
+
+    // Body scroll আবার চালু
+    unlockBodyScroll();
+
+}
 /* ========================================= */
 /* DEPOSIT BONUS SECTION                     */
 /* ========================================= */
