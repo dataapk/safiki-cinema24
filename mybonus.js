@@ -123,7 +123,7 @@ function openBonusTab(tabName) {
 
 
 /* ========================================= */
- * Open the My Bonus section
+/*  Open the My Bonus section
 /* ========================================= */
 function openMyBonus() {
 
