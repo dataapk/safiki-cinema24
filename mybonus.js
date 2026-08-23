@@ -122,9 +122,9 @@ function openBonusTab(tabName) {
 
 
 
-
- * Open the My Bonus section / modal
- */
+/* ========================================= */
+ * Open the My Bonus section
+/* ========================================= */
 function openMyBonus() {
 
     // Profile sidebar সম্পূর্ণ বন্ধ
