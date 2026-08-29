@@ -3278,21 +3278,32 @@ body.modal-open{
     box-sizing:border-box;
 }
 
-.password-box .fa-eye{
+.password-box > i.fa-eye,
+.password-box > i.fa-eye-slash{
     position:absolute;
+
     top:50%;
-    right:18px;
+    right:16px;
 
     transform:translateY(-50%);
 
     margin:0;
     padding:0;
 
-    color:#9ca3af;
-    font-size:16px;
+    width:18px;
+    height:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
     line-height:1;
 
+    color:#9ca3af;
+
+    font-size:16px;
+
     cursor:pointer;
+
     z-index:10;
 }
