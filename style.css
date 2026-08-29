@@ -3229,19 +3229,21 @@ body.modal-open{
 
 .bonus-card h4{
     color:#ffd700;
-    font-size:24px;
-    margin-bottom:20px;
+    font-size:20px;
+    margin:0 0 10px;
 }
 
 .bonus-card h1{
-    font-size:70px;
+    font-size:52px;
     color:#fff;
     margin:0;
+    line-height:1;
 }
 
 .bonus-card h3{
     color:#ffd700;
-    margin:15px 0;
+    margin:8px 0;
+    font-size:18px;
 }
 
 @keyframes fadeIn{
