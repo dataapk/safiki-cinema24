@@ -3224,9 +3224,8 @@ body.modal-open{
 
 .bonus-card{
     text-align:center;
-    padding:5px;
+    padding:18px 5px 5px;
 }
-
 .bonus-card h4{
     color:#ffd700;
     font-size:20px;
