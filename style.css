@@ -3266,3 +3266,34 @@ body.modal-open{
         overflow-y:auto;
         border-radius:16px;
     }
+.password-box{
+    position:relative;
+    width:100%;
+}
+
+.password-box input{
+    width:100%;
+    padding-right:45px;
+    box-sizing:border-box;
+}
+
+.password-box .fa-eye{
+    position:absolute;
+
+    top:50%;
+    right:14px;
+
+    transform:translateY(-50%);
+
+    color:#9ca3af;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    z-index:2;
+}
+
+.password-box .fa-eye:hover{
+    color:#22c55e;
+}
