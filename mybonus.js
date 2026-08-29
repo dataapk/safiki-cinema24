@@ -127,35 +127,39 @@ function openBonusTab(tabName) {
 /* ========================================= */
 function openMyBonus() {
 
-    // Profile sidebar সম্পূর্ণ বন্ধ
-    closeProfileSidebar();
-
-    // Body scroll বন্ধ
     lockBodyScroll();
 
-    // My Bonus popup open
-    const section =
-        document.getElementById("my-bonus-section");
+    // Profile Sidebar বন্ধ
+    const profileSidebar =
+        document.getElementById('profile-sidebar');
 
-    if (section) {
-        section.style.display = "block";
+    if (profileSidebar) {
+        profileSidebar.classList.remove('active');
+        profileSidebar.style.display = 'none';
+        profileSidebar.style.transform = 'translateX(100%)';
     }
 
-    // Default tab
-    openBonusTab("deposit");
+    // My Bonus open
+    const section =
+        document.getElementById('my-bonus-section');
+
+    if (section) {
+        section.style.display = 'block';
+
+        // Default: Deposit Bonus
+        openBonusTab('deposit');
+    }
 
 }
 
-/* ========================================= */
-/* CLOSE BONUS SECTION                       */
-/* ========================================= */
+
 function closeMyBonus() {
 
     const section =
-        document.getElementById("my-bonus-section");
+        document.getElementById('my-bonus-section');
 
     if (section) {
-        section.style.display = "none";
+        section.style.display = 'none';
     }
 
     // Countdown clear
@@ -164,7 +168,6 @@ function closeMyBonus() {
         BonusState.countdownInterval = null;
     }
 
-    // Body scroll আবার চালু
     unlockBodyScroll();
 
 }
