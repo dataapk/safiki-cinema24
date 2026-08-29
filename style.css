@@ -3051,16 +3051,17 @@ body.modal-open{
 
     justify-content:flex-start;
 
-    padding:35px 30px 25px;
+    padding:20px 30px 25px;
 
     box-sizing:border-box;
 }
 
-
 .auth-right h2{
-    margin:0 0 15px;
+    margin:0 0 18px;
 
-    font-size:23px;
+    text-align:center;
+
+    font-size:24px;
 
     color:var(--text);
 }
@@ -3225,6 +3226,7 @@ body.modal-open{
 
 .bonus-card{
     text-align:center;
+   padding:5px;
 }
 
 .bonus-card h4{
