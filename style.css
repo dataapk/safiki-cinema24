@@ -2954,7 +2954,7 @@ body.modal-open{
     align-items:center;
     justify-content:flex-start;
 
-    padding:5px 25px;
+    padding:25px 25px 5px;
 
     box-sizing:border-box;
 }
@@ -3224,7 +3224,7 @@ body.modal-open{
 
 .bonus-card{
     text-align:center;
-    padding:18px 5px 5px;
+    padding:2px;
 }
 .bonus-card h4{
     color:#ffd700;
