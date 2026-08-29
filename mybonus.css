@@ -30,10 +30,10 @@
     width: 96%;
     max-width: 720px;
 
-    height: 500px !important;
+    height: 80vh;
 
     overflow-x: hidden;
-    overflow-y: scroll !important;
+    overflow-y: auto
 
     background: var(--surface);
 
