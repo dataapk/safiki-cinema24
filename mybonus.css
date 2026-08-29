@@ -48,11 +48,7 @@
     -webkit-overflow-scrolling: touch;
 }
 
-#my-bonus-section.active {
-    opacity: 1;
 
-    transform: translate(-50%, 0);
-}
 /* ==========================================
    BONUS HEADER
 ========================================== */
