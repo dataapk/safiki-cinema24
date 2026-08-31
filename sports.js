@@ -238,19 +238,20 @@ async function openSportsGame(sport, gameId) {
                     <button type="button" class="sports-bet-option" onclick="addToBetSlip({
                         eventId: '${gameId}',
                         eventName: '${game.title}',
-                        market: '${game.home_team}',
-                        odds: 1.85
-                    })">
-                        <span>${game.homeTeam}</span>
-                        <strong>1.85</strong>
-                    </button>
-                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
-                        eventId: '${gameId}',
-                        eventName: '${game.title}',
-                        market: '${game.away_team}',
-                        odds: 1.65
-                    })">
-                        <span>${game.awayTeam}</span>
+                       market: '${game.home_team}',
+                         odds: 1.85
+                     })">
+             <span>${game.home_team}</span>
+           <strong>1.85</strong>
+       </button>
+
+                <button type="button" class="sports-bet-option" onclick="addToBetSlip({
+               eventId: '${gameId}',
+               eventName: '${game.title}',
+           market: '${game.away_team}',
+             odds: 1.65
+               })">
+             <span>${game.away_team}</span>
                         <strong>1.65</strong>
                     </button>
                 </div>
