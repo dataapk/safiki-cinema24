@@ -12,6 +12,7 @@ console.log("SPORTS.JS LOADED");
 // SPORTS GAME DATA CACHE
 // ==========================================
 let sportsGames = {};
+let sportsGamesLoaded = false;
 
 
 // ==========================================
@@ -24,24 +25,38 @@ async function loadSportsGames() {
         .select("*");
 
     if (error) {
-        console.error("❌ Failed to load sports games:", error);
-        return;
+
+        console.error(
+            "❌ Failed to load sports games:",
+            error
+        );
+
+        return false;
     }
 
     sportsGames = {};
 
     data.forEach(game => {
+
         sportsGames[game.game_id] = game;
+
     });
 
-    console.log("✅ Sports games loaded:", sportsGames);
+    sportsGamesLoaded = true;
+
+    console.log(
+        "✅ Sports games loaded:",
+        sportsGames
+    );
+
+    return true;
 }
 
 
 // ==========================================
 // LOAD GAME DATA
 // ==========================================
-loadSportsGames();
+const sportsGamesReady = loadSportsGames();
 
 
 // ==========================================
@@ -49,10 +64,30 @@ loadSportsGames();
 // ==========================================
 async function openSportsGame(sport, gameId) {
 
-    window.currentSportsPage = sport + "-events-page";
+    window.currentSportsPage =
+        sport + "-events-page";
 
     console.log("SPORT:", sport);
     console.log("GAME ID:", gameId);
+
+
+    // ==========================================
+    // WAIT FOR SPORTS DATA
+    // ==========================================
+    if (!sportsGamesLoaded) {
+
+        const loaded =
+            await sportsGamesReady;
+
+        if (!loaded) {
+
+            console.error(
+                "❌ Sports games could not be loaded."
+            );
+
+            return;
+        }
+    }
 
 
     // ==========================================
@@ -61,29 +96,44 @@ async function openSportsGame(sport, gameId) {
     const game = sportsGames[gameId];
 
     if (!game) {
-        console.log("Sports game not found:", gameId);
+
+        console.log(
+            "Sports game not found:",
+            gameId
+        );
+
         return;
     }
 
-    console.log("✅ Selected sports game:", game);
+    console.log(
+        "✅ Selected sports game:",
+        game
+    );
 
 
     // ==========================================
     // GAME PAGE ELEMENTS
     // ==========================================
     const gamePage =
-        document.getElementById("sports-game-page");
+        document.getElementById(
+            "sports-game-page"
+        );
 
     const gameTitle =
-        document.getElementById("sports-game-title");
+        document.getElementById(
+            "sports-game-title"
+        );
 
     const gameContent =
-        document.getElementById("sports-game-content");
-
+        document.getElementById(
+            "sports-game-content"
+        );
 
     if (!gamePage || !gameContent) {
 
-        console.log("Sports game page not found");
+        console.log(
+            "Sports game page not found"
+        );
 
         return;
     }
@@ -93,11 +143,14 @@ async function openSportsGame(sport, gameId) {
     // HIDE SPORTS SUB BANNER SLIDER
     // ==========================================
     const sportsSubBanner =
-        document.getElementById("sportsSubBanner");
+        document.getElementById(
+            "sportsSubBanner"
+        );
 
     if (sportsSubBanner) {
 
-        sportsSubBanner.style.display = "none";
+        sportsSubBanner.style.display =
+            "none";
 
     }
 
@@ -106,11 +159,14 @@ async function openSportsGame(sport, gameId) {
     // HIDE SPORTS HEADER
     // ==========================================
     const sportsSubHeader =
-        document.getElementById("sportsSubHeader");
+        document.getElementById(
+            "sportsSubHeader"
+        );
 
     if (sportsSubHeader) {
 
-        sportsSubHeader.style.display = "none";
+        sportsSubHeader.style.display =
+            "none";
 
     }
 
@@ -119,11 +175,14 @@ async function openSportsGame(sport, gameId) {
     // HIDE SPORTS SUB CATEGORY GRID
     // ==========================================
     const sportsSubcatGrid =
-        document.getElementById("sportsSubcatGrid");
+        document.getElementById(
+            "sportsSubcatGrid"
+        );
 
     if (sportsSubcatGrid) {
 
-        sportsSubcatGrid.style.display = "none";
+        sportsSubcatGrid.style.display =
+            "none";
 
     }
 
@@ -141,9 +200,6 @@ async function openSportsGame(sport, gameId) {
     }
 
 
-    // ==========================================
-    // GAME CONTENT
-    // ==========================================
     // ==========================================
     // GAME CONTENT
     // ==========================================
