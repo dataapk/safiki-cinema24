@@ -69,6 +69,9 @@ const sportsGames = {
 // ==========================================
 async function openSportsGame(sport, gameId) {
 
+    console.log("SPORT:", sport);
+    console.log("GAME ID:", gameId);
+
     window.currentSportsPage = sport + "-events-page";
 
     // ==========================================
