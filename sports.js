@@ -18,11 +18,21 @@ let sportsGamesLoaded = false;
 // ==========================================
 // LOAD SPORTS GAMES FROM SUPABASE
 // ==========================================
+// ==========================================
+// LOAD SPORTS GAMES FROM SUPABASE
+// ==========================================
 async function loadSportsGames() {
+
+    console.log("🔄 Loading sports games from Supabase...");
 
     const { data, error } = await supabaseClient
         .from("sports_games")
         .select("*");
+
+    console.log("📦 Supabase response:", {
+        data: data,
+        error: error
+    });
 
     if (error) {
 
@@ -34,15 +44,25 @@ async function loadSportsGames() {
         return false;
     }
 
+    if (!data || data.length === 0) {
+
+        console.warn(
+            "⚠️ Supabase returned 0 sports games."
+        );
+
+        sportsGames = {};
+        sportsGamesLoaded = true;
+
+        return true;
+    }
+
     sportsGames = {};
 
-   data.forEach(game => {
-    sportsGames[game.game_id] = game;
-});
+    data.forEach(game => {
 
-console.log("SUPABASE DATA:", data);
-console.log("SPORTS GAMES CACHE:", sportsGames);
-console.log("CRICKET LIVE 1:", sportsGames["cricket-live-1"]);
+        sportsGames[game.game_id] = game;
+
+    });
 
     sportsGamesLoaded = true;
 
@@ -51,12 +71,17 @@ console.log("CRICKET LIVE 1:", sportsGames["cricket-live-1"]);
         sportsGames
     );
 
+    console.log(
+        "🏏 Cricket Live 1:",
+        sportsGames["cricket-live-1"]
+    );
+
     return true;
 }
 
 
 // ==========================================
-// LOAD GAME DATA
+// START SPORTS GAME DATA LOADING
 // ==========================================
 const sportsGamesReady = loadSportsGames();
 
