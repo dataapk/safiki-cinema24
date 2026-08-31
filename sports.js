@@ -36,11 +36,13 @@ async function loadSportsGames() {
 
     sportsGames = {};
 
-    data.forEach(game => {
+   data.forEach(game => {
+    sportsGames[game.game_id] = game;
+});
 
-        sportsGames[game.game_id] = game;
-
-    });
+console.log("SUPABASE DATA:", data);
+console.log("SPORTS GAMES CACHE:", sportsGames);
+console.log("CRICKET LIVE 1:", sportsGames["cricket-live-1"]);
 
     sportsGamesLoaded = true;
 
