@@ -9,30 +9,67 @@ console.log("SPORTS.JS LOADED");
 
 
 // ==========================================
+// SPORTS GAME DATA
+// ==========================================
+const sportsGames = {
+    "cricket-live-1": {
+        sport: "cricket",
+        title: "Bangladesh vs India",
+        status: "LIVE",
+        league: "T20 International",
+        homeTeam: "Bangladesh",
+        awayTeam: "India"
+    },
+    "cricket-live-2": {
+        sport: "cricket",
+        title: "Australia vs Pakistan",
+        status: "LIVE",
+        league: "T20 International",
+        homeTeam: "Australia",
+        awayTeam: "Pakistan"
+    },
+    "cricket-live-3": {
+        sport: "cricket",
+        title: "Team A vs Team B",
+        status: "LIVE",
+        league: "T20 International",
+        homeTeam: "Team A",
+        awayTeam: "Team B"
+    },
+
+    "football-live-1": {
+        sport: "football",
+        title: "Team C vs Team D",
+        status: "LIVE",
+        league: "Premier League",
+        homeTeam: "Team C",
+        awayTeam: "Team D"
+    },
+    "football-live-2": {
+        sport: "football",
+        title: "Team E vs Team F",
+        status: "LIVE",
+        league: "Premier League",
+        homeTeam: "Team E",
+        awayTeam: "Team F"
+    },
+    "football-live-3": {
+        sport: "football",
+        title: "Team G vs Team H",
+        status: "LIVE",
+        league: "Premier League",
+        homeTeam: "Team G",
+        awayTeam: "Team H"
+    }
+};
+
+
+// ==========================================
 // OPEN SPORTS GAME
 // ==========================================
 function openSportsGame(sport, gameId) {
 
     window.currentSportsPage = sport + "-events-page";
-
-    const sportsGames = {
-        "cricket-live-1": {
-            sport: "cricket",
-            title: "Bangladesh vs India",
-            status: "LIVE",
-            league: "T20 International",
-            homeTeam: "Bangladesh",
-            awayTeam: "India"
-        },
-        "cricket-live-2": {
-            sport: "cricket",
-            title: "Australia vs Pakistan",
-            status: "LIVE",
-            league: "T20 International",
-            homeTeam: "Australia",
-            awayTeam: "Pakistan"
-        }
-    };
 
     const game = sportsGames[gameId];
 
@@ -84,6 +121,7 @@ function openSportsGame(sport, gameId) {
         gameTitle.textContent =
             sport === "cricket" ? "🏏 Cricket" : "⚽ Football";
     }
+
     // ==========================================
     // GAME CONTENT
     // ==========================================
