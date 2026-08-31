@@ -68,7 +68,7 @@ function openSportsGame(sport, gameId) {
     if (gameTitle) {
         gameTitle.textContent = sport === "cricket" ? "🏏 Cricket" : "⚽ Football";
     }
-=====================================
+
     // GAME CONTENT - INNERHTML START
     // ==========================================
     
