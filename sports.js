@@ -6,31 +6,7 @@
 console.log("SPORTS.JS LOADED");
 
 
-// ==========================================
-// OPEN SPORTS GAME
-// ==========================================
-function openSportsGame(sport, gameId) {
 
-    window.currentSportsPage = sport + "-events-page";
-
-const games = {
-    "cricket-live-1": {
-        sport: "cricket",
-        title: "Bangladesh vs India",
-        status: "LIVE",
-        league: "T20 International",
-        homeTeam: "Bangladesh",
-        awayTeam: "India"
-    },
-    "cricket-live-2": {
-        sport: "cricket",
-        title: "Australia vs Pakistan",
-        status: "LIVE",
-        league: "T20 International",
-        homeTeam: "Australia",
-        awayTeam: "Pakistan"
-    }
-};
 
 // ==========================================
 // OPEN SPORTS GAME
