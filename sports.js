@@ -32,10 +32,34 @@ const sportsGames = {
     }
 };
 
+// ==========================================
+// OPEN SPORTS GAME
+// ==========================================
 function openSportsGame(sport, gameId) {
+
     window.currentSportsPage = sport + "-events-page";
 
+    const sportsGames = {
+        "cricket-live-1": {
+            sport: "cricket",
+            title: "Bangladesh vs India",
+            status: "LIVE",
+            league: "T20 International",
+            homeTeam: "Bangladesh",
+            awayTeam: "India"
+        },
+        "cricket-live-2": {
+            sport: "cricket",
+            title: "Australia vs Pakistan",
+            status: "LIVE",
+            league: "T20 International",
+            homeTeam: "Australia",
+            awayTeam: "Pakistan"
+        }
+    };
+
     const game = sportsGames[gameId];
+
     if (!game) {
         console.log("Sports game not found:", gameId);
         return;
@@ -50,26 +74,42 @@ function openSportsGame(sport, gameId) {
         return;
     }
 
+    // ==========================================
+    // HIDE SPORTS SUB BANNER SLIDER
+    // ==========================================
     const sportsSubBanner = document.getElementById("sportsSubBanner");
+
     if (sportsSubBanner) {
         sportsSubBanner.style.display = "none";
     }
 
+    // ==========================================
+    // HIDE SPORTS HEADER
+    // ==========================================
     const sportsSubHeader = document.getElementById("sportsSubHeader");
+
     if (sportsSubHeader) {
         sportsSubHeader.style.display = "none";
     }
 
+    // ==========================================
+    // HIDE SPORTS SUB CATEGORY GRID
+    // ==========================================
     const sportsSubcatGrid = document.getElementById("sportsSubcatGrid");
+
     if (sportsSubcatGrid) {
         sportsSubcatGrid.style.display = "none";
     }
 
+    // ==========================================
+    // PAGE TITLE
+    // ==========================================
     if (gameTitle) {
-        gameTitle.textContent = sport === "cricket" ? "🏏 Cricket" : "⚽ Football";
+        gameTitle.textContent =
+            sport === "cricket" ? "🏏 Cricket" : "⚽ Football";
     }
-
-    // GAME CONTENT - INNERHTML START
+    // ==========================================
+    // GAME CONTENT
     // ==========================================
     
     gameContent.innerHTML = `
