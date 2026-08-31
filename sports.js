@@ -67,16 +67,34 @@ const sportsGames = {
 // ==========================================
 // OPEN SPORTS GAME
 // ==========================================
-function openSportsGame(sport, gameId) {
+async function openSportsGame(sport, gameId) {
 
     window.currentSportsPage = sport + "-events-page";
 
-    const game = sportsGames[gameId];
+    // ==========================================
+    // GET GAME FROM SUPABASE
+    // ==========================================
+    const { data: game, error } = await supabaseClient
+        .from("sports_games")
+        .select("*")
+        .eq("game_id", gameId)
+        .single();
+
+    if (error) {
+        console.error("❌ Failed to load sports game:", error);
+        return;
+    }
 
     if (!game) {
         console.log("Sports game not found:", gameId);
         return;
     }
+
+    console.log("✅ Sports game loaded:", game);
+
+    // ==========================================
+    // EXISTING GAME PAGE CODE CONTINUES BELOW
+    // ==========================================
 
     const gamePage = document.getElementById("sports-game-page");
     const gameTitle = document.getElementById("sports-game-title");
@@ -160,7 +178,7 @@ function openSportsGame(sport, gameId) {
                     <button type="button" class="sports-bet-option" onclick="addToBetSlip({
                         eventId: '${gameId}',
                         eventName: '${game.title}',
-                        market: '${game.homeTeam}',
+                        market: '${game.home_team}',
                         odds: 1.85
                     })">
                         <span>${game.homeTeam}</span>
@@ -169,7 +187,7 @@ function openSportsGame(sport, gameId) {
                     <button type="button" class="sports-bet-option" onclick="addToBetSlip({
                         eventId: '${gameId}',
                         eventName: '${game.title}',
-                        market: '${game.awayTeam}',
+                        market: '${game.away_team}',
                         odds: 1.65
                     })">
                         <span>${game.awayTeam}</span>
