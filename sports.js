@@ -13,7 +13,7 @@ function openSportsGame(sport, gameId) {
 
     window.currentSportsPage = sport + "-events-page";
 
-const sportsGames = {
+const games = {
     "cricket-live-1": {
         sport: "cricket",
         title: "Bangladesh vs India",
