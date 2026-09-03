@@ -88,8 +88,6 @@ console.log("TEST ERROR:", error);
 const sportsGamesReady = loadSportsGames();
 
 console.log("✅ SPORTS DATA LOADER PASSED");
-console.log("🌍 GLOBAL openSportsGame BEFORE:", typeof window.openSportsGame);
-
 
 
 // ==========================================
@@ -102,8 +100,6 @@ window.openSportsGame = async function (sport, gameId) {
 
     console.log("SPORT:", sport);
     console.log("GAME ID:", gameId);
-
-    // বাকি তোমার existing code একই থাকবে
 
 
     // ==========================================
@@ -123,7 +119,6 @@ window.openSportsGame = async function (sport, gameId) {
             return;
         }
     }
-    
 
 
     // ==========================================
@@ -165,6 +160,7 @@ window.openSportsGame = async function (sport, gameId) {
             "sports-game-content"
         );
 
+
     if (!gamePage || !gameContent) {
 
         console.log(
@@ -187,7 +183,6 @@ window.openSportsGame = async function (sport, gameId) {
 
         sportsSubBanner.style.display =
             "none";
-
     }
 
 
@@ -203,7 +198,6 @@ window.openSportsGame = async function (sport, gameId) {
 
         sportsSubHeader.style.display =
             "none";
-
     }
 
 
@@ -219,7 +213,6 @@ window.openSportsGame = async function (sport, gameId) {
 
         sportsSubcatGrid.style.display =
             "none";
-
     }
 
 
@@ -232,129 +225,256 @@ window.openSportsGame = async function (sport, gameId) {
             sport === "cricket"
                 ? "🏏 Cricket"
                 : "⚽ Football";
+    }
+
 
     // ==========================================
     // GAME CONTENT
     // ==========================================
-    
     gameContent.innerHTML = `
 
         <!-- LIVE MATCH HEADER -->
         <div class="sports-game-match-header">
+
             <div class="sports-game-live-badge">
                 <span class="live-dot"></span>
                 LIVE
             </div>
-            <div class="sports-game-match-title">${game.title}</div>
-            <div class="sports-game-league">${game.league}</div>
+
+            <div class="sports-game-match-title">
+                ${game.title}
+            </div>
+
+            <div class="sports-game-league">
+                ${game.league}
+            </div>
+
         </div>
+
 
         <!-- MATCH ANIMATION -->
         <div class="sports-game-hero">
+
             <div class="sports-game-animation">
-                <div class="sports-animation-live">● LIVE</div>
-                <div class="sports-animation-icon">🏏</div>
-                <div class="sports-animation-title">${game.title}</div>
-                <div class="sports-animation-subtitle">Live Match Centre</div>
+
+                <div class="sports-animation-live">
+                    ● LIVE
+                </div>
+
+                <div class="sports-animation-icon">
+                    🏏
+                </div>
+
+                <div class="sports-animation-title">
+                    ${game.title}
+                </div>
+
+                <div class="sports-animation-subtitle">
+                    Live Match Centre
+                </div>
+
             </div>
+
         </div>
+
 
         <!-- BETTING SECTION -->
         <div class="sports-betting-box">
 
-            <div class="sports-betting-title">Match Betting</div>
+            <div class="sports-betting-title">
+                Match Betting
+            </div>
+
 
             <!-- MATCH WINNER -->
             <div class="sports-market">
-                <div class="sports-market-title">Match Winner</div>
-                <div class="sports-bet-options">
-                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
-                        eventId: '${gameId}',
-                        eventName: '${game.title}',
-                       market: '${game.home_team}',
-                         odds: 1.85
-                     })">
-             <span>${game.home_team}</span>
-           <strong>1.85</strong>
-       </button>
 
-                <button type="button" class="sports-bet-option" onclick="addToBetSlip({
-               eventId: '${gameId}',
-               eventName: '${game.title}',
-           market: '${game.away_team}',
-             odds: 1.65
-               })">
-             <span>${game.away_team}</span>
-                        <strong>1.65</strong>
-                    </button>
+                <div class="sports-market-title">
+                    Match Winner
                 </div>
+
+                <div class="sports-bet-options">
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                        onclick="addToBetSlip({
+                            eventId: '${gameId}',
+                            eventName: '${game.title}',
+                            market: '${game.home_team}',
+                            odds: 1.85
+                        })"
+                    >
+                        <span>
+                            ${game.home_team}
+                        </span>
+
+                        <strong>
+                            1.85
+                        </strong>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                        onclick="addToBetSlip({
+                            eventId: '${gameId}',
+                            eventName: '${game.title}',
+                            market: '${game.away_team}',
+                            odds: 1.65
+                        })"
+                    >
+                        <span>
+                            ${game.away_team}
+                        </span>
+
+                        <strong>
+                            1.65
+                        </strong>
+                    </button>
+
+                </div>
+
             </div>
+
 
             <!-- TOTAL RUNS -->
             <div class="sports-market">
-                <div class="sports-market-title">Total Runs</div>
-                <div class="sports-bet-options">
-                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
-                        eventId: '${gameId}',
-                        eventName: '${game.title}',
-                        market: 'Over 180.5',
-                        odds: 1.90
-                    })">
-                        <span>Over 180.5</span>
-                        <strong>1.90</strong>
-                    </button>
-                    <button type="button" class="sports-bet-option" onclick="addToBetSlip({
-                        eventId: '${gameId}',
-                        eventName: '${game.title}',
-                        market: 'Under 180.5',
-                        odds: 1.80
-                    })">
-                        <span>Under 180.5</span>
-                        <strong>1.80</strong>
-                    </button>
+
+                <div class="sports-market-title">
+                    Total Runs
                 </div>
+
+                <div class="sports-bet-options">
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                        onclick="addToBetSlip({
+                            eventId: '${gameId}',
+                            eventName: '${game.title}',
+                            market: 'Over 180.5',
+                            odds: 1.90
+                        })"
+                    >
+                        <span>
+                            Over 180.5
+                        </span>
+
+                        <strong>
+                            1.90
+                        </strong>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="sports-bet-option"
+                        onclick="addToBetSlip({
+                            eventId: '${gameId}',
+                            eventName: '${game.title}',
+                            market: 'Under 180.5',
+                            odds: 1.80
+                        })"
+                    >
+                        <span>
+                            Under 180.5
+                        </span>
+
+                        <strong>
+                            1.80
+                        </strong>
+                    </button>
+
+                </div>
+
             </div>
 
+        </div>
 
-    `;  // <-- ✅ এখানে `; দিয়ে স্ট্রিং শেষ
+    `;
 
-        console.log(
-    "🌍 GLOBAL openSportsGame:",
-    typeof window.openSportsGame
-);
-    
 
     // ==========================================
     // HIDE NORMAL SPORTS CONTENT
     // ==========================================
 
-    const sportsSubSection = document.getElementById("sports-sub-section");
-    const trendingPage = document.getElementById("sports-trending-page");
-    const cricketEventsPage = document.getElementById("cricket-events-page");
-    const footballEventsPage = document.getElementById("football-events-page");
+    const sportsSubSection =
+        document.getElementById(
+            "sports-sub-section"
+        );
+
+    const trendingPage =
+        document.getElementById(
+            "sports-trending-page"
+        );
+
+    const cricketEventsPage =
+        document.getElementById(
+            "cricket-events-page"
+        );
+
+    const footballEventsPage =
+        document.getElementById(
+            "football-events-page"
+        );
+
 
     if (sportsSubSection) {
-        sportsSubSection.style.display = "none";
+
+        sportsSubSection.style.display =
+            "none";
     }
+
 
     if (trendingPage) {
-        trendingPage.style.display = "none";
+
+        trendingPage.style.display =
+            "none";
     }
+
 
     if (cricketEventsPage) {
-        cricketEventsPage.style.display = "none";
+
+        cricketEventsPage.style.display =
+            "none";
     }
+
 
     if (footballEventsPage) {
-        footballEventsPage.style.display = "none";
+
+        footballEventsPage.style.display =
+            "none";
     }
 
-    // Show Full Game Page
-    gamePage.style.display = "block";
 
-    // Prevent browser from jumping
-    window.scrollTo(0, 0);
-}
+    // ==========================================
+    // SHOW FULL GAME PAGE
+    // ==========================================
+    gamePage.style.display =
+        "block";
+
+
+    // ==========================================
+    // PREVENT BROWSER FROM JUMPING
+    // ==========================================
+    window.scrollTo(
+        0,
+        0
+    );
+
+};
+
+
+// ==========================================
+// GLOBAL FUNCTION CHECK
+// ==========================================
+console.log(
+    "🌍 GLOBAL openSportsGame:",
+    typeof window.openSportsGame
+);
+
 
 // ==========================================
 // BACK FROM SPORTS GAME
