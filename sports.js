@@ -95,13 +95,15 @@ console.log("🌍 GLOBAL openSportsGame BEFORE:", typeof window.openSportsGame);
 // ==========================================
 // OPEN SPORTS GAME
 // ==========================================
-async function openSportsGame(sport, gameId) {
+window.openSportsGame = async function (sport, gameId) {
 
     window.currentSportsPage =
         sport + "-events-page";
 
     console.log("SPORT:", sport);
     console.log("GAME ID:", gameId);
+
+    // বাকি তোমার existing code একই থাকবে
 
 
     // ==========================================
@@ -121,7 +123,7 @@ async function openSportsGame(sport, gameId) {
             return;
         }
     }
-    console.log("🌍 GLOBAL openSportsGame AFTER:", typeof window.openSportsGame);
+    
 
 
     // ==========================================
@@ -231,9 +233,6 @@ async function openSportsGame(sport, gameId) {
                 ? "🏏 Cricket"
                 : "⚽ Football";
 
-    }
-
-
     // ==========================================
     // GAME CONTENT
     // ==========================================
@@ -318,6 +317,12 @@ async function openSportsGame(sport, gameId) {
 
 
     `;  // <-- ✅ এখানে `; দিয়ে স্ট্রিং শেষ
+
+        console.log(
+    "🌍 GLOBAL openSportsGame:",
+    typeof window.openSportsGame
+);
+    
 
     // ==========================================
     // HIDE NORMAL SPORTS CONTENT
