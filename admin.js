@@ -2,200 +2,323 @@
 // SAFIKI ADMIN PANEL ENGINE
 // ==========================
 
+
+// ======================================================
+// GLOBAL ADMIN SPORTS CACHE
+// ======================================================
+
+window.adminSportsGames = window.adminSportsGames || {};
+window.activeSportsGameId = null;
+
+
+// ======================================================
+// DOM READY
+// ======================================================
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // INIT SIDEBAR
     initSidebar();
 
+
     // =========================
     // GAME LOAD BUTTON LOGIC
     // =========================
 
-    const btn = document.getElementById("loadGameBtn");
+    const btn =
+        document.getElementById("loadGameBtn");
+
 
     if (btn) {
 
         btn.addEventListener("click", function () {
 
-            const game = document.getElementById("gameSelector").value;
+            const selector =
+                document.getElementById("gameSelector");
+
+
+            const game =
+                selector ? selector.value : "";
+
 
             if (!game) {
+
                 alert("Select a game first");
+
                 return;
+
             }
 
-            const statsSection = document.getElementById("gameStatsSection");
+
+            const statsSection =
+                document.getElementById(
+                    "gameStatsSection"
+                );
+
 
             if (statsSection) {
-                statsSection.style.display = "block";
+
+                statsSection.style.display =
+                    "block";
+
             }
 
-            console.log("Game selected:", game);
+
+            console.log(
+                "Game selected:",
+                game
+            );
 
         });
 
     }
 
+
+    // =========================
+    // RTP SLIDER
+    // =========================
+
+    const rtpSlider =
+        document.getElementById("gs_rtp");
+
+
+    if (rtpSlider) {
+
+        rtpSlider.addEventListener(
+            "input",
+            function () {
+
+                const output =
+                    document.getElementById(
+                        "gs_rtp_value"
+                    );
+
+
+                if (output) {
+
+                    output.innerText =
+                        this.value + "%";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =========================
+    // ADMIN SPORTS SYSTEM
+    // =========================
+
+    console.log(
+        "🏏 ADMIN SPORTS SYSTEM READY"
+    );
+
+
+    loadAdminSportsGames();
+
 });
 
 
-// ==========================
+// ======================================================
 // SIDEBAR SYSTEM
-// ==========================
+// ======================================================
 
 function initSidebar() {
 
     const menuItems =
-        document.querySelectorAll(".sidebar-menu li");
+        document.querySelectorAll(
+            ".sidebar-menu li"
+        );
+
 
     const sections =
-        document.querySelectorAll(".admin-section");
+        document.querySelectorAll(
+            ".admin-section"
+        );
+
 
     menuItems.forEach(item => {
 
-        item.addEventListener("click", () => {
+        item.addEventListener(
+            "click",
+            function () {
 
-            const target =
-                item.getAttribute("data-target");
+                const target =
+                    item.getAttribute(
+                        "data-target"
+                    );
 
-            menuItems.forEach(m =>
-                m.classList.remove("active")
-            );
 
-            item.classList.add("active");
+                menuItems.forEach(menuItem => {
 
-            sections.forEach(section => {
-                section.style.display = "none";
-            });
+                    menuItem.classList.remove(
+                        "active"
+                    );
 
-            const activeSection =
-                document.getElementById(target);
-
-            if (activeSection) {
-
-                activeSection.style.display = "block";
-
-                activeSection.scrollIntoView({
-                    behavior: "smooth"
                 });
 
-            }
 
-        });
+                item.classList.add(
+                    "active"
+                );
+
+
+                sections.forEach(section => {
+
+                    section.style.display =
+                        "none";
+
+                });
+
+
+                const activeSection =
+                    document.getElementById(
+                        target
+                    );
+
+
+                if (activeSection) {
+
+                    activeSection.style.display =
+                        "block";
+
+
+                    activeSection.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+            }
+        );
 
     });
 
 }
-// ==========================
-// SIDEBAR NAVIGATION
-// ==========================
 
-function initSidebar() {
 
-    const menuItems = document.querySelectorAll(".sidebar-menu li");
+// ======================================================
+// RTP FUNCTION START
+// ======================================================
 
-    const sections = document.querySelectorAll(".admin-section");
-
-    menuItems.forEach(item => {
-
-        item.addEventListener("click", () => {
-
-            menuItems.forEach(m =>
-                m.classList.remove("active")
-            );
-
-            item.classList.add("active");
-
-            const target = item.getAttribute("data-target");
-
-            sections.forEach(section => {
-
-                section.style.display = "none";
-
-            });
-
-            const activeSection =
-                document.getElementById(target);
-
-            if(activeSection){
-
-                activeSection.style.display = "block";
-
-                activeSection.scrollIntoView({
-                    behavior: "smooth"
-                });
-
-            }
-
-        });
-
-    });
-
-}
-// ==========================
-// SIDEBAR NAVIGATION
-// ==========================
-// ==========================
-// RTP FUNCTION START 
-// ==========================
-function toggleRtpPanel(){
+function toggleRtpPanel() {
 
     const panel =
-        document.getElementById("rtpPanel");
+        document.getElementById(
+            "rtpPanel"
+        );
+
+
+    if (!panel) return;
+
 
     panel.style.display =
         panel.style.display === "block"
-        ? "none"
-        : "block";
+            ? "none"
+            : "block";
 
 }
 
-function saveRtp(){
+
+function saveRtp() {
+
+    const input =
+        document.getElementById(
+            "rtpInput"
+        );
+
+
+    if (!input) return;
+
 
     let rtp =
-        document.getElementById("rtpInput").value;
+        input.value;
 
-    document.getElementById("currentRtp")
-        .innerText = rtp + "%";
 
-    document.getElementById("houseEdge")
-        .innerText = (100 - rtp) + "%";
+    const currentRtp =
+        document.getElementById(
+            "currentRtp"
+        );
 
-    alert("RTP Updated");
+
+    const houseEdge =
+        document.getElementById(
+            "houseEdge"
+        );
+
+
+    if (currentRtp) {
+
+        currentRtp.innerText =
+            rtp + "%";
+
+    }
+
+
+    if (houseEdge) {
+
+        houseEdge.innerText =
+            (100 - rtp) + "%";
+
+    }
+
+
+    alert(
+        "RTP Updated"
+    );
 
 }
-// ==========================
+
+
+// ======================================================
 // RTP FUNCTION END
-// ==========================
-// ==========================
-//PLAYER CONTROL START
-// ==========================
-function togglePlayerPanel(){
+// ======================================================
+
+
+// ======================================================
+// PLAYER CONTROL START
+// ======================================================
+
+function togglePlayerPanel() {
 
     const panel =
-        document.getElementById("playerPanel");
+        document.getElementById(
+            "playerPanel"
+        );
+
+
+    if (!panel) return;
+
 
     panel.style.display =
         panel.style.display === "block"
-        ? "none"
-        : "block";
+            ? "none"
+            : "block";
 
 }
 
-function savePlayerSettings(){
 
-    alert("Player Settings Saved");
+function savePlayerSettings() {
+
+    alert(
+        "Player Settings Saved"
+    );
 
 }
-// ==========================
-//PLAYER CONTROL END
-// ==========================
 
-// ==========================
+
+// ======================================================
+// PLAYER CONTROL END
+// ======================================================
+
+
+// ======================================================
 // ADMIN ACTIONS ENGINE
-// ==========================
+// ======================================================
 
-function addBalance(){
+function addBalance() {
 
     openAdminModal(
         "Add Balance",
@@ -219,13 +342,28 @@ function addBalance(){
 
 }
 
-function confirmAddBalance(){
 
-    let userId =
-        document.getElementById("balanceUserId").value;
+function confirmAddBalance() {
 
-    let amount =
-        document.getElementById("balanceAmount").value;
+    const userInput =
+        document.getElementById(
+            "balanceUserId"
+        );
+
+
+    const amountInput =
+        document.getElementById(
+            "balanceAmount"
+        );
+
+
+    const userId =
+        userInput ? userInput.value : "";
+
+
+    const amount =
+        amountInput ? amountInput.value : "";
+
 
     alert(
         "Balance Added\nUser: " +
@@ -234,11 +372,13 @@ function confirmAddBalance(){
         amount
     );
 
+
     closeAdminModal();
 
 }
 
-function deductBalance(){
+
+function deductBalance() {
 
     openAdminModal(
         "Deduct Balance",
@@ -262,13 +402,28 @@ function deductBalance(){
 
 }
 
-function confirmDeductBalance(){
 
-    let userId =
-        document.getElementById("deductUserId").value;
+function confirmDeductBalance() {
 
-    let amount =
-        document.getElementById("deductAmount").value;
+    const userInput =
+        document.getElementById(
+            "deductUserId"
+        );
+
+
+    const amountInput =
+        document.getElementById(
+            "deductAmount"
+        );
+
+
+    const userId =
+        userInput ? userInput.value : "";
+
+
+    const amount =
+        amountInput ? amountInput.value : "";
+
 
     alert(
         "Balance Deducted\nUser: " +
@@ -277,11 +432,13 @@ function confirmDeductBalance(){
         amount
     );
 
+
     closeAdminModal();
 
 }
 
-function suspendUser(){
+
+function suspendUser() {
 
     openAdminModal(
         "Suspend User",
@@ -293,10 +450,15 @@ function suspendUser(){
             placeholder="User ID">
 
         <select id="suspendDuration">
+
             <option>24 Hours</option>
+
             <option>7 Days</option>
+
             <option>30 Days</option>
+
             <option>Permanent</option>
+
         </select>
 
         <button onclick="confirmSuspendUser()">
@@ -307,13 +469,30 @@ function suspendUser(){
 
 }
 
-function confirmSuspendUser(){
 
-    let userId =
-        document.getElementById("suspendUserId").value;
+function confirmSuspendUser() {
 
-    let duration =
-        document.getElementById("suspendDuration").value;
+    const userInput =
+        document.getElementById(
+            "suspendUserId"
+        );
+
+
+    const durationInput =
+        document.getElementById(
+            "suspendDuration"
+        );
+
+
+    const userId =
+        userInput ? userInput.value : "";
+
+
+    const duration =
+        durationInput
+            ? durationInput.value
+            : "";
+
 
     alert(
         "User Suspended\nUser: " +
@@ -322,11 +501,13 @@ function confirmSuspendUser(){
         duration
     );
 
+
     closeAdminModal();
 
 }
 
-function deleteUser(){
+
+function deleteUser() {
 
     openAdminModal(
         "Delete User",
@@ -345,349 +526,209 @@ function deleteUser(){
 
 }
 
-function confirmDeleteUser(){
 
-    let userId =
-        document.getElementById("deleteUserId").value;
+function confirmDeleteUser() {
 
-    let confirmDelete =
-        confirm(
-            "Delete User ID: " + userId + " ?"
+    const input =
+        document.getElementById(
+            "deleteUserId"
         );
 
-    if(confirmDelete){
+
+    const userId =
+        input ? input.value : "";
+
+
+    const confirmDelete =
+        confirm(
+            "Delete User ID: " +
+            userId +
+            " ?"
+        );
+
+
+    if (confirmDelete) {
 
         alert(
-            "User Deleted: " + userId
+            "User Deleted: " +
+            userId
         );
+
 
         closeAdminModal();
 
     }
 
 }
-// ==========================
-//Notification: START
-// ==========================
-function sendNotification(){
 
-    let title =
-        document.getElementById("notifTitle").value;
 
-    let msg =
-        document.getElementById("notifMessage").value;
+// ======================================================
+// NOTIFICATION START
+// ======================================================
 
-    if(!title || !msg){
+function sendNotification() {
 
-        alert("Fill Notification Data");
+    const titleInput =
+        document.getElementById(
+            "notifTitle"
+        );
 
-        return;
 
-    }
+    const msgInput =
+        document.getElementById(
+            "notifMessage"
+        );
 
-    alert("Notification Sent");
-
-}
-// ==========================
-//Notification: END
-// ==========================
-function openModal(action, userId = null){
-
-    const modal =
-        document.getElementById("adminModal");
 
     const title =
-        document.getElementById("modalTitle");
+        titleInput
+            ? titleInput.value
+            : "";
+
+
+    const msg =
+        msgInput
+            ? msgInput.value
+            : "";
+
+
+    if (!title || !msg) {
+
+        alert(
+            "Fill Notification Data"
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Notification Sent"
+    );
+
+}
+
+
+// ======================================================
+// NOTIFICATION END
+// ======================================================
+
+
+// ======================================================
+// ADMIN MODAL
+// ======================================================
+
+function openModal(
+    action,
+    userId = null
+) {
+
+    const modal =
+        document.getElementById(
+            "adminModal"
+        );
+
+
+    const title =
+        document.getElementById(
+            "modalTitle"
+        );
+
 
     const body =
-        document.getElementById("modalBody");
+        document.getElementById(
+            "modalBody"
+        );
 
-    modal.style.display = "block";
 
-    title.innerHTML = action;
-    body.innerHTML = "User ID : " + userId;
+    if (!modal) return;
+
+
+    modal.style.display =
+        "block";
+
+
+    if (title) {
+
+        title.innerHTML =
+            action;
+
+    }
+
+
+    if (body) {
+
+        body.innerHTML =
+            "User ID : " +
+            userId;
+
+    }
 
 }
 
-function toggleActionPanel(panelId, btn = null) {
 
-    const target = document.getElementById(panelId);
+// ======================================================
+// ACTION PANEL
+// ======================================================
 
-    const isOpen = target && target.style.display === "block";
+function toggleActionPanel(
+    panelId,
+    btn = null
+) {
 
-    // IMPORTANT: only close SUB PANELS, not profilePanel
-    const panels = document.querySelectorAll(".sub-panel");
+    const target =
+        document.getElementById(
+            panelId
+        );
 
-    const buttons = document.querySelectorAll(".profile-toggle-btn");
 
-    // close if already open
+    const isOpen =
+        target &&
+        target.style.display === "block";
+
+
+    const panels =
+        document.querySelectorAll(
+            ".sub-panel"
+        );
+
+
+    const buttons =
+        document.querySelectorAll(
+            ".profile-toggle-btn"
+        );
+
+
     if (isOpen) {
-        target.style.display = "none";
-        if (btn) btn.classList.remove("active");
-        return;
-    }
 
-    // hide only sub panels
-    panels.forEach(panel => {
-        panel.style.display = "none";
-    });
+        target.style.display =
+            "none";
 
-    // remove active state
-    buttons.forEach(b => {
-        b.classList.remove("active");
-    });
 
-    // open selected
-    if (target) {
-        target.style.display = "block";
-    }
+        if (btn) {
 
-    // active button
-    if (btn) {
-        btn.classList.add("active");
-    }
-}
-function toggleActionButtons() {
-
-    const panel =
-        document.getElementById("actionButtons");
-
-    if(panel.style.display === "block") {
-
-        panel.style.display = "none";
-
-    } else {
-
-        panel.style.display = "block";
-
-    }
-
-}
-/* ================================
-   USER DATA SECTION END
-==================================*/
-
-/* ================================
-   GAMES SECTION JS FILE START
-==================================*/
-
-window.activeGameId = null;
-
-/* ================================
-   OPEN GAME SETTINGS PANEL
-==================================*/
-
-function openGameSettings(gameId) {
-
-    const panel =
-        document.getElementById("gameSettingsPanel");
-
-    if (!panel) return;
-
-    if (window.activeGameId === gameId) {
-
-        const isVisible =
-            window.getComputedStyle(panel).display !== "none";
-
-        if (isVisible) {
-
-            panel.style.display = "none";
-            window.activeGameId = null;
-
-            return;
+            btn.classList.remove(
+                "active"
+            );
 
         }
 
-    }
 
-    window.activeGameId = gameId;
-
-    panel.style.display = "block";
-
-    document.getElementById("gs_id").innerText =
-        gameId;
-
-    document.getElementById("gs_name").innerText =
-        getGameName(gameId);
-
-}
-/* ================================
-   GAME sub section start
-==================================*/
-
-
-function openSportsSection(){
-
-    const sports =
-    document.getElementById(
-        "sportsSection"
-    );
-
-    const casino =
-    document.getElementById(
-        "casinoSection"
-    );
-
-
-    if(sports){
-
-        sports.style.display = "block";
+        return;
 
     }
 
 
-    if(casino){
+    panels.forEach(panel => {
 
-        casino.style.display = "none";
-
-    }
-
-}
-
-
-
-function openCasinoSection(){
-
-    const sports =
-    document.getElementById(
-        "sportsSection"
-    );
-
-    const casino =
-    document.getElementById(
-        "casinoSection"
-    );
-
-
-    if(sports){
-
-        sports.style.display = "none";
-
-    }
-
-
-    if(casino){
-
-        casino.style.display = "block";
-
-    }
-
-}
-
-/* ================================
-   SPORTS SUB SECTION START
-==================================*/
-function adminSportsCricket(){
-
-
-    document.querySelectorAll(
-        ".admin-sport-section"
-    )
-    .forEach(section=>{
-
-        section.style.display="none";
+        panel.style.display =
+            "none";
 
     });
 
 
-
-    document.getElementById(
-        "adminCricketSection"
-    )
-    .style.display="block";
-
-
-
-    openCricketLive();
-
-}
-
-
-
-
-function openCricketLive(btn){
-
-
-    hideCricketTabs();
-
-
-    document.getElementById(
-        "cricketLive"
-    )
-    .style.display="block";
-
-
-    setActiveCricketTab(btn);
-
-}
-
-
-
-
-function openCricketUpcoming(btn){
-
-
-    hideCricketTabs();
-
-
-    document.getElementById(
-        "cricketUpcoming"
-    )
-    .style.display="block";
-
-
-    setActiveCricketTab(btn);
-
-}
-
-
-
-
-function openCricketFeatured(btn){
-
-
-    hideCricketTabs();
-
-
-    document.getElementById(
-        "cricketFeatured"
-    )
-    .style.display="block";
-
-
-    setActiveCricketTab(btn);
-
-}
-
-
-
-
-
-function hideCricketTabs(){
-
-
-    document.querySelectorAll(
-        ".cricket-content"
-    )
-    .forEach(item=>{
-
-        item.style.display="none";
-
-    });
-
-
-}
-
-
-
-
-function setActiveCricketTab(btn){
-
-
-    document.querySelectorAll(
-        ".cricket-tabs button"
-    )
-    .forEach(button=>{
+    buttons.forEach(button => {
 
         button.classList.remove(
             "active"
@@ -696,8 +737,15 @@ function setActiveCricketTab(btn){
     });
 
 
+    if (target) {
 
-    if(btn){
+        target.style.display =
+            "block";
+
+    }
+
+
+    if (btn) {
 
         btn.classList.add(
             "active"
@@ -708,107 +756,1505 @@ function setActiveCricketTab(btn){
 }
 
 
-/* ================================
-   END SPORTS SUB SECTION
-==================================*/
+function toggleActionButtons() {
+
+    const panel =
+        document.getElementById(
+            "actionButtons"
+        );
 
 
+    if (!panel) return;
 
 
-
-
-/* ================================
-   GAME NAME MAP
-==================================*/
-
-function getGameName(id) {
-
-    const games = {
-
-        "G1001": "Jhandi Munda",
-        "G1002": "Teen Patti",
-        "G1003": "Wheel"
-
-    };
-
-    return games[id] || "Unknown Game";
+    panel.style.display =
+        panel.style.display === "block"
+            ? "none"
+            : "block";
 
 }
 
-/* ================================
-   SETTINGS ACCORDION
-==================================*/
 
-function toggleSection(sectionId) {
+// ======================================================
+// GAMES SECTION JS START
+// ======================================================
 
-    const allSections =
-        document.querySelectorAll(".settings-content");
 
-    const current =
-        document.getElementById(sectionId);
+// ======================================================
+// CURRENT GAME
+// ======================================================
 
-    if (!current) return;
+window.activeGameId = null;
 
-    const isOpen =
-        current.style.display === "block";
 
-    allSections.forEach(section => {
+// ======================================================
+// OPEN GAME SETTINGS PANEL
+// ======================================================
 
-        section.style.display = "none";
+function openGameSettings(gameId) {
 
-    });
+    const panel =
+        document.getElementById(
+            "gameSettingsPanel"
+        );
 
-    if (!isOpen) {
 
-        current.style.display = "block";
+    if (!panel) return;
+
+
+    if (
+        window.activeGameId === gameId
+    ) {
+
+        const isVisible =
+            window.getComputedStyle(
+                panel
+            ).display !== "none";
+
+
+        if (isVisible) {
+
+            panel.style.display =
+                "none";
+
+
+            window.activeGameId =
+                null;
+
+
+            return;
+
+        }
+
+    }
+
+
+    window.activeGameId =
+        gameId;
+
+
+    panel.style.display =
+        "block";
+
+
+    const idElement =
+        document.getElementById(
+            "gs_id"
+        );
+
+
+    const nameElement =
+        document.getElementById(
+            "gs_name"
+        );
+
+
+    if (idElement) {
+
+        idElement.innerText =
+            gameId;
+
+    }
+
+
+    if (nameElement) {
+
+        nameElement.innerText =
+            getGameName(gameId);
 
     }
 
 }
 
-/* ================================
-   RTP LIVE UPDATE
-==================================*/
 
-document.addEventListener("DOMContentLoaded", () => {
+// ======================================================
+// GAME SUB SECTION
+// ======================================================
 
-    const rtpSlider =
-        document.getElementById("gs_rtp");
+function openSportsSection() {
 
-    if (!rtpSlider) return;
+    const sports =
+        document.getElementById(
+            "sportsSection"
+        );
 
-    rtpSlider.addEventListener("input", function () {
 
-        const output =
-            document.getElementById("gs_rtp_value");
+    const casino =
+        document.getElementById(
+            "casinoSection"
+        );
 
-        if (output) {
 
-            output.innerText =
-                this.value + "%";
+    if (sports) {
 
-        }
+        sports.style.display =
+            "block";
+
+    }
+
+
+    if (casino) {
+
+        casino.style.display =
+            "none";
+
+    }
+
+}
+
+
+function openCasinoSection() {
+
+    const sports =
+        document.getElementById(
+            "sportsSection"
+        );
+
+
+    const casino =
+        document.getElementById(
+            "casinoSection"
+        );
+
+
+    if (sports) {
+
+        sports.style.display =
+            "none";
+
+    }
+
+
+    if (casino) {
+
+        casino.style.display =
+            "block";
+
+    }
+
+}
+
+
+// ======================================================
+// SPORTS SUB SECTION
+// ======================================================
+
+function adminSportsCricket() {
+
+    document.querySelectorAll(
+        ".admin-sport-section"
+    )
+    .forEach(section => {
+
+        section.style.display =
+            "none";
 
     });
 
-});
 
-/* ================================
-   GAME STATUS TOGGLE
-==================================*/
+    const cricket =
+        document.getElementById(
+            "adminCricketSection"
+        );
+
+
+    if (cricket) {
+
+        cricket.style.display =
+            "block";
+
+    }
+
+
+    openCricketLive();
+
+}
+
+
+function adminSportsFootball() {
+
+    console.log(
+        "⚽ Football Control Selected"
+    );
+
+}
+
+
+function adminSportsTennis() {
+
+    console.log(
+        "🎾 Tennis Control Selected"
+    );
+
+}
+
+
+function adminSportsBasketball() {
+
+    console.log(
+        "🏀 Basketball Control Selected"
+    );
+
+}
+
+
+function adminSportsVolleyball() {
+
+    console.log(
+        "🏐 Volleyball Control Selected"
+    );
+
+}
+
+
+function adminSportsOthers() {
+
+    console.log(
+        "🏆 Other Sports Control Selected"
+    );
+
+}
+
+
+// ======================================================
+// CRICKET TABS
+// ======================================================
+
+function openCricketLive(btn) {
+
+    hideCricketTabs();
+
+
+    const panel =
+        document.getElementById(
+            "cricketLive"
+        );
+
+
+    if (panel) {
+
+        panel.style.display =
+            "block";
+
+    }
+
+
+    setActiveCricketTab(btn);
+
+
+    renderAdminCricketGames(
+        Object.values(
+            window.adminSportsGames
+        )
+    );
+
+}
+
+
+function openCricketUpcoming(btn) {
+
+    hideCricketTabs();
+
+
+    const panel =
+        document.getElementById(
+            "cricketUpcoming"
+        );
+
+
+    if (panel) {
+
+        panel.style.display =
+            "block";
+
+    }
+
+
+    setActiveCricketTab(btn);
+
+}
+
+
+function openCricketFeatured(btn) {
+
+    hideCricketTabs();
+
+
+    const panel =
+        document.getElementById(
+            "cricketFeatured"
+        );
+
+
+    if (panel) {
+
+        panel.style.display =
+            "block";
+
+    }
+
+
+    setActiveCricketTab(btn);
+
+}
+
+
+function hideCricketTabs() {
+
+    document.querySelectorAll(
+        ".cricket-content"
+    )
+    .forEach(item => {
+
+        item.style.display =
+            "none";
+
+    });
+
+}
+
+
+function setActiveCricketTab(btn) {
+
+    document.querySelectorAll(
+        ".cricket-tabs button"
+    )
+    .forEach(button => {
+
+        button.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    if (btn) {
+
+        btn.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// SUPABASE SPORTS GAME LOAD
+// ======================================================
+
+async function loadAdminSportsGames() {
+
+    console.log(
+        "🔄 ADMIN: Loading sports games from Supabase..."
+    );
+
+
+    if (
+        typeof supabaseClient ===
+        "undefined"
+    ) {
+
+        console.error(
+            "❌ ADMIN: supabaseClient is not available."
+        );
+
+        return false;
+
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("sports_games")
+        .select("*")
+        .order(
+            "game_id",
+            {
+                ascending: true
+            }
+        );
+
+
+    console.log(
+        "📦 ADMIN SUPABASE DATA:",
+        data
+    );
+
+
+    console.log(
+        "📦 ADMIN SUPABASE ERROR:",
+        error
+    );
+
+
+    if (error) {
+
+        console.error(
+            "❌ ADMIN: Failed to load sports games:",
+            error
+        );
+
+        return false;
+
+    }
+
+
+    window.adminSportsGames =
+        {};
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        console.warn(
+            "⚠️ ADMIN: No sports games found."
+        );
+
+
+        renderAdminCricketGames(
+            []
+        );
+
+
+        return true;
+
+    }
+
+
+    data.forEach(
+        (game, index) => {
+
+            console.log(
+                `🎮 ADMIN GAME ${index + 1}:`,
+                game
+            );
+
+
+            console.log(
+                `🆔 ADMIN GAME ID ${index + 1}:`,
+                game.game_id
+            );
+
+
+            window.adminSportsGames[
+                game.game_id
+            ] = game;
+
+        }
+    );
+
+
+    console.log(
+        "🗂️ ADMIN SPORTS CACHE:",
+        window.adminSportsGames
+    );
+
+
+    renderAdminCricketGames(
+        data
+    );
+
+
+    return true;
+
+}
+
+
+// ======================================================
+// RENDER CRICKET GAMES
+// ======================================================
+
+function renderAdminCricketGames(
+    games
+) {
+
+    const grid =
+        document.getElementById(
+            "adminCricketLiveGrid"
+        );
+
+
+    if (!grid) {
+
+        console.warn(
+            "⚠️ ADMIN: adminCricketLiveGrid not found."
+        );
+
+        return;
+
+    }
+
+
+    const cricketGames =
+        (games || []).filter(
+            game => {
+
+                return String(
+                    game.sport || ""
+                )
+                .toLowerCase() ===
+                "cricket";
+
+            }
+        );
+
+
+    if (
+        cricketGames.length === 0
+    ) {
+
+        grid.innerHTML = `
+            <p>
+                No Cricket Games Available
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        cricketGames
+        .map(
+            game =>
+                createAdminCricketCard(
+                    game
+                )
+        )
+        .join("");
+
+}
+
+
+// ======================================================
+// CREATE CRICKET CARD
+// ======================================================
+
+function createAdminCricketCard(
+    game
+) {
+
+    const totalRuns =
+        game.total_runs_enabled !== false;
+
+
+    const overUnder =
+        game.over_under_enabled !== false;
+
+
+    const matchWinner =
+        game.match_winner_enabled !== false;
+
+
+    return `
+
+        <div
+            class="match-card"
+            data-game-id="${escapeAdminSportsHTML(
+                game.game_id
+            )}"
+        >
+
+            <div class="admin-game-id">
+                ID:
+                ${escapeAdminSportsHTML(
+                    game.game_id
+                )}
+            </div>
+
+
+            <h5>
+                ${escapeAdminSportsHTML(
+                    game.league || ""
+                )}
+            </h5>
+
+
+            <p class="admin-match-title">
+
+                ${escapeAdminSportsHTML(
+                    game.home_team || ""
+                )}
+
+                <strong>
+                    VS
+                </strong>
+
+                ${escapeAdminSportsHTML(
+                    game.away_team || ""
+                )}
+
+            </p>
+
+
+            <p>
+
+                Status:
+
+                <strong class="admin-game-status">
+
+                    ${escapeAdminSportsHTML(
+                        game.status || ""
+                    )}
+
+                </strong>
+
+            </p>
+
+
+            <div class="market-list">
+
+                <div>
+
+                    Total Runs
+
+                    <button
+                        type="button"
+                        class="${
+                            totalRuns
+                                ? "market-on"
+                                : "market-off"
+                        }"
+                        onclick="toggleAdminMarket(
+                            '${escapeAdminSportsJS(
+                                game.game_id
+                            )}',
+                            'total_runs_enabled'
+                        )"
+                    >
+
+                        ${
+                            totalRuns
+                                ? "ON"
+                                : "OFF"
+                        }
+
+                    </button>
+
+                </div>
+
+
+                <div>
+
+                    Over / Under
+
+                    <button
+                        type="button"
+                        class="${
+                            overUnder
+                                ? "market-on"
+                                : "market-off"
+                        }"
+                        onclick="toggleAdminMarket(
+                            '${escapeAdminSportsJS(
+                                game.game_id
+                            )}',
+                            'over_under_enabled'
+                        )"
+                    >
+
+                        ${
+                            overUnder
+                                ? "ON"
+                                : "OFF"
+                        }
+
+                    </button>
+
+                </div>
+
+
+                <div>
+
+                    Match Winner
+
+                    <button
+                        type="button"
+                        class="${
+                            matchWinner
+                                ? "market-on"
+                                : "market-off"
+                        }"
+                        onclick="toggleAdminMarket(
+                            '${escapeAdminSportsJS(
+                                game.game_id
+                            )}',
+                            'match_winner_enabled'
+                        )"
+                    >
+
+                        ${
+                            matchWinner
+                                ? "ON"
+                                : "OFF"
+                        }
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="admin-edit-match-btn"
+                onclick="openSportsGameEditor(
+                    '${escapeAdminSportsJS(
+                        game.game_id
+                    )}'
+                )"
+            >
+
+                ✏️ Edit Match
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+// ======================================================
+// OPEN SPORTS GAME EDITOR
+// ======================================================
+
+window.openSportsGameEditor =
+function (gameId) {
+
+    console.log(
+        "✏️ ADMIN: Opening editor:",
+        gameId
+    );
+
+
+    const game =
+        window.adminSportsGames[
+            gameId
+        ];
+
+
+    if (!game) {
+
+        console.error(
+            "❌ ADMIN: Game not found:",
+            gameId
+        );
+
+        alert(
+            "Sports game not found."
+        );
+
+        return;
+
+    }
+
+
+    const gameIdInput =
+        document.getElementById(
+            "editSportsGameId"
+        );
+
+
+    const titleInput =
+        document.getElementById(
+            "editSportsGameTitle"
+        );
+
+
+    const leagueInput =
+        document.getElementById(
+            "editSportsGameLeague"
+        );
+
+
+    const statusInput =
+        document.getElementById(
+            "editSportsGameStatus"
+        );
+
+
+    const homeInput =
+        document.getElementById(
+            "editSportsGameHome"
+        );
+
+
+    const awayInput =
+        document.getElementById(
+            "editSportsGameAway"
+        );
+
+
+    const totalRunsInput =
+        document.getElementById(
+            "editTotalRuns"
+        );
+
+
+    const overUnderInput =
+        document.getElementById(
+            "editOverUnder"
+        );
+
+
+    const matchWinnerInput =
+        document.getElementById(
+            "editMatchWinner"
+        );
+
+
+    if (gameIdInput) {
+
+        gameIdInput.value =
+            game.game_id || "";
+
+    }
+
+
+    if (titleInput) {
+
+        titleInput.value =
+            game.title || "";
+
+    }
+
+
+    if (leagueInput) {
+
+        leagueInput.value =
+            game.league || "";
+
+    }
+
+
+    if (statusInput) {
+
+        statusInput.value =
+            game.status || "LIVE";
+
+    }
+
+
+    if (homeInput) {
+
+        homeInput.value =
+            game.home_team || "";
+
+    }
+
+
+    if (awayInput) {
+
+        awayInput.value =
+            game.away_team || "";
+
+    }
+
+
+    if (totalRunsInput) {
+
+        totalRunsInput.checked =
+            game.total_runs_enabled !== false;
+
+    }
+
+
+    if (overUnderInput) {
+
+        overUnderInput.checked =
+            game.over_under_enabled !== false;
+
+    }
+
+
+    if (matchWinnerInput) {
+
+        matchWinnerInput.checked =
+            game.match_winner_enabled !== false;
+
+    }
+
+
+    window.activeSportsGameId =
+        gameId;
+
+
+    const modal =
+        document.getElementById(
+            "sportsGameEditModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "flex";
+
+    }
+
+};
+
+
+// ======================================================
+// CLOSE SPORTS GAME EDITOR
+// ======================================================
+
+window.closeSportsGameEditor =
+function () {
+
+    const modal =
+        document.getElementById(
+            "sportsGameEditModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+
+    window.activeSportsGameId =
+        null;
+
+};
+
+
+// ======================================================
+// SAVE SPORTS GAME
+// ======================================================
+
+window.saveSportsGameChanges =
+async function () {
+
+    const gameIdInput =
+        document.getElementById(
+            "editSportsGameId"
+        );
+
+
+    const gameId =
+        gameIdInput
+            ? gameIdInput.value.trim()
+            : "";
+
+
+    if (!gameId) {
+
+        alert(
+            "Game ID is missing."
+        );
+
+        return;
+
+    }
+
+
+    const titleInput =
+        document.getElementById(
+            "editSportsGameTitle"
+        );
+
+
+    const leagueInput =
+        document.getElementById(
+            "editSportsGameLeague"
+        );
+
+
+    const statusInput =
+        document.getElementById(
+            "editSportsGameStatus"
+        );
+
+
+    const homeInput =
+        document.getElementById(
+            "editSportsGameHome"
+        );
+
+
+    const awayInput =
+        document.getElementById(
+            "editSportsGameAway"
+        );
+
+
+    const totalRunsInput =
+        document.getElementById(
+            "editTotalRuns"
+        );
+
+
+    const overUnderInput =
+        document.getElementById(
+            "editOverUnder"
+        );
+
+
+    const matchWinnerInput =
+        document.getElementById(
+            "editMatchWinner"
+        );
+
+
+    const updatedGame = {
+
+        title:
+            titleInput
+                ? titleInput.value.trim()
+                : "",
+
+
+        league:
+            leagueInput
+                ? leagueInput.value.trim()
+                : "",
+
+
+        status:
+            statusInput
+                ? statusInput.value
+                : "LIVE",
+
+
+        home_team:
+            homeInput
+                ? homeInput.value.trim()
+                : "",
+
+
+        away_team:
+            awayInput
+                ? awayInput.value.trim()
+                : "",
+
+
+        total_runs_enabled:
+            totalRunsInput
+                ? totalRunsInput.checked
+                : true,
+
+
+        over_under_enabled:
+            overUnderInput
+                ? overUnderInput.checked
+                : true,
+
+
+        match_winner_enabled:
+            matchWinnerInput
+                ? matchWinnerInput.checked
+                : true
+
+    };
+
+
+    if (
+        !updatedGame.title ||
+        !updatedGame.league ||
+        !updatedGame.home_team ||
+        !updatedGame.away_team
+    ) {
+
+        alert(
+            "Please fill in all match information."
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "💾 ADMIN: Updating game:",
+        gameId,
+        updatedGame
+    );
+
+
+    if (
+        typeof supabaseClient ===
+        "undefined"
+    ) {
+
+        console.error(
+            "❌ ADMIN: Supabase client unavailable."
+        );
+
+        alert(
+            "Supabase connection unavailable."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("sports_games")
+        .update(updatedGame)
+        .eq(
+            "game_id",
+            gameId
+        )
+        .select()
+        .single();
+
+
+    if (error) {
+
+        console.error(
+            "❌ ADMIN: Sports game update failed:",
+            error
+        );
+
+
+        alert(
+            "Failed to update match.\n\n" +
+            error.message
+        );
+
+
+        return;
+
+    }
+
+
+    console.log(
+        "✅ ADMIN: Sports game updated:",
+        data
+    );
+
+
+    window.adminSportsGames[
+        gameId
+    ] = data;
+
+
+    closeSportsGameEditor();
+
+
+    renderAdminCricketGames(
+        Object.values(
+            window.adminSportsGames
+        )
+    );
+
+
+    alert(
+        "✅ Match updated successfully!"
+    );
+
+};
+
+
+// ======================================================
+// TOGGLE MARKET
+// ======================================================
+
+window.toggleAdminMarket =
+async function (
+    gameId,
+    column
+) {
+
+    const allowedColumns = [
+
+        "total_runs_enabled",
+
+        "over_under_enabled",
+
+        "match_winner_enabled"
+
+    ];
+
+
+    if (
+        !allowedColumns.includes(
+            column
+        )
+    ) {
+
+        console.error(
+            "❌ ADMIN: Invalid market column:",
+            column
+        );
+
+        return;
+
+    }
+
+
+    const game =
+        window.adminSportsGames[
+            gameId
+        ];
+
+
+    if (!game) {
+
+        console.error(
+            "❌ ADMIN: Game not found:",
+            gameId
+        );
+
+        return;
+
+    }
+
+
+    const newValue =
+        game[column] === false;
+
+
+    console.log(
+        "🔄 ADMIN: Market update:",
+        gameId,
+        column,
+        newValue
+    );
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("sports_games")
+        .update({
+            [column]: newValue
+        })
+        .eq(
+            "game_id",
+            gameId
+        )
+        .select()
+        .single();
+
+
+    if (error) {
+
+        console.error(
+            "❌ ADMIN: Market update failed:",
+            error
+        );
+
+
+        alert(
+            "Failed to update market.\n\n" +
+            error.message
+        );
+
+
+        return;
+
+    }
+
+
+    window.adminSportsGames[
+        gameId
+    ] = data;
+
+
+    renderAdminCricketGames(
+        Object.values(
+            window.adminSportsGames
+        )
+    );
+
+};
+
+
+// ======================================================
+// HTML ESCAPE
+// ======================================================
+
+function escapeAdminSportsHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+// ======================================================
+// JAVASCRIPT STRING ESCAPE
+// ======================================================
+
+function escapeAdminSportsJS(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /"/g,
+        '\\"'
+    )
+    .replace(
+        /\r/g,
+        "\\r"
+    )
+    .replace(
+        /\n/g,
+        "\\n"
+    );
+
+}
+
+
+// ======================================================
+// GAME NAME MAP
+// ======================================================
+
+function getGameName(id) {
+
+    const games = {
+
+        "G1001":
+            "Jhandi Munda",
+
+        "G1002":
+            "Teen Patti",
+
+        "G1003":
+            "Wheel"
+
+    };
+
+
+    return (
+        games[id] ||
+        "Unknown Game"
+    );
+
+}
+
+
+// ======================================================
+// SETTINGS ACCORDION
+// ======================================================
+
+function toggleSection(
+    sectionId
+) {
+
+    const allSections =
+        document.querySelectorAll(
+            ".settings-content"
+        );
+
+
+    const current =
+        document.getElementById(
+            sectionId
+        );
+
+
+    if (!current) return;
+
+
+    const isOpen =
+        current.style.display ===
+        "block";
+
+
+    allSections.forEach(
+        section => {
+
+            section.style.display =
+                "none";
+
+        }
+    );
+
+
+    if (!isOpen) {
+
+        current.style.display =
+            "block";
+
+    }
+
+}
+
+
+// ======================================================
+// GAME STATUS TOGGLE
+// ======================================================
 
 function toggleGameStatus() {
 
     const btn =
-        document.getElementById("gameStatusBtn");
+        document.getElementById(
+            "gameStatusBtn"
+        );
+
 
     if (!btn) return;
 
-    if (btn.classList.contains("status-active")) {
 
-        btn.classList.remove("status-active");
+    if (
+        btn.classList.contains(
+            "status-active"
+        )
+    ) {
 
-        btn.classList.add("status-inactive");
+        btn.classList.remove(
+            "status-active"
+        );
+
+
+        btn.classList.add(
+            "status-inactive"
+        );
+
 
         btn.innerHTML =
             "🔴 INACTIVE";
@@ -817,9 +2263,15 @@ function toggleGameStatus() {
 
     else {
 
-        btn.classList.remove("status-inactive");
+        btn.classList.remove(
+            "status-inactive"
+        );
 
-        btn.classList.add("status-active");
+
+        btn.classList.add(
+            "status-active"
+        );
+
 
         btn.innerHTML =
             "🟢 ACTIVE";
@@ -828,38 +2280,56 @@ function toggleGameStatus() {
 
 }
 
-/* ================================
-   TEST BACKEND CONNECTION
-==================================*/
+
+// ======================================================
+// TEST BACKEND CONNECTION
+// ======================================================
 
 function testConnection() {
 
     const status =
-        document.getElementById("connectionStatus");
+        document.getElementById(
+            "connectionStatus"
+        );
+
 
     const sync =
-        document.getElementById("lastSyncTime");
+        document.getElementById(
+            "lastSyncTime"
+        );
 
-    if (!status || !sync) return;
+
+    if (
+        !status ||
+        !sync
+    ) return;
+
 
     status.innerHTML =
         "🟡 Checking...";
 
-    setTimeout(() => {
 
-        status.innerHTML =
-            "🟢 Connected";
+    setTimeout(
+        () => {
 
-        sync.innerHTML =
-            new Date().toLocaleString();
+            status.innerHTML =
+                "🟢 Connected";
 
-    }, 1000);
+
+            sync.innerHTML =
+                new Date()
+                    .toLocaleString();
+
+        },
+        1000
+    );
 
 }
 
-/* ================================
-   API KEY GENERATOR
-==================================*/
+
+// ======================================================
+// API KEY GENERATOR
+// ======================================================
 
 function generateApiKey() {
 
@@ -870,20 +2340,26 @@ function generateApiKey() {
             .substring(2, 12)
             .toUpperCase();
 
+
     const field =
-        document.getElementById("gs_apiKey");
+        document.getElementById(
+            "gs_apiKey"
+        );
+
 
     if (field) {
 
-        field.value = key;
+        field.value =
+            key;
 
     }
 
 }
 
-/* ================================
-   SAVE GAME SETTINGS
-==================================*/
+
+// ======================================================
+// SAVE GAME SETTINGS
+// ======================================================
 
 function saveGameSettings() {
 
@@ -892,36 +2368,50 @@ function saveGameSettings() {
         gameId:
             window.activeGameId,
 
+
         status:
-            document.getElementById("gameStatusBtn")
-                ?.innerText || "",
+            document.getElementById(
+                "gameStatusBtn"
+            )?.innerText || "",
+
 
         rtp:
-            document.getElementById("gs_rtp")
-                ?.value || "",
+            document.getElementById(
+                "gs_rtp"
+            )?.value || "",
+
 
         minBet:
-            document.getElementById("gs_minBet")
-                ?.value || "",
+            document.getElementById(
+                "gs_minBet"
+            )?.value || "",
+
 
         maxBet:
-            document.getElementById("gs_maxBet")
-                ?.value || "",
+            document.getElementById(
+                "gs_maxBet"
+            )?.value || "",
+
 
         apiKey:
-            document.getElementById("gs_apiKey")
-                ?.value || "",
+            document.getElementById(
+                "gs_apiKey"
+            )?.value || "",
+
 
         serverKey:
-            document.getElementById("gs_serverKey")
-                ?.value || ""
+            document.getElementById(
+                "gs_serverKey"
+            )?.value || ""
 
     };
+
 
     console.log(
         "Game Settings Saved:",
         data
     );
+
 
     alert(
         "✅ Game Settings Saved"
@@ -929,9 +2419,10 @@ function saveGameSettings() {
 
 }
 
-/* ================================
-   ADD GAME (PLACEHOLDER)
-==================================*/
+
+// ======================================================
+// ADD GAME PLACEHOLDER
+// ======================================================
 
 function openAddGame() {
 
@@ -941,221 +2432,279 @@ function openAddGame() {
 
 }
 
-/* ================================
-   GAMES SECTION  END
-==================================*/
 
-/* =====================================
-   FINANCE SECTION START
-===================================== */
+// ======================================================
+// GAMES SECTION END
+// ======================================================
+
+
+// ======================================================
+// FINANCE SECTION START
+// ======================================================
 
 const financeConfig = {
+
     autoDeposit: true,
+
     manualDeposit: false,
+
     autoWithdraw: false,
+
     manualWithdraw: true
+
 };
 
-/* =====================================
-   MAIN FINANCE SECTION TOGGLE
-===================================== */
 
-function toggleFinanceSection(panelId){
+// ======================================================
+// FINANCE SECTION TOGGLE
+// ======================================================
+
+function toggleFinanceSection(
+    panelId
+) {
 
     const panels = [
+
         "depositFinancePanel",
+
         "withdrawFinancePanel"
+
     ];
 
-    panels.forEach(function(id){
 
-        const panel =
-            document.getElementById(id);
+    panels.forEach(
+        function (id) {
 
-        if(!panel){
-            return;
-        }
+            const panel =
+                document.getElementById(
+                    id
+                );
 
-        if(id === panelId){
 
-            if(
-                panel.style.display === "none" ||
-                panel.style.display === ""
-            ){
-                panel.style.display = "block";
-            }else{
-                panel.style.display = "none";
+            if (!panel) return;
+
+
+            if (id === panelId) {
+
+                if (
+                    panel.style.display ===
+                    "none" ||
+                    panel.style.display ===
+                    ""
+                ) {
+
+                    panel.style.display =
+                        "block";
+
+                }
+
+                else {
+
+                    panel.style.display =
+                        "none";
+
+                }
+
             }
 
-        }else{
+            else {
 
-            panel.style.display = "none";
+                panel.style.display =
+                    "none";
+
+            }
 
         }
-
-    });
+    );
 
 }
-/* =====================================
-ADD COIN & PAYMENT GATEWAY
-INSERT NEW CODE BELOW THIS LINE
-===================================== */
 
-  /* =====================================
-   ADD COIN FORM TOGGLE
-===================================== */
 
-function toggleAddCoinForm(){
+// ======================================================
+// ADD COIN FORM
+// ======================================================
+
+function toggleAddCoinForm() {
 
     const form =
-        document.getElementById("addCoinForm");
+        document.getElementById(
+            "addCoinForm"
+        );
 
-    if(!form){
-        return;
-    }
 
-    if(
-        form.style.display === "none" ||
-        form.style.display === ""
-    ){
+    if (!form) return;
 
-        form.style.display = "block";
 
-    }else{
-
-        form.style.display = "none";
-
-    }
+    form.style.display =
+        form.style.display ===
+        "none" ||
+        form.style.display ===
+        ""
+            ? "block"
+            : "none";
 
 }
 
 
-/* =====================================
-   ADD PAYMENT GATEWAY FORM TOGGLE
-===================================== */
+// ======================================================
+// PAYMENT GATEWAY FORM
+// ======================================================
 
-function toggleAddGatewayForm(){
+function toggleAddGatewayForm() {
 
     const form =
-        document.getElementById("addGatewayForm");
+        document.getElementById(
+            "addGatewayForm"
+        );
 
-    if(!form){
-        return;
-    }
 
-    if(
-        form.style.display === "none" ||
-        form.style.display === ""
-    ){
+    if (!form) return;
 
-        form.style.display = "block";
 
-    }else{
-
-        form.style.display = "none";
-
-    }
+    form.style.display =
+        form.style.display ===
+        "none" ||
+        form.style.display ===
+        ""
+            ? "block"
+            : "none";
 
 }
 
-/* =====================================
-   DEPOSIT MENU TOGGLE
-===================================== */
 
-function toggleDepositMenu(panelId){
+// ======================================================
+// DEPOSIT MENU
+// ======================================================
+
+function toggleDepositMenu(
+    panelId
+) {
 
     const panels = [
+
         "paymentGatewayPanel",
+
         "depositSettingsPanel",
+
         "pendingDepositsPanel",
+
         "depositHistoryPanel",
+
         "depositReportsPanel",
+
         "depositLogsPanel"
+
     ];
 
-    panels.forEach(function(id){
 
-        const panel =
-            document.getElementById(id);
+    panels.forEach(
+        function (id) {
 
-        if(!panel){
-            return;
-        }
+            const panel =
+                document.getElementById(
+                    id
+                );
 
-        if(id === panelId){
 
-            if(
-                panel.style.display === "none" ||
-                panel.style.display === ""
-            ){
-                panel.style.display = "block";
-            }else{
-                panel.style.display = "none";
+            if (!panel) return;
+
+
+            if (id === panelId) {
+
+                panel.style.display =
+                    panel.style.display ===
+                    "none" ||
+                    panel.style.display ===
+                    ""
+                        ? "block"
+                        : "none";
+
             }
 
-        }else{
+            else {
 
-            panel.style.display = "none";
+                panel.style.display =
+                    "none";
+
+            }
 
         }
-
-    });
+    );
 
 }
 
-/* =====================================
-   WITHDRAW MENU TOGGLE
-===================================== */
 
-function toggleWithdrawMenu(panelId){
+// ======================================================
+// WITHDRAW MENU
+// ======================================================
+
+function toggleWithdrawMenu(
+    panelId
+) {
 
     const panels = [
-    "withdrawRequestPanel",
-    "approvedWithdrawPanel",
-    "rejectedWithdrawPanel",
-    "withdrawHistoryPanel",
-    "withdrawReportsPanel",
-    "approvalRulesPanel"
-];
 
-    panels.forEach(function(id){
+        "withdrawRequestPanel",
 
-        const panel =
-            document.getElementById(id);
+        "approvedWithdrawPanel",
 
-        if(!panel){
-            return;
-        }
+        "rejectedWithdrawPanel",
 
-        if(id === panelId){
+        "withdrawHistoryPanel",
 
-            if(
-                panel.style.display === "none" ||
-                panel.style.display === ""
-            ){
-                panel.style.display = "block";
-            }else{
-                panel.style.display = "none";
+        "withdrawReportsPanel",
+
+        "approvalRulesPanel"
+
+    ];
+
+
+    panels.forEach(
+        function (id) {
+
+            const panel =
+                document.getElementById(
+                    id
+                );
+
+
+            if (!panel) return;
+
+
+            if (id === panelId) {
+
+                panel.style.display =
+                    panel.style.display ===
+                    "none" ||
+                    panel.style.display ===
+                    ""
+                        ? "block"
+                        : "none";
+
             }
 
-        }else{
+            else {
 
-            panel.style.display = "none";
+                panel.style.display =
+                    "none";
+
+            }
 
         }
-
-    });
+    );
 
 }
 
-/* =====================================
-   AUTO DEPOSIT
-===================================== */
 
-function toggleAutoDeposit(){
+// ======================================================
+// AUTO DEPOSIT
+// ======================================================
+
+function toggleAutoDeposit() {
 
     financeConfig.autoDeposit =
         !financeConfig.autoDeposit;
+
 
     alert(
         "Auto Deposit: " +
@@ -1168,14 +2717,16 @@ function toggleAutoDeposit(){
 
 }
 
-/* =====================================
-   MANUAL DEPOSIT
-===================================== */
 
-function toggleManualDeposit(){
+// ======================================================
+// MANUAL DEPOSIT
+// ======================================================
+
+function toggleManualDeposit() {
 
     financeConfig.manualDeposit =
         !financeConfig.manualDeposit;
+
 
     alert(
         "Manual Deposit: " +
@@ -1188,14 +2739,16 @@ function toggleManualDeposit(){
 
 }
 
-/* =====================================
-   AUTO WITHDRAW
-===================================== */
 
-function toggleAutoWithdraw(){
+// ======================================================
+// AUTO WITHDRAW
+// ======================================================
+
+function toggleAutoWithdraw() {
 
     financeConfig.autoWithdraw =
         !financeConfig.autoWithdraw;
+
 
     alert(
         "Auto Withdraw: " +
@@ -1208,14 +2761,16 @@ function toggleAutoWithdraw(){
 
 }
 
-/* =====================================
-   MANUAL WITHDRAW
-===================================== */
 
-function toggleManualWithdraw(){
+// ======================================================
+// MANUAL WITHDRAW
+// ======================================================
+
+function toggleManualWithdraw() {
 
     financeConfig.manualWithdraw =
         !financeConfig.manualWithdraw;
+
 
     alert(
         "Manual Withdraw: " +
@@ -1228,11 +2783,12 @@ function toggleManualWithdraw(){
 
 }
 
-/* =====================================
-   SAVE FINANCE SETTINGS
-===================================== */
 
-function saveFinanceSettings(){
+// ======================================================
+// SAVE FINANCE SETTINGS
+// ======================================================
+
+function saveFinanceSettings() {
 
     const financeData = {
 
@@ -1250,10 +2806,12 @@ function saveFinanceSettings(){
 
     };
 
+
     console.log(
         "Finance Settings Saved:",
         financeData
     );
+
 
     alert(
         "✅ Finance Settings Saved"
@@ -1261,856 +2819,1816 @@ function saveFinanceSettings(){
 
 }
 
-/* =====================================
-   FINANCE SECTION JS END
-===================================== */
+
+// ======================================================
+// FINANCE SECTION END
+// ======================================================
+
+
+// ======================================================
 // WALLET ADD FEATURE
-function toggleEditWallet(formId){
+// ======================================================
 
-    const form = document.getElementById(formId);
+function toggleEditWallet(
+    formId
+) {
 
-    if(form.style.display === "none"){
+    const form =
+        document.getElementById(
+            formId
+        );
 
-        form.style.display = "block";
 
-    }else{
+    if (!form) return;
 
-        form.style.display = "none";
 
-    }
+    form.style.display =
+        form.style.display ===
+        "none"
+            ? "block"
+            : "none";
 
 }
 
-/* =============================
-WITHDRAW DATA STORE
-============================= */
 
-window.withdrawRequests = window.withdrawRequests || [
-{
-id: "W001",
-userId: 1052,
-username: "player123",
-amount: 250,
-coin: "USDT",
-status: "pending"
-}
-];
+// ======================================================
+// WITHDRAW DATA STORE
+// ======================================================
 
-/* =============================
-FIND REQUEST
-============================= */
+window.withdrawRequests =
+    window.withdrawRequests ||
+    [
+
+        {
+
+            id:
+                "W001",
+
+            userId:
+                1052,
+
+            username:
+                "player123",
+
+            amount:
+                250,
+
+            coin:
+                "USDT",
+
+            status:
+                "pending"
+
+        }
+
+    ];
+
+
+// ======================================================
+// FIND REQUEST
+// ======================================================
 
 function getRequest(id) {
-return window.withdrawRequests.find(
-r => r.id === id
-);
+
+    return window.withdrawRequests.find(
+        request =>
+            request.id === id
+    );
+
 }
 
-/* =============================
-APPROVE WITHDRAW
-============================= */
-function approveWithdraw(id) {
 
-    let req = getRequest(id);
+// ======================================================
+// APPROVE WITHDRAW
+// ======================================================
+
+function approveWithdraw(
+    id
+) {
+
+    const req =
+        getRequest(id);
+
 
     if (!req) {
-        alert("Withdraw Request Not Found");
+
+        alert(
+            "Withdraw Request Not Found"
+        );
+
         return;
+
     }
 
-    req.status = "approved";
 
-    alert("Withdraw Request Approved");
+    req.status =
+        "approved";
+
+
+    alert(
+        "Withdraw Request Approved"
+    );
+
 
     renderPanels();
+
 }
 
-/* =============================
-REJECT WITHDRAW
-============================= */
 
-function rejectWithdraw(id) {
+// ======================================================
+// REJECT WITHDRAW
+// ======================================================
 
-    let req = getRequest(id);
+function rejectWithdraw(
+    id
+) {
+
+    const req =
+        getRequest(id);
+
 
     if (!req) return;
 
-    req.status = "rejected";
 
-    alert("Rejected: " + id);
+    req.status =
+        "rejected";
+
+
+    alert(
+        "Rejected: " +
+        id
+    );
+
 
     renderPanels();
+
 }
-/* =============================
-SEND MONEY
-============================= */
 
-function sendMoney(id) {
 
-    let req = getRequest(id);
+// ======================================================
+// SEND MONEY
+// ======================================================
+
+function sendMoney(
+    id
+) {
+
+    const req =
+        getRequest(id);
+
 
     if (!req) {
-        alert("Withdraw Request Not Found");
+
+        alert(
+            "Withdraw Request Not Found"
+        );
+
         return;
+
     }
 
-    if (req.status !== "approved") {
-        alert("Not approved yet!");
+
+    if (
+        req.status !==
+        "approved"
+    ) {
+
+        alert(
+            "Not approved yet!"
+        );
+
         return;
+
     }
 
-    req.status = "completed";
 
-    alert("Your payment has been sent successfully.");
+    req.status =
+        "completed";
+
+
+    alert(
+        "Your payment has been sent successfully."
+    );
+
 
     renderPanels();
+
 }
 
-/* =============================
-RENDER ALL PANELS
-============================= */
+
+// ======================================================
+// RENDER ALL PANELS
+// ======================================================
 
 function renderPanels() {
 
-renderRequestPanel();
-renderApprovedPanel();
-renderRejectedPanel();
-renderHistoryPanel();
+    renderRequestPanel();
 
-renderAffiliateOverview();
-renderReferralPlayers();
-renderAffiliatePayoutRequests();
-renderAffiliatePayoutHistory();
+    renderApprovedPanel();
+
+    renderRejectedPanel();
+
+    renderHistoryPanel();
+
+
+    renderAffiliateOverview();
+
+    renderReferralPlayers();
+
+    renderAffiliatePayoutRequests();
+
+    renderAffiliatePayoutHistory();
 
 }
 
-// =====================
-// WITHDRAW REQUEST START
-// =====================
 
+// ======================================================
+// WITHDRAW REQUEST PANEL
+// ======================================================
 
 function renderRequestPanel() {
 
+    const tbody =
+        document.querySelector(
+            "#withdrawRequestPanel tbody"
+        );
 
-const tbody =
-    document.querySelector(
-        "#withdrawRequestPanel tbody"
+
+    if (!tbody) return;
+
+
+    tbody.innerHTML =
+        "";
+
+
+    window.withdrawRequests.forEach(
+        req => {
+
+            let statusText =
+                "";
+
+            let actionButtons =
+                "";
+
+
+            if (
+                req.status ===
+                "pending"
+            ) {
+
+                statusText =
+                    "🟡 Pending";
+
+
+                actionButtons = `
+
+                    <button
+                        onclick="approveWithdraw('${req.id}')"
+                    >
+                        Approve
+                    </button>
+
+                    <button
+                        onclick="rejectWithdraw('${req.id}')"
+                    >
+                        Reject
+                    </button>
+
+                `;
+
+            }
+
+
+            else if (
+                req.status ===
+                "approved"
+            ) {
+
+                statusText =
+                    "🟢 Approved";
+
+
+                actionButtons =
+                    `<span>Approved</span>`;
+
+            }
+
+
+            else if (
+                req.status ===
+                "rejected"
+            ) {
+
+                statusText =
+                    "🔴 Rejected";
+
+
+                actionButtons =
+                    `<span>Rejected</span>`;
+
+            }
+
+
+            tbody.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${req.id}
+                    </td>
+
+                    <td>
+                        ${req.userId}
+                    </td>
+
+                    <td>
+                        ${req.username}
+                    </td>
+
+                    <td>
+                        ${req.amount}
+                    </td>
+
+                    <td>
+                        ${req.coin}
+                    </td>
+
+                    <td>
+                        ${statusText}
+                    </td>
+
+                    <td>
+                        ${actionButtons}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
     );
-
-if (!tbody) return;
-
-tbody.innerHTML = "";
-
-window.withdrawRequests.forEach(req => {
-
-    let statusText = "";
-    let actionButtons = "";
-
-    // STATUS CONTROL
-    if (req.status === "pending") {
-
-        statusText = "🟡 Pending";
-
-        actionButtons = `
-            <button onclick="approveWithdraw('${req.id}')">
-                Approve
-            </button>
-
-            <button onclick="rejectWithdraw('${req.id}')">
-                Reject
-            </button>
-        `;
-    }
-
-    else if (req.status === "approved") {
-
-        statusText = "🟢 Approved";
-
-        actionButtons = `
-            <span>Approved</span>
-        `;
-    }
-
-    else if (req.status === "rejected") {
-
-        statusText = "🔴 Rejected";
-
-        actionButtons = `
-            <span>Rejected</span>
-        `;
-    }
-
-    tbody.innerHTML += `
-        <tr>
-
-            <td>${req.id}</td>
-            <td>${req.userId}</td>
-            <td>${req.username}</td>
-            <td>${req.amount}</td>
-            <td>${req.coin}</td>
-
-            <td>${statusText}</td>
-
-            <td>${actionButtons}</td>
-
-        </tr>
-    `;
-});
 
 }
 
 
-// =====================
+// ======================================================
 // APPROVED PANEL
-// =====================
+// ======================================================
+
 function renderApprovedPanel() {
 
-const tbody =
-    document.querySelector(
-        "#approvedWithdrawPanel tbody"
+    const tbody =
+        document.querySelector(
+            "#approvedWithdrawPanel tbody"
+        );
+
+
+    if (!tbody) return;
+
+
+    tbody.innerHTML =
+        "";
+
+
+    window.withdrawRequests.forEach(
+        req => {
+
+            if (
+                req.status ===
+                "approved" ||
+                req.status ===
+                "completed"
+            ) {
+
+                let paymentStatus =
+                    "";
+
+                let actionButton =
+                    "";
+
+
+                if (
+                    req.status ===
+                    "approved"
+                ) {
+
+                    paymentStatus =
+                        "🟡 Waiting for Payment";
+
+
+                    actionButton = `
+
+                        <button
+                            onclick="sendMoney('${req.id}')"
+                        >
+                            Send Money
+                        </button>
+
+                    `;
+
+                }
+
+
+                if (
+                    req.status ===
+                    "completed"
+                ) {
+
+                    paymentStatus =
+                        "🟢 Payment Completed";
+
+
+                    actionButton = `
+
+                        <button disabled>
+                            Completed
+                        </button>
+
+                    `;
+
+                }
+
+
+                tbody.innerHTML += `
+
+                    <tr>
+
+                        <td>
+                            ${req.userId}
+                        </td>
+
+                        <td>
+                            ${req.coin}
+                        </td>
+
+                        <td>
+                            ${req.amount}
+                        </td>
+
+                        <td>
+                            ${paymentStatus}
+                        </td>
+
+                        <td>
+                            ${actionButton}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
     );
-
-if (!tbody) return;
-
-tbody.innerHTML = "";
-
-window.withdrawRequests.forEach(req => {
-
-    if (
-        req.status === "approved" ||
-        req.status === "completed"
-    ) {
-
-        let paymentStatus = "";
-        let actionButton = "";
-
-        if (req.status === "approved") {
-
-            paymentStatus =
-                "🟡 Waiting for Payment";
-
-            actionButton =
-                `<button onclick="sendMoney('${req.id}')">
-                    Send Money
-                </button>`;
-        }
-
-        if (req.status === "completed") {
-
-            paymentStatus =
-                "🟢 Payment Completed";
-
-            actionButton =
-                `<button disabled>
-                    Completed
-                </button>`;
-        }
-
-        tbody.innerHTML += `
-            <tr>
-
-                <td>${req.userId}</td>
-
-                <td>${req.coin}</td>
-
-                <td>${req.amount}</td>
-
-                <td>${paymentStatus}</td>
-
-                <td>${actionButton}</td>
-
-            </tr>
-        `;
-    }
-
-});
 
 }
 
-// =====================
+
+// ======================================================
 // REJECTED PANEL
-// =====================
+// ======================================================
 
 function renderRejectedPanel() {
 
-const tbody =
-    document.querySelector(
-        "#rejectedWithdrawPanel tbody"
-    );
+    const tbody =
+        document.querySelector(
+            "#rejectedWithdrawPanel tbody"
+        );
 
-if (!tbody) return;
-
-tbody.innerHTML = "";
-
-window.withdrawRequests.forEach(req => {
-
-    if (req.status === "rejected") {
-
-        tbody.innerHTML += `
-            <tr>
-
-                <td>${req.userId}</td>
-
-                <td>${req.coin}</td>
-
-                <td>${req.amount}</td>
-
-                <td>
-                    🔴 Rejected
-                </td>
-
-            </tr>
-        `;
-
-    }
-
-});
-
-}
-
-// =====================
-// HISTORY PANEL
-// =====================
-function renderHistoryPanel() {
-
-const list =
-    document.getElementById("withdrawHistoryList");
-
-if (!list) return;
-
-list.innerHTML = "";
-
-let total = 0;
-let today = 0;
-
-const todayDate =
-    new Date().toISOString().split("T")[0];
-
-window.withdrawHistory.forEach(item => {
-
-    total += Number(item.amount);
-
-    if (item.date.includes(todayDate)) {
-        today += Number(item.amount);
-    }
-
-    list.innerHTML += `
-        <p>
-            ${item.date} - ${item.amount} BDT (${item.status})
-        </p>
-    `;
-});
-
-document.getElementById("totalWithdraw").innerText = total;
-document.getElementById("todayWithdraw").innerText = today;
-
-
-}
-
-/* =============================
-OPTIONAL NOTIFICATION
-(DISABLED FOR NOW)
-============================= */
-
-function sendNotification(
-userId,
-message
-) {
-
-
-console.log(
-    "Notification:",
-    userId,
-    message
-);
-
-
-}
-// =====================
-// AFFILIATE CENTER START (REAL-TIME READY)
-// =====================
-
-let affiliateStats = {
-    totalReferrals: 0,
-    activeReferrals: 0,
-    commissionPaid: 0,
-    pendingCommission: 0
-};
-let weeklyRevenueStore = {};
-
-// =====================
-// RENDER AFFILIATE OVERVIEW
-// =====================
-
-function renderAffiliateOverview(data = affiliateStats) {
-
-    if (!data) return;
-
-    document.getElementById("totalReferrals").textContent =
-        data.totalReferrals ?? 0;
-
-    document.getElementById("activeReferrals").textContent =
-        data.activeReferrals ?? 0;
-
-    document.getElementById("commissionPaid").textContent =
-        "$" + (data.commissionPaid ?? 0);
-
-    document.getElementById("pendingCommission").textContent =
-        "$" + (data.pendingCommission ?? 0);
-}
-// =====================
-// DATA RENDER ENGINE
-// =====================
-function renderRevenueAnalytics(data) {
-
-    if (!data) return;
-
-    document.getElementById("todayRevenue").textContent =
-        "$" + (data.todayRevenue ?? 0);
-
-    document.getElementById("weeklyRevenue").textContent =
-        "$" + (data.weeklyRevenue ?? 0);
-
-    document.getElementById("monthlyRevenue").textContent =
-        "$" + (data.monthlyRevenue ?? 0);
-
-    document.getElementById("lifetimeRevenue").textContent =
-        "$" + (data.lifetimeRevenue ?? 0);
-}
-// =====================
-// TABLE RENDER ENGINE
-// =====================
-function renderRevenueTable(players) {
-
-    const tbody = document.getElementById("revenueAnalyticsTableBody");
 
     if (!tbody) return;
 
-    tbody.innerHTML = "";
 
-    players.forEach(p => {
+    tbody.innerHTML =
+        "";
 
-        tbody.innerHTML += `
-        <tr>
 
-            <td>${p.affiliateId}</td>
-            <td>${p.playerId}</td>
+    window.withdrawRequests.forEach(
+        req => {
 
-            <td>$${p.todayRevenue ?? 0}</td>
-            <td>$${p.weeklyRevenue ?? 0}</td>
-            <td>$${p.monthlyRevenue ?? 0}</td>
+            if (
+                req.status ===
+                "rejected"
+            ) {
 
-            <td>${p.status}</td>
+                tbody.innerHTML += `
 
-        </tr>
-        `;
-    });
+                    <tr>
+
+                        <td>
+                            ${req.userId}
+                        </td>
+
+                        <td>
+                            ${req.coin}
+                        </td>
+
+                        <td>
+                            ${req.amount}
+                        </td>
+
+                        <td>
+                            🔴 Rejected
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
+    );
+
 }
 
 
+// ======================================================
+// HISTORY PANEL
+// ======================================================
 
-/* =====================
-DAILY CALCULATION FUNCTION
-===================== */
- function calculateDailyRevenue(player) {
+function renderHistoryPanel() {
 
-    const deposit = player.todayDeposit ?? 0;
-    const loss = player.todayLoss ?? 0;
-    const win = player.todayWin ?? 0;
+    const list =
+        document.getElementById(
+            "withdrawHistoryList"
+        );
 
-    // Net Revenue
-    const netRevenue = loss - win;
 
-    // Safety check
-    if (netRevenue <= 0) {
+    if (!list) return;
+
+
+    list.innerHTML =
+        "";
+
+
+    let total =
+        0;
+
+
+    let today =
+        0;
+
+
+    const todayDate =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    if (
+        !Array.isArray(
+            window.withdrawHistory
+        )
+    ) {
+
+        window.withdrawHistory =
+            [];
+
+    }
+
+
+    window.withdrawHistory.forEach(
+        item => {
+
+            total +=
+                Number(
+                    item.amount
+                );
+
+
+            if (
+                item.date &&
+                item.date.includes(
+                    todayDate
+                )
+            ) {
+
+                today +=
+                    Number(
+                        item.amount
+                    );
+
+            }
+
+
+            list.innerHTML += `
+
+                <p>
+                    ${item.date}
+                    -
+                    ${item.amount}
+                    BDT
+                    (${item.status})
+                </p>
+
+            `;
+
+        }
+    );
+
+
+    const totalWithdraw =
+        document.getElementById(
+            "totalWithdraw"
+        );
+
+
+    const todayWithdraw =
+        document.getElementById(
+            "todayWithdraw"
+        );
+
+
+    if (totalWithdraw) {
+
+        totalWithdraw.innerText =
+            total;
+
+    }
+
+
+    if (todayWithdraw) {
+
+        todayWithdraw.innerText =
+            today;
+
+    }
+
+}
+
+
+// ======================================================
+// OPTIONAL NOTIFICATION
+// ======================================================
+
+function sendNotificationToUser(
+    userId,
+    message
+) {
+
+    console.log(
+        "Notification:",
+        userId,
+        message
+    );
+
+}
+
+
+// ======================================================
+// AFFILIATE CENTER
+// ======================================================
+
+let affiliateStats = {
+
+    totalReferrals:
+        0,
+
+    activeReferrals:
+        0,
+
+    commissionPaid:
+        0,
+
+    pendingCommission:
+        0
+
+};
+
+
+let weeklyRevenueStore =
+    {};
+
+
+// ======================================================
+// AFFILIATE OVERVIEW
+// ======================================================
+
+function renderAffiliateOverview(
+    data = affiliateStats
+) {
+
+    if (!data) return;
+
+
+    const total =
+        document.getElementById(
+            "totalReferrals"
+        );
+
+
+    const active =
+        document.getElementById(
+            "activeReferrals"
+        );
+
+
+    const paid =
+        document.getElementById(
+            "commissionPaid"
+        );
+
+
+    const pending =
+        document.getElementById(
+            "pendingCommission"
+        );
+
+
+    if (total) {
+
+        total.textContent =
+            data.totalReferrals ??
+            0;
+
+    }
+
+
+    if (active) {
+
+        active.textContent =
+            data.activeReferrals ??
+            0;
+
+    }
+
+
+    if (paid) {
+
+        paid.textContent =
+            "$" +
+            (
+                data.commissionPaid ??
+                0
+            );
+
+    }
+
+
+    if (pending) {
+
+        pending.textContent =
+            "$" +
+            (
+                data.pendingCommission ??
+                0
+            );
+
+    }
+
+}
+
+
+// ======================================================
+// REVENUE ANALYTICS
+// ======================================================
+
+function renderRevenueAnalytics(
+    data
+) {
+
+    if (!data) return;
+
+
+    const today =
+        document.getElementById(
+            "todayRevenue"
+        );
+
+
+    const weekly =
+        document.getElementById(
+            "weeklyRevenue"
+        );
+
+
+    const monthly =
+        document.getElementById(
+            "monthlyRevenue"
+        );
+
+
+    const lifetime =
+        document.getElementById(
+            "lifetimeRevenue"
+        );
+
+
+    if (today) {
+
+        today.textContent =
+            "$" +
+            (
+                data.todayRevenue ??
+                0
+            );
+
+    }
+
+
+    if (weekly) {
+
+        weekly.textContent =
+            "$" +
+            (
+                data.weeklyRevenue ??
+                0
+            );
+
+    }
+
+
+    if (monthly) {
+
+        monthly.textContent =
+            "$" +
+            (
+                data.monthlyRevenue ??
+                0
+            );
+
+    }
+
+
+    if (lifetime) {
+
+        lifetime.textContent =
+            "$" +
+            (
+                data.lifetimeRevenue ??
+                0
+            );
+
+    }
+
+}
+
+
+// ======================================================
+// REVENUE TABLE
+// ======================================================
+
+function renderRevenueTable(
+    players
+) {
+
+    const tbody =
+        document.getElementById(
+            "revenueAnalyticsTableBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    tbody.innerHTML =
+        "";
+
+
+    (players || []).forEach(
+        p => {
+
+            tbody.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${p.affiliateId}
+                    </td>
+
+                    <td>
+                        ${p.playerId}
+                    </td>
+
+                    <td>
+                        $${p.todayRevenue ?? 0}
+                    </td>
+
+                    <td>
+                        $${p.weeklyRevenue ?? 0}
+                    </td>
+
+                    <td>
+                        $${p.monthlyRevenue ?? 0}
+                    </td>
+
+                    <td>
+                        ${p.status}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// DAILY CALCULATION
+// ======================================================
+
+function calculateDailyRevenue(
+    player
+) {
+
+    const deposit =
+        player.todayDeposit ??
+        0;
+
+
+    const loss =
+        player.todayLoss ??
+        0;
+
+
+    const win =
+        player.todayWin ??
+        0;
+
+
+    const netRevenue =
+        loss - win;
+
+
+    if (
+        netRevenue <= 0
+    ) {
+
         return {
-            revenue: 0,
-            commission: 0
+
+            revenue:
+                0,
+
+            commission:
+                0
+
         };
+
     }
 
-    // Tier logic (example)
-    let commissionRate = 0;
 
-    if (netRevenue <= 100) {
-        commissionRate = 0.35; // 35%
-    } 
-    else if (netRevenue <= 300) {
-        commissionRate = 0.45; // 45%
-    } 
-    else if (netRevenue <= 500) {
-        commissionRate = 0.50; // 50%
-    } 
+    let commissionRate =
+        0;
+
+
+    if (
+        netRevenue <=
+        100
+    ) {
+
+        commissionRate =
+            0.35;
+
+    }
+
+
+    else if (
+        netRevenue <=
+        300
+    ) {
+
+        commissionRate =
+            0.45;
+
+    }
+
+
+    else if (
+        netRevenue <=
+        500
+    ) {
+
+        commissionRate =
+            0.50;
+
+    }
+
+
     else {
-        commissionRate = 0.60; // 60%
+
+        commissionRate =
+            0.60;
+
     }
 
-    const revenue = netRevenue;
-    const commission = revenue * commissionRate;
+
+    const revenue =
+        netRevenue;
+
+
+    const commission =
+        revenue *
+        commissionRate;
+
 
     return {
-        revenue: revenue,
-        commission: commission
+
+        revenue:
+            revenue,
+
+        commission:
+            commission
+
     };
+
 }
-/* =====================
-DAILY AUTO TRIGGER (ENGINE CORE)
-===================== */
+
+
+// ======================================================
+// DAILY AUTO ENGINE
+// ======================================================
+
 function runDailyAffiliateEngine() {
 
-    referralPlayers.forEach(player => {
+    if (
+        !Array.isArray(
+            window.referralPlayers
+        )
+    ) {
 
-        const calc = calculateDailyRevenue(player);
+        return;
 
-        // store daily revenue into player
-        player.todayRevenue = calc.revenue;
-        player.revenueEarned = calc.commission;
+    }
 
-        // push to weekly engine
-        addToWeeklyRevenue(player.playerId, calc.revenue);
 
-    });
+    window.referralPlayers.forEach(
+        player => {
 
-    console.log("DAILY ENGINE RUN COMPLETED");
+            const calc =
+                calculateDailyRevenue(
+                    player
+                );
+
+
+            player.todayRevenue =
+                calc.revenue;
+
+
+            player.revenueEarned =
+                calc.commission;
+
+
+            addToWeeklyRevenue(
+                player.playerId,
+                calc.revenue
+            );
+
+        }
+    );
+
+
+    console.log(
+        "DAILY ENGINE RUN COMPLETED"
+    );
+
 }
 
-// =====================
-// AUTO ENGINE START
-// =====================
 
-setInterval(() => {
-    runDailyAffiliateEngine();
-}, 24 * 60 * 60 * 1000);
+// ======================================================
+// DAILY AUTO TRIGGER
+// ======================================================
 
-setInterval(() => {
-    runWeeklyCheck();
-}, 7 * 24 * 60 * 60 * 1000);
-// =====================
-// WEEKLY AUTO PUSH (7 DAY LOGIC)
-// =====================
+setInterval(
+    () => {
+
+        runDailyAffiliateEngine();
+
+    },
+    24 * 60 * 60 * 1000
+);
+
+
+// ======================================================
+// WEEKLY AUTO TRIGGER
+// ======================================================
+
+setInterval(
+    () => {
+
+        runWeeklyCheck();
+
+    },
+    7 * 24 * 60 * 60 * 1000
+);
+
+
+// ======================================================
+// WEEKLY CHECK
+// ======================================================
+
 function runWeeklyCheck() {
 
-    Object.keys(weeklyRevenueStore).forEach(playerId => {
+    Object.keys(
+        weeklyRevenueStore
+    )
+    .forEach(
+        playerId => {
 
-        const payout = calculateWeeklyPayout(playerId);
+            const payout =
+                calculateWeeklyPayout(
+                    playerId
+                );
 
-        if (payout.eligible) {
 
-            console.log("PAYOUT READY:", playerId, payout.payout);
+            if (
+                payout &&
+                payout.eligible
+            ) {
 
-            // Here later: push to payout request system
+                console.log(
+                    "PAYOUT READY:",
+                    playerId,
+                    payout.payout
+                );
+
+            }
+
         }
-    });
+    );
+
 }
 
 
-/* =====================
-DAILY INTO WEEKLY
-===================== */
- function addToWeeklyRevenue(playerId, dailyRevenue) {
+// ======================================================
+// DAILY INTO WEEKLY
+// ======================================================
 
-    if (!weeklyRevenueStore[playerId]) {
-        weeklyRevenueStore[playerId] = {
-            totalRevenue: 0,
-            days: 0
+function addToWeeklyRevenue(
+    playerId,
+    dailyRevenue
+) {
+
+    if (
+        !weeklyRevenueStore[
+            playerId
+        ]
+    ) {
+
+        weeklyRevenueStore[
+            playerId
+        ] = {
+
+            totalRevenue:
+                0,
+
+            days:
+                0
+
         };
+
     }
 
-    weeklyRevenueStore[playerId].totalRevenue += dailyRevenue;
-    weeklyRevenueStore[playerId].days += 1;
-}
-/* =====================
-MONTHLY CALCULATOR LOGIC
-===================== */
-function setMonthlyData(payload) {
 
-    document.getElementById("monthlyRevenueAnalytics").textContent =
-        "$" + (payload.totalRevenue || 0);
-}
-/* =====================
-LIFETIME CALCULATOR LOGIC
-===================== */
-function setLifetimeData(payload) {
+    weeklyRevenueStore[
+        playerId
+    ].totalRevenue +=
+        Number(
+            dailyRevenue || 0
+        );
 
-    document.getElementById("lifetimeRevenueAnalytics").textContent =
-        "$" + (payload.totalRevenue || 0);
 
-    document.getElementById("lifetimeCommissionAnalytics").textContent =
-        "$" + (payload.totalCommission || 0);
+    weeklyRevenueStore[
+        playerId
+    ].days +=
+        1;
+
 }
 
 
-/* =====================
-SHOW AFFILIATE PANEL
-===================== */
+// ======================================================
+// MONTHLY DATA
+// ======================================================
 
-function showAffiliatePanel(panelId) {
+function setMonthlyData(
+    payload
+) {
 
-const panels = [
+    const element =
+        document.getElementById(
+            "monthlyRevenueAnalytics"
+        );
 
-    "referralPlayersPanel",
-    "commissionControlPanel",
-    "affiliateRevenuePanel",
-    "affiliateWeeklySettlementPanel",
-    "affiliateMonthlySettlementPanel",
-    "affiliatePayoutRequestPanel",
-    "affiliatePayoutHistoryPanel"
 
-];
+    if (!element) return;
 
-panels.forEach(id => {
 
-    const panel = document.getElementById(id);
+    element.textContent =
+        "$" +
+        (
+            payload?.totalRevenue ||
+            0
+        );
 
-    if (panel) {
-        panel.style.display = "none";
+}
+
+
+// ======================================================
+// LIFETIME DATA
+// ======================================================
+
+function setLifetimeData(
+    payload
+) {
+
+    const revenue =
+        document.getElementById(
+            "lifetimeRevenueAnalytics"
+        );
+
+
+    const commission =
+        document.getElementById(
+            "lifetimeCommissionAnalytics"
+        );
+
+
+    if (revenue) {
+
+        revenue.textContent =
+            "$" +
+            (
+                payload?.totalRevenue ||
+                0
+            );
+
     }
 
-});
 
-const targetPanel = document.getElementById(panelId);
+    if (commission) {
 
-if (targetPanel) {
-    targetPanel.style.display = "block";
+        commission.textContent =
+            "$" +
+            (
+                payload?.totalCommission ||
+                0
+            );
+
+    }
+
 }
 
+
+// ======================================================
+// SHOW AFFILIATE PANEL
+// ======================================================
+
+function showAffiliatePanel(
+    panelId
+) {
+
+    const panels = [
+
+        "referralPlayersPanel",
+
+        "commissionControlPanel",
+
+        "affiliateRevenuePanel",
+
+        "affiliateWeeklySettlementPanel",
+
+        "affiliateMonthlySettlementPanel",
+
+        "affiliatePayoutRequestPanel",
+
+        "affiliatePayoutHistoryPanel"
+
+    ];
+
+
+    panels.forEach(
+        id => {
+
+            const panel =
+                document.getElementById(
+                    id
+                );
+
+
+            if (panel) {
+
+                panel.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    const targetPanel =
+        document.getElementById(
+            panelId
+        );
+
+
+    if (targetPanel) {
+
+        targetPanel.style.display =
+            "block";
+
+    }
+
 }
 
-// =====================
+
+// ======================================================
 // REFERRAL PLAYERS
-// =====================
+// ======================================================
+
 function renderReferralPlayers() {
 
     const tbody =
-        document.getElementById("referralPlayersTableBody");
+        document.getElementById(
+            "referralPlayersTableBody"
+        );
+
 
     if (!tbody) return;
 
-    tbody.innerHTML = "";
 
-    referralPlayers.forEach(player => {
+    tbody.innerHTML =
+        "";
 
-        const calc = calculateDailyRevenue(player);
 
-        tbody.innerHTML += `
-        <tr>
+    if (
+        !Array.isArray(
+            window.referralPlayers
+        )
+    ) {
 
-            <td>${player.affiliateId}</td>
-            <td>${player.playerId}</td>
-            <td>${player.username}</td>
+        return;
 
-            <td>$${player.todayDeposit}</td>
-            <td>$${player.todayLoss}</td>
-            <td>$${player.todayWin}</td>
+    }
 
-            <!-- DAILY REVENUE -->
-            <td>$${calc.revenue.toFixed(2)}</td>
 
-            <!-- AFFILIATE COMMISSION -->
-            <td>$${calc.commission.toFixed(2)}</td>
+    window.referralPlayers.forEach(
+        player => {
 
-            <td>${player.status}</td>
+            const calc =
+                calculateDailyRevenue(
+                    player
+                );
 
-        </tr>
-        `;
-    });
+
+            tbody.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${player.affiliateId}
+                    </td>
+
+                    <td>
+                        ${player.playerId}
+                    </td>
+
+                    <td>
+                        ${player.username}
+                    </td>
+
+                    <td>
+                        $${player.todayDeposit ?? 0}
+                    </td>
+
+                    <td>
+                        $${player.todayLoss ?? 0}
+                    </td>
+
+                    <td>
+                        $${player.todayWin ?? 0}
+                    </td>
+
+                    <td>
+                        $${calc.revenue.toFixed(2)}
+                    </td>
+
+                    <td>
+                        $${calc.commission.toFixed(2)}
+                    </td>
+
+                    <td>
+                        ${player.status}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
 }
-// =====================
-// PAYOUT REQUESTS
-// =====================
+
+
+// ======================================================
+// AFFILIATE PAYOUT REQUESTS
+// ======================================================
+
 function renderAffiliatePayoutRequests() {
 
-const tbody = document.getElementById(
-    "affiliatePayoutRequestTableBody"
-);
-
-if (!tbody) return;
-
-tbody.innerHTML = "";
-
-affiliatePayoutRequests.forEach(req => {
-
-    const row = `
+    const tbody =
+        document.getElementById(
+            "affiliatePayoutRequestTableBody"
+        );
 
 
-<tr>
-    <td>${req.requestId}</td>
-    <td>${req.affiliateId}</td>
-    <td>${req.username}</td>
-    <td>${req.amount}</td>
-    <td>${req.status}</td>
+    if (!tbody) return;
 
 
-<td>
-    <button onclick="approveAffiliatePayout('${req.requestId}')">
-        Approve
-    </button>
-
-    <button onclick="rejectAffiliatePayout('${req.requestId}')">
-        Reject
-    </button>
-</td>
+    tbody.innerHTML =
+        "";
 
 
-</tr>
-`;
+    if (
+        !Array.isArray(
+            window.affiliatePayoutRequests
+        )
+    ) {
+
+        return;
+
+    }
 
 
-    tbody.innerHTML += row;
+    window.affiliatePayoutRequests.forEach(
+        req => {
 
-});
+            tbody.innerHTML += `
 
+                <tr>
+
+                    <td>
+                        ${req.requestId}
+                    </td>
+
+                    <td>
+                        ${req.affiliateId}
+                    </td>
+
+                    <td>
+                        ${req.username}
+                    </td>
+
+                    <td>
+                        ${req.amount}
+                    </td>
+
+                    <td>
+                        ${req.status}
+                    </td>
+
+                    <td>
+
+                        <button
+                            onclick="approveAffiliatePayout('${req.requestId}')"
+                        >
+                            Approve
+                        </button>
+
+                        <button
+                            onclick="rejectAffiliatePayout('${req.requestId}')"
+                        >
+                            Reject
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
 
 }
-// =====================
-// COMMISION CONTROL START
-// =====================
+
+
+// ======================================================
+// COMMISSION CONTROL
+// ======================================================
+
 function saveAffiliateSettings() {
 
     const settings = {
 
         level1Commission:
-            document.getElementById("level1Commission").value,
+            document.getElementById(
+                "level1Commission"
+            )?.value || "",
+
 
         level2Commission:
-            document.getElementById("level2Commission").value,
+            document.getElementById(
+                "level2Commission"
+            )?.value || "",
+
 
         level3Commission:
-            document.getElementById("level3Commission").value,
+            document.getElementById(
+                "level3Commission"
+            )?.value || "",
+
 
         affiliateMinWithdraw:
-            document.getElementById("affiliateMinWithdraw").value,
+            document.getElementById(
+                "affiliateMinWithdraw"
+            )?.value || "",
+
 
         affiliateMinPayout:
-            document.getElementById("affiliateMinPayout").value,
+            document.getElementById(
+                "affiliateMinPayout"
+            )?.value || "",
+
 
         affiliateSettlementCycle:
-            document.getElementById("affiliateSettlementCycle").value
+            document.getElementById(
+                "affiliateSettlementCycle"
+            )?.value || ""
 
     };
 
+
     localStorage.setItem(
         "affiliateSettings",
-        JSON.stringify(settings)
+        JSON.stringify(
+            settings
+        )
     );
 
-    alert("Affiliate Settings Saved Successfully");
+
+    alert(
+        "Affiliate Settings Saved Successfully"
+    );
 
 }
-// ==========================
-// PAYOUT APPROVE FUNCTION
-// ==========================
-function approveAffiliatePayout(requestId) {
 
-    const request = affiliatePayoutRequests.find(r => r.requestId === requestId);
 
-    if (!request) return;
+// ======================================================
+// APPROVE AFFILIATE PAYOUT
+// ======================================================
 
-    request.status = "Approved";
+function approveAffiliatePayout(
+    requestId
+) {
 
-    console.log("PAYOUT APPROVED:", requestId);
+    if (
+        !Array.isArray(
+            window.affiliatePayoutRequests
+        )
+    ) {
 
-    renderAffiliatePayoutRequests();
-}
-// ==========================
-// PAYOUT APPROVE FUNCTION
-// ==========================
-function approveAffiliatePayout(requestId) {
-
-    const request = affiliatePayoutRequests.find(r => r.requestId === requestId);
-
-    if (!request) return;
-
-    request.status = "Approved";
-
-    console.log("PAYOUT APPROVED:", requestId);
-
-    renderAffiliatePayoutRequests();
-}
-// ==========================
-//REJECT FUNCTION
-// ==========================
-function rejectAffiliatePayout(requestId) {
-
-    const request = affiliatePayoutRequests.find(r => r.requestId === requestId);
-
-    if (!request) return;
-
-    request.status = "Rejected";
-
-    console.log("PAYOUT REJECTED:", requestId);
-
-    renderAffiliatePayoutRequests();
-}
-// ==========================
-// SEND PAYMENT FUNCTION (CORE)
-// ==========================
-function sendAffiliatePayment(requestId) {
-
-    const request = affiliatePayoutRequests.find(r => r.requestId === requestId);
-
-    if (!request) return;
-
-    if (request.status !== "Approved") {
-        alert("Approve first before sending payment");
         return;
+
     }
 
-    // move to history
-    affiliatePayoutHistory.push({
 
-        transactionId: "TXN_" + Date.now(),
-        affiliateId: request.affiliateId,
-        amount: request.amount,
-        date: new Date().toLocaleDateString(),
-        status: "Paid"
+    const request =
+        window.affiliatePayoutRequests.find(
+            r =>
+                r.requestId ===
+                requestId
+        );
+
+
+    if (!request) return;
+
+
+    request.status =
+        "Approved";
+
+
+    console.log(
+        "PAYOUT APPROVED:",
+        requestId
+    );
+
+
+    renderAffiliatePayoutRequests();
+
+}
+
+
+// ======================================================
+// REJECT AFFILIATE PAYOUT
+// ======================================================
+
+function rejectAffiliatePayout(
+    requestId
+) {
+
+    if (
+        !Array.isArray(
+            window.affiliatePayoutRequests
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const request =
+        window.affiliatePayoutRequests.find(
+            r =>
+                r.requestId ===
+                requestId
+        );
+
+
+    if (!request) return;
+
+
+    request.status =
+        "Rejected";
+
+
+    console.log(
+        "PAYOUT REJECTED:",
+        requestId
+    );
+
+
+    renderAffiliatePayoutRequests();
+
+}
+
+
+// ======================================================
+// SEND AFFILIATE PAYMENT
+// ======================================================
+
+function sendAffiliatePayment(
+    requestId
+) {
+
+    if (
+        !Array.isArray(
+            window.affiliatePayoutRequests
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !Array.isArray(
+            window.affiliatePayoutHistory
+        )
+    ) {
+
+        window.affiliatePayoutHistory =
+            [];
+
+    }
+
+
+    const request =
+        window.affiliatePayoutRequests.find(
+            r =>
+                r.requestId ===
+                requestId
+        );
+
+
+    if (!request) return;
+
+
+    if (
+        request.status !==
+        "Approved"
+    ) {
+
+        alert(
+            "Approve first before sending payment"
+        );
+
+        return;
+
+    }
+
+
+    window.affiliatePayoutHistory.push({
+
+        transactionId:
+            "TXN_" +
+            Date.now(),
+
+        affiliateId:
+            request.affiliateId,
+
+        amount:
+            request.amount,
+
+        date:
+            new Date()
+                .toLocaleDateString(),
+
+        status:
+            "Paid"
 
     });
 
-    request.status = "Paid";
 
-    console.log("PAYMENT SENT:", requestId);
+    request.status =
+        "Paid";
+
+
+    console.log(
+        "PAYMENT SENT:",
+        requestId
+    );
+
 
     renderAffiliatePayoutRequests();
+
     renderAffiliatePayoutHistory();
+
 }
 
 
-// =====================
+// ======================================================
 // PAYOUT HISTORY
-// =====================
+// ======================================================
 
 function renderAffiliatePayoutHistory() {
 
+    const tbody =
+        document.getElementById(
+            "affiliatePayoutHistoryTableBody"
+        );
 
-const tbody =
-    document.getElementById("affiliatePayoutHistoryTableBody");
 
-if (!tbody) return;
+    if (!tbody) return;
 
-tbody.innerHTML = "";
 
-affiliatePayoutHistory.forEach(item => {
+    tbody.innerHTML =
+        "";
 
-    tbody.innerHTML += `
 
-    <tr>
+    if (
+        !Array.isArray(
+            window.affiliatePayoutHistory
+        )
+    ) {
 
-        <td>${item.transactionId}</td>
-        <td>${item.affiliateId}</td>
-        <td>${item.amount}</td>
-        <td>${item.date}</td>
-        <td>${item.status}</td>
+        return;
 
-    </tr>
+    }
 
-    `;
 
-});
+    window.affiliatePayoutHistory.forEach(
+        item => {
 
+            tbody.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${item.transactionId}
+                    </td>
+
+                    <td>
+                        ${item.affiliateId}
+                    </td>
+
+                    <td>
+                        ${item.amount}
+                    </td>
+
+                    <td>
+                        ${item.date}
+                    </td>
+
+                    <td>
+                        ${item.status}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
 
 }
 
+
+// ======================================================
+// FINAL ADMIN ENGINE MARKER
+// ======================================================
+
 console.log(
-"SAFIKI WITHDRAW SYSTEM LOADED"
+    "✅ SAFIKI ADMIN.JS LOADED"
+);
+
+console.log(
+    "🏏 SPORTS CONTROL ENGINE READY"
 );
