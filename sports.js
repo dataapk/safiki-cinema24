@@ -125,6 +125,7 @@ async function openSportsGame(sport, gameId) {
             return;
         }
     }
+    console.log("🌍 GLOBAL openSportsGame AFTER:", typeof window.openSportsGame);
 
 
     // ==========================================
