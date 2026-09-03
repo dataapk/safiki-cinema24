@@ -86,10 +86,6 @@ console.log("TEST ERROR:", error);
 // START SPORTS GAME DATA LOADING
 // ==========================================
 const sportsGamesReady = loadSportsGames();
-// ==========================================
-// START SPORTS GAME DATA LOADING
-// ==========================================
-const sportsGamesReady = loadSportsGames();
 
 console.log("✅ SPORTS DATA LOADER PASSED");
 console.log("🌍 GLOBAL openSportsGame BEFORE:", typeof window.openSportsGame);
