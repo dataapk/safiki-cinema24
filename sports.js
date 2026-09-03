@@ -3,7 +3,7 @@
 // SPORTS FULL GAME VIEW
 // ==========================================
 
-console.log("SPORTS.JS LOADED");
+console.log("🚀 SPORTS.JS STARTED");
 
 
 
@@ -1128,4 +1128,8 @@ function showToast(msg, type) {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => updateBetCount());
+console.log(
+    "🏁 SPORTS.JS FINISHED",
+    typeof window.openSportsGame
+);
 
