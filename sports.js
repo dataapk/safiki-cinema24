@@ -1002,3 +1002,4 @@ function showToast(msg, type) {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => updateBetCount());
+console.log("🌍 GLOBAL openSportsGame:", typeof window.openSportsGame);
