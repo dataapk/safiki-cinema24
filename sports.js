@@ -21,18 +21,12 @@ async function loadSportsGames() {
 
     console.log("🔄 Loading sports games from Supabase...");
 
-   const { data, error } = await supabaseClient
-    .from("sports_games")
-    .select("game_id, title")
-    .eq("game_id", "cricket-live-1");
+    const { data, error } = await supabaseClient
+        .from("sports_games")
+        .select("*");
 
-console.log("🎯 DIRECT GAME TEST:", data);
-console.log("🎯 DIRECT GAME ERROR:", error);
-
-    console.log("📦 Supabase response:", {
-        data: data,
-        error: error
-    });
+    console.log("📦 SUPABASE RAW DATA:", data);
+    console.log("📦 SUPABASE ERROR:", error);
 
     if (error) {
 
@@ -44,21 +38,35 @@ console.log("🎯 DIRECT GAME ERROR:", error);
         return false;
     }
 
+    sportsGames = {};
+
     if (!data || data.length === 0) {
 
         console.warn(
             "⚠️ Supabase returned 0 sports games."
         );
 
-        sportsGames = {};
         sportsGamesLoaded = true;
+
+        console.log(
+            "🔑 CACHE AFTER EMPTY RESPONSE:",
+            sportsGames
+        );
 
         return true;
     }
 
-    sportsGames = {};
+    data.forEach((game, index) => {
 
-    data.forEach(game => {
+        console.log(
+            `🎮 GAME ${index + 1}:`,
+            game
+        );
+
+        console.log(
+            `🆔 SUPABASE GAME ID ${index + 1}:`,
+            game.game_id
+        );
 
         sportsGames[game.game_id] = game;
 
@@ -66,13 +74,19 @@ console.log("🎯 DIRECT GAME ERROR:", error);
 
     sportsGamesLoaded = true;
 
+
     console.log(
-        "✅ Sports games loaded:",
+        "🗂️ SPORTS GAMES CACHE:",
         sportsGames
     );
 
     console.log(
-        "🏏 Cricket Live 1:",
+        "🎯 cricket-live-1 EXISTS:",
+        sportsGames.hasOwnProperty("cricket-live-1")
+    );
+
+    console.log(
+        "🎯 cricket-live-1 DATA:",
         sportsGames["cricket-live-1"]
     );
 
