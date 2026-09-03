@@ -21,14 +21,13 @@ async function loadSportsGames() {
 
     console.log("🔄 Loading sports games from Supabase...");
 
-    const { data, error } = await supabaseClient
-        .from("sports_games")
-        
+   const { data, error } = await supabaseClient
+    .from("sports_games")
     .select("game_id, title")
     .eq("game_id", "cricket-live-1");
 
-console.log("TEST DATA:", data);
-console.log("TEST ERROR:", error);
+console.log("🎯 DIRECT GAME TEST:", data);
+console.log("🎯 DIRECT GAME ERROR:", error);
 
     console.log("📦 Supabase response:", {
         data: data,
