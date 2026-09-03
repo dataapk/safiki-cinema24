@@ -14,10 +14,6 @@ console.log("SPORTS.JS LOADED");
 let sportsGames = {};
 let sportsGamesLoaded = false;
 
-
-// ==========================================
-// LOAD SPORTS GAMES FROM SUPABASE
-// ==========================================
 // ==========================================
 // LOAD SPORTS GAMES FROM SUPABASE
 // ==========================================
@@ -90,6 +86,14 @@ console.log("TEST ERROR:", error);
 // START SPORTS GAME DATA LOADING
 // ==========================================
 const sportsGamesReady = loadSportsGames();
+// ==========================================
+// START SPORTS GAME DATA LOADING
+// ==========================================
+const sportsGamesReady = loadSportsGames();
+
+console.log("✅ SPORTS DATA LOADER PASSED");
+console.log("🌍 GLOBAL openSportsGame BEFORE:", typeof window.openSportsGame);
+
 
 
 // ==========================================
