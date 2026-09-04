@@ -2254,10 +2254,19 @@ function (gameId) {
     }
 
     if (statusInput) {
-    statusInput.value =
+
+    const currentStatus =
         String(
-            game.status || "LIVE"
-        ).trim().toLowerCase();
+            game.status || "live"
+        )
+        .trim()
+        .toLowerCase();
+
+    statusInput.value =
+        ["live", "upcoming", "featured"]
+            .includes(currentStatus)
+            ? currentStatus
+            : "live";
 }
 
     if (homeInput) {
@@ -2398,162 +2407,161 @@ async function () {
         );
 
 
-    // ======================================================
-    // STATUS
-    // ======================================================
+   // ======================================================
+// STATUS
+// ======================================================
 
-    const currentGame =
-        window.adminSportsGames[gameId];
+const currentGame =
+    window.adminSportsGames[gameId];
 
-    const selectedStatus =
-        statusInput
-            ? statusInput.value.trim().toUpperCase()
-            : "";
+const selectedStatus =
+    statusInput && statusInput.value
+        ? statusInput.value.trim().toLowerCase()
+        : "";
 
-    const finalStatus =
-        selectedStatus ||
-        String(
-            currentGame?.status || "LIVE"
-        ).trim().toUpperCase();
-
-
-    const updatedGame = {
-
-        title:
-            titleInput
-                ? titleInput.value.trim()
-                : "",
-
-        league:
-            leagueInput
-                ? leagueInput.value.trim()
-                : "",
-
-        status:
-            finalStatus,
-
-        home_team:
-            homeInput
-                ? homeInput.value.trim()
-                : "",
-
-        away_team:
-            awayInput
-                ? awayInput.value.trim()
-                : "",
-
-        total_runs_enabled:
-            totalRunsInput
-                ? totalRunsInput.checked
-                : true,
-
-        over_under_enabled:
-            overUnderInput
-                ? overUnderInput.checked
-                : true,
-
-        match_winner_enabled:
-            matchWinnerInput
-                ? matchWinnerInput.checked
-                : true
-
-    };
+const finalStatus =
+    selectedStatus ||
+    String(
+        currentGame?.status || "live"
+    ).trim().toLowerCase();
 
 
-    if (
-        !updatedGame.title ||
-        !updatedGame.league ||
-        !updatedGame.home_team ||
-        !updatedGame.away_team
-    ) {
+const updatedGame = {
 
-        alert(
-            "Please fill in all match information."
-        );
+    title:
+        titleInput
+            ? titleInput.value.trim()
+            : "",
 
-        return;
-    }
+    league:
+        leagueInput
+            ? leagueInput.value.trim()
+            : "",
 
+    status:
+        finalStatus,
 
-    if (!window.supabaseClient) {
+    home_team:
+        homeInput
+            ? homeInput.value.trim()
+            : "",
 
-        console.error(
-            "❌ ADMIN: Supabase client unavailable."
-        );
+    away_team:
+        awayInput
+            ? awayInput.value.trim()
+            : "",
 
-        alert(
-            "Supabase connection unavailable."
-        );
+    total_runs_enabled:
+        totalRunsInput
+            ? totalRunsInput.checked
+            : true,
 
-        return;
-    }
+    over_under_enabled:
+        overUnderInput
+            ? overUnderInput.checked
+            : true,
 
-
-    console.log(
-        "💾 ADMIN: Updating game:",
-        gameId,
-        updatedGame
-    );
-
-
-    const {
-        data,
-        error
-    } = await window.supabaseClient
-        .from("sports_games")
-        .update(updatedGame)
-        .eq(
-            "game_id",
-            gameId
-        )
-        .select()
-        .single();
-
-
-    if (error) {
-
-        console.error(
-            "❌ ADMIN: Sports game update failed:",
-            error
-        );
-
-        alert(
-            "Failed to update match.\n\n" +
-            error.message
-        );
-
-        return;
-    }
-
-
-    console.log(
-        "✅ ADMIN: Sports game updated:",
-        data
-    );
-
-
-    window.adminSportsGames[
-        gameId
-    ] = data;
-
-
-    closeSportsGameEditor();
-
-
-    renderAdminSportGames(
-        String(data.sport || "")
-            .toLowerCase(),
-        String(data.status || "")
-            .toLowerCase()
-    );
-
-
-    alert(
-        "✅ Match updated successfully!"
-    );
+    match_winner_enabled:
+        matchWinnerInput
+            ? matchWinnerInput.checked
+            : true
 
 };
 
+
+if (
+    !updatedGame.title ||
+    !updatedGame.league ||
+    !updatedGame.home_team ||
+    !updatedGame.away_team
+) {
+
+    alert(
+        "Please fill in all match information."
+    );
+
+    return;
+}
+
+
+if (!window.supabaseClient) {
+
+    console.error(
+        "❌ ADMIN: Supabase client unavailable."
+    );
+
+    alert(
+        "Supabase connection unavailable."
+    );
+
+    return;
+}
+
+
+console.log(
+    "💾 ADMIN: Updating game:",
+    gameId,
+    updatedGame
+);
+
+
+const {
+    data,
+    error
+} = await window.supabaseClient
+    .from("sports_games")
+    .update(updatedGame)
+    .eq(
+        "game_id",
+        gameId
+    )
+    .select()
+    .single();
+
+
+if (error) {
+
+    console.error(
+        "❌ ADMIN: Sports game update failed:",
+        error
+    );
+
+    alert(
+        "Failed to update match.\n\n" +
+        error.message
+    );
+
+    return;
+}
+
+
+console.log(
+    "✅ ADMIN: Sports game updated:",
+    data
+);
+
+
+window.adminSportsGames[
+    gameId
+] = data;
+
+
+closeSportsGameEditor();
+
+
+renderAdminSportGames(
+    String(data.sport || "")
+        .toLowerCase(),
+    String(data.status || "")
+        .toLowerCase()
+);
+
+
+alert(
+    "✅ Match updated successfully!"
+);
+
+};
 
 // ======================================================
 // HTML ESCAPE
