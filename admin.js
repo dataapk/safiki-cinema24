@@ -1473,18 +1473,16 @@ window.openGolfFeatured = function (btn) {
 
 window.adminSportsGames = {};
 
+window.adminSportsGamesLoaded = false;
 
-window.loadAdminSportsGames =
-async function () {
+
+window.loadAdminSportsGames = async function () {
 
     console.log(
         "🔄 ADMIN: Loading sports games from Supabase..."
     );
 
-    if (
-        typeof supabaseClient ===
-        "undefined"
-    ) {
+    if (typeof supabaseClient === "undefined") {
 
         console.error(
             "❌ ADMIN: supabaseClient is not available."
@@ -1499,12 +1497,9 @@ async function () {
     } = await supabaseClient
         .from("sports_games")
         .select("*")
-        .order(
-            "game_id",
-            {
-                ascending: true
-            }
-        );
+        .order("game_id", {
+            ascending: true
+        });
 
     console.log(
         "📦 ADMIN SUPABASE DATA:",
@@ -1523,19 +1518,20 @@ async function () {
             error
         );
 
+        window.adminSportsGamesLoaded = false;
+
         return false;
     }
 
     window.adminSportsGames = {};
 
-    if (
-        !data ||
-        data.length === 0
-    ) {
+    if (!data || data.length === 0) {
 
         console.warn(
             "⚠️ ADMIN: No sports games found."
         );
+
+        window.adminSportsGamesLoaded = true;
 
         return true;
     }
@@ -1550,10 +1546,16 @@ async function () {
 
     });
 
+    window.adminSportsGamesLoaded = true;
+
     console.log(
         "🗂️ ADMIN SPORTS CACHE:",
         window.adminSportsGames
     );
+
+    // ------------------------------------------
+    // INITIAL CRICKET LIVE RENDER
+    // ------------------------------------------
 
     renderAdminSportGames(
         "cricket",
@@ -1562,6 +1564,26 @@ async function () {
 
     return true;
 };
+
+
+// ======================================================
+// ENSURE SPORTS DATA IS LOADED
+// ======================================================
+
+async function ensureAdminSportsGamesLoaded() {
+
+    if (
+        window.adminSportsGamesLoaded &&
+        Object.keys(
+            window.adminSportsGames || {}
+        ).length > 0
+    ) {
+
+        return true;
+    }
+
+    return await loadAdminSportsGames();
+}
 
 
 // ======================================================
@@ -1575,11 +1597,14 @@ function renderAdminSportGames(
 
     const sportName =
         String(sport || "")
+            .trim()
             .toLowerCase();
 
     const statusName =
         String(status || "")
+            .trim()
             .toLowerCase();
+
 
     const gridMap = {
 
@@ -1639,8 +1664,10 @@ function renderAdminSportGames(
 
     };
 
+
     const gridId =
         gridMap[sportName]?.[statusName];
+
 
     if (!gridId) {
 
@@ -1653,8 +1680,10 @@ function renderAdminSportGames(
         return;
     }
 
+
     const grid =
         document.getElementById(gridId);
+
 
     if (!grid) {
 
@@ -1666,43 +1695,73 @@ function renderAdminSportGames(
         return;
     }
 
+
+    // ------------------------------------------
+    // GET MATCHES FROM SUPABASE CACHE
+    // ------------------------------------------
+
     const games =
         Object.values(
             window.adminSportsGames || {}
         )
         .filter(game => {
 
-            return (
+            const gameSport =
                 String(game.sport || "")
-                    .toLowerCase() === sportName
-                &&
+                    .trim()
+                    .toLowerCase();
+
+            const gameStatus =
                 String(game.status || "")
-                    .toLowerCase() === statusName
+                    .trim()
+                    .toLowerCase();
+
+            return (
+                gameSport === sportName &&
+                gameStatus === statusName
             );
 
         })
         .sort((a, b) => {
 
-            return String(a.game_id)
+            return String(a.game_id || "")
                 .localeCompare(
-                    String(b.game_id),
+                    String(b.game_id || ""),
                     undefined,
                     {
-                        numeric: true
+                        numeric: true,
+                        sensitivity: "base"
                     }
                 );
 
         });
 
+
+    console.log(
+        `🎮 ADMIN: ${sportName} / ${statusName}:`,
+        games
+    );
+
+
+    // ------------------------------------------
+    // NO GAMES
+    // ------------------------------------------
+
     if (games.length === 0) {
 
-        grid.innerHTML =
-            `<p class="no-sports-games">
+        grid.innerHTML = `
+            <p class="no-sports-games">
                 No ${sportName} ${statusName} games available.
-            </p>`;
+            </p>
+        `;
 
         return;
     }
+
+
+    // ------------------------------------------
+    // RENDER GAME CARDS
+    // ------------------------------------------
 
     grid.innerHTML =
         games
@@ -1710,6 +1769,119 @@ function renderAdminSportGames(
                 createAdminSportsCard(game)
             )
             .join("");
+}
+
+
+// ======================================================
+// CRICKET STATUS RENDER
+// ======================================================
+
+function renderAdminCricketGamesByStatus(status) {
+
+    return renderAdminSportGames(
+        "cricket",
+        status
+    );
+}
+
+
+// ======================================================
+// KEEP EXISTING CRICKET RENDER FUNCTION
+// ======================================================
+
+function renderAdminCricketGames(games) {
+
+    const sourceGames =
+        Array.isArray(games)
+            ? games
+            : Object.values(
+                window.adminSportsGames || {}
+            );
+
+
+    const cricketGames =
+        sourceGames.filter(game => {
+
+            return String(game.sport || "")
+                .trim()
+                .toLowerCase() === "cricket";
+
+        });
+
+
+    const statusGroups = {
+        live: [],
+        upcoming: [],
+        featured: []
+    };
+
+
+    cricketGames.forEach(game => {
+
+        const status =
+            String(game.status || "")
+                .trim()
+                .toLowerCase();
+
+        if (statusGroups[status]) {
+            statusGroups[status].push(game);
+        }
+
+    });
+
+
+    const grids = {
+
+        live:
+            document.getElementById(
+                "adminCricketLiveGrid"
+            ),
+
+        upcoming:
+            document.getElementById(
+                "adminCricketUpcomingGrid"
+            ),
+
+        featured:
+            document.getElementById(
+                "adminCricketFeaturedGrid"
+            )
+
+    };
+
+
+    Object.keys(grids).forEach(status => {
+
+        const grid = grids[status];
+
+        if (!grid) return;
+
+        const gamesForStatus =
+            statusGroups[status];
+
+
+        if (gamesForStatus.length === 0) {
+
+            grid.innerHTML = `
+                <p class="no-sports-games">
+                    No Cricket ${status}
+                    games available.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        grid.innerHTML =
+            gamesForStatus
+                .map(game =>
+                    createAdminSportsCard(game)
+                )
+                .join("");
+
+    });
+}     .join("");
 }
 
 
@@ -1729,6 +1901,7 @@ function renderAdminCricketGames(games) {
         allGames.filter(game => {
 
             return String(game.sport || "")
+                .trim()
                 .toLowerCase() === "cricket";
 
         });
@@ -1816,7 +1989,6 @@ function createAdminSportsCard(game) {
                     </button>
                 </div>
 
-
                 <div>
                     Over / Under
 
@@ -1835,7 +2007,6 @@ function createAdminSportsCard(game) {
                         ${overUnder ? "ON" : "OFF"}
                     </button>
                 </div>
-
 
                 <div>
                     Match Winner
@@ -1857,7 +2028,6 @@ function createAdminSportsCard(game) {
                 </div>
 
             </div>
-
 
             <button
                 type="button"
