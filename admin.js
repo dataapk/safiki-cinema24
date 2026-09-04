@@ -2254,11 +2254,11 @@ function (gameId) {
     }
 
     if (statusInput) {
-        statusInput.value =
-            String(
-                game.status || "LIVE"
-            ).toUpperCase();
-    }
+    statusInput.value =
+        String(
+            game.status || "LIVE"
+        ).trim().toLowerCase();
+}
 
     if (homeInput) {
         homeInput.value =
