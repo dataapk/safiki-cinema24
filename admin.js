@@ -1093,39 +1093,57 @@ function openAdminSportTab(
 // CRICKET TABS
 // ======================================================
 
-window.openCricketLive = function (btn) {
+window.openCricketLive = async function (btn) {
 
-    openAdminSportTab(
-        "cricket",
-        "cricket-content",
-        "adminCricketLiveGrid",
-        btn,
-        "live"
-    );
+    hideCricketTabs();
+
+    setActiveCricketTab(btn);
+
+    const panel = document.getElementById("cricketLive");
+
+    if (panel) {
+        panel.style.display = "block";
+    }
+
+    await ensureAdminSportsGamesLoaded();
+
+    renderAdminCricketGamesByStatus("live");
 };
 
 
-window.openCricketUpcoming = function (btn) {
+window.openCricketUpcoming = async function (btn) {
 
-    openAdminSportTab(
-        "cricket",
-        "cricket-content",
-        "adminCricketUpcomingGrid",
-        btn,
-        "upcoming"
-    );
+    hideCricketTabs();
+
+    setActiveCricketTab(btn);
+
+    const panel = document.getElementById("cricketUpcoming");
+
+    if (panel) {
+        panel.style.display = "block";
+    }
+
+    await ensureAdminSportsGamesLoaded();
+
+    renderAdminCricketGamesByStatus("upcoming");
 };
 
 
-window.openCricketFeatured = function (btn) {
+window.openCricketFeatured = async function (btn) {
 
-    openAdminSportTab(
-        "cricket",
-        "cricket-content",
-        "adminCricketFeaturedGrid",
-        btn,
-        "featured"
-    );
+    hideCricketTabs();
+
+    setActiveCricketTab(btn);
+
+    const panel = document.getElementById("cricketFeatured");
+
+    if (panel) {
+        panel.style.display = "block";
+    }
+
+    await ensureAdminSportsGamesLoaded();
+
+    renderAdminCricketGamesByStatus("featured");
 };
 
 
