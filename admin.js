@@ -2398,6 +2398,25 @@ async function () {
         );
 
 
+    // ======================================================
+    // STATUS
+    // ======================================================
+
+    const currentGame =
+        window.adminSportsGames[gameId];
+
+    const selectedStatus =
+        statusInput
+            ? statusInput.value.trim().toUpperCase()
+            : "";
+
+    const finalStatus =
+        selectedStatus ||
+        String(
+            currentGame?.status || "LIVE"
+        ).trim().toUpperCase();
+
+
     const updatedGame = {
 
         title:
@@ -2411,11 +2430,7 @@ async function () {
                 : "",
 
         status:
-    statusInput && statusInput.value
-        ? statusInput.value.trim().toUpperCase()
-        : String(
-            window.adminSportsGames[gameId]?.status || "LIVE"
-        ).trim().toUpperCase(),
+            finalStatus,
 
         home_team:
             homeInput
@@ -2460,18 +2475,18 @@ async function () {
     }
 
 
-   if (!window.supabaseClient) {
+    if (!window.supabaseClient) {
 
-    console.error(
-        "❌ ADMIN: Supabase client unavailable."
-    );
+        console.error(
+            "❌ ADMIN: Supabase client unavailable."
+        );
 
-    alert(
-        "Supabase connection unavailable."
-    );
+        alert(
+            "Supabase connection unavailable."
+        );
 
-    return;
-}
+        return;
+    }
 
 
     console.log(
@@ -2482,17 +2497,17 @@ async function () {
 
 
     const {
-    data,
-    error
-} = await window.supabaseClient
-    .from("sports_games")
-    .update(updatedGame)
-    .eq(
-        "game_id",
-        gameId
-    )
-    .select()
-    .single();
+        data,
+        error
+    } = await window.supabaseClient
+        .from("sports_games")
+        .update(updatedGame)
+        .eq(
+            "game_id",
+            gameId
+        )
+        .select()
+        .single();
 
 
     if (error) {
