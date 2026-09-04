@@ -1482,7 +1482,7 @@ window.loadAdminSportsGames = async function () {
         "🔄 ADMIN: Loading sports games from Supabase..."
     );
 
-    if (typeof supabaseClient === "undefined") {
+    if (!window.supabaseClient) {
 
         console.error(
             "❌ ADMIN: supabaseClient is not available."
@@ -1494,7 +1494,7 @@ window.loadAdminSportsGames = async function () {
     const {
         data,
         error
-    } = await supabaseClient
+    } = await window.supabaseClient
         .from("sports_games")
         .select("*")
         .order("game_id", {
