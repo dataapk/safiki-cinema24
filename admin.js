@@ -1095,9 +1095,6 @@ function openAdminSportTab(
 
 window.openCricketLive = async function (btn) {
 
-
-    setActiveCricketTab(btn);
-
     const panel = document.getElementById("cricketLive");
 
     if (panel) {
@@ -1112,10 +1109,6 @@ window.openCricketLive = async function (btn) {
 
 window.openCricketUpcoming = async function (btn) {
 
-    
-
-    setActiveCricketTab(btn);
-
     const panel = document.getElementById("cricketUpcoming");
 
     if (panel) {
@@ -1129,10 +1122,6 @@ window.openCricketUpcoming = async function (btn) {
 
 
 window.openCricketFeatured = async function (btn) {
-
-    
-
-    setActiveCricketTab(btn);
 
     const panel = document.getElementById("cricketFeatured");
 
