@@ -14,6 +14,7 @@ console.log("🚀 SPORTS.JS STARTED");
 let sportsGames = {};
 let sportsGamesLoaded = false;
 
+
 // ==========================================
 // LOAD SPORTS GAMES FROM SUPABASE
 // ==========================================
@@ -53,8 +54,14 @@ async function loadSportsGames() {
             sportsGames
         );
 
+        // ==========================================
+        // CLEAR FRONTEND GAME LIST
+        // ==========================================
+        renderCricketGames();
+
         return true;
     }
+
 
     data.forEach((game, index) => {
 
@@ -72,6 +79,7 @@ async function loadSportsGames() {
 
     });
 
+
     sportsGamesLoaded = true;
 
 
@@ -80,26 +88,283 @@ async function loadSportsGames() {
         sportsGames
     );
 
+
     console.log(
         "🎯 cricket-live-1 EXISTS:",
         sportsGames.hasOwnProperty("cricket-live-1")
     );
+
 
     console.log(
         "🎯 cricket-live-1 DATA:",
         sportsGames["cricket-live-1"]
     );
 
+
+    // ==========================================
+    // AUTOMATICALLY RENDER CRICKET LIVE GAMES
+    // ==========================================
+    renderCricketGames();
+
+
     return true;
+}
+
+
+// ==========================================
+// SAFE HTML ESCAPE
+// ==========================================
+function escapeSportsHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+// ==========================================
+// GET GAME SERIAL NUMBER
+// ==========================================
+function getSportsGameNumber(gameId) {
+
+    const match =
+        String(gameId || "").match(/-(\d+)$/);
+
+    if (!match) {
+        return 999999;
+    }
+
+    return Number(match[1]);
+}
+
+
+// ==========================================
+// RENDER CRICKET LIVE GAMES
+// ==========================================
+function renderCricketGames() {
+
+    const container =
+        document.getElementById(
+            "cricket-live-events"
+        );
+
+
+    // ==========================================
+    // CONTAINER NOT READY YET
+    // ==========================================
+    if (!container) {
+
+        console.log(
+            "⏳ Cricket live container not found yet."
+        );
+
+        return;
+    }
+
+
+    // ==========================================
+    // CLEAR OLD GAMES
+    // ==========================================
+    container.innerHTML = "";
+
+
+    // ==========================================
+    // GET CRICKET LIVE GAMES
+    // ==========================================
+    const cricketLiveGames =
+        Object.values(sportsGames)
+            .filter(game => {
+
+                const sport =
+                    String(game.sport || "")
+                        .toLowerCase()
+                        .trim();
+
+                const status =
+                    String(game.status || "")
+                        .toLowerCase()
+                        .trim();
+
+                return (
+                    sport === "cricket" &&
+                    status === "live"
+                );
+            })
+            .sort((a, b) => {
+
+                return (
+                    getSportsGameNumber(a.game_id) -
+                    getSportsGameNumber(b.game_id)
+                );
+            });
+
+
+    console.log(
+        "🏏 CRICKET LIVE GAMES:",
+        cricketLiveGames
+    );
+
+
+    // ==========================================
+    // NO LIVE CRICKET GAME
+    // ==========================================
+    if (cricketLiveGames.length === 0) {
+
+        console.log(
+            "ℹ️ No Cricket live games available."
+        );
+
+        return;
+    }
+
+
+    // ==========================================
+    // CREATE EACH LIVE GAME
+    // ==========================================
+    cricketLiveGames.forEach((game, index) => {
+
+        const gameCard =
+            document.createElement("div");
+
+
+        gameCard.className =
+            "sports-game-card";
+
+
+        // ==========================================
+        // STORE GAME ID ON CARD
+        // ==========================================
+        gameCard.dataset.gameId =
+            game.game_id;
+
+
+        gameCard.dataset.sport =
+            "cricket";
+
+
+        // ==========================================
+        // GAME CARD CONTENT
+        // ==========================================
+        gameCard.innerHTML = `
+
+            <div class="sports-game-card-header">
+
+                <div class="sports-game-live-badge">
+                    <span class="live-dot"></span>
+                    LIVE
+                </div>
+
+                <div class="sports-game-serial">
+                    #${index + 1}
+                </div>
+
+            </div>
+
+
+            <div class="sports-game-card-title">
+                ${escapeSportsHtml(game.title)}
+            </div>
+
+
+            <div class="sports-game-card-league">
+                ${escapeSportsHtml(game.league)}
+            </div>
+
+
+            <div class="sports-game-card-teams">
+
+                <div class="sports-game-team">
+                    ${escapeSportsHtml(game.home_team)}
+                </div>
+
+                <div class="sports-game-vs">
+                    VS
+                </div>
+
+                <div class="sports-game-team">
+                    ${escapeSportsHtml(game.away_team)}
+                </div>
+
+            </div>
+
+        `;
+
+
+        // ==========================================
+        // OPEN GAME ON CLICK
+        // ==========================================
+        gameCard.addEventListener(
+            "click",
+            function () {
+
+                console.log(
+                    "🏏 Opening Cricket Game:",
+                    game.game_id
+                );
+
+                openSportsGame(
+                    "cricket",
+                    game.game_id
+                );
+
+            }
+        );
+
+
+        // ==========================================
+        // ADD GAME TO FRONTEND
+        // ==========================================
+        container.appendChild(
+            gameCard
+        );
+
+    });
+
+
+    console.log(
+        `✅ ${cricketLiveGames.length} Cricket Live Game(s) Rendered.`
+    );
 }
 
 
 // ==========================================
 // START SPORTS GAME DATA LOADING
 // ==========================================
-const sportsGamesReady = loadSportsGames();
+const sportsGamesReady =
+    loadSportsGames();
 
-console.log("✅ SPORTS DATA LOADER PASSED");
+
+console.log(
+    "✅ SPORTS DATA LOADER PASSED"
+);
+
+
+// ==========================================
+// RENDER AGAIN WHEN HTML IS READY
+// ==========================================
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            renderCricketGames();
+
+        }
+    );
+
+} else {
+
+    renderCricketGames();
+
+}
 
 
 // ==========================================
@@ -136,7 +401,9 @@ window.openSportsGame = async function (sport, gameId) {
     // ==========================================
     // GET GAME FROM CACHE
     // ==========================================
-    const game = sportsGames[gameId];
+    const game =
+        sportsGames[gameId];
+
 
     if (!game) {
 
@@ -147,6 +414,7 @@ window.openSportsGame = async function (sport, gameId) {
 
         return;
     }
+
 
     console.log(
         "✅ Selected sports game:",
@@ -162,10 +430,12 @@ window.openSportsGame = async function (sport, gameId) {
             "sports-game-page"
         );
 
+
     const gameTitle =
         document.getElementById(
             "sports-game-title"
         );
+
 
     const gameContent =
         document.getElementById(
@@ -191,6 +461,7 @@ window.openSportsGame = async function (sport, gameId) {
             "sportsSubBanner"
         );
 
+
     if (sportsSubBanner) {
 
         sportsSubBanner.style.display =
@@ -206,6 +477,7 @@ window.openSportsGame = async function (sport, gameId) {
             "sportsSubHeader"
         );
 
+
     if (sportsSubHeader) {
 
         sportsSubHeader.style.display =
@@ -220,6 +492,7 @@ window.openSportsGame = async function (sport, gameId) {
         document.getElementById(
             "sportsSubcatGrid"
         );
+
 
     if (sportsSubcatGrid) {
 
@@ -254,11 +527,11 @@ window.openSportsGame = async function (sport, gameId) {
             </div>
 
             <div class="sports-game-match-title">
-                ${game.title}
+                ${escapeSportsHtml(game.title)}
             </div>
 
             <div class="sports-game-league">
-                ${game.league}
+                ${escapeSportsHtml(game.league)}
             </div>
 
         </div>
@@ -278,7 +551,7 @@ window.openSportsGame = async function (sport, gameId) {
                 </div>
 
                 <div class="sports-animation-title">
-                    ${game.title}
+                    ${escapeSportsHtml(game.title)}
                 </div>
 
                 <div class="sports-animation-subtitle">
@@ -311,19 +584,21 @@ window.openSportsGame = async function (sport, gameId) {
                         type="button"
                         class="sports-bet-option"
                         onclick="addToBetSlip({
-                            eventId: '${gameId}',
-                            eventName: '${game.title}',
-                            market: '${game.home_team}',
+                            eventId: '${escapeSportsHtml(game.game_id)}',
+                            eventName: '${escapeSportsHtml(game.title)}',
+                            market: '${escapeSportsHtml(game.home_team)}',
                             odds: 1.85
                         })"
                     >
+
                         <span>
-                            ${game.home_team}
+                            ${escapeSportsHtml(game.home_team)}
                         </span>
 
                         <strong>
                             1.85
                         </strong>
+
                     </button>
 
 
@@ -331,19 +606,21 @@ window.openSportsGame = async function (sport, gameId) {
                         type="button"
                         class="sports-bet-option"
                         onclick="addToBetSlip({
-                            eventId: '${gameId}',
-                            eventName: '${game.title}',
-                            market: '${game.away_team}',
+                            eventId: '${escapeSportsHtml(game.game_id)}',
+                            eventName: '${escapeSportsHtml(game.title)}',
+                            market: '${escapeSportsHtml(game.away_team)}',
                             odds: 1.65
                         })"
                     >
+
                         <span>
-                            ${game.away_team}
+                            ${escapeSportsHtml(game.away_team)}
                         </span>
 
                         <strong>
                             1.65
                         </strong>
+
                     </button>
 
                 </div>
@@ -364,12 +641,13 @@ window.openSportsGame = async function (sport, gameId) {
                         type="button"
                         class="sports-bet-option"
                         onclick="addToBetSlip({
-                            eventId: '${gameId}',
-                            eventName: '${game.title}',
+                            eventId: '${escapeSportsHtml(game.game_id)}',
+                            eventName: '${escapeSportsHtml(game.title)}',
                             market: 'Over 180.5',
                             odds: 1.90
                         })"
                     >
+
                         <span>
                             Over 180.5
                         </span>
@@ -377,6 +655,7 @@ window.openSportsGame = async function (sport, gameId) {
                         <strong>
                             1.90
                         </strong>
+
                     </button>
 
 
@@ -384,12 +663,13 @@ window.openSportsGame = async function (sport, gameId) {
                         type="button"
                         class="sports-bet-option"
                         onclick="addToBetSlip({
-                            eventId: '${gameId}',
-                            eventName: '${game.title}',
+                            eventId: '${escapeSportsHtml(game.game_id)}',
+                            eventName: '${escapeSportsHtml(game.title)}',
                             market: 'Under 180.5',
                             odds: 1.80
                         })"
                     >
+
                         <span>
                             Under 180.5
                         </span>
@@ -397,6 +677,7 @@ window.openSportsGame = async function (sport, gameId) {
                         <strong>
                             1.80
                         </strong>
+
                     </button>
 
                 </div>
@@ -417,15 +698,18 @@ window.openSportsGame = async function (sport, gameId) {
             "sports-sub-section"
         );
 
+
     const trendingPage =
         document.getElementById(
             "sports-trending-page"
         );
 
+
     const cricketEventsPage =
         document.getElementById(
             "cricket-events-page"
         );
+
 
     const footballEventsPage =
         document.getElementById(
