@@ -777,15 +777,12 @@ function toggleActionButtons() {
 
 // ======================================================
 // GAMES SECTION JS START
+// SPORTS CONTROL PANEL
 // ======================================================
 
-
-// ======================================================
 // CURRENT GAME
-// ======================================================
-
 window.activeGameId = null;
-
+window.activeSportsGameId = null;
 
 // ======================================================
 // OPEN GAME SETTINGS PANEL
@@ -794,76 +791,42 @@ window.activeGameId = null;
 function openGameSettings(gameId) {
 
     const panel =
-        document.getElementById(
-            "gameSettingsPanel"
-        );
-
+        document.getElementById("gameSettingsPanel");
 
     if (!panel) return;
 
-
-    if (
-        window.activeGameId === gameId
-    ) {
+    if (window.activeGameId === gameId) {
 
         const isVisible =
-            window.getComputedStyle(
-                panel
-            ).display !== "none";
-
+            window.getComputedStyle(panel).display !== "none";
 
         if (isVisible) {
 
-            panel.style.display =
-                "none";
-
-
-            window.activeGameId =
-                null;
-
+            panel.style.display = "none";
+            window.activeGameId = null;
 
             return;
-
         }
-
     }
 
+    window.activeGameId = gameId;
 
-    window.activeGameId =
-        gameId;
-
-
-    panel.style.display =
-        "block";
-
+    panel.style.display = "block";
 
     const idElement =
-        document.getElementById(
-            "gs_id"
-        );
-
+        document.getElementById("gs_id");
 
     const nameElement =
-        document.getElementById(
-            "gs_name"
-        );
-
+        document.getElementById("gs_name");
 
     if (idElement) {
-
-        idElement.innerText =
-            gameId;
-
+        idElement.innerText = gameId;
     }
-
 
     if (nameElement) {
-
         nameElement.innerText =
             getGameName(gameId);
-
     }
-
 }
 
 
@@ -871,148 +834,258 @@ function openGameSettings(gameId) {
 // GAME SUB SECTION
 // ======================================================
 
-function openSportsSection() {
+window.openSportsSection = function () {
 
     const sports =
-        document.getElementById(
-            "sportsSection"
-        );
-
+        document.getElementById("sportsSection");
 
     const casino =
-        document.getElementById(
-            "casinoSection"
-        );
-
+        document.getElementById("casinoSection");
 
     if (sports) {
-
-        sports.style.display =
-            "block";
-
+        sports.style.display = "block";
     }
-
 
     if (casino) {
-
-        casino.style.display =
-            "none";
-
+        casino.style.display = "none";
     }
+};
 
-}
 
-
-function openCasinoSection() {
+window.openCasinoSection = function () {
 
     const sports =
-        document.getElementById(
-            "sportsSection"
-        );
-
+        document.getElementById("sportsSection");
 
     const casino =
-        document.getElementById(
-            "casinoSection"
-        );
-
+        document.getElementById("casinoSection");
 
     if (sports) {
-
-        sports.style.display =
-            "none";
-
+        sports.style.display = "none";
     }
-
 
     if (casino) {
-
-        casino.style.display =
-            "block";
-
+        casino.style.display = "block";
     }
+};
 
+
+// ======================================================
+// HIDE ALL ADMIN SPORTS SECTIONS
+// ======================================================
+
+function hideAllAdminSportsSections() {
+
+    document
+        .querySelectorAll(".admin-sport-section")
+        .forEach(section => {
+
+            section.style.display = "none";
+
+        });
 }
 
 
 // ======================================================
-// SPORTS SUB SECTION
+// SPORTS SELECTORS
 // ======================================================
 
-function adminSportsCricket() {
+window.adminSportsCricket = function () {
 
-    document.querySelectorAll(
-        ".admin-sport-section"
-    )
-    .forEach(section => {
+    hideAllAdminSportsSections();
 
-        section.style.display =
-            "none";
+    const section =
+        document.getElementById("adminCricketSection");
 
-    });
-
-
-    const cricket =
-        document.getElementById(
-            "adminCricketSection"
-        );
-
-
-    if (cricket) {
-
-        cricket.style.display =
-            "block";
-
+    if (section) {
+        section.style.display = "block";
     }
-
 
     openCricketLive();
-
-}
-
-
-function adminSportsFootball() {
-
-    console.log(
-        "⚽ Football Control Selected"
-    );
-
-}
+};
 
 
-function adminSportsTennis() {
+window.adminSportsFootball = function () {
 
-    console.log(
-        "🎾 Tennis Control Selected"
-    );
+    hideAllAdminSportsSections();
 
-}
+    const section =
+        document.getElementById("adminFootballSection");
 
+    if (section) {
+        section.style.display = "block";
+    }
 
-function adminSportsBasketball() {
-
-    console.log(
-        "🏀 Basketball Control Selected"
-    );
-
-}
+    openFootballLive();
+};
 
 
-function adminSportsVolleyball() {
+window.adminSportsTennis = function () {
 
-    console.log(
-        "🏐 Volleyball Control Selected"
-    );
+    hideAllAdminSportsSections();
 
-}
+    const section =
+        document.getElementById("adminTennisSection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openTennisLive();
+};
 
 
-function adminSportsOthers() {
+window.adminSportsBasketball = function () {
+
+    hideAllAdminSportsSections();
+
+    const section =
+        document.getElementById("adminBasketballSection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openBasketballLive();
+};
+
+
+window.adminSportsVolleyball = function () {
+
+    hideAllAdminSportsSections();
+
+    const section =
+        document.getElementById("adminVolleyballSection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openVolleyballLive();
+};
+
+
+window.adminSportsBoxing = function () {
+
+    hideAllAdminSportsSections();
+
+    const section =
+        document.getElementById("adminBoxingSection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openBoxingLive();
+};
+
+
+window.adminSportsHockey = function () {
+
+    hideAllAdminSportsSections();
+
+    const section =
+        document.getElementById("adminHockeySection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openHockeyLive();
+};
+
+
+window.adminSportsRugby = function () {
+
+    hideAllAdminSportsSections();
+
+    const section =
+        document.getElementById("adminRugbySection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openRugbyLive();
+};
+
+
+window.adminSportsGolf = function () {
+
+    hideAllAdminSportsSections();
+
+    const section =
+        document.getElementById("adminGolfSection");
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    openGolfLive();
+};
+
+
+// Keep existing function
+window.adminSportsOthers = function () {
+
+    hideAllAdminSportsSections();
 
     console.log(
         "🏆 Other Sports Control Selected"
     );
+};
 
+
+// ======================================================
+// GENERIC SPORTS TAB HANDLER
+// ======================================================
+
+function openAdminSportTab(
+    sport,
+    contentClass,
+    gridId,
+    button,
+    status
+) {
+
+    document
+        .querySelectorAll("." + contentClass)
+        .forEach(item => {
+
+            item.style.display = "none";
+
+        });
+
+    const panel =
+        document.getElementById(gridId);
+
+    if (panel) {
+
+        panel.style.display = "grid";
+
+    }
+
+    const buttons =
+        button
+            ? button.parentElement.querySelectorAll("button")
+            : [];
+
+    buttons.forEach(btn => {
+
+        btn.classList.remove("active");
+
+    });
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+    renderAdminSportGames(
+        sport,
+        status
+    );
 }
 
 
@@ -1020,135 +1093,375 @@ function adminSportsOthers() {
 // CRICKET TABS
 // ======================================================
 
-function openCricketLive(btn) {
+window.openCricketLive = function (btn) {
 
-    hideCricketTabs();
-
-
-    const panel =
-        document.getElementById(
-            "cricketLive"
-        );
-
-
-    if (panel) {
-
-        panel.style.display =
-            "block";
-
-    }
-
-
-    setActiveCricketTab(btn);
-
-
-    renderAdminCricketGames(
-        Object.values(
-            window.adminSportsGames
-        )
+    openAdminSportTab(
+        "cricket",
+        "cricket-content",
+        "adminCricketLiveGrid",
+        btn,
+        "live"
     );
-
-}
-
-
-function openCricketUpcoming(btn) {
-
-    hideCricketTabs();
+};
 
 
-    const panel =
-        document.getElementById(
-            "cricketUpcoming"
-        );
+window.openCricketUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "cricket",
+        "cricket-content",
+        "adminCricketUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
 
 
-    if (panel) {
+window.openCricketFeatured = function (btn) {
 
-        panel.style.display =
-            "block";
-
-    }
-
-
-    setActiveCricketTab(btn);
-
-}
-
-
-function openCricketFeatured(btn) {
-
-    hideCricketTabs();
+    openAdminSportTab(
+        "cricket",
+        "cricket-content",
+        "adminCricketFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
 
 
-    const panel =
-        document.getElementById(
-            "cricketFeatured"
-        );
+// ======================================================
+// FOOTBALL TABS
+// ======================================================
+
+window.openFootballLive = function (btn) {
+
+    openAdminSportTab(
+        "football",
+        "football-content",
+        "adminFootballLiveGrid",
+        btn,
+        "live"
+    );
+};
 
 
-    if (panel) {
+window.openFootballUpcoming = function (btn) {
 
-        panel.style.display =
-            "block";
-
-    }
-
-
-    setActiveCricketTab(btn);
-
-}
-
-
-function hideCricketTabs() {
-
-    document.querySelectorAll(
-        ".cricket-content"
-    )
-    .forEach(item => {
-
-        item.style.display =
-            "none";
-
-    });
-
-}
+    openAdminSportTab(
+        "football",
+        "football-content",
+        "adminFootballUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
 
 
-function setActiveCricketTab(btn) {
+window.openFootballFeatured = function (btn) {
 
-    document.querySelectorAll(
-        ".cricket-tabs button"
-    )
-    .forEach(button => {
-
-        button.classList.remove(
-            "active"
-        );
-
-    });
+    openAdminSportTab(
+        "football",
+        "football-content",
+        "adminFootballFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
 
 
-    if (btn) {
+// ======================================================
+// TENNIS TABS
+// ======================================================
 
-        btn.classList.add(
-            "active"
-        );
+window.openTennisLive = function (btn) {
 
-    }
+    openAdminSportTab(
+        "tennis",
+        "tennis-content",
+        "adminTennisLiveGrid",
+        btn,
+        "live"
+    );
+};
 
-}
+
+window.openTennisUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "tennis",
+        "tennis-content",
+        "adminTennisUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openTennisFeatured = function (btn) {
+
+    openAdminSportTab(
+        "tennis",
+        "tennis-content",
+        "adminTennisFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
+
+
+// ======================================================
+// BASKETBALL TABS
+// ======================================================
+
+window.openBasketballLive = function (btn) {
+
+    openAdminSportTab(
+        "basketball",
+        "basketball-content",
+        "adminBasketballLiveGrid",
+        btn,
+        "live"
+    );
+};
+
+
+window.openBasketballUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "basketball",
+        "basketball-content",
+        "adminBasketballUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openBasketballFeatured = function (btn) {
+
+    openAdminSportTab(
+        "basketball",
+        "basketball-content",
+        "adminBasketballFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
+
+
+// ======================================================
+// VOLLEYBALL TABS
+// ======================================================
+
+window.openVolleyballLive = function (btn) {
+
+    openAdminSportTab(
+        "volleyball",
+        "volleyball-content",
+        "adminVolleyballLiveGrid",
+        btn,
+        "live"
+    );
+};
+
+
+window.openVolleyballUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "volleyball",
+        "volleyball-content",
+        "adminVolleyballUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openVolleyballFeatured = function (btn) {
+
+    openAdminSportTab(
+        "volleyball",
+        "volleyball-content",
+        "adminVolleyballFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
+
+
+// ======================================================
+// BOXING TABS
+// ======================================================
+
+window.openBoxingLive = function (btn) {
+
+    openAdminSportTab(
+        "boxing",
+        "boxing-content",
+        "adminBoxingLiveGrid",
+        btn,
+        "live"
+    );
+};
+
+
+window.openBoxingUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "boxing",
+        "boxing-content",
+        "adminBoxingUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openBoxingFeatured = function (btn) {
+
+    openAdminSportTab(
+        "boxing",
+        "boxing-content",
+        "adminBoxingFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
+
+
+// ======================================================
+// HOCKEY TABS
+// ======================================================
+
+window.openHockeyLive = function (btn) {
+
+    openAdminSportTab(
+        "hockey",
+        "hockey-content",
+        "adminHockeyLiveGrid",
+        btn,
+        "live"
+    );
+};
+
+
+window.openHockeyUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "hockey",
+        "hockey-content",
+        "adminHockeyUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openHockeyFeatured = function (btn) {
+
+    openAdminSportTab(
+        "hockey",
+        "hockey-content",
+        "adminHockeyFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
+
+
+// ======================================================
+// RUGBY TABS
+// ======================================================
+
+window.openRugbyLive = function (btn) {
+
+    openAdminSportTab(
+        "rugby",
+        "rugby-content",
+        "adminRugbyLiveGrid",
+        btn,
+        "live"
+    );
+};
+
+
+window.openRugbyUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "rugby",
+        "rugby-content",
+        "adminRugbyUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openRugbyFeatured = function (btn) {
+
+    openAdminSportTab(
+        "rugby",
+        "rugby-content",
+        "adminRugbyFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
+
+
+// ======================================================
+// GOLF TABS
+// ======================================================
+
+window.openGolfLive = function (btn) {
+
+    openAdminSportTab(
+        "golf",
+        "golf-content",
+        "adminGolfLiveGrid",
+        btn,
+        "live"
+    );
+};
+
+
+window.openGolfUpcoming = function (btn) {
+
+    openAdminSportTab(
+        "golf",
+        "golf-content",
+        "adminGolfUpcomingGrid",
+        btn,
+        "upcoming"
+    );
+};
+
+
+window.openGolfFeatured = function (btn) {
+
+    openAdminSportTab(
+        "golf",
+        "golf-content",
+        "adminGolfFeaturedGrid",
+        btn,
+        "featured"
+    );
+};
 
 
 // ======================================================
 // SUPABASE SPORTS GAME LOAD
 // ======================================================
 
-async function loadAdminSportsGames() {
+window.adminSportsGames = {};
+
+
+window.loadAdminSportsGames =
+async function () {
 
     console.log(
         "🔄 ADMIN: Loading sports games from Supabase..."
     );
-
 
     if (
         typeof supabaseClient ===
@@ -1160,9 +1473,7 @@ async function loadAdminSportsGames() {
         );
 
         return false;
-
     }
-
 
     const {
         data,
@@ -1177,18 +1488,15 @@ async function loadAdminSportsGames() {
             }
         );
 
-
     console.log(
         "📦 ADMIN SUPABASE DATA:",
         data
     );
 
-
     console.log(
         "📦 ADMIN SUPABASE ERROR:",
         error
     );
-
 
     if (error) {
 
@@ -1198,13 +1506,9 @@ async function loadAdminSportsGames() {
         );
 
         return false;
-
     }
 
-
-    window.adminSportsGames =
-        {};
-
+    window.adminSportsGames = {};
 
     if (
         !data ||
@@ -1215,159 +1519,234 @@ async function loadAdminSportsGames() {
             "⚠️ ADMIN: No sports games found."
         );
 
-
-        renderAdminCricketGames(
-            []
-        );
-
-
         return true;
-
     }
 
+    data.forEach(game => {
 
-    data.forEach(
-        (game, index) => {
+        if (!game.game_id) return;
 
-            console.log(
-                `🎮 ADMIN GAME ${index + 1}:`,
-                game
-            );
+        window.adminSportsGames[
+            game.game_id
+        ] = game;
 
-
-            console.log(
-                `🆔 ADMIN GAME ID ${index + 1}:`,
-                game.game_id
-            );
-
-
-            window.adminSportsGames[
-                game.game_id
-            ] = game;
-
-        }
-    );
-
+    });
 
     console.log(
         "🗂️ ADMIN SPORTS CACHE:",
         window.adminSportsGames
     );
 
-
-    renderAdminCricketGames(
-        data
+    renderAdminSportGames(
+        "cricket",
+        "live"
     );
 
-
     return true;
-
-}
+};
 
 
 // ======================================================
-// RENDER CRICKET GAMES
+// GENERIC SPORTS GAME RENDERER
 // ======================================================
 
-function renderAdminCricketGames(
-    games
+function renderAdminSportGames(
+    sport,
+    status
 ) {
 
-    const grid =
-        document.getElementById(
-            "adminCricketLiveGrid"
+    const sportName =
+        String(sport || "")
+            .toLowerCase();
+
+    const statusName =
+        String(status || "")
+            .toLowerCase();
+
+    const gridMap = {
+
+        cricket: {
+            live: "adminCricketLiveGrid",
+            upcoming: "adminCricketUpcomingGrid",
+            featured: "adminCricketFeaturedGrid"
+        },
+
+        football: {
+            live: "adminFootballLiveGrid",
+            upcoming: "adminFootballUpcomingGrid",
+            featured: "adminFootballFeaturedGrid"
+        },
+
+        tennis: {
+            live: "adminTennisLiveGrid",
+            upcoming: "adminTennisUpcomingGrid",
+            featured: "adminTennisFeaturedGrid"
+        },
+
+        basketball: {
+            live: "adminBasketballLiveGrid",
+            upcoming: "adminBasketballUpcomingGrid",
+            featured: "adminBasketballFeaturedGrid"
+        },
+
+        volleyball: {
+            live: "adminVolleyballLiveGrid",
+            upcoming: "adminVolleyballUpcomingGrid",
+            featured: "adminVolleyballFeaturedGrid"
+        },
+
+        boxing: {
+            live: "adminBoxingLiveGrid",
+            upcoming: "adminBoxingUpcomingGrid",
+            featured: "adminBoxingFeaturedGrid"
+        },
+
+        hockey: {
+            live: "adminHockeyLiveGrid",
+            upcoming: "adminHockeyUpcomingGrid",
+            featured: "adminHockeyFeaturedGrid"
+        },
+
+        rugby: {
+            live: "adminRugbyLiveGrid",
+            upcoming: "adminRugbyUpcomingGrid",
+            featured: "adminRugbyFeaturedGrid"
+        },
+
+        golf: {
+            live: "adminGolfLiveGrid",
+            upcoming: "adminGolfUpcomingGrid",
+            featured: "adminGolfFeaturedGrid"
+        }
+
+    };
+
+    const gridId =
+        gridMap[sportName]?.[statusName];
+
+    if (!gridId) {
+
+        console.warn(
+            "⚠️ ADMIN: Grid not found for:",
+            sportName,
+            statusName
         );
 
+        return;
+    }
+
+    const grid =
+        document.getElementById(gridId);
 
     if (!grid) {
 
         console.warn(
-            "⚠️ ADMIN: adminCricketLiveGrid not found."
+            "⚠️ ADMIN: Grid element not found:",
+            gridId
         );
 
         return;
-
     }
 
+    const games =
+        Object.values(
+            window.adminSportsGames || {}
+        )
+        .filter(game => {
 
-    const cricketGames =
-        (games || []).filter(
-            game => {
+            return (
+                String(game.sport || "")
+                    .toLowerCase() === sportName
+                &&
+                String(game.status || "")
+                    .toLowerCase() === statusName
+            );
 
-                return String(
-                    game.sport || ""
-                )
-                .toLowerCase() ===
-                "cricket";
+        })
+        .sort((a, b) => {
 
-            }
-        );
+            return String(a.game_id)
+                .localeCompare(
+                    String(b.game_id),
+                    undefined,
+                    {
+                        numeric: true
+                    }
+                );
 
+        });
 
-    if (
-        cricketGames.length === 0
-    ) {
+    if (games.length === 0) {
 
-        grid.innerHTML = `
-            <p>
-                No Cricket Games Available
-            </p>
-        `;
+        grid.innerHTML =
+            `<p class="no-sports-games">
+                No ${sportName} ${statusName} games available.
+            </p>`;
 
         return;
-
     }
-
 
     grid.innerHTML =
-        cricketGames
-        .map(
-            game =>
-                createAdminCricketCard(
-                    game
-                )
-        )
-        .join("");
-
+        games
+            .map(game =>
+                createAdminSportsCard(game)
+            )
+            .join("");
 }
 
 
 // ======================================================
-// CREATE CRICKET CARD
+// KEEP EXISTING CRICKET RENDER FUNCTION
 // ======================================================
 
-function createAdminCricketCard(
-    game
-) {
+function renderAdminCricketGames(games) {
+
+    const allGames =
+        games ||
+        Object.values(
+            window.adminSportsGames || {}
+        );
+
+    const cricketGames =
+        allGames.filter(game => {
+
+            return String(game.sport || "")
+                .toLowerCase() === "cricket";
+
+        });
+
+    renderAdminSportGames(
+        "cricket",
+        "live"
+    );
+}
+
+
+// ======================================================
+// CREATE ADMIN SPORTS CARD
+// ======================================================
+
+function createAdminSportsCard(game) {
 
     const totalRuns =
         game.total_runs_enabled !== false;
 
-
     const overUnder =
         game.over_under_enabled !== false;
-
 
     const matchWinner =
         game.match_winner_enabled !== false;
 
-
     return `
-
         <div
             class="match-card"
-            data-game-id="${escapeAdminSportsHTML(
-                game.game_id
-            )}"
+            data-game-id="${escapeAdminSportsHTML(game.game_id)}"
         >
 
             <div class="admin-game-id">
                 ID:
-                ${escapeAdminSportsHTML(
-                    game.game_id
-                )}
+                ${escapeAdminSportsHTML(game.game_id)}
             </div>
-
 
             <h5>
                 ${escapeAdminSportsHTML(
@@ -1375,16 +1754,13 @@ function createAdminCricketCard(
                 )}
             </h5>
 
-
             <p class="admin-match-title">
 
                 ${escapeAdminSportsHTML(
                     game.home_team || ""
                 )}
 
-                <strong>
-                    VS
-                </strong>
+                <strong>VS</strong>
 
                 ${escapeAdminSportsHTML(
                     game.away_team || ""
@@ -1392,26 +1768,18 @@ function createAdminCricketCard(
 
             </p>
 
-
             <p>
-
                 Status:
-
                 <strong class="admin-game-status">
-
                     ${escapeAdminSportsHTML(
                         game.status || ""
                     )}
-
                 </strong>
-
             </p>
-
 
             <div class="market-list">
 
                 <div>
-
                     Total Runs
 
                     <button
@@ -1422,26 +1790,16 @@ function createAdminCricketCard(
                                 : "market-off"
                         }"
                         onclick="toggleAdminMarket(
-                            '${escapeAdminSportsJS(
-                                game.game_id
-                            )}',
+                            '${escapeAdminSportsJS(game.game_id)}',
                             'total_runs_enabled'
                         )"
                     >
-
-                        ${
-                            totalRuns
-                                ? "ON"
-                                : "OFF"
-                        }
-
+                        ${totalRuns ? "ON" : "OFF"}
                     </button>
-
                 </div>
 
 
                 <div>
-
                     Over / Under
 
                     <button
@@ -1452,26 +1810,16 @@ function createAdminCricketCard(
                                 : "market-off"
                         }"
                         onclick="toggleAdminMarket(
-                            '${escapeAdminSportsJS(
-                                game.game_id
-                            )}',
+                            '${escapeAdminSportsJS(game.game_id)}',
                             'over_under_enabled'
                         )"
                     >
-
-                        ${
-                            overUnder
-                                ? "ON"
-                                : "OFF"
-                        }
-
+                        ${overUnder ? "ON" : "OFF"}
                     </button>
-
                 </div>
 
 
                 <div>
-
                     Match Winner
 
                     <button
@@ -1482,21 +1830,12 @@ function createAdminCricketCard(
                                 : "market-off"
                         }"
                         onclick="toggleAdminMarket(
-                            '${escapeAdminSportsJS(
-                                game.game_id
-                            )}',
+                            '${escapeAdminSportsJS(game.game_id)}',
                             'match_winner_enabled'
                         )"
                     >
-
-                        ${
-                            matchWinner
-                                ? "ON"
-                                : "OFF"
-                        }
-
+                        ${matchWinner ? "ON" : "OFF"}
                     </button>
-
                 </div>
 
             </div>
@@ -1506,21 +1845,133 @@ function createAdminCricketCard(
                 type="button"
                 class="admin-edit-match-btn"
                 onclick="openSportsGameEditor(
-                    '${escapeAdminSportsJS(
-                        game.game_id
-                    )}'
+                    '${escapeAdminSportsJS(game.game_id)}'
                 )"
             >
-
                 ✏️ Edit Match
-
             </button>
 
         </div>
-
     `;
+}
+
+
+// ======================================================
+// BACKWARD COMPATIBILITY
+// ======================================================
+
+function createAdminCricketCard(game) {
+
+    return createAdminSportsCard(game);
 
 }
+
+
+// ======================================================
+// TOGGLE SPORTS MARKET
+// ======================================================
+
+window.toggleAdminMarket =
+async function (
+    gameId,
+    field
+) {
+
+    const game =
+        window.adminSportsGames[
+            gameId
+        ];
+
+    if (!game) {
+
+        console.error(
+            "❌ ADMIN: Game not found:",
+            gameId
+        );
+
+        return;
+    }
+
+    const allowedFields = [
+
+        "total_runs_enabled",
+
+        "over_under_enabled",
+
+        "match_winner_enabled"
+
+    ];
+
+    if (
+        !allowedFields.includes(field)
+    ) {
+
+        console.error(
+            "❌ ADMIN: Invalid market field:",
+            field
+        );
+
+        return;
+    }
+
+    const newValue =
+        game[field] === false;
+
+    console.log(
+        "🔄 ADMIN: Toggle market:",
+        gameId,
+        field,
+        newValue
+    );
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("sports_games")
+        .update({
+            [field]: newValue
+        })
+        .eq(
+            "game_id",
+            gameId
+        )
+        .select()
+        .single();
+
+    if (error) {
+
+        console.error(
+            "❌ ADMIN: Market update failed:",
+            error
+        );
+
+        alert(
+            "Failed to update market.\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    window.adminSportsGames[
+        gameId
+    ] = data;
+
+    const sport =
+        String(data.sport || "")
+            .toLowerCase();
+
+    const status =
+        String(data.status || "")
+            .toLowerCase();
+
+    renderAdminSportGames(
+        sport,
+        status
+    );
+
+};
 
 
 // ======================================================
@@ -1535,12 +1986,10 @@ function (gameId) {
         gameId
     );
 
-
     const game =
         window.adminSportsGames[
             gameId
         ];
-
 
     if (!game) {
 
@@ -1554,57 +2003,47 @@ function (gameId) {
         );
 
         return;
-
     }
-
 
     const gameIdInput =
         document.getElementById(
             "editSportsGameId"
         );
 
-
     const titleInput =
         document.getElementById(
             "editSportsGameTitle"
         );
-
 
     const leagueInput =
         document.getElementById(
             "editSportsGameLeague"
         );
 
-
     const statusInput =
         document.getElementById(
             "editSportsGameStatus"
         );
-
 
     const homeInput =
         document.getElementById(
             "editSportsGameHome"
         );
 
-
     const awayInput =
         document.getElementById(
             "editSportsGameAway"
         );
-
 
     const totalRunsInput =
         document.getElementById(
             "editTotalRuns"
         );
 
-
     const overUnderInput =
         document.getElementById(
             "editOverUnder"
         );
-
 
     const matchWinnerInput =
         document.getElementById(
@@ -1613,74 +2052,50 @@ function (gameId) {
 
 
     if (gameIdInput) {
-
         gameIdInput.value =
             game.game_id || "";
-
     }
-
 
     if (titleInput) {
-
         titleInput.value =
             game.title || "";
-
     }
-
 
     if (leagueInput) {
-
         leagueInput.value =
             game.league || "";
-
     }
-
 
     if (statusInput) {
-
         statusInput.value =
-            game.status || "LIVE";
-
+            String(
+                game.status || "LIVE"
+            ).toUpperCase();
     }
-
 
     if (homeInput) {
-
         homeInput.value =
             game.home_team || "";
-
     }
-
 
     if (awayInput) {
-
         awayInput.value =
             game.away_team || "";
-
     }
-
 
     if (totalRunsInput) {
-
         totalRunsInput.checked =
             game.total_runs_enabled !== false;
-
     }
-
 
     if (overUnderInput) {
-
         overUnderInput.checked =
             game.over_under_enabled !== false;
-
     }
 
-
     if (matchWinnerInput) {
-
         matchWinnerInput.checked =
             game.match_winner_enabled !== false;
-
     }
 
 
@@ -1692,7 +2107,6 @@ function (gameId) {
         document.getElementById(
             "sportsGameEditModal"
         );
-
 
     if (modal) {
 
@@ -1716,14 +2130,12 @@ function () {
             "sportsGameEditModal"
         );
 
-
     if (modal) {
 
         modal.style.display =
             "none";
 
     }
-
 
     window.activeSportsGameId =
         null;
@@ -1743,12 +2155,10 @@ async function () {
             "editSportsGameId"
         );
 
-
     const gameId =
         gameIdInput
             ? gameIdInput.value.trim()
             : "";
-
 
     if (!gameId) {
 
@@ -1757,7 +2167,6 @@ async function () {
         );
 
         return;
-
     }
 
 
@@ -1766,42 +2175,35 @@ async function () {
             "editSportsGameTitle"
         );
 
-
     const leagueInput =
         document.getElementById(
             "editSportsGameLeague"
         );
-
 
     const statusInput =
         document.getElementById(
             "editSportsGameStatus"
         );
 
-
     const homeInput =
         document.getElementById(
             "editSportsGameHome"
         );
-
 
     const awayInput =
         document.getElementById(
             "editSportsGameAway"
         );
 
-
     const totalRunsInput =
         document.getElementById(
             "editTotalRuns"
         );
 
-
     const overUnderInput =
         document.getElementById(
             "editOverUnder"
         );
-
 
     const matchWinnerInput =
         document.getElementById(
@@ -1816,42 +2218,35 @@ async function () {
                 ? titleInput.value.trim()
                 : "",
 
-
         league:
             leagueInput
                 ? leagueInput.value.trim()
                 : "",
 
-
         status:
             statusInput
-                ? statusInput.value
-                : "LIVE",
-
+                ? statusInput.value.toLowerCase()
+                : "live",
 
         home_team:
             homeInput
                 ? homeInput.value.trim()
                 : "",
 
-
         away_team:
             awayInput
                 ? awayInput.value.trim()
                 : "",
-
 
         total_runs_enabled:
             totalRunsInput
                 ? totalRunsInput.checked
                 : true,
 
-
         over_under_enabled:
             overUnderInput
                 ? overUnderInput.checked
                 : true,
-
 
         match_winner_enabled:
             matchWinnerInput
@@ -1873,15 +2268,7 @@ async function () {
         );
 
         return;
-
     }
-
-
-    console.log(
-        "💾 ADMIN: Updating game:",
-        gameId,
-        updatedGame
-    );
 
 
     if (
@@ -1898,8 +2285,14 @@ async function () {
         );
 
         return;
-
     }
+
+
+    console.log(
+        "💾 ADMIN: Updating game:",
+        gameId,
+        updatedGame
+    );
 
 
     const {
@@ -1923,15 +2316,12 @@ async function () {
             error
         );
 
-
         alert(
             "Failed to update match.\n\n" +
             error.message
         );
 
-
         return;
-
     }
 
 
@@ -1949,10 +2339,11 @@ async function () {
     closeSportsGameEditor();
 
 
-    renderAdminCricketGames(
-        Object.values(
-            window.adminSportsGames
-        )
+    renderAdminSportGames(
+        String(data.sport || "")
+            .toLowerCase(),
+        String(data.status || "")
+            .toLowerCase()
     );
 
 
@@ -1964,187 +2355,54 @@ async function () {
 
 
 // ======================================================
-// TOGGLE MARKET
-// ======================================================
-
-window.toggleAdminMarket =
-async function (
-    gameId,
-    column
-) {
-
-    const allowedColumns = [
-
-        "total_runs_enabled",
-
-        "over_under_enabled",
-
-        "match_winner_enabled"
-
-    ];
-
-
-    if (
-        !allowedColumns.includes(
-            column
-        )
-    ) {
-
-        console.error(
-            "❌ ADMIN: Invalid market column:",
-            column
-        );
-
-        return;
-
-    }
-
-
-    const game =
-        window.adminSportsGames[
-            gameId
-        ];
-
-
-    if (!game) {
-
-        console.error(
-            "❌ ADMIN: Game not found:",
-            gameId
-        );
-
-        return;
-
-    }
-
-
-    const newValue =
-        game[column] === false;
-
-
-    console.log(
-        "🔄 ADMIN: Market update:",
-        gameId,
-        column,
-        newValue
-    );
-
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("sports_games")
-        .update({
-            [column]: newValue
-        })
-        .eq(
-            "game_id",
-            gameId
-        )
-        .select()
-        .single();
-
-
-    if (error) {
-
-        console.error(
-            "❌ ADMIN: Market update failed:",
-            error
-        );
-
-
-        alert(
-            "Failed to update market.\n\n" +
-            error.message
-        );
-
-
-        return;
-
-    }
-
-
-    window.adminSportsGames[
-        gameId
-    ] = data;
-
-
-    renderAdminCricketGames(
-        Object.values(
-            window.adminSportsGames
-        )
-    );
-
-};
-
-
-// ======================================================
 // HTML ESCAPE
 // ======================================================
 
-function escapeAdminSportsHTML(
-    value
-) {
+function escapeAdminSportsHTML(value) {
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAdminSportsJS(value) {
+
+    return String(value ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r");
 
 }
 
 
 // ======================================================
-// JAVASCRIPT STRING ESCAPE
+// OPTIONAL AUTO LOAD
 // ======================================================
 
-function escapeAdminSportsJS(
-    value
+if (
+    document.readyState ===
+    "loading"
 ) {
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-    .replace(
-        /'/g,
-        "\\'"
-    )
-    .replace(
-        /"/g,
-        '\\"'
-    )
-    .replace(
-        /\r/g,
-        "\\r"
-    )
-    .replace(
-        /\n/g,
-        "\\n"
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadAdminSportsGames();
+
+        }
     );
+
+} else {
+
+    loadAdminSportsGames();
 
 }
 
