@@ -1095,7 +1095,6 @@ function openAdminSportTab(
 
 window.openCricketLive = async function (btn) {
 
-    hideCricketTabs();
 
     setActiveCricketTab(btn);
 
@@ -1113,7 +1112,7 @@ window.openCricketLive = async function (btn) {
 
 window.openCricketUpcoming = async function (btn) {
 
-    hideCricketTabs();
+    
 
     setActiveCricketTab(btn);
 
@@ -1131,7 +1130,7 @@ window.openCricketUpcoming = async function (btn) {
 
 window.openCricketFeatured = async function (btn) {
 
-    hideCricketTabs();
+    
 
     setActiveCricketTab(btn);
 
