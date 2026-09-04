@@ -2572,7 +2572,9 @@
         </div>
     </div>
 
-<!-- Sports Sub Categories -->
+<!-- ==========================================
+     SPORTS SUB CATEGORIES
+========================================== -->
 
 <div class="subcat-header-row">
 
@@ -2593,7 +2595,7 @@
 
 <div class="subcat-grid" id="sportsSubcatGrid">
 
-    <!-- Row 1 -->
+    <!-- Cricket -->
 
     <div class="subcat-item"
          onclick="selectSubCategory('cricket-events-page', this)">
@@ -2604,6 +2606,8 @@
     </div>
 
 
+    <!-- Football -->
+
     <div class="subcat-item"
          onclick="selectSubCategory('football-events-page', this)">
 
@@ -2612,6 +2616,8 @@
 
     </div>
 
+
+    <!-- Basketball -->
 
     <div class="subcat-item"
          onclick="selectSubCategory('basketball-events-page', this)">
@@ -2622,6 +2628,8 @@
     </div>
 
 
+    <!-- Tennis -->
+
     <div class="subcat-item"
          onclick="selectSubCategory('tennis-events-page', this)">
 
@@ -2630,6 +2638,8 @@
 
     </div>
 
+
+    <!-- Volleyball -->
 
     <div class="subcat-item"
          onclick="selectSubCategory('volleyball-events-page', this)">
@@ -2640,6 +2650,8 @@
     </div>
 
 
+    <!-- Boxing -->
+
     <div class="subcat-item"
          onclick="selectSubCategory('boxing-events-page', this)">
 
@@ -2649,7 +2661,7 @@
     </div>
 
 
-    <!-- Row 2 -->
+    <!-- Hockey -->
 
     <div class="subcat-item"
          onclick="selectSubCategory('hockey-events-page', this)">
@@ -2660,6 +2672,8 @@
     </div>
 
 
+    <!-- Rugby -->
+
     <div class="subcat-item"
          onclick="selectSubCategory('rugby-events-page', this)">
 
@@ -2668,6 +2682,8 @@
 
     </div>
 
+
+    <!-- Golf -->
 
     <div class="subcat-item"
          onclick="selectSubCategory('golf-events-page', this)">
@@ -2678,7 +2694,7 @@
     </div>
 
 
-    <!-- Default Trending -->
+    <!-- Trending -->
 
     <div class="subcat-item"
          onclick="selectSubCategory('sports-trending-page', this)">
@@ -2691,11 +2707,13 @@
 </div>
 
 
-  <!-- ==========================================
-     TRENDING EVENTS PAGE
+
+<!-- ==========================================
+     SPORTS TRENDING PAGE
 ========================================== -->
 
-<div id="sports-trending-page">
+<div id="sports-trending-page"
+     style="display:none;">
 
     <div class="sports-page-header">
 
@@ -2714,331 +2732,135 @@
     </div>
 
 
-    <!-- =========================
-         TRENDING LIVE EVENTS
-    ========================== -->
-
     <div class="sports-section">
 
         <div class="sports-section-title">
             🔥 Live Now
         </div>
-        <!-- Cricket -->
-        <div class="sports-league-item">
 
-            <div class="league-header"
-                 onclick="openMatch('cricket-live-1')">
-
-                <div class="league-name">
-                    🏏 Bangladesh vs India
-                </div>
-
-                <span class="live-badge">
-                    <span class="live-dot"></span>
-                    LIVE
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Football -->
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('football-live-1')">
-
-                <div class="league-name">
-                    ⚽ Real Madrid vs Barcelona
-                </div>
-
-                <span class="live-badge">
-                    <span class="live-dot"></span>
-                    LIVE
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Basketball -->
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('basketball-live-1')">
-
-                <div class="league-name">
-                    🏀 Lakers vs Celtics
-                </div>
-
-                <span class="live-badge">
-                    <span class="live-dot"></span>
-                    LIVE
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Volleyball -->
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('volleyball-live-1')">
-
-                <div class="league-name">
-                    🏐 Brazil vs Italy
-                </div>
-
-                <span class="live-badge">
-                    <span class="live-dot"></span>
-                    LIVE
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Tennis -->
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('tennis-live-1')">
-
-                <div class="league-name">
-                    🎾 ATP World Tour Finals
-                </div>
-
-                <span class="live-badge">
-                    <span class="live-dot"></span>
-                    LIVE
-                </span>
-
-            </div>
-
-        </div>
+        <div id="sports-trending-content"></div>
 
     </div>
 
 </div>
-    <!-- ===== END TRENDING  ===== -->
 
-    <!-- ==========================================
+
+
+<!-- ==========================================
      SPORTS FULL GAME VIEW
 ========================================== -->
 
-<div id="sports-game-page" style="display:none;">
+<div id="sports-game-page"
+     style="display:none;">
+
     <div class="sports-game-view">
 
-    <div class="sports-page-header">
+        <div class="sports-page-header">
 
-        <button class="sports-back-btn"
-                onclick="backFromSportsGame()">
+            <button class="sports-back-btn"
+                    onclick="backFromSportsGame()">
 
-            ← Back
+                ← Back
 
-        </button>
+            </button>
 
-        <div class="sports-page-title"
-             id="sports-game-title">
+            <div class="sports-page-title"
+                 id="sports-game-title">
 
-            🏏 Cricket
+                🏏 Cricket
+
+            </div>
 
         </div>
 
-    </div>
 
-
-    <div id="sports-game-content">
+        <div id="sports-game-content"></div>
 
     </div>
 
 </div>
-    </div>
 
 
 
-     <!-- =========================
-         CRICKET EVENTS HEADER
-    ========================== -->
-   
-<div id="cricket-events-page" style="display:none;">
-
-   
-
-    <div class="sports-page-header">
-
-        <button class="sports-back-btn"
-                onclick="backToTrending()">
-
-            ← Back
-
-        </button>
-
-        <div class="sports-page-title">
-
-            🏏 Cricket Events
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         LIVE EVENTS
-    ========================== -->
-
-    <div class="sports-section">
-
-        <div class="sports-section-title">
-
-            🔴 Live Events
-
-        </div>
-
-
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openSportsGame('cricket', 'cricket-live-1')">
-
-                <div class="league-name">
-
-                    Bangladesh vs India
-
-                </div>
-
-                <span class="event-live">
-
-                    ● LIVE
-
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openSportsGame('cricket', 'cricket-live-2')">
-
-                <div class="league-name">
-
-                    Australia vs Pakistan
-
-                </div>
-
-                <span class="event-live">
-
-                    ● LIVE
-
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         UPCOMING EVENTS
-    ========================== -->
-
-    <div class="sports-section">
-
-        <div class="sports-section-title">
-
-            🟡 Upcoming Events
-
-        </div>
-
-
-        <div class="sports-league-item">
-
-            <div class="league-header">
-
-                <div class="league-name">
-
-                    England vs New Zealand
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="sports-league-item">
-
-            <div class="league-header">
-
-                <div class="league-name">
-
-                    South Africa vs Sri Lanka
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-        
-    <!--  END CRICKET EVENTS FULL PAGE VIEW== -->
-
-     <!-- =========================
-         CRICKET EVENTS HEADER
-    ========================== -->
-   
-<div id="cricket-events-page" style="display:none;">
-
-   
-
-    <div class="sports-page-header">
-
-        <button class="sports-back-btn"
-                onclick="backToTrending()">
-
-            ← Back
-
-        </button>
-
-        <div class="sports-page-title">
-
-            🏏 Cricket Events
-
-        </div>
-
-    </div>
-    </div>   <!-- ✅ ক্রিকেট এখানেই শেষ -->
-
-
-    
-<!-- ============================================
-     END MATCH FULL PAGE TEMPLATE
-     ============================================ -->
-
-   <!-- ==========================================
-     FOOTBALL EVENTS
+<!-- ==========================================
+     CRICKET EVENTS PAGE
 ========================================== -->
 
-<div id="football-events-page" style="display:none;">
+<div id="cricket-events-page"
+     style="display:none;">
 
-    <!-- Header -->
     <div class="sports-page-header">
 
         <button class="sports-back-btn"
                 onclick="backToTrending()">
+
             ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🏏 Cricket Events
+        </div>
+
+    </div>
+
+
+    <!-- LIVE -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="cricket-live-events"></div>
+
+    </div>
+
+
+    <!-- UPCOMING -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="cricket-upcoming-events"></div>
+
+    </div>
+
+
+    <!-- FEATURED -->
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="cricket-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     FOOTBALL EVENTS PAGE
+========================================== -->
+
+<div id="football-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
         </button>
 
         <div class="sports-page-title">
@@ -3048,56 +2870,16 @@
     </div>
 
 
-    <!-- =========================
-         LIVE EVENTS
-    ========================== -->
-
     <div class="sports-section">
 
         <div class="sports-section-title">
             🔴 Live Events
         </div>
 
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('football-live-1')">
-
-                <div class="league-name">
-                    Real Madrid vs Barcelona
-                </div>
-
-                <span class="event-live">
-                    ● LIVE
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('football-live-2')">
-
-                <div class="league-name">
-                    Manchester City vs Liverpool
-                </div>
-
-                <span class="event-live">
-                    ● LIVE
-                </span>
-
-            </div>
-
-        </div>
+        <div id="football-live-events"></div>
 
     </div>
 
-
-    <!-- =========================
-         UPCOMING EVENTS
-    ========================== -->
 
     <div class="sports-section">
 
@@ -3105,38 +2887,10 @@
             🟡 Upcoming Events
         </div>
 
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('football-upcoming-1')">
-
-                <div class="league-name">
-                    Arsenal vs Chelsea
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="sports-league-item">
-
-            <div class="league-header"
-                 onclick="openMatch('football-upcoming-2')">
-
-                <div class="league-name">
-                    Bayern Munich vs Dortmund
-                </div>
-
-            </div>
-
-        </div>
+        <div id="football-upcoming-events"></div>
 
     </div>
 
-
-    <!-- =========================
-         FEATURED EVENTS
-    ========================== -->
 
     <div class="sports-section">
 
@@ -3144,42 +2898,440 @@
             ⭐ Featured Events
         </div>
 
-        <div class="sports-league-item">
+        <div id="football-featured-events"></div>
 
-            <div class="league-header"
-                 onclick="openMatch('football-featured-1')">
+    </div>
 
-                <div class="league-name">
-                    UEFA Champions League
-                </div>
+</div>
 
-            </div>
 
-        </div>
 
-        <div class="sports-league-item">
+<!-- ==========================================
+     BASKETBALL EVENTS PAGE
+========================================== -->
 
-            <div class="league-header"
-                 onclick="openMatch('football-featured-2')">
+<div id="basketball-events-page"
+     style="display:none;">
 
-                <div class="league-name">
-                    FIFA Club World Cup
-                </div>
+    <div class="sports-page-header">
 
-            </div>
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
 
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🏀 Basketball Events
         </div>
 
     </div>
 
-</div> 
-    
 
-    <!-- Casino Games --> 
-   
-</section> 
-     </div>
-    <!-- ===== MEMBER CONTENT END ===== -->
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="basketball-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="basketball-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="basketball-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     TENNIS EVENTS PAGE
+========================================== -->
+
+<div id="tennis-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🎾 Tennis Events
+        </div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="tennis-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="tennis-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="tennis-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     VOLLEYBALL EVENTS PAGE
+========================================== -->
+
+<div id="volleyball-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🏐 Volleyball Events
+        </div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="volleyball-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="volleyball-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="volleyball-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     BOXING EVENTS PAGE
+========================================== -->
+
+<div id="boxing-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🥊 Boxing Events
+        </div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="boxing-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="boxing-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="boxing-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     HOCKEY EVENTS PAGE
+========================================== -->
+
+<div id="hockey-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🏒 Hockey Events
+        </div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="hockey-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="hockey-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="hockey-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     RUGBY EVENTS PAGE
+========================================== -->
+
+<div id="rugby-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            🏉 Rugby Events
+        </div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="rugby-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="rugby-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="rugby-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     GOLF EVENTS PAGE
+========================================== -->
+
+<div id="golf-events-page"
+     style="display:none;">
+
+    <div class="sports-page-header">
+
+        <button class="sports-back-btn"
+                onclick="backToTrending()">
+
+            ← Back
+
+        </button>
+
+        <div class="sports-page-title">
+            ⛳ Golf Events
+        </div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🔴 Live Events
+        </div>
+
+        <div id="golf-live-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            🟡 Upcoming Events
+        </div>
+
+        <div id="golf-upcoming-events"></div>
+
+    </div>
+
+
+    <div class="sports-section">
+
+        <div class="sports-section-title">
+            ⭐ Featured Events
+        </div>
+
+        <div id="golf-featured-events"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     CASINO GAMES
+     
+     Casino section remains separate.
+     Existing Casino HTML goes here.
+========================================== -->
+
+
+<!-- ===== MEMBER CONTENT END ===== -->
+
+</section>
+</div>
+<!-- ===== MEMBER CONTENT END ===== -->
 
     
   <!-- ===== 5. RECENT WINNERS (Sliding Cards) ===== -->
