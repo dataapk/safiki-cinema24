@@ -1873,15 +1873,14 @@ function renderAdminCricketGames(games) {
         }
 
 
-        grid.innerHTML =
-            gamesForStatus
-                .map(game =>
-                    createAdminSportsCard(game)
-                )
-                .join("");
+grid.innerHTML =
+    gamesForStatus
+        .map(game =>
+            createAdminSportsCard(game)
+        )
+        .join("");
 
-    });
-}     .join("");
+});
 }
 
 
