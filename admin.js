@@ -1524,22 +1524,30 @@ window.loadAdminSportsGames = async function () {
         return true;
     }
 
-    data.forEach(game => {
+data.forEach(game => {
 
-        if (!game.game_id) return;
+    if (!game.game_id) return;
 
-        window.adminSportsGames[
-            game.game_id
-        ] = game;
+    window.adminSportsGames[
+        game.game_id
+    ] = game;
 
-    });
+});
 
-    window.adminSportsGamesLoaded = true;
 
-    console.log(
-        "🗂️ ADMIN SPORTS CACHE:",
-        window.adminSportsGames
-    );
+console.log(
+    "🏏 ADMIN GAME CHECK:",
+    window.adminSportsGames["cricket-live-1"]?.sport,
+    window.adminSportsGames["cricket-live-1"]?.status
+);
+
+
+window.adminSportsGamesLoaded = true;
+
+console.log(
+    "🗂️ ADMIN SPORTS CACHE:",
+    window.adminSportsGames
+);
 
     // ------------------------------------------
     // INITIAL CRICKET LIVE RENDER
