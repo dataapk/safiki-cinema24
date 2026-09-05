@@ -2829,116 +2829,151 @@ function createAdminSportsCard(game) {
     const matchWinner =
         game.match_winner_enabled !== false;
 
+    const matchStatus =
+        String(game.match_status || "enable")
+            .trim()
+            .toLowerCase();
+
     return `
         <div
             class="match-card"
             data-game-id="${escapeAdminSportsHTML(game.game_id)}"
         >
 
-            <div class="admin-game-id">
-                ID:
-                ${escapeAdminSportsHTML(game.game_id)}
+            <div class="admin-match-main">
+
+                <div class="admin-game-id">
+                    ID:
+                    ${escapeAdminSportsHTML(game.game_id)}
+                </div>
+
+                <div class="admin-match-info">
+
+                    <h5>
+                        ${escapeAdminSportsHTML(
+                            game.league || ""
+                        )}
+                    </h5>
+
+                    <p class="admin-match-title">
+
+                        ${escapeAdminSportsHTML(
+                            game.home_team || ""
+                        )}
+
+                        <strong>VS</strong>
+
+                        ${escapeAdminSportsHTML(
+                            game.away_team || ""
+                        )}
+
+                    </p>
+
+                </div>
+
+
+                <div class="admin-match-status-area">
+
+                    <div>
+                        Status:
+                        <strong class="admin-game-status">
+                            ${escapeAdminSportsHTML(
+                                game.status || ""
+                            )}
+                        </strong>
+                    </div>
+
+                    <div>
+                        Match Status:
+                        <strong class="admin-game-match-status">
+                            ${escapeAdminSportsHTML(
+                                matchStatus
+                            )}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="market-list">
+
+                    <div>
+                        Total Runs
+
+                        <button
+                            type="button"
+                            class="${
+                                totalRuns
+                                    ? "market-on"
+                                    : "market-off"
+                            }"
+                            onclick="toggleAdminMarket(
+                                '${escapeAdminSportsJS(game.game_id)}',
+                                'total_runs_enabled'
+                            )"
+                        >
+                            ${totalRuns ? "ON" : "OFF"}
+                        </button>
+                    </div>
+
+
+                    <div>
+                        Over / Under
+
+                        <button
+                            type="button"
+                            class="${
+                                overUnder
+                                    ? "market-on"
+                                    : "market-off"
+                            }"
+                            onclick="toggleAdminMarket(
+                                '${escapeAdminSportsJS(game.game_id)}',
+                                'over_under_enabled'
+                            )"
+                        >
+                            ${overUnder ? "ON" : "OFF"}
+                        </button>
+                    </div>
+
+
+                    <div>
+                        Match Winner
+
+                        <button
+                            type="button"
+                            class="${
+                                matchWinner
+                                    ? "market-on"
+                                    : "market-off"
+                            }"
+                            onclick="toggleAdminMarket(
+                                '${escapeAdminSportsJS(game.game_id)}',
+                                'match_winner_enabled'
+                            )"
+                        >
+                            ${matchWinner ? "ON" : "OFF"}
+                        </button>
+                    </div>
+
+                </div>
+
             </div>
 
-            <h5>
-                ${escapeAdminSportsHTML(
-                    game.league || ""
-                )}
-            </h5>
 
-            <p class="admin-match-title">
+            <div class="admin-match-action">
 
-                ${escapeAdminSportsHTML(
-                    game.home_team || ""
-                )}
-
-                <strong>VS</strong>
-
-                ${escapeAdminSportsHTML(
-                    game.away_team || ""
-                )}
-
-            </p>
-
-            <p>
-                Status:
-                <strong class="admin-game-status">
-                    ${escapeAdminSportsHTML(
-                        game.status || ""
-                    )}
-                </strong>
-            </p>
-
-            <div class="market-list">
-
-                <div>
-                    Total Runs
-
-                    <button
-                        type="button"
-                        class="${
-                            totalRuns
-                                ? "market-on"
-                                : "market-off"
-                        }"
-                        onclick="toggleAdminMarket(
-                            '${escapeAdminSportsJS(game.game_id)}',
-                            'total_runs_enabled'
-                        )"
-                    >
-                        ${totalRuns ? "ON" : "OFF"}
-                    </button>
-                </div>
-
-                <div>
-                    Over / Under
-
-                    <button
-                        type="button"
-                        class="${
-                            overUnder
-                                ? "market-on"
-                                : "market-off"
-                        }"
-                        onclick="toggleAdminMarket(
-                            '${escapeAdminSportsJS(game.game_id)}',
-                            'over_under_enabled'
-                        )"
-                    >
-                        ${overUnder ? "ON" : "OFF"}
-                    </button>
-                </div>
-
-                <div>
-                    Match Winner
-
-                    <button
-                        type="button"
-                        class="${
-                            matchWinner
-                                ? "market-on"
-                                : "market-off"
-                        }"
-                        onclick="toggleAdminMarket(
-                            '${escapeAdminSportsJS(game.game_id)}',
-                            'match_winner_enabled'
-                        )"
-                    >
-                        ${matchWinner ? "ON" : "OFF"}
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    class="admin-edit-match-btn"
+                    onclick="openSportsGameEditor(
+                        '${escapeAdminSportsJS(game.game_id)}'
+                    )"
+                >
+                    ✏️ Edit Match
+                </button>
 
             </div>
-
-            <button
-                type="button"
-                class="admin-edit-match-btn"
-                onclick="openSportsGameEditor(
-                    '${escapeAdminSportsJS(game.game_id)}'
-                )"
-            >
-                ✏️ Edit Match
-            </button>
 
         </div>
     `;
