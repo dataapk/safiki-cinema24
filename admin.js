@@ -2161,119 +2161,97 @@ async function (
 // OPEN SPORTS GAME EDITOR
 // ======================================================
 
-window.openSportsGameEditor =
-function (gameId) {
+window.openSportsGameEditor = function (gameId) {
 
-    console.log(
-        "✏️ ADMIN: Opening editor:",
-        gameId
-    );
+    console.log("✏️ ADMIN: Opening editor:", gameId);
 
-    const game =
-        window.adminSportsGames[
-            gameId
-        ];
+    const game = window.adminSportsGames[gameId];
 
     if (!game) {
-
-        console.error(
-            "❌ ADMIN: Game not found:",
-            gameId
-        );
-
-        alert(
-            "Sports game not found."
-        );
-
+        console.error("❌ ADMIN: Game not found:", gameId);
+        alert("Sports game not found.");
         return;
     }
 
     const gameIdInput =
-        document.getElementById(
-            "editSportsGameId"
-        );
+        document.getElementById("editSportsGameId");
 
     const titleInput =
-        document.getElementById(
-            "editSportsGameTitle"
-        );
+        document.getElementById("editSportsGameTitle");
 
     const leagueInput =
-        document.getElementById(
-            "editSportsGameLeague"
-        );
+        document.getElementById("editSportsGameLeague");
 
     const statusInput =
-        document.getElementById(
-            "editSportsGameStatus"
-        );
+        document.getElementById("editSportsGameStatus");
 
     const homeInput =
-        document.getElementById(
-            "editSportsGameHome"
-        );
+        document.getElementById("editSportsGameHome");
 
     const awayInput =
-        document.getElementById(
-            "editSportsGameAway"
-        );
+        document.getElementById("editSportsGameAway");
 
     const totalRunsInput =
-        document.getElementById(
-            "editTotalRuns"
-        );
+        document.getElementById("editTotalRuns");
 
     const overUnderInput =
-        document.getElementById(
-            "editOverUnder"
-        );
+        document.getElementById("editOverUnder");
 
     const matchWinnerInput =
-        document.getElementById(
-            "editMatchWinner"
-        );
+        document.getElementById("editMatchWinner");
 
+
+    // ==================================================
+    // FILL BASIC GAME INFORMATION
+    // ==================================================
 
     if (gameIdInput) {
-        gameIdInput.value =
-            game.game_id || "";
+        gameIdInput.value = game.game_id || "";
     }
 
     if (titleInput) {
-        titleInput.value =
-            game.title || "";
+        titleInput.value = game.title || "";
     }
 
     if (leagueInput) {
-        leagueInput.value =
-            game.league || "";
+        leagueInput.value = game.league || "";
     }
 
-    if (statusInput) {
-
-    const currentStatus =
-        String(
-            game.status || "live"
-        )
-        .trim()
-        .toLowerCase();
-
-    statusInput.value =
-        ["live", "upcoming", "featured"]
-            .includes(currentStatus)
-            ? currentStatus
-            : "live";
-}
-
     if (homeInput) {
-        homeInput.value =
-            game.home_team || "";
+        homeInput.value = game.home_team || "";
     }
 
     if (awayInput) {
-        awayInput.value =
-            game.away_team || "";
+        awayInput.value = game.away_team || "";
     }
+
+
+    // ==================================================
+    // STATUS
+    // IMPORTANT:
+    // SELECT VALUES ARE LOWERCASE
+    // live / upcoming / featured
+    // ==================================================
+
+    if (statusInput) {
+
+        const status =
+            String(game.status || "live")
+                .trim()
+                .toLowerCase();
+
+        statusInput.value = status;
+
+        console.log(
+            "📌 ADMIN: Editor status:",
+            status
+        );
+    }
+
+
+    // ==================================================
+    // MARKET SETTINGS
+    // ==================================================
 
     if (totalRunsInput) {
         totalRunsInput.checked =
@@ -2291,22 +2269,35 @@ function (gameId) {
     }
 
 
-    window.activeSportsGameId =
-        gameId;
+    // ==================================================
+    // ACTIVE GAME ID
+    // ==================================================
 
+    window.activeSportsGameId = gameId;
+
+
+    // ==================================================
+    // OPEN MODAL
+    // ==================================================
 
     const modal =
-        document.getElementById(
-            "sportsGameEditModal"
-        );
+        document.getElementById("sportsGameEditModal");
 
     if (modal) {
 
-        modal.style.display =
-            "flex";
+        modal.style.display = "flex";
+
+        console.log(
+            "✅ ADMIN: Sports game editor opened."
+        );
+
+    } else {
+
+        console.error(
+            "❌ ADMIN: sportsGameEditModal not found."
+        );
 
     }
-
 };
 
 
@@ -2333,84 +2324,67 @@ function () {
         null;
 
 };
-
-
 // ======================================================
 // SAVE SPORTS GAME
 // ======================================================
 
-window.saveSportsGameChanges =
-async function () {
+window.saveSportsGameChanges = async function () {
 
     const gameIdInput =
-        document.getElementById(
-            "editSportsGameId"
-        );
+        document.getElementById("editSportsGameId");
 
     const gameId =
         gameIdInput
             ? gameIdInput.value.trim()
             : "";
 
+
+    // ==================================================
+    // CHECK GAME ID
+    // ==================================================
+
     if (!gameId) {
 
-        alert(
-            "Game ID is missing."
-        );
+        alert("Game ID is missing.");
 
         return;
     }
 
 
+    // ==================================================
+    // GET INPUTS
+    // ==================================================
+
     const titleInput =
-        document.getElementById(
-            "editSportsGameTitle"
-        );
+        document.getElementById("editSportsGameTitle");
 
     const leagueInput =
-        document.getElementById(
-            "editSportsGameLeague"
-        );
+        document.getElementById("editSportsGameLeague");
 
     const statusInput =
-        document.getElementById(
-            "editSportsGameStatus"
-        );
+        document.getElementById("editSportsGameStatus");
 
     const homeInput =
-        document.getElementById(
-            "editSportsGameHome"
-        );
+        document.getElementById("editSportsGameHome");
 
     const awayInput =
-        document.getElementById(
-            "editSportsGameAway"
-        );
+        document.getElementById("editSportsGameAway");
 
     const totalRunsInput =
-        document.getElementById(
-            "editTotalRuns"
-        );
+        document.getElementById("editTotalRuns");
 
     const overUnderInput =
-        document.getElementById(
-            "editOverUnder"
-        );
+        document.getElementById("editOverUnder");
 
     const matchWinnerInput =
-        document.getElementById(
-            "editMatchWinner"
-        );
+        document.getElementById("editMatchWinner");
 
 
-    // ======================================================
-    // STATUS
-    // ======================================================
+    // ==================================================
+    // GET STATUS
+    // ==================================================
 
-    const currentGame =
-        window.adminSportsGames[gameId];
-
-    let selectedStatus =
+    const selectedStatus =
         statusInput
             ? String(statusInput.value || "")
                 .trim()
@@ -2418,40 +2392,29 @@ async function () {
             : "";
 
 
-    // ------------------------------------------
-    // NORMALIZE STATUS
-    // ------------------------------------------
+    // ==================================================
+    // VALID STATUS
+    // ==================================================
 
-    if (
-        selectedStatus === "live" ||
-        selectedStatus === "upcoming" ||
-        selectedStatus === "featured"
-    ) {
+    const allowedStatuses = [
+        "live",
+        "upcoming",
+        "featured"
+    ];
 
-        // Valid status
+    if (!allowedStatuses.includes(selectedStatus)) {
 
-    } else {
+        alert(
+            "Please select a valid match status."
+        );
 
-        selectedStatus =
-            String(
-                currentGame?.status || ""
-            )
-            .trim()
-            .toLowerCase();
-
+        return;
     }
 
 
-    // ------------------------------------------
-    // DEFAULT STATUS
-    // ------------------------------------------
-
-    if (!selectedStatus) {
-
-        selectedStatus = "live";
-
-    }
-
+    // ==================================================
+    // BUILD UPDATED GAME
+    // ==================================================
 
     const updatedGame = {
 
@@ -2492,13 +2455,12 @@ async function () {
             matchWinnerInput
                 ? matchWinnerInput.checked
                 : true
-
     };
 
 
-    // ======================================================
-    // VALIDATE MATCH DATA
-    // ======================================================
+    // ==================================================
+    // VALIDATE GAME INFORMATION
+    // ==================================================
 
     if (
         !updatedGame.title ||
@@ -2515,11 +2477,11 @@ async function () {
     }
 
 
-    // ======================================================
+    // ==================================================
     // SUPABASE CHECK
-    // ======================================================
+    // ==================================================
 
-    if (!window.supabaseClient) {
+    if (typeof supabaseClient === "undefined") {
 
         console.error(
             "❌ ADMIN: Supabase client unavailable."
@@ -2533,14 +2495,9 @@ async function () {
     }
 
 
-    // ======================================================
-    // DEBUG STATUS
-    // ======================================================
-
-    console.log(
-        "🏏 ADMIN STATUS BEFORE SAVE:",
-        selectedStatus
-    );
+    // ==================================================
+    // SAVE TO SUPABASE
+    // ==================================================
 
     console.log(
         "💾 ADMIN: Updating game:",
@@ -2549,23 +2506,20 @@ async function () {
     );
 
 
-    // ======================================================
-    // UPDATE SUPABASE
-    // ======================================================
-
     const {
         data,
         error
-    } = await window.supabaseClient
+    } = await supabaseClient
         .from("sports_games")
         .update(updatedGame)
-        .eq(
-            "game_id",
-            gameId
-        )
+        .eq("game_id", gameId)
         .select()
         .single();
 
+
+    // ==================================================
+    // HANDLE ERROR
+    // ==================================================
 
     if (error) {
 
@@ -2583,53 +2537,60 @@ async function () {
     }
 
 
-    // ======================================================
+    // ==================================================
     // UPDATE LOCAL CACHE
-    // ======================================================
+    // ==================================================
 
     console.log(
         "✅ ADMIN: Sports game updated:",
         data
     );
 
-    console.log(
-        "🏏 ADMIN STATUS AFTER SAVE:",
-        data?.status
-    );
+    window.adminSportsGames[gameId] = data;
 
 
-    window.adminSportsGames[
-        gameId
-    ] = data;
-
-
-    // ======================================================
+    // ==================================================
     // CLOSE EDITOR
-    // ======================================================
+    // ==================================================
 
-    closeSportsGameEditor();
+    if (typeof closeSportsGameEditor === "function") {
+
+        closeSportsGameEditor();
+
+    }
 
 
-    // ======================================================
-    // RENDER UPDATED SPORT / STATUS
-    // ======================================================
+    // ==================================================
+    // RENDER UPDATED GAME
+    // ==================================================
 
-    renderAdminSportGames(
+    const sport =
         String(data.sport || "")
             .trim()
-            .toLowerCase(),
+            .toLowerCase();
 
+    const status =
         String(data.status || "")
             .trim()
-            .toLowerCase()
+            .toLowerCase();
+
+
+    renderAdminSportGames(
+        sport,
+        status
     );
 
+
+    // ==================================================
+    // SUCCESS
+    // ==================================================
 
     alert(
         "✅ Match updated successfully!"
     );
-
 };
+
+
 // ======================================================
 // HTML ESCAPE
 // ======================================================
