@@ -3256,61 +3256,100 @@ window.saveSportsGameChanges = async function () {
         document.getElementById("editMatchWinner");
 
 
-    // ==================================================
-    // GET STATUS
-    // ==================================================
+// ==================================================
+// GET STATUS
+// ==================================================
 
-    const selectedStatus =
-        statusInput
-            ? String(statusInput.value || "")
-                .trim()
-                .toLowerCase()
-            : "";
-
-
-    // ==================================================
-    // VALID STATUS
-    // ==================================================
-
-    const allowedStatuses = [
-        "live",
-        "upcoming",
-        "featured"
-    ];
-
-    if (!allowedStatuses.includes(selectedStatus)) {
-
-        alert(
-            "Please select a valid match status."
-        );
-
-        return;
-    }
+const selectedStatus =
+    statusInput
+        ? String(statusInput.value || "")
+            .trim()
+            .toLowerCase()
+        : "";
 
 
-    // ==================================================
-    // BUILD UPDATED GAME
-    // ==================================================
+// ==================================================
+// GET MATCH STATUS
+// ==================================================
 
-    const updatedGame = {
+const selectedMatchStatus =
+    matchStatusInput
+        ? String(matchStatusInput.value || "")
+            .trim()
+            .toLowerCase()
+        : "enable";
 
-        title:
-            titleInput
-                ? titleInput.value.trim()
-                : "",
 
-        league:
-            leagueInput
-                ? leagueInput.value.trim()
-                : "",
+// ==================================================
+// VALID STATUS
+// ==================================================
 
-        status:
-            selectedStatus,
+const allowedStatuses = [
+    "live",
+    "upcoming",
+    "featured"
+];
 
-        home_team:
-            homeInput
-                ? homeInput.value.trim()
-                : "",
+if (!allowedStatuses.includes(selectedStatus)) {
+
+    alert(
+        "Please select a valid game status."
+    );
+
+    return;
+}
+
+
+// ==================================================
+// VALID MATCH STATUS
+// ==================================================
+
+const allowedMatchStatuses = [
+    "enable",
+    "disable",
+    "reject"
+];
+
+if (
+    !allowedMatchStatuses.includes(
+        selectedMatchStatus
+    )
+) {
+
+    alert(
+        "Please select a valid match status."
+    );
+
+    return;
+}
+
+
+// ==================================================
+// BUILD UPDATED GAME
+// ==================================================
+
+const updatedGame = {
+
+    title:
+        titleInput
+            ? titleInput.value.trim()
+            : "",
+
+    league:
+        leagueInput
+            ? leagueInput.value.trim()
+            : "",
+
+    status:
+        selectedStatus,
+
+    match_status:
+        selectedMatchStatus,
+
+    home_team:
+        homeInput
+            ? homeInput.value.trim()
+            : "",
 
         away_team:
             awayInput
