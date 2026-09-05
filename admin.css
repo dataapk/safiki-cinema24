@@ -1091,3 +1091,228 @@ button:last-child:hover {
     }
 
 }
+
+/* ======================================================
+   ADMIN SPORTS GAME CARD - HORIZONTAL
+====================================================== */
+
+.match-card {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding: 14px 16px;
+
+    margin-bottom: 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* MAIN CONTENT */
+
+.admin-match-main {
+
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+/* GAME ID */
+
+.admin-game-id {
+
+    min-width: 125px;
+
+    font-size: 12px;
+
+    color: #6b7280;
+
+}
+
+
+/* MATCH INFO */
+
+.admin-match-info {
+
+    min-width: 180px;
+
+}
+
+
+.admin-match-info h5 {
+
+    margin: 0 0 4px 0;
+
+    font-size: 13px;
+
+    color: #111827;
+
+}
+
+
+.admin-match-title {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #374151;
+
+    white-space: nowrap;
+
+}
+
+
+.admin-match-title strong {
+
+    margin: 0 6px;
+
+    color: #a855f7;
+
+}
+
+
+/* STATUS */
+
+.admin-match-status-area {
+
+    min-width: 150px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    font-size: 12px;
+
+    color: #6b7280;
+
+}
+
+
+.admin-game-status {
+
+    color: #111827;
+
+}
+
+
+.admin-game-match-status {
+
+    color: #7c3aed;
+
+}
+
+
+/* MARKETS */
+
+.match-card .market-list {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: nowrap;
+
+}
+
+
+.match-card .market-list > div {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    white-space: nowrap;
+
+    font-size: 12px;
+
+    color: #6b7280;
+
+}
+
+
+/* EDIT */
+
+.admin-match-action {
+
+    flex-shrink: 0;
+
+}
+
+
+.admin-edit-match-btn {
+
+    white-space: nowrap;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .match-card {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .admin-match-main {
+
+        width: 100%;
+
+        flex-wrap: wrap;
+
+    }
+
+
+    .admin-match-action {
+
+        width: 100%;
+
+    }
+
+
+    .admin-edit-match-btn {
+
+        width: 100%;
+
+    }
+
+}
+/* ======================================================
+   END ADMIN SPORTS GAME CARD - HORIZONTAL
+====================================================== */
+
