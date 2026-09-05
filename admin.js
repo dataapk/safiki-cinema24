@@ -1693,44 +1693,72 @@ function renderAdminSportGames(
 
 
     // ------------------------------------------
-    // GET MATCHES FROM SUPABASE CACHE
+    // GET MATCHES FROM ADMIN CACHE
+    // ------------------------------------------
+
+    const allGames =
+        Object.values(
+            window.adminSportsGames || {}
+        );
+
+
+    console.log(
+        "📦 ADMIN: ALL CACHED SPORTS GAMES:",
+        allGames
+    );
+
+
+    // ------------------------------------------
+    // FILTER MATCHES
     // ------------------------------------------
 
     const games =
-        Object.values(
-            window.adminSportsGames || {}
-        )
-        .filter(game => {
+        allGames
+            .filter(game => {
 
-            const gameSport =
-                String(game.sport || "")
-                    .trim()
-                    .toLowerCase();
+                const gameSport =
+                    String(game.sport || "")
+                        .trim()
+                        .toLowerCase();
 
-            const gameStatus =
-                String(game.status || "")
-                    .trim()
-                    .toLowerCase();
+                const gameStatus =
+                    String(game.status || "")
+                        .trim()
+                        .toLowerCase();
 
-            return (
-                gameSport === sportName &&
-                gameStatus === statusName
-            );
 
-        })
-        .sort((a, b) => {
-
-            return String(a.game_id || "")
-                .localeCompare(
-                    String(b.game_id || ""),
-                    undefined,
-                    {
-                        numeric: true,
-                        sensitivity: "base"
-                    }
+                console.log(
+                    "🔎 ADMIN MATCH CHECK:",
+                    game.game_id,
+                    "SPORT:",
+                    gameSport,
+                    "STATUS:",
+                    gameStatus,
+                    "TARGET:",
+                    sportName,
+                    statusName
                 );
 
-        });
+
+                return (
+                    gameSport === sportName &&
+                    gameStatus === statusName
+                );
+
+            })
+            .sort((a, b) => {
+
+                return String(a.game_id || "")
+                    .localeCompare(
+                        String(b.game_id || ""),
+                        undefined,
+                        {
+                            numeric: true,
+                            sensitivity: "base"
+                        }
+                    );
+
+            });
 
 
     console.log(
@@ -1774,9 +1802,21 @@ function renderAdminSportGames(
 
 function renderAdminCricketGamesByStatus(status) {
 
+    const statusName =
+        String(status || "")
+            .trim()
+            .toLowerCase();
+
+
+    console.log(
+        "🏏 ADMIN: Rendering Cricket status:",
+        statusName
+    );
+
+
     return renderAdminSportGames(
         "cricket",
-        status
+        statusName
     );
 }
 
@@ -1806,9 +1846,11 @@ function renderAdminCricketGames(games) {
 
 
     const statusGroups = {
+
         live: [],
         upcoming: [],
         featured: []
+
     };
 
 
@@ -1819,8 +1861,11 @@ function renderAdminCricketGames(games) {
                 .trim()
                 .toLowerCase();
 
+
         if (statusGroups[status]) {
+
             statusGroups[status].push(game);
+
         }
 
     });
@@ -1848,9 +1893,12 @@ function renderAdminCricketGames(games) {
 
     Object.keys(grids).forEach(status => {
 
-        const grid = grids[status];
+        const grid =
+            grids[status];
+
 
         if (!grid) return;
+
 
         const gamesForStatus =
             statusGroups[status];
@@ -1869,42 +1917,15 @@ function renderAdminCricketGames(games) {
         }
 
 
-grid.innerHTML =
-    gamesForStatus
-        .map(game =>
-            createAdminSportsCard(game)
-        )
-        .join("");
+        grid.innerHTML =
+            gamesForStatus
+                .map(game =>
+                    createAdminSportsCard(game)
+                )
+                .join("");
 
-});
-}
+    });
 
-
-// ======================================================
-// KEEP EXISTING CRICKET RENDER FUNCTION
-// ======================================================
-
-function renderAdminCricketGames(games) {
-
-    const allGames =
-        games ||
-        Object.values(
-            window.adminSportsGames || {}
-        );
-
-    const cricketGames =
-        allGames.filter(game => {
-
-            return String(game.sport || "")
-                .trim()
-                .toLowerCase() === "cricket";
-
-        });
-
-    renderAdminSportGames(
-        "cricket",
-        "live"
-    );
 }
 
 
