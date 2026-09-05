@@ -1096,11 +1096,30 @@ function openAdminSportTab(
 
 window.openCricketLive = async function (btn) {
 
-    const panel = document.getElementById("cricketLive");
+    const livePanel =
+        document.getElementById("cricketLive");
 
-    if (panel) {
-        panel.style.display = "block";
+    const upcomingPanel =
+        document.getElementById("cricketUpcoming");
+
+    const featuredPanel =
+        document.getElementById("cricketFeatured");
+
+
+    // SHOW LIVE
+    if (livePanel) {
+        livePanel.style.display = "block";
     }
+
+    // HIDE OTHERS
+    if (upcomingPanel) {
+        upcomingPanel.style.display = "none";
+    }
+
+    if (featuredPanel) {
+        featuredPanel.style.display = "none";
+    }
+
 
     await ensureAdminSportsGamesLoaded();
 
@@ -1108,13 +1127,33 @@ window.openCricketLive = async function (btn) {
 };
 
 
+
 window.openCricketUpcoming = async function (btn) {
 
-    const panel = document.getElementById("cricketUpcoming");
+    const livePanel =
+        document.getElementById("cricketLive");
 
-    if (panel) {
-        panel.style.display = "block";
+    const upcomingPanel =
+        document.getElementById("cricketUpcoming");
+
+    const featuredPanel =
+        document.getElementById("cricketFeatured");
+
+
+    // SHOW UPCOMING
+    if (upcomingPanel) {
+        upcomingPanel.style.display = "block";
     }
+
+    // HIDE OTHERS
+    if (livePanel) {
+        livePanel.style.display = "none";
+    }
+
+    if (featuredPanel) {
+        featuredPanel.style.display = "none";
+    }
+
 
     await ensureAdminSportsGamesLoaded();
 
@@ -1122,19 +1161,38 @@ window.openCricketUpcoming = async function (btn) {
 };
 
 
+
 window.openCricketFeatured = async function (btn) {
 
-    const panel = document.getElementById("cricketFeatured");
+    const livePanel =
+        document.getElementById("cricketLive");
 
-    if (panel) {
-        panel.style.display = "block";
+    const upcomingPanel =
+        document.getElementById("cricketUpcoming");
+
+    const featuredPanel =
+        document.getElementById("cricketFeatured");
+
+
+    // SHOW FEATURED
+    if (featuredPanel) {
+        featuredPanel.style.display = "block";
     }
+
+    // HIDE OTHERS
+    if (livePanel) {
+        livePanel.style.display = "none";
+    }
+
+    if (upcomingPanel) {
+        upcomingPanel.style.display = "none";
+    }
+
 
     await ensureAdminSportsGamesLoaded();
 
     renderAdminCricketGamesByStatus("featured");
 };
-
 // ======================================================
 // ADD NEW CRICKET GAME MODAL
 // ======================================================
