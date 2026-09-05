@@ -2570,6 +2570,21 @@ window.saveSportsGameChanges = async function () {
 
 
     // ==================================================
+    // VERIFY SAVED STATUS
+    // ==================================================
+
+    console.log(
+        "💾 SAVE RESULT - STATUS:",
+        JSON.stringify(data?.status)
+    );
+
+    console.log(
+        "💾 SAVE RESULT - FULL DATA:",
+        data
+    );
+
+
+    // ==================================================
     // UPDATE LOCAL CACHE
     // ==================================================
 
@@ -2585,7 +2600,9 @@ window.saveSportsGameChanges = async function () {
     // CLOSE EDITOR
     // ==================================================
 
-    if (typeof closeSportsGameEditor === "function") {
+    if (
+        typeof closeSportsGameEditor === "function"
+    ) {
 
         closeSportsGameEditor();
 
@@ -2621,7 +2638,6 @@ window.saveSportsGameChanges = async function () {
         "✅ Match updated successfully!"
     );
 };
-
 
 // ======================================================
 // HTML ESCAPE
