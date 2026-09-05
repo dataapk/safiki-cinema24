@@ -1247,9 +1247,13 @@ window.openAddCricketGameModal = function () {
 
     // Open modal
 
-    if (modal) {
+        if (modal) {
         modal.style.display = "flex";
     }
+
+    console.log(
+        "✅ ADD GAME MODAL OPEN FUNCTION FINISHED"
+    );
 
 };
 
@@ -1270,10 +1274,7 @@ window.closeAddCricketGameModal = function () {
     }
 
 };
-    console.log(
-        "✅ ADD GAME MODAL OPEN FUNCTION FINISHED"
-    );
-};
+    
 
 // ======================================================
 // FOOTBALL TABS
