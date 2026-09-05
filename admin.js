@@ -1309,6 +1309,36 @@ window.openAddCricketGameModal = function () {
                         </div>
 
                     </div>
+                    <!-- MATCH STATUS -->
+
+<div class="sports-add-form-row">
+
+    <div class="sports-add-form-label">
+        Match Status
+    </div>
+
+    <div class="sports-add-form-control">
+
+        <select
+            id="addCricketMatchStatus">
+
+            <option value="enable">
+                ENABLE
+            </option>
+
+            <option value="disable">
+                DISABLE
+            </option>
+
+            <option value="reject">
+                REJECT
+            </option>
+
+        </select>
+
+    </div>
+
+</div>
 
 
                     <!-- HOME TEAM -->
@@ -1653,6 +1683,17 @@ window.saveNewCricketGame = async function () {
         document.getElementById(
             "addMatchWinner"
         );
+    const matchStatusInput =
+    document.getElementById(
+        "addCricketMatchStatus"
+    );
+
+const matchStatus =
+    matchStatusInput && matchStatusInput.value
+        ? matchStatusInput.value
+            .trim()
+            .toLowerCase()
+        : "enable";
 
 
     // ==================================================
@@ -1741,6 +1782,20 @@ window.saveNewCricketGame = async function () {
 
         return;
     }
+    if (
+    ![
+        "enable",
+        "disable",
+        "reject"
+    ].includes(matchStatus)
+) {
+
+    alert(
+        "Please select a valid match status."
+    );
+
+    return;
+}
 
 
     // ==================================================
