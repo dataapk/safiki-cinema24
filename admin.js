@@ -1836,6 +1836,9 @@ const matchStatus =
 
         status:
             status,
+        
+        match_status:
+        matchStatus,
 
         home_team:
             homeTeam,
