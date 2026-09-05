@@ -1492,18 +1492,67 @@ window.openAddCricketGameModal = function () {
 
 
     // ==================================================
-    // SHOW MODAL
-    // ==================================================
+// FORCE SHOW MODAL
+// ==================================================
 
-    modal.style.display =
-        "flex";
+modal.style.setProperty(
+    "display",
+    "flex",
+    "important"
+);
 
+modal.style.setProperty(
+    "position",
+    "fixed",
+    "important"
+);
 
-    console.log(
-        "✅ ADD GAME MODAL OPEN FUNCTION FINISHED"
-    );
+modal.style.setProperty(
+    "top",
+    "0",
+    "important"
+);
 
-};
+modal.style.setProperty(
+    "left",
+    "0",
+    "important"
+);
+
+modal.style.setProperty(
+    "width",
+    "100%",
+    "important"
+);
+
+modal.style.setProperty(
+    "height",
+    "100%",
+    "important"
+);
+
+modal.style.setProperty(
+    "z-index",
+    "999999",
+    "important"
+);
+
+modal.style.setProperty(
+    "align-items",
+    "center",
+    "important"
+);
+
+modal.style.setProperty(
+    "justify-content",
+    "center",
+    "important"
+);
+
+console.log(
+    "✅ ADD GAME MODAL VISIBLE:",
+    modal
+);
 
 
 // ======================================================
