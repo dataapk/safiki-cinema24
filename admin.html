@@ -759,25 +759,39 @@ if (!localStorage.getItem("adminAuth")) {
 
 
     <!-- ================================= -->
-    <!-- CRICKET CONTROL -->
-    <!-- ================================= -->
+<!-- CRICKET CONTROL -->
+<!-- ================================= -->
 
-    <div id="adminCricketSection"
-         class="admin-sport-section"
-         style="display:none;">
+<div id="adminCricketSection"
+     class="admin-sport-section"
+     style="display:none;">
 
-        <h3>
-            🏏 Cricket Control
-        </h3>
+    <h3>
+        🏏 Cricket Control
+    </h3>
 
 
-        <div class="cricket-tabs">
+    <!-- ADD NEW GAME -->
 
-            <button
-                type="button"
-                onclick="openCricketLive(this)">
-                🔴 Live Events
-            </button>
+    <div class="sports-add-game-row">
+
+        <button
+            type="button"
+            class="sports-add-game-btn"
+            onclick="openAddCricketGameModal()">
+            ➕ Add New Game
+        </button>
+
+    </div>
+
+
+    <div class="cricket-tabs">
+
+        <button
+            type="button"
+            onclick="openCricketLive(this)">
+            🔴 Live Events
+        </button>
 
             <button
                 type="button"
