@@ -1533,6 +1533,17 @@ data.forEach(game => {
     ] = game;
 
 });
+    console.log(
+    "🔍 FULL CRICKET GAME FROM SUPABASE:",
+    window.adminSportsGames["cricket-live-1"]
+);
+
+console.log(
+    "🔍 CRICKET STATUS RAW:",
+    JSON.stringify(
+        window.adminSportsGames["cricket-live-1"]?.status
+    )
+);
 
 
 console.log(
