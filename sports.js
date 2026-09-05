@@ -102,10 +102,15 @@ async function loadSportsGames() {
 
 
     // ==========================================
-    // AUTOMATICALLY RENDER CRICKET LIVE GAMES
-    // ==========================================
-    renderCricketGames();
+// AUTOMATICALLY RENDER CRICKET GAMES
+// ==========================================
 
+renderCricketGames();
+
+renderCricketUpcomingGames();
+
+renderCricketFeaturedGames();
+   
 
     return true;
 }
@@ -330,6 +335,328 @@ function renderCricketGames() {
 
     console.log(
         `✅ ${cricketLiveGames.length} Cricket Live Game(s) Rendered.`
+    );
+}
+
+// ==========================================
+// RENDER CRICKET UPCOMING GAMES
+// ==========================================
+function renderCricketUpcomingGames() {
+
+    const container =
+        document.getElementById(
+            "cricket-upcoming-events"
+        );
+
+
+    if (!container) {
+
+        console.log(
+            "⏳ Cricket upcoming container not found yet."
+        );
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    const cricketUpcomingGames =
+        Object.values(sportsGames)
+            .filter(game => {
+
+                const sport =
+                    String(game.sport || "")
+                        .toLowerCase()
+                        .trim();
+
+                const status =
+                    String(game.status || "")
+                        .toLowerCase()
+                        .trim();
+
+                return (
+                    sport === "cricket" &&
+                    status === "upcoming"
+                );
+            })
+            .sort((a, b) => {
+
+                return (
+                    getSportsGameNumber(a.game_id) -
+                    getSportsGameNumber(b.game_id)
+                );
+            });
+
+
+    console.log(
+        "🏏 CRICKET UPCOMING GAMES:",
+        cricketUpcomingGames
+    );
+
+
+    if (cricketUpcomingGames.length === 0) {
+
+        console.log(
+            "ℹ️ No Cricket upcoming games available."
+        );
+
+        return;
+    }
+
+
+    cricketUpcomingGames.forEach((game, index) => {
+
+        const gameCard =
+            document.createElement("div");
+
+
+        gameCard.className =
+            "sports-game-card";
+
+
+        gameCard.dataset.gameId =
+            game.game_id;
+
+
+        gameCard.dataset.sport =
+            "cricket";
+
+
+        gameCard.innerHTML = `
+
+            <div class="sports-game-card-header">
+
+                <div>
+                    UPCOMING
+                </div>
+
+                <div class="sports-game-serial">
+                    #${index + 1}
+                </div>
+
+            </div>
+
+
+            <div class="sports-game-card-title">
+                ${escapeSportsHtml(game.title)}
+            </div>
+
+
+            <div class="sports-game-card-league">
+                ${escapeSportsHtml(game.league)}
+            </div>
+
+
+            <div class="sports-game-card-teams">
+
+                <div class="sports-game-team">
+                    ${escapeSportsHtml(game.home_team)}
+                </div>
+
+                <div class="sports-game-vs">
+                    VS
+                </div>
+
+                <div class="sports-game-team">
+                    ${escapeSportsHtml(game.away_team)}
+                </div>
+
+            </div>
+
+        `;
+
+
+        gameCard.addEventListener(
+            "click",
+            function () {
+
+                console.log(
+                    "🏏 Opening Cricket Upcoming Game:",
+                    game.game_id
+                );
+
+                openSportsGame(
+                    "cricket",
+                    game.game_id
+                );
+
+            }
+        );
+
+
+        container.appendChild(
+            gameCard
+        );
+
+    });
+
+
+    console.log(
+        `✅ ${cricketUpcomingGames.length} Cricket Upcoming Game(s) Rendered.`
+    );
+}
+
+
+
+// ==========================================
+// RENDER CRICKET FEATURED GAMES
+// ==========================================
+function renderCricketFeaturedGames() {
+
+    const container =
+        document.getElementById(
+            "cricket-featured-events"
+        );
+
+
+    if (!container) {
+
+        console.log(
+            "⏳ Cricket featured container not found yet."
+        );
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    const cricketFeaturedGames =
+        Object.values(sportsGames)
+            .filter(game => {
+
+                const sport =
+                    String(game.sport || "")
+                        .toLowerCase()
+                        .trim();
+
+                const status =
+                    String(game.status || "")
+                        .toLowerCase()
+                        .trim();
+
+                return (
+                    sport === "cricket" &&
+                    status === "featured"
+                );
+            })
+            .sort((a, b) => {
+
+                return (
+                    getSportsGameNumber(a.game_id) -
+                    getSportsGameNumber(b.game_id)
+                );
+            });
+
+
+    console.log(
+        "🏏 CRICKET FEATURED GAMES:",
+        cricketFeaturedGames
+    );
+
+
+    if (cricketFeaturedGames.length === 0) {
+
+        console.log(
+            "ℹ️ No Cricket featured games available."
+        );
+
+        return;
+    }
+
+
+    cricketFeaturedGames.forEach((game, index) => {
+
+        const gameCard =
+            document.createElement("div");
+
+
+        gameCard.className =
+            "sports-game-card";
+
+
+        gameCard.dataset.gameId =
+            game.game_id;
+
+
+        gameCard.dataset.sport =
+            "cricket";
+
+
+        gameCard.innerHTML = `
+
+            <div class="sports-game-card-header">
+
+                <div>
+                    FEATURED
+                </div>
+
+                <div class="sports-game-serial">
+                    #${index + 1}
+                </div>
+
+            </div>
+
+
+            <div class="sports-game-card-title">
+                ${escapeSportsHtml(game.title)}
+            </div>
+
+
+            <div class="sports-game-card-league">
+                ${escapeSportsHtml(game.league)}
+            </div>
+
+
+            <div class="sports-game-card-teams">
+
+                <div class="sports-game-team">
+                    ${escapeSportsHtml(game.home_team)}
+                </div>
+
+                <div class="sports-game-vs">
+                    VS
+                </div>
+
+                <div class="sports-game-team">
+                    ${escapeSportsHtml(game.away_team)}
+                </div>
+
+            </div>
+
+        `;
+
+
+        gameCard.addEventListener(
+            "click",
+            function () {
+
+                console.log(
+                    "🏏 Opening Cricket Featured Game:",
+                    game.game_id
+                );
+
+                openSportsGame(
+                    "cricket",
+                    game.game_id
+                );
+
+            }
+        );
+
+
+        container.appendChild(
+            gameCard
+        );
+
+    });
+
+
+    console.log(
+        `✅ ${cricketFeaturedGames.length} Cricket Featured Game(s) Rendered.`
     );
 }
 
