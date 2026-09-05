@@ -1136,243 +1136,136 @@ window.openCricketFeatured = async function (btn) {
 };
 
 // ======================================================
-// ADD NEW CRICKET GAME
+// ADD NEW CRICKET GAME MODAL
 // ======================================================
 
-window.saveNewCricketGame =
-async function () {
+window.openAddCricketGameModal = function () {
 
-    const gameId =
-        document
-            .getElementById("addCricketGameId")
-            ?.value
-            .trim();
-
-    const title =
-        document
-            .getElementById("addCricketGameTitle")
-            ?.value
-            .trim();
-
-    const league =
-        document
-            .getElementById("addCricketGameLeague")
-            ?.value
-            .trim();
-
-    const status =
-        document
-            .getElementById("addCricketGameStatus")
-            ?.value
-            .trim()
-            .toLowerCase();
-
-    const homeTeam =
-        document
-            .getElementById("addCricketGameHome")
-            ?.value
-            .trim();
-
-    const awayTeam =
-        document
-            .getElementById("addCricketGameAway")
-            ?.value
-            .trim();
-
-    const totalRunsEnabled =
-        document
-            .getElementById("addTotalRuns")
-            ?.checked ?? true;
-
-    const overUnderEnabled =
-        document
-            .getElementById("addOverUnder")
-            ?.checked ?? true;
-
-    const matchWinnerEnabled =
-        document
-            .getElementById("addMatchWinner")
-            ?.checked ?? true;
-
-
-    // ======================================================
-    // VALIDATION
-    // ======================================================
-
-    if (
-        !gameId ||
-        !title ||
-        !league ||
-        !homeTeam ||
-        !awayTeam
-    ) {
-
-        alert(
-            "Please fill in all match information."
+    const modal =
+        document.getElementById(
+            "addCricketGameModal"
         );
 
-        return;
+    const gameIdInput =
+        document.getElementById(
+            "addCricketGameId"
+        );
+
+    const titleInput =
+        document.getElementById(
+            "addCricketGameTitle"
+        );
+
+    const leagueInput =
+        document.getElementById(
+            "addCricketGameLeague"
+        );
+
+    const statusInput =
+        document.getElementById(
+            "addCricketGameStatus"
+        );
+
+    const homeInput =
+        document.getElementById(
+            "addCricketGameHome"
+        );
+
+    const awayInput =
+        document.getElementById(
+            "addCricketGameAway"
+        );
+
+
+    // Generate new Game ID
+
+    if (gameIdInput) {
+
+        gameIdInput.value =
+            "cricket-" +
+            Date.now();
+
     }
 
 
-    if (
-        !["live", "upcoming", "featured"]
-            .includes(status)
-    ) {
+    // Clear fields
 
-        alert(
-            "Please select a valid game status."
-        );
+    if (titleInput) {
+        titleInput.value = "";
+    }
 
-        return;
+    if (leagueInput) {
+        leagueInput.value = "";
+    }
+
+    if (statusInput) {
+        statusInput.value = "live";
+    }
+
+    if (homeInput) {
+        homeInput.value = "";
+    }
+
+    if (awayInput) {
+        awayInput.value = "";
     }
 
 
-    // ======================================================
-    // SUPABASE CHECK
-    // ======================================================
+    // Default markets ON
 
-    if (!window.supabaseClient) {
-
-        console.error(
-            "❌ ADMIN: Supabase client unavailable."
+    const totalRuns =
+        document.getElementById(
+            "addTotalRuns"
         );
 
-        alert(
-            "Supabase connection unavailable."
+    const overUnder =
+        document.getElementById(
+            "addOverUnder"
         );
 
-        return;
+    const matchWinner =
+        document.getElementById(
+            "addMatchWinner"
+        );
+
+    if (totalRuns) {
+        totalRuns.checked = true;
+    }
+
+    if (overUnder) {
+        overUnder.checked = true;
+    }
+
+    if (matchWinner) {
+        matchWinner.checked = true;
     }
 
 
-    // ======================================================
-    // NEW GAME DATA
-    // ======================================================
+    // Open modal
 
-    const newGame = {
-
-        game_id:
-            gameId,
-
-        sport:
-            "cricket",
-
-        title:
-            title,
-
-        league:
-            league,
-
-        status:
-            status,
-
-        home_team:
-            homeTeam,
-
-        away_team:
-            awayTeam,
-
-        total_runs_enabled:
-            totalRunsEnabled,
-
-        over_under_enabled:
-            overUnderEnabled,
-
-        match_winner_enabled:
-            matchWinnerEnabled
-
-    };
-
-
-    console.log(
-        "➕ ADMIN: Adding new cricket game:",
-        newGame
-    );
-
-
-    // ======================================================
-    // INSERT INTO SUPABASE
-    // ======================================================
-
-    const {
-        data,
-        error
-    } = await window.supabaseClient
-
-        .from("sports_games")
-
-        .insert([
-            newGame
-        ])
-
-        .select()
-
-        .single();
-
-
-    if (error) {
-
-        console.error(
-            "❌ ADMIN: Failed to add cricket game:",
-            error
-        );
-
-        alert(
-            "Failed to add game.\n\n" +
-            error.message
-        );
-
-        return;
+    if (modal) {
+        modal.style.display = "flex";
     }
-
-
-    console.log(
-        "✅ ADMIN: New cricket game added:",
-        data
-    );
-
-
-    // ======================================================
-    // UPDATE ADMIN CACHE
-    // ======================================================
-
-    window.adminSportsGames[
-        data.game_id
-    ] = data;
-
-
-    // ======================================================
-    // CLOSE ADD MODAL
-    // ======================================================
-
-    closeAddCricketGameModal();
-
-
-    // ======================================================
-    // RENDER ACCORDING TO STATUS
-    // ======================================================
-
-    renderAdminSportGames(
-        "cricket",
-        String(
-            data.status || ""
-        )
-        .trim()
-        .toLowerCase()
-    );
-
-
-    // ======================================================
-    // SUCCESS
-    // ======================================================
-
-    alert(
-        "✅ Cricket game added successfully!"
-    );
 
 };
 
+
+// ======================================================
+// CLOSE ADD NEW CRICKET GAME MODAL
+// ======================================================
+
+window.closeAddCricketGameModal = function () {
+
+    const modal =
+        document.getElementById(
+            "addCricketGameModal"
+        );
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+};
 
 // ======================================================
 // FOOTBALL TABS
