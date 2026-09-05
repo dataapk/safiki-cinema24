@@ -1172,211 +1172,235 @@ window.openAddCricketGameModal = function () {
         modal.className =
             "sports-game-edit-modal";
 
-        modal.innerHTML = `
+        // ==================================================
+// ADD GAME MODAL CONTENT
+// ==================================================
 
-            <div class="sports-game-edit-box">
+modal.innerHTML = `
 
-                <div class="sports-game-edit-header">
+    <div class="sports-game-edit-box">
 
-                    <h3>
-                        ➕ Add New Cricket Game
-                    </h3>
+        <div class="sports-game-edit-header">
 
-                    <button
-                        type="button"
-                        onclick="closeAddCricketGameModal()">
-                        ✕
-                    </button>
+            <h3>
+                ➕ Add New Cricket Game
+            </h3>
 
+            <button
+                type="button"
+                onclick="closeAddCricketGameModal()">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="sports-game-edit-body">
+
+
+            <!-- GAME INFORMATION -->
+
+            <div class="sports-add-form-row">
+
+                <div class="sports-add-form-label">
+                    Game ID
                 </div>
 
-
-                <div class="sports-game-edit-body">
-
-
-                    <!-- GAME ID -->
-
-                    <div class="edit-field">
-
-                        <label>
-                            Game ID
-                        </label>
-
-                        <input
-                            type="text"
-                            id="addCricketGameId"
-                            readonly>
-
-                    </div>
-
-
-                    <!-- MATCH TITLE -->
-
-                    <div class="edit-field">
-
-                        <label>
-                            Match Title
-                        </label>
-
-                        <input
-                            type="text"
-                            id="addCricketGameTitle"
-                            placeholder="Pakistan vs India">
-
-                    </div>
-
-
-                    <!-- LEAGUE -->
-
-                    <div class="edit-field">
-
-                        <label>
-                            League
-                        </label>
-
-                        <input
-                            type="text"
-                            id="addCricketGameLeague"
-                            placeholder="T20 International">
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    <div class="edit-field">
-
-                        <label>
-                            Status
-                        </label>
-
-                        <select
-                            id="addCricketGameStatus">
-
-                            <option value="live">
-                                LIVE
-                            </option>
-
-                            <option value="upcoming">
-                                UPCOMING
-                            </option>
-
-                            <option value="featured">
-                                FEATURED
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- HOME TEAM -->
-
-                    <div class="edit-field">
-
-                        <label>
-                            Home Team
-                        </label>
-
-                        <input
-                            type="text"
-                            id="addCricketGameHome"
-                            placeholder="Pakistan">
-
-                    </div>
-
-
-                    <!-- AWAY TEAM -->
-
-                    <div class="edit-field">
-
-                        <label>
-                            Away Team
-                        </label>
-
-                        <input
-                            type="text"
-                            id="addCricketGameAway"
-                            placeholder="India">
-
-                    </div>
-
-
-                    <!-- BETTING MARKETS -->
-
-                    <div class="sports-edit-markets">
-
-                        <h4>
-                            Betting Markets
-                        </h4>
-
-
-                        <label class="sports-market-toggle">
-
-                            <input
-                                type="checkbox"
-                                id="addTotalRuns"
-                                checked>
-
-                            <span>
-                                Total Runs
-                            </span>
-
-                        </label>
-
-
-                        <label class="sports-market-toggle">
-
-                            <input
-                                type="checkbox"
-                                id="addOverUnder"
-                                checked>
-
-                            <span>
-                                Over / Under
-                            </span>
-
-                        </label>
-
-
-                        <label class="sports-market-toggle">
-
-                            <input
-                                type="checkbox"
-                                id="addMatchWinner"
-                                checked>
-
-                            <span>
-                                Match Winner
-                            </span>
-
-                        </label>
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="sports-game-edit-footer">
-
-                    <button
-                        type="button"
-                        onclick="closeAddCricketGameModal()">
-                        Cancel
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="saveNewCricketGame()">
-                        💾 Add Game
-                    </button>
+                <div class="sports-add-form-control">
+
+                    <input
+                        type="text"
+                        id="addCricketGameId"
+                        readonly>
 
                 </div>
 
             </div>
 
-        `;
+
+            <div class="sports-add-form-row">
+
+                <div class="sports-add-form-label">
+                    Match Title
+                </div>
+
+                <div class="sports-add-form-control">
+
+                    <input
+                        type="text"
+                        id="addCricketGameTitle"
+                        placeholder="Pakistan vs India">
+
+                </div>
+
+            </div>
+
+
+            <div class="sports-add-form-row">
+
+                <div class="sports-add-form-label">
+                    League
+                </div>
+
+                <div class="sports-add-form-control">
+
+                    <input
+                        type="text"
+                        id="addCricketGameLeague"
+                        placeholder="T20 International">
+
+                </div>
+
+            </div>
+
+
+            <div class="sports-add-form-row">
+
+                <div class="sports-add-form-label">
+                    Status
+                </div>
+
+                <div class="sports-add-form-control">
+
+                    <select
+                        id="addCricketGameStatus">
+
+                        <option value="live">
+                            LIVE
+                        </option>
+
+                        <option value="upcoming">
+                            UPCOMING
+                        </option>
+
+                        <option value="featured">
+                            FEATURED
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="sports-add-form-row">
+
+                <div class="sports-add-form-label">
+                    Home Team
+                </div>
+
+                <div class="sports-add-form-control">
+
+                    <input
+                        type="text"
+                        id="addCricketGameHome"
+                        placeholder="Pakistan">
+
+                </div>
+
+            </div>
+
+
+            <div class="sports-add-form-row">
+
+                <div class="sports-add-form-label">
+                    Away Team
+                </div>
+
+                <div class="sports-add-form-control">
+
+                    <input
+                        type="text"
+                        id="addCricketGameAway"
+                        placeholder="India">
+
+                </div>
+
+            </div>
+
+
+            <!-- BETTING MARKETS -->
+
+            <div class="sports-add-markets-row">
+
+                <div class="sports-add-markets-title">
+                    Betting Markets
+                </div>
+
+
+                <div class="sports-add-market-items">
+
+
+                    <label class="sports-market-toggle">
+
+                        <input
+                            type="checkbox"
+                            id="addTotalRuns"
+                            checked>
+
+                        <span>
+                            Total Runs
+                        </span>
+
+                    </label>
+
+
+                    <label class="sports-market-toggle">
+
+                        <input
+                            type="checkbox"
+                            id="addOverUnder"
+                            checked>
+
+                        <span>
+                            Over / Under
+                        </span>
+
+                    </label>
+
+
+                    <label class="sports-market-toggle">
+
+                        <input
+                            type="checkbox"
+                            id="addMatchWinner"
+                            checked>
+
+                        <span>
+                            Match Winner
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="sports-game-edit-footer">
+
+            <button
+                type="button"
+                onclick="closeAddCricketGameModal()">
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                onclick="saveNewCricketGame()">
+                💾 Add Game
+            </button>
+
+        </div>
+
+    </div>
+
+`;
 
 
         document.body.appendChild(
