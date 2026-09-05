@@ -672,7 +672,7 @@ button[onclick="saveGameSettings()"]{
 #addCricketGameModal
 .sports-game-edit-box {
 
-    width: 100%;
+    width: min(620px, 92vw);
 
     background: #ffffff;
 
