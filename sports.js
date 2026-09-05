@@ -197,11 +197,18 @@ function renderCricketGames() {
                         .toLowerCase()
                         .trim();
 
-                return (
-                    sport === "cricket" &&
-                    status === "live"
-                );
-            })
+                const matchStatus =
+    String(game.match_status || "enable")
+        .trim()
+        .toLowerCase();
+
+   return (
+       sport === "cricket" &&
+       status === "live" &&
+        matchStatus === "enable"
+        );
+                
+     })
             .sort((a, b) => {
 
                 return (
@@ -376,10 +383,16 @@ function renderCricketUpcomingGames() {
                         .toLowerCase()
                         .trim();
 
-                return (
-                    sport === "cricket" &&
-                    status === "upcoming"
-                );
+                const matchStatus =
+    String(game.match_status || "enable")
+        .trim()
+        .toLowerCase();
+
+return (
+    sport === "cricket" &&
+    status === "upcoming" &&
+    matchStatus === "enable"
+);
             })
             .sort((a, b) => {
 
@@ -538,10 +551,16 @@ function renderCricketFeaturedGames() {
                         .toLowerCase()
                         .trim();
 
-                return (
-                    sport === "cricket" &&
-                    status === "featured"
-                );
+                const matchStatus =
+    String(game.match_status || "enable")
+        .trim()
+        .toLowerCase();
+
+return (
+    sport === "cricket" &&
+    status === "featured" &&
+    matchStatus === "enable"
+);
             })
             .sort((a, b) => {
 
