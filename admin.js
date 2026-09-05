@@ -3028,10 +3028,13 @@ window.openSportsGameEditor = function (gameId) {
         document.getElementById("editSportsGameTitle");
 
     const leagueInput =
-        document.getElementById("editSportsGameLeague");
+    document.getElementById("editSportsGameLeague");
 
-    const statusInput =
-        document.getElementById("editSportsGameStatus");
+const statusInput =
+    document.getElementById("editSportsGameStatus");
+
+const matchStatusInput =
+    document.getElementById("editSportsGameMatchStatus");
 
     const homeInput =
         document.getElementById("editSportsGameHome");
@@ -3095,6 +3098,28 @@ window.openSportsGameEditor = function (gameId) {
             status
         );
     }
+
+    // ==================================================
+// MATCH STATUS
+// IMPORTANT:
+// SELECT VALUES ARE LOWERCASE
+// enable / disable / reject
+// ==================================================
+
+if (matchStatusInput) {
+
+    const matchStatus =
+        String(game.match_status || "enable")
+            .trim()
+            .toLowerCase();
+
+    matchStatusInput.value = matchStatus;
+
+    console.log(
+        "📌 ADMIN: Editor match status:",
+        matchStatus
+    );
+}
 
 
     // ==================================================
@@ -3211,6 +3236,9 @@ window.saveSportsGameChanges = async function () {
 
     const statusInput =
         document.getElementById("editSportsGameStatus");
+    
+    const matchStatusInput =
+    document.getElementById("editSportsGameMatchStatus");
 
     const homeInput =
         document.getElementById("editSportsGameHome");
