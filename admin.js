@@ -3460,6 +3460,11 @@ const updatedGame = {
         "💾 SAVE RESULT - STATUS:",
         JSON.stringify(data?.status)
     );
+    
+    console.log(
+    "💾 SAVE RESULT - MATCH STATUS:",
+    JSON.stringify(data?.match_status)
+);
 
     console.log(
         "💾 SAVE RESULT - FULL DATA:",
