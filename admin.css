@@ -1092,136 +1092,138 @@ button:last-child:hover {
 
 }
 /* ======================================================
-   ADMIN SPORTS GAME CARD - FINAL HORIZONTAL DESIGN
+   ADMIN SPORTS GAME CARD
+   FINAL COMPACT HORIZONTAL VERSION
 ====================================================== */
 
 .match-card {
 
     width: 100%;
 
-    display: flex;
+    display: grid;
 
-    flex-wrap: wrap;
+    grid-template-columns:
+        105px
+        135px
+        180px
+        90px
+        120px
+        105px
+        auto;
 
     align-items: center;
 
-    margin-bottom: 12px;
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+    padding: 10px;
 
     background: #ffffff;
 
     border: 1px solid #e5e7eb;
 
-    border-radius: 14px;
+    border-radius: 12px;
 
     box-sizing: border-box;
 
     overflow: hidden;
 
     box-shadow:
-        0 5px 16px rgba(0, 0, 0, 0.06);
-
+        0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
 
 /* ======================================================
-   MAIN HORIZONTAL ROW - COMPACT
+   MAIN CARD CONTENT
 ====================================================== */
 
 .match-card .admin-match-main {
 
-    width: 100%;
-
-    flex: 1;
-
-    display: grid;
-
-    grid-template-columns:
-        120px
-        150px
-        190px
-        100px
-        120px
-        100px;
-
-    align-items: stretch;
-
-    gap: 8px;
-
-    padding: 12px;
-
-    box-sizing: border-box;
+    display: contents;
 
 }
 
 
 /* ======================================================
-   MAIN INFO COLUMN
+   INFORMATION BOX
 ====================================================== */
 
-.admin-match-column {
+.match-card .admin-match-column {
 
     min-width: 0;
+
+    height: 54px;
 
     display: flex;
 
     flex-direction: column;
 
+    align-items: center;
+
     justify-content: center;
 
-    padding: 9px 10px;
+    padding: 6px 8px;
 
     background: #ffffff;
 
     border: 1px solid #eef0f4;
 
-    border-radius: 9px;
+    border-radius: 8px;
 
     box-sizing: border-box;
 
+    text-align: center;
 }
 
 
 /* ======================================================
-   COLUMN LABEL
+   TOP LABEL
 ====================================================== */
 
-.admin-match-label {
+.match-card .admin-match-label {
 
-    margin-bottom: 5px;
+    width: 100%;
+
+    margin-bottom: 4px;
 
     font-size: 10px;
 
     font-weight: 700;
 
-    letter-spacing: .35px;
+    letter-spacing: .3px;
 
     text-transform: uppercase;
 
-    color: #9ca3af;
+    color: #6b7280;
 
+    text-align: center;
 }
 
 
 /* ======================================================
-   COLUMN VALUE
+   BOTTOM VALUE
 ====================================================== */
 
-.admin-match-value {
+.match-card .admin-match-value {
 
-    font-size: 12px;
+    width: 100%;
+
+    font-size: 11px;
 
     font-weight: 600;
 
-    line-height: 1.35;
+    line-height: 1.2;
 
     color: #374151;
+
+    text-align: center;
 
     white-space: nowrap;
 
     overflow: hidden;
 
     text-overflow: ellipsis;
-
 }
 
 
@@ -1229,7 +1231,7 @@ button:last-child:hover {
    ID
 ====================================================== */
 
-.admin-match-column:nth-child(1)
+.match-card .admin-match-column:nth-child(1)
 .admin-match-label {
 
     color: #8b5cf6;
@@ -1237,12 +1239,12 @@ button:last-child:hover {
 }
 
 
-.admin-match-column:nth-child(1)
+.match-card .admin-match-column:nth-child(1)
 .admin-match-value {
 
-    color: #4b5563;
+    font-size: 10px;
 
-    font-size: 11px;
+    color: #4b5563;
 
 }
 
@@ -1251,7 +1253,7 @@ button:last-child:hover {
    LEAGUE
 ====================================================== */
 
-.admin-match-column:nth-child(2)
+.match-card .admin-match-column:nth-child(2)
 .admin-match-label {
 
     color: #2563eb;
@@ -1259,7 +1261,7 @@ button:last-child:hover {
 }
 
 
-.admin-match-column:nth-child(2)
+.match-card .admin-match-column:nth-child(2)
 .admin-match-value {
 
     color: #1f2937;
@@ -1271,27 +1273,38 @@ button:last-child:hover {
    TEAMS
 ====================================================== */
 
-.admin-match-teams-column {
+.match-card .admin-match-teams-column
+.admin-match-label {
 
-    min-width: 0;
+    color: #059669;
 
 }
 
 
-.admin-match-teams {
+.match-card .admin-match-teams {
+
+    width: 100%;
 
     display: flex;
 
     align-items: center;
 
-    gap: 6px;
+    justify-content: center;
+
+    gap: 5px;
+
+    font-size: 11px;
+
+    font-weight: 600;
 
     white-space: nowrap;
 
 }
 
 
-.admin-match-teams span {
+.match-card .admin-match-teams span {
+
+    max-width: 70px;
 
     overflow: hidden;
 
@@ -1300,23 +1313,13 @@ button:last-child:hover {
 }
 
 
-.admin-match-teams strong {
+.match-card .admin-match-teams strong {
 
     flex-shrink: 0;
 
-    font-size: 10px;
+    font-size: 9px;
 
     color: #a855f7;
-
-}
-
-
-/* team label */
-
-.admin-match-teams-column
-.admin-match-label {
-
-    color: #059669;
 
 }
 
@@ -1325,7 +1328,7 @@ button:last-child:hover {
    STATUS
 ====================================================== */
 
-.admin-match-column:nth-child(4)
+.match-card .admin-match-column:nth-child(4)
 .admin-match-label {
 
     color: #f59e0b;
@@ -1333,13 +1336,13 @@ button:last-child:hover {
 }
 
 
-.admin-game-status {
+.match-card .admin-game-status {
 
     color: #111827;
 
-    font-weight: 700;
-
     text-transform: uppercase;
+
+    font-size: 11px;
 
 }
 
@@ -1348,7 +1351,7 @@ button:last-child:hover {
    MATCH STATUS
 ====================================================== */
 
-.admin-match-column:nth-child(5)
+.match-card .admin-match-column:nth-child(5)
 .admin-match-label {
 
     color: #7c3aed;
@@ -1356,29 +1359,22 @@ button:last-child:hover {
 }
 
 
-.admin-game-match-status {
+.match-card .admin-game-match-status {
 
-    font-weight: 700;
+    color: #7c3aed;
 
     text-transform: uppercase;
 
-    color: #7c3aed;
+    font-size: 11px;
 
 }
 
 
 /* ======================================================
-   MARKETS COLUMN
+   MARKETS
 ====================================================== */
 
-.admin-markets-column {
-
-    justify-content: center;
-
-}
-
-
-.admin-markets-column
+.match-card .admin-markets-column
 .admin-match-label {
 
     color: #0891b2;
@@ -1386,11 +1382,13 @@ button:last-child:hover {
 }
 
 
-/* ======================================================
-   MARKETS BUTTON
-====================================================== */
+.match-card .admin-markets-toggle-btn {
 
-.admin-markets-toggle-btn {
+    width: 100%;
+
+    min-height: 31px;
+
+    padding: 5px 6px;
 
     display: inline-flex;
 
@@ -1398,13 +1396,7 @@ button:last-child:hover {
 
     justify-content: center;
 
-    gap: 5px;
-
-    width: 100%;
-
-    min-height: 31px;
-
-    padding: 6px 8px;
+    gap: 4px;
 
     border: 1px solid #e5e7eb;
 
@@ -1414,18 +1406,17 @@ button:last-child:hover {
 
     color: #374151;
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 700;
 
     white-space: nowrap;
 
     box-sizing: border-box;
-
 }
 
 
-.admin-markets-toggle-btn:hover {
+.match-card .admin-markets-toggle-btn:hover {
 
     background: #f3e8ff;
 
@@ -1438,18 +1429,18 @@ button:last-child:hover {
 }
 
 
-.admin-market-count {
+.match-card .admin-market-count {
 
     color: #7c3aed;
 
-    font-size: 10px;
+    font-size: 9px;
 
 }
 
 
-.admin-markets-arrow {
+.match-card .admin-markets-arrow {
 
-    font-size: 10px;
+    font-size: 9px;
 
     line-height: 1;
 
@@ -1457,33 +1448,32 @@ button:last-child:hover {
 
 
 /* ======================================================
-   EDIT AREA
+   EDIT BUTTON
 ====================================================== */
 
 .match-card .admin-match-action {
 
-    flex: 0 0 auto;
+    grid-column: 7;
+
+    grid-row: 1;
 
     display: flex;
 
     align-items: center;
 
-    justify-content: center;
+    justify-content: flex-end;
 
-    padding: 12px 12px 12px 0;
+    padding: 0;
 
+    min-width: 0;
 }
 
 
-/* ======================================================
-   EDIT BUTTON - RED
-====================================================== */
+.match-card .admin-edit-match-btn {
 
-.admin-edit-match-btn {
+    min-height: 36px;
 
-    min-height: 38px;
-
-    padding: 8px 12px;
+    padding: 7px 11px;
 
     border: 1px solid #fecaca;
 
@@ -1493,87 +1483,82 @@ button:last-child:hover {
 
     color: #ffffff;
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 700;
 
     white-space: nowrap;
 
     box-shadow:
-        0 4px 10px rgba(220, 38, 38, 0.14);
-
+        0 3px 8px rgba(220, 38, 38, 0.14);
 }
 
 
-.admin-edit-match-btn:hover {
+.match-card .admin-edit-match-btn:hover {
 
     background: #b91c1c;
 
     border-color: #b91c1c;
 
     transform: translateY(-1px);
-
 }
 
 
 /* ======================================================
-   EXPANDABLE MARKETS DROPDOWN
+   MARKETS DROPDOWN
 ====================================================== */
 
 .match-card .admin-markets-panel {
 
-    flex: 0 0 100%;
+    grid-column: 1 / -1;
 
     width: 100%;
 
     display: none;
 
-    margin: 0;
+    margin-top: 10px;
 
-    padding: 14px 16px 16px 16px;
+    padding: 12px;
 
     background: #fafafa;
 
     border-top: 1px solid #e5e7eb;
 
     box-sizing: border-box;
-
 }
 
 
 /* ======================================================
-   MARKETS PANEL HEADER
+   MARKETS TITLE
 ====================================================== */
 
-.admin-markets-panel-title {
+.match-card .admin-markets-panel-title {
 
-    margin-bottom: 10px;
+    margin-bottom: 9px;
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 
     color: #374151;
-
 }
 
 
 /* ======================================================
-   MARKET GRID
+   MARKETS GRID
 ====================================================== */
 
-.admin-markets-grid {
+.match-card .admin-markets-grid {
 
     display: grid;
 
     grid-template-columns:
         repeat(
             auto-fit,
-            minmax(170px, 1fr)
+            minmax(160px, 1fr)
         );
 
-    gap: 9px;
-
+    gap: 8px;
 }
 
 
@@ -1581,7 +1566,7 @@ button:last-child:hover {
    INDIVIDUAL MARKET BOX
 ====================================================== */
 
-.admin-market-item {
+.match-card .admin-market-item {
 
     display: flex;
 
@@ -1589,9 +1574,9 @@ button:last-child:hover {
 
     justify-content: space-between;
 
-    gap: 10px;
+    gap: 8px;
 
-    min-height: 36px;
+    min-height: 34px;
 
     padding: 7px 9px;
 
@@ -1599,35 +1584,13 @@ button:last-child:hover {
 
     border: 1px solid #e5e7eb;
 
-    border-radius: 8px;
+    border-radius: 7px;
 
     box-sizing: border-box;
 
     font-size: 11px;
 
-    font-weight: 600;
-
     color: #4b5563;
-
-}
-
-
-/* ======================================================
-   MARKET ON/OFF BUTTON
-====================================================== */
-
-.admin-market-item button {
-
-    min-width: 42px;
-
-    padding: 5px 7px;
-
-    border-radius: 6px;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
 }
 
 
@@ -1637,68 +1600,82 @@ button:last-child:hover {
 
 @media (max-width: 1100px) {
 
-    .match-card .admin-match-main {
+    .match-card {
 
         grid-template-columns:
-            repeat(4, minmax(0, 1fr));
+            90px
+            120px
+            155px
+            80px
+            105px
+            95px
+            auto;
 
     }
 
 }
 
 
-@media (max-width: 820px) {
+@media (max-width: 900px) {
 
-    .match-card .admin-match-main {
+    .match-card {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+    }
+
+
+    .match-card .admin-match-action {
+
+        grid-column: 1 / -1;
+
+        grid-row: auto;
+
+        justify-content: flex-end;
+
+        padding-top: 2px;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .match-card {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
     }
 
+
     .match-card .admin-match-action {
 
-        width: 100%;
+        grid-column: 1 / -1;
 
-        padding:
-            0
-            12px
-            12px
-            12px;
+        justify-content: stretch;
 
     }
 
-    .admin-edit-match-btn {
+
+    .match-card .admin-edit-match-btn {
 
         width: 100%;
 
     }
 
-}
 
-
-@media (max-width: 520px) {
-
-    .match-card .admin-match-main {
-
-        grid-template-columns: 1fr;
-
-    }
-
-    .admin-match-value {
-
-        white-space: normal;
-
-    }
-
-    .admin-markets-grid {
+    .match-card .admin-markets-grid {
 
         grid-template-columns: 1fr;
 
     }
 
 }
+
 /* ======================================================
-   END ADMIN SPORTS GAME CARD - FINAL HORIZONTAL DESIGN
+   END ADMIN SPORTS GAME CARD
+   FINAL COMPACT HORIZONTAL VERSION
 ====================================================== */
-
