@@ -647,3 +647,432 @@ button[onclick="saveGameSettings()"]{
 /* ===================================
     END SPORTS EVENTS SECTION
 =================================== */
+/* ======================================================
+   ADD NEW CRICKET GAME MODAL
+====================================================== */
+
+#addCricketGameModal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.12);
+    z-index: 999999;
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   ADD GAME BOX
+====================================================== */
+
+#addCricketGameModal .sports-game-edit-box {
+    width: min(1100px, 96vw);
+    max-width: 1100px;
+
+    background: #ffffff;
+
+    border: 1px solid rgba(168, 85, 247, 0.16);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.16);
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+#addCricketGameModal .sports-game-edit-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 16px 20px;
+
+    border-bottom:
+        1px solid rgba(168, 85, 247, 0.10);
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-header h3 {
+
+    margin: 0;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-header button {
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #6b7280;
+
+    font-size: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-header button:hover {
+
+    background: rgba(168, 85, 247, 0.08);
+
+    color: #7c3aed;
+
+    transform: none;
+
+}
+
+
+/* ======================================================
+   BODY
+====================================================== */
+
+#addCricketGameModal .sports-game-edit-body {
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+}
+
+
+/* ======================================================
+   HORIZONTAL FORM ROWS
+====================================================== */
+
+#addCricketGameModal .edit-field {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+#addCricketGameModal .edit-field label {
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #6b7280;
+
+}
+
+
+/*
+    JS-generated fields naturally flow as horizontal
+    rows using these row wrappers when available.
+*/
+
+#addCricketGameModal .sports-add-row {
+
+    display: flex;
+
+    gap: 14px;
+
+    width: 100%;
+
+}
+
+
+/* ======================================================
+   INPUT / SELECT
+====================================================== */
+
+#addCricketGameModal input,
+#addCricketGameModal select {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border-radius: 9px;
+
+    border: 1px solid #e5e7eb;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 13px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+/* ======================================================
+   INPUT FOCUS - SOFT PURPLE
+====================================================== */
+
+#addCricketGameModal input:focus,
+#addCricketGameModal select:focus {
+
+    border-color: #a855f7;
+
+    box-shadow:
+        0 0 0 3px rgba(168, 85, 247, 0.10);
+
+    background: #ffffff;
+
+}
+
+
+/* ======================================================
+   GAME ID
+====================================================== */
+
+#addCricketGameModal
+#addCricketGameId {
+
+    background: #f8fafc;
+
+    color: #6b7280;
+
+}
+
+
+/* ======================================================
+   BETTING MARKETS
+====================================================== */
+
+#addCricketGameModal .sports-edit-markets {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    background: #fafafa;
+
+    box-sizing: border-box;
+
+}
+
+
+#addCricketGameModal
+.sports-edit-markets h4 {
+
+    margin: 0 0 12px 0;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #374151;
+
+}
+
+
+#addCricketGameModal
+.sports-market-toggle {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-right: 20px;
+
+    font-size: 13px;
+
+    color: #4b5563;
+
+    cursor: pointer;
+
+}
+
+
+#addCricketGameModal
+.sports-market-toggle input {
+
+    width: 16px;
+
+    height: 16px;
+
+    margin: 0;
+
+    accent-color: #a855f7;
+
+}
+
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+#addCricketGameModal
+.sports-game-edit-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding: 16px 20px;
+
+    border-top:
+        1px solid rgba(168, 85, 247, 0.10);
+
+}
+
+
+/* CANCEL */
+
+#addCricketGameModal
+.sports-game-edit-footer button:first-child {
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-footer button:first-child:hover {
+
+    background: #e5e7eb;
+
+}
+
+
+/* ADD GAME */
+
+#addCricketGameModal
+.sports-game-edit-footer button:last-child {
+
+    background: #a855f7;
+
+    color: #ffffff;
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-footer button:last-child:hover {
+
+    background: #9333ea;
+
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 800px) {
+
+    #addCricketGameModal {
+
+        padding: 14px;
+
+        align-items: flex-start;
+
+        overflow-y: auto;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-box {
+
+        width: 100%;
+
+        margin: 20px 0;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-row {
+
+        flex-direction: column;
+
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    #addCricketGameModal
+    .sports-game-edit-body {
+
+        padding: 14px;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-footer {
+
+        padding: 14px;
+
+    }
+
+}
