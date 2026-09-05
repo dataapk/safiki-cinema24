@@ -1141,6 +1141,10 @@ window.openCricketFeatured = async function (btn) {
 
 window.openAddCricketGameModal = function () {
 
+    console.log(
+        "➕ ADD NEW GAME CLICKED"
+    );
+
     const modal =
         document.getElementById(
             "addCricketGameModal"
@@ -1265,6 +1269,10 @@ window.closeAddCricketGameModal = function () {
         modal.style.display = "none";
     }
 
+};
+    console.log(
+        "✅ ADD GAME MODAL OPEN FUNCTION FINISHED"
+    );
 };
 
 // ======================================================
