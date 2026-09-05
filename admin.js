@@ -1474,24 +1474,24 @@ window.openAddCricketGameModal = function () {
     }
 
 
-    // ==================================================
-    // DEFAULT MARKETS
-    // ==================================================
+// ==================================================
+// DEFAULT MARKETS
+// ==================================================
 
-    if (totalRuns) {
-        totalRuns.checked = true;
-    }
+if (totalRuns) {
+    totalRuns.checked = true;
+}
 
-    if (overUnder) {
-        overUnder.checked = true;
-    }
+if (overUnder) {
+    overUnder.checked = true;
+}
 
-    if (matchWinner) {
-        matchWinner.checked = true;
-    }
+if (matchWinner) {
+    matchWinner.checked = true;
+}
 
 
-    // ==================================================
+// ==================================================
 // FORCE SHOW MODAL
 // ==================================================
 
@@ -1549,10 +1549,18 @@ modal.style.setProperty(
     "important"
 );
 
+
 console.log(
     "✅ ADD GAME MODAL VISIBLE:",
     modal
 );
+
+
+// ==================================================
+// CLOSE OPEN FUNCTION
+// ==================================================
+
+};
 
 
 // ======================================================
