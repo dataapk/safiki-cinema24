@@ -1124,29 +1124,28 @@ button:last-child:hover {
 
 
 /* ======================================================
-   MAIN HORIZONTAL ROW
+   MAIN HORIZONTAL ROW - COMPACT
 ====================================================== */
 
 .match-card .admin-match-main {
 
     width: 100%;
 
-    flex: 0 0 100%;
+    flex: 1;
 
     display: grid;
 
     grid-template-columns:
-        1.15fr
-        1.25fr
-        1.65fr
-        .85fr
-        1fr
-        .95fr
-        auto;
+        120px
+        150px
+        190px
+        100px
+        120px
+        100px;
 
     align-items: stretch;
 
-    gap: 10px;
+    gap: 8px;
 
     padding: 12px;
 
@@ -1469,7 +1468,9 @@ button:last-child:hover {
 
     align-items: center;
 
-    padding: 0 12px 12px 2px;
+    justify-content: center;
+
+    padding: 12px 12px 12px 0;
 
 }
 
