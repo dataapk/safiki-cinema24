@@ -1139,16 +1139,256 @@ window.openCricketFeatured = async function (btn) {
 // ADD NEW CRICKET GAME MODAL
 // ======================================================
 
+// ======================================================
+// ADD NEW CRICKET GAME
+// JS-ONLY MODAL
+// ======================================================
+
 window.openAddCricketGameModal = function () {
 
     console.log(
         "➕ ADD NEW GAME CLICKED"
     );
 
-    const modal =
+
+    // ==================================================
+    // CREATE MODAL IF NOT EXISTS
+    // ==================================================
+
+    let modal =
         document.getElementById(
             "addCricketGameModal"
         );
+
+
+    if (!modal) {
+
+        modal =
+            document.createElement("div");
+
+        modal.id =
+            "addCricketGameModal";
+
+        modal.className =
+            "sports-game-edit-modal";
+
+        modal.innerHTML = `
+
+            <div class="sports-game-edit-box">
+
+                <div class="sports-game-edit-header">
+
+                    <h3>
+                        ➕ Add New Cricket Game
+                    </h3>
+
+                    <button
+                        type="button"
+                        onclick="closeAddCricketGameModal()">
+                        ✕
+                    </button>
+
+                </div>
+
+
+                <div class="sports-game-edit-body">
+
+
+                    <!-- GAME ID -->
+
+                    <div class="edit-field">
+
+                        <label>
+                            Game ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="addCricketGameId"
+                            readonly>
+
+                    </div>
+
+
+                    <!-- MATCH TITLE -->
+
+                    <div class="edit-field">
+
+                        <label>
+                            Match Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="addCricketGameTitle"
+                            placeholder="Pakistan vs India">
+
+                    </div>
+
+
+                    <!-- LEAGUE -->
+
+                    <div class="edit-field">
+
+                        <label>
+                            League
+                        </label>
+
+                        <input
+                            type="text"
+                            id="addCricketGameLeague"
+                            placeholder="T20 International">
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="edit-field">
+
+                        <label>
+                            Status
+                        </label>
+
+                        <select
+                            id="addCricketGameStatus">
+
+                            <option value="live">
+                                LIVE
+                            </option>
+
+                            <option value="upcoming">
+                                UPCOMING
+                            </option>
+
+                            <option value="featured">
+                                FEATURED
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- HOME TEAM -->
+
+                    <div class="edit-field">
+
+                        <label>
+                            Home Team
+                        </label>
+
+                        <input
+                            type="text"
+                            id="addCricketGameHome"
+                            placeholder="Pakistan">
+
+                    </div>
+
+
+                    <!-- AWAY TEAM -->
+
+                    <div class="edit-field">
+
+                        <label>
+                            Away Team
+                        </label>
+
+                        <input
+                            type="text"
+                            id="addCricketGameAway"
+                            placeholder="India">
+
+                    </div>
+
+
+                    <!-- BETTING MARKETS -->
+
+                    <div class="sports-edit-markets">
+
+                        <h4>
+                            Betting Markets
+                        </h4>
+
+
+                        <label class="sports-market-toggle">
+
+                            <input
+                                type="checkbox"
+                                id="addTotalRuns"
+                                checked>
+
+                            <span>
+                                Total Runs
+                            </span>
+
+                        </label>
+
+
+                        <label class="sports-market-toggle">
+
+                            <input
+                                type="checkbox"
+                                id="addOverUnder"
+                                checked>
+
+                            <span>
+                                Over / Under
+                            </span>
+
+                        </label>
+
+
+                        <label class="sports-market-toggle">
+
+                            <input
+                                type="checkbox"
+                                id="addMatchWinner"
+                                checked>
+
+                            <span>
+                                Match Winner
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="sports-game-edit-footer">
+
+                    <button
+                        type="button"
+                        onclick="closeAddCricketGameModal()">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="saveNewCricketGame()">
+                        💾 Add Game
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document.body.appendChild(
+            modal
+        );
+
+    }
+
+
+    // ==================================================
+    // GET FORM ELEMENTS
+    // ==================================================
 
     const gameIdInput =
         document.getElementById(
@@ -1180,8 +1420,25 @@ window.openAddCricketGameModal = function () {
             "addCricketGameAway"
         );
 
+    const totalRuns =
+        document.getElementById(
+            "addTotalRuns"
+        );
 
-    // Generate new Game ID
+    const overUnder =
+        document.getElementById(
+            "addOverUnder"
+        );
+
+    const matchWinner =
+        document.getElementById(
+            "addMatchWinner"
+        );
+
+
+    // ==================================================
+    // GENERATE GAME ID
+    // ==================================================
 
     if (gameIdInput) {
 
@@ -1192,7 +1449,9 @@ window.openAddCricketGameModal = function () {
     }
 
 
-    // Clear fields
+    // ==================================================
+    // RESET FORM
+    // ==================================================
 
     if (titleInput) {
         titleInput.value = "";
@@ -1215,22 +1474,9 @@ window.openAddCricketGameModal = function () {
     }
 
 
-    // Default markets ON
-
-    const totalRuns =
-        document.getElementById(
-            "addTotalRuns"
-        );
-
-    const overUnder =
-        document.getElementById(
-            "addOverUnder"
-        );
-
-    const matchWinner =
-        document.getElementById(
-            "addMatchWinner"
-        );
+    // ==================================================
+    // DEFAULT MARKETS
+    // ==================================================
 
     if (totalRuns) {
         totalRuns.checked = true;
@@ -1245,11 +1491,13 @@ window.openAddCricketGameModal = function () {
     }
 
 
-    // Open modal
+    // ==================================================
+    // SHOW MODAL
+    // ==================================================
 
-        if (modal) {
-        modal.style.display = "flex";
-    }
+    modal.style.display =
+        "flex";
+
 
     console.log(
         "✅ ADD GAME MODAL OPEN FUNCTION FINISHED"
@@ -1262,16 +1510,26 @@ window.openAddCricketGameModal = function () {
 // CLOSE ADD NEW CRICKET GAME MODAL
 // ======================================================
 
-window.closeAddCricketGameModal = function () {
+window.closeAddCricketGameModal =
+function () {
 
     const modal =
         document.getElementById(
             "addCricketGameModal"
         );
 
+
     if (modal) {
-        modal.style.display = "none";
+
+        modal.style.display =
+            "none";
+
     }
+
+
+    console.log(
+        "✅ ADD GAME MODAL CLOSED"
+    );
 
 };
     
