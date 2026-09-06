@@ -1208,7 +1208,14 @@ button:last-child:hover {
 
 
 /* ======================================================
-   ADD NEW GAME AREA
+   ADD NEW CRICKET GAME
+   FINAL DESKTOP + MOBILE DESIGN
+   SCOPE: ADD GAME MODAL ONLY
+====================================================== */
+
+
+/* ======================================================
+   ADD GAME BUTTON AREA
 ====================================================== */
 
 .sports-add-game-row {
@@ -1219,14 +1226,12 @@ button:last-child:hover {
 
     justify-content: center;
 
-    margin-bottom: 22px;
+    margin: 0 0 22px 0;
+
+    box-sizing: border-box;
 
 }
 
-
-/* ======================================================
-   ADD NEW GAME BUTTON
-====================================================== */
 
 .sports-add-game-btn {
 
@@ -1248,8 +1253,16 @@ button:last-child:hover {
 
     cursor: pointer;
 
+    box-sizing: border-box;
+
     box-shadow:
         0 5px 14px rgba(22, 163, 74, 0.16);
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
 
 }
 
@@ -1261,6 +1274,9 @@ button:last-child:hover {
     border-color: #15803d;
 
     transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 16px rgba(22, 163, 74, 0.20);
 
 }
 
