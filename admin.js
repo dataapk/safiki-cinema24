@@ -2523,48 +2523,6 @@ window.saveNewSportsGame = async function () {
 };
 
 
-// ==================================================
-// UPDATE ADMIN CACHE
-// ==================================================
-
-window.adminSportsGames[
-    data.game_id
-] = data;
-
-
-// ==================================================
-// CLOSE COMMON ADD GAME PANEL
-// ==================================================
-
-closeAddSportsGameModal();
-
-
-// ==================================================
-// RENDER CURRENT SPORT
-// ==================================================
-
-renderAdminSportGames(
-    sport,
-    String(
-        data.status || ""
-    )
-    .trim()
-    .toLowerCase()
-);
-
-
-// ==================================================
-// SUCCESS MESSAGE
-// ==================================================
-
-alert(
-    "✅ " +
-    sport.charAt(0).toUpperCase() +
-    sport.slice(1) +
-    " game added successfully!"
-);
-    
-
 // ======================================================
 // FOOTBALL TABS
 // ======================================================
