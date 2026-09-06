@@ -1578,30 +1578,31 @@ function ensureSportsAddGameButton(
 
 
 // ======================================================
-// ADD NEW CRICKET GAME MODAL
+// COMMON ADD SPORTS GAME MODAL
 // ======================================================
 
-window.openAddCricketGameModal = function () {
+window.openAddSportsGameModal = function (sport) {
 
     console.log(
-        "➕ ADD NEW GAME CLICKED"
+        "➕ ADD NEW GAME CLICKED:",
+        sport
     );
 
 
     // ==================================================
-    // CRICKET SECTION
+    // NORMALIZE SPORT
     // ==================================================
 
-    const cricketSection =
-        document.getElementById(
-            "adminCricketSection"
-        );
+    const currentSport =
+        String(sport || "")
+            .trim()
+            .toLowerCase();
 
 
-    if (!cricketSection) {
+    if (!currentSport) {
 
         console.error(
-            "❌ Cricket section not found."
+            "❌ ADMIN: Sport not provided."
         );
 
         return;
@@ -1610,12 +1611,61 @@ window.openAddCricketGameModal = function () {
 
 
     // ==================================================
-    // FIND EXISTING MODAL
+    // FIND CURRENT SPORT SECTION
+    // ==================================================
+
+    const sectionMap = {
+
+        cricket: "adminCricketSection",
+
+        football: "adminFootballSection",
+
+        tennis: "adminTennisSection",
+
+        basketball: "adminBasketballSection",
+
+        volleyball: "adminVolleyballSection",
+
+        boxing: "adminBoxingSection",
+
+        hockey: "adminHockeySection",
+
+        rugby: "adminRugbySection",
+
+        golf: "adminGolfSection"
+
+    };
+
+
+    const sectionId =
+        sectionMap[currentSport];
+
+
+    const currentSection =
+        sectionId
+            ? document.getElementById(sectionId)
+            : null;
+
+
+    if (!currentSection) {
+
+        console.error(
+            "❌ ADMIN: Sports section not found:",
+            currentSport
+        );
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // FIND EXISTING COMMON MODAL
     // ==================================================
 
     let modal =
         document.getElementById(
-            "addCricketGameModal"
+            "addSportsGameModal"
         );
 
 
@@ -1629,7 +1679,7 @@ window.openAddCricketGameModal = function () {
             document.createElement("div");
 
         modal.id =
-            "addCricketGameModal";
+            "addSportsGameModal";
 
         modal.className =
             "sports-game-edit-modal";
@@ -1639,20 +1689,25 @@ window.openAddCricketGameModal = function () {
 
             <div class="sports-game-edit-box">
 
+
+                <!-- HEADER -->
+
                 <div class="sports-game-edit-header">
 
-                    <h3>
-                        ➕ Add New Cricket Game
+                    <h3 id="addSportsGameModalTitle">
+                        ➕ Add New Game
                     </h3>
 
                     <button
                         type="button"
-                        onclick="closeAddCricketGameModal()">
+                        onclick="closeAddSportsGameModal()">
                         ✕
                     </button>
 
                 </div>
 
+
+                <!-- BODY -->
 
                 <div class="sports-game-edit-body">
 
@@ -1669,7 +1724,7 @@ window.openAddCricketGameModal = function () {
 
                             <input
                                 type="text"
-                                id="addCricketGameId"
+                                id="addSportsGameId"
                                 readonly>
 
                         </div>
@@ -1689,8 +1744,8 @@ window.openAddCricketGameModal = function () {
 
                             <input
                                 type="text"
-                                id="addCricketGameTitle"
-                                placeholder="Pakistan vs India">
+                                id="addSportsGameTitle"
+                                placeholder="Enter match title">
 
                         </div>
 
@@ -1709,8 +1764,8 @@ window.openAddCricketGameModal = function () {
 
                             <input
                                 type="text"
-                                id="addCricketGameLeague"
-                                placeholder="T20 International">
+                                id="addSportsGameLeague"
+                                placeholder="Enter league">
 
                         </div>
 
@@ -1727,8 +1782,7 @@ window.openAddCricketGameModal = function () {
 
                         <div class="sports-add-form-control">
 
-                            <select
-                                id="addCricketGameStatus">
+                            <select id="addSportsGameStatus">
 
                                 <option value="live">
                                     LIVE
@@ -1747,36 +1801,37 @@ window.openAddCricketGameModal = function () {
                         </div>
 
                     </div>
+
+
                     <!-- MATCH STATUS -->
 
-<div class="sports-add-form-row">
+                    <div class="sports-add-form-row">
 
-    <div class="sports-add-form-label">
-        Match Status
-    </div>
+                        <div class="sports-add-form-label">
+                            Match Status
+                        </div>
 
-    <div class="sports-add-form-control">
+                        <div class="sports-add-form-control">
 
-        <select
-            id="addCricketMatchStatus">
+                            <select id="addSportsMatchStatus">
 
-            <option value="enable">
-                ENABLE
-            </option>
+                                <option value="enable">
+                                    ENABLE
+                                </option>
 
-            <option value="disable">
-                DISABLE
-            </option>
+                                <option value="disable">
+                                    DISABLE
+                                </option>
 
-            <option value="reject">
-                REJECT
-            </option>
+                                <option value="reject">
+                                    REJECT
+                                </option>
 
-        </select>
+                            </select>
 
-    </div>
+                        </div>
 
-</div>
+                    </div>
 
 
                     <!-- HOME TEAM -->
@@ -1791,8 +1846,8 @@ window.openAddCricketGameModal = function () {
 
                             <input
                                 type="text"
-                                id="addCricketGameHome"
-                                placeholder="Pakistan">
+                                id="addSportsGameHome"
+                                placeholder="Select team">
 
                         </div>
 
@@ -1811,8 +1866,8 @@ window.openAddCricketGameModal = function () {
 
                             <input
                                 type="text"
-                                id="addCricketGameAway"
-                                placeholder="India">
+                                id="addSportsGameAway"
+                                placeholder="Select team">
 
                         </div>
 
@@ -1832,42 +1887,42 @@ window.openAddCricketGameModal = function () {
 
                             <label class="sports-market-toggle">
 
-                                <input
-                                    type="checkbox"
-                                    id="addTotalRuns"
-                                    checked>
-
                                 <span>
                                     Total Runs
                                 </span>
+
+                                <input
+                                    type="checkbox"
+                                    id="addSportsTotalRuns"
+                                    checked>
 
                             </label>
 
 
                             <label class="sports-market-toggle">
-
-                                <input
-                                    type="checkbox"
-                                    id="addOverUnder"
-                                    checked>
 
                                 <span>
                                     Over / Under
                                 </span>
 
+                                <input
+                                    type="checkbox"
+                                    id="addSportsOverUnder"
+                                    checked>
+
                             </label>
 
 
                             <label class="sports-market-toggle">
 
-                                <input
-                                    type="checkbox"
-                                    id="addMatchWinner"
-                                    checked>
-
                                 <span>
                                     Match Winner
                                 </span>
+
+                                <input
+                                    type="checkbox"
+                                    id="addSportsMatchWinner"
+                                    checked>
 
                             </label>
 
@@ -1879,49 +1934,90 @@ window.openAddCricketGameModal = function () {
                 </div>
 
 
+                <!-- FOOTER -->
+
                 <div class="sports-game-edit-footer">
 
                     <button
                         type="button"
-                        onclick="closeAddCricketGameModal()">
+                        onclick="closeAddSportsGameModal()">
                         Cancel
                     </button>
 
                     <button
                         type="button"
-                        onclick="saveNewCricketGame()">
+                        onclick="saveNewSportsGame()">
                         💾 Add Game
                     </button>
 
                 </div>
 
+
             </div>
 
         `;
 
+        document.body.appendChild(
+            modal
+        );
 
-        // INSERT DIRECTLY UNDER ADD NEW GAME ROW
-
-        const addGameRow =
-            cricketSection.querySelector(
-                ".sports-add-game-row"
-            );
+    }
 
 
-        if (addGameRow) {
+    // ==================================================
+    // REMEMBER CURRENT SPORT
+    // ==================================================
 
-            addGameRow.insertAdjacentElement(
-                "afterend",
-                modal
-            );
+    window.currentAddSportsGame =
+        currentSport;
 
-        } else {
 
-            cricketSection.prepend(
-                modal
-            );
+    // ==================================================
+    // MOVE MODAL UNDER CURRENT SPORT'S ADD GAME ROW
+    // ==================================================
 
-        }
+    const addGameRow =
+        currentSection.querySelector(
+            ".sports-add-game-row"
+        );
+
+
+    if (addGameRow) {
+
+        addGameRow.insertAdjacentElement(
+            "afterend",
+            modal
+        );
+
+    } else {
+
+        currentSection.prepend(
+            modal
+        );
+
+    }
+
+
+    // ==================================================
+    // UPDATE TITLE
+    // ==================================================
+
+    const title =
+        document.getElementById(
+            "addSportsGameModalTitle"
+        );
+
+
+    if (title) {
+
+        const displaySport =
+            currentSport.charAt(0).toUpperCase() +
+            currentSport.slice(1);
+
+        title.textContent =
+            "➕ Add New " +
+            displaySport +
+            " Game";
 
     }
 
@@ -1932,47 +2028,52 @@ window.openAddCricketGameModal = function () {
 
     const gameIdInput =
         document.getElementById(
-            "addCricketGameId"
+            "addSportsGameId"
         );
 
     const titleInput =
         document.getElementById(
-            "addCricketGameTitle"
+            "addSportsGameTitle"
         );
 
     const leagueInput =
         document.getElementById(
-            "addCricketGameLeague"
+            "addSportsGameLeague"
         );
 
     const statusInput =
         document.getElementById(
-            "addCricketGameStatus"
+            "addSportsGameStatus"
+        );
+
+    const matchStatusInput =
+        document.getElementById(
+            "addSportsMatchStatus"
         );
 
     const homeInput =
         document.getElementById(
-            "addCricketGameHome"
+            "addSportsGameHome"
         );
 
     const awayInput =
         document.getElementById(
-            "addCricketGameAway"
+            "addSportsGameAway"
         );
 
     const totalRuns =
         document.getElementById(
-            "addTotalRuns"
+            "addSportsTotalRuns"
         );
 
     const overUnder =
         document.getElementById(
-            "addOverUnder"
+            "addSportsOverUnder"
         );
 
     const matchWinner =
         document.getElementById(
-            "addMatchWinner"
+            "addSportsMatchWinner"
         );
 
 
@@ -1983,7 +2084,8 @@ window.openAddCricketGameModal = function () {
     if (gameIdInput) {
 
         gameIdInput.value =
-            "cricket-" +
+            currentSport +
+            "-" +
             Date.now();
 
     }
@@ -1998,6 +2100,10 @@ window.openAddCricketGameModal = function () {
 
     if (statusInput) {
         statusInput.value = "live";
+    }
+
+    if (matchStatusInput) {
+        matchStatusInput.value = "enable";
     }
 
     if (homeInput) {
@@ -2030,22 +2136,23 @@ window.openAddCricketGameModal = function () {
 
 
     console.log(
-        "✅ ADD GAME PANEL OPENED"
+        "✅ COMMON ADD GAME PANEL OPENED:",
+        currentSport
     );
 
 };
 
 
 // ======================================================
-// CLOSE ADD NEW CRICKET GAME
+// CLOSE COMMON ADD SPORTS GAME
 // ======================================================
 
-window.closeAddCricketGameModal =
+window.closeAddSportsGameModal =
 function () {
 
     const modal =
         document.getElementById(
-            "addCricketGameModal"
+            "addSportsGameModal"
         );
 
 
@@ -2058,84 +2165,102 @@ function () {
 
 
     console.log(
-        "✅ ADD GAME PANEL CLOSED"
+        "✅ COMMON ADD GAME PANEL CLOSED"
     );
 
 };
+
 // ======================================================
-// SAVE NEW CRICKET GAME
+// SAVE NEW SPORTS GAME
 // ======================================================
 
-window.saveNewCricketGame = async function () {
+window.saveNewSportsGame = async function () {
 
     console.log(
-        "💾 ADD NEW CRICKET GAME SAVE CLICKED"
+        "💾 ADD NEW SPORTS GAME SAVE CLICKED"
     );
 
 
     // ==================================================
-    // GET FORM VALUES
+    // CURRENT SPORT
+    // ==================================================
+
+    const sport =
+        String(
+            window.currentAddSportsGame || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (!sport) {
+
+        alert(
+            "Unable to determine the selected sport."
+        );
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // FORM ELEMENTS
     // ==================================================
 
     const gameIdInput =
         document.getElementById(
-            "addCricketGameId"
+            "addSportsGameId"
         );
 
     const titleInput =
         document.getElementById(
-            "addCricketGameTitle"
+            "addSportsGameTitle"
         );
 
     const leagueInput =
         document.getElementById(
-            "addCricketGameLeague"
+            "addSportsGameLeague"
         );
 
     const statusInput =
         document.getElementById(
-            "addCricketGameStatus"
+            "addSportsGameStatus"
+        );
+
+    const matchStatusInput =
+        document.getElementById(
+            "addSportsMatchStatus"
         );
 
     const homeInput =
         document.getElementById(
-            "addCricketGameHome"
+            "addSportsGameHome"
         );
 
     const awayInput =
         document.getElementById(
-            "addCricketGameAway"
+            "addSportsGameAway"
         );
 
     const totalRunsInput =
         document.getElementById(
-            "addTotalRuns"
+            "addSportsTotalRuns"
         );
 
     const overUnderInput =
         document.getElementById(
-            "addOverUnder"
+            "addSportsOverUnder"
         );
 
     const matchWinnerInput =
         document.getElementById(
-            "addMatchWinner"
+            "addSportsMatchWinner"
         );
-    const matchStatusInput =
-    document.getElementById(
-        "addCricketMatchStatus"
-    );
-
-const matchStatus =
-    matchStatusInput && matchStatusInput.value
-        ? matchStatusInput.value
-            .trim()
-            .toLowerCase()
-        : "enable";
 
 
     // ==================================================
-    // FORM DATA
+    // VALUES
     // ==================================================
 
     const gameId =
@@ -2160,6 +2285,13 @@ const matchStatus =
                 .toLowerCase()
             : "live";
 
+    const matchStatus =
+        matchStatusInput && matchStatusInput.value
+            ? matchStatusInput.value
+                .trim()
+                .toLowerCase()
+            : "enable";
+
     const homeTeam =
         homeInput
             ? homeInput.value.trim()
@@ -2169,6 +2301,7 @@ const matchStatus =
         awayInput
             ? awayInput.value.trim()
             : "";
+
 
     const totalRunsEnabled =
         totalRunsInput
@@ -2203,6 +2336,7 @@ const matchStatus =
         );
 
         return;
+
     }
 
 
@@ -2219,21 +2353,25 @@ const matchStatus =
         );
 
         return;
+
     }
+
+
     if (
-    ![
-        "enable",
-        "disable",
-        "reject"
-    ].includes(matchStatus)
-) {
+        ![
+            "enable",
+            "disable",
+            "reject"
+        ].includes(matchStatus)
+    ) {
 
-    alert(
-        "Please select a valid match status."
-    );
+        alert(
+            "Please select a valid match status."
+        );
 
-    return;
-}
+        return;
+
+    }
 
 
     // ==================================================
@@ -2251,6 +2389,7 @@ const matchStatus =
         );
 
         return;
+
     }
 
 
@@ -2264,7 +2403,7 @@ const matchStatus =
             gameId,
 
         sport:
-            "cricket",
+            sport,
 
         title:
             title,
@@ -2274,9 +2413,9 @@ const matchStatus =
 
         status:
             status,
-        
+
         match_status:
-        matchStatus,
+            matchStatus,
 
         home_team:
             homeTeam,
@@ -2297,7 +2436,7 @@ const matchStatus =
 
 
     console.log(
-        "➕ ADMIN: NEW CRICKET GAME:",
+        "➕ ADMIN: NEW SPORTS GAME:",
         newGame
     );
 
@@ -2309,23 +2448,24 @@ const matchStatus =
     const {
         data,
         error
-    } = await window.supabaseClient
-        .from("sports_games")
-        .insert([
-            newGame
-        ])
-        .select()
-        .single();
+    } =
+        await window.supabaseClient
+            .from("sports_games")
+            .insert([
+                newGame
+            ])
+            .select()
+            .single();
 
 
     // ==================================================
-    // HANDLE ERROR
+    // ERROR
     // ==================================================
 
     if (error) {
 
         console.error(
-            "❌ ADMIN: Cricket game insert failed:",
+            "❌ ADMIN: Sports game insert failed:",
             error
         );
 
@@ -2335,17 +2475,8 @@ const matchStatus =
         );
 
         return;
+
     }
-
-
-    // ==================================================
-    // SUCCESS
-    // ==================================================
-
-    console.log(
-        "✅ ADMIN: NEW CRICKET GAME ADDED:",
-        data
-    );
 
 
     // ==================================================
@@ -2358,18 +2489,18 @@ const matchStatus =
 
 
     // ==================================================
-    // CLOSE ADD PANEL
+    // CLOSE PANEL
     // ==================================================
 
-    closeAddCricketGameModal();
+    closeAddSportsGameModal();
 
 
     // ==================================================
-    // RENDER ACCORDING TO STATUS
+    // RENDER CURRENT SPORT
     // ==================================================
 
     renderAdminSportGames(
-        "cricket",
+        sport,
         String(
             data.status || ""
         )
@@ -2379,14 +2510,59 @@ const matchStatus =
 
 
     // ==================================================
-    // SUCCESS MESSAGE
+    // SUCCESS
     // ==================================================
 
     alert(
-        "✅ Cricket game added successfully!"
+        "✅ " +
+        sport.charAt(0).toUpperCase() +
+        sport.slice(1) +
+        " game added successfully!"
     );
 
 };
+
+
+// ==================================================
+// UPDATE ADMIN CACHE
+// ==================================================
+
+window.adminSportsGames[
+    data.game_id
+] = data;
+
+
+// ==================================================
+// CLOSE COMMON ADD GAME PANEL
+// ==================================================
+
+closeAddSportsGameModal();
+
+
+// ==================================================
+// RENDER CURRENT SPORT
+// ==================================================
+
+renderAdminSportGames(
+    sport,
+    String(
+        data.status || ""
+    )
+    .trim()
+    .toLowerCase()
+);
+
+
+// ==================================================
+// SUCCESS MESSAGE
+// ==================================================
+
+alert(
+    "✅ " +
+    sport.charAt(0).toUpperCase() +
+    sport.slice(1) +
+    " game added successfully!"
+);
     
 
 // ======================================================
