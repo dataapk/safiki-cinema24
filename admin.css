@@ -1261,6 +1261,72 @@ button[onclick="saveGameSettings()"]{
 
 }
 
+/* ======================================================
+   MOBILE BETTING MARKET ALIGNMENT
+====================================================== */
+
+@media (max-width: 700px) {
+
+    #addCricketGameModal
+    .sports-add-market-items {
+
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 7px;
+
+        align-items: stretch;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-market-toggle {
+
+        width: 100%;
+
+        min-width: 0;
+
+        display: flex;
+
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 8px;
+
+        min-height: 36px;
+
+        padding: 7px 9px;
+
+        box-sizing: border-box;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-market-toggle input[type="checkbox"] {
+
+        flex: 0 0 auto;
+
+        width: 16px;
+
+        height: 16px;
+
+        margin: 0;
+
+        vertical-align: middle;
+
+    }
+
+}
+
 
 /* ======================================================
    END ADD GAME MODAL BOX
