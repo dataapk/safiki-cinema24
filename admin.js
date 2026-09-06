@@ -129,7 +129,7 @@ function initSidebar() {
 
     const menuItems =
         document.querySelectorAll(
-            ".sidebar-menu li"
+            ".sidebar-menu > li:not(#gamesMenu)"
         );
 
 
@@ -138,6 +138,10 @@ function initSidebar() {
             ".admin-section"
         );
 
+
+    // ==================================================
+    // NORMAL SIDEBAR MENU ITEMS
+    // ==================================================
 
     menuItems.forEach(item => {
 
@@ -151,13 +155,17 @@ function initSidebar() {
                     );
 
 
-                menuItems.forEach(menuItem => {
+                document
+                    .querySelectorAll(
+                        ".sidebar-menu > li"
+                    )
+                    .forEach(menuItem => {
 
-                    menuItem.classList.remove(
-                        "active"
-                    );
+                        menuItem.classList.remove(
+                            "active"
+                        );
 
-                });
+                    });
 
 
                 item.classList.add(
@@ -195,6 +203,230 @@ function initSidebar() {
         );
 
     });
+
+
+    // ==================================================
+    // GAMES PARENT MENU
+    // ==================================================
+
+    const gamesMenu =
+        document.getElementById(
+            "gamesMenu"
+        );
+
+
+    const gamesSubmenu =
+        gamesMenu
+            ? gamesMenu.querySelector(
+                ".games-submenu"
+            )
+            : null;
+
+
+    const gamesArrow =
+        gamesMenu
+            ? gamesMenu.querySelector(
+                ".games-menu-arrow"
+            )
+            : null;
+
+
+    if (gamesMenu) {
+
+        gamesMenu.addEventListener(
+            "click",
+            function (event) {
+
+                const clickedSubItem =
+                    event.target.closest(
+                        ".games-submenu li"
+                    );
+
+
+                // ======================================
+                // CHILD ITEM CLICK
+                // ======================================
+
+                if (clickedSubItem) {
+                    return;
+                }
+
+
+                // ======================================
+                // TOGGLE SUBMENU
+                // ======================================
+
+                if (!gamesSubmenu) {
+                    return;
+                }
+
+
+                const isOpen =
+                    gamesSubmenu.style.display ===
+                    "block";
+
+
+                gamesSubmenu.style.display =
+                    isOpen
+                        ? "none"
+                        : "block";
+
+
+                if (gamesArrow) {
+
+                    gamesArrow.textContent =
+                        isOpen
+                            ? "▾"
+                            : "▴";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // ==================================================
+    // SPORTS SUB MENU
+    // ==================================================
+
+    const sportsSubMenu =
+        document.getElementById(
+            "sportsSubMenu"
+        );
+
+
+    if (sportsSubMenu) {
+
+        sportsSubMenu.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+
+                document
+                    .querySelectorAll(
+                        ".sidebar-menu > li"
+                    )
+                    .forEach(menuItem => {
+
+                        menuItem.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                gamesMenu.classList.add(
+                    "active"
+                );
+
+
+                sections.forEach(section => {
+
+                    section.style.display =
+                        "none";
+
+                });
+
+
+                const gamesSection =
+                    document.getElementById(
+                        "gamesSection"
+                    );
+
+
+                if (gamesSection) {
+
+                    gamesSection.style.display =
+                        "block";
+
+                    gamesSection.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+
+                openSportsSection();
+
+            }
+        );
+
+    }
+
+
+    // ==================================================
+    // CASINO SUB MENU
+    // ==================================================
+
+    const casinoSubMenu =
+        document.getElementById(
+            "casinoSubMenu"
+        );
+
+
+    if (casinoSubMenu) {
+
+        casinoSubMenu.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+
+                document
+                    .querySelectorAll(
+                        ".sidebar-menu > li"
+                    )
+                    .forEach(menuItem => {
+
+                        menuItem.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                gamesMenu.classList.add(
+                    "active"
+                );
+
+
+                sections.forEach(section => {
+
+                    section.style.display =
+                        "none";
+
+                });
+
+
+                const gamesSection =
+                    document.getElementById(
+                        "gamesSection"
+                    );
+
+
+                if (gamesSection) {
+
+                    gamesSection.style.display =
+                        "block";
+
+                    gamesSection.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+
+                openCasinoSection();
+
+            }
+        );
+
+    }
 
 }
 
