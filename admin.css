@@ -482,18 +482,6 @@ button[onclick="saveGameSettings()"]{
 =================================== */
 
 
-.subcat-section-title{
-
-    font-size:20px;
-
-    font-weight:600;
-
-    color:var(--text);
-
-    margin:20px 0;
-
-}
-
 
 
 /* SPORTS GRID */
@@ -2187,3 +2175,110 @@ button:last-child:hover {
 /* ======================================================
   END GAMES SETTINGS SIDEBAR
 ====================================================== */
+
+
+/* ======================================================
+   GAMES CONTROL PANEL - SEPARATE CARDS
+====================================================== */
+
+#gamesSection {
+
+    width: 100%;
+
+    background: transparent;
+
+    border: none;
+
+    padding: 0;
+
+}
+
+
+/* ======================================================
+   CONTROL PANEL TITLE CARD
+====================================================== */
+
+#gamesControlPanelTitle {
+
+    margin: 0 0 18px 0;
+
+    padding: 14px 18px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #ffffff;
+
+    background: #4c1d95;
+
+    border: 1px solid rgba(139, 92, 246, 0.25);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 6px 18px rgba(76, 29, 149, 0.18);
+
+}
+
+
+/* ======================================================
+   SPORTS / CASINO SEPARATE CARD
+====================================================== */
+
+#sportsSection,
+#casinoSection {
+
+    width: 100%;
+
+    margin-top: 0;
+
+    padding: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.05);
+
+}
+
+
+/* ======================================================
+   SECTION TITLE
+====================================================== */
+
+#sportsSection .subcat-section-title,
+#casinoSection .subcat-section-title {
+
+    margin: 0 0 16px 0;
+
+    padding: 10px 12px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #374151;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+}
+
+/* ======================================================
+  END  GAMES CONTROL PANEL - SEPARATE CARDS
+====================================================== */
+
