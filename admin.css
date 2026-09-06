@@ -3476,3 +3476,726 @@ button:last-child:hover {
    END SPORTS GAME DELETE CONFIRMATION
 ====================================================== */
 
+/* ======================================================
+   EDIT SPORTS MATCH - PREMIUM INLINE PANEL
+====================================================== */
+
+
+/* ======================================================
+   MAIN EDIT PANEL
+====================================================== */
+
+.sports-game-edit-modal {
+
+    width: 100%;
+
+    margin: 10px 0 18px 0;
+
+    box-sizing: border-box;
+
+}
+
+
+.sports-game-edit-modal
+.sports-game-edit-box {
+
+    width: 100%;
+
+    max-width: 760px;
+
+    margin: 0 auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.07);
+
+    box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.sports-game-edit-modal
+.sports-game-edit-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 13px 16px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fffaf0,
+            #ffffff
+        );
+
+    border-bottom:
+        1px solid rgba(234, 179, 8, 0.20);
+
+    box-sizing: border-box;
+
+}
+
+
+.sports-game-edit-modal
+.sports-game-edit-header h3 {
+
+    margin: 0;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+}
+
+
+.sports-game-edit-modal
+.sports-game-edit-header button {
+
+    width: 30px;
+
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #6b7280;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+
+.sports-game-edit-modal
+.sports-game-edit-header button:hover {
+
+    background: #f3f4f6;
+
+    color: #111827;
+
+    transform: none;
+
+}
+
+
+/* ======================================================
+   BODY
+====================================================== */
+
+.sports-game-edit-modal
+.sports-game-edit-body {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px 14px;
+
+    padding: 15px 16px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   FORM ROW
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-form-row {
+
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   ID = FULL WIDTH
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-form-row:has(
+    #editSportsGameId
+) {
+
+    grid-column: 1 / -1;
+
+}
+
+
+/* ======================================================
+   MATCH TITLE = FULL WIDTH
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-form-row:has(
+    #editSportsGameTitle
+) {
+
+    grid-column: 1 / -1;
+
+}
+
+
+/* ======================================================
+   LABEL
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-form-label {
+
+    flex: 0 0 78px;
+
+    width: 78px;
+
+    min-width: 78px;
+
+    margin: 0;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    color: #374151;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+}
+
+
+/* ======================================================
+   CONTROL
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-form-control {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    width: 100%;
+
+}
+
+
+/* ======================================================
+   INPUT + SELECT
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-form-control input,
+
+.sports-game-edit-modal
+.sports-add-form-control select {
+
+    width: 100%;
+
+    height: 36px;
+
+    min-width: 0;
+
+    padding: 0 10px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 12px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+}
+
+
+.sports-game-edit-modal
+.sports-add-form-control input:focus,
+
+.sports-game-edit-modal
+.sports-add-form-control select:focus {
+
+    border-color: #d4a72c;
+
+    background: #fffef8;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(234, 179, 8, 0.10);
+
+}
+
+
+/* ======================================================
+   GAME ID
+====================================================== */
+
+.sports-game-edit-modal
+#editSportsGameId {
+
+    background: #f8fafc;
+
+    color: #6b7280;
+
+}
+
+
+/* ======================================================
+   BETTING MARKETS
+====================================================== */
+
+.sports-game-edit-modal
+.sports-add-markets-row {
+
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    padding-top: 3px;
+
+    box-sizing: border-box;
+
+}
+
+
+.sports-game-edit-modal
+.sports-add-markets-title {
+
+    margin: 0 0 8px 0;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #374151;
+
+}
+
+
+.sports-game-edit-modal
+.sports-add-market-items {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+
+}
+
+
+.sports-game-edit-modal
+.sports-market-toggle {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    min-height: 34px;
+
+    padding: 7px 9px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    color: #4b5563;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+.sports-game-edit-modal
+.sports-game-edit-footer {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 11px 16px;
+
+    background: #fafafa;
+
+    border-top: 1px solid #e5e7eb;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   RIGHT SIDE ACTIONS
+====================================================== */
+
+.sports-edit-footer-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+}
+
+
+/* ======================================================
+   ALL FOOTER BUTTONS
+====================================================== */
+
+.sports-game-edit-modal
+.sports-game-edit-footer button {
+
+    min-height: 34px;
+
+    padding: 7px 13px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+
+}
+
+
+/* ======================================================
+   DELETE
+====================================================== */
+
+.sports-delete-game-btn {
+
+    background: #dc2626;
+
+    border: 1px solid #dc2626;
+
+    color: #ffffff;
+
+}
+
+
+.sports-delete-game-btn:hover {
+
+    background: #b91c1c;
+
+    border-color: #b91c1c;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ======================================================
+   CANCEL
+====================================================== */
+
+.sports-edit-cancel-btn {
+
+    background: #111827;
+
+    border: 1px solid #111827;
+
+    color: #ffffff;
+
+}
+
+
+.sports-edit-cancel-btn:hover {
+
+    background: #1f2937;
+
+    border-color: #1f2937;
+
+}
+
+
+/* ======================================================
+   SAVE CHANGES
+====================================================== */
+
+.sports-edit-save-btn {
+
+    background: #16a34a;
+
+    border: 1px solid #16a34a;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 3px 8px rgba(22, 163, 74, 0.14);
+
+}
+
+
+.sports-edit-save-btn:hover {
+
+    background: #15803d;
+
+    border-color: #15803d;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 700px) {
+
+    .sports-game-edit-modal {
+
+        width: 100%;
+
+        margin: 8px 0 14px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-game-edit-box {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        border-radius: 10px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-game-edit-body {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 9px 8px;
+
+        padding: 12px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-form-row {
+
+        min-width: 0;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-form-label {
+
+        flex: 0 0 52px;
+
+        width: 52px;
+
+        min-width: 52px;
+
+        font-size: 9px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-form-control input,
+
+    .sports-game-edit-modal
+    .sports-add-form-control select {
+
+        height: 34px;
+
+        padding: 0 7px;
+
+        font-size: 10px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-market-items {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-game-edit-footer {
+
+        padding: 10px 12px;
+
+    }
+
+
+    .sports-edit-footer-actions {
+
+        gap: 6px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-game-edit-footer button {
+
+        min-height: 33px;
+
+        padding: 7px 10px;
+
+        font-size: 10px;
+
+    }
+
+}
+
+
+/* ======================================================
+   VERY SMALL MOBILE
+====================================================== */
+
+@media (max-width: 420px) {
+
+    .sports-game-edit-modal
+    .sports-game-edit-body {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 8px 6px;
+
+        padding: 10px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-form-label {
+
+        flex: 0 0 46px;
+
+        width: 46px;
+
+        min-width: 46px;
+
+        font-size: 8px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-form-control input,
+
+    .sports-game-edit-modal
+    .sports-add-form-control select {
+
+        height: 33px;
+
+        padding: 0 5px;
+
+        font-size: 9px;
+
+    }
+
+}
+
+/* ======================================================
+   END EDIT SPORTS MATCH - PREMIUM INLINE PANEL
+====================================================== */
+
