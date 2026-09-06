@@ -1075,30 +1075,90 @@ window.openSportsSection = function () {
         document.getElementById("casinoSection");
 
     const title =
-    document.getElementById("gamesControlPanelTitle");
-
-if (title) {
-    title.textContent = "Sports Control Panel";
-}
+        document.getElementById(
+            "gamesControlPanelTitle"
+        );
 
 
+    // ==================================================
+    // TITLE
+    // ==================================================
+
+    if (title) {
+
+        title.textContent =
+            "Sports Control Panel";
+
+    }
+
+
+    // ==================================================
+    // CLOSE OPEN DYNAMIC PANELS
+    // ==================================================
+
+    // Close Common Add Game
+    const addSportsGameModal =
+        document.getElementById(
+            "addSportsGameModal"
+        );
+
+    if (addSportsGameModal) {
+
+        addSportsGameModal.style.display =
+            "none";
+
+    }
+
+
+    // Close Edit Match panels
+    document
+        .querySelectorAll(
+            ".sports-game-edit-modal"
+        )
+        .forEach(panel => {
+
+            panel.style.display =
+                "none";
+
+        });
+
+
+    // ==================================================
     // HIDE CASINO
+    // ==================================================
+
     if (casino) {
-        casino.style.display = "none";
+
+        casino.style.display =
+            "none";
+
     }
 
 
+    // ==================================================
     // SHOW SPORTS
+    // ==================================================
+
     if (sports) {
-        sports.style.display = "block";
+
+        sports.style.display =
+            "block";
+
     }
 
 
+    // ==================================================
     // HIDE ALL SPORTS SUB-SECTIONS
+    // ==================================================
+
     hideAllAdminSportsSections();
 
 };
 
+
+// ======================================================
+// OPEN CASINO SECTION
+// ======================================================
 
 window.openCasinoSection = function () {
 
@@ -1109,28 +1169,82 @@ window.openCasinoSection = function () {
         document.getElementById("casinoSection");
 
     const title =
-    document.getElementById("gamesControlPanelTitle");
-
-if (title) {
-    title.textContent = "Casino Control Panel";
-}
-
-    
+        document.getElementById(
+            "gamesControlPanelTitle"
+        );
 
 
-    // HIDE SPORTS MAIN SECTION
-    if (sports) {
-        sports.style.display = "none";
+    // ==================================================
+    // TITLE
+    // ==================================================
+
+    if (title) {
+
+        title.textContent =
+            "Casino Control Panel";
+
     }
 
 
+    // ==================================================
+    // CLOSE OPEN DYNAMIC PANELS
+    // ==================================================
+
+    // Close Common Add Game
+    const addSportsGameModal =
+        document.getElementById(
+            "addSportsGameModal"
+        );
+
+    if (addSportsGameModal) {
+
+        addSportsGameModal.style.display =
+            "none";
+
+    }
+
+
+    // Close Edit Match panels
+    document
+        .querySelectorAll(
+            ".sports-game-edit-modal"
+        )
+        .forEach(panel => {
+
+            panel.style.display =
+                "none";
+
+        });
+
+
+    // ==================================================
+    // HIDE SPORTS MAIN SECTION
+    // ==================================================
+
+    if (sports) {
+
+        sports.style.display =
+            "none";
+
+    }
+
+
+    // ==================================================
     // HIDE ALL SPORTS SUB-SECTIONS
+    // ==================================================
+
     hideAllAdminSportsSections();
 
 
+    // ==================================================
     // SHOW CASINO
+    // ==================================================
+
     if (casino) {
-        casino.style.display = "block";
+
+        casino.style.display =
+            "block";
+
     }
 
 };
@@ -1143,12 +1257,16 @@ if (title) {
 function hideAllAdminSportsSections() {
 
     document
-        .querySelectorAll(".admin-sport-section")
+        .querySelectorAll(
+            ".admin-sport-section"
+        )
         .forEach(section => {
 
-            section.style.display = "none";
+            section.style.display =
+                "none";
 
         });
+
 }
 
 
