@@ -37,9 +37,27 @@ if (!localStorage.getItem("adminAuth")) {
     </li>
 
     <li id="gamesMenu"
-        data-target="gamesSection">
-        Games
-    </li>
+    class="games-menu-parent">
+
+    <div class="games-menu-title">
+        Games Settings
+        <span class="games-menu-arrow">▾</span>
+    </div>
+
+
+    <ul class="games-submenu">
+
+        <li id="sportsSubMenu">
+            ⚽ Sports
+        </li>
+
+        <li id="casinoSubMenu">
+            🎰 Casino
+        </li>
+
+    </ul>
+
+</li>
 
     <li id="financeMenu"
         data-target="financeSection">
