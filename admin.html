@@ -1659,27 +1659,33 @@ if (!localStorage.getItem("adminAuth")) {
             </div>
 
 
-            <!-- MODAL FOOTER -->
+<!-- MODAL FOOTER -->
 
-            <div class="sports-game-edit-footer">
+<div class="sports-game-edit-footer">
 
-                <button
-                    type="button"
-                    class="sports-edit-cancel-btn"
-                    onclick="closeSportsGameEditor()">
-                    Cancel
-                </button>
+    <button
+        type="button"
+        class="sports-delete-game-btn"
+        onclick="confirmDeleteSportsGame()">
+        🗑 Delete
+    </button>
 
-                <button
-                    type="button"
-                    class="sports-edit-save-btn"
-                    onclick="saveSportsGameChanges()">
-                    💾 Save Changes
-                </button>
 
-            </div>
+    <div class="sports-edit-footer-actions">
 
-        </div>
+        <button
+            type="button"
+            class="sports-edit-cancel-btn"
+            onclick="closeSportsGameEditor()">
+            Cancel
+        </button>
+
+        <button
+            type="button"
+            class="sports-edit-save-btn"
+            onclick="saveSportsGameChanges()">
+            💾 Save Changes
+        </button>
 
     </div>
 
