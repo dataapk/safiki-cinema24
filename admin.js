@@ -1065,14 +1065,21 @@ function openGameSettings(gameId) {
 // ======================================================
 // GAME SUB SECTION
 // ======================================================
+// ======================================================
+// OPEN SPORTS SECTION
+// ======================================================
 
 window.openSportsSection = function () {
 
     const sports =
-        document.getElementById("sportsSection");
+        document.getElementById(
+            "sportsSection"
+        );
 
     const casino =
-        document.getElementById("casinoSection");
+        document.getElementById(
+            "casinoSection"
+        );
 
     const title =
         document.getElementById(
@@ -1090,37 +1097,6 @@ window.openSportsSection = function () {
             "Sports Control Panel";
 
     }
-
-
-    // ==================================================
-    // CLOSE OPEN DYNAMIC PANELS
-    // ==================================================
-
-    // Close Common Add Game
-    const addSportsGameModal =
-        document.getElementById(
-            "addSportsGameModal"
-        );
-
-    if (addSportsGameModal) {
-
-        addSportsGameModal.style.display =
-            "none";
-
-    }
-
-
-    // Close Edit Match panels
-    document
-        .querySelectorAll(
-            ".sports-game-edit-modal"
-        )
-        .forEach(panel => {
-
-            panel.style.display =
-                "none";
-
-        });
 
 
     // ==================================================
@@ -1163,10 +1139,14 @@ window.openSportsSection = function () {
 window.openCasinoSection = function () {
 
     const sports =
-        document.getElementById("sportsSection");
+        document.getElementById(
+            "sportsSection"
+        );
 
     const casino =
-        document.getElementById("casinoSection");
+        document.getElementById(
+            "casinoSection"
+        );
 
     const title =
         document.getElementById(
@@ -1184,37 +1164,6 @@ window.openCasinoSection = function () {
             "Casino Control Panel";
 
     }
-
-
-    // ==================================================
-    // CLOSE OPEN DYNAMIC PANELS
-    // ==================================================
-
-    // Close Common Add Game
-    const addSportsGameModal =
-        document.getElementById(
-            "addSportsGameModal"
-        );
-
-    if (addSportsGameModal) {
-
-        addSportsGameModal.style.display =
-            "none";
-
-    }
-
-
-    // Close Edit Match panels
-    document
-        .querySelectorAll(
-            ".sports-game-edit-modal"
-        )
-        .forEach(panel => {
-
-            panel.style.display =
-                "none";
-
-        });
 
 
     // ==================================================
@@ -1248,7 +1197,6 @@ window.openCasinoSection = function () {
     }
 
 };
-
 
 // ======================================================
 // HIDE ALL ADMIN SPORTS SECTIONS
