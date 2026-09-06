@@ -636,17 +636,24 @@ button[onclick="saveGameSettings()"]{
     END SPORTS EVENTS SECTION
 =================================== */
 /* ======================================================
-   ADD NEW CRICKET GAME
-   INLINE EXPANDABLE PANEL
+   ADD GAME MODAL
 ====================================================== */
 
 #addCricketGameModal {
 
-    display: none;
+    position: fixed;
 
-    width: 100%;
+    inset: 0;
 
-    margin: 14px 0 18px 0;
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
 
     box-sizing: border-box;
 
@@ -654,28 +661,39 @@ button[onclick="saveGameSettings()"]{
 
 
 /* ======================================================
-   ADD GAME BOX
+   MODAL BOX
 ====================================================== */
 
 #addCricketGameModal
 .sports-game-edit-box {
 
-    width: min(620px, 92vw);
+    width: min(760px, 100%);
 
-    background: #ffffff;
+    max-width: 760px;
 
-    border: 1px solid rgba(168, 85, 247, 0.18);
+    max-height: calc(100vh - 40px);
 
-    border-radius: 14px;
+    display: flex;
 
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.08);
+    flex-direction: column;
 
     overflow: hidden;
 
+    margin: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
     box-sizing: border-box;
 
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.20);
+
 }
+
 
 
 /* ======================================================
@@ -685,6 +703,8 @@ button[onclick="saveGameSettings()"]{
 #addCricketGameModal
 .sports-game-edit-header {
 
+    flex: 0 0 auto;
+
     display: flex;
 
     align-items: center;
@@ -693,11 +713,12 @@ button[onclick="saveGameSettings()"]{
 
     padding: 14px 18px;
 
-    background: linear-gradient(
-        90deg,
-        #fffaf0,
-        #fafafa
-    );
+    background:
+        linear-gradient(
+            90deg,
+            #fffaf0,
+            #ffffff
+        );
 
     border-bottom:
         1px solid rgba(234, 179, 8, 0.22);
@@ -705,7 +726,10 @@ button[onclick="saveGameSettings()"]{
     box-shadow:
         0 2px 8px rgba(234, 179, 8, 0.08);
 
+    box-sizing: border-box;
+
 }
+
 
 
 #addCricketGameModal
@@ -730,6 +754,12 @@ button[onclick="saveGameSettings()"]{
     height: 32px;
 
     padding: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     border: none;
 
@@ -763,53 +793,142 @@ button[onclick="saveGameSettings()"]{
    FORM BODY
 ====================================================== */
 
-#addCricketGameModal .sports-game-edit-body {
+#addCricketGameModal
+.sports-game-edit-body {
+
+    width: 100%;
+
+    flex: 1 1 auto;
+
+    overflow-y: auto;
 
     display: grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        minmax(0, 1fr)
+        minmax(0, 1fr);
 
-    column-gap: 16px;
+    column-gap: 14px;
 
     row-gap: 10px;
+
+    padding: 16px 18px 18px;
+
+    box-sizing: border-box;
 
 }
 
 
 /* ======================================================
-   FORM ROW
+   FORM ROW BASE
 ====================================================== */
 
-#addCricketGameModal .sports-add-form-row {
+#addCricketGameModal
+.sports-add-form-row {
 
     width: 100%;
+
+    min-width: 0;
 
     display: flex;
 
     align-items: center;
 
-    gap: 9px;
+    gap: 8px;
+
+    padding: 0;
+
+    margin: 0;
+
+    box-sizing: border-box;
+
+}
+
+/* ======================================================
+   GAME ID
+====================================================== */
+
+#addCricketGameModal
+.sports-game-edit-body
+.sports-add-form-row:has(
+    #addCricketGameId
+) {
+
+    grid-column: 1;
 
 }
 
 
 /* ======================================================
-   FULL WIDTH ROWS
+   MATCH TITLE
+   FULL WIDTH
 ====================================================== */
 
 #addCricketGameModal
-.sports-add-form-row:nth-child(2),
-
-#addCricketGameModal
-.sports-add-form-row:nth-child(3),
-
-#addCricketGameModal
-.sports-add-form-row:nth-child(6) {
+.sports-game-edit-body
+.sports-add-form-row:nth-child(2) {
 
     grid-column: 1 / -1;
 
 }
+/* ======================================================
+   LEAGUE
+   RIGHT SIDE OF GAME ID
+====================================================== */
+
+#addCricketGameModal
+.sports-game-edit-body
+.sports-add-form-row:nth-child(3) {
+
+    grid-column: 2;
+
+}
+
+/* ======================================================
+   STATUS + MATCH STATUS
+====================================================== */
+
+#addCricketGameModal
+.sports-game-edit-body
+.sports-add-form-row:nth-child(4) {
+
+    grid-column: 1;
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-body
+.sports-add-form-row:nth-child(5) {
+
+    grid-column: 2;
+
+}
+
+
+/* ======================================================
+   HOME TEAM + AWAY TEAM
+====================================================== */
+
+#addCricketGameModal
+.sports-game-edit-body
+.sports-add-form-row:nth-child(6) {
+
+    grid-column: 1;
+
+}
+
+
+#addCricketGameModal
+.sports-game-edit-body
+.sports-add-form-row:nth-child(7) {
+
+    grid-column: 2;
+
+}
+
+
+
 
 
 /* ======================================================
@@ -819,17 +938,23 @@ button[onclick="saveGameSettings()"]{
 #addCricketGameModal
 .sports-add-form-label {
 
-    width: 82px;
+    flex: 0 0 78px;
 
-    min-width: 82px;
+    width: 78px;
 
-    font-size: 12px;
+    min-width: 78px;
+
+    font-size: 11px;
 
     font-weight: 700;
+
+    line-height: 1.2;
 
     color: #374151;
 
     white-space: nowrap;
+
+    box-sizing: border-box;
 
 }
 
@@ -841,9 +966,13 @@ button[onclick="saveGameSettings()"]{
 #addCricketGameModal
 .sports-add-form-control {
 
-    flex: 1;
+    flex: 1 1 auto;
 
     min-width: 0;
+
+    width: 100%;
+
+    box-sizing: border-box;
 
 }
 
@@ -861,6 +990,8 @@ button[onclick="saveGameSettings()"]{
     width: 100%;
 
     height: 36px;
+
+    min-width: 0;
 
     padding: 0 10px;
 
@@ -886,8 +1017,10 @@ button[onclick="saveGameSettings()"]{
 }
 
 
+
+
 /* ======================================================
-   FOCUS
+   INPUT FOCUS
 ====================================================== */
 
 #addCricketGameModal
@@ -898,18 +1031,18 @@ button[onclick="saveGameSettings()"]{
 
     border-color: #d4a72c;
 
+    background: #fffef8;
+
     box-shadow:
         0 0 0 3px
-        rgba(234, 179, 8, 0.11);
-
-    background: #fffef8;
+        rgba(234, 179, 8, 0.10);
 
 }
 
 
 
 /* ======================================================
-   GAME ID
+   GAME ID INPUT
 ====================================================== */
 
 #addCricketGameModal
@@ -923,7 +1056,7 @@ button[onclick="saveGameSettings()"]{
 
 
 /* ======================================================
-   BETTING MARKETS
+   MARKETS AREA
 ====================================================== */
 
 #addCricketGameModal
@@ -933,7 +1066,11 @@ button[onclick="saveGameSettings()"]{
 
     width: 100%;
 
+    margin-top: 2px;
+
     padding-top: 4px;
+
+    box-sizing: border-box;
 
 }
 
@@ -945,15 +1082,16 @@ button[onclick="saveGameSettings()"]{
 #addCricketGameModal
 .sports-add-markets-title {
 
-    margin-bottom: 8px;
+    margin: 0 0 8px 0;
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 
     color: #374151;
 
 }
+
 
 
 
@@ -964,52 +1102,222 @@ button[onclick="saveGameSettings()"]{
 #addCricketGameModal
 .sports-add-market-items {
 
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
+        repeat(3, minmax(0, 1fr));
 
     gap: 8px;
+
+    box-sizing: border-box;
 
 }
 
 
+
+/* ======================================================
+   MARKET ITEM
+====================================================== */
+
 #addCricketGameModal
 .sports-market-toggle {
+
+    min-width: 0;
 
     display: flex;
 
     align-items: center;
 
-    gap: 6px;
+    justify-content: space-between;
+
+    gap: 7px;
 
     min-height: 34px;
 
     padding: 7px 9px;
 
+    background: #ffffff;
+
     border: 1px solid #e5e7eb;
 
     border-radius: 8px;
 
-    background: #ffffff;
+    color: #4b5563;
 
     font-size: 11px;
 
     font-weight: 600;
 
-    color: #4b5563;
-
     box-sizing: border-box;
 
 }
+
 /* ======================================================
    MOBILE
 ====================================================== */
 
+@media (max-width: 700px) {
+
+    #addCricketGameModal {
+
+        padding: 10px;
+
+        align-items: center;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-box {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        max-height: calc(100vh - 20px);
+
+        border-radius: 12px;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-body {
+
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        column-gap: 0;
+
+        row-gap: 10px;
+
+        padding: 14px;
+
+        overflow-x: hidden;
+
+        box-sizing: border-box;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-row {
+
+        width: 100%;
+
+        grid-column: 1 / -1 !important;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        box-sizing: border-box;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-label {
+
+        flex: 0 0 72px;
+
+        width: 72px;
+
+        min-width: 72px;
+
+        font-size: 10px;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-control {
+
+        flex: 1;
+
+        min-width: 0;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-control input,
+
+    #addCricketGameModal
+    .sports-add-form-control select {
+
+        width: 100%;
+
+        height: 36px;
+
+        min-width: 0;
+
+        font-size: 11px;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-markets-row {
+
+        grid-column: 1 / -1 !important;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-market-items {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-header {
+
+        padding: 13px 14px;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-header h3 {
+
+        font-size: 15px;
+
+    }
+
+}
+
+
+/* ======================================================
+   SMALL MOBILE
+====================================================== */
+
 @media (max-width: 420px) {
+
+    #addCricketGameModal {
+
+        padding: 7px;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-game-edit-box {
+
+        max-height: calc(100vh - 14px);
+
+    }
+
 
     #addCricketGameModal
     .sports-game-edit-body {
@@ -1018,16 +1326,20 @@ button[onclick="saveGameSettings()"]{
 
     }
 
+
     #addCricketGameModal
     .sports-add-form-label {
 
-        width: 70px;
+        flex: 0 0 66px;
 
-        min-width: 70px;
+        width: 66px;
 
-        font-size: 10px;
+        min-width: 66px;
+
+        font-size: 9px;
 
     }
+
 
     #addCricketGameModal
     .sports-add-form-control input,
@@ -1037,13 +1349,13 @@ button[onclick="saveGameSettings()"]{
 
         height: 35px;
 
-        font-size: 11px;
+        padding: 0 8px;
+
+        font-size: 10px;
 
     }
 
 }
-
-
 /* ======================================================
    FOOTER
 ====================================================== */
