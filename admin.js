@@ -3549,10 +3549,6 @@ function createAdminSportsCard(game) {
 
             </div>
 
-            `;
-   }
-
-
 
             <!-- ==========================================
                  EXPANDABLE MARKETS PANEL
