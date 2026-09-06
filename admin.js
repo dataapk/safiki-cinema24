@@ -1074,6 +1074,13 @@ window.openSportsSection = function () {
     const casino =
         document.getElementById("casinoSection");
 
+    const title =
+    document.getElementById("gamesControlPanelTitle");
+
+if (title) {
+    title.textContent = "eSports Control Panel";
+}
+
 
     // HIDE CASINO
     if (casino) {
@@ -1100,6 +1107,15 @@ window.openCasinoSection = function () {
 
     const casino =
         document.getElementById("casinoSection");
+
+    const title =
+    document.getElementById("gamesControlPanelTitle");
+
+if (title) {
+    title.textContent = "Casino Control Panel";
+}
+
+    
 
 
     // HIDE SPORTS MAIN SECTION
