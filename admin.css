@@ -2041,22 +2041,39 @@ button:last-child:hover {
 ====================================================== */
 
 /* ======================================================
-   GAMES SETTINGS SIDEBAR
+   GAMES SETTINGS SUBMENU
+   FORCE DROPDOWN INSIDE SIDEBAR
 ====================================================== */
 
-.sidebar-menu
-.games-menu-parent {
+.sidebar-menu li.games-menu-parent {
 
-    position: relative;
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    padding: 0;
+
+    margin: 6px 0;
+
+    box-sizing: border-box;
 
 }
 
 
 /* ======================================================
-   GAMES TITLE
+   GAMES SETTINGS TITLE
 ====================================================== */
 
+.sidebar-menu li.games-menu-parent
 .games-menu-title {
+
+    width: 100%;
+
+    min-height: 44px;
 
     display: flex;
 
@@ -2064,42 +2081,53 @@ button:last-child:hover {
 
     justify-content: space-between;
 
-    width: 100%;
+    padding: 12px 12px;
 
-    cursor: pointer;
+    border-radius: 8px;
+
+    color: #e5e7eb;
+
+    font-size: 14px;
 
     box-sizing: border-box;
 
 }
 
 
-.games-menu-arrow {
+/* ======================================================
+   SUBMENU
+====================================================== */
 
-    margin-left: auto;
+.sidebar-menu li.games-menu-parent
+.games-submenu {
 
-    font-size: 11px;
+    width: 100%;
+
+    display: none;
+
+    flex-direction: column;
+
+    margin: 4px 0 0 0;
+
+    padding: 0 0 0 10px;
+
+    list-style: none;
+
+    box-sizing: border-box;
 
 }
 
 
 /* ======================================================
-   GAMES SUBMENU
+   SUBMENU ITEMS
 ====================================================== */
 
-.games-submenu {
-
-    display: none;
-
-    margin: 6px 0 0 0;
-
-    padding: 0 0 0 14px;
-
-    list-style: none;
-
-}
-
-
+.sidebar-menu li.games-menu-parent
 .games-submenu li {
+
+    width: 100%;
+
+    display: block;
 
     padding: 9px 12px;
 
@@ -2107,24 +2135,29 @@ button:last-child:hover {
 
     border-radius: 7px;
 
-    font-size: 12px;
+    color: #cbd5e1;
 
-    cursor: pointer;
+    font-size: 13px;
 
-    color: #6b7280;
+    box-sizing: border-box;
 
-    transition:
-        background .2s ease,
-        color .2s ease;
+    transform: none;
 
 }
 
 
+/* ======================================================
+   SUBMENU HOVER
+====================================================== */
+
+.sidebar-menu li.games-menu-parent
 .games-submenu li:hover {
 
-    background: #f3f4f6;
+    background: rgba(255,255,255,0.06);
 
-    color: #111827;
+    color: #ffffff;
+
+    transform: none;
 
 }
 
@@ -2133,11 +2166,21 @@ button:last-child:hover {
    ACTIVE GAMES PARENT
 ====================================================== */
 
-.sidebar-menu
-.games-menu-parent.active
+.sidebar-menu li.games-menu-parent.active {
+
+    background: rgba(168, 85, 247, 0.15);
+
+}
+
+
+/* ======================================================
+   ACTIVE GAMES TITLE
+====================================================== */
+
+.sidebar-menu li.games-menu-parent.active
 .games-menu-title {
 
-    color: #7c3aed;
+    color: #ffffff;
 
 }
 
