@@ -3808,26 +3808,70 @@ button:last-child:hover {
 
     width: 100%;
 
-    padding-top: 3px;
+    margin-top: 8px;
+
+    padding: 0;
 
     box-sizing: border-box;
 
 }
 
 
+
+/* ======================================================
+   BETTING MARKETS TITLE
+====================================================== */
+
 .sports-game-edit-modal
 .sports-add-markets-title {
 
-    margin: 0 0 8px 0;
+    width: 100%;
 
-    font-size: 11px;
+    margin: 0 0 12px 0;
 
-    font-weight: 700;
+    padding: 9px 14px;
 
-    color: #374151;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: .3px;
+
+    color: #5b4200;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff7d6,
+            #ffe9a3,
+            #fff7d6
+        );
+
+    border:
+        1px solid rgba(234, 179, 8, 0.30);
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 2px 8px rgba(234, 179, 8, 0.08);
+
+    box-sizing: border-box;
 
 }
 
+
+
+/* ======================================================
+   MARKETS GRID
+====================================================== */
 
 .sports-game-edit-modal
 .sports-add-market-items {
@@ -3839,15 +3883,27 @@ button:last-child:hover {
     grid-template-columns:
         repeat(3, minmax(0, 1fr));
 
-    gap: 8px;
+    gap: 9px;
+
+    box-sizing: border-box;
 
 }
 
 
+/* ======================================================
+   INDIVIDUAL MARKET CARD
+====================================================== */
+
 .sports-game-edit-modal
 .sports-market-toggle {
 
+    width: 100%;
+
     min-width: 0;
+
+    min-height: 38px;
+
+    padding: 8px 11px;
 
     display: flex;
 
@@ -3857,23 +3913,107 @@ button:last-child:hover {
 
     gap: 8px;
 
-    min-height: 34px;
-
-    padding: 7px 9px;
-
     background: #ffffff;
 
-    border: 1px solid #e5e7eb;
+    border:
+        1px solid #e5e7eb;
 
     border-radius: 8px;
 
-    color: #4b5563;
+    color: #374151;
 
     font-size: 11px;
 
     font-weight: 600;
 
     box-sizing: border-box;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+}
+
+/* ======================================================
+   MARKET HOVER
+====================================================== */
+
+.sports-game-edit-modal
+.sports-market-toggle:hover {
+
+    background: #fffdf5;
+
+    border-color:
+        rgba(234, 179, 8, 0.35);
+
+    box-shadow:
+        0 2px 7px rgba(234, 179, 8, 0.08);
+
+}
+
+
+/* ======================================================
+   CHECKBOX
+====================================================== */
+
+.sports-game-edit-modal
+.sports-market-toggle input[type="checkbox"] {
+
+    flex: 0 0 auto;
+
+    width: 16px;
+
+    height: 16px;
+
+    margin: 0;
+
+    cursor: pointer;
+
+    accent-color: #d4a72c;
+
+}
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 700px) {
+
+    .sports-game-edit-modal
+    .sports-add-market-items {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 7px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-add-markets-title {
+
+        margin-bottom: 9px;
+
+        padding: 8px 10px;
+
+        font-size: 10px;
+
+    }
+
+
+    .sports-game-edit-modal
+    .sports-market-toggle {
+
+        min-height: 35px;
+
+        padding: 7px 8px;
+
+        font-size: 9px;
+
+    }
 
 }
 
