@@ -3817,11 +3817,14 @@ window.deleteSportsGame = async function () {
     // ==================================================
 
     const currentSport =
-        String(
-            window.currentAddSportsGame || ""
+    window.currentEditingSportsGame &&
+    window.currentEditingSportsGame.sport
+        ? String(
+            window.currentEditingSportsGame.sport
         )
         .trim()
-        .toLowerCase();
+        .toLowerCase()
+        : "";
 
 
     if (currentSport) {
@@ -4189,6 +4192,8 @@ window.openSportsGameEditor = function (gameId) {
     console.log("✏️ ADMIN: Opening editor:", gameId);
 
     const game = window.adminSportsGames[gameId];
+
+    window.currentEditingSportsGame = game;
 
     if (!game) {
         console.error("❌ ADMIN: Game not found:", gameId);
