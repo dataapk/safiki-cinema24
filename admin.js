@@ -1074,13 +1074,16 @@ window.openSportsSection = function () {
     const casino =
         document.getElementById("casinoSection");
 
+    // HIDE CASINO COMPLETELY
+    if (casino) {
+        casino.style.display = "none";
+    }
+
+    // SHOW SPORTS
     if (sports) {
         sports.style.display = "block";
     }
 
-    if (casino) {
-        casino.style.display = "none";
-    }
 };
 
 
@@ -1092,13 +1095,16 @@ window.openCasinoSection = function () {
     const casino =
         document.getElementById("casinoSection");
 
+    // HIDE SPORTS COMPLETELY
     if (sports) {
         sports.style.display = "none";
     }
 
+    // SHOW CASINO
     if (casino) {
         casino.style.display = "block";
     }
+
 };
 
 
