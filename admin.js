@@ -1161,11 +1161,18 @@ window.adminSportsCricket = function () {
     hideAllAdminSportsSections();
 
     const section =
-        document.getElementById("adminCricketSection");
+        document.getElementById(
+            "adminCricketSection"
+        );
 
     if (section) {
         section.style.display = "block";
     }
+
+    ensureSportsAddGameButton(
+        "adminCricketSection",
+        "cricket"
+    );
 
     openCricketLive();
 };
@@ -1176,11 +1183,18 @@ window.adminSportsFootball = function () {
     hideAllAdminSportsSections();
 
     const section =
-        document.getElementById("adminFootballSection");
+        document.getElementById(
+            "adminFootballSection"
+        );
 
     if (section) {
         section.style.display = "block";
     }
+
+    ensureSportsAddGameButton(
+        "adminFootballSection",
+        "football"
+    );
 
     openFootballLive();
 };
@@ -1196,6 +1210,10 @@ window.adminSportsTennis = function () {
     if (section) {
         section.style.display = "block";
     }
+    ensureSportsAddGameButton(
+    "adminTennisSection",
+    "tennis"
+);
 
     openTennisLive();
 };
@@ -1211,6 +1229,10 @@ window.adminSportsBasketball = function () {
     if (section) {
         section.style.display = "block";
     }
+    ensureSportsAddGameButton(
+    "adminBasketballSection",
+    "basketball"
+);
 
     openBasketballLive();
 };
@@ -1459,12 +1481,104 @@ window.openCricketFeatured = async function (btn) {
 
     renderAdminCricketGamesByStatus("featured");
 };
+
+
+// ======================================================
+// COMMON SPORTS ADD GAME BUTTON
+// ======================================================
+
+function ensureSportsAddGameButton(
+    sportSectionId,
+    sportName
+) {
+
+    const section =
+        document.getElementById(
+            sportSectionId
+        );
+
+
+    if (!section) {
+
+        console.error(
+            "❌ ADMIN: Sports section not found:",
+            sportSectionId
+        );
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // CHECK EXISTING BUTTON
+    // ==================================================
+
+    let addGameRow =
+        section.querySelector(
+            ".sports-add-game-row"
+        );
+
+
+    // ==================================================
+    // CREATE BUTTON ONLY ONCE
+    // ==================================================
+
+    if (!addGameRow) {
+
+        addGameRow =
+            document.createElement("div");
+
+        addGameRow.className =
+            "sports-add-game-row";
+
+
+        addGameRow.innerHTML = `
+
+            <button
+                type="button"
+                class="sports-add-game-btn"
+                onclick="
+                    openAddSportsGameModal(
+                        '${escapeAdminSportsJS(
+                            sportName
+                        )}'
+                    )
+                "
+            >
+                ➕ Add New Game
+            </button>
+
+        `;
+
+
+        // Insert directly after control title
+        const title =
+            section.querySelector("h3");
+
+
+        if (title) {
+
+            title.insertAdjacentElement(
+                "afterend",
+                addGameRow
+            );
+
+        } else {
+
+            section.prepend(
+                addGameRow
+            );
+
+        }
+
+    }
+
+}
+
+
 // ======================================================
 // ADD NEW CRICKET GAME MODAL
-// ======================================================
-// ======================================================
-// ADD NEW CRICKET GAME
-// INLINE EXPANDABLE PANEL
 // ======================================================
 
 window.openAddCricketGameModal = function () {
