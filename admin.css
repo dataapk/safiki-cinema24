@@ -2246,22 +2246,27 @@ button:last-child:hover {
 
 .match-card .admin-markets-panel {
 
-    grid-column: 1 / -1;
-
     width: 100%;
 
-    display: none;
+    margin: 10px 0 0 0;
 
-    margin-top: 10px;
+    padding: 0;
 
-    padding: 12px;
+    background: #ffffff;
 
-    background: #fafafa;
+    border: 1px solid #e5e7eb;
 
-    border-top: 1px solid #e5e7eb;
+    border-radius: 11px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.06);
+
+    overflow: hidden;
 
     box-sizing: border-box;
+
 }
+
 
 
 /* ======================================================
@@ -2270,15 +2275,42 @@ button:last-child:hover {
 
 .match-card .admin-markets-panel-title {
 
-    margin-bottom: 9px;
+    width: 100%;
 
-    font-size: 11px;
+    display: flex;
 
-    font-weight: 700;
+    align-items: center;
 
-    color: #374151;
+    justify-content: center;
+
+    padding: 9px 12px;
+
+    margin: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff7d6,
+            #ffe9a3,
+            #fff7d6
+        );
+
+    border-bottom:
+        1px solid rgba(234, 179, 8, 0.22);
+
+    color: #5b4200;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: .3px;
+
+    text-align: center;
+
+    box-sizing: border-box;
+
 }
-
 
 /* ======================================================
    MARKETS GRID
@@ -2286,15 +2318,21 @@ button:last-child:hover {
 
 .match-card .admin-markets-grid {
 
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(160px, 1fr)
-        );
+        repeat(3, minmax(0, 1fr));
 
-    gap: 8px;
+    gap: 9px;
+
+    padding: 12px;
+
+    background: #fafafa;
+
+    box-sizing: border-box;
+
 }
 
 
@@ -2304,6 +2342,10 @@ button:last-child:hover {
 
 .match-card .admin-market-item {
 
+    min-width: 0;
+
+    min-height: 38px;
+
     display: flex;
 
     align-items: center;
@@ -2312,21 +2354,38 @@ button:last-child:hover {
 
     gap: 8px;
 
-    min-height: 34px;
-
-    padding: 7px 9px;
+    padding: 8px 10px;
 
     background: #ffffff;
 
     border: 1px solid #e5e7eb;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
-    box-sizing: border-box;
+    color: #374151;
 
     font-size: 11px;
 
-    color: #4b5563;
+    font-weight: 600;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+}
+.admin-market-item:hover {
+
+    background: #fffdf5;
+
+    border-color:
+        rgba(234, 179, 8, 0.35);
+
+    box-shadow:
+        0 2px 7px rgba(234, 179, 8, 0.08);
+
 }
 
 
