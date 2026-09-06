@@ -1315,6 +1315,11 @@ window.adminSportsVolleyball = function () {
         section.style.display = "block";
     }
 
+    ensureSportsAddGameButton(
+    "adminVolleyballSection",
+    "volleyball"
+);
+
     openVolleyballLive();
 };
 
@@ -1329,6 +1334,11 @@ window.adminSportsBoxing = function () {
     if (section) {
         section.style.display = "block";
     }
+
+    ensureSportsAddGameButton(
+    "adminBoxingSection",
+    "boxing"
+);
 
     openBoxingLive();
 };
@@ -1345,6 +1355,11 @@ window.adminSportsHockey = function () {
         section.style.display = "block";
     }
 
+    ensureSportsAddGameButton(
+    "adminHockeySection",
+    "hockey"
+);
+
     openHockeyLive();
 };
 
@@ -1360,6 +1375,11 @@ window.adminSportsRugby = function () {
         section.style.display = "block";
     }
 
+    ensureSportsAddGameButton(
+    "adminRugbySection",
+    "rugby"
+);
+
     openRugbyLive();
 };
 
@@ -1374,6 +1394,11 @@ window.adminSportsGolf = function () {
     if (section) {
         section.style.display = "block";
     }
+
+    ensureSportsAddGameButton(
+    "adminGolfSection",
+    "golf"
+);
 
     openGolfLive();
 };
