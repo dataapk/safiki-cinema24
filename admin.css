@@ -1022,87 +1022,169 @@ button[onclick="saveGameSettings()"]{
 
 
 /* ======================================================
-   MOBILE
+   ADD GAME - MOBILE
 ====================================================== */
 
 @media (max-width: 700px) {
 
-    #addCricketGameModal {
-
-        padding: 8px;
-
-        box-sizing: border-box;
-
-    }
-
-
-    #addCricketGameModal
-    .sports-game-edit-box {
-
-        width: 100%;
-
-        max-width: 100%;
-
-        border-radius: 11px;
-
-    }
-
-
     #addCricketGameModal
     .sports-game-edit-body {
 
-        display: grid;
-
-        grid-template-columns: 1fr;
-
         width: 100%;
 
-        padding: 14px;
+        display: grid;
 
-        gap: 10px;
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+
+        column-gap: 8px;
+
+        row-gap: 10px;
+
+        padding: 12px;
 
         box-sizing: border-box;
 
     }
 
+
+    /* ==============================================
+       ALL FORM ROWS
+    =============================================== */
 
     #addCricketGameModal
     .sports-add-form-row {
 
-        grid-column: 1 / -1 !important;
-
         width: 100%;
+
+        min-width: 0;
 
         display: flex;
 
         align-items: center;
 
-        gap: 8px;
+        gap: 6px;
+
+        box-sizing: border-box;
 
     }
 
+
+    /* ==============================================
+       GAME ID = FULL WIDTH
+    =============================================== */
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(1) {
+
+        grid-column: 1 / -1;
+
+    }
+
+
+    /* ==============================================
+       MATCH TITLE + LEAGUE
+       BOTH SIDE BY SIDE
+    =============================================== */
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(2) {
+
+        grid-column: 1;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(3) {
+
+        grid-column: 2;
+
+    }
+
+
+    /* ==============================================
+       STATUS + MATCH STATUS
+    =============================================== */
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(4) {
+
+        grid-column: 1;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(5) {
+
+        grid-column: 2;
+
+    }
+
+
+    /* ==============================================
+       HOME TEAM + AWAY TEAM
+    =============================================== */
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(6) {
+
+        grid-column: 1;
+
+    }
+
+
+    #addCricketGameModal
+    .sports-add-form-row:nth-child(7) {
+
+        grid-column: 2;
+
+    }
+
+
+    /* ==============================================
+       LABEL
+    =============================================== */
 
     #addCricketGameModal
     .sports-add-form-label {
 
-        width: 70px;
+        flex: 0 0 58px;
 
-        min-width: 70px;
+        width: 58px;
 
-        font-size: 10px;
+        min-width: 58px;
+
+        font-size: 9px;
+
+        white-space: nowrap;
+
+        box-sizing: border-box;
 
     }
 
+
+    /* ==============================================
+       CONTROL
+    =============================================== */
 
     #addCricketGameModal
     .sports-add-form-control {
 
+        flex: 1 1 auto;
+
         min-width: 0;
 
-        flex: 1;
+        width: 100%;
 
     }
 
+
+    /* ==============================================
+       INPUT + SELECT
+    =============================================== */
 
     #addCricketGameModal
     .sports-add-form-control input,
@@ -1112,52 +1194,48 @@ button[onclick="saveGameSettings()"]{
 
         width: 100%;
 
-        height: 35px;
-
-        font-size: 11px;
-
-    }
-
-}
-
-
-/* ======================================================
-   SMALL MOBILE
-====================================================== */
-
-@media (max-width: 420px) {
-
-    #addCricketGameModal
-    .sports-game-edit-body {
-
-        padding: 12px;
-
-    }
-
-
-    #addCricketGameModal
-    .sports-add-form-label {
-
-        width: 64px;
-
-        min-width: 64px;
-
-        font-size: 9px;
-
-    }
-
-
-    #addCricketGameModal
-    .sports-add-form-control input,
-
-    #addCricketGameModal
-    .sports-add-form-control select {
+        min-width: 0;
 
         height: 34px;
 
-        padding: 0 8px;
+        padding: 0 7px;
 
         font-size: 10px;
+
+        box-sizing: border-box;
+
+    }
+
+
+    /* ==============================================
+       MARKETS = FULL WIDTH
+    =============================================== */
+
+    #addCricketGameModal
+    .sports-add-markets-row {
+
+        grid-column: 1 / -1 !important;
+
+        width: 100%;
+
+    }
+
+
+    /* ==============================================
+       MARKET ITEMS
+    =============================================== */
+
+    #addCricketGameModal
+    .sports-add-market-items {
+
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 7px;
 
     }
 
