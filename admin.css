@@ -3332,3 +3332,147 @@ button:last-child:hover {
    END COMMON ADD GAME - INLINE DROPDOWN PANEL
 ====================================================== */
 
+/* ======================================================
+   SPORTS GAME DELETE CONFIRMATION
+====================================================== */
+
+#sportsDeleteConfirm {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    background: rgba(0, 0, 0, 0.35);
+
+}
+
+
+.sports-delete-confirm-box {
+
+    width: min(
+        360px,
+        100%
+    );
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.16);
+
+    box-sizing: border-box;
+
+}
+
+
+.sports-delete-confirm-title {
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 8px;
+
+}
+
+
+.sports-delete-confirm-message {
+
+    font-size: 13px;
+
+    color: #4b5563;
+
+    line-height: 1.5;
+
+    margin-bottom: 18px;
+
+}
+
+
+.sports-delete-confirm-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+}
+
+
+.sports-delete-confirm-actions button {
+
+    min-width: 78px;
+
+    padding: 8px 13px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.sports-delete-cancel-btn {
+
+    background: #ffffff;
+
+    border: 1px solid #d1d5db;
+
+    color: #4b5563;
+
+}
+
+
+.sports-delete-cancel-btn:hover {
+
+    background: #f3f4f6;
+
+}
+
+
+.sports-delete-confirm-btn {
+
+    background: #dc2626;
+
+    border: 1px solid #dc2626;
+
+    color: #ffffff;
+
+}
+
+
+.sports-delete-confirm-btn:hover {
+
+    background: #b91c1c;
+
+    border-color: #b91c1c;
+
+}
+/* ======================================================
+   END SPORTS GAME DELETE CONFIRMATION
+====================================================== */
+
