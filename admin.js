@@ -1078,7 +1078,7 @@ window.openSportsSection = function () {
     document.getElementById("gamesControlPanelTitle");
 
 if (title) {
-    title.textContent = "eSports Control Panel";
+    title.textContent = "Sports Control Panel";
 }
 
 
