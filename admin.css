@@ -1053,18 +1053,22 @@ button[onclick="saveGameSettings()"]{
        ALL FORM ROWS
     =============================================== */
 
-    #addCricketGameModal
+#addCricketGameModal
     .sports-add-form-row {
 
-        width: 100%;
+        width: 100% !important;
 
-        min-width: 0;
+        min-width: 0 !important;
 
-        display: flex;
+        display: grid !important;
 
-        align-items: center;
+        grid-template-columns:
+            58px
+            minmax(0, 1fr);
 
-        gap: 6px;
+        align-items: center !important;
+
+        gap: 6px !important;
 
         box-sizing: border-box;
 
@@ -1148,20 +1152,30 @@ button[onclick="saveGameSettings()"]{
        LABEL
     =============================================== */
 
-    #addCricketGameModal
+ #addCricketGameModal
     .sports-add-form-label {
 
-        flex: 0 0 58px;
+        width: 58px !important;
 
-        width: 58px;
+        min-width: 58px !important;
 
-        min-width: 58px;
+        margin: 0 !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+
+        justify-content: center;
 
         font-size: 9px;
 
+        font-weight: 700;
+
+        line-height: 1.1;
+
         white-space: nowrap;
 
-        box-sizing: border-box;
+        text-align: center;
 
     }
 
@@ -1173,13 +1187,17 @@ button[onclick="saveGameSettings()"]{
     #addCricketGameModal
     .sports-add-form-control {
 
-        flex: 1 1 auto;
+        width: 100% !important;
 
-        min-width: 0;
+        min-width: 0 !important;
 
-        width: 100%;
+        flex: none !important;
+
+        display: block !important;
 
     }
+
+
 
 
     /* ==============================================
@@ -1192,9 +1210,9 @@ button[onclick="saveGameSettings()"]{
     #addCricketGameModal
     .sports-add-form-control select {
 
-        width: 100%;
+        width: 100% !important;
 
-        min-width: 0;
+        min-width: 0 !important;
 
         height: 34px;
 
@@ -1205,6 +1223,8 @@ button[onclick="saveGameSettings()"]{
         box-sizing: border-box;
 
     }
+
+}
 
 
     /* ==============================================
