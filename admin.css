@@ -2039,3 +2039,108 @@ button:last-child:hover {
    END ADMIN SPORTS GAME CARD
    FINAL COMPACT HORIZONTAL VERSION
 ====================================================== */
+
+/* ======================================================
+   GAMES SETTINGS SIDEBAR
+====================================================== */
+
+.sidebar-menu
+.games-menu-parent {
+
+    position: relative;
+
+}
+
+
+/* ======================================================
+   GAMES TITLE
+====================================================== */
+
+.games-menu-title {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+}
+
+
+.games-menu-arrow {
+
+    margin-left: auto;
+
+    font-size: 11px;
+
+}
+
+
+/* ======================================================
+   GAMES SUBMENU
+====================================================== */
+
+.games-submenu {
+
+    display: none;
+
+    margin: 6px 0 0 0;
+
+    padding: 0 0 0 14px;
+
+    list-style: none;
+
+}
+
+
+.games-submenu li {
+
+    padding: 9px 12px;
+
+    margin: 3px 0;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    color: #6b7280;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+
+}
+
+
+.games-submenu li:hover {
+
+    background: #f3f4f6;
+
+    color: #111827;
+
+}
+
+
+/* ======================================================
+   ACTIVE GAMES PARENT
+====================================================== */
+
+.sidebar-menu
+.games-menu-parent.active
+.games-menu-title {
+
+    color: #7c3aed;
+
+}
+
+/* ======================================================
+  END GAMES SETTINGS SIDEBAR
+====================================================== */
