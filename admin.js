@@ -3549,6 +3549,9 @@ function createAdminSportsCard(game) {
 
             </div>
 
+            `;
+   }
+
 
  // ======================================================
 // START CONFIRM DELETE SPORTS GAME
