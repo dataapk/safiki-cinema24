@@ -1086,6 +1086,10 @@ window.openSportsSection = function () {
         sports.style.display = "block";
     }
 
+
+    // HIDE ALL SPORTS SUB-SECTIONS
+    hideAllAdminSportsSections();
+
 };
 
 
@@ -1098,10 +1102,14 @@ window.openCasinoSection = function () {
         document.getElementById("casinoSection");
 
 
-    // HIDE SPORTS COMPLETELY
+    // HIDE SPORTS MAIN SECTION
     if (sports) {
         sports.style.display = "none";
     }
+
+
+    // HIDE ALL SPORTS SUB-SECTIONS
+    hideAllAdminSportsSections();
 
 
     // SHOW CASINO
