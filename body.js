@@ -339,11 +339,11 @@ function selectMainCategory(category) {
 
     else if (category === 'virtualSports') {
 
-        openVirtualSports();
+    window.openVirtualSports();
 
-        hideSportsBetSlip();
+    hideSportsBetSlip();
 
-    }
+}
 
 
     // Scroll to top smoothly
