@@ -267,76 +267,90 @@ function restoreSelectedCurrency() {
 }
    
 
-// ===== SELECT MAIN CATEGORY (Casino or Sports) =====
+
+// ===== SELECT MAIN CATEGORY (Casino, Sports, Virtual Sports) =====
 function selectMainCategory(category) {
-    // Hide hero banner (main slider)
+
+    // Hide hero banner
     if (heroBanner) {
         heroBanner.style.display = 'none';
     }
-    
-    // Hide main category cards section
+
+    // Hide main category cards
     if (mainCategorySection) {
         mainCategorySection.style.display = 'none';
     }
-    
-    // Hide both sub-sections first (reset)
-    if (casinoSubSection) casinoSubSection.style.display = 'none';
-    if (sportsSubSection) sportsSubSection.style.display = 'none';
-    
-   // Show selected sub-section
-if (category === 'casino') {
 
+    // Hide all sub-sections first
     if (casinoSubSection) {
-
-        casinoSubSection.style.display = 'block';
-
-        casinoCurrentSlide = 0;
-
-        updateSubSlider('casino', 0);
-
-        startAutoSlide('casino');
-
+        casinoSubSection.style.display = 'none';
     }
-
-    // Hide Sports Bet Slip
-    hideSportsBetSlip();
-
-}
-else if (category === 'sports') {
 
     if (sportsSubSection) {
+        sportsSubSection.style.display = 'none';
+    }
 
-        sportsSubSection.style.display = 'block';
+    const virtualSportsSection =
+        document.getElementById(
+            "virtualSportsFrontendSection"
+        );
 
-        sportsCurrentSlide = 0;
+    if (virtualSportsSection) {
+        virtualSportsSection.style.display = 'none';
+    }
 
-        updateSubSlider('sports', 0);
 
-        startAutoSlide('sports');
+    // Show selected category
+    if (category === 'casino') {
+
+        if (casinoSubSection) {
+
+            casinoSubSection.style.display = 'block';
+
+            casinoCurrentSlide = 0;
+
+            updateSubSlider('casino', 0);
+
+            startAutoSlide('casino');
+
+        }
+
+        hideSportsBetSlip();
 
     }
 
-    // Show Sports Bet Slip
-    showSportsBetSlip();
+    else if (category === 'sports') {
 
-}
+        if (sportsSubSection) {
 
-   else if (category === 'virtualSports') {
+            sportsSubSection.style.display = 'block';
 
-    // Open Virtual Sports
-    openVirtualSports();
+            sportsCurrentSlide = 0;
 
-    // Hide Sports Bet Slip
-    hideSportsBetSlip();
+            updateSubSlider('sports', 0);
 
-}
+            startAutoSlide('sports');
+
+        }
+
+        showSportsBetSlip();
+
+    }
+
+    else if (category === 'virtualSports') {
+
+        openVirtualSports();
+
+        hideSportsBetSlip();
+
+    }
 
 
-// Scroll to top smoothly
-window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-});
+    // Scroll to top smoothly
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 
 }
 
