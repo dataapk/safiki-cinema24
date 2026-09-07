@@ -2588,8 +2588,11 @@ body.modal-open{
 
 .main-category-grid {
     display: grid;
-    grid-template-columns: repeat(3, 110px);
-    gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 
