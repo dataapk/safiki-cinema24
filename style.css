@@ -2591,10 +2591,11 @@ body.modal-open{
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
 
-    padding-left: 8px;
-    padding-right: 8px;
-}
+    width: calc(100% - 16px);
+    margin: 0 auto;
 
+    box-sizing: border-box;
+}
 
 
 /* HEADER WALLET SECTION  */
