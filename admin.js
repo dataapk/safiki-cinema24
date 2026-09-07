@@ -1258,10 +1258,10 @@ function () {
             "casinoSection"
         );
 
-    const virtualEsports =
-        document.getElementById(
-            "virtualEsportsSection"
-        );
+    const virtualSports =
+    document.getElementById(
+        "virtualSportsSection"
+    );
 
     const title =
         document.getElementById(
@@ -1292,12 +1292,12 @@ function () {
 
     }
 
-    if (virtualEsports) {
+    if (virtualSports) {
 
-        virtualEsports.style.display =
-            "none";
+    virtualSports.style.display =
+        "none";
 
-    }
+}
 
 
     // ------------------------------------------
