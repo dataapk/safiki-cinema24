@@ -1363,12 +1363,17 @@ function () {
     // TITLE
     // ------------------------------------------
 
-    if (title) {
+    const title =
+    document.getElementById(
+        "gamesControlPanelTitle"
+    );
 
-        title.textContent =
-            "Virtual Sports Control Panel";
+if (title) {
 
-    }
+    title.textContent =
+        "Virtual Sports Control Panel";
+
+}
 
 
     // ------------------------------------------
