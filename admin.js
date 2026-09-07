@@ -480,86 +480,102 @@ if (virtualSportsSubMenu) {
 }
 
 
-    // ==================================================
-    // CASINO SUB MENU
-    // ==================================================
+// ==================================================
+// CASINO SUB MENU
+// ==================================================
 
-    const casinoSubMenu =
-        document.getElementById(
-            "casinoSubMenu"
-        );
-
-
-    if (casinoSubMenu) {
-
-        casinoSubMenu.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
+const casinoSubMenu =
+    document.getElementById(
+        "casinoSubMenu"
+    );
 
 
-                document
-                    .querySelectorAll(
-                        ".sidebar-menu > li"
-                    )
-                    .forEach(
-                        menuItem => {
+if (casinoSubMenu) {
 
-                            menuItem.classList.remove(
-                                "active"
-                            );
+    casinoSubMenu.addEventListener(
+        "click",
+        function (event) {
 
-                        }
-                    );
+            event.stopPropagation();
 
 
-                if (gamesMenu) {
+            document
+                .querySelectorAll(
+                    ".sidebar-menu > li"
+                )
+                .forEach(
+                    menuItem => {
 
-                    gamesMenu.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                sections.forEach(
-                    section => {
-
-                        section.style.display =
-                            "none";
+                        menuItem.classList.remove(
+                            "active"
+                        );
 
                     }
                 );
 
 
-                const gamesSection =
-                    document.getElementById(
-                        "gamesSection"
-                    );
+            if (gamesMenu) {
 
-
-                if (gamesSection) {
-
-                    gamesSection.style.display =
-                        "block";
-
-                    gamesSection.scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-                }
-
-
-                openCasinoSection();
+                gamesMenu.classList.add(
+                    "active"
+                );
 
             }
-        );
 
-    }
+
+            sections.forEach(
+                section => {
+
+                    section.style.display =
+                        "none";
+
+                }
+            );
+
+
+            // ------------------------------------------
+            // HIDE VIRTUAL SPORTS
+            // ------------------------------------------
+
+            const virtualSports =
+                document.getElementById(
+                    "virtualSportsSection"
+                );
+
+
+            if (virtualSports) {
+
+                virtualSports.style.display =
+                    "none";
+
+            }
+
+
+            const gamesSection =
+                document.getElementById(
+                    "gamesSection"
+                );
+
+
+            if (gamesSection) {
+
+                gamesSection.style.display =
+                    "block";
+
+                gamesSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+
+            openCasinoSection();
+
+        }
+    );
 
 }
-
+}
 
 // ======================================================
 // RTP FUNCTION START
