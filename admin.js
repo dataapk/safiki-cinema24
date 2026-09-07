@@ -1216,6 +1216,34 @@ function hideAllAdminSportsSections() {
         });
 
 }
+// ==================================================
+    // CLOSE OPEN EDIT MATCH PANEL
+    // ==================================================
+
+    document
+        .querySelectorAll(
+            ".sports-game-edit-modal"
+        )
+        .forEach(panel => {
+
+            panel.style.display =
+                "none";
+
+        });
+
+
+    // ==================================================
+    // SHOW CASINO
+    // ==================================================
+
+    if (casino) {
+
+        casino.style.display =
+            "block";
+
+    }
+
+};
 
 
 // ======================================================
