@@ -1363,10 +1363,6 @@ function () {
     // TITLE
     // ------------------------------------------
 
-    const title =
-    document.getElementById(
-        "gamesControlPanelTitle"
-    );
 
 if (title) {
 
