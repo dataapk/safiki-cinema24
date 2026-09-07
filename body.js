@@ -321,6 +321,17 @@ else if (category === 'sports') {
 
 }
 
+   else if (category === 'virtualSports') {
+
+    // Open Virtual Sports
+    openVirtualSports();
+
+    // Hide Sports Bet Slip
+    hideSportsBetSlip();
+
+}
+
+
 // Scroll to top smoothly
 window.scrollTo({
     top: 0,
