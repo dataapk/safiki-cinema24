@@ -401,6 +401,84 @@ function initSidebar() {
 
     }
 
+    // ==================================================
+// VIRTUAL SPORTS SUB MENU
+// ==================================================
+
+const virtualSportsSubMenu =
+    document.getElementById(
+        "virtualSportsSubMenu"
+    );
+
+
+if (virtualSportsSubMenu) {
+
+    virtualSportsSubMenu.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+
+            document
+                .querySelectorAll(
+                    ".sidebar-menu > li"
+                )
+                .forEach(
+                    menuItem => {
+
+                        menuItem.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            if (gamesMenu) {
+
+                gamesMenu.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            sections.forEach(
+                section => {
+
+                    section.style.display =
+                        "none";
+
+                }
+            );
+
+
+            const gamesSection =
+                document.getElementById(
+                    "gamesSection"
+                );
+
+
+            if (gamesSection) {
+
+                gamesSection.style.display =
+                    "block";
+
+                gamesSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+
+            openVirtualSportsSection();
+
+        }
+    );
+
+}
+
 
     // ==================================================
     // CASINO SUB MENU
@@ -1164,6 +1242,7 @@ function openGameSettings(gameId) {
 
 // ======================================================
 // GAME SUB SECTION
+// SPORTS CONTROL PANEL
 // ======================================================
 
 window.openSportsSection =
@@ -1174,18 +1253,25 @@ function () {
             "sportsSection"
         );
 
-
     const casino =
         document.getElementById(
             "casinoSection"
         );
 
+    const virtualEsports =
+        document.getElementById(
+            "virtualEsportsSection"
+        );
 
     const title =
         document.getElementById(
             "gamesControlPanelTitle"
         );
 
+
+    // ------------------------------------------
+    // TITLE
+    // ------------------------------------------
 
     if (title) {
 
@@ -1195,6 +1281,10 @@ function () {
     }
 
 
+    // ------------------------------------------
+    // HIDE OTHER MAIN GAME SECTIONS
+    // ------------------------------------------
+
     if (casino) {
 
         casino.style.display =
@@ -1202,6 +1292,17 @@ function () {
 
     }
 
+    if (virtualEsports) {
+
+        virtualEsports.style.display =
+            "none";
+
+    }
+
+
+    // ------------------------------------------
+    // SHOW SPORTS
+    // ------------------------------------------
 
     if (sports) {
 
@@ -1211,7 +1312,126 @@ function () {
     }
 
 
+    // ------------------------------------------
+    // HIDE SPORTS SUB SECTIONS
+    // ------------------------------------------
+
     hideAllAdminSportsSections();
+
+};
+
+// ======================================================
+// VIRTUAL ESPORTS CONTROL PANEL
+// ======================================================
+
+window.openVirtualSportsSection =
+function () {
+
+    const sports =
+        document.getElementById(
+            "sportsSection"
+        );
+
+    const casino =
+        document.getElementById(
+            "casinoSection"
+        );
+
+    const virtualSports =
+        document.getElementById(
+            "virtualSportsSection"
+        );
+
+    const title =
+        document.getElementById(
+            "gamesControlPanelTitle"
+        );
+
+
+    if (!virtualSports) {
+
+        console.warn(
+            "⚠️ ADMIN: Virtual Esports section not found."
+        );
+
+        return;
+
+    }
+
+
+    // ------------------------------------------
+    // TITLE
+    // ------------------------------------------
+
+    if (title) {
+
+        title.textContent =
+            "Virtual Sports Control Panel";
+
+    }
+
+
+    // ------------------------------------------
+    // HIDE SPORTS
+    // ------------------------------------------
+
+    if (sports) {
+
+        sports.style.display =
+            "none";
+
+    }
+
+
+    // ------------------------------------------
+    // HIDE CASINO
+    // ------------------------------------------
+
+    if (casino) {
+
+        casino.style.display =
+            "none";
+
+    }
+
+
+    // ------------------------------------------
+    // SHOW VIRTUAL SPORTS
+    // ------------------------------------------
+
+    virtualsports.style.display =
+        "block";
+
+
+    // ------------------------------------------
+    // HIDE VIRTUAL GAME PANELS
+    // ------------------------------------------
+
+    const cricket =
+        document.getElementById(
+            "virtualCricketSection"
+        );
+
+    const football =
+        document.getElementById(
+            "virtualFootballSection"
+        );
+
+
+    if (cricket) {
+
+        cricket.style.display =
+            "none";
+
+    }
+
+
+    if (football) {
+
+        football.style.display =
+            "none";
+
+    }
 
 };
 
