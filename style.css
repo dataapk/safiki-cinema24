@@ -2582,6 +2582,16 @@ body.modal-open{
 
 /* END EXCHANGE SECTION  */ 
 
+   /* =================================
+   MAIN CATEGORY - 3 CARDS
+================================= */
+
+.main-category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
 
 
 /* HEADER WALLET SECTION  */
