@@ -2589,7 +2589,7 @@ body.modal-open{
 .main-category-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    gap: 5px;
 }
 
 
