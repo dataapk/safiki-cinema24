@@ -1636,6 +1636,10 @@ function openAdminSportTab(
     status
 ) {
 
+    // ==============================================
+    // HIDE ALL SPORT CONTENT PANELS
+    // ==============================================
+
     document
         .querySelectorAll(
             "." + contentClass
@@ -1650,19 +1654,49 @@ function openAdminSportTab(
         );
 
 
-    const panel =
+    // ==============================================
+    // FIND GRID
+    // ==============================================
+
+    const grid =
         document.getElementById(
             gridId
+        );
+
+
+    if (!grid) {
+
+        console.warn(
+            "⚠️ ADMIN: Sports grid not found:",
+            gridId
+        );
+
+        return;
+
+    }
+
+
+    // ==============================================
+    // SHOW GRID'S PARENT CONTENT PANEL
+    // ==============================================
+
+    const panel =
+        grid.closest(
+            "." + contentClass
         );
 
 
     if (panel) {
 
         panel.style.display =
-            "grid";
+            "block";
 
     }
 
+
+    // ==============================================
+    // ACTIVE TAB BUTTON
+    // ==============================================
 
     const buttons =
         button
@@ -1693,9 +1727,24 @@ function openAdminSportTab(
     }
 
 
+    // ==============================================
+    // LOAD + RENDER SPORTS DATA
+    // ==============================================
+
     ensureAdminSportsGamesLoaded()
         .then(
-            () => {
+            loaded => {
+
+                if (!loaded) {
+
+                    console.error(
+                        "❌ ADMIN: Sports games could not be loaded."
+                    );
+
+                    return;
+
+                }
+
 
                 renderAdminSportGames(
                     sport,
