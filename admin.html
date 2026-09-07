@@ -17,8 +17,8 @@ if (!localStorage.getItem("adminAuth")) {
 }
 </script>
 
-<!-- SIDEBAR  start-->
-<div class="sidebar">FIN
+<!-- SIDEBAR START -->
+<div class="sidebar">
 
     <div class="admin-logo">
         SAFIKI ADMIN
@@ -26,38 +26,45 @@ if (!localStorage.getItem("adminAuth")) {
 
     <ul class="sidebar-menu">
 
-    <li id="dashboardMenu"
-        data-target="dashboardSection">
-        Dashboard
-    </li>
-
-    <li id="usersMenu"
-        data-target="usersSection">
-        User Data
-    </li>
-
-    <li id="gamesMenu"
-    class="games-menu-parent">
-
-    <div class="games-menu-title">
-        Games Settings
-        <span class="games-menu-arrow">▾</span>
-    </div>
-
-
-    <ul class="games-submenu">
-
-        <li id="sportsSubMenu">
-            ⚽ Sports
+        <li id="dashboardMenu"
+            data-target="dashboardSection">
+            Dashboard
         </li>
 
-        <li id="casinoSubMenu">
-            🎰 Casino
+        <li id="usersMenu"
+            data-target="usersSection">
+            User Data
         </li>
 
-    </ul>
+        <!-- GAMES SETTINGS -->
+        <li id="gamesMenu"
+            class="games-menu-parent">
 
-</li>
+            <div class="games-menu-title">
+                Games Settings
+                <span class="games-menu-arrow">▾</span>
+            </div>
+
+            <ul class="games-submenu">
+
+                <!-- SPORTS -->
+                <li id="sportsSubMenu">
+                    ⚽ Sports
+                </li>
+
+                <!-- CASINO -->
+                <li id="casinoSubMenu">
+                    🎰 Casino
+                </li>
+
+                <!-- VIRTUAL ESPORTS -->
+                <li id="virtualEsportsSubMenu">
+                    🖥 Virtual Esports
+                </li>
+
+            </ul>
+
+        </li>
 
     <li id="financeMenu"
         data-target="financeSection">
@@ -66,7 +73,7 @@ if (!localStorage.getItem("adminAuth")) {
 
     <li id="settingsMenu"
         data-target="settingsSection">
-        Settings
+        System Settings
     </li>
 
     <li id="notificationsMenu"
