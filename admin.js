@@ -1,124 +1,158 @@
-// ==========================
+// ======================================================
 // SAFIKI ADMIN PANEL ENGINE
-// ==========================
+// ======================================================
 
 
-// =====================================================
+// ======================================================
 // GLOBAL ADMIN SPORTS CACHE
 // ======================================================
 
-window.adminSportsGames = window.adminSportsGames || {};
-window.activeSportsGameId = null;
+window.adminSportsGames =
+    window.adminSportsGames || {};
+
+window.adminSportsGamesLoaded =
+    false;
+
+window.activeSportsGameId =
+    null;
+
+window.currentAddSportsGame =
+    "";
+
+window.currentEditingSportsGame =
+    null;
+
+window.pendingDeleteSportsGameId =
+    "";
 
 
 // ======================================================
 // DOM READY
 // ======================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    // INIT SIDEBAR
-    initSidebar();
+        // ==================================================
+        // INIT SIDEBAR
+        // ==================================================
 
-
-    // =========================
-    // GAME LOAD BUTTON LOGIC
-    // =========================
-
-    const btn =
-        document.getElementById("loadGameBtn");
+        initSidebar();
 
 
-    if (btn) {
+        // ==================================================
+        // GAME LOAD BUTTON LOGIC
+        // ==================================================
 
-        btn.addEventListener("click", function () {
-
-            const selector =
-                document.getElementById("gameSelector");
-
-
-            const game =
-                selector ? selector.value : "";
-
-
-            if (!game) {
-
-                alert("Select a game first");
-
-                return;
-
-            }
-
-
-            const statsSection =
-                document.getElementById(
-                    "gameStatsSection"
-                );
-
-
-            if (statsSection) {
-
-                statsSection.style.display =
-                    "block";
-
-            }
-
-
-            console.log(
-                "Game selected:",
-                game
+        const btn =
+            document.getElementById(
+                "loadGameBtn"
             );
 
-        });
 
-    }
+        if (btn) {
+
+            btn.addEventListener(
+                "click",
+                function () {
+
+                    const selector =
+                        document.getElementById(
+                            "gameSelector"
+                        );
 
 
-    // =========================
-    // RTP SLIDER
-    // =========================
-
-    const rtpSlider =
-        document.getElementById("gs_rtp");
+                    const game =
+                        selector
+                            ? selector.value
+                            : "";
 
 
-    if (rtpSlider) {
+                    if (!game) {
 
-        rtpSlider.addEventListener(
-            "input",
-            function () {
+                        alert(
+                            "Select a game first"
+                        );
 
-                const output =
-                    document.getElementById(
-                        "gs_rtp_value"
+                        return;
+
+                    }
+
+
+                    const statsSection =
+                        document.getElementById(
+                            "gameStatsSection"
+                        );
+
+
+                    if (statsSection) {
+
+                        statsSection.style.display =
+                            "block";
+
+                    }
+
+
+                    console.log(
+                        "Game selected:",
+                        game
                     );
 
+                }
+            );
 
-                if (output) {
+        }
 
-                    output.innerText =
-                        this.value + "%";
+
+        // ==================================================
+        // RTP SLIDER
+        // ==================================================
+
+        const rtpSlider =
+            document.getElementById(
+                "gs_rtp"
+            );
+
+
+        if (rtpSlider) {
+
+            rtpSlider.addEventListener(
+                "input",
+                function () {
+
+                    const output =
+                        document.getElementById(
+                            "gs_rtp_value"
+                        );
+
+
+                    if (output) {
+
+                        output.innerText =
+                            this.value + "%";
+
+                    }
 
                 }
+            );
 
-            }
+        }
+
+
+        // ==================================================
+        // ADMIN SPORTS SYSTEM
+        // ==================================================
+
+        console.log(
+            "🏏 ADMIN SPORTS SYSTEM READY"
         );
 
+
+        loadAdminSportsGames();
+
     }
-
-
-    // =========================
-    // ADMIN SPORTS SYSTEM
-    // =========================
-
-    console.log(
-        "🏏 ADMIN SPORTS SYSTEM READY"
-    );
-
-
-    loadAdminSportsGames();
-
-});
+);
 
 
 // ======================================================
@@ -143,66 +177,72 @@ function initSidebar() {
     // NORMAL SIDEBAR MENU ITEMS
     // ==================================================
 
-    menuItems.forEach(item => {
+    menuItems.forEach(
+        item => {
 
-        item.addEventListener(
-            "click",
-            function () {
+            item.addEventListener(
+                "click",
+                function () {
 
-                const target =
-                    item.getAttribute(
-                        "data-target"
-                    );
-
-
-                document
-                    .querySelectorAll(
-                        ".sidebar-menu > li"
-                    )
-                    .forEach(menuItem => {
-
-                        menuItem.classList.remove(
-                            "active"
+                    const target =
+                        item.getAttribute(
+                            "data-target"
                         );
 
-                    });
+
+                    document
+                        .querySelectorAll(
+                            ".sidebar-menu > li"
+                        )
+                        .forEach(
+                            menuItem => {
+
+                                menuItem.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
 
 
-                item.classList.add(
-                    "active"
-                );
-
-
-                sections.forEach(section => {
-
-                    section.style.display =
-                        "none";
-
-                });
-
-
-                const activeSection =
-                    document.getElementById(
-                        target
+                    item.classList.add(
+                        "active"
                     );
 
 
-                if (activeSection) {
+                    sections.forEach(
+                        section => {
 
-                    activeSection.style.display =
-                        "block";
+                            section.style.display =
+                                "none";
+
+                        }
+                    );
 
 
-                    activeSection.scrollIntoView({
-                        behavior: "smooth"
-                    });
+                    const activeSection =
+                        document.getElementById(
+                            target
+                        );
+
+
+                    if (activeSection) {
+
+                        activeSection.style.display =
+                            "block";
+
+
+                        activeSection.scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                    }
 
                 }
+            );
 
-            }
-        );
-
-    });
+        }
+    );
 
 
     // ==================================================
@@ -243,21 +283,17 @@ function initSidebar() {
                     );
 
 
-                // ======================================
-                // CHILD ITEM CLICK
-                // ======================================
-
                 if (clickedSubItem) {
+
                     return;
+
                 }
 
 
-                // ======================================
-                // TOGGLE SUBMENU
-                // ======================================
-
                 if (!gamesSubmenu) {
+
                     return;
+
                 }
 
 
@@ -310,26 +346,34 @@ function initSidebar() {
                     .querySelectorAll(
                         ".sidebar-menu > li"
                     )
-                    .forEach(menuItem => {
+                    .forEach(
+                        menuItem => {
 
-                        menuItem.classList.remove(
-                            "active"
-                        );
+                            menuItem.classList.remove(
+                                "active"
+                            );
 
-                    });
+                        }
+                    );
 
 
-                gamesMenu.classList.add(
-                    "active"
+                if (gamesMenu) {
+
+                    gamesMenu.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                sections.forEach(
+                    section => {
+
+                        section.style.display =
+                            "none";
+
+                    }
                 );
-
-
-                sections.forEach(section => {
-
-                    section.style.display =
-                        "none";
-
-                });
 
 
                 const gamesSection =
@@ -381,26 +425,34 @@ function initSidebar() {
                     .querySelectorAll(
                         ".sidebar-menu > li"
                     )
-                    .forEach(menuItem => {
+                    .forEach(
+                        menuItem => {
 
-                        menuItem.classList.remove(
-                            "active"
-                        );
+                            menuItem.classList.remove(
+                                "active"
+                            );
 
-                    });
+                        }
+                    );
 
 
-                gamesMenu.classList.add(
-                    "active"
+                if (gamesMenu) {
+
+                    gamesMenu.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                sections.forEach(
+                    section => {
+
+                        section.style.display =
+                            "none";
+
+                    }
                 );
-
-
-                sections.forEach(section => {
-
-                    section.style.display =
-                        "none";
-
-                });
 
 
                 const gamesSection =
@@ -465,7 +517,7 @@ function saveRtp() {
     if (!input) return;
 
 
-    let rtp =
+    const rtp =
         input.value;
 
 
@@ -554,7 +606,6 @@ function addBalance() {
 
     openAdminModal(
         "Add Balance",
-
         `
         <input
             type="text"
@@ -590,11 +641,15 @@ function confirmAddBalance() {
 
 
     const userId =
-        userInput ? userInput.value : "";
+        userInput
+            ? userInput.value
+            : "";
 
 
     const amount =
-        amountInput ? amountInput.value : "";
+        amountInput
+            ? amountInput.value
+            : "";
 
 
     alert(
@@ -614,7 +669,6 @@ function deductBalance() {
 
     openAdminModal(
         "Deduct Balance",
-
         `
         <input
             type="text"
@@ -650,11 +704,15 @@ function confirmDeductBalance() {
 
 
     const userId =
-        userInput ? userInput.value : "";
+        userInput
+            ? userInput.value
+            : "";
 
 
     const amount =
-        amountInput ? amountInput.value : "";
+        amountInput
+            ? amountInput.value
+            : "";
 
 
     alert(
@@ -674,7 +732,6 @@ function suspendUser() {
 
     openAdminModal(
         "Suspend User",
-
         `
         <input
             type="text"
@@ -684,11 +741,8 @@ function suspendUser() {
         <select id="suspendDuration">
 
             <option>24 Hours</option>
-
             <option>7 Days</option>
-
             <option>30 Days</option>
-
             <option>Permanent</option>
 
         </select>
@@ -717,7 +771,9 @@ function confirmSuspendUser() {
 
 
     const userId =
-        userInput ? userInput.value : "";
+        userInput
+            ? userInput.value
+            : "";
 
 
     const duration =
@@ -743,7 +799,6 @@ function deleteUser() {
 
     openAdminModal(
         "Delete User",
-
         `
         <input
             type="text"
@@ -768,7 +823,9 @@ function confirmDeleteUser() {
 
 
     const userId =
-        input ? input.value : "";
+        input
+            ? input.value
+            : "";
 
 
     const confirmDelete =
@@ -952,21 +1009,25 @@ function toggleActionPanel(
     }
 
 
-    panels.forEach(panel => {
+    panels.forEach(
+        panel => {
 
-        panel.style.display =
-            "none";
+            panel.style.display =
+                "none";
 
-    });
+        }
+    );
 
 
-    buttons.forEach(button => {
+    buttons.forEach(
+        button => {
 
-        button.classList.remove(
-            "active"
-        );
+            button.classList.remove(
+                "active"
+            );
 
-    });
+        }
+    );
 
 
     if (target) {
@@ -1012,9 +1073,12 @@ function toggleActionButtons() {
 // SPORTS CONTROL PANEL
 // ======================================================
 
-// CURRENT GAME
-window.activeGameId = null;
-window.activeSportsGameId = null;
+window.activeGameId =
+    null;
+
+window.activeSportsGameId =
+    null;
+
 
 // ======================================================
 // OPEN GAME SETTINGS PANEL
@@ -1023,73 +1087,105 @@ window.activeSportsGameId = null;
 function openGameSettings(gameId) {
 
     const panel =
-        document.getElementById("gameSettingsPanel");
+        document.getElementById(
+            "gameSettingsPanel"
+        );
+
 
     if (!panel) return;
 
-    if (window.activeGameId === gameId) {
+
+    if (
+        window.activeGameId ===
+        gameId
+    ) {
 
         const isVisible =
-            window.getComputedStyle(panel).display !== "none";
+            window.getComputedStyle(
+                panel
+            ).display !==
+            "none";
+
 
         if (isVisible) {
 
-            panel.style.display = "none";
-            window.activeGameId = null;
+            panel.style.display =
+                "none";
+
+            window.activeGameId =
+                null;
 
             return;
+
         }
+
     }
 
-    window.activeGameId = gameId;
 
-    panel.style.display = "block";
+    window.activeGameId =
+        gameId;
+
+
+    panel.style.display =
+        "block";
+
 
     const idElement =
-        document.getElementById("gs_id");
+        document.getElementById(
+            "gs_id"
+        );
+
 
     const nameElement =
-        document.getElementById("gs_name");
+        document.getElementById(
+            "gs_name"
+        );
+
 
     if (idElement) {
-        idElement.innerText = gameId;
+
+        idElement.innerText =
+            gameId;
+
     }
 
+
     if (nameElement) {
+
         nameElement.innerText =
-            getGameName(gameId);
+            getGameName(
+                gameId
+            );
+
     }
+
 }
 
 
 // ======================================================
 // GAME SUB SECTION
 // ======================================================
-// ======================================================
-// OPEN SPORTS SECTION
-// ======================================================
 
-window.openSportsSection = function () {
+window.openSportsSection =
+function () {
 
     const sports =
         document.getElementById(
             "sportsSection"
         );
 
+
     const casino =
         document.getElementById(
             "casinoSection"
         );
+
 
     const title =
         document.getElementById(
             "gamesControlPanelTitle"
         );
 
-
-    // ==================================================
-    // TITLE
-    // ==================================================
 
     if (title) {
 
@@ -1099,10 +1195,6 @@ window.openSportsSection = function () {
     }
 
 
-    // ==================================================
-    // HIDE CASINO
-    // ==================================================
-
     if (casino) {
 
         casino.style.display =
@@ -1111,10 +1203,6 @@ window.openSportsSection = function () {
     }
 
 
-    // ==================================================
-    // SHOW SPORTS
-    // ==================================================
-
     if (sports) {
 
         sports.style.display =
@@ -1122,10 +1210,6 @@ window.openSportsSection = function () {
 
     }
 
-
-    // ==================================================
-    // HIDE ALL SPORTS SUB-SECTIONS
-    // ==================================================
 
     hideAllAdminSportsSections();
 
@@ -1136,27 +1220,26 @@ window.openSportsSection = function () {
 // OPEN CASINO SECTION
 // ======================================================
 
-window.openCasinoSection = function () {
+window.openCasinoSection =
+function () {
 
     const sports =
         document.getElementById(
             "sportsSection"
         );
 
+
     const casino =
         document.getElementById(
             "casinoSection"
         );
+
 
     const title =
         document.getElementById(
             "gamesControlPanelTitle"
         );
 
-
-    // ==================================================
-    // TITLE
-    // ==================================================
 
     if (title) {
 
@@ -1166,10 +1249,6 @@ window.openCasinoSection = function () {
     }
 
 
-    // ==================================================
-    // HIDE SPORTS MAIN SECTION
-    // ==================================================
-
     if (sports) {
 
         sports.style.display =
@@ -1178,10 +1257,6 @@ window.openCasinoSection = function () {
     }
 
 
-    // ==================================================
-    // HIDE ALL SPORTS SUB-SECTIONS
-    // ==================================================
-
     hideAllAdminSportsSections();
 
 
@@ -1189,16 +1264,32 @@ window.openCasinoSection = function () {
     // CLOSE OPEN EDIT MATCH PANEL
     // ==================================================
 
+    const editModal =
+        document.getElementById(
+            "sportsGameEditModal"
+        );
+
+
+    if (editModal) {
+
+        editModal.style.display =
+            "none";
+
+    }
+
+
     document
         .querySelectorAll(
             ".sports-game-edit-modal"
         )
-        .forEach(panel => {
+        .forEach(
+            panel => {
 
-            panel.style.display =
-                "none";
+                panel.style.display =
+                    "none";
 
-        });
+            }
+        );
 
 
     // ==================================================
@@ -1225,211 +1316,311 @@ function hideAllAdminSportsSections() {
         .querySelectorAll(
             ".admin-sport-section"
         )
-        .forEach(section => {
+        .forEach(
+            section => {
 
-            section.style.display =
-                "none";
+                section.style.display =
+                    "none";
 
-        });
+            }
+        );
 
 }
-
 
 
 // ======================================================
 // SPORTS SELECTORS
 // ======================================================
 
-window.adminSportsCricket = function () {
+window.adminSportsCricket =
+function () {
 
     hideAllAdminSportsSections();
+
 
     const section =
         document.getElementById(
             "adminCricketSection"
         );
 
+
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
+
 
     ensureSportsAddGameButton(
         "adminCricketSection",
         "cricket"
     );
 
+
     openCricketLive();
+
 };
 
 
-window.adminSportsFootball = function () {
+window.adminSportsFootball =
+function () {
 
     hideAllAdminSportsSections();
+
 
     const section =
         document.getElementById(
             "adminFootballSection"
         );
 
+
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
+
 
     ensureSportsAddGameButton(
         "adminFootballSection",
         "football"
     );
 
+
     openFootballLive();
+
 };
 
 
-window.adminSportsTennis = function () {
+window.adminSportsTennis =
+function () {
 
     hideAllAdminSportsSections();
 
+
     const section =
-        document.getElementById("adminTennisSection");
+        document.getElementById(
+            "adminTennisSection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
+
+
     ensureSportsAddGameButton(
-    "adminTennisSection",
-    "tennis"
-);
+        "adminTennisSection",
+        "tennis"
+    );
+
 
     openTennisLive();
+
 };
 
 
-window.adminSportsBasketball = function () {
+window.adminSportsBasketball =
+function () {
 
     hideAllAdminSportsSections();
 
+
     const section =
-        document.getElementById("adminBasketballSection");
+        document.getElementById(
+            "adminBasketballSection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
+
+
     ensureSportsAddGameButton(
-    "adminBasketballSection",
-    "basketball"
-);
+        "adminBasketballSection",
+        "basketball"
+    );
+
 
     openBasketballLive();
+
 };
 
 
-window.adminSportsVolleyball = function () {
+window.adminSportsVolleyball =
+function () {
 
     hideAllAdminSportsSections();
 
+
     const section =
-        document.getElementById("adminVolleyballSection");
+        document.getElementById(
+            "adminVolleyballSection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
 
+
     ensureSportsAddGameButton(
-    "adminVolleyballSection",
-    "volleyball"
-);
+        "adminVolleyballSection",
+        "volleyball"
+    );
+
 
     openVolleyballLive();
+
 };
 
 
-window.adminSportsBoxing = function () {
+window.adminSportsBoxing =
+function () {
 
     hideAllAdminSportsSections();
 
+
     const section =
-        document.getElementById("adminBoxingSection");
+        document.getElementById(
+            "adminBoxingSection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
 
+
     ensureSportsAddGameButton(
-    "adminBoxingSection",
-    "boxing"
-);
+        "adminBoxingSection",
+        "boxing"
+    );
+
 
     openBoxingLive();
+
 };
 
 
-window.adminSportsHockey = function () {
+window.adminSportsHockey =
+function () {
 
     hideAllAdminSportsSections();
 
+
     const section =
-        document.getElementById("adminHockeySection");
+        document.getElementById(
+            "adminHockeySection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
 
+
     ensureSportsAddGameButton(
-    "adminHockeySection",
-    "hockey"
-);
+        "adminHockeySection",
+        "hockey"
+    );
+
 
     openHockeyLive();
+
 };
 
 
-window.adminSportsRugby = function () {
+window.adminSportsRugby =
+function () {
 
     hideAllAdminSportsSections();
 
+
     const section =
-        document.getElementById("adminRugbySection");
+        document.getElementById(
+            "adminRugbySection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
 
+
     ensureSportsAddGameButton(
-    "adminRugbySection",
-    "rugby"
-);
+        "adminRugbySection",
+        "rugby"
+    );
+
 
     openRugbyLive();
+
 };
 
 
-window.adminSportsGolf = function () {
+window.adminSportsGolf =
+function () {
 
     hideAllAdminSportsSections();
+
 
     const section =
-        document.getElementById("adminGolfSection");
+        document.getElementById(
+            "adminGolfSection"
+        );
+
 
     if (section) {
-        section.style.display = "block";
+
+        section.style.display =
+            "block";
+
     }
 
+
     ensureSportsAddGameButton(
-    "adminGolfSection",
-    "golf"
-);
+        "adminGolfSection",
+        "golf"
+    );
+
 
     openGolfLive();
+
 };
 
 
-// Keep existing function
-window.adminSportsOthers = function () {
+window.adminSportsOthers =
+function () {
 
     hideAllAdminSportsSections();
+
 
     console.log(
         "🏆 Other Sports Control Selected"
     );
+
 };
 
 
@@ -1446,150 +1637,209 @@ function openAdminSportTab(
 ) {
 
     document
-        .querySelectorAll("." + contentClass)
-        .forEach(item => {
+        .querySelectorAll(
+            "." + contentClass
+        )
+        .forEach(
+            item => {
 
-            item.style.display = "none";
+                item.style.display =
+                    "none";
 
-        });
+            }
+        );
+
 
     const panel =
-        document.getElementById(gridId);
+        document.getElementById(
+            gridId
+        );
+
 
     if (panel) {
 
-        panel.style.display = "grid";
+        panel.style.display =
+            "grid";
 
     }
+
 
     const buttons =
         button
-            ? button.parentElement.querySelectorAll("button")
+            ? button.parentElement
+                .querySelectorAll(
+                    "button"
+                )
             : [];
 
-    buttons.forEach(btn => {
 
-        btn.classList.remove("active");
+    buttons.forEach(
+        btn => {
 
-    });
+            btn.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
 
     if (button) {
 
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
 
     }
 
-    renderAdminSportGames(
-        sport,
-        status
-    );
-}
 
+    ensureAdminSportsGamesLoaded()
+        .then(
+            () => {
+
+                renderAdminSportGames(
+                    sport,
+                    status
+                );
+
+            }
+        );
+
+}
 
 
 // ======================================================
 // CRICKET TABS
 // ======================================================
 
-window.openCricketLive = async function (btn) {
+window.openCricketLive =
+async function (btn) {
 
-    const livePanel =
-        document.getElementById("cricketLive");
-
-    const upcomingPanel =
-        document.getElementById("cricketUpcoming");
-
-    const featuredPanel =
-        document.getElementById("cricketFeatured");
-
-
-    // SHOW LIVE
-    if (livePanel) {
-        livePanel.style.display = "block";
-    }
-
-    // HIDE OTHERS
-    if (upcomingPanel) {
-        upcomingPanel.style.display = "none";
-    }
-
-    if (featuredPanel) {
-        featuredPanel.style.display = "none";
-    }
+    setSportsTabVisibility(
+        "cricket",
+        "live"
+    );
 
 
     await ensureAdminSportsGamesLoaded();
 
-    renderAdminCricketGamesByStatus("live");
+
+    renderAdminSportGames(
+        "cricket",
+        "live"
+    );
+
 };
 
 
+window.openCricketUpcoming =
+async function (btn) {
 
-window.openCricketUpcoming = async function (btn) {
-
-    const livePanel =
-        document.getElementById("cricketLive");
-
-    const upcomingPanel =
-        document.getElementById("cricketUpcoming");
-
-    const featuredPanel =
-        document.getElementById("cricketFeatured");
-
-
-    // SHOW UPCOMING
-    if (upcomingPanel) {
-        upcomingPanel.style.display = "block";
-    }
-
-    // HIDE OTHERS
-    if (livePanel) {
-        livePanel.style.display = "none";
-    }
-
-    if (featuredPanel) {
-        featuredPanel.style.display = "none";
-    }
+    setSportsTabVisibility(
+        "cricket",
+        "upcoming"
+    );
 
 
     await ensureAdminSportsGamesLoaded();
 
-    renderAdminCricketGamesByStatus("upcoming");
+
+    renderAdminSportGames(
+        "cricket",
+        "upcoming"
+    );
+
 };
 
 
+window.openCricketFeatured =
+async function (btn) {
 
-window.openCricketFeatured = async function (btn) {
-
-    const livePanel =
-        document.getElementById("cricketLive");
-
-    const upcomingPanel =
-        document.getElementById("cricketUpcoming");
-
-    const featuredPanel =
-        document.getElementById("cricketFeatured");
-
-
-    // SHOW FEATURED
-    if (featuredPanel) {
-        featuredPanel.style.display = "block";
-    }
-
-    // HIDE OTHERS
-    if (livePanel) {
-        livePanel.style.display = "none";
-    }
-
-    if (upcomingPanel) {
-        upcomingPanel.style.display = "none";
-    }
+    setSportsTabVisibility(
+        "cricket",
+        "featured"
+    );
 
 
     await ensureAdminSportsGamesLoaded();
 
-    renderAdminCricketGamesByStatus("featured");
+
+    renderAdminSportGames(
+        "cricket",
+        "featured"
+    );
+
 };
+
+
+// ======================================================
+// COMMON SPORTS TAB VISIBILITY
+// ======================================================
+
+function setSportsTabVisibility(
+    sport,
+    status
+) {
+
+    const prefix =
+        normalizeSportName(
+            sport
+        );
+
+
+    const livePanel =
+        document.getElementById(
+            prefix + "Live"
+        );
+
+
+    const upcomingPanel =
+        document.getElementById(
+            prefix + "Upcoming"
+        );
+
+
+    const featuredPanel =
+        document.getElementById(
+            prefix + "Featured"
+        );
+
+
+    [
+        livePanel,
+        upcomingPanel,
+        featuredPanel
+    ]
+    .forEach(
+        panel => {
+
+            if (panel) {
+
+                panel.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    const target =
+        status === "live"
+            ? livePanel
+            : status === "upcoming"
+                ? upcomingPanel
+                : featuredPanel;
+
+
+    if (target) {
+
+        target.style.display =
+            "block";
+
+    }
+
+}
 
 
 // ======================================================
@@ -1619,24 +1869,19 @@ function ensureSportsAddGameButton(
     }
 
 
-    // ==================================================
-    // CHECK EXISTING BUTTON
-    // ==================================================
-
     let addGameRow =
         section.querySelector(
             ".sports-add-game-row"
         );
 
 
-    // ==================================================
-    // CREATE BUTTON ONLY ONCE
-    // ==================================================
-
     if (!addGameRow) {
 
         addGameRow =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         addGameRow.className =
             "sports-add-game-row";
@@ -1661,9 +1906,10 @@ function ensureSportsAddGameButton(
         `;
 
 
-        // Insert directly after control title
         const title =
-            section.querySelector("h3");
+            section.querySelector(
+                "h3"
+            );
 
 
         if (title) {
@@ -1690,7 +1936,8 @@ function ensureSportsAddGameButton(
 // COMMON ADD SPORTS GAME MODAL
 // ======================================================
 
-window.openAddSportsGameModal = function (sport) {
+window.openAddSportsGameModal =
+function (sport) {
 
     console.log(
         "➕ ADD NEW GAME CLICKED:",
@@ -1698,14 +1945,10 @@ window.openAddSportsGameModal = function (sport) {
     );
 
 
-    // ==================================================
-    // NORMALIZE SPORT
-    // ==================================================
-
     const currentSport =
-        String(sport || "")
-            .trim()
-            .toLowerCase();
+        normalizeSportName(
+            sport
+        );
 
 
     if (!currentSport) {
@@ -1719,40 +1962,49 @@ window.openAddSportsGameModal = function (sport) {
     }
 
 
-    // ==================================================
-    // FIND CURRENT SPORT SECTION
-    // ==================================================
-
     const sectionMap = {
 
-        cricket: "adminCricketSection",
+        cricket:
+            "adminCricketSection",
 
-        football: "adminFootballSection",
+        football:
+            "adminFootballSection",
 
-        tennis: "adminTennisSection",
+        tennis:
+            "adminTennisSection",
 
-        basketball: "adminBasketballSection",
+        basketball:
+            "adminBasketballSection",
 
-        volleyball: "adminVolleyballSection",
+        volleyball:
+            "adminVolleyballSection",
 
-        boxing: "adminBoxingSection",
+        boxing:
+            "adminBoxingSection",
 
-        hockey: "adminHockeySection",
+        hockey:
+            "adminHockeySection",
 
-        rugby: "adminRugbySection",
+        rugby:
+            "adminRugbySection",
 
-        golf: "adminGolfSection"
+        golf:
+            "adminGolfSection"
 
     };
 
 
     const sectionId =
-        sectionMap[currentSport];
+        sectionMap[
+            currentSport
+        ];
 
 
     const currentSection =
         sectionId
-            ? document.getElementById(sectionId)
+            ? document.getElementById(
+                sectionId
+            )
             : null;
 
 
@@ -1768,27 +2020,23 @@ window.openAddSportsGameModal = function (sport) {
     }
 
 
-    // ==================================================
-    // FIND EXISTING COMMON MODAL
-    // ==================================================
-
     let modal =
         document.getElementById(
             "addSportsGameModal"
         );
 
 
-    // ==================================================
-    // CREATE MODAL ONCE
-    // ==================================================
-
     if (!modal) {
 
         modal =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         modal.id =
             "addSportsGameModal";
+
 
         modal.className =
             "sports-game-edit-modal";
@@ -1797,9 +2045,6 @@ window.openAddSportsGameModal = function (sport) {
         modal.innerHTML = `
 
             <div class="sports-game-edit-box">
-
-
-                <!-- HEADER -->
 
                 <div class="sports-game-edit-header">
 
@@ -1816,12 +2061,7 @@ window.openAddSportsGameModal = function (sport) {
                 </div>
 
 
-                <!-- BODY -->
-
                 <div class="sports-game-edit-body">
-
-
-                    <!-- GAME ID -->
 
                     <div class="sports-add-form-row">
 
@@ -1841,8 +2081,6 @@ window.openAddSportsGameModal = function (sport) {
                     </div>
 
 
-                    <!-- MATCH TITLE -->
-
                     <div class="sports-add-form-row">
 
                         <div class="sports-add-form-label">
@@ -1860,8 +2098,6 @@ window.openAddSportsGameModal = function (sport) {
 
                     </div>
 
-
-                    <!-- LEAGUE -->
 
                     <div class="sports-add-form-row">
 
@@ -1881,8 +2117,6 @@ window.openAddSportsGameModal = function (sport) {
                     </div>
 
 
-                    <!-- STATUS -->
-
                     <div class="sports-add-form-row">
 
                         <div class="sports-add-form-label">
@@ -1891,7 +2125,8 @@ window.openAddSportsGameModal = function (sport) {
 
                         <div class="sports-add-form-control">
 
-                            <select id="addSportsGameStatus">
+                            <select
+                                id="addSportsGameStatus">
 
                                 <option value="live">
                                     LIVE
@@ -1912,8 +2147,6 @@ window.openAddSportsGameModal = function (sport) {
                     </div>
 
 
-                    <!-- MATCH STATUS -->
-
                     <div class="sports-add-form-row">
 
                         <div class="sports-add-form-label">
@@ -1922,7 +2155,8 @@ window.openAddSportsGameModal = function (sport) {
 
                         <div class="sports-add-form-control">
 
-                            <select id="addSportsMatchStatus">
+                            <select
+                                id="addSportsMatchStatus">
 
                                 <option value="enable">
                                     ENABLE
@@ -1943,8 +2177,6 @@ window.openAddSportsGameModal = function (sport) {
                     </div>
 
 
-                    <!-- HOME TEAM -->
-
                     <div class="sports-add-form-row">
 
                         <div class="sports-add-form-label">
@@ -1962,8 +2194,6 @@ window.openAddSportsGameModal = function (sport) {
 
                     </div>
 
-
-                    <!-- AWAY TEAM -->
 
                     <div class="sports-add-form-row">
 
@@ -1983,7 +2213,9 @@ window.openAddSportsGameModal = function (sport) {
                     </div>
 
 
-                    <!-- BETTING MARKETS -->
+                    <!-- ==================================
+                         LEGACY MARKET CONTROLS
+                    =================================== -->
 
                     <div class="sports-add-markets-row">
 
@@ -2039,11 +2271,8 @@ window.openAddSportsGameModal = function (sport) {
 
                     </div>
 
-
                 </div>
 
-
-                <!-- FOOTER -->
 
                 <div class="sports-game-edit-footer">
 
@@ -2053,6 +2282,7 @@ window.openAddSportsGameModal = function (sport) {
                         Cancel
                     </button>
 
+
                     <button
                         type="button"
                         onclick="saveNewSportsGame()">
@@ -2061,10 +2291,10 @@ window.openAddSportsGameModal = function (sport) {
 
                 </div>
 
-
             </div>
 
         `;
+
 
         document.body.appendChild(
             modal
@@ -2073,17 +2303,9 @@ window.openAddSportsGameModal = function (sport) {
     }
 
 
-    // ==================================================
-    // REMEMBER CURRENT SPORT
-    // ==================================================
-
     window.currentAddSportsGame =
         currentSport;
 
-
-    // ==================================================
-    // MOVE MODAL UNDER CURRENT SPORT'S ADD GAME ROW
-    // ==================================================
 
     const addGameRow =
         currentSection.querySelector(
@@ -2107,10 +2329,6 @@ window.openAddSportsGameModal = function (sport) {
     }
 
 
-    // ==================================================
-    // UPDATE TITLE
-    // ==================================================
-
     const title =
         document.getElementById(
             "addSportsGameModalTitle"
@@ -2119,21 +2337,15 @@ window.openAddSportsGameModal = function (sport) {
 
     if (title) {
 
-        const displaySport =
-            currentSport.charAt(0).toUpperCase() +
-            currentSport.slice(1);
-
         title.textContent =
             "➕ Add New " +
-            displaySport +
+            capitalizeSport(
+                currentSport
+            ) +
             " Game";
 
     }
 
-
-    // ==================================================
-    // FORM ELEMENTS
-    // ==================================================
 
     const gameIdInput =
         document.getElementById(
@@ -2186,10 +2398,6 @@ window.openAddSportsGameModal = function (sport) {
         );
 
 
-    // ==================================================
-    // RESET FORM
-    // ==================================================
-
     if (gameIdInput) {
 
         gameIdInput.value =
@@ -2199,46 +2407,78 @@ window.openAddSportsGameModal = function (sport) {
 
     }
 
+
     if (titleInput) {
-        titleInput.value = "";
+
+        titleInput.value =
+            "";
+
     }
+
 
     if (leagueInput) {
-        leagueInput.value = "";
+
+        leagueInput.value =
+            "";
+
     }
+
 
     if (statusInput) {
-        statusInput.value = "live";
+
+        statusInput.value =
+            "live";
+
     }
+
 
     if (matchStatusInput) {
-        matchStatusInput.value = "enable";
+
+        matchStatusInput.value =
+            "enable";
+
     }
+
 
     if (homeInput) {
-        homeInput.value = "";
+
+        homeInput.value =
+            "";
+
     }
+
 
     if (awayInput) {
-        awayInput.value = "";
+
+        awayInput.value =
+            "";
+
     }
+
 
     if (totalRuns) {
-        totalRuns.checked = true;
+
+        totalRuns.checked =
+            true;
+
     }
+
 
     if (overUnder) {
-        overUnder.checked = true;
+
+        overUnder.checked =
+            true;
+
     }
+
 
     if (matchWinner) {
-        matchWinner.checked = true;
+
+        matchWinner.checked =
+            true;
+
     }
 
-
-    // ==================================================
-    // OPEN INLINE PANEL
-    // ==================================================
 
     modal.style.display =
         "block";
@@ -2279,27 +2519,23 @@ function () {
 
 };
 
+
 // ======================================================
 // SAVE NEW SPORTS GAME
 // ======================================================
 
-window.saveNewSportsGame = async function () {
+window.saveNewSportsGame =
+async function () {
 
     console.log(
         "💾 ADD NEW SPORTS GAME SAVE CLICKED"
     );
 
 
-    // ==================================================
-    // CURRENT SPORT
-    // ==================================================
-
     const sport =
-        String(
-            window.currentAddSportsGame || ""
-        )
-        .trim()
-        .toLowerCase();
+        normalizeSportName(
+            window.currentAddSportsGame
+        );
 
 
     if (!sport) {
@@ -2312,10 +2548,6 @@ window.saveNewSportsGame = async function () {
 
     }
 
-
-    // ==================================================
-    // FORM ELEMENTS
-    // ==================================================
 
     const gameIdInput =
         document.getElementById(
@@ -2368,10 +2600,6 @@ window.saveNewSportsGame = async function () {
         );
 
 
-    // ==================================================
-    // VALUES
-    // ==================================================
-
     const gameId =
         gameIdInput
             ? gameIdInput.value.trim()
@@ -2395,7 +2623,8 @@ window.saveNewSportsGame = async function () {
             : "live";
 
     const matchStatus =
-        matchStatusInput && matchStatusInput.value
+        matchStatusInput &&
+        matchStatusInput.value
             ? matchStatusInput.value
                 .trim()
                 .toLowerCase()
@@ -2427,10 +2656,6 @@ window.saveNewSportsGame = async function () {
             ? matchWinnerInput.checked
             : true;
 
-
-    // ==================================================
-    // VALIDATION
-    // ==================================================
 
     if (
         !gameId ||
@@ -2483,10 +2708,6 @@ window.saveNewSportsGame = async function () {
     }
 
 
-    // ==================================================
-    // SUPABASE CHECK
-    // ==================================================
-
     if (!window.supabaseClient) {
 
         console.error(
@@ -2501,10 +2722,6 @@ window.saveNewSportsGame = async function () {
 
     }
 
-
-    // ==================================================
-    // CREATE NEW GAME
-    // ==================================================
 
     const newGame = {
 
@@ -2550,26 +2767,20 @@ window.saveNewSportsGame = async function () {
     );
 
 
-    // ==================================================
-    // INSERT INTO SUPABASE
-    // ==================================================
-
     const {
         data,
         error
     } =
         await window.supabaseClient
-            .from("sports_games")
+            .from(
+                "sports_games"
+            )
             .insert([
                 newGame
             ])
             .select()
             .single();
 
-
-    // ==================================================
-    // ERROR
-    // ==================================================
 
     if (error) {
 
@@ -2588,44 +2799,27 @@ window.saveNewSportsGame = async function () {
     }
 
 
-    // ==================================================
-    // UPDATE ADMIN CACHE
-    // ==================================================
-
     window.adminSportsGames[
         data.game_id
     ] = data;
 
 
-    // ==================================================
-    // CLOSE PANEL
-    // ==================================================
-
     closeAddSportsGameModal();
 
 
-    // ==================================================
-    // RENDER CURRENT SPORT
-    // ==================================================
-
     renderAdminSportGames(
         sport,
-        String(
-            data.status || ""
+        normalizeStatus(
+            data.status
         )
-        .trim()
-        .toLowerCase()
     );
 
 
-    // ==================================================
-    // SUCCESS
-    // ==================================================
-
     alert(
         "✅ " +
-        sport.charAt(0).toUpperCase() +
-        sport.slice(1) +
+        capitalizeSport(
+            sport
+        ) +
         " game added successfully!"
     );
 
@@ -2636,7 +2830,8 @@ window.saveNewSportsGame = async function () {
 // FOOTBALL TABS
 // ======================================================
 
-window.openFootballLive = function (btn) {
+window.openFootballLive =
+function (btn) {
 
     openAdminSportTab(
         "football",
@@ -2645,10 +2840,12 @@ window.openFootballLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openFootballUpcoming = function (btn) {
+window.openFootballUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "football",
@@ -2657,10 +2854,12 @@ window.openFootballUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openFootballFeatured = function (btn) {
+window.openFootballFeatured =
+function (btn) {
 
     openAdminSportTab(
         "football",
@@ -2669,6 +2868,7 @@ window.openFootballFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2676,7 +2876,8 @@ window.openFootballFeatured = function (btn) {
 // TENNIS TABS
 // ======================================================
 
-window.openTennisLive = function (btn) {
+window.openTennisLive =
+function (btn) {
 
     openAdminSportTab(
         "tennis",
@@ -2685,10 +2886,12 @@ window.openTennisLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openTennisUpcoming = function (btn) {
+window.openTennisUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "tennis",
@@ -2697,10 +2900,12 @@ window.openTennisUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openTennisFeatured = function (btn) {
+window.openTennisFeatured =
+function (btn) {
 
     openAdminSportTab(
         "tennis",
@@ -2709,6 +2914,7 @@ window.openTennisFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2716,7 +2922,8 @@ window.openTennisFeatured = function (btn) {
 // BASKETBALL TABS
 // ======================================================
 
-window.openBasketballLive = function (btn) {
+window.openBasketballLive =
+function (btn) {
 
     openAdminSportTab(
         "basketball",
@@ -2725,10 +2932,12 @@ window.openBasketballLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openBasketballUpcoming = function (btn) {
+window.openBasketballUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "basketball",
@@ -2737,10 +2946,12 @@ window.openBasketballUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openBasketballFeatured = function (btn) {
+window.openBasketballFeatured =
+function (btn) {
 
     openAdminSportTab(
         "basketball",
@@ -2749,6 +2960,7 @@ window.openBasketballFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2756,7 +2968,8 @@ window.openBasketballFeatured = function (btn) {
 // VOLLEYBALL TABS
 // ======================================================
 
-window.openVolleyballLive = function (btn) {
+window.openVolleyballLive =
+function (btn) {
 
     openAdminSportTab(
         "volleyball",
@@ -2765,10 +2978,12 @@ window.openVolleyballLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openVolleyballUpcoming = function (btn) {
+window.openVolleyballUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "volleyball",
@@ -2777,10 +2992,12 @@ window.openVolleyballUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openVolleyballFeatured = function (btn) {
+window.openVolleyballFeatured =
+function (btn) {
 
     openAdminSportTab(
         "volleyball",
@@ -2789,6 +3006,7 @@ window.openVolleyballFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2796,7 +3014,8 @@ window.openVolleyballFeatured = function (btn) {
 // BOXING TABS
 // ======================================================
 
-window.openBoxingLive = function (btn) {
+window.openBoxingLive =
+function (btn) {
 
     openAdminSportTab(
         "boxing",
@@ -2805,10 +3024,12 @@ window.openBoxingLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openBoxingUpcoming = function (btn) {
+window.openBoxingUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "boxing",
@@ -2817,10 +3038,12 @@ window.openBoxingUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openBoxingFeatured = function (btn) {
+window.openBoxingFeatured =
+function (btn) {
 
     openAdminSportTab(
         "boxing",
@@ -2829,6 +3052,7 @@ window.openBoxingFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2836,7 +3060,8 @@ window.openBoxingFeatured = function (btn) {
 // HOCKEY TABS
 // ======================================================
 
-window.openHockeyLive = function (btn) {
+window.openHockeyLive =
+function (btn) {
 
     openAdminSportTab(
         "hockey",
@@ -2845,10 +3070,12 @@ window.openHockeyLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openHockeyUpcoming = function (btn) {
+window.openHockeyUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "hockey",
@@ -2857,10 +3084,12 @@ window.openHockeyUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openHockeyFeatured = function (btn) {
+window.openHockeyFeatured =
+function (btn) {
 
     openAdminSportTab(
         "hockey",
@@ -2869,6 +3098,7 @@ window.openHockeyFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2876,7 +3106,8 @@ window.openHockeyFeatured = function (btn) {
 // RUGBY TABS
 // ======================================================
 
-window.openRugbyLive = function (btn) {
+window.openRugbyLive =
+function (btn) {
 
     openAdminSportTab(
         "rugby",
@@ -2885,10 +3116,12 @@ window.openRugbyLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openRugbyUpcoming = function (btn) {
+window.openRugbyUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "rugby",
@@ -2897,10 +3130,12 @@ window.openRugbyUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openRugbyFeatured = function (btn) {
+window.openRugbyFeatured =
+function (btn) {
 
     openAdminSportTab(
         "rugby",
@@ -2909,6 +3144,7 @@ window.openRugbyFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2916,7 +3152,8 @@ window.openRugbyFeatured = function (btn) {
 // GOLF TABS
 // ======================================================
 
-window.openGolfLive = function (btn) {
+window.openGolfLive =
+function (btn) {
 
     openAdminSportTab(
         "golf",
@@ -2925,10 +3162,12 @@ window.openGolfLive = function (btn) {
         btn,
         "live"
     );
+
 };
 
 
-window.openGolfUpcoming = function (btn) {
+window.openGolfUpcoming =
+function (btn) {
 
     openAdminSportTab(
         "golf",
@@ -2937,10 +3176,12 @@ window.openGolfUpcoming = function (btn) {
         btn,
         "upcoming"
     );
+
 };
 
 
-window.openGolfFeatured = function (btn) {
+window.openGolfFeatured =
+function (btn) {
 
     openAdminSportTab(
         "golf",
@@ -2949,6 +3190,7 @@ window.openGolfFeatured = function (btn) {
         btn,
         "featured"
     );
+
 };
 
 
@@ -2956,16 +3198,13 @@ window.openGolfFeatured = function (btn) {
 // SUPABASE SPORTS GAME LOAD
 // ======================================================
 
-window.adminSportsGames = {};
-
-window.adminSportsGamesLoaded = false;
-
-
-window.loadAdminSportsGames = async function () {
+window.loadAdminSportsGames =
+async function () {
 
     console.log(
         "🔄 ADMIN: Loading sports games from Supabase..."
     );
+
 
     if (!window.supabaseClient) {
 
@@ -2974,27 +3213,39 @@ window.loadAdminSportsGames = async function () {
         );
 
         return false;
+
     }
+
 
     const {
         data,
         error
-    } = await window.supabaseClient
-        .from("sports_games")
-        .select("*")
-        .order("game_id", {
-            ascending: true
-        });
+    } =
+        await window.supabaseClient
+            .from(
+                "sports_games"
+            )
+            .select("*")
+            .order(
+                "game_id",
+                {
+                    ascending:
+                        true
+                }
+            );
+
 
     console.log(
         "📦 ADMIN SUPABASE DATA:",
         data
     );
 
+
     console.log(
         "📦 ADMIN SUPABASE ERROR:",
         error
     );
+
 
     if (error) {
 
@@ -3003,70 +3254,72 @@ window.loadAdminSportsGames = async function () {
             error
         );
 
-        window.adminSportsGamesLoaded = false;
+        window.adminSportsGamesLoaded =
+            false;
 
         return false;
+
     }
 
-    window.adminSportsGames = {};
 
-    if (!data || data.length === 0) {
+    window.adminSportsGames =
+        {};
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         console.warn(
             "⚠️ ADMIN: No sports games found."
         );
 
-        window.adminSportsGamesLoaded = true;
+        window.adminSportsGamesLoaded =
+            true;
 
         return true;
+
     }
 
-data.forEach(game => {
 
-    if (!game.game_id) return;
+    data.forEach(
+        game => {
 
-    window.adminSportsGames[
-        game.game_id
-    ] = game;
+            if (!game.game_id) {
 
-});
-    console.log(
-    "🔍 FULL CRICKET GAME FROM SUPABASE:",
-    window.adminSportsGames["cricket-live-1"]
-);
+                return;
 
-console.log(
-    "🔍 CRICKET STATUS RAW:",
-    JSON.stringify(
-        window.adminSportsGames["cricket-live-1"]?.status
-    )
-);
+            }
 
 
-console.log(
-    "🏏 ADMIN GAME CHECK:",
-    window.adminSportsGames["cricket-live-1"]?.sport,
-    window.adminSportsGames["cricket-live-1"]?.status
-);
+            window.adminSportsGames[
+                game.game_id
+            ] = game;
 
-
-window.adminSportsGamesLoaded = true;
-
-console.log(
-    "🗂️ ADMIN SPORTS CACHE:",
-    window.adminSportsGames
-);
-
-    // ------------------------------------------
-    // INITIAL CRICKET LIVE RENDER
-    // ------------------------------------------
-
-    renderAdminSportGames(
-        "cricket",
-        "live"
+        }
     );
 
+
+    window.adminSportsGamesLoaded =
+        true;
+
+
+    console.log(
+        "🗂️ ADMIN SPORTS CACHE:",
+        window.adminSportsGames
+    );
+
+
+    // ==================================================
+    // RENDER CURRENTLY AVAILABLE SPORTS DATA
+    // ==================================================
+
+    renderAllAdminSportsGames();
+
+
     return true;
+
 };
 
 
@@ -3077,16 +3330,53 @@ console.log(
 async function ensureAdminSportsGamesLoaded() {
 
     if (
-        window.adminSportsGamesLoaded &&
-        Object.keys(
-            window.adminSportsGames || {}
-        ).length > 0
+        window.adminSportsGamesLoaded
     ) {
 
         return true;
+
     }
 
+
     return await loadAdminSportsGames();
+
+}
+
+
+// ======================================================
+// RENDER ALL SPORTS GAMES
+// ======================================================
+
+function renderAllAdminSportsGames() {
+
+    const sports =
+        getSupportedSports();
+
+
+    const statuses = [
+        "live",
+        "upcoming",
+        "featured"
+    ];
+
+
+    sports.forEach(
+        sport => {
+
+            statuses.forEach(
+                status => {
+
+                    renderAdminSportGames(
+                        sport,
+                        status
+                    );
+
+                }
+            );
+
+        }
+    );
+
 }
 
 
@@ -3100,77 +3390,22 @@ function renderAdminSportGames(
 ) {
 
     const sportName =
-        String(sport || "")
-            .trim()
-            .toLowerCase();
+        normalizeSportName(
+            sport
+        );
+
 
     const statusName =
-        String(status || "")
-            .trim()
-            .toLowerCase();
-
-
-    const gridMap = {
-
-        cricket: {
-            live: "adminCricketLiveGrid",
-            upcoming: "adminCricketUpcomingGrid",
-            featured: "adminCricketFeaturedGrid"
-        },
-
-        football: {
-            live: "adminFootballLiveGrid",
-            upcoming: "adminFootballUpcomingGrid",
-            featured: "adminFootballFeaturedGrid"
-        },
-
-        tennis: {
-            live: "adminTennisLiveGrid",
-            upcoming: "adminTennisUpcomingGrid",
-            featured: "adminTennisFeaturedGrid"
-        },
-
-        basketball: {
-            live: "adminBasketballLiveGrid",
-            upcoming: "adminBasketballUpcomingGrid",
-            featured: "adminBasketballFeaturedGrid"
-        },
-
-        volleyball: {
-            live: "adminVolleyballLiveGrid",
-            upcoming: "adminVolleyballUpcomingGrid",
-            featured: "adminVolleyballFeaturedGrid"
-        },
-
-        boxing: {
-            live: "adminBoxingLiveGrid",
-            upcoming: "adminBoxingUpcomingGrid",
-            featured: "adminBoxingFeaturedGrid"
-        },
-
-        hockey: {
-            live: "adminHockeyLiveGrid",
-            upcoming: "adminHockeyUpcomingGrid",
-            featured: "adminHockeyFeaturedGrid"
-        },
-
-        rugby: {
-            live: "adminRugbyLiveGrid",
-            upcoming: "adminRugbyUpcomingGrid",
-            featured: "adminRugbyFeaturedGrid"
-        },
-
-        golf: {
-            live: "adminGolfLiveGrid",
-            upcoming: "adminGolfUpcomingGrid",
-            featured: "adminGolfFeaturedGrid"
-        }
-
-    };
+        normalizeStatus(
+            status
+        );
 
 
     const gridId =
-        gridMap[sportName]?.[statusName];
+        getSportsGridId(
+            sportName,
+            statusName
+        );
 
 
     if (!gridId) {
@@ -3182,27 +3417,22 @@ function renderAdminSportGames(
         );
 
         return;
+
     }
 
 
     const grid =
-        document.getElementById(gridId);
+        document.getElementById(
+            gridId
+        );
 
 
     if (!grid) {
 
-        console.warn(
-            "⚠️ ADMIN: Grid element not found:",
-            gridId
-        );
-
         return;
+
     }
 
-
-    // ------------------------------------------
-    // GET MATCHES FROM ADMIN CACHE
-    // ------------------------------------------
 
     const allGames =
         Object.values(
@@ -3210,130 +3440,98 @@ function renderAdminSportGames(
         );
 
 
-    console.log(
-        "📦 ADMIN: ALL CACHED SPORTS GAMES:",
-        allGames
-    );
-
-
-    // ------------------------------------------
-    // FILTER MATCHES
-    // ------------------------------------------
-
     const games =
         allGames
-            .filter(game => {
+            .filter(
+                game => {
 
-                const gameSport =
-                    String(game.sport || "")
-                        .trim()
-                        .toLowerCase();
+                    return (
+                        normalizeSportName(
+                            game.sport
+                        ) ===
+                        sportName
+                        &&
+                        normalizeStatus(
+                            game.status
+                        ) ===
+                        statusName
+                    );
 
-                const gameStatus =
-                    String(game.status || "")
-                        .trim()
-                        .toLowerCase();
+                }
+            )
+            .sort(
+                (a, b) => {
 
-
-                console.log(
-                    "🔎 ADMIN MATCH CHECK:",
-                    game.game_id,
-                    "SPORT:",
-                    gameSport,
-                    "STATUS:",
-                    gameStatus,
-                    "TARGET:",
-                    sportName,
-                    statusName
-                );
-
-
-                return (
-                    gameSport === sportName &&
-                    gameStatus === statusName
-                );
-
-            })
-            .sort((a, b) => {
-
-                return String(a.game_id || "")
+                    return String(
+                        a.game_id || ""
+                    )
                     .localeCompare(
-                        String(b.game_id || ""),
+                        String(
+                            b.game_id || ""
+                        ),
                         undefined,
                         {
-                            numeric: true,
-                            sensitivity: "base"
+                            numeric:
+                                true,
+
+                            sensitivity:
+                                "base"
                         }
                     );
 
-            });
+                }
+            );
 
 
-    console.log(
-        `🎮 ADMIN: ${sportName} / ${statusName}:`,
-        games
-    );
-
-
-    // ------------------------------------------
-    // NO GAMES
-    // ------------------------------------------
-
-    if (games.length === 0) {
+    if (
+        games.length === 0
+    ) {
 
         grid.innerHTML = `
             <p class="no-sports-games">
-                No ${sportName} ${statusName} games available.
+                No ${capitalizeSport(
+                    sportName
+                )} ${statusName} games available.
             </p>
         `;
 
         return;
+
     }
 
 
-    // ------------------------------------------
-    // RENDER GAME CARDS
-    // ------------------------------------------
-
     grid.innerHTML =
         games
-            .map(game =>
-                createAdminSportsCard(game)
+            .map(
+                game =>
+                    createAdminSportsCard(
+                        game
+                    )
             )
             .join("");
+
 }
 
 
 // ======================================================
-// CRICKET STATUS RENDER
+// BACKWARD COMPATIBILITY
 // ======================================================
 
-function renderAdminCricketGamesByStatus(status) {
-
-    const statusName =
-        String(status || "")
-            .trim()
-            .toLowerCase();
-
-
-    console.log(
-        "🏏 ADMIN: Rendering Cricket status:",
-        statusName
-    );
-
+function renderAdminCricketGamesByStatus(
+    status
+) {
 
     return renderAdminSportGames(
         "cricket",
-        statusName
+        status
     );
+
 }
 
 
-// ======================================================
-// KEEP EXISTING CRICKET RENDER FUNCTION
-// ======================================================
-
-function renderAdminCricketGames(games) {
+function renderAdminCricketGames(
+    games
+) {
 
     const sourceGames =
         Array.isArray(games)
@@ -3344,95 +3542,88 @@ function renderAdminCricketGames(games) {
 
 
     const cricketGames =
-        sourceGames.filter(game => {
+        sourceGames.filter(
+            game => {
 
-            return String(game.sport || "")
-                .trim()
-                .toLowerCase() === "cricket";
+                return normalizeSportName(
+                    game.sport
+                ) ===
+                "cricket";
 
-        });
-
-
-    const statusGroups = {
-
-        live: [],
-        upcoming: [],
-        featured: []
-
-    };
+            }
+        );
 
 
-    cricketGames.forEach(game => {
+    [
+        "live",
+        "upcoming",
+        "featured"
+    ]
+    .forEach(
+        status => {
 
-        const status =
-            String(game.status || "")
-                .trim()
-                .toLowerCase();
+            const gridId =
+                getSportsGridId(
+                    "cricket",
+                    status
+                );
 
 
-        if (statusGroups[status]) {
+            const grid =
+                document.getElementById(
+                    gridId
+                );
 
-            statusGroups[status].push(game);
+
+            if (!grid) {
+
+                return;
+
+            }
+
+
+            const gamesForStatus =
+                cricketGames.filter(
+                    game => {
+
+                        return normalizeStatus(
+                            game.status
+                        ) ===
+                        status;
+
+                    }
+                );
+
+
+            if (
+                gamesForStatus.length ===
+                0
+            ) {
+
+                grid.innerHTML = `
+                    <p class="no-sports-games">
+                        No Cricket ${status}
+                        games available.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            grid.innerHTML =
+                gamesForStatus
+                    .map(
+                        game =>
+                            createAdminSportsCard(
+                                game
+                            )
+                    )
+                    .join("");
 
         }
-
-    });
-
-
-    const grids = {
-
-        live:
-            document.getElementById(
-                "adminCricketLiveGrid"
-            ),
-
-        upcoming:
-            document.getElementById(
-                "adminCricketUpcomingGrid"
-            ),
-
-        featured:
-            document.getElementById(
-                "adminCricketFeaturedGrid"
-            )
-
-    };
-
-
-    Object.keys(grids).forEach(status => {
-
-        const grid =
-            grids[status];
-
-
-        if (!grid) return;
-
-
-        const gamesForStatus =
-            statusGroups[status];
-
-
-        if (gamesForStatus.length === 0) {
-
-            grid.innerHTML = `
-                <p class="no-sports-games">
-                    No Cricket ${status}
-                    games available.
-                </p>
-            `;
-
-            return;
-        }
-
-
-        grid.innerHTML =
-            gamesForStatus
-                .map(game =>
-                    createAdminSportsCard(game)
-                )
-                .join("");
-
-    });
+    );
 
 }
 
@@ -3441,33 +3632,47 @@ function renderAdminCricketGames(games) {
 // CREATE ADMIN SPORTS CARD
 // ======================================================
 
-function createAdminSportsCard(game) {
+function createAdminSportsCard(
+    game
+) {
 
     const totalRuns =
-        game.total_runs_enabled !== false;
+        game.total_runs_enabled !==
+        false;
+
 
     const overUnder =
-        game.over_under_enabled !== false;
+        game.over_under_enabled !==
+        false;
+
 
     const matchWinner =
-        game.match_winner_enabled !== false;
+        game.match_winner_enabled !==
+        false;
+
 
     const matchStatus =
-        String(game.match_status || "enable")
-            .trim()
-            .toLowerCase();
+        normalizeMatchStatus(
+            game.match_status
+        );
+
 
     const enabledMarketCount =
         [
             totalRuns,
             overUnder,
             matchWinner
-        ].filter(Boolean).length;
+        ]
+        .filter(Boolean)
+        .length;
 
-    const totalMarketCount = 3;
+
+    const totalMarketCount =
+        3;
 
 
     return `
+
         <div
             class="match-card"
             data-game-id="${escapeAdminSportsHTML(
@@ -3475,9 +3680,11 @@ function createAdminSportsCard(game) {
             )}"
         >
 
-            <!-- ==========================================
+
+            <!-- =========================================
                  MAIN CARD CONTENT
-            =========================================== -->
+            ========================================= -->
+
 
             <div class="admin-match-main">
 
@@ -3491,9 +3698,11 @@ function createAdminSportsCard(game) {
                     </div>
 
                     <div class="admin-match-value admin-game-id">
+
                         ${escapeAdminSportsHTML(
                             game.game_id
                         )}
+
                     </div>
 
                 </div>
@@ -3508,9 +3717,11 @@ function createAdminSportsCard(game) {
                     </div>
 
                     <div class="admin-match-value admin-game-league">
+
                         ${escapeAdminSportsHTML(
                             game.league || ""
                         )}
+
                     </div>
 
                 </div>
@@ -3529,6 +3740,7 @@ function createAdminSportsCard(game) {
                         Teams
                     </div>
 
+
                     <div class="admin-match-value admin-match-teams">
 
                         <span>
@@ -3537,9 +3749,11 @@ function createAdminSportsCard(game) {
                             )}
                         </span>
 
+
                         <strong>
                             VS
                         </strong>
+
 
                         <span>
                             ${escapeAdminSportsHTML(
@@ -3560,10 +3774,13 @@ function createAdminSportsCard(game) {
                         Status
                     </div>
 
+
                     <div class="admin-match-value admin-game-status">
+
                         ${escapeAdminSportsHTML(
                             game.status || ""
                         )}
+
                     </div>
 
                 </div>
@@ -3577,15 +3794,18 @@ function createAdminSportsCard(game) {
                         Match Status
                     </div>
 
+
                     <div
                         class="
                             admin-match-value
                             admin-game-match-status
                         "
                     >
+
                         ${escapeAdminSportsHTML(
                             matchStatus
                         )}
+
                     </div>
 
                 </div>
@@ -3604,9 +3824,11 @@ function createAdminSportsCard(game) {
                         Markets
                     </div>
 
+
                     <button
                         type="button"
                         class="admin-markets-toggle-btn"
+
                         onclick="
                             toggleAdminSportsMarkets(
                                 '${escapeAdminSportsJS(
@@ -3620,9 +3842,13 @@ function createAdminSportsCard(game) {
                             Markets
                         </span>
 
+
                         <span class="admin-market-count">
+
                             ${enabledMarketCount}/${totalMarketCount}
+
                         </span>
+
 
                         <span class="admin-markets-arrow">
                             ▾
@@ -3632,19 +3858,19 @@ function createAdminSportsCard(game) {
 
                 </div>
 
-
             </div>
 
 
-            <!-- ==========================================
+            <!-- =========================================
                  EDIT BUTTON
-            =========================================== -->
+            ========================================== -->
 
             <div class="admin-match-action">
 
                 <button
                     type="button"
                     class="admin-edit-match-btn"
+
                     onclick="
                         openSportsGameEditor(
                             '${escapeAdminSportsJS(
@@ -3653,15 +3879,17 @@ function createAdminSportsCard(game) {
                         )
                     "
                 >
+
                     ✏️ Edit Match
+
                 </button>
 
             </div>
 
 
-            <!-- ==========================================
-                 EXPANDABLE MARKETS PANEL
-            =========================================== -->
+            <!-- =========================================
+                 EXPANDABLE MARKETS
+            ========================================== -->
 
             <div
                 id="adminMarkets-${escapeAdminSportsHTML(
@@ -3687,6 +3915,7 @@ function createAdminSportsCard(game) {
                             Total Runs
                         </span>
 
+
                         <button
                             type="button"
                             class="${
@@ -3694,6 +3923,7 @@ function createAdminSportsCard(game) {
                                     ? "market-on"
                                     : "market-off"
                             }"
+
                             onclick="
                                 toggleAdminMarket(
                                     '${escapeAdminSportsJS(
@@ -3703,7 +3933,11 @@ function createAdminSportsCard(game) {
                                 )
                             "
                         >
-                            ${totalRuns ? "ON" : "OFF"}
+
+                            ${totalRuns
+                                ? "ON"
+                                : "OFF"}
+
                         </button>
 
                     </div>
@@ -3717,6 +3951,7 @@ function createAdminSportsCard(game) {
                             Over / Under
                         </span>
 
+
                         <button
                             type="button"
                             class="${
@@ -3724,6 +3959,7 @@ function createAdminSportsCard(game) {
                                     ? "market-on"
                                     : "market-off"
                             }"
+
                             onclick="
                                 toggleAdminMarket(
                                     '${escapeAdminSportsJS(
@@ -3733,7 +3969,11 @@ function createAdminSportsCard(game) {
                                 )
                             "
                         >
-                            ${overUnder ? "ON" : "OFF"}
+
+                            ${overUnder
+                                ? "ON"
+                                : "OFF"}
+
                         </button>
 
                     </div>
@@ -3747,6 +3987,7 @@ function createAdminSportsCard(game) {
                             Match Winner
                         </span>
 
+
                         <button
                             type="button"
                             class="${
@@ -3754,6 +3995,7 @@ function createAdminSportsCard(game) {
                                     ? "market-on"
                                     : "market-off"
                             }"
+
                             onclick="
                                 toggleAdminMarket(
                                     '${escapeAdminSportsJS(
@@ -3763,7 +4005,11 @@ function createAdminSportsCard(game) {
                                 )
                             "
                         >
-                            ${matchWinner ? "ON" : "OFF"}
+
+                            ${matchWinner
+                                ? "ON"
+                                : "OFF"}
+
                         </button>
 
                     </div>
@@ -3773,17 +4019,20 @@ function createAdminSportsCard(game) {
 
             </div>
 
+
         </div>
+
     `;
+
 }
 
 
-
- // ======================================================
-// START CONFIRM DELETE SPORTS GAME
+// ======================================================
+// CONFIRM DELETE SPORTS GAME
 // ======================================================
 
-window.confirmDeleteSportsGame = function () {
+window.confirmDeleteSportsGame =
+function () {
 
     const gameIdInput =
         document.getElementById(
@@ -3812,27 +4061,23 @@ window.confirmDeleteSportsGame = function () {
     }
 
 
-    // ==================================================
-    // FIND EXISTING CONFIRMATION
-    // ==================================================
-
     let confirmBox =
         document.getElementById(
             "sportsDeleteConfirm"
         );
 
 
-    // ==================================================
-    // CREATE ONCE
-    // ==================================================
-
     if (!confirmBox) {
 
         confirmBox =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         confirmBox.id =
             "sportsDeleteConfirm";
+
 
         confirmBox.innerHTML = `
 
@@ -3842,9 +4087,13 @@ window.confirmDeleteSportsGame = function () {
                     Delete Game
                 </div>
 
+
                 <div class="sports-delete-confirm-message">
+
                     Are you sure you want to delete this game?
+
                 </div>
+
 
                 <div class="sports-delete-confirm-actions">
 
@@ -3854,6 +4103,7 @@ window.confirmDeleteSportsGame = function () {
                         onclick="closeSportsDeleteConfirm()">
                         Cancel
                     </button>
+
 
                     <button
                         type="button"
@@ -3876,17 +4126,9 @@ window.confirmDeleteSportsGame = function () {
     }
 
 
-    // ==================================================
-    // STORE CURRENT GAME ID
-    // ==================================================
-
     window.pendingDeleteSportsGameId =
         gameId;
 
-
-    // ==================================================
-    // SHOW CONFIRMATION
-    // ==================================================
 
     confirmBox.style.display =
         "flex";
@@ -3904,7 +4146,8 @@ window.confirmDeleteSportsGame = function () {
 // CLOSE DELETE CONFIRMATION
 // ======================================================
 
-window.closeSportsDeleteConfirm = function () {
+window.closeSportsDeleteConfirm =
+function () {
 
     const confirmBox =
         document.getElementById(
@@ -3921,15 +4164,18 @@ window.closeSportsDeleteConfirm = function () {
 
 };
 
+
 // ======================================================
 // DELETE SPORTS GAME
 // ======================================================
 
-window.deleteSportsGame = async function () {
+window.deleteSportsGame =
+async function () {
 
     const gameId =
         String(
-            window.pendingDeleteSportsGameId || ""
+            window.pendingDeleteSportsGameId ||
+            ""
         )
         .trim();
 
@@ -3944,10 +4190,6 @@ window.deleteSportsGame = async function () {
 
     }
 
-
-    // ==================================================
-    // SUPABASE CHECK
-    // ==================================================
 
     if (!window.supabaseClient) {
 
@@ -3964,25 +4206,19 @@ window.deleteSportsGame = async function () {
     }
 
 
-    // ==================================================
-    // DELETE FROM SUPABASE
-    // ==================================================
-
     const {
         error
     } =
         await window.supabaseClient
-            .from("sports_games")
+            .from(
+                "sports_games"
+            )
             .delete()
             .eq(
                 "game_id",
                 gameId
             );
 
-
-    // ==================================================
-    // ERROR
-    // ==================================================
 
     if (error) {
 
@@ -4001,73 +4237,43 @@ window.deleteSportsGame = async function () {
     }
 
 
-    // ==================================================
-    // REMOVE FROM ADMIN CACHE
-    // ==================================================
-
-    if (
-        window.adminSportsGames &&
-        window.adminSportsGames[gameId]
-    ) {
-
-        delete window.adminSportsGames[
-            gameId
-        ];
-
-    }
+    delete window.adminSportsGames[
+        gameId
+    ];
 
 
-    // ==================================================
-    // CLOSE CONFIRMATION
-    // ==================================================
+    const deletedGame =
+        window.currentEditingSportsGame;
+
+
+    const currentSport =
+        deletedGame &&
+        deletedGame.sport
+            ? normalizeSportName(
+                deletedGame.sport
+            )
+            : "";
+
 
     closeSportsDeleteConfirm();
 
 
-    // ==================================================
-    // CLOSE EDITOR
-    // ==================================================
-
     closeSportsGameEditor();
-
-
-    // ==================================================
-    // DETERMINE CURRENT SPORT
-    // ==================================================
-
-    const deletedGame =
-        window.adminSportsGames
-            ? null
-            : null;
-
-
-    // ==================================================
-    // REFRESH CURRENT SPORT
-    // ==================================================
-
-    const currentSport =
-    window.currentEditingSportsGame &&
-    window.currentEditingSportsGame.sport
-        ? String(
-            window.currentEditingSportsGame.sport
-        )
-        .trim()
-        .toLowerCase()
-        : "";
 
 
     if (currentSport) {
 
-        renderAdminSportGames(
-            currentSport
-        );
+        renderAllAdminSportsGames();
 
     }
 
 
-    // ==================================================
-    // SUCCESS
-    // ==================================================
+    window.pendingDeleteSportsGameId =
+        "";
+
+    window.currentEditingSportsGame =
+        null;
+
 
     alert(
         "✅ Game deleted successfully!"
@@ -4079,29 +4285,7 @@ window.deleteSportsGame = async function () {
         gameId
     );
 
-
-    // ==================================================
-    // CLEAR PENDING ID
-    // ==================================================
-
-    window.pendingDeleteSportsGameId = "";
-
 };
-
-// ======================================================
-// END DELETE SPORTS GAME
-// ======================================================
-
-
-// ======================================================
-// BACKWARD COMPATIBILITY
-// ======================================================
-
-function createAdminCricketCard(game) {
-
-    return createAdminSportsCard(game);
-
-}
 
 
 // ======================================================
@@ -4119,6 +4303,7 @@ async function (
             gameId
         ];
 
+
     if (!game) {
 
         console.error(
@@ -4127,7 +4312,9 @@ async function (
         );
 
         return;
+
     }
+
 
     const allowedFields = [
 
@@ -4139,8 +4326,11 @@ async function (
 
     ];
 
+
     if (
-        !allowedFields.includes(field)
+        !allowedFields.includes(
+            field
+        )
     ) {
 
         console.error(
@@ -4149,32 +4339,46 @@ async function (
         );
 
         return;
+
     }
+
 
     const newValue =
         game[field] === false;
 
-    console.log(
-        "🔄 ADMIN: Toggle market:",
-        gameId,
-        field,
-        newValue
-    );
+
+    if (!window.supabaseClient) {
+
+        alert(
+            "Supabase connection unavailable."
+        );
+
+        return;
+
+    }
+
 
     const {
         data,
         error
-    } = await supabaseClient
-        .from("sports_games")
-        .update({
-            [field]: newValue
-        })
-        .eq(
-            "game_id",
-            gameId
-        )
-        .select()
-        .single();
+    } =
+        await window.supabaseClient
+            .from(
+                "sports_games"
+            )
+            .update({
+
+                [field]:
+                    newValue
+
+            })
+            .eq(
+                "game_id",
+                gameId
+            )
+            .select()
+            .single();
+
 
     if (error) {
 
@@ -4189,26 +4393,26 @@ async function (
         );
 
         return;
+
     }
+
 
     window.adminSportsGames[
         gameId
     ] = data;
 
-    const sport =
-        String(data.sport || "")
-            .toLowerCase();
-
-    const status =
-        String(data.status || "")
-            .toLowerCase();
 
     renderAdminSportGames(
-        sport,
-        status
+        normalizeSportName(
+            data.sport
+        ),
+        normalizeStatus(
+            data.status
+        )
     );
 
 };
+
 
 // ======================================================
 // TOGGLE SPORTS MARKETS PANEL
@@ -4217,9 +4421,16 @@ async function (
 window.toggleAdminSportsMarkets =
 function (gameId) {
 
+    const safeGameId =
+        String(
+            gameId || ""
+        );
+
+
     const panel =
         document.getElementById(
-            "adminMarkets-" + gameId
+            "adminMarkets-" +
+            safeGameId
         );
 
 
@@ -4231,17 +4442,16 @@ function (gameId) {
         );
 
         return;
+
     }
 
 
     const isCurrentlyHidden =
-        panel.style.display === "none" ||
-        panel.style.display === "";
+        panel.style.display ===
+            "none" ||
+        panel.style.display ===
+            "";
 
-
-    // ==================================================
-    // SHOW / HIDE MARKET PANEL
-    // ==================================================
 
     panel.style.display =
         isCurrentlyHidden
@@ -4249,16 +4459,16 @@ function (gameId) {
             : "none";
 
 
-    // ==================================================
-    // UPDATE ARROW
-    // ==================================================
-
     const card =
-        panel.closest(".match-card");
+        panel.closest(
+            ".match-card"
+        );
 
 
     if (!card) {
+
         return;
+
     }
 
 
@@ -4269,7 +4479,9 @@ function (gameId) {
 
 
     if (!button) {
+
         return;
+
     }
 
 
@@ -4295,158 +4507,203 @@ function (gameId) {
 // OPEN SPORTS GAME EDITOR
 // ======================================================
 
-window.openSportsGameEditor = function (gameId) {
+window.openSportsGameEditor =
+function (gameId) {
 
-    console.log("✏️ ADMIN: Opening editor:", gameId);
+    console.log(
+        "✏️ ADMIN: Opening editor:",
+        gameId
+    );
 
-    const game = window.adminSportsGames[gameId];
 
-    window.currentEditingSportsGame = game;
+    const game =
+        window.adminSportsGames[
+            gameId
+        ];
+
 
     if (!game) {
-        console.error("❌ ADMIN: Game not found:", gameId);
-        alert("Sports game not found.");
+
+        console.error(
+            "❌ ADMIN: Game not found:",
+            gameId
+        );
+
+        alert(
+            "Sports game not found."
+        );
+
         return;
+
     }
+
+
+    window.currentEditingSportsGame =
+        game;
+
 
     const gameIdInput =
-        document.getElementById("editSportsGameId");
+        document.getElementById(
+            "editSportsGameId"
+        );
+
 
     const titleInput =
-        document.getElementById("editSportsGameTitle");
+        document.getElementById(
+            "editSportsGameTitle"
+        );
+
 
     const leagueInput =
-    document.getElementById("editSportsGameLeague");
+        document.getElementById(
+            "editSportsGameLeague"
+        );
 
-const statusInput =
-    document.getElementById("editSportsGameStatus");
 
-const matchStatusInput =
-    document.getElementById("editSportsGameMatchStatus");
+    const statusInput =
+        document.getElementById(
+            "editSportsGameStatus"
+        );
+
+
+    const matchStatusInput =
+        document.getElementById(
+            "editSportsGameMatchStatus"
+        );
+
 
     const homeInput =
-        document.getElementById("editSportsGameHome");
+        document.getElementById(
+            "editSportsGameHome"
+        );
+
 
     const awayInput =
-        document.getElementById("editSportsGameAway");
+        document.getElementById(
+            "editSportsGameAway"
+        );
+
 
     const totalRunsInput =
-        document.getElementById("editTotalRuns");
+        document.getElementById(
+            "editTotalRuns"
+        );
+
 
     const overUnderInput =
-        document.getElementById("editOverUnder");
+        document.getElementById(
+            "editOverUnder"
+        );
+
 
     const matchWinnerInput =
-        document.getElementById("editMatchWinner");
+        document.getElementById(
+            "editMatchWinner"
+        );
 
-
-    // ==================================================
-    // FILL BASIC GAME INFORMATION
-    // ==================================================
 
     if (gameIdInput) {
-        gameIdInput.value = game.game_id || "";
+
+        gameIdInput.value =
+            game.game_id || "";
+
     }
+
 
     if (titleInput) {
-        titleInput.value = game.title || "";
+
+        titleInput.value =
+            game.title || "";
+
     }
+
 
     if (leagueInput) {
-        leagueInput.value = game.league || "";
+
+        leagueInput.value =
+            game.league || "";
+
     }
+
 
     if (homeInput) {
-        homeInput.value = game.home_team || "";
+
+        homeInput.value =
+            game.home_team || "";
+
     }
+
 
     if (awayInput) {
-        awayInput.value = game.away_team || "";
+
+        awayInput.value =
+            game.away_team || "";
+
     }
 
-
-    // ==================================================
-    // STATUS
-    // IMPORTANT:
-    // SELECT VALUES ARE LOWERCASE
-    // live / upcoming / featured
-    // ==================================================
 
     if (statusInput) {
 
-        const status =
-            String(game.status || "live")
-                .trim()
-                .toLowerCase();
+        statusInput.value =
+            normalizeStatus(
+                game.status
+            );
 
-        statusInput.value = status;
-
-        console.log(
-            "📌 ADMIN: Editor status:",
-            status
-        );
     }
 
-    // ==================================================
-// MATCH STATUS
-// IMPORTANT:
-// SELECT VALUES ARE LOWERCASE
-// enable / disable / reject
-// ==================================================
 
-if (matchStatusInput) {
+    if (matchStatusInput) {
 
-    const matchStatus =
-        String(game.match_status || "enable")
-            .trim()
-            .toLowerCase();
+        matchStatusInput.value =
+            normalizeMatchStatus(
+                game.match_status
+            );
 
-    matchStatusInput.value = matchStatus;
+    }
 
-    console.log(
-        "📌 ADMIN: Editor match status:",
-        matchStatus
-    );
-}
-
-
-    // ==================================================
-    // MARKET SETTINGS
-    // ==================================================
 
     if (totalRunsInput) {
+
         totalRunsInput.checked =
-            game.total_runs_enabled !== false;
+            game.total_runs_enabled !==
+            false;
+
     }
+
 
     if (overUnderInput) {
+
         overUnderInput.checked =
-            game.over_under_enabled !== false;
+            game.over_under_enabled !==
+            false;
+
     }
+
 
     if (matchWinnerInput) {
+
         matchWinnerInput.checked =
-            game.match_winner_enabled !== false;
+            game.match_winner_enabled !==
+            false;
+
     }
 
 
-    // ==================================================
-    // ACTIVE GAME ID
-    // ==================================================
+    window.activeSportsGameId =
+        gameId;
 
-    window.activeSportsGameId = gameId;
-
-
-    // ==================================================
-    // OPEN MODAL
-    // ==================================================
 
     const modal =
-        document.getElementById("sportsGameEditModal");
+        document.getElementById(
+            "sportsGameEditModal"
+        );
+
 
     if (modal) {
 
-        modal.style.display = "flex";
+        modal.style.display =
+            "flex";
+
 
         console.log(
             "✅ ADMIN: Sports game editor opened."
@@ -4459,6 +4716,7 @@ if (matchStatusInput) {
         );
 
     }
+
 };
 
 
@@ -4474,6 +4732,7 @@ function () {
             "sportsGameEditModal"
         );
 
+
     if (modal) {
 
         modal.style.display =
@@ -4481,18 +4740,29 @@ function () {
 
     }
 
+
     window.activeSportsGameId =
         null;
 
+
+    window.currentEditingSportsGame =
+        null;
+
 };
+
+
 // ======================================================
 // SAVE SPORTS GAME
 // ======================================================
 
-window.saveSportsGameChanges = async function () {
+window.saveSportsGameChanges =
+async function () {
 
     const gameIdInput =
-        document.getElementById("editSportsGameId");
+        document.getElementById(
+            "editSportsGameId"
+        );
+
 
     const gameId =
         gameIdInput
@@ -4500,144 +4770,161 @@ window.saveSportsGameChanges = async function () {
             : "";
 
 
-    // ==================================================
-    // CHECK GAME ID
-    // ==================================================
-
     if (!gameId) {
 
-        alert("Game ID is missing.");
+        alert(
+            "Game ID is missing."
+        );
 
         return;
+
     }
 
 
-    // ==================================================
-    // GET INPUTS
-    // ==================================================
-
     const titleInput =
-        document.getElementById("editSportsGameTitle");
+        document.getElementById(
+            "editSportsGameTitle"
+        );
+
 
     const leagueInput =
-        document.getElementById("editSportsGameLeague");
+        document.getElementById(
+            "editSportsGameLeague"
+        );
+
 
     const statusInput =
-        document.getElementById("editSportsGameStatus");
-    
+        document.getElementById(
+            "editSportsGameStatus"
+        );
+
+
     const matchStatusInput =
-    document.getElementById("editSportsGameMatchStatus");
+        document.getElementById(
+            "editSportsGameMatchStatus"
+        );
+
 
     const homeInput =
-        document.getElementById("editSportsGameHome");
+        document.getElementById(
+            "editSportsGameHome"
+        );
+
 
     const awayInput =
-        document.getElementById("editSportsGameAway");
+        document.getElementById(
+            "editSportsGameAway"
+        );
+
 
     const totalRunsInput =
-        document.getElementById("editTotalRuns");
+        document.getElementById(
+            "editTotalRuns"
+        );
+
 
     const overUnderInput =
-        document.getElementById("editOverUnder");
+        document.getElementById(
+            "editOverUnder"
+        );
+
 
     const matchWinnerInput =
-        document.getElementById("editMatchWinner");
+        document.getElementById(
+            "editMatchWinner"
+        );
 
 
-// ==================================================
-// GET STATUS
-// ==================================================
-
-const selectedStatus =
-    statusInput
-        ? String(statusInput.value || "")
-            .trim()
-            .toLowerCase()
-        : "";
+    const selectedStatus =
+        statusInput
+            ? normalizeStatus(
+                statusInput.value
+            )
+            : "";
 
 
-// ==================================================
-// GET MATCH STATUS
-// ==================================================
-
-const selectedMatchStatus =
-    matchStatusInput
-        ? String(matchStatusInput.value || "")
-            .trim()
-            .toLowerCase()
-        : "enable";
+    const selectedMatchStatus =
+        matchStatusInput
+            ? normalizeMatchStatus(
+                matchStatusInput.value
+            )
+            : "enable";
 
 
-// ==================================================
-// VALID STATUS
-// ==================================================
+    const allowedStatuses = [
 
-const allowedStatuses = [
-    "live",
-    "upcoming",
-    "featured"
-];
+        "live",
 
-if (!allowedStatuses.includes(selectedStatus)) {
+        "upcoming",
 
-    alert(
-        "Please select a valid game status."
-    );
+        "featured"
 
-    return;
-}
+    ];
 
 
-// ==================================================
-// VALID MATCH STATUS
-// ==================================================
+    const allowedMatchStatuses = [
 
-const allowedMatchStatuses = [
-    "enable",
-    "disable",
-    "reject"
-];
+        "enable",
 
-if (
-    !allowedMatchStatuses.includes(
-        selectedMatchStatus
-    )
-) {
+        "disable",
 
-    alert(
-        "Please select a valid match status."
-    );
+        "reject"
 
-    return;
-}
+    ];
 
 
-// ==================================================
-// BUILD UPDATED GAME
-// ==================================================
+    if (
+        !allowedStatuses.includes(
+            selectedStatus
+        )
+    ) {
 
-const updatedGame = {
+        alert(
+            "Please select a valid game status."
+        );
 
-    title:
-        titleInput
-            ? titleInput.value.trim()
-            : "",
+        return;
 
-    league:
-        leagueInput
-            ? leagueInput.value.trim()
-            : "",
+    }
 
-    status:
-        selectedStatus,
 
-    match_status:
-        selectedMatchStatus,
+    if (
+        !allowedMatchStatuses.includes(
+            selectedMatchStatus
+        )
+    ) {
 
-    home_team:
-        homeInput
-            ? homeInput.value.trim()
-            : "",
+        alert(
+            "Please select a valid match status."
+        );
+
+        return;
+
+    }
+
+
+    const updatedGame = {
+
+        title:
+            titleInput
+                ? titleInput.value.trim()
+                : "",
+
+        league:
+            leagueInput
+                ? leagueInput.value.trim()
+                : "",
+
+        status:
+            selectedStatus,
+
+        match_status:
+            selectedMatchStatus,
+
+        home_team:
+            homeInput
+                ? homeInput.value.trim()
+                : "",
 
         away_team:
             awayInput
@@ -4658,12 +4945,9 @@ const updatedGame = {
             matchWinnerInput
                 ? matchWinnerInput.checked
                 : true
+
     };
 
-
-    // ==================================================
-    // VALIDATE GAME INFORMATION
-    // ==================================================
 
     if (
         !updatedGame.title ||
@@ -4677,14 +4961,11 @@ const updatedGame = {
         );
 
         return;
+
     }
 
 
-    // ==================================================
-    // SUPABASE CHECK
-    // ==================================================
-
-    if (typeof supabaseClient === "undefined") {
+    if (!window.supabaseClient) {
 
         console.error(
             "❌ ADMIN: Supabase client unavailable."
@@ -4695,12 +4976,9 @@ const updatedGame = {
         );
 
         return;
+
     }
 
-
-    // ==================================================
-    // SAVE TO SUPABASE
-    // ==================================================
 
     console.log(
         "💾 ADMIN: Updating game:",
@@ -4712,17 +4990,21 @@ const updatedGame = {
     const {
         data,
         error
-    } = await supabaseClient
-        .from("sports_games")
-        .update(updatedGame)
-        .eq("game_id", gameId)
-        .select()
-        .single();
+    } =
+        await window.supabaseClient
+            .from(
+                "sports_games"
+            )
+            .update(
+                updatedGame
+            )
+            .eq(
+                "game_id",
+                gameId
+            )
+            .select()
+            .single();
 
-
-    // ==================================================
-    // HANDLE ERROR
-    // ==================================================
 
     if (error) {
 
@@ -4737,133 +5019,361 @@ const updatedGame = {
         );
 
         return;
-    }
-
-
-    // ==================================================
-    // VERIFY SAVED STATUS
-    // ==================================================
-
-    console.log(
-        "💾 SAVE RESULT - STATUS:",
-        JSON.stringify(data?.status)
-    );
-    
-    console.log(
-    "💾 SAVE RESULT - MATCH STATUS:",
-    JSON.stringify(data?.match_status)
-);
-
-    console.log(
-        "💾 SAVE RESULT - FULL DATA:",
-        data
-    );
-
-
-    // ==================================================
-    // UPDATE LOCAL CACHE
-    // ==================================================
-
-    console.log(
-        "✅ ADMIN: Sports game updated:",
-        data
-    );
-
-    window.adminSportsGames[gameId] = data;
-
-
-    // ==================================================
-    // CLOSE EDITOR
-    // ==================================================
-
-    if (
-        typeof closeSportsGameEditor === "function"
-    ) {
-
-        closeSportsGameEditor();
 
     }
 
 
-    // ==================================================
-    // RENDER UPDATED GAME
-    // ==================================================
+    console.log(
+        "💾 SAVE RESULT:",
+        data
+    );
+
+
+    window.adminSportsGames[
+        gameId
+    ] = data;
+
 
     const sport =
-        String(data.sport || "")
-            .trim()
-            .toLowerCase();
-
-    const status =
-        String(data.status || "")
-            .trim()
-            .toLowerCase();
+        normalizeSportName(
+            data.sport
+        );
 
 
-    renderAdminSportGames(
-        sport,
-        status
-    );
+    closeSportsGameEditor();
 
 
-    // ==================================================
-    // SUCCESS
-    // ==================================================
+    renderAllAdminSportsGames();
+
 
     alert(
         "✅ Match updated successfully!"
     );
+
 };
+
 
 // ======================================================
 // HTML ESCAPE
 // ======================================================
 
-function escapeAdminSportsHTML(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-function escapeAdminSportsJS(value) {
-
-    return String(value ?? "")
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'")
-        .replace(/"/g, '\\"')
-        .replace(/\n/g, "\\n")
-        .replace(/\r/g, "\\r");
-
-}
-
-
-// ======================================================
-// OPTIONAL AUTO LOAD
-// ======================================================
-
-if (
-    document.readyState ===
-    "loading"
+function escapeAdminSportsHTML(
+    value
 ) {
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-
-            loadAdminSportsGames();
-
-        }
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
     );
 
-} else {
+}
 
-    loadAdminSportsGames();
+
+function escapeAdminSportsJS(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /"/g,
+        '\\"'
+    )
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+    .replace(
+        /\r/g,
+        "\\r"
+    );
+
+}
+
+
+// ======================================================
+// SPORTS HELPERS
+// ======================================================
+
+function normalizeSportName(
+    sport
+) {
+
+    return String(
+        sport || ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+function normalizeStatus(
+    status
+) {
+
+    return String(
+        status || ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+function normalizeMatchStatus(
+    status
+) {
+
+    const value =
+        String(
+            status || "enable"
+        )
+        .trim()
+        .toLowerCase();
+
+
+    return [
+        "enable",
+        "disable",
+        "reject"
+    ].includes(
+        value
+    )
+        ? value
+        : "enable";
+
+}
+
+
+function capitalizeSport(
+    sport
+) {
+
+    const value =
+        normalizeSportName(
+            sport
+        );
+
+
+    if (!value) {
+
+        return "";
+
+    }
+
+
+    return (
+        value.charAt(0)
+            .toUpperCase() +
+        value.slice(1)
+    );
+
+}
+
+
+function getSupportedSports() {
+
+    return [
+
+        "cricket",
+
+        "football",
+
+        "tennis",
+
+        "basketball",
+
+        "volleyball",
+
+        "boxing",
+
+        "hockey",
+
+        "rugby",
+
+        "golf"
+
+    ];
+
+}
+
+
+function getSportsGridId(
+    sport,
+    status
+) {
+
+    const map = {
+
+        cricket: {
+
+            live:
+                "adminCricketLiveGrid",
+
+            upcoming:
+                "adminCricketUpcomingGrid",
+
+            featured:
+                "adminCricketFeaturedGrid"
+
+        },
+
+
+        football: {
+
+            live:
+                "adminFootballLiveGrid",
+
+            upcoming:
+                "adminFootballUpcomingGrid",
+
+            featured:
+                "adminFootballFeaturedGrid"
+
+        },
+
+
+        tennis: {
+
+            live:
+                "adminTennisLiveGrid",
+
+            upcoming:
+                "adminTennisUpcomingGrid",
+
+            featured:
+                "adminTennisFeaturedGrid"
+
+        },
+
+
+        basketball: {
+
+            live:
+                "adminBasketballLiveGrid",
+
+            upcoming:
+                "adminBasketballUpcomingGrid",
+
+            featured:
+                "adminBasketballFeaturedGrid"
+
+        },
+
+
+        volleyball: {
+
+            live:
+                "adminVolleyballLiveGrid",
+
+            upcoming:
+                "adminVolleyballUpcomingGrid",
+
+            featured:
+                "adminVolleyballFeaturedGrid"
+
+        },
+
+
+        boxing: {
+
+            live:
+                "adminBoxingLiveGrid",
+
+            upcoming:
+                "adminBoxingUpcomingGrid",
+
+            featured:
+                "adminBoxingFeaturedGrid"
+
+        },
+
+
+        hockey: {
+
+            live:
+                "adminHockeyLiveGrid",
+
+            upcoming:
+                "adminHockeyUpcomingGrid",
+
+            featured:
+                "adminHockeyFeaturedGrid"
+
+        },
+
+
+        rugby: {
+
+            live:
+                "adminRugbyLiveGrid",
+
+            upcoming:
+                "adminRugbyUpcomingGrid",
+
+            featured:
+                "adminRugbyFeaturedGrid"
+
+        },
+
+
+        golf: {
+
+            live:
+                "adminGolfLiveGrid",
+
+            upcoming:
+                "adminGolfUpcomingGrid",
+
+            featured:
+                "adminGolfFeaturedGrid"
+
+        }
+
+    };
+
+
+    return (
+        map[
+            normalizeSportName(
+                sport
+            )
+        ]?.[
+            normalizeStatus(
+                status
+            )
+        ] ||
+        ""
+    );
 
 }
 
@@ -4872,7 +5382,9 @@ if (
 // GAME NAME MAP
 // ======================================================
 
-function getGameName(id) {
+function getGameName(
+    id
+) {
 
     const games = {
 
@@ -5056,7 +5568,10 @@ function generateApiKey() {
         "API-" +
         Math.random()
             .toString(36)
-            .substring(2, 12)
+            .substring(
+                2,
+                12
+            )
             .toUpperCase();
 
 
@@ -5087,36 +5602,30 @@ function saveGameSettings() {
         gameId:
             window.activeGameId,
 
-
         status:
             document.getElementById(
                 "gameStatusBtn"
             )?.innerText || "",
-
 
         rtp:
             document.getElementById(
                 "gs_rtp"
             )?.value || "",
 
-
         minBet:
             document.getElementById(
                 "gs_minBet"
             )?.value || "",
-
 
         maxBet:
             document.getElementById(
                 "gs_maxBet"
             )?.value || "",
 
-
         apiKey:
             document.getElementById(
                 "gs_apiKey"
             )?.value || "",
-
 
         serverKey:
             document.getElementById(
@@ -5163,13 +5672,17 @@ function openAddGame() {
 
 const financeConfig = {
 
-    autoDeposit: true,
+    autoDeposit:
+        true,
 
-    manualDeposit: false,
+    manualDeposit:
+        false,
 
-    autoWithdraw: false,
+    autoWithdraw:
+        false,
 
-    manualWithdraw: true
+    manualWithdraw:
+        true
 
 };
 
@@ -5607,12 +6120,16 @@ window.withdrawRequests =
 // FIND REQUEST
 // ======================================================
 
-function getRequest(id) {
+function getRequest(
+    id
+) {
 
-    return window.withdrawRequests.find(
-        request =>
-            request.id === id
-    );
+    return window.withdrawRequests
+        .find(
+            request =>
+                request.id ===
+                id
+        );
 
 }
 
@@ -5626,7 +6143,9 @@ function approveWithdraw(
 ) {
 
     const req =
-        getRequest(id);
+        getRequest(
+            id
+        );
 
 
     if (!req) {
@@ -5663,7 +6182,9 @@ function rejectWithdraw(
 ) {
 
     const req =
-        getRequest(id);
+        getRequest(
+            id
+        );
 
 
     if (!req) return;
@@ -5693,7 +6214,9 @@ function sendMoney(
 ) {
 
     const req =
-        getRequest(id);
+        getRequest(
+            id
+        );
 
 
     if (!req) {
@@ -5749,7 +6272,6 @@ function renderPanels() {
 
     renderHistoryPanel();
 
-
     renderAffiliateOverview();
 
     renderReferralPlayers();
@@ -5780,112 +6302,111 @@ function renderRequestPanel() {
         "";
 
 
-    window.withdrawRequests.forEach(
-        req => {
+    window.withdrawRequests
+        .forEach(
+            req => {
 
-            let statusText =
-                "";
+                let statusText =
+                    "";
 
-            let actionButtons =
-                "";
-
-
-            if (
-                req.status ===
-                "pending"
-            ) {
-
-                statusText =
-                    "🟡 Pending";
+                let actionButtons =
+                    "";
 
 
-                actionButtons = `
+                if (
+                    req.status ===
+                    "pending"
+                ) {
 
-                    <button
-                        onclick="approveWithdraw('${req.id}')"
-                    >
-                        Approve
-                    </button>
+                    statusText =
+                        "🟡 Pending";
 
-                    <button
-                        onclick="rejectWithdraw('${req.id}')"
-                    >
-                        Reject
-                    </button>
+
+                    actionButtons = `
+
+                        <button
+                            onclick="approveWithdraw('${req.id}')"
+                        >
+                            Approve
+                        </button>
+
+                        <button
+                            onclick="rejectWithdraw('${req.id}')"
+                        >
+                            Reject
+                        </button>
+
+                    `;
+
+                }
+
+                else if (
+                    req.status ===
+                    "approved"
+                ) {
+
+                    statusText =
+                        "🟢 Approved";
+
+
+                    actionButtons =
+                        `<span>Approved</span>`;
+
+                }
+
+                else if (
+                    req.status ===
+                    "rejected"
+                ) {
+
+                    statusText =
+                        "🔴 Rejected";
+
+
+                    actionButtons =
+                        `<span>Rejected</span>`;
+
+                }
+
+
+                tbody.innerHTML += `
+
+                    <tr>
+
+                        <td>
+                            ${req.id}
+                        </td>
+
+                        <td>
+                            ${req.userId}
+                        </td>
+
+                        <td>
+                            ${req.username}
+                        </td>
+
+                        <td>
+                            ${req.amount}
+                        </td>
+
+                        <td>
+                            ${req.coin}
+                        </td>
+
+                        <td>
+                            ${statusText}
+                        </td>
+
+                        <td>
+                            ${actionButtons}
+                        </td>
+
+                    </tr>
 
                 `;
 
             }
-
-
-            else if (
-                req.status ===
-                "approved"
-            ) {
-
-                statusText =
-                    "🟢 Approved";
-
-
-                actionButtons =
-                    `<span>Approved</span>`;
-
-            }
-
-
-            else if (
-                req.status ===
-                "rejected"
-            ) {
-
-                statusText =
-                    "🔴 Rejected";
-
-
-                actionButtons =
-                    `<span>Rejected</span>`;
-
-            }
-
-
-            tbody.innerHTML += `
-
-                <tr>
-
-                    <td>
-                        ${req.id}
-                    </td>
-
-                    <td>
-                        ${req.userId}
-                    </td>
-
-                    <td>
-                        ${req.username}
-                    </td>
-
-                    <td>
-                        ${req.amount}
-                    </td>
-
-                    <td>
-                        ${req.coin}
-                    </td>
-
-                    <td>
-                        ${statusText}
-                    </td>
-
-                    <td>
-                        ${actionButtons}
-                    </td>
-
-                </tr>
-
-            `;
-
-        }
-    );
+        );
 
 }
 
@@ -5909,97 +6430,98 @@ function renderApprovedPanel() {
         "";
 
 
-    window.withdrawRequests.forEach(
-        req => {
-
-            if (
-                req.status ===
-                "approved" ||
-                req.status ===
-                "completed"
-            ) {
-
-                let paymentStatus =
-                    "";
-
-                let actionButton =
-                    "";
-
+    window.withdrawRequests
+        .forEach(
+            req => {
 
                 if (
                     req.status ===
-                    "approved"
-                ) {
-
-                    paymentStatus =
-                        "🟡 Waiting for Payment";
-
-
-                    actionButton = `
-
-                        <button
-                            onclick="sendMoney('${req.id}')"
-                        >
-                            Send Money
-                        </button>
-
-                    `;
-
-                }
-
-
-                if (
+                    "approved" ||
                     req.status ===
                     "completed"
                 ) {
 
-                    paymentStatus =
-                        "🟢 Payment Completed";
+                    let paymentStatus =
+                        "";
+
+                    let actionButton =
+                        "";
 
 
-                    actionButton = `
+                    if (
+                        req.status ===
+                        "approved"
+                    ) {
 
-                        <button disabled>
-                            Completed
-                        </button>
+                        paymentStatus =
+                            "🟡 Waiting for Payment";
+
+
+                        actionButton = `
+
+                            <button
+                                onclick="sendMoney('${req.id}')"
+                            >
+                                Send Money
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    if (
+                        req.status ===
+                        "completed"
+                    ) {
+
+                        paymentStatus =
+                            "🟢 Payment Completed";
+
+
+                        actionButton = `
+
+                            <button disabled>
+                                Completed
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    tbody.innerHTML += `
+
+                        <tr>
+
+                            <td>
+                                ${req.userId}
+                            </td>
+
+                            <td>
+                                ${req.coin}
+                            </td>
+
+                            <td>
+                                ${req.amount}
+                            </td>
+
+                            <td>
+                                ${paymentStatus}
+                            </td>
+
+                            <td>
+                                ${actionButton}
+                            </td>
+
+                        </tr>
 
                     `;
 
                 }
 
-
-                tbody.innerHTML += `
-
-                    <tr>
-
-                        <td>
-                            ${req.userId}
-                        </td>
-
-                        <td>
-                            ${req.coin}
-                        </td>
-
-                        <td>
-                            ${req.amount}
-                        </td>
-
-                        <td>
-                            ${paymentStatus}
-                        </td>
-
-                        <td>
-                            ${actionButton}
-                        </td>
-
-                    </tr>
-
-                `;
-
             }
-
-        }
-    );
+        );
 
 }
 
@@ -6023,42 +6545,43 @@ function renderRejectedPanel() {
         "";
 
 
-    window.withdrawRequests.forEach(
-        req => {
+    window.withdrawRequests
+        .forEach(
+            req => {
 
-            if (
-                req.status ===
-                "rejected"
-            ) {
+                if (
+                    req.status ===
+                    "rejected"
+                ) {
 
-                tbody.innerHTML += `
+                    tbody.innerHTML += `
 
-                    <tr>
+                        <tr>
 
-                        <td>
-                            ${req.userId}
-                        </td>
+                            <td>
+                                ${req.userId}
+                            </td>
 
-                        <td>
-                            ${req.coin}
-                        </td>
+                            <td>
+                                ${req.coin}
+                            </td>
 
-                        <td>
-                            ${req.amount}
-                        </td>
+                            <td>
+                                ${req.amount}
+                            </td>
 
-                        <td>
-                            🔴 Rejected
-                        </td>
+                            <td>
+                                🔴 Rejected
+                            </td>
 
-                    </tr>
+                        </tr>
 
-                `;
+                    `;
+
+                }
 
             }
-
-        }
-    );
+        );
 
 }
 
@@ -6093,7 +6616,9 @@ function renderHistoryPanel() {
     const todayDate =
         new Date()
             .toISOString()
-            .split("T")[0];
+            .split(
+                "T"
+            )[0];
 
 
     if (
@@ -6108,44 +6633,47 @@ function renderHistoryPanel() {
     }
 
 
-    window.withdrawHistory.forEach(
-        item => {
+    window.withdrawHistory
+        .forEach(
+            item => {
 
-            total +=
-                Number(
-                    item.amount
-                );
-
-
-            if (
-                item.date &&
-                item.date.includes(
-                    todayDate
-                )
-            ) {
-
-                today +=
+                total +=
                     Number(
                         item.amount
                     );
 
+
+                if (
+                    item.date &&
+                    item.date.includes(
+                        todayDate
+                    )
+                ) {
+
+                    today +=
+                        Number(
+                            item.amount
+                        );
+
+                }
+
+
+                list.innerHTML += `
+
+                    <p>
+
+                        ${item.date}
+                        -
+                        ${item.amount}
+                        BDT
+                        (${item.status})
+
+                    </p>
+
+                `;
+
             }
-
-
-            list.innerHTML += `
-
-                <p>
-                    ${item.date}
-                    -
-                    ${item.amount}
-                    BDT
-                    (${item.status})
-                </p>
-
-            `;
-
-        }
-    );
+        );
 
 
     const totalWithdraw =
@@ -6406,43 +6934,44 @@ function renderRevenueTable(
         "";
 
 
-    (players || []).forEach(
-        p => {
+    (players || [])
+        .forEach(
+            p => {
 
-            tbody.innerHTML += `
+                tbody.innerHTML += `
 
-                <tr>
+                    <tr>
 
-                    <td>
-                        ${p.affiliateId}
-                    </td>
+                        <td>
+                            ${p.affiliateId}
+                        </td>
 
-                    <td>
-                        ${p.playerId}
-                    </td>
+                        <td>
+                            ${p.playerId}
+                        </td>
 
-                    <td>
-                        $${p.todayRevenue ?? 0}
-                    </td>
+                        <td>
+                            $${p.todayRevenue ?? 0}
+                        </td>
 
-                    <td>
-                        $${p.weeklyRevenue ?? 0}
-                    </td>
+                        <td>
+                            $${p.weeklyRevenue ?? 0}
+                        </td>
 
-                    <td>
-                        $${p.monthlyRevenue ?? 0}
-                    </td>
+                        <td>
+                            $${p.monthlyRevenue ?? 0}
+                        </td>
 
-                    <td>
-                        ${p.status}
-                    </td>
+                        <td>
+                            ${p.status}
+                        </td>
 
-                </tr>
+                    </tr>
 
-            `;
+                `;
 
-        }
-    );
+            }
+        );
 
 }
 
@@ -6471,11 +7000,13 @@ function calculateDailyRevenue(
 
 
     const netRevenue =
-        loss - win;
+        loss -
+        win;
 
 
     if (
-        netRevenue <= 0
+        netRevenue <=
+        0
     ) {
 
         return {
@@ -6505,7 +7036,6 @@ function calculateDailyRevenue(
 
     }
 
-
     else if (
         netRevenue <=
         300
@@ -6516,7 +7046,6 @@ function calculateDailyRevenue(
 
     }
 
-
     else if (
         netRevenue <=
         500
@@ -6526,7 +7055,6 @@ function calculateDailyRevenue(
             0.50;
 
     }
-
 
     else {
 
@@ -6575,30 +7103,31 @@ function runDailyAffiliateEngine() {
     }
 
 
-    window.referralPlayers.forEach(
-        player => {
+    window.referralPlayers
+        .forEach(
+            player => {
 
-            const calc =
-                calculateDailyRevenue(
-                    player
+                const calc =
+                    calculateDailyRevenue(
+                        player
+                    );
+
+
+                player.todayRevenue =
+                    calc.revenue;
+
+
+                player.revenueEarned =
+                    calc.commission;
+
+
+                addToWeeklyRevenue(
+                    player.playerId,
+                    calc.revenue
                 );
 
-
-            player.todayRevenue =
-                calc.revenue;
-
-
-            player.revenueEarned =
-                calc.commission;
-
-
-            addToWeeklyRevenue(
-                player.playerId,
-                calc.revenue
-            );
-
-        }
-    );
+            }
+        );
 
 
     console.log(
@@ -6618,7 +7147,10 @@ setInterval(
         runDailyAffiliateEngine();
 
     },
-    24 * 60 * 60 * 1000
+    24 *
+    60 *
+    60 *
+    1000
 );
 
 
@@ -6632,7 +7164,11 @@ setInterval(
         runWeeklyCheck();
 
     },
-    7 * 24 * 60 * 60 * 1000
+    7 *
+    24 *
+    60 *
+    60 *
+    1000
 );
 
 
@@ -6885,61 +7421,62 @@ function renderReferralPlayers() {
     }
 
 
-    window.referralPlayers.forEach(
-        player => {
+    window.referralPlayers
+        .forEach(
+            player => {
 
-            const calc =
-                calculateDailyRevenue(
-                    player
-                );
+                const calc =
+                    calculateDailyRevenue(
+                        player
+                    );
 
 
-            tbody.innerHTML += `
+                tbody.innerHTML += `
 
-                <tr>
+                    <tr>
 
-                    <td>
-                        ${player.affiliateId}
-                    </td>
+                        <td>
+                            ${player.affiliateId}
+                        </td>
 
-                    <td>
-                        ${player.playerId}
-                    </td>
+                        <td>
+                            ${player.playerId}
+                        </td>
 
-                    <td>
-                        ${player.username}
-                    </td>
+                        <td>
+                            ${player.username}
+                        </td>
 
-                    <td>
-                        $${player.todayDeposit ?? 0}
-                    </td>
+                        <td>
+                            $${player.todayDeposit ?? 0}
+                        </td>
 
-                    <td>
-                        $${player.todayLoss ?? 0}
-                    </td>
+                        <td>
+                            $${player.todayLoss ?? 0}
+                        </td>
 
-                    <td>
-                        $${player.todayWin ?? 0}
-                    </td>
+                        <td>
+                            $${player.todayWin ?? 0}
+                        </td>
 
-                    <td>
-                        $${calc.revenue.toFixed(2)}
-                    </td>
+                        <td>
+                            $${calc.revenue.toFixed(2)}
+                        </td>
 
-                    <td>
-                        $${calc.commission.toFixed(2)}
-                    </td>
+                        <td>
+                            $${calc.commission.toFixed(2)}
+                        </td>
 
-                    <td>
-                        ${player.status}
-                    </td>
+                        <td>
+                            ${player.status}
+                        </td>
 
-                </tr>
+                    </tr>
 
-            `;
+                `;
 
-        }
-    );
+            }
+        );
 
 }
 
@@ -6974,55 +7511,56 @@ function renderAffiliatePayoutRequests() {
     }
 
 
-    window.affiliatePayoutRequests.forEach(
-        req => {
+    window.affiliatePayoutRequests
+        .forEach(
+            req => {
 
-            tbody.innerHTML += `
+                tbody.innerHTML += `
 
-                <tr>
+                    <tr>
 
-                    <td>
-                        ${req.requestId}
-                    </td>
+                        <td>
+                            ${req.requestId}
+                        </td>
 
-                    <td>
-                        ${req.affiliateId}
-                    </td>
+                        <td>
+                            ${req.affiliateId}
+                        </td>
 
-                    <td>
-                        ${req.username}
-                    </td>
+                        <td>
+                            ${req.username}
+                        </td>
 
-                    <td>
-                        ${req.amount}
-                    </td>
+                        <td>
+                            ${req.amount}
+                        </td>
 
-                    <td>
-                        ${req.status}
-                    </td>
+                        <td>
+                            ${req.status}
+                        </td>
 
-                    <td>
+                        <td>
 
-                        <button
-                            onclick="approveAffiliatePayout('${req.requestId}')"
-                        >
-                            Approve
-                        </button>
+                            <button
+                                onclick="approveAffiliatePayout('${req.requestId}')"
+                            >
+                                Approve
+                            </button>
 
-                        <button
-                            onclick="rejectAffiliatePayout('${req.requestId}')"
-                        >
-                            Reject
-                        </button>
+                            <button
+                                onclick="rejectAffiliatePayout('${req.requestId}')"
+                            >
+                                Reject
+                            </button>
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            `;
+                `;
 
-        }
-    );
+            }
+        );
 
 }
 
@@ -7040,30 +7578,25 @@ function saveAffiliateSettings() {
                 "level1Commission"
             )?.value || "",
 
-
         level2Commission:
             document.getElementById(
                 "level2Commission"
             )?.value || "",
-
 
         level3Commission:
             document.getElementById(
                 "level3Commission"
             )?.value || "",
 
-
         affiliateMinWithdraw:
             document.getElementById(
                 "affiliateMinWithdraw"
             )?.value || "",
 
-
         affiliateMinPayout:
             document.getElementById(
                 "affiliateMinPayout"
             )?.value || "",
-
 
         affiliateSettlementCycle:
             document.getElementById(
@@ -7108,11 +7641,12 @@ function approveAffiliatePayout(
 
 
     const request =
-        window.affiliatePayoutRequests.find(
-            r =>
-                r.requestId ===
-                requestId
-        );
+        window.affiliatePayoutRequests
+            .find(
+                r =>
+                    r.requestId ===
+                    requestId
+            );
 
 
     if (!request) return;
@@ -7153,11 +7687,12 @@ function rejectAffiliatePayout(
 
 
     const request =
-        window.affiliatePayoutRequests.find(
-            r =>
-                r.requestId ===
-                requestId
-        );
+        window.affiliatePayoutRequests
+            .find(
+                r =>
+                    r.requestId ===
+                    requestId
+            );
 
 
     if (!request) return;
@@ -7210,11 +7745,12 @@ function sendAffiliatePayment(
 
 
     const request =
-        window.affiliatePayoutRequests.find(
-            r =>
-                r.requestId ===
-                requestId
-        );
+        window.affiliatePayoutRequests
+            .find(
+                r =>
+                    r.requestId ===
+                    requestId
+            );
 
 
     if (!request) return;
@@ -7303,39 +7839,40 @@ function renderAffiliatePayoutHistory() {
     }
 
 
-    window.affiliatePayoutHistory.forEach(
-        item => {
+    window.affiliatePayoutHistory
+        .forEach(
+            item => {
 
-            tbody.innerHTML += `
+                tbody.innerHTML += `
 
-                <tr>
+                    <tr>
 
-                    <td>
-                        ${item.transactionId}
-                    </td>
+                        <td>
+                            ${item.transactionId}
+                        </td>
 
-                    <td>
-                        ${item.affiliateId}
-                    </td>
+                        <td>
+                            ${item.affiliateId}
+                        </td>
 
-                    <td>
-                        ${item.amount}
-                    </td>
+                        <td>
+                            ${item.amount}
+                        </td>
 
-                    <td>
-                        ${item.date}
-                    </td>
+                        <td>
+                            ${item.date}
+                        </td>
 
-                    <td>
-                        ${item.status}
-                    </td>
+                        <td>
+                            ${item.status}
+                        </td>
 
-                </tr>
+                    </tr>
 
-            `;
+                `;
 
-        }
-    );
+            }
+        );
 
 }
 
