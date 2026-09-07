@@ -1186,37 +1186,6 @@ window.openCasinoSection = function () {
 
 
     // ==================================================
-    // SHOW CASINO
-    // ==================================================
-
-    if (casino) {
-
-        casino.style.display =
-            "block";
-
-    }
-
-};
-
-// ======================================================
-// HIDE ALL ADMIN SPORTS SECTIONS
-// ======================================================
-
-function hideAllAdminSportsSections() {
-
-    document
-        .querySelectorAll(
-            ".admin-sport-section"
-        )
-        .forEach(section => {
-
-            section.style.display =
-                "none";
-
-        });
-
-}
-// ==================================================
     // CLOSE OPEN EDIT MATCH PANEL
     // ==================================================
 
@@ -1244,6 +1213,27 @@ function hideAllAdminSportsSections() {
     }
 
 };
+
+
+// ======================================================
+// HIDE ALL ADMIN SPORTS SECTIONS
+// ======================================================
+
+function hideAllAdminSportsSections() {
+
+    document
+        .querySelectorAll(
+            ".admin-sport-section"
+        )
+        .forEach(section => {
+
+            section.style.display =
+                "none";
+
+        });
+
+}
+
 
 
 // ======================================================
