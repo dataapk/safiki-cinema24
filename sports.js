@@ -1,33 +1,391 @@
 // ==========================================
 // SPORTS.JS
 // SPORTS FULL GAME VIEW
+// COMMON SPORTS RENDERING SYSTEM
 // ==========================================
 
 console.log("🚀 SPORTS.JS STARTED");
 
 
-
-
 // ==========================================
 // SPORTS GAME DATA CACHE
 // ==========================================
+
 let sportsGames = {};
 let sportsGamesLoaded = false;
 
 
 // ==========================================
+// SUPPORTED SPORTS
+// ==========================================
+
+const SUPPORTED_SPORTS = [
+    "cricket",
+    "football",
+    "tennis",
+    "basketball",
+    "volleyball",
+    "boxing",
+    "hockey",
+    "rugby",
+    "golf"
+];
+
+
+// ==========================================
+// SPORTS ICONS
+// ==========================================
+
+const SPORTS_ICONS = {
+
+    cricket: "🏏",
+    football: "⚽",
+    tennis: "🎾",
+    basketball: "🏀",
+    volleyball: "🏐",
+    boxing: "🥊",
+    hockey: "🏒",
+    rugby: "🏉",
+    golf: "⛳"
+
+};
+
+
+// ==========================================
+// SPORTS DISPLAY NAMES
+// ==========================================
+
+const SPORTS_NAMES = {
+
+    cricket: "Cricket",
+    football: "Football",
+    tennis: "Tennis",
+    basketball: "Basketball",
+    volleyball: "Volleyball",
+    boxing: "Boxing",
+    hockey: "Hockey",
+    rugby: "Rugby",
+    golf: "Golf"
+
+};
+
+
+// ==========================================
+// SPORTS STATUS LIST
+// ==========================================
+
+const SPORTS_STATUSES = [
+    "live",
+    "upcoming",
+    "featured"
+];
+
+
+// ==========================================
+// NORMALIZE SPORT
+// ==========================================
+
+function normalizeSportsSport(value) {
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+// ==========================================
+// NORMALIZE STATUS
+// ==========================================
+
+function normalizeSportsStatus(value) {
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+// ==========================================
+// NORMALIZE MATCH STATUS
+// ==========================================
+
+function normalizeSportsMatchStatus(value) {
+
+    return String(value || "enable")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+// ==========================================
+// CHECK IF MATCH IS ENABLED
+// ==========================================
+
+function isSportsGameEnabled(game) {
+
+    const matchStatus =
+        normalizeSportsMatchStatus(
+            game?.match_status
+        );
+
+    return matchStatus === "enable";
+
+}
+
+
+// ==========================================
+// SAFE HTML ESCAPE
+// ==========================================
+
+function escapeSportsHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// ==========================================
+// GET GAME SERIAL NUMBER
+// ==========================================
+
+function getSportsGameNumber(gameId) {
+
+    const match =
+        String(gameId || "")
+            .match(/-(\d+)$/);
+
+    if (!match) {
+        return 999999;
+    }
+
+    return Number(match[1]);
+
+}
+
+
+// ==========================================
+// GET SPORT ICON
+// ==========================================
+
+function getSportsIcon(sport) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    return (
+        SPORTS_ICONS[normalizedSport] ||
+        "🏆"
+    );
+
+}
+
+
+// ==========================================
+// GET SPORT DISPLAY NAME
+// ==========================================
+
+function getSportsDisplayName(sport) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    return (
+        SPORTS_NAMES[normalizedSport] ||
+        (
+            normalizedSport
+                ? normalizedSport.charAt(0).toUpperCase() +
+                  normalizedSport.slice(1)
+                : "Sports"
+        )
+    );
+
+}
+
+
+// ==========================================
+// GET SPORT EVENT PAGE ID
+// ==========================================
+
+function getSportsEventPageId(sport) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    return (
+        normalizedSport +
+        "-events-page"
+    );
+
+}
+
+
+// ==========================================
+// GET SPORTS CONTAINER ID
+// ==========================================
+
+function getSportsContainerId(
+    sport,
+    status
+) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    const normalizedStatus =
+        normalizeSportsStatus(status);
+
+
+    // ==========================================
+    // PRIMARY CONTAINER NAMING
+    // ==========================================
+
+    return (
+        normalizedSport +
+        "-" +
+        normalizedStatus +
+        "-events"
+    );
+
+}
+
+
+// ==========================================
+// GET SPORTS CONTAINER
+// ==========================================
+
+function getSportsGamesContainer(
+    sport,
+    status
+) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    const normalizedStatus =
+        normalizeSportsStatus(status);
+
+
+    // ==========================================
+    // PRIMARY ID
+    // ==========================================
+
+    const primaryId =
+        getSportsContainerId(
+            normalizedSport,
+            normalizedStatus
+        );
+
+
+    let container =
+        document.getElementById(
+            primaryId
+        );
+
+
+    if (container) {
+        return container;
+    }
+
+
+    // ==========================================
+    // FALLBACK IDs
+    // ==========================================
+
+    const fallbackIds = [
+
+        `${normalizedSport}-${normalizedStatus}`,
+
+        `${normalizedSport}-${normalizedStatus}-games`,
+
+        `${normalizedSport}-${normalizedStatus}-game-events`,
+
+        `${normalizedSport}-${normalizedStatus}-event`,
+
+        `${normalizedSport}Events${normalizedStatus.charAt(0).toUpperCase()}${normalizedStatus.slice(1)}`
+
+    ];
+
+
+    for (
+        const id of fallbackIds
+    ) {
+
+        container =
+            document.getElementById(id);
+
+        if (container) {
+            return container;
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+// ==========================================
 // LOAD SPORTS GAMES FROM SUPABASE
 // ==========================================
+
 async function loadSportsGames() {
 
-    console.log("🔄 Loading sports games from Supabase...");
+    console.log(
+        "🔄 Loading sports games from Supabase..."
+    );
 
-    const { data, error } = await supabaseClient
-        .from("sports_games")
-        .select("*");
 
-    console.log("📦 SUPABASE RAW DATA:", data);
-    console.log("📦 SUPABASE ERROR:", error);
+    if (
+        typeof supabaseClient ===
+        "undefined" ||
+        !supabaseClient
+    ) {
+
+        console.error(
+            "❌ supabaseClient is not available."
+        );
+
+        return false;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("sports_games")
+            .select("*");
+
+
+    console.log(
+        "📦 SUPABASE RAW DATA:",
+        data
+    );
+
+
+    console.log(
+        "📦 SUPABASE ERROR:",
+        error
+    );
+
 
     if (error) {
 
@@ -37,47 +395,58 @@ async function loadSportsGames() {
         );
 
         return false;
+
     }
+
 
     sportsGames = {};
 
-    if (!data || data.length === 0) {
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         console.warn(
             "⚠️ Supabase returned 0 sports games."
         );
 
+
         sportsGamesLoaded = true;
 
-        console.log(
-            "🔑 CACHE AFTER EMPTY RESPONSE:",
-            sportsGames
-        );
 
-        // ==========================================
-        // CLEAR FRONTEND GAME LIST
-        // ==========================================
-        renderCricketGames();
+        clearAllSportsGameContainers();
+
 
         return true;
+
     }
 
 
-    data.forEach((game, index) => {
+    // ==========================================
+    // BUILD CACHE
+    // ==========================================
 
-        console.log(
-            `🎮 GAME ${index + 1}:`,
-            game
-        );
+    data.forEach(
+        (game, index) => {
 
-        console.log(
-            `🆔 SUPABASE GAME ID ${index + 1}:`,
-            game.game_id
-        );
+            console.log(
+                `🎮 GAME ${index + 1}:`,
+                game
+            );
 
-        sportsGames[game.game_id] = game;
 
-    });
+            if (!game.game_id) {
+                return;
+            }
+
+
+            sportsGames[
+                game.game_id
+            ] = game;
+
+        }
+    );
 
 
     sportsGamesLoaded = true;
@@ -89,600 +458,576 @@ async function loadSportsGames() {
     );
 
 
-    console.log(
-        "🎯 cricket-live-1 EXISTS:",
-        sportsGames.hasOwnProperty("cricket-live-1")
-    );
-
-
-    console.log(
-        "🎯 cricket-live-1 DATA:",
-        sportsGames["cricket-live-1"]
-    );
-
-
     // ==========================================
-// AUTOMATICALLY RENDER CRICKET GAMES
-// ==========================================
+    // RENDER ALL SPORTS
+    // ==========================================
 
-renderCricketGames();
+    renderAllSportsGames();
 
-renderCricketUpcomingGames();
-
-renderCricketFeaturedGames();
-   
 
     return true;
+
 }
 
 
 // ==========================================
-// SAFE HTML ESCAPE
+// CLEAR ALL SPORTS GAME CONTAINERS
 // ==========================================
-function escapeSportsHtml(value) {
 
-    if (value === null || value === undefined) {
-        return "";
-    }
+function clearAllSportsGameContainers() {
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    SUPPORTED_SPORTS.forEach(
+        sport => {
+
+            SPORTS_STATUSES.forEach(
+                status => {
+
+                    const container =
+                        getSportsGamesContainer(
+                            sport,
+                            status
+                        );
+
+
+                    if (container) {
+
+                        container.innerHTML =
+                            "";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
 }
 
 
 // ==========================================
-// GET GAME SERIAL NUMBER
+// GET ALL CACHED SPORTS GAMES
 // ==========================================
-function getSportsGameNumber(gameId) {
 
-    const match =
-        String(gameId || "").match(/-(\d+)$/);
+function getAllSportsGames() {
 
-    if (!match) {
-        return 999999;
-    }
+    return Object.values(
+        sportsGames || {}
+    );
 
-    return Number(match[1]);
 }
 
 
 // ==========================================
-// RENDER CRICKET LIVE GAMES
+// GET GAMES BY SPORT + STATUS
 // ==========================================
-function renderCricketGames() {
 
-    const container =
-        document.getElementById(
-            "cricket-live-events"
+function getSportsGamesByStatus(
+    sport,
+    status
+) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    const normalizedStatus =
+        normalizeSportsStatus(status);
+
+
+    return getAllSportsGames()
+        .filter(
+            game => {
+
+                const gameSport =
+                    normalizeSportsSport(
+                        game.sport
+                    );
+
+
+                const gameStatus =
+                    normalizeSportsStatus(
+                        game.status
+                    );
+
+
+                return (
+                    gameSport === normalizedSport &&
+                    gameStatus === normalizedStatus &&
+                    isSportsGameEnabled(game)
+                );
+
+            }
+        )
+        .sort(
+            (a, b) => {
+
+                return (
+                    getSportsGameNumber(
+                        a.game_id
+                    ) -
+                    getSportsGameNumber(
+                        b.game_id
+                    )
+                );
+
+            }
+        );
+
+}
+
+
+// ==========================================
+// CREATE COMMON SPORTS GAME CARD
+// ==========================================
+
+function createSportsGameCard(
+    game,
+    index
+) {
+
+    const sport =
+        normalizeSportsSport(
+            game.sport
         );
 
 
-    // ==========================================
-    // CONTAINER NOT READY YET
-    // ==========================================
-    if (!container) {
+    const status =
+        normalizeSportsStatus(
+            game.status
+        );
 
-        console.log(
-            "⏳ Cricket live container not found yet."
+
+    const gameCard =
+        document.createElement(
+            "div"
+        );
+
+
+    gameCard.className =
+        "sports-game-card";
+
+
+    // ==========================================
+    // STORE GAME DATA
+    // ==========================================
+
+    gameCard.dataset.gameId =
+        game.game_id;
+
+
+    gameCard.dataset.sport =
+        sport;
+
+
+    gameCard.dataset.status =
+        status;
+
+
+    // ==========================================
+    // STATUS LABEL
+    // ==========================================
+
+    let statusLabel =
+        "UPCOMING";
+
+
+    if (status === "live") {
+
+        statusLabel =
+            `
+                <span class="live-dot"></span>
+                LIVE
+            `;
+
+    } else if (
+        status === "featured"
+    ) {
+
+        statusLabel =
+            "FEATURED";
+
+    }
+
+
+    // ==========================================
+    // GAME CARD HTML
+    // ==========================================
+
+    gameCard.innerHTML = `
+
+        <div class="sports-game-card-header">
+
+            <div class="sports-game-status-label">
+
+                ${statusLabel}
+
+            </div>
+
+
+            <div class="sports-game-serial">
+
+                #${index + 1}
+
+            </div>
+
+        </div>
+
+
+        <div class="sports-game-card-title">
+
+            ${escapeSportsHtml(game.title)}
+
+        </div>
+
+
+        <div class="sports-game-card-league">
+
+            ${escapeSportsHtml(game.league)}
+
+        </div>
+
+
+        <div class="sports-game-card-teams">
+
+            <div class="sports-game-team">
+
+                ${escapeSportsHtml(game.home_team)}
+
+            </div>
+
+
+            <div class="sports-game-vs">
+
+                VS
+
+            </div>
+
+
+            <div class="sports-game-team">
+
+                ${escapeSportsHtml(game.away_team)}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    // ==========================================
+    // OPEN GAME
+    // ==========================================
+
+    gameCard.addEventListener(
+        "click",
+        function () {
+
+            console.log(
+                "🏆 Opening Sports Game:",
+                {
+                    sport,
+                    gameId: game.game_id,
+                    status
+                }
+            );
+
+
+            openSportsGame(
+                sport,
+                game.game_id
+            );
+
+        }
+    );
+
+
+    return gameCard;
+
+}
+
+
+// ==========================================
+// COMMON SPORTS RENDERER
+// ==========================================
+
+function renderSportsGames(
+    sport,
+    status
+) {
+
+    const normalizedSport =
+        normalizeSportsSport(sport);
+
+    const normalizedStatus =
+        normalizeSportsStatus(status);
+
+
+    if (
+        !SUPPORTED_SPORTS.includes(
+            normalizedSport
+        )
+    ) {
+
+        console.warn(
+            "⚠️ Unsupported sport:",
+            sport
         );
 
         return;
+
+    }
+
+
+    if (
+        !SPORTS_STATUSES.includes(
+            normalizedStatus
+        )
+    ) {
+
+        console.warn(
+            "⚠️ Unsupported status:",
+            status
+        );
+
+        return;
+
+    }
+
+
+    const container =
+        getSportsGamesContainer(
+            normalizedSport,
+            normalizedStatus
+        );
+
+
+    if (!container) {
+
+        console.log(
+            "⏳ Sports container not found:",
+            getSportsContainerId(
+                normalizedSport,
+                normalizedStatus
+            )
+        );
+
+        return;
+
     }
 
 
     // ==========================================
     // CLEAR OLD GAMES
     // ==========================================
-    container.innerHTML = "";
+
+    container.innerHTML =
+        "";
 
 
     // ==========================================
-    // GET CRICKET LIVE GAMES
+    // GET MATCHES
     // ==========================================
-    const cricketLiveGames =
-        Object.values(sportsGames)
-            .filter(game => {
 
-                const sport =
-                    String(game.sport || "")
-                        .toLowerCase()
-                        .trim();
-
-                const status =
-                    String(game.status || "")
-                        .toLowerCase()
-                        .trim();
-
-                const matchStatus =
-    String(game.match_status || "enable")
-        .trim()
-        .toLowerCase();
-
-   return (
-       sport === "cricket" &&
-       status === "live" &&
-        matchStatus === "enable"
+    const games =
+        getSportsGamesByStatus(
+            normalizedSport,
+            normalizedStatus
         );
-                
-     })
-            .sort((a, b) => {
-
-                return (
-                    getSportsGameNumber(a.game_id) -
-                    getSportsGameNumber(b.game_id)
-                );
-            });
 
 
     console.log(
-        "🏏 CRICKET LIVE GAMES:",
-        cricketLiveGames
+        `🎯 ${normalizedSport.toUpperCase()} ${normalizedStatus.toUpperCase()} GAMES:`,
+        games
     );
 
 
     // ==========================================
-    // NO LIVE CRICKET GAME
+    // NO GAMES
     // ==========================================
-    if (cricketLiveGames.length === 0) {
+
+    if (
+        games.length === 0
+    ) {
 
         console.log(
-            "ℹ️ No Cricket live games available."
+            `ℹ️ No ${normalizedSport} ${normalizedStatus} games available.`
         );
 
         return;
+
     }
 
 
     // ==========================================
-    // CREATE EACH LIVE GAME
+    // CREATE CARDS
     // ==========================================
-    cricketLiveGames.forEach((game, index) => {
 
-        const gameCard =
-            document.createElement("div");
+    games.forEach(
+        (game, index) => {
 
-
-        gameCard.className =
-            "sports-game-card";
-
-
-        // ==========================================
-        // STORE GAME ID ON CARD
-        // ==========================================
-        gameCard.dataset.gameId =
-            game.game_id;
-
-
-        gameCard.dataset.sport =
-            "cricket";
-
-
-        // ==========================================
-        // GAME CARD CONTENT
-        // ==========================================
-        gameCard.innerHTML = `
-
-            <div class="sports-game-card-header">
-
-                <div class="sports-game-live-badge">
-                    <span class="live-dot"></span>
-                    LIVE
-                </div>
-
-                <div class="sports-game-serial">
-                    #${index + 1}
-                </div>
-
-            </div>
-
-
-            <div class="sports-game-card-title">
-                ${escapeSportsHtml(game.title)}
-            </div>
-
-
-            <div class="sports-game-card-league">
-                ${escapeSportsHtml(game.league)}
-            </div>
-
-
-            <div class="sports-game-card-teams">
-
-                <div class="sports-game-team">
-                    ${escapeSportsHtml(game.home_team)}
-                </div>
-
-                <div class="sports-game-vs">
-                    VS
-                </div>
-
-                <div class="sports-game-team">
-                    ${escapeSportsHtml(game.away_team)}
-                </div>
-
-            </div>
-
-        `;
-
-
-        // ==========================================
-        // OPEN GAME ON CLICK
-        // ==========================================
-        gameCard.addEventListener(
-            "click",
-            function () {
-
-                console.log(
-                    "🏏 Opening Cricket Game:",
-                    game.game_id
+            const card =
+                createSportsGameCard(
+                    game,
+                    index
                 );
 
-                openSportsGame(
-                    "cricket",
-                    game.game_id
-                );
 
-            }
-        );
+            container.appendChild(
+                card
+            );
 
-
-        // ==========================================
-        // ADD GAME TO FRONTEND
-        // ==========================================
-        container.appendChild(
-            gameCard
-        );
-
-    });
+        }
+    );
 
 
     console.log(
-        `✅ ${cricketLiveGames.length} Cricket Live Game(s) Rendered.`
+        `✅ ${games.length} ${getSportsDisplayName(normalizedSport)} ${normalizedStatus} Game(s) Rendered.`
     );
+
 }
 
+
 // ==========================================
-// RENDER CRICKET UPCOMING GAMES
+// RENDER ALL SPORTS
 // ==========================================
+
+function renderAllSportsGames() {
+
+    console.log(
+        "🎨 Rendering ALL Sports Games..."
+    );
+
+
+    SUPPORTED_SPORTS.forEach(
+        sport => {
+
+            SPORTS_STATUSES.forEach(
+                status => {
+
+                    renderSportsGames(
+                        sport,
+                        status
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    console.log(
+        "✅ ALL SPORTS RENDERING FINISHED"
+    );
+
+}
+
+
+// ==========================================
+// BACKWARD COMPATIBILITY
+// ==========================================
+// These functions are kept so existing HTML or
+// other JS code does not break.
+// ==========================================
+
+function renderCricketGames() {
+
+    renderSportsGames(
+        "cricket",
+        "live"
+    );
+
+}
+
+
 function renderCricketUpcomingGames() {
 
-    const container =
-        document.getElementById(
-            "cricket-upcoming-events"
-        );
-
-
-    if (!container) {
-
-        console.log(
-            "⏳ Cricket upcoming container not found yet."
-        );
-
-        return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    const cricketUpcomingGames =
-        Object.values(sportsGames)
-            .filter(game => {
-
-                const sport =
-                    String(game.sport || "")
-                        .toLowerCase()
-                        .trim();
-
-                const status =
-                    String(game.status || "")
-                        .toLowerCase()
-                        .trim();
-
-                const matchStatus =
-    String(game.match_status || "enable")
-        .trim()
-        .toLowerCase();
-
-return (
-    sport === "cricket" &&
-    status === "upcoming" &&
-    matchStatus === "enable"
-);
-            })
-            .sort((a, b) => {
-
-                return (
-                    getSportsGameNumber(a.game_id) -
-                    getSportsGameNumber(b.game_id)
-                );
-            });
-
-
-    console.log(
-        "🏏 CRICKET UPCOMING GAMES:",
-        cricketUpcomingGames
+    renderSportsGames(
+        "cricket",
+        "upcoming"
     );
 
-
-    if (cricketUpcomingGames.length === 0) {
-
-        console.log(
-            "ℹ️ No Cricket upcoming games available."
-        );
-
-        return;
-    }
-
-
-    cricketUpcomingGames.forEach((game, index) => {
-
-        const gameCard =
-            document.createElement("div");
-
-
-        gameCard.className =
-            "sports-game-card";
-
-
-        gameCard.dataset.gameId =
-            game.game_id;
-
-
-        gameCard.dataset.sport =
-            "cricket";
-
-
-        gameCard.innerHTML = `
-
-            <div class="sports-game-card-header">
-
-                <div>
-                    UPCOMING
-                </div>
-
-                <div class="sports-game-serial">
-                    #${index + 1}
-                </div>
-
-            </div>
-
-
-            <div class="sports-game-card-title">
-                ${escapeSportsHtml(game.title)}
-            </div>
-
-
-            <div class="sports-game-card-league">
-                ${escapeSportsHtml(game.league)}
-            </div>
-
-
-            <div class="sports-game-card-teams">
-
-                <div class="sports-game-team">
-                    ${escapeSportsHtml(game.home_team)}
-                </div>
-
-                <div class="sports-game-vs">
-                    VS
-                </div>
-
-                <div class="sports-game-team">
-                    ${escapeSportsHtml(game.away_team)}
-                </div>
-
-            </div>
-
-        `;
-
-
-        gameCard.addEventListener(
-            "click",
-            function () {
-
-                console.log(
-                    "🏏 Opening Cricket Upcoming Game:",
-                    game.game_id
-                );
-
-                openSportsGame(
-                    "cricket",
-                    game.game_id
-                );
-
-            }
-        );
-
-
-        container.appendChild(
-            gameCard
-        );
-
-    });
-
-
-    console.log(
-        `✅ ${cricketUpcomingGames.length} Cricket Upcoming Game(s) Rendered.`
-    );
 }
 
 
-
-// ==========================================
-// RENDER CRICKET FEATURED GAMES
-// ==========================================
 function renderCricketFeaturedGames() {
 
-    const container =
-        document.getElementById(
-            "cricket-featured-events"
-        );
-
-
-    if (!container) {
-
-        console.log(
-            "⏳ Cricket featured container not found yet."
-        );
-
-        return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    const cricketFeaturedGames =
-        Object.values(sportsGames)
-            .filter(game => {
-
-                const sport =
-                    String(game.sport || "")
-                        .toLowerCase()
-                        .trim();
-
-                const status =
-                    String(game.status || "")
-                        .toLowerCase()
-                        .trim();
-
-                const matchStatus =
-    String(game.match_status || "enable")
-        .trim()
-        .toLowerCase();
-
-return (
-    sport === "cricket" &&
-    status === "featured" &&
-    matchStatus === "enable"
-);
-            })
-            .sort((a, b) => {
-
-                return (
-                    getSportsGameNumber(a.game_id) -
-                    getSportsGameNumber(b.game_id)
-                );
-            });
-
-
-    console.log(
-        "🏏 CRICKET FEATURED GAMES:",
-        cricketFeaturedGames
+    renderSportsGames(
+        "cricket",
+        "featured"
     );
 
-
-    if (cricketFeaturedGames.length === 0) {
-
-        console.log(
-            "ℹ️ No Cricket featured games available."
-        );
-
-        return;
-    }
+}
 
 
-    cricketFeaturedGames.forEach((game, index) => {
+// ==========================================
+// GENERIC SINGLE SPORT HELPERS
+// ==========================================
 
-        const gameCard =
-            document.createElement("div");
+function renderFootballGames() {
 
-
-        gameCard.className =
-            "sports-game-card";
-
-
-        gameCard.dataset.gameId =
-            game.game_id;
-
-
-        gameCard.dataset.sport =
-            "cricket";
-
-
-        gameCard.innerHTML = `
-
-            <div class="sports-game-card-header">
-
-                <div>
-                    FEATURED
-                </div>
-
-                <div class="sports-game-serial">
-                    #${index + 1}
-                </div>
-
-            </div>
-
-
-            <div class="sports-game-card-title">
-                ${escapeSportsHtml(game.title)}
-            </div>
-
-
-            <div class="sports-game-card-league">
-                ${escapeSportsHtml(game.league)}
-            </div>
-
-
-            <div class="sports-game-card-teams">
-
-                <div class="sports-game-team">
-                    ${escapeSportsHtml(game.home_team)}
-                </div>
-
-                <div class="sports-game-vs">
-                    VS
-                </div>
-
-                <div class="sports-game-team">
-                    ${escapeSportsHtml(game.away_team)}
-                </div>
-
-            </div>
-
-        `;
-
-
-        gameCard.addEventListener(
-            "click",
-            function () {
-
-                console.log(
-                    "🏏 Opening Cricket Featured Game:",
-                    game.game_id
-                );
-
-                openSportsGame(
-                    "cricket",
-                    game.game_id
-                );
-
-            }
-        );
-
-
-        container.appendChild(
-            gameCard
-        );
-
-    });
-
-
-    console.log(
-        `✅ ${cricketFeaturedGames.length} Cricket Featured Game(s) Rendered.`
+    renderSportsGames(
+        "football",
+        "live"
     );
+
+}
+
+
+function renderFootballUpcomingGames() {
+
+    renderSportsGames(
+        "football",
+        "upcoming"
+    );
+
+}
+
+
+function renderFootballFeaturedGames() {
+
+    renderSportsGames(
+        "football",
+        "featured"
+    );
+
+}
+
+
+function renderTennisGames() {
+
+    renderSportsGames(
+        "tennis",
+        "live"
+    );
+
+}
+
+
+function renderTennisUpcomingGames() {
+
+    renderSportsGames(
+        "tennis",
+        "upcoming"
+    );
+
+}
+
+
+function renderTennisFeaturedGames() {
+
+    renderSportsGames(
+        "tennis",
+        "featured"
+    );
+
 }
 
 
 // ==========================================
 // START SPORTS GAME DATA LOADING
 // ==========================================
+
 const sportsGamesReady =
     loadSportsGames();
 
@@ -693,22 +1038,225 @@ console.log(
 
 
 // ==========================================
-// RENDER AGAIN WHEN HTML IS READY
+// RENDER WHEN HTML IS READY
 // ==========================================
-if (document.readyState === "loading") {
+
+if (
+    document.readyState ===
+    "loading"
+) {
 
     document.addEventListener(
         "DOMContentLoaded",
         function () {
 
-            renderCricketGames();
+            renderAllSportsGames();
 
         }
     );
 
 } else {
 
-    renderCricketGames();
+    renderAllSportsGames();
+
+}
+
+
+// ==========================================
+// SUPABASE REALTIME
+// SPORTS GAME INSERT / UPDATE / DELETE
+// ==========================================
+
+let sportsGamesRealtimeChannel =
+    null;
+
+
+function setupSportsGamesRealtime() {
+
+    if (
+        typeof supabaseClient ===
+        "undefined" ||
+        !supabaseClient
+    ) {
+
+        console.warn(
+            "⚠️ Supabase client unavailable for realtime."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        sportsGamesRealtimeChannel
+    ) {
+
+        console.log(
+            "ℹ️ Sports realtime already initialized."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        sportsGamesRealtimeChannel =
+            supabaseClient
+                .channel(
+                    "sports-games-live-updates"
+                )
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "*",
+                        schema: "public",
+                        table: "sports_games"
+                    },
+                    function (payload) {
+
+                        console.log(
+                            "🔔 SPORTS GAME REALTIME UPDATE:",
+                            payload
+                        );
+
+
+                        // ==================================
+                        // INSERT
+                        // ==================================
+
+                        if (
+                            payload.eventType ===
+                            "INSERT"
+                        ) {
+
+                            const newGame =
+                                payload.new;
+
+
+                            if (
+                                newGame &&
+                                newGame.game_id
+                            ) {
+
+                                sportsGames[
+                                    newGame.game_id
+                                ] = newGame;
+
+                            }
+
+                        }
+
+
+                        // ==================================
+                        // UPDATE
+                        // ==================================
+
+                        if (
+                            payload.eventType ===
+                            "UPDATE"
+                        ) {
+
+                            const updatedGame =
+                                payload.new;
+
+
+                            if (
+                                updatedGame &&
+                                updatedGame.game_id
+                            ) {
+
+                                sportsGames[
+                                    updatedGame.game_id
+                                ] = updatedGame;
+
+                            }
+
+                        }
+
+
+                        // ==================================
+                        // DELETE
+                        // ==================================
+
+                        if (
+                            payload.eventType ===
+                            "DELETE"
+                        ) {
+
+                            const deletedGame =
+                                payload.old;
+
+
+                            if (
+                                deletedGame &&
+                                deletedGame.game_id
+                            ) {
+
+                                delete sportsGames[
+                                    deletedGame.game_id
+                                ];
+
+                            }
+
+                        }
+
+
+                        // ==================================
+                        // RE-RENDER EVERYTHING
+                        // ==================================
+
+                        renderAllSportsGames();
+
+                    }
+                )
+                .subscribe(
+                    function (status) {
+
+                        console.log(
+                            "📡 SPORTS REALTIME STATUS:",
+                            status
+                        );
+
+                    }
+                );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ SPORTS REALTIME SETUP ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// INITIALIZE REALTIME
+// ==========================================
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            setupSportsGamesRealtime();
+
+        }
+    );
+
+} else {
+
+    setupSportsGamesRealtime();
 
 }
 
@@ -716,192 +1264,420 @@ if (document.readyState === "loading") {
 // ==========================================
 // OPEN SPORTS GAME
 // ==========================================
-window.openSportsGame = async function (sport, gameId) {
 
-    window.currentSportsPage =
-        sport + "-events-page";
+window.openSportsGame =
+    async function (
+        sport,
+        gameId
+    ) {
 
-    console.log("SPORT:", sport);
-    console.log("GAME ID:", gameId);
-
-
-    // ==========================================
-    // WAIT FOR SPORTS DATA
-    // ==========================================
-    if (!sportsGamesLoaded) {
-
-        const loaded =
-            await sportsGamesReady;
-
-        if (!loaded) {
-
-            console.error(
-                "❌ Sports games could not be loaded."
+        const normalizedSport =
+            normalizeSportsSport(
+                sport
             );
 
-            return;
-        }
-    }
 
+        window.currentSportsPage =
+            getSportsEventPageId(
+                normalizedSport
+            );
 
-    // ==========================================
-    // GET GAME FROM CACHE
-    // ==========================================
-    const game =
-        sportsGames[gameId];
-
-
-    if (!game) {
 
         console.log(
-            "Sports game not found:",
+            "SPORT:",
+            normalizedSport
+        );
+
+
+        console.log(
+            "GAME ID:",
             gameId
         );
 
-        return;
-    }
+
+        // ==========================================
+        // WAIT FOR SPORTS DATA
+        // ==========================================
+
+        if (
+            !sportsGamesLoaded
+        ) {
+
+            const loaded =
+                await sportsGamesReady;
 
 
-    console.log(
-        "✅ Selected sports game:",
-        game
-    );
+            if (!loaded) {
+
+                console.error(
+                    "❌ Sports games could not be loaded."
+                );
+
+                return;
+
+            }
+
+        }
 
 
-    // ==========================================
-    // GAME PAGE ELEMENTS
-    // ==========================================
-    const gamePage =
-        document.getElementById(
-            "sports-game-page"
-        );
+        // ==========================================
+        // GET GAME FROM CACHE
+        // ==========================================
+
+        const game =
+            sportsGames[
+                gameId
+            ];
 
 
-    const gameTitle =
-        document.getElementById(
-            "sports-game-title"
-        );
+        if (!game) {
 
+            console.log(
+                "Sports game not found:",
+                gameId
+            );
 
-    const gameContent =
-        document.getElementById(
-            "sports-game-content"
-        );
+            return;
 
+        }
 
-    if (!gamePage || !gameContent) {
 
         console.log(
-            "Sports game page not found"
-        );
-
-        return;
-    }
-
-
-    // ==========================================
-    // HIDE SPORTS SUB BANNER SLIDER
-    // ==========================================
-    const sportsSubBanner =
-        document.getElementById(
-            "sportsSubBanner"
+            "✅ Selected sports game:",
+            game
         );
 
 
-    if (sportsSubBanner) {
+        // ==========================================
+        // GAME PAGE ELEMENTS
+        // ==========================================
 
-        sportsSubBanner.style.display =
-            "none";
-    }
+        const gamePage =
+            document.getElementById(
+                "sports-game-page"
+            );
 
 
-    // ==========================================
-    // HIDE SPORTS HEADER
-    // ==========================================
-    const sportsSubHeader =
-        document.getElementById(
-            "sportsSubHeader"
+        const gameTitle =
+            document.getElementById(
+                "sports-game-title"
+            );
+
+
+        const gameContent =
+            document.getElementById(
+                "sports-game-content"
+            );
+
+
+        if (
+            !gamePage ||
+            !gameContent
+        ) {
+
+            console.log(
+                "Sports game page not found"
+            );
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // HIDE SPORTS SUB BANNER
+        // ==========================================
+
+        const sportsSubBanner =
+            document.getElementById(
+                "sportsSubBanner"
+            );
+
+
+        if (sportsSubBanner) {
+
+            sportsSubBanner.style.display =
+                "none";
+
+        }
+
+
+        // ==========================================
+        // HIDE SPORTS HEADER
+        // ==========================================
+
+        const sportsSubHeader =
+            document.getElementById(
+                "sportsSubHeader"
+            );
+
+
+        if (sportsSubHeader) {
+
+            sportsSubHeader.style.display =
+                "none";
+
+        }
+
+
+        // ==========================================
+        // HIDE SPORTS SUB CATEGORY GRID
+        // ==========================================
+
+        const sportsSubcatGrid =
+            document.getElementById(
+                "sportsSubcatGrid"
+            );
+
+
+        if (sportsSubcatGrid) {
+
+            sportsSubcatGrid.style.display =
+                "none";
+
+        }
+
+
+        // ==========================================
+        // PAGE TITLE
+        // ==========================================
+
+        if (gameTitle) {
+
+            gameTitle.textContent =
+                getSportsIcon(
+                    normalizedSport
+                ) +
+                " " +
+                getSportsDisplayName(
+                    normalizedSport
+                );
+
+        }
+
+
+        // ==========================================
+        // GAME CONTENT
+        // ==========================================
+
+        gameContent.innerHTML =
+            createSportsGamePageHtml(
+                game
+            );
+
+
+        // ==========================================
+        // HIDE NORMAL SPORTS CONTENT
+        // ==========================================
+
+        const sportsSubSection =
+            document.getElementById(
+                "sports-sub-section"
+            );
+
+
+        const sportsSubSectionAlt =
+            document.getElementById(
+                "sportsSubSection"
+            );
+
+
+        const trendingPage =
+            document.getElementById(
+                "sports-trending-page"
+            );
+
+
+        if (sportsSubSection) {
+
+            sportsSubSection.style.display =
+                "none";
+
+        }
+
+
+        if (sportsSubSectionAlt) {
+
+            sportsSubSectionAlt.style.display =
+                "none";
+
+        }
+
+
+        if (trendingPage) {
+
+            trendingPage.style.display =
+                "none";
+
+        }
+
+
+        // ==========================================
+        // HIDE ALL SPORT EVENT PAGES
+        // ==========================================
+
+        SUPPORTED_SPORTS.forEach(
+            supportedSport => {
+
+                const page =
+                    document.getElementById(
+                        getSportsEventPageId(
+                            supportedSport
+                        )
+                    );
+
+
+                if (page) {
+
+                    page.style.display =
+                        "none";
+
+                }
+
+            }
         );
 
 
-    if (sportsSubHeader) {
+        // ==========================================
+        // SHOW FULL GAME PAGE
+        // ==========================================
 
-        sportsSubHeader.style.display =
-            "none";
-    }
+        gamePage.style.display =
+            "block";
 
 
-    // ==========================================
-    // HIDE SPORTS SUB CATEGORY GRID
-    // ==========================================
-    const sportsSubcatGrid =
-        document.getElementById(
-            "sportsSubcatGrid"
+        // ==========================================
+        // SCROLL TOP
+        // ==========================================
+
+        window.scrollTo(
+            0,
+            0
+        );
+
+    };
+
+
+// ==========================================
+// CREATE SPORTS GAME FULL PAGE
+// ==========================================
+
+function createSportsGamePageHtml(
+    game
+) {
+
+    const sport =
+        normalizeSportsSport(
+            game.sport
         );
 
 
-    if (sportsSubcatGrid) {
-
-        sportsSubcatGrid.style.display =
-            "none";
-    }
-
-
-    // ==========================================
-    // PAGE TITLE
-    // ==========================================
-    if (gameTitle) {
-
-        gameTitle.textContent =
-            sport === "cricket"
-                ? "🏏 Cricket"
-                : "⚽ Football";
-    }
+    const status =
+        normalizeSportsStatus(
+            game.status
+        );
 
 
-    // ==========================================
-    // GAME CONTENT
-    // ==========================================
-    gameContent.innerHTML = `
+    const icon =
+        getSportsIcon(
+            sport
+        );
 
-        <!-- LIVE MATCH HEADER -->
+
+    const sportName =
+        getSportsDisplayName(
+            sport
+        );
+
+
+    const statusText =
+        status === "live"
+            ? "LIVE"
+            : status === "featured"
+                ? "FEATURED"
+                : "UPCOMING";
+
+
+    return `
+
+        <!-- ==================================
+             GAME HEADER
+        ================================== -->
+
         <div class="sports-game-match-header">
 
             <div class="sports-game-live-badge">
-                <span class="live-dot"></span>
-                LIVE
+
+                ${
+                    status === "live"
+                        ? `
+                            <span class="live-dot"></span>
+                            LIVE
+                          `
+                        : escapeSportsHtml(
+                            statusText
+                          )
+                }
+
             </div>
+
 
             <div class="sports-game-match-title">
+
                 ${escapeSportsHtml(game.title)}
+
             </div>
 
+
             <div class="sports-game-league">
+
                 ${escapeSportsHtml(game.league)}
+
             </div>
 
         </div>
 
 
-        <!-- MATCH ANIMATION -->
+        <!-- ==================================
+             MATCH HERO
+        ================================== -->
+
         <div class="sports-game-hero">
 
             <div class="sports-game-animation">
 
                 <div class="sports-animation-live">
-                    ● LIVE
+
+                    ${
+                        status === "live"
+                            ? "● LIVE"
+                            : escapeSportsHtml(
+                                statusText
+                              )
+                    }
+
                 </div>
+
 
                 <div class="sports-animation-icon">
-                    🏏
+
+                    ${icon}
+
                 </div>
+
 
                 <div class="sports-animation-title">
+
                     ${escapeSportsHtml(game.title)}
+
                 </div>
 
+
                 <div class="sports-animation-subtitle">
-                    Live Match Centre
+
+                    ${escapeSportsHtml(sportName)}
+                    Match Centre
+
                 </div>
 
             </div>
@@ -909,20 +1685,63 @@ window.openSportsGame = async function (sport, gameId) {
         </div>
 
 
-        <!-- BETTING SECTION -->
+        <!-- ==================================
+             BETTING SECTION
+        ================================== -->
+
         <div class="sports-betting-box">
 
             <div class="sports-betting-title">
+
                 Match Betting
+
             </div>
 
 
-            <!-- MATCH WINNER -->
+            ${renderSportsMarkets(game)}
+
+        </div>
+
+    `;
+
+}
+
+
+// ==========================================
+// RENDER SPORTS MARKETS
+// ==========================================
+
+function renderSportsMarkets(
+    game
+) {
+
+    let html = "";
+
+
+    // ==========================================
+    // MATCH WINNER
+    // ==========================================
+
+    const matchWinnerEnabled =
+        String(
+            game.match_winner_enabled
+        ).toLowerCase() === "true";
+
+
+    if (
+        matchWinnerEnabled
+    ) {
+
+        html += `
+
             <div class="sports-market">
 
                 <div class="sports-market-title">
+
                     Match Winner
+
                 </div>
+
 
                 <div class="sports-bet-options">
 
@@ -938,11 +1757,18 @@ window.openSportsGame = async function (sport, gameId) {
                     >
 
                         <span>
-                            ${escapeSportsHtml(game.home_team)}
+
+                            ${escapeSportsHtml(
+                                game.home_team
+                            )}
+
                         </span>
 
+
                         <strong>
+
                             1.85
+
                         </strong>
 
                     </button>
@@ -960,11 +1786,18 @@ window.openSportsGame = async function (sport, gameId) {
                     >
 
                         <span>
-                            ${escapeSportsHtml(game.away_team)}
+
+                            ${escapeSportsHtml(
+                                game.away_team
+                            )}
+
                         </span>
 
+
                         <strong>
+
                             1.65
+
                         </strong>
 
                     </button>
@@ -973,13 +1806,35 @@ window.openSportsGame = async function (sport, gameId) {
 
             </div>
 
+        `;
 
-            <!-- TOTAL RUNS -->
+    }
+
+
+    // ==========================================
+    // TOTAL RUNS
+    // ==========================================
+
+    const totalRunsEnabled =
+        String(
+            game.total_runs_enabled
+        ).toLowerCase() === "true";
+
+
+    if (
+        totalRunsEnabled
+    ) {
+
+        html += `
+
             <div class="sports-market">
 
                 <div class="sports-market-title">
+
                     Total Runs
+
                 </div>
+
 
                 <div class="sports-bet-options">
 
@@ -995,11 +1850,16 @@ window.openSportsGame = async function (sport, gameId) {
                     >
 
                         <span>
+
                             Over 180.5
+
                         </span>
 
+
                         <strong>
+
                             1.90
+
                         </strong>
 
                     </button>
@@ -1017,11 +1877,16 @@ window.openSportsGame = async function (sport, gameId) {
                     >
 
                         <span>
+
                             Under 180.5
+
                         </span>
 
+
                         <strong>
+
                             1.80
+
                         </strong>
 
                     </button>
@@ -1030,88 +1895,56 @@ window.openSportsGame = async function (sport, gameId) {
 
             </div>
 
-        </div>
+        `;
 
-    `;
-
-
-    // ==========================================
-    // HIDE NORMAL SPORTS CONTENT
-    // ==========================================
-
-    const sportsSubSection =
-        document.getElementById(
-            "sports-sub-section"
-        );
-
-
-    const trendingPage =
-        document.getElementById(
-            "sports-trending-page"
-        );
-
-
-    const cricketEventsPage =
-        document.getElementById(
-            "cricket-events-page"
-        );
-
-
-    const footballEventsPage =
-        document.getElementById(
-            "football-events-page"
-        );
-
-
-    if (sportsSubSection) {
-
-        sportsSubSection.style.display =
-            "none";
-    }
-
-
-    if (trendingPage) {
-
-        trendingPage.style.display =
-            "none";
-    }
-
-
-    if (cricketEventsPage) {
-
-        cricketEventsPage.style.display =
-            "none";
-    }
-
-
-    if (footballEventsPage) {
-
-        footballEventsPage.style.display =
-            "none";
     }
 
 
     // ==========================================
-    // SHOW FULL GAME PAGE
+    // NO ENABLED MARKET
     // ==========================================
-    gamePage.style.display =
-        "block";
+
+    if (!html) {
+
+        html = `
+
+            <div class="sports-market">
+
+                <div class="sports-market-title">
+
+                    Markets
+
+                </div>
 
 
-    // ==========================================
-    // PREVENT BROWSER FROM JUMPING
-    // ==========================================
-    window.scrollTo(
-        0,
-        0
-    );
+                <div
+                    style="
+                        padding:15px;
+                        text-align:center;
+                        opacity:.65;
+                    "
+                >
 
-};
+                    No markets available
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return html;
+
+}
 
 
 // ==========================================
 // GLOBAL FUNCTION CHECK
 // ==========================================
+
 console.log(
     "🌍 GLOBAL openSportsGame:",
     typeof window.openSportsGame
@@ -1124,78 +1957,185 @@ console.log(
 
 function backFromSportsGame() {
 
-    // Hide Full Game View
-    const gamePage = document.getElementById("sports-game-page");
+    // ==========================================
+    // HIDE FULL GAME VIEW
+    // ==========================================
+
+    const gamePage =
+        document.getElementById(
+            "sports-game-page"
+        );
+
+
     if (gamePage) {
-        gamePage.style.display = "none";
+
+        gamePage.style.display =
+            "none";
+
     }
 
-    // Hide All Event Pages
-    const pages = [
-        "cricket-events-page",
-        "football-events-page",
-        "basketball-events-page",
-        "tennis-events-page",
-        "volleyball-events-page",
-        "boxing-events-page",
-        "hockey-events-page",
-        "rugby-events-page",
-        "golf-events-page"
-    ];
 
-    pages.forEach(id => {
-        const page = document.getElementById(id);
-        if (page) {
-            page.style.display = "none";
+    // ==========================================
+    // HIDE ALL EVENT PAGES
+    // ==========================================
+
+    SUPPORTED_SPORTS.forEach(
+        sport => {
+
+            const page =
+                document.getElementById(
+                    getSportsEventPageId(
+                        sport
+                    )
+                );
+
+
+            if (page) {
+
+                page.style.display =
+                    "none";
+
+            }
+
         }
-    });
+    );
 
-    // Restore Sports Banner
-    const sportsSubBanner = document.getElementById("sportsSubBanner");
+
+    // ==========================================
+    // RESTORE SPORTS BANNER
+    // ==========================================
+
+    const sportsSubBanner =
+        document.getElementById(
+            "sportsSubBanner"
+        );
+
+
     if (sportsSubBanner) {
-        sportsSubBanner.style.display = "block";
+
+        sportsSubBanner.style.display =
+            "block";
+
     }
 
-    // Restore Sports Header
-    const sportsHeader = document.querySelector(".subcat-header-row");
+
+    // ==========================================
+    // RESTORE SPORTS HEADER
+    // ==========================================
+
+    const sportsHeader =
+        document.querySelector(
+            ".subcat-header-row"
+        );
+
+
     if (sportsHeader) {
-        sportsHeader.style.display = "flex";
+
+        sportsHeader.style.display =
+            "flex";
+
     }
 
-    // Restore Sports Sub Categories
-    const sportsGrid = document.getElementById("sportsSubcatGrid");
+
+    // ==========================================
+    // RESTORE SPORTS SUB CATEGORY GRID
+    // ==========================================
+
+    const sportsGrid =
+        document.getElementById(
+            "sportsSubcatGrid"
+        );
+
+
     if (sportsGrid) {
-        sportsGrid.style.display = "grid";
+
+        sportsGrid.style.display =
+            "grid";
+
     }
 
-    // Show Trending Again
-    const trending = document.getElementById("sports-trending-page");
+
+    // ==========================================
+    // SHOW TRENDING
+    // ==========================================
+
+    const trending =
+        document.getElementById(
+            "sports-trending-page"
+        );
+
+
     if (trending) {
-        trending.style.display = "block";
+
+        trending.style.display =
+            "block";
+
     }
 
-    // Remove Active Button
-    document.querySelectorAll("#sportsSubcatGrid .subcat-item").forEach(item => {
-        item.classList.remove("active");
-    });
 
-    // Scroll Back To Sports Section
-    const sportsSection = document.getElementById("sportsSubSection");
+    // ==========================================
+    // REMOVE ACTIVE BUTTON
+    // ==========================================
+
+    document
+        .querySelectorAll(
+            "#sportsSubcatGrid .subcat-item"
+        )
+        .forEach(
+            item => {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    // ==========================================
+    // SCROLL BACK
+    // ==========================================
+
+    const sportsSection =
+        document.getElementById(
+            "sportsSubSection"
+        );
+
+
     if (sportsSection) {
+
         sportsSection.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
+
     }
 
 }
+
 
 // ==========================================
 // GLOBAL FUNCTIONS
 // ==========================================
 
-window.openSportsGame = openSportsGame;
-window.backFromSportsGame = backFromSportsGame;
+window.openSportsGame =
+    openSportsGame;
+
+
+window.backFromSportsGame =
+    backFromSportsGame;
+
+
+window.renderAllSportsGames =
+    renderAllSportsGames;
+
+
+window.renderSportsGames =
+    renderSportsGames;
+
+
+window.loadSportsGames =
+    loadSportsGames;
 
 
 // ==========================================
@@ -1207,56 +2147,107 @@ console.log(
     typeof window.openSportsGame
 );
 
+
 console.log(
     "backFromSportsGame TYPE:",
     typeof window.backFromSportsGame
 );
 
 
-// ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও ====
-// ===== বেট স্লিপ হেডারে ব্যালেন্স দেখাও ====
+// ==========================================
+// BET SLIP HEADER BALANCE
+// ==========================================
 
 function updateSlipBalance() {
 
     const balanceEl =
-        document.getElementById('slipBalance');
+        document.getElementById(
+            "slipBalance"
+        );
 
-    if (!balanceEl) return;
+
+    if (!balanceEl) {
+        return;
+    }
 
 
     let balance = 0;
 
 
-    if (typeof getCurrentBalance === "function") {
+    if (
+        typeof getCurrentBalance ===
+        "function"
+    ) {
 
-        balance = getCurrentBalance() || 0;
+        balance =
+            getCurrentBalance() || 0;
 
     }
 
 
     balanceEl.textContent =
-        "$" + Number(balance).toFixed(2);
+        "$" +
+        Number(
+            balance
+        ).toFixed(2);
 
 }
 
-// ===== সুপারবেস আপডেট (পরে শুধু এটা আনকমেন্ট করবে) =====
+
+// ==========================================
+// SUPABASE BALANCE UPDATE
+// ==========================================
+
 /*
 async function syncBalanceFromSupabase() {
-    const userId = localStorage.getItem('userId');
-    const currency = localStorage.getItem('selectedCurrency') || 'USDT';
-    
-    const { data, error } = await supabase
-        .from('wallets')
-        .select('balance, currency_symbol')
-        .eq('user_id', userId)
-        .eq('currency', currency)
-        .single();
-    
+
+    const userId =
+        localStorage.getItem(
+            "userId"
+        );
+
+    const currency =
+        localStorage.getItem(
+            "selectedCurrency"
+        ) || "USDT";
+
+
+    const {
+        data,
+        error
+    } =
+        await supabase
+            .from("wallets")
+            .select(
+                "balance, currency_symbol"
+            )
+            .eq(
+                "user_id",
+                userId
+            )
+            .eq(
+                "currency",
+                currency
+            )
+            .single();
+
+
     if (data) {
-        const formatted = `${data.currency_symbol || '$'}${parseFloat(data.balance).toFixed(2)}`;
-        localStorage.setItem('selectedBalance', formatted);
+
+        const formatted =
+            `${data.currency_symbol || "$"}${parseFloat(data.balance).toFixed(2)}`;
+
+
+        localStorage.setItem(
+            "selectedBalance",
+            formatted
+        );
+
+
         updateSlipBalance();
+
     }
+
 }
 */
 
@@ -1265,298 +2256,1079 @@ async function syncBalanceFromSupabase() {
 // SPORTS BET SLIP SYSTEM
 // ==========================================
 
+
 // ==========================================
-// SPORTS BET SLIP - sports.js
+// STATE
 // ==========================================
 
-// ===== STATE =====
 let betSlip = [];
-let currentMode = 'single';
 
-if (localStorage.getItem('sportsBetSlip')) {
+let currentMode =
+    "single";
+
+
+// ==========================================
+// LOAD BET SLIP
+// ==========================================
+
+if (
+    localStorage.getItem(
+        "sportsBetSlip"
+    )
+) {
+
     try {
-        betSlip = JSON.parse(localStorage.getItem('sportsBetSlip'));
+
+        betSlip =
+            JSON.parse(
+                localStorage.getItem(
+                    "sportsBetSlip"
+                )
+            );
+
+
         updateBetCount();
+
     } catch (e) {
+
         betSlip = [];
+
     }
+
 }
 
-// ===== 1. ADD =====
+
+// ==========================================
+// ADD TO BET SLIP
+// ==========================================
+
 function addToBetSlip(data) {
-    const isDuplicate = betSlip.some(bet => 
-        bet.eventId === data.eventId && bet.market === data.market
-    );
-    
+
+    const isDuplicate =
+        betSlip.some(
+            bet =>
+                bet.eventId ===
+                    data.eventId &&
+                bet.market ===
+                    data.market
+        );
+
+
     if (isDuplicate) {
-        showToast('Already added!', 'error');
+
+        showToast(
+            "Already added!",
+            "error"
+        );
+
         return;
+
     }
+
 
     const bet = {
-        id: Date.now() + Math.random().toString(36).substr(2, 9),
-        eventId: data.eventId,
-        eventName: data.eventName,
-        market: data.market,
-        odds: parseFloat(data.odds),
-        stake: 0,
-        addedAt: new Date().toLocaleString('en-GB', { 
-            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' 
-        })
+
+        id:
+            Date.now() +
+            Math.random()
+                .toString(36)
+                .substr(2, 9),
+
+        eventId:
+            data.eventId,
+
+        eventName:
+            data.eventName,
+
+        market:
+            data.market,
+
+        odds:
+            parseFloat(
+                data.odds
+            ),
+
+        stake:
+            0,
+
+        addedAt:
+            new Date()
+                .toLocaleString(
+                    "en-GB",
+                    {
+                        day: "numeric",
+                        month: "short",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                )
+
     };
 
-    betSlip.push(bet);
+
+    betSlip.push(
+        bet
+    );
+
+
     saveSlip();
+
     updateBetCount();
+
     renderBetSlip();
-    showToast('Added to bet slip!', 'success');
+
+    showToast(
+        "Added to bet slip!",
+        "success"
+    );
+
 }
 
-// ===== 2. OPEN / CLOSE =====
+
+// ==========================================
+// OPEN BET SLIP
+// ==========================================
+
 function openSportsBetSlip() {
 
     const panel =
-        document.getElementById('sportsBetSlipPanel');
+        document.getElementById(
+            "sportsBetSlipPanel"
+        );
 
-    const betSlip =
-        document.getElementById('sportsBetSlip');
 
-    if (betSlip) {
-        betSlip.style.display = 'flex';
+    const betSlipElement =
+        document.getElementById(
+            "sportsBetSlip"
+        );
+
+
+    if (betSlipElement) {
+
+        betSlipElement.style.display =
+            "flex";
+
     }
+
 
     if (panel) {
 
-        panel.style.display = 'block';
+        panel.style.display =
+            "block";
+
 
         updateSlipBalance();
 
         renderBetSlip();
+
     }
+
 }
+
+
+// ==========================================
+// CLOSE BET SLIP
+// ==========================================
 
 function closeSportsBetSlip() {
-    const panel = document.getElementById('sportsBetSlipPanel');
-    if (panel) panel.style.display = 'none';
+
+    const panel =
+        document.getElementById(
+            "sportsBetSlipPanel"
+        );
+
+
+    if (panel) {
+
+        panel.style.display =
+            "none";
+
+    }
+
 }
 
-// ===== 3. REMOVE =====
-function removeSingleBet(betId) {
-    betSlip = betSlip.filter(bet => bet.id !== betId);
+
+// ==========================================
+// REMOVE SINGLE BET
+// ==========================================
+
+function removeSingleBet(
+    betId
+) {
+
+    betSlip =
+        betSlip.filter(
+            bet =>
+                bet.id !==
+                betId
+        );
+
+
     saveSlip();
+
     updateBetCount();
+
     renderBetSlip();
+
 }
 
-// ===== 4. CLEAR ALL =====
+
+// ==========================================
+// CLEAR ALL BETS
+// ==========================================
+
 function clearAllSportsBetSlip() {
-    if (betSlip.length === 0) return;
-    if (!confirm('Clear all bets?')) return;
-    
-    betSlip = [];
-    saveSlip();
-    updateBetCount();
-    renderBetSlip();
-    document.getElementById('multipleSection').style.display = 'none';
-    showToast('Cleared!', 'info');
-}
 
-// ===== 5. MODE SWITCH =====
-function switchBetMode(mode) {
-    currentMode = mode;
-    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
-    
-    const tabs = document.querySelectorAll('.mode-tab');
-    const multiSection = document.getElementById('multipleSection');
-    
-    if (mode === 'single') {
-        if (tabs[0]) tabs[0].classList.add('active');
-        if (multiSection) multiSection.style.display = 'none';
-    } else {
-        if (tabs[1]) tabs[1].classList.add('active');
-        if (multiSection) multiSection.style.display = 'block';
-    }
-    
-    renderBetSlip();
-    calculateReturns();
-}
+    if (
+        betSlip.length ===
+        0
+    ) {
 
-// ===== 6. RENDER =====
-function renderBetSlip() {
-    const container = document.getElementById('betSlipBody');
-    const multiSection = document.getElementById('multipleSection');
-    if (!container) return;
-    
-    if (betSlip.length === 0) {
-        container.innerHTML = '<div class="empty-slip">Your bet slip is empty</div>';
-        if (multiSection) multiSection.style.display = 'none';
-        updateTotalDisplay();
         return;
+
     }
 
-    // Group by event
-    const eventGroups = {};
-    betSlip.forEach(bet => {
-        if (!eventGroups[bet.eventId]) eventGroups[bet.eventId] = [];
-        eventGroups[bet.eventId].push(bet);
-    });
 
-    // Check: are there multiple different events?
-    const hasMultipleEvents = Object.keys(eventGroups).length >= 2;
+    if (
+        !confirm(
+            "Clear all bets?"
+        )
+    ) {
 
-    // ==========================================
-    // SINGLE MODE: Always show ALL bets
-    // ==========================================
-    if (currentMode === 'single') {
-        let html = '';
-        Object.keys(eventGroups).forEach(eid => {
-            const bets = eventGroups[eid];
-            html += `<div class="event-group">
-                        <div style="color:#ff6b00;font-weight:bold;margin-bottom:8px;font-size:13px;">
-                            ${bets[0].eventName}
-                        </div>`;
-            
-      bets.forEach(bet => {
-    html += `
-        <div class="bet-item" data-bet-id="${bet.id}">
-            
-            <!-- ✅ Top Right: Close Button -->
-            <button class="remove-btn" onclick="removeSingleBet('${bet.id}')" style="position:absolute;top:12px;right:12px;">×</button>
-            
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-right:30px;">
-                
-                <!-- Left: Market, Date, Stake -->
-                <div style="flex:1;">
-                    <div class="bet-market">${bet.market}</div>
-                    <div class="bet-date">${bet.addedAt}</div>
-                    <div class="stake-box" style="margin-top:6px;">
-                        <input type="number" placeholder="Stake ($)" style="width:90px;padding:4px 6px;font-size:13px;" 
-                            value="${bet.stake > 0 ? bet.stake : ''}"
-                            oninput="updateStake('${bet.id}', this.value)">
-                    </div>
-                </div>
-                
-                <!-- Right: Odds, Return -->
-                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-top:24px;">
-                    <div class="bet-odds">@ ${bet.odds.toFixed(2)}</div>
-                    <span class="returns">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
-                </div>
-                
-            </div>
-        </div>`;
-});
-            html += '</div>';
-        });
-        
-        container.innerHTML = html;
-        if (multiSection) multiSection.style.display = 'none';
+        return;
+
     }
-    
-    // ==========================================
-    // MULTIPLE MODE: Show ALL bets ONLY if 2+ different events
-    // ==========================================
-    else {
-        if (!hasMultipleEvents) {
-            container.innerHTML = '<div class="empty-slip">Add bets from different matches for multi.</div>';
-            if (multiSection) multiSection.style.display = 'none';
-            updateTotalDisplay();
-            return;
+
+
+    betSlip = [];
+
+
+    saveSlip();
+
+    updateBetCount();
+
+    renderBetSlip();
+
+
+    const multipleSection =
+        document.getElementById(
+            "multipleSection"
+        );
+
+
+    if (multipleSection) {
+
+        multipleSection.style.display =
+            "none";
+
+    }
+
+
+    showToast(
+        "Cleared!",
+        "info"
+    );
+
+}
+
+
+// ==========================================
+// SWITCH BET MODE
+// ==========================================
+
+function switchBetMode(
+    mode
+) {
+
+    currentMode =
+        mode;
+
+
+    document
+        .querySelectorAll(
+            ".mode-tab"
+        )
+        .forEach(
+            tab =>
+                tab.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const tabs =
+        document.querySelectorAll(
+            ".mode-tab"
+        );
+
+
+    const multiSection =
+        document.getElementById(
+            "multipleSection"
+        );
+
+
+    if (
+        mode ===
+        "single"
+    ) {
+
+        if (tabs[0]) {
+
+            tabs[0].classList.add(
+                "active"
+            );
+
         }
 
-        // ✅ আগে এখানে ভুল ছিল — শুধু uniqueEventBets দেখাতো
-        // ✅ এখন সব বেট দেখাবে
-        let html = '';
-        Object.keys(eventGroups).forEach(eid => {
-            const bets = eventGroups[eid];
-            html += `<div class="event-group">
-                        <div style="color:#ff6b00;font-weight:bold;margin-bottom:8px;font-size:13px;">
-                            ${bets[0].eventName}
-                        </div>`;
-            
-            bets.forEach(bet => {
-    html += `
-        <div class="bet-item" data-bet-id="${bet.id}" style="position:relative;padding-top:14px;">
-            
-            <!-- ✅ Bet Card এর Top-Right এ × -->
-            <button class="remove-btn" onclick="removeSingleBet('${bet.id}')" style="position:absolute;top:10px;right:10px;z-index:2;">×</button>
-            
-            <!-- Left Side: Market, Date, Stake -->
-            <div style="padding-right:40px;">
-                <div class="bet-market" style="font-weight:bold;color:#fff;font-size:14px;margin-bottom:4px;">${bet.market}</div>
-                <div class="bet-date" style="color:#888;font-size:11px;margin-bottom:8px;">${bet.addedAt}</div>
-                
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                    <input type="number" placeholder="Stake ($)" style="width:90px;padding:4px 6px;font-size:13px;border-radius:6px;border:1px solid #333;background:#0f0f1a;color:white;height:32px;" 
-                        value="${bet.stake > 0 ? bet.stake : ''}"
-                        oninput="updateStake('${bet.id}', this.value)">
-                </div>
-            </div>
-            
-            <!-- Right Side: Odds (top), Return (bottom) -->
-            <div style="position:absolute;right:10px;bottom:14px;text-align:right;">
-                <div class="bet-odds" style="color:#ff6b00;font-weight:bold;font-size:13px;margin-bottom:4px;">@ ${bet.odds.toFixed(2)}</div>
-                <span class="returns" style="color:#4ade80;font-size:13px;white-space:nowrap;">Return: ৳${(bet.stake * bet.odds).toFixed(2)}</span>
-            </div>
-            
-        </div>`;
-  });
-            
-            html += '</div>';
-        });
-        
-        container.innerHTML = html;
-        if (multiSection) multiSection.style.display = 'block';
-        calculateReturns();
-    }
-    
-    updateTotalDisplay();
-}
 
-// ===== 7. STAKE UPDATE =====
-function updateStake(betId, value) {
-    const bet = betSlip.find(b => b.id === betId);
-    if (!bet) return;
-    
-    bet.stake = parseFloat(value) || 0;
-    saveSlip();
-    
-    const item = document.querySelector(`[data-bet-id="${betId}"]`);
-    if (item) {
-        const ret = item.querySelector('.returns');
-        if (ret) ret.textContent = `Return: ৳${(bet.stake * bet.odds).toFixed(2)}`;
+        if (multiSection) {
+
+            multiSection.style.display =
+                "none";
+
+        }
+
+    } else {
+
+        if (tabs[1]) {
+
+            tabs[1].classList.add(
+                "active"
+            );
+
+        }
+
+
+        if (multiSection) {
+
+            multiSection.style.display =
+                "block";
+
+        }
+
     }
-    updateTotalDisplay();
+
+
+    renderBetSlip();
+
+    calculateReturns();
+
 }
 
 
-// ===== 8. CALCULATE =====
-function calculateReturns() {
-    if (currentMode !== 'multiple') return;
-    
-    // Check: 2+ different events?
-    const eventIds = [...new Set(betSlip.map(b => b.eventId))];
-    if (eventIds.length < 2) {
-        document.getElementById('totalOdds').textContent = '0.00';
-        document.getElementById('potentialWin').textContent = '৳0.00';
+// ==========================================
+// RENDER BET SLIP
+// ==========================================
+
+function renderBetSlip() {
+
+    const container =
+        document.getElementById(
+            "betSlipBody"
+        );
+
+
+    const multiSection =
+        document.getElementById(
+            "multipleSection"
+        );
+
+
+    if (!container) {
+
         return;
+
     }
-    
-    // ✅ সব বেটের অডস গুণ হবে
-    let totalOdds = betSlip.reduce((acc, b) => acc * b.odds, 1);
-    const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
-    
-    document.getElementById('totalOdds').textContent = totalOdds.toFixed(2);
-    document.getElementById('potentialWin').textContent = `৳${(stake * totalOdds).toFixed(2)}`;
+
+
+    if (
+        betSlip.length ===
+        0
+    ) {
+
+        container.innerHTML =
+            '<div class="empty-slip">Your bet slip is empty</div>';
+
+
+        if (multiSection) {
+
+            multiSection.style.display =
+                "none";
+
+        }
+
+
+        updateTotalDisplay();
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // GROUP BY EVENT
+    // ==========================================
+
+    const eventGroups = {};
+
+
+    betSlip.forEach(
+        bet => {
+
+            if (
+                !eventGroups[
+                    bet.eventId
+                ]
+            ) {
+
+                eventGroups[
+                    bet.eventId
+                ] = [];
+
+            }
+
+
+            eventGroups[
+                bet.eventId
+            ].push(
+                bet
+            );
+
+        }
+    );
+
+
+    const hasMultipleEvents =
+        Object.keys(
+            eventGroups
+        ).length >= 2;
+
+
+    // ==========================================
+    // SINGLE MODE
+    // ==========================================
+
+    if (
+        currentMode ===
+        "single"
+    ) {
+
+        let html = "";
+
+
+        Object.keys(
+            eventGroups
+        ).forEach(
+            eid => {
+
+                const bets =
+                    eventGroups[eid];
+
+
+                html += `
+                    <div class="event-group">
+
+                        <div
+                            style="
+                                color:#ff6b00;
+                                font-weight:bold;
+                                margin-bottom:8px;
+                                font-size:13px;
+                            "
+                        >
+
+                            ${escapeSportsHtml(
+                                bets[0].eventName
+                            )}
+
+                        </div>
+                `;
+
+
+                bets.forEach(
+                    bet => {
+
+                        html += `
+
+                            <div
+                                class="bet-item"
+                                data-bet-id="${escapeSportsHtml(bet.id)}"
+                            >
+
+                                <button
+                                    class="remove-btn"
+                                    onclick="removeSingleBet('${escapeSportsHtml(bet.id)}')"
+                                    style="
+                                        position:absolute;
+                                        top:12px;
+                                        right:12px;
+                                    "
+                                >
+                                    ×
+                                </button>
+
+
+                                <div
+                                    style="
+                                        display:flex;
+                                        justify-content:space-between;
+                                        align-items:flex-start;
+                                        padding-right:30px;
+                                    "
+                                >
+
+                                    <div style="flex:1;">
+
+                                        <div class="bet-market">
+
+                                            ${escapeSportsHtml(
+                                                bet.market
+                                            )}
+
+                                        </div>
+
+
+                                        <div class="bet-date">
+
+                                            ${escapeSportsHtml(
+                                                bet.addedAt
+                                            )}
+
+                                        </div>
+
+
+                                        <div
+                                            class="stake-box"
+                                            style="margin-top:6px;"
+                                        >
+
+                                            <input
+                                                type="number"
+                                                placeholder="Stake ($)"
+                                                style="
+                                                    width:90px;
+                                                    padding:4px 6px;
+                                                    font-size:13px;
+                                                "
+                                                value="${
+                                                    bet.stake > 0
+                                                        ? bet.stake
+                                                        : ""
+                                                }"
+                                                oninput="updateStake('${escapeSportsHtml(bet.id)}', this.value)"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div
+                                        style="
+                                            display:flex;
+                                            flex-direction:column;
+                                            align-items:flex-end;
+                                            gap:6px;
+                                            margin-top:24px;
+                                        "
+                                    >
+
+                                        <div class="bet-odds">
+
+                                            @ ${Number(
+                                                bet.odds
+                                            ).toFixed(2)}
+
+                                        </div>
+
+
+                                        <span class="returns">
+
+                                            Return: ৳${
+                                                (
+                                                    bet.stake *
+                                                    bet.odds
+                                                ).toFixed(2)
+                                            }
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+                    </div>
+                `;
+
+            }
+        );
+
+
+        container.innerHTML =
+            html;
+
+
+        if (multiSection) {
+
+            multiSection.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    // ==========================================
+    // MULTIPLE MODE
+    // ==========================================
+
+    else {
+
+        if (!hasMultipleEvents) {
+
+            container.innerHTML =
+                '<div class="empty-slip">Add bets from different matches for multi.</div>';
+
+
+            if (multiSection) {
+
+                multiSection.style.display =
+                    "none";
+
+            }
+
+
+            updateTotalDisplay();
+
+            return;
+
+        }
+
+
+        let html = "";
+
+
+        Object.keys(
+            eventGroups
+        ).forEach(
+            eid => {
+
+                const bets =
+                    eventGroups[eid];
+
+
+                html += `
+
+                    <div class="event-group">
+
+                        <div
+                            style="
+                                color:#ff6b00;
+                                font-weight:bold;
+                                margin-bottom:8px;
+                                font-size:13px;
+                            "
+                        >
+
+                            ${escapeSportsHtml(
+                                bets[0].eventName
+                            )}
+
+                        </div>
+
+                `;
+
+
+                bets.forEach(
+                    bet => {
+
+                        html += `
+
+                            <div
+                                class="bet-item"
+                                data-bet-id="${escapeSportsHtml(bet.id)}"
+                                style="
+                                    position:relative;
+                                    padding-top:14px;
+                                "
+                            >
+
+                                <button
+                                    class="remove-btn"
+                                    onclick="removeSingleBet('${escapeSportsHtml(bet.id)}')"
+                                    style="
+                                        position:absolute;
+                                        top:10px;
+                                        right:10px;
+                                        z-index:2;
+                                    "
+                                >
+
+                                    ×
+
+                                </button>
+
+
+                                <div
+                                    style="
+                                        padding-right:40px;
+                                    "
+                                >
+
+                                    <div
+                                        class="bet-market"
+                                        style="
+                                            font-weight:bold;
+                                            color:#fff;
+                                            font-size:14px;
+                                            margin-bottom:4px;
+                                        "
+                                    >
+
+                                        ${escapeSportsHtml(
+                                            bet.market
+                                        )}
+
+                                    </div>
+
+
+                                    <div
+                                        class="bet-date"
+                                        style="
+                                            color:#888;
+                                            font-size:11px;
+                                            margin-bottom:8px;
+                                        "
+                                    >
+
+                                        ${escapeSportsHtml(
+                                            bet.addedAt
+                                        )}
+
+                                    </div>
+
+
+                                    <div
+                                        style="
+                                            display:flex;
+                                            justify-content:space-between;
+                                            align-items:center;
+                                        "
+                                    >
+
+                                        <input
+                                            type="number"
+                                            placeholder="Stake ($)"
+                                            style="
+                                                width:90px;
+                                                padding:4px 6px;
+                                                font-size:13px;
+                                                border-radius:6px;
+                                                border:1px solid #333;
+                                                background:#0f0f1a;
+                                                color:white;
+                                                height:32px;
+                                            "
+                                            value="${
+                                                bet.stake > 0
+                                                    ? bet.stake
+                                                    : ""
+                                            }"
+                                            oninput="updateStake('${escapeSportsHtml(bet.id)}', this.value)"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                        position:absolute;
+                                        right:10px;
+                                        bottom:14px;
+                                        text-align:right;
+                                    "
+                                >
+
+                                    <div
+                                        class="bet-odds"
+                                        style="
+                                            color:#ff6b00;
+                                            font-weight:bold;
+                                            font-size:13px;
+                                            margin-bottom:4px;
+                                        "
+                                    >
+
+                                        @ ${Number(
+                                            bet.odds
+                                        ).toFixed(2)}
+
+                                    </div>
+
+
+                                    <span
+                                        class="returns"
+                                        style="
+                                            color:#4ade80;
+                                            font-size:13px;
+                                            white-space:nowrap;
+                                        "
+                                    >
+
+                                        Return: ৳${
+                                            (
+                                                bet.stake *
+                                                bet.odds
+                                            ).toFixed(2)
+                                        }
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+                    </div>
+                `;
+
+            }
+        );
+
+
+        container.innerHTML =
+            html;
+
+
+        if (multiSection) {
+
+            multiSection.style.display =
+                "block";
+
+        }
+
+
+        calculateReturns();
+
+    }
+
+
+    updateTotalDisplay();
+
 }
 
-// ===== 9. UPDATE COUNT & DISPLAY =====
+
+// ==========================================
+// UPDATE STAKE
+// ==========================================
+
+function updateStake(
+    betId,
+    value
+) {
+
+    const bet =
+        betSlip.find(
+            b =>
+                b.id ===
+                betId
+        );
+
+
+    if (!bet) {
+
+        return;
+
+    }
+
+
+    bet.stake =
+        parseFloat(
+            value
+        ) || 0;
+
+
+    saveSlip();
+
+
+    const item =
+        document.querySelector(
+            `[data-bet-id="${CSS.escape(betId)}"]`
+        );
+
+
+    if (item) {
+
+        const ret =
+            item.querySelector(
+                ".returns"
+            );
+
+
+        if (ret) {
+
+            ret.textContent =
+                `Return: ৳${(
+                    bet.stake *
+                    bet.odds
+                ).toFixed(2)}`;
+
+        }
+
+    }
+
+
+    updateTotalDisplay();
+
+}
+
+
+// ==========================================
+// CALCULATE RETURNS
+// ==========================================
+
+function calculateReturns() {
+
+    if (
+        currentMode !==
+        "multiple"
+    ) {
+
+        return;
+
+    }
+
+
+    const eventIds =
+        [
+            ...new Set(
+                betSlip.map(
+                    b =>
+                        b.eventId
+                )
+            )
+        ];
+
+
+    if (
+        eventIds.length <
+        2
+    ) {
+
+        const totalOddsEl =
+            document.getElementById(
+                "totalOdds"
+            );
+
+
+        const potentialWinEl =
+            document.getElementById(
+                "potentialWin"
+            );
+
+
+        if (totalOddsEl) {
+
+            totalOddsEl.textContent =
+                "0.00";
+
+        }
+
+
+        if (potentialWinEl) {
+
+            potentialWinEl.textContent =
+                "৳0.00";
+
+        }
+
+
+        return;
+
+    }
+
+
+    let totalOdds =
+        betSlip.reduce(
+            (
+                acc,
+                b
+            ) =>
+                acc *
+                b.odds,
+            1
+        );
+
+
+    const stake =
+        parseFloat(
+            document.getElementById(
+                "multiStake"
+            )?.value
+        ) || 0;
+
+
+    const totalOddsEl =
+        document.getElementById(
+            "totalOdds"
+        );
+
+
+    const potentialWinEl =
+        document.getElementById(
+            "potentialWin"
+        );
+
+
+    if (totalOddsEl) {
+
+        totalOddsEl.textContent =
+            totalOdds.toFixed(2);
+
+    }
+
+
+    if (potentialWinEl) {
+
+        potentialWinEl.textContent =
+            `৳${(
+                stake *
+                totalOdds
+            ).toFixed(2)}`;
+
+    }
+
+}
+
+
+// ==========================================
+// UPDATE BET COUNT
+// ==========================================
+
 function updateBetCount() {
 
     const countEl =
-        document.getElementById('sportsBetSlipCount');
-
-    const floatBtn =
-        document.getElementById('sportsBetSlip');
+        document.getElementById(
+            "sportsBetSlipCount"
+        );
 
 
     if (countEl) {
@@ -1567,211 +3339,562 @@ function updateBetCount() {
     }
 
 
-    // Bet Slip count update only
-    // Visibility is controlled separately
-
-
     updateTotalDisplay();
 
 }
 
-function updateTotalDisplay() {
-    const totalEl = document.getElementById('slipTotalAmount');
-    if (!totalEl) return;
-    
-    if (currentMode === 'single') {
-        // Sum ALL individual stakes
-        const total = betSlip.reduce((s, b) => s + (b.stake || 0), 0);
-        totalEl.textContent = `৳${total.toFixed(2)}`;
-    } else {
-        // Multi: show shared stake
-        const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
-        totalEl.textContent = `৳${stake.toFixed(2)}`;
-    }
-}
 
-// ===== 10. PLACE BET =====
-function placeSportsBet() {
-    if (betSlip.length === 0) {
-        showToast('Your bet slip is empty!', 'error');
-        return;
-    }
-
-    let totalStake = 0;
-
-    // ===== Calculate total stake =====
-    if (currentMode === 'single') {
-        const emptyStake = betSlip.some(b => !b.stake || b.stake <= 0);
-        if (emptyStake) {
-            showToast('Please enter stake for all bets!', 'error');
-            return;
-        }
-        totalStake = betSlip.reduce((sum, b) => sum + b.stake, 0);
-    } else {
-        // Multiple: need 2+ different events
-        const eventIds = [...new Set(betSlip.map(b => b.eventId))];
-        if (eventIds.length < 2) {
-            showToast('Need bets from 2+ different matches for multi!', 'error');
-            return;
-        }
-        
-        const stake = parseFloat(document.getElementById('multiStake')?.value) || 0;
-        if (stake <= 0) {
-            showToast('Please enter your total stake!', 'error');
-            return;
-        }
-        totalStake = stake;
-    }
-
-    // ===== Balance Check & Deduction =====
-    // ===== Balance Check =====
-
-let currentBalance = getCurrentBalance();
-
-if (currentBalance < totalStake) {
-
-    showToast("Insufficient balance!", "error");
-
-    return;
-
-}
-// ===== Deduct Wallet =====
-
-let newBalance = currentBalance - totalStake;
-
-setCurrentBalance(newBalance);
-
-// Header + BetSlip Refresh
-
-updateBalanceUI();
-
-updateSlipBalance();
-
-
-    // ===== Place Bet =====
-    console.log('Bet placed:', { 
-        mode: currentMode, 
-        bets: betSlip, 
-        totalStake: totalStake,
-        remainingBalance: newBalance 
-    });
-
-    // ==========================================
-// SAVE ACTIVE BET
+// ==========================================
+// UPDATE TOTAL DISPLAY
 // ==========================================
 
-const activeBet = {
+function updateTotalDisplay() {
 
-    betId: "DG-" + Date.now(),
+    const totalEl =
+        document.getElementById(
+            "slipTotalAmount"
+        );
 
-    match: currentMode === "single"
-        ? betSlip[0].match
-        : "Multiple Bet",
 
-    market: currentMode,
+    if (!totalEl) {
 
-    selections: JSON.parse(JSON.stringify(betSlip)),
+        return;
 
-    odds: currentMode === "single"
-        ? betSlip[0].odds
-        : getTotalOdds(),
+    }
 
-    stake: totalStake,
 
-    possibleWin:
-Number(
-    (
-        totalStake *
-        (currentMode === "single"
-            ? betSlip[0].odds
-            : getTotalOdds()
-        )
-    ).toFixed(2)
-),
+    if (
+        currentMode ===
+        "single"
+    ) {
 
-    cashOut: totalStake,
+        const total =
+            betSlip.reduce(
+                (
+                    sum,
+                    b
+                ) =>
+                    sum +
+                    (
+                        b.stake ||
+                        0
+                    ),
+                0
+            );
 
-    currency: walletManager.currentCurrency,
 
-    status: "ACTIVE",
+        totalEl.textContent =
+            `৳${total.toFixed(2)}`;
 
-    placedTime: new Date().toLocaleString()
+    } else {
 
-};
+        const stake =
+            parseFloat(
+                document.getElementById(
+                    "multiStake"
+                )?.value
+            ) || 0;
 
-walletManager.activeBets.push(activeBet);
 
-saveWalletManager();
-    
-    
-    showToast('Bet placed successfully!', 'success');
+        totalEl.textContent =
+            `৳${stake.toFixed(2)}`;
 
- 
-    
-    // Clear slip
-    betSlip = [];
-    saveSlip();
-    updateBetCount();
-    renderBetSlip();
-    closeSportsBetSlip();
-    
-    const ms = document.getElementById('multipleSection');
-    if (ms) ms.style.display = 'none';
-    const mstake = document.getElementById('multiStake');
-    if (mstake) mstake.value = '';
+    }
+
 }
+
+
+// ==========================================
+// PLACE SPORTS BET
+// ==========================================
+
+function placeSportsBet() {
+
+    if (
+        betSlip.length ===
+        0
+    ) {
+
+        showToast(
+            "Your bet slip is empty!",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    let totalStake =
+        0;
+
+
+    // ==========================================
+    // SINGLE
+    // ==========================================
+
+    if (
+        currentMode ===
+        "single"
+    ) {
+
+        const emptyStake =
+            betSlip.some(
+                b =>
+                    !b.stake ||
+                    b.stake <= 0
+            );
+
+
+        if (emptyStake) {
+
+            showToast(
+                "Please enter stake for all bets!",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        totalStake =
+            betSlip.reduce(
+                (
+                    sum,
+                    b
+                ) =>
+                    sum +
+                    b.stake,
+                0
+            );
+
+    }
+
+
+    // ==========================================
+    // MULTIPLE
+    // ==========================================
+
+    else {
+
+        const eventIds =
+            [
+                ...new Set(
+                    betSlip.map(
+                        b =>
+                            b.eventId
+                    )
+                )
+            ];
+
+
+        if (
+            eventIds.length <
+            2
+        ) {
+
+            showToast(
+                "Need bets from 2+ different matches for multi!",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const stake =
+            parseFloat(
+                document.getElementById(
+                    "multiStake"
+                )?.value
+            ) || 0;
+
+
+        if (
+            stake <=
+            0
+        ) {
+
+            showToast(
+                "Please enter your total stake!",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        totalStake =
+            stake;
+
+    }
+
+
+    // ==========================================
+    // BALANCE CHECK
+    // ==========================================
+
+    let currentBalance =
+        getCurrentBalance();
+
+
+    if (
+        currentBalance <
+        totalStake
+    ) {
+
+        showToast(
+            "Insufficient balance!",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // DEDUCT WALLET
+    // ==========================================
+
+    let newBalance =
+        currentBalance -
+        totalStake;
+
+
+    setCurrentBalance(
+        newBalance
+    );
+
+
+    updateBalanceUI();
+
+    updateSlipBalance();
+
+
+    // ==========================================
+    // PLACE BET LOG
+    // ==========================================
+
+    console.log(
+        "Bet placed:",
+        {
+            mode:
+                currentMode,
+
+            bets:
+                betSlip,
+
+            totalStake:
+                totalStake,
+
+            remainingBalance:
+                newBalance
+        }
+    );
+
+
+    // ==========================================
+    // SAVE ACTIVE BET
+    // ==========================================
+
+    const activeBet = {
+
+        betId:
+            "DG-" +
+            Date.now(),
+
+        match:
+            currentMode ===
+            "single"
+                ? betSlip[0].match
+                : "Multiple Bet",
+
+        market:
+            currentMode,
+
+        selections:
+            JSON.parse(
+                JSON.stringify(
+                    betSlip
+                )
+            ),
+
+        odds:
+            currentMode ===
+            "single"
+                ? betSlip[0].odds
+                : getTotalOdds(),
+
+        stake:
+            totalStake,
+
+        possibleWin:
+            Number(
+                (
+                    totalStake *
+                    (
+                        currentMode ===
+                        "single"
+                            ? betSlip[0].odds
+                            : getTotalOdds()
+                    )
+                ).toFixed(2)
+            ),
+
+        cashOut:
+            totalStake,
+
+        currency:
+            walletManager.currentCurrency,
+
+        status:
+            "ACTIVE",
+
+        placedTime:
+            new Date()
+                .toLocaleString()
+
+    };
+
+
+    walletManager.activeBets.push(
+        activeBet
+    );
+
+
+    saveWalletManager();
+
+
+    showToast(
+        "Bet placed successfully!",
+        "success"
+    );
+
+
+    // ==========================================
+    // CLEAR SLIP
+    // ==========================================
+
+    betSlip = [];
+
+
+    saveSlip();
+
+    updateBetCount();
+
+    renderBetSlip();
+
+    closeSportsBetSlip();
+
+
+    const multipleSection =
+        document.getElementById(
+            "multipleSection"
+        );
+
+
+    if (multipleSection) {
+
+        multipleSection.style.display =
+            "none";
+
+    }
+
+
+    const multiStake =
+        document.getElementById(
+            "multiStake"
+        );
+
+
+    if (multiStake) {
+
+        multiStake.value =
+            "";
+
+    }
+
+}
+
 
 // ==========================================
 // GET TOTAL ODDS
 // ==========================================
 
-function getTotalOdds(){
+function getTotalOdds() {
 
-    if(!betSlip.length) return 0;
+    if (
+        !betSlip.length
+    ) {
 
-    let totalOdds = 1;
+        return 0;
 
-    betSlip.forEach(bet=>{
+    }
 
-        totalOdds *= parseFloat(bet.odds);
 
-    });
+    let totalOdds =
+        1;
 
-    return Number(totalOdds.toFixed(2));
+
+    betSlip.forEach(
+        bet => {
+
+            totalOdds *=
+                parseFloat(
+                    bet.odds
+                );
+
+        }
+    );
+
+
+    return Number(
+        totalOdds.toFixed(2)
+    );
 
 }
 
-window.getTotalOdds = getTotalOdds;
 
-// ===== HELPERS =====
+window.getTotalOdds =
+    getTotalOdds;
+
+
+// ==========================================
+// SAVE BET SLIP
+// ==========================================
+
 function saveSlip() {
-    localStorage.setItem('sportsBetSlip', JSON.stringify(betSlip));
+
+    localStorage.setItem(
+        "sportsBetSlip",
+        JSON.stringify(
+            betSlip
+        )
+    );
+
 }
 
-function showToast(msg, type) {
-    const existing = document.querySelector('.bet-slip-toast');
-    if (existing) existing.remove();
-    
-    const t = document.createElement('div');
-    t.className = 'bet-slip-toast';
-    t.textContent = msg;
-    t.style.cssText = `position:fixed;top:20px;left:50%;transform:translateX(-50%);
-        padding:12px 24px;border-radius:8px;color:white;font-weight:500;z-index:99999;`;
-    t.style.background = type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#3b82f6';
-    
-    document.body.appendChild(t);
-    setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 2500);
+
+// ==========================================
+// SHOW TOAST
+// ==========================================
+
+function showToast(
+    msg,
+    type
+) {
+
+    const existing =
+        document.querySelector(
+            ".bet-slip-toast"
+        );
+
+
+    if (existing) {
+
+        existing.remove();
+
+    }
+
+
+    const toast =
+        document.createElement(
+            "div"
+        );
+
+
+    toast.className =
+        "bet-slip-toast";
+
+
+    toast.textContent =
+        msg;
+
+
+    toast.style.cssText =
+        `
+            position:fixed;
+            top:20px;
+            left:50%;
+            transform:translateX(-50%);
+            padding:12px 24px;
+            border-radius:8px;
+            color:white;
+            font-weight:500;
+            z-index:99999;
+        `;
+
+
+    toast.style.background =
+        type === "success"
+            ? "#22c55e"
+            : type === "error"
+                ? "#ef4444"
+                : "#3b82f6";
+
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.style.opacity =
+                "0";
+
+
+            toast.style.transition =
+                "opacity 0.3s";
+
+
+            setTimeout(
+                () => {
+
+                    toast.remove();
+
+                },
+                300
+            );
+
+        },
+        2500
+    );
+
 }
+
 
 // ==========================================
 // BET HISTORY & CASH OUT SYSTEM
 // ==========================================
 
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => updateBetCount());
+// ==========================================
+// INIT
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        updateBetCount();
+
+        renderAllSportsGames();
+
+    }
+);
+
+
+// ==========================================
+// FINAL DEBUG
+// ==========================================
+
 console.log(
     "🏁 SPORTS.JS FINISHED",
     typeof window.openSportsGame
 );
-
