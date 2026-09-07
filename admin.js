@@ -3387,7 +3387,79 @@ async function ensureAdminSportsGamesLoaded() {
     }
 
 
-    return await loadAdminSportsGames();
+    if (!window.supabaseClient) {
+
+        console.error(
+            "❌ ADMIN: Supabase client unavailable."
+        );
+
+        return false;
+
+    }
+
+
+    console.log(
+        "🔄 ADMIN: Loading sports games..."
+    );
+
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from(
+                "sports_games"
+            )
+            .select("*");
+
+
+    if (error) {
+
+        console.error(
+            "❌ ADMIN: Failed to load sports games:",
+            error
+        );
+
+        return false;
+
+    }
+
+
+    window.adminSportsGames = {};
+
+
+    (data || []).forEach(
+        game => {
+
+            if (
+                game &&
+                game.game_id
+            ) {
+
+                window.adminSportsGames[
+                    game.game_id
+                ] = game;
+
+            }
+
+        }
+    );
+
+
+    window.adminSportsGamesLoaded =
+        true;
+
+
+    console.log(
+        "✅ ADMIN: Sports games loaded:",
+        Object.values(
+            window.adminSportsGames
+        )
+    );
+
+
+    return true;
 
 }
 
