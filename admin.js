@@ -1351,8 +1351,8 @@ function () {
     if (!virtualSports) {
 
         console.warn(
-            "⚠️ ADMIN: Virtual Esports section not found."
-        );
+    "⚠️ ADMIN: Virtual Sports section not found."
+   );
 
         return;
 
@@ -1400,8 +1400,8 @@ if (title) {
     // SHOW VIRTUAL SPORTS
     // ------------------------------------------
 
-    virtualsports.style.display =
-        "block";
+    virtualSports.style.display =
+    "block";
 
 
     // ------------------------------------------
