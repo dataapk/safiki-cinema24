@@ -622,6 +622,31 @@ function createSportsGameCard(
     gameCard.dataset.status =
         status;
 
+    // ==========================================
+// STATUS LABEL
+// ==========================================
+
+let statusLabel =
+    "UPCOMING";
+
+
+if (status === "live") {
+
+    statusLabel =
+        `
+            <span class="live-dot"></span>
+            LIVE
+        `;
+
+} else if (
+    status === "featured"
+) {
+
+    statusLabel =
+        "FEATURED";
+
+}
+
 
    
 
