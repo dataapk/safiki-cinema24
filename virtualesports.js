@@ -186,28 +186,7 @@ function renderVirtualSportsHome() {
 
     section.innerHTML = `
 
-        <!-- ========================================= -->
-        <!-- VIRTUAL SPORTS HEADER -->
-        <!-- ========================================= -->
-
-        <div class="virtual-sports-page-header">
-
-            <button
-                class="virtual-sports-back-btn"
-                onclick="closeVirtualSports()">
-
-                <i class="fas fa-chevron-left"></i>
-
-                Back
-
-            </button>
-
-
-            <h2>
-                Virtual Sports
-            </h2>
-
-        </div>
+        
 
 
         <!-- ========================================= -->
@@ -322,6 +301,29 @@ function renderVirtualSportsHome() {
                 </span>
 
             </div>
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- VIRTUAL SPORTS HEADER -->
+        <!-- ========================================= -->
+
+        <div class="virtual-sports-page-header">
+
+            <button
+                class="virtual-sports-back-btn"
+                onclick="closeVirtualSports()">
+
+                <i class="fas fa-chevron-left"></i>
+
+                Back
+
+            </button>
+
+
+            <h2>
+                Virtual Sports
+            </h2>
 
         </div>
 
