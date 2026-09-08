@@ -690,42 +690,30 @@ if (status === "live") {
 
         <div class="sports-game-card-teams">
 
-    <!-- TEAM 1 -->
-    <div class="sports-game-team">
+            <div class="sports-game-team">
 
-        <div class="sports-game-team-name">
-            ${escapeSportsHtml(game.home_team)}
+                ${escapeSportsHtml(game.home_team)}
+
+            </div>
+
+
+            <div class="sports-game-vs">
+
+                VS
+
+            </div>
+
+
+            <div class="sports-game-team">
+
+                ${escapeSportsHtml(game.away_team)}
+
+            </div>
+
         </div>
 
-        <button
-            type="button"
-            class="sports-team-odds-btn"
-            onclick="event.stopPropagation();"
-        >
-            <!-- TEAM 1 ODDS -->
-        </button>
-
-    </div>
-
-
-    <!-- TEAM 2 -->
-    <div class="sports-game-team">
-
-        <div class="sports-game-team-name">
-            ${escapeSportsHtml(game.away_team)}
-        </div>
-
-        <button
-            type="button"
-            class="sports-team-odds-btn"
-            onclick="event.stopPropagation();"
-        >
-            <!-- TEAM 2 ODDS -->
-        </button>
-
-    </div>
-
-</div>
+    `;
+    
 
     // ==========================================
     // OPEN GAME
