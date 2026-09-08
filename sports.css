@@ -2,6 +2,260 @@
     sports.js-এর injected Game View-এর জন্য এই CSS যোগ করো:
     ========================================== */
 
+/* ======================================================
+   SPORTS CATEGORY HEADER
+====================================================== */
+
+.sports-category-header {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   SPORTS CATEGORY TITLE
+====================================================== */
+
+.sports-category-title {
+    display: flex;
+    align-items: center;
+
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    color: var(--text);
+}
+
+
+/* ======================================================
+   STATUS ICON
+====================================================== */
+
+.sports-status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+
+    margin-right: 7px;
+
+    font-size: 10px;
+
+    flex-shrink: 0;
+}
+
+
+/* ======================================================
+   LIVE — PREMIUM GREEN GLOW
+====================================================== */
+
+.sports-live-icon {
+    color: #2FBF71;
+
+    animation:
+        sportsLivePulse 1.6s ease-in-out infinite;
+}
+
+
+@keyframes sportsLivePulse {
+
+    0%,
+    100% {
+        opacity: 0.75;
+
+        text-shadow:
+            0 0 3px rgba(47, 191, 113, 0.35),
+            0 0 6px rgba(47, 191, 113, 0.20);
+    }
+
+    50% {
+        opacity: 1;
+
+        text-shadow:
+            0 0 5px rgba(47, 191, 113, 0.90),
+            0 0 10px rgba(47, 191, 113, 0.65),
+            0 0 17px rgba(47, 191, 113, 0.35);
+    }
+}
+
+
+/* ======================================================
+   UPCOMING — PREMIUM YELLOW GLOW
+====================================================== */
+
+.sports-upcoming-icon {
+    color: #FACC15;
+
+    animation:
+        sportsUpcomingPulse 1.6s ease-in-out infinite;
+}
+
+
+@keyframes sportsUpcomingPulse {
+
+    0%,
+    100% {
+        opacity: 0.75;
+
+        text-shadow:
+            0 0 3px rgba(250, 204, 21, 0.35),
+            0 0 6px rgba(250, 204, 21, 0.20);
+    }
+
+    50% {
+        opacity: 1;
+
+        text-shadow:
+            0 0 5px rgba(250, 204, 21, 0.90),
+            0 0 10px rgba(250, 204, 21, 0.65),
+            0 0 17px rgba(250, 204, 21, 0.35);
+    }
+}
+
+
+/* ======================================================
+   FEATURED — FIXED
+====================================================== */
+
+.sports-featured-icon {
+    color: #FACC15;
+
+    opacity: 1;
+
+    text-shadow: none;
+
+    animation: none;
+}
+
+
+/* ======================================================
+   SPORTS GAMES LIST
+====================================================== */
+
+.sports-games-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   SPORTS CATEGORY SECTION
+====================================================== */
+
+.sports-category-section {
+    width: 100%;
+
+    padding: 14px 14px 0;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   SEPARATE CATEGORY SPACING
+====================================================== */
+
+.sports-category-section
++ .sports-category-section {
+    margin-top: 12px;
+}
+
+
+/* ======================================================
+   EMPTY GAME CARD
+====================================================== */
+
+.sports-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 70px;
+
+    padding: 10px 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+}
+
+
+/* ======================================================
+   EMPTY ICON
+====================================================== */
+
+.sports-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 26px;
+    height: 26px;
+
+    margin-bottom: 4px;
+
+    font-size: 13px;
+
+    color: var(--text-muted);
+}
+
+
+/* ======================================================
+   EMPTY TITLE
+====================================================== */
+
+.sports-empty-state h4 {
+    margin: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    color: var(--text);
+}
+
+
+/* ======================================================
+   SPORTS GAME CARD
+====================================================== */
+
+.sports-game-card {
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+  END  SPORTS CATEGORY HEADER
+====================================================== */
+
  /* ==========================================
     SPORTS FULL GAME VIEW
     ========================================== */
