@@ -77,7 +77,7 @@
 .virtual-sports-banner-wrapper {
     position: relative;
     width: 100%;
-    height: 145px;
+    height: 115px;
     padding: 0 14px;
     box-sizing: border-box;
     overflow: hidden;
@@ -221,7 +221,7 @@
 .virtual-sports-banner-dots {
     position: absolute;
 
-    bottom: 8px;
+    bottom: 12px;
     left: 50%;
 
     transform: translateX(-50%);
