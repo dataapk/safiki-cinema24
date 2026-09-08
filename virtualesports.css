@@ -1013,6 +1013,35 @@
     margin-top: 10px;
 }
 
+.virtual-sport-selected-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 14px;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--border);
+}
+
+.virtual-sport-selected-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+
+.virtual-sport-selected-header h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+}
+
 /* ==========================================
    END VIRTUAL SPORTS EVENT SECTIONS
    ========================================== */
