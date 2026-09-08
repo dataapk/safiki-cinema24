@@ -693,10 +693,6 @@ if (status === "live") {
     <!-- TEAM 1 -->
     <div class="sports-game-team">
 
-        <div class="sports-game-team-label">
-            Team 1
-        </div>
-
         <div class="sports-game-team-name">
             ${escapeSportsHtml(game.home_team)}
         </div>
@@ -706,7 +702,7 @@ if (status === "live") {
             class="sports-team-odds-btn"
             onclick="event.stopPropagation();"
         >
-            ${/* DYNAMIC TEAM 1 ODDS */ ""}
+            <!-- TEAM 1 ODDS -->
         </button>
 
     </div>
@@ -714,10 +710,6 @@ if (status === "live") {
 
     <!-- TEAM 2 -->
     <div class="sports-game-team">
-
-        <div class="sports-game-team-label">
-            Team 2
-        </div>
 
         <div class="sports-game-team-name">
             ${escapeSportsHtml(game.away_team)}
@@ -728,15 +720,12 @@ if (status === "live") {
             class="sports-team-odds-btn"
             onclick="event.stopPropagation();"
         >
-            ${/* DYNAMIC TEAM 2 ODDS */ ""}
+            <!-- TEAM 2 ODDS -->
         </button>
 
     </div>
 
 </div>
-
-`;
-
 
     // ==========================================
     // OPEN GAME
