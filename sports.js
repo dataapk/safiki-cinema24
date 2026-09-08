@@ -1,7 +1,9 @@
 // ==========================================
 // SPORTS.JS
+// MASTER SPORTS FRONTEND
 // SPORTS FULL GAME VIEW
 // COMMON SPORTS RENDERING SYSTEM
+// SUPABASE-DRIVEN MARKETS & ODDS
 // ==========================================
 
 console.log("🚀 SPORTS.JS STARTED");
@@ -146,8 +148,11 @@ function escapeSportsHtml(value) {
         value === null ||
         value === undefined
     ) {
+
         return "";
+
     }
+
 
     return String(value)
         .replace(/&/g, "&amp;")
@@ -155,6 +160,19 @@ function escapeSportsHtml(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
+}
+
+
+// ==========================================
+// SAFE JAVASCRIPT VALUE
+// ==========================================
+
+function escapeSportsAttribute(value) {
+
+    return escapeSportsHtml(
+        value
+    );
 
 }
 
@@ -169,11 +187,17 @@ function getSportsGameNumber(gameId) {
         String(gameId || "")
             .match(/-(\d+)$/);
 
+
     if (!match) {
+
         return 999999;
+
     }
 
-    return Number(match[1]);
+
+    return Number(
+        match[1]
+    );
 
 }
 
@@ -185,10 +209,15 @@ function getSportsGameNumber(gameId) {
 function getSportsIcon(sport) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     return (
-        SPORTS_ICONS[normalizedSport] ||
+        SPORTS_ICONS[
+            normalizedSport
+        ] ||
         "🏆"
     );
 
@@ -202,10 +231,15 @@ function getSportsIcon(sport) {
 function getSportsDisplayName(sport) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     return (
-        SPORTS_NAMES[normalizedSport] ||
+        SPORTS_NAMES[
+            normalizedSport
+        ] ||
         (
             normalizedSport
                 ? normalizedSport.charAt(0).toUpperCase() +
@@ -224,7 +258,10 @@ function getSportsDisplayName(sport) {
 function getSportsEventPageId(sport) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     return (
         normalizedSport +
@@ -244,15 +281,16 @@ function getSportsContainerId(
 ) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     const normalizedStatus =
-        normalizeSportsStatus(status);
+        normalizeSportsStatus(
+            status
+        );
 
-
-    // ==========================================
-    // PRIMARY CONTAINER NAMING
-    // ==========================================
 
     return (
         normalizedSport +
@@ -274,15 +312,16 @@ function getSportsGamesContainer(
 ) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     const normalizedStatus =
-        normalizeSportsStatus(status);
+        normalizeSportsStatus(
+            status
+        );
 
-
-    // ==========================================
-    // PRIMARY ID
-    // ==========================================
 
     const primaryId =
         getSportsContainerId(
@@ -298,13 +337,11 @@ function getSportsGamesContainer(
 
 
     if (container) {
+
         return container;
+
     }
 
-
-    // ==========================================
-    // FALLBACK IDs
-    // ==========================================
 
     const fallbackIds = [
 
@@ -326,10 +363,15 @@ function getSportsGamesContainer(
     ) {
 
         container =
-            document.getElementById(id);
+            document.getElementById(
+                id
+            );
+
 
         if (container) {
+
             return container;
+
         }
 
     }
@@ -412,7 +454,8 @@ async function loadSportsGames() {
         );
 
 
-        sportsGamesLoaded = true;
+        sportsGamesLoaded =
+            true;
 
 
         clearAllSportsGameContainers();
@@ -422,10 +465,6 @@ async function loadSportsGames() {
 
     }
 
-
-    // ==========================================
-    // BUILD CACHE
-    // ==========================================
 
     data.forEach(
         (game, index) => {
@@ -437,7 +476,9 @@ async function loadSportsGames() {
 
 
             if (!game.game_id) {
+
                 return;
+
             }
 
 
@@ -449,7 +490,8 @@ async function loadSportsGames() {
     );
 
 
-    sportsGamesLoaded = true;
+    sportsGamesLoaded =
+        true;
 
 
     console.log(
@@ -457,10 +499,6 @@ async function loadSportsGames() {
         sportsGames
     );
 
-
-    // ==========================================
-    // RENDER ALL SPORTS
-    // ==========================================
 
     renderAllSportsGames();
 
@@ -528,10 +566,15 @@ function getSportsGamesByStatus(
 ) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     const normalizedStatus =
-        normalizeSportsStatus(status);
+        normalizeSportsStatus(
+            status
+        );
 
 
     return getAllSportsGames()
@@ -551,9 +594,13 @@ function getSportsGamesByStatus(
 
 
                 return (
-                    gameSport === normalizedSport &&
-                    gameStatus === normalizedStatus &&
-                    isSportsGameEnabled(game)
+                    gameSport ===
+                        normalizedSport &&
+                    gameStatus ===
+                        normalizedStatus &&
+                    isSportsGameEnabled(
+                        game
+                    )
                 );
 
             }
@@ -572,6 +619,512 @@ function getSportsGamesByStatus(
 
             }
         );
+
+}
+
+
+// ==========================================
+// PARSE MARKET DATA FROM SUPABASE
+// ==========================================
+
+function parseSportsMarketData(game) {
+
+    const possibleFields = [
+
+        "markets",
+        "betting_markets",
+        "sports_markets",
+        "odds_data",
+        "market_data"
+
+    ];
+
+
+    let rawMarkets = null;
+
+
+    for (
+        const field of possibleFields
+    ) {
+
+        if (
+            game &&
+            game[field] !== null &&
+            game[field] !== undefined &&
+            game[field] !== ""
+        ) {
+
+            rawMarkets =
+                game[field];
+
+            break;
+
+        }
+
+    }
+
+
+    if (!rawMarkets) {
+
+        return [];
+
+    }
+
+
+    if (
+        typeof rawMarkets ===
+        "string"
+    ) {
+
+        try {
+
+            rawMarkets =
+                JSON.parse(
+                    rawMarkets
+                );
+
+        } catch (error) {
+
+            console.warn(
+                "⚠️ Could not parse sports market JSON:",
+                error
+            );
+
+            return [];
+
+        }
+
+    }
+
+
+    if (
+        Array.isArray(
+            rawMarkets
+        )
+    ) {
+
+        return rawMarkets
+            .filter(
+                market =>
+                    market &&
+                    typeof market ===
+                    "object"
+            );
+
+    }
+
+
+    if (
+        typeof rawMarkets ===
+        "object"
+    ) {
+
+        if (
+            Array.isArray(
+                rawMarkets.markets
+            )
+        ) {
+
+            return rawMarkets.markets;
+
+        }
+
+
+        return Object.entries(
+            rawMarkets
+        ).map(
+            ([key, value]) => {
+
+                if (
+                    value &&
+                    typeof value ===
+                    "object"
+                ) {
+
+                    return {
+                        ...value,
+                        market:
+                            value.market ||
+                            value.name ||
+                            key
+                    };
+
+                }
+
+
+                return {
+                    market: key,
+                    odds: value
+                };
+
+            }
+        );
+
+    }
+
+
+    return [];
+
+}
+
+
+// ==========================================
+// NORMALIZE MARKET OPTIONS
+// ==========================================
+
+function normalizeSportsMarketOptions(
+    market
+) {
+
+    if (!market) {
+
+        return [];
+
+    }
+
+
+    const possibleOptions = [
+
+        market.options,
+
+        market.selections,
+
+        market.outcomes,
+
+        market.bets
+
+    ];
+
+
+    let options = null;
+
+
+    for (
+        const candidate of possibleOptions
+    ) {
+
+        if (
+            Array.isArray(
+                candidate
+            )
+        ) {
+
+            options =
+                candidate;
+
+            break;
+
+        }
+
+    }
+
+
+    if (
+        options
+    ) {
+
+        return options
+            .map(
+                option => {
+
+                    if (
+                        option === null ||
+                        option === undefined
+                    ) {
+
+                        return null;
+
+                    }
+
+
+                    if (
+                        typeof option ===
+                        "string" ||
+                        typeof option ===
+                        "number"
+                    ) {
+
+                        return {
+
+                            label:
+                                String(
+                                    option
+                                ),
+
+                            odds:
+                                null
+
+                        };
+
+                    }
+
+
+                    return {
+
+                        label:
+                            option.label ||
+                            option.name ||
+                            option.selection ||
+                            option.outcome ||
+                            option.team ||
+                            option.title ||
+                            "",
+
+                        odds:
+                            option.odds ??
+                            option.price ??
+                            option.value ??
+                            null,
+
+                        id:
+                            option.id ??
+                            null
+
+                    };
+
+                }
+            )
+            .filter(
+                option =>
+                    option &&
+                    option.label
+            );
+
+    }
+
+
+    return [];
+
+}
+
+
+// ==========================================
+// GET NORMALIZED SPORTS MARKETS
+// ==========================================
+
+function getSportsMarkets(
+    game
+) {
+
+    const markets =
+        parseSportsMarketData(
+            game
+        );
+
+
+    return markets
+        .map(
+            (market, index) => {
+
+                const marketName =
+                    market.market ||
+                    market.name ||
+                    market.title ||
+                    market.label ||
+                    `Market ${index + 1}`;
+
+
+                const options =
+                    normalizeSportsMarketOptions(
+                        market
+                    );
+
+
+                return {
+
+                    ...market,
+
+                    marketName:
+                        String(
+                            marketName
+                        ),
+
+                    options
+
+                };
+
+            }
+        )
+        .filter(
+            market =>
+                market.options.length >
+                0
+        );
+
+}
+
+
+// ==========================================
+// GET PRIMARY SPORTS MARKET
+// ==========================================
+
+function getPrimarySportsMarket(
+    game
+) {
+
+    const markets =
+        getSportsMarkets(
+            game
+        );
+
+
+    if (
+        markets.length ===
+        0
+    ) {
+
+        return null;
+
+    }
+
+
+    return markets[0];
+
+}
+
+
+// ==========================================
+// FORMAT ODDS
+// ==========================================
+
+function formatSportsOdds(
+    odds
+) {
+
+    if (
+        odds === null ||
+        odds === undefined ||
+        odds === ""
+    ) {
+
+        return "";
+
+    }
+
+
+    const number =
+        Number(
+            odds
+        );
+
+
+    if (
+        !Number.isFinite(
+            number
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return number.toFixed(2);
+
+}
+
+
+// ==========================================
+// CREATE PRIMARY MARKET OPTION
+// ==========================================
+
+function createSportsPrimaryMarketOption(
+    game,
+    market,
+    option
+) {
+
+    const button =
+        document.createElement(
+            "button"
+        );
+
+
+    button.type =
+        "button";
+
+
+    button.className =
+        "sports-primary-odd";
+
+
+    const odds =
+        formatSportsOdds(
+            option.odds
+        );
+
+
+    button.innerHTML = `
+
+        <span class="sports-primary-odd-label">
+
+            ${escapeSportsHtml(
+                option.label
+            )}
+
+        </span>
+
+        ${
+            odds
+                ? `
+                    <strong class="sports-primary-odd-value">
+                        ${escapeSportsHtml(odds)}
+                    </strong>
+                  `
+                : ""
+        }
+
+    `;
+
+
+    button.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+
+            if (
+                option.odds ===
+                    null ||
+                option.odds ===
+                    undefined ||
+                option.odds ===
+                    ""
+            ) {
+
+                showToast(
+                    "Odds are not available.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            addToBetSlip({
+
+                eventId:
+                    game.game_id,
+
+                eventName:
+                    game.title ||
+                    `${game.home_team || ""} VS ${game.away_team || ""}`,
+
+                market:
+                    `${market.marketName} - ${option.label}`,
+
+                odds:
+                    option.odds
+
+            });
+
+        }
+    );
+
+
+    return button;
 
 }
 
@@ -607,10 +1160,6 @@ function createSportsGameCard(
         "sports-game-card";
 
 
-    // ==========================================
-    // STORE GAME DATA
-    // ==========================================
-
     gameCard.dataset.gameId =
         game.game_id;
 
@@ -622,93 +1171,120 @@ function createSportsGameCard(
     gameCard.dataset.status =
         status;
 
-    // ==========================================
-// STATUS LABEL
-// ==========================================
-
-let statusLabel =
-    "UPCOMING";
-
-
-if (status === "live") {
-
-    statusLabel =
-        `
-            <span class="live-dot"></span>
-            LIVE
-        `;
-
-} else if (
-    status === "featured"
-) {
-
-    statusLabel =
-        "FEATURED";
-
-}
-
-
-   
 
     // ==========================================
-    // GAME CARD HTML
+    // MAIN MARKET
+    // ==========================================
+
+    const primaryMarket =
+        getPrimarySportsMarket(
+            game
+        );
+
+
+    // ==========================================
+    // CARD HTML
     // ==========================================
 
     gameCard.innerHTML = `
 
-        <div class="sports-game-card-header">
+        <div class="sports-game-card-main">
 
-            <div class="sports-game-status-label">
+            <div class="sports-game-card-title-row">
 
-                ${statusLabel}
+                <div class="sports-game-card-title">
+
+                    ${escapeSportsHtml(
+                        game.title
+                    )}
+
+                </div>
+
+
+                ${
+                    status === "live"
+                        ? `
+                            <div class="sports-game-live-indicator">
+
+                                <span class="live-dot"></span>
+
+                                LIVE
+
+                            </div>
+                          `
+                        : ""
+                }
 
             </div>
 
 
-            <div class="sports-game-serial">
+            <div class="sports-game-card-teams">
 
-                #${index + 1}
+                <div
+                    class="sports-game-team sports-game-team-home"
+                    data-open-game="true"
+                >
+
+                    ${escapeSportsHtml(
+                        game.home_team
+                    )}
+
+                </div>
+
+
+                <div class="sports-game-vs">
+
+                    VS
+
+                </div>
+
+
+                <div
+                    class="sports-game-team sports-game-team-away"
+                    data-open-game="true"
+                >
+
+                    ${escapeSportsHtml(
+                        game.away_team
+                    )}
+
+                </div>
 
             </div>
+
+
+            ${
+                primaryMarket
+                    ? `
+                        <div class="sports-primary-market">
+
+                            <div class="sports-primary-market-title">
+
+                                ${escapeSportsHtml(
+                                    primaryMarket.marketName
+                                )}
+
+                            </div>
+
+                            <div class="sports-primary-odds-row"></div>
+
+                        </div>
+                      `
+                    : `
+                        <div class="sports-primary-market-empty">
+
+                            No odds available
+
+                        </div>
+                      `
+            }
 
         </div>
 
 
-        <div class="sports-game-card-title">
+        <div class="sports-game-serial">
 
-            ${escapeSportsHtml(game.title)}
-
-        </div>
-
-
-        <div class="sports-game-card-league">
-
-            ${escapeSportsHtml(game.league)}
-
-        </div>
-
-
-        <div class="sports-game-card-teams">
-
-            <div class="sports-game-team">
-
-                ${escapeSportsHtml(game.home_team)}
-
-            </div>
-
-
-            <div class="sports-game-vs">
-
-                VS
-
-            </div>
-
-
-            <div class="sports-game-team">
-
-                ${escapeSportsHtml(game.away_team)}
-
-            </div>
+            #${index + 1}
 
         </div>
 
@@ -716,30 +1292,84 @@ if (status === "live") {
 
 
     // ==========================================
-    // OPEN GAME
+    // OPEN FULL GAME VIEW
     // ==========================================
 
-    gameCard.addEventListener(
-        "click",
-        function () {
+    gameCard
+        .querySelectorAll(
+            "[data-open-game='true']"
+        )
+        .forEach(
+            element => {
 
-            console.log(
-                "🏆 Opening Sports Game:",
-                {
-                    sport,
-                    gameId: game.game_id,
-                    status
-                }
+                element.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.stopPropagation();
+
+
+                        console.log(
+                            "🏆 Opening Sports Game:",
+                            {
+                                sport,
+                                gameId:
+                                    game.game_id,
+                                status
+                            }
+                        );
+
+
+                        openSportsGame(
+                            sport,
+                            game.game_id
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    // ==========================================
+    // RENDER PRIMARY ODDS
+    // ==========================================
+
+    if (
+        primaryMarket
+    ) {
+
+        const oddsRow =
+            gameCard.querySelector(
+                ".sports-primary-odds-row"
             );
 
 
-            openSportsGame(
-                sport,
-                game.game_id
-            );
+        if (oddsRow) {
+
+            primaryMarket.options
+                .forEach(
+                    option => {
+
+                        const button =
+                            createSportsPrimaryMarketOption(
+                                game,
+                                primaryMarket,
+                                option
+                            );
+
+
+                        oddsRow.appendChild(
+                            button
+                        );
+
+                    }
+                );
 
         }
-    );
+
+    }
 
 
     return gameCard;
@@ -757,15 +1387,16 @@ function renderSportsGames(
 ) {
 
     const normalizedSport =
-        normalizeSportsSport(sport);
+        normalizeSportsSport(
+            sport
+        );
+
 
     const normalizedStatus =
-        normalizeSportsStatus(status);
+        normalizeSportsStatus(
+            status
+        );
 
-
-    // ==========================================
-    // VALIDATE SPORT
-    // ==========================================
 
     if (
         !SUPPORTED_SPORTS.includes(
@@ -783,10 +1414,6 @@ function renderSportsGames(
     }
 
 
-    // ==========================================
-    // VALIDATE STATUS
-    // ==========================================
-
     if (
         !SPORTS_STATUSES.includes(
             normalizedStatus
@@ -802,10 +1429,6 @@ function renderSportsGames(
 
     }
 
-
-    // ==========================================
-    // GET CONTAINER
-    // ==========================================
 
     const container =
         getSportsGamesContainer(
@@ -829,17 +1452,9 @@ function renderSportsGames(
     }
 
 
-    // ==========================================
-    // CLEAR OLD CONTENT
-    // ==========================================
-
     container.innerHTML =
         "";
 
-
-    // ==========================================
-    // GET GAMES
-    // ==========================================
 
     const games =
         getSportsGamesByStatus(
@@ -854,18 +1469,10 @@ function renderSportsGames(
     );
 
 
-    // ==========================================
-    // NO GAMES
-    // ==========================================
-
     if (
-        games.length === 0
+        games.length ===
+        0
     ) {
-
-        console.log(
-            `ℹ️ No ${normalizedSport} ${normalizedStatus} games available.`
-        );
-
 
         container.innerHTML = `
 
@@ -878,7 +1485,9 @@ function renderSportsGames(
                 </div>
 
                 <h4>
+
                     No Games Available
+
                 </h4>
 
             </div>
@@ -889,10 +1498,6 @@ function renderSportsGames(
 
     }
 
-
-    // ==========================================
-    // CREATE GAME CARDS
-    // ==========================================
 
     games.forEach(
         (game, index) => {
@@ -915,10 +1520,6 @@ function renderSportsGames(
         }
     );
 
-
-    // ==========================================
-    // RENDER COMPLETE
-    // ==========================================
 
     console.log(
         `✅ ${games.length} ${getSportsDisplayName(normalizedSport)} ${normalizedStatus} Game(s) Rendered.`
@@ -966,9 +1567,6 @@ function renderAllSportsGames() {
 // ==========================================
 // BACKWARD COMPATIBILITY
 // ==========================================
-// These functions are kept so existing HTML or
-// other JS code does not break.
-// ==========================================
 
 function renderCricketGames() {
 
@@ -999,10 +1597,6 @@ function renderCricketFeaturedGames() {
 
 }
 
-
-// ==========================================
-// GENERIC SINGLE SPORT HELPERS
-// ==========================================
 
 function renderFootballGames() {
 
@@ -1065,243 +1659,6 @@ function renderTennisFeaturedGames() {
 
 
 // ==========================================
-// START SPORTS GAME DATA LOADING
-// ==========================================
-
-const sportsGamesReady =
-    loadSportsGames();
-
-
-console.log(
-    "✅ SPORTS DATA LOADER PASSED"
-);
-
-
-// ==========================================
-// RENDER WHEN HTML IS READY
-// ==========================================
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-
-            renderAllSportsGames();
-
-        }
-    );
-
-} else {
-
-    renderAllSportsGames();
-
-}
-
-
-// ==========================================
-// SUPABASE REALTIME
-// SPORTS GAME INSERT / UPDATE / DELETE
-// ==========================================
-
-let sportsGamesRealtimeChannel =
-    null;
-
-
-function setupSportsGamesRealtime() {
-
-    if (
-        typeof supabaseClient ===
-        "undefined" ||
-        !supabaseClient
-    ) {
-
-        console.warn(
-            "⚠️ Supabase client unavailable for realtime."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        sportsGamesRealtimeChannel
-    ) {
-
-        console.log(
-            "ℹ️ Sports realtime already initialized."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        sportsGamesRealtimeChannel =
-            supabaseClient
-                .channel(
-                    "sports-games-live-updates"
-                )
-                .on(
-                    "postgres_changes",
-                    {
-                        event: "*",
-                        schema: "public",
-                        table: "sports_games"
-                    },
-                    function (payload) {
-
-                        console.log(
-                            "🔔 SPORTS GAME REALTIME UPDATE:",
-                            payload
-                        );
-
-
-                        // ==================================
-                        // INSERT
-                        // ==================================
-
-                        if (
-                            payload.eventType ===
-                            "INSERT"
-                        ) {
-
-                            const newGame =
-                                payload.new;
-
-
-                            if (
-                                newGame &&
-                                newGame.game_id
-                            ) {
-
-                                sportsGames[
-                                    newGame.game_id
-                                ] = newGame;
-
-                            }
-
-                        }
-
-
-                        // ==================================
-                        // UPDATE
-                        // ==================================
-
-                        if (
-                            payload.eventType ===
-                            "UPDATE"
-                        ) {
-
-                            const updatedGame =
-                                payload.new;
-
-
-                            if (
-                                updatedGame &&
-                                updatedGame.game_id
-                            ) {
-
-                                sportsGames[
-                                    updatedGame.game_id
-                                ] = updatedGame;
-
-                            }
-
-                        }
-
-
-                        // ==================================
-                        // DELETE
-                        // ==================================
-
-                        if (
-                            payload.eventType ===
-                            "DELETE"
-                        ) {
-
-                            const deletedGame =
-                                payload.old;
-
-
-                            if (
-                                deletedGame &&
-                                deletedGame.game_id
-                            ) {
-
-                                delete sportsGames[
-                                    deletedGame.game_id
-                                ];
-
-                            }
-
-                        }
-
-
-                        // ==================================
-                        // RE-RENDER EVERYTHING
-                        // ==================================
-
-                        renderAllSportsGames();
-
-                    }
-                )
-                .subscribe(
-                    function (status) {
-
-                        console.log(
-                            "📡 SPORTS REALTIME STATUS:",
-                            status
-                        );
-
-                    }
-                );
-
-
-    } catch (error) {
-
-        console.error(
-            "❌ SPORTS REALTIME SETUP ERROR:",
-            error
-        );
-
-    }
-
-}
-
-
-// ==========================================
-// INITIALIZE REALTIME
-// ==========================================
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-
-            setupSportsGamesRealtime();
-
-        }
-    );
-
-} else {
-
-    setupSportsGamesRealtime();
-
-}
-
-
-// ==========================================
 // OPEN SPORTS GAME
 // ==========================================
 
@@ -1336,7 +1693,7 @@ window.openSportsGame =
 
 
         // ==========================================
-        // WAIT FOR SPORTS DATA
+        // WAIT FOR DATA
         // ==========================================
 
         if (
@@ -1361,7 +1718,7 @@ window.openSportsGame =
 
 
         // ==========================================
-        // GET GAME FROM CACHE
+        // GET GAME
         // ==========================================
 
         const game =
@@ -1389,7 +1746,7 @@ window.openSportsGame =
 
 
         // ==========================================
-        // GAME PAGE ELEMENTS
+        // PAGE ELEMENTS
         // ==========================================
 
         const gamePage =
@@ -1425,7 +1782,7 @@ window.openSportsGame =
 
 
         // ==========================================
-        // HIDE SPORTS SUB BANNER
+        // HIDE SPORTS BANNER
         // ==========================================
 
         const sportsSubBanner =
@@ -1461,7 +1818,7 @@ window.openSportsGame =
 
 
         // ==========================================
-        // HIDE SPORTS SUB CATEGORY GRID
+        // HIDE SPORTS CATEGORY GRID
         // ==========================================
 
         const sportsSubcatGrid =
@@ -1497,7 +1854,7 @@ window.openSportsGame =
 
 
         // ==========================================
-        // GAME CONTENT
+        // CREATE FULL GAME VIEW
         // ==========================================
 
         gameContent.innerHTML =
@@ -1536,7 +1893,12 @@ window.openSportsGame =
         }
 
 
-        
+        if (sportsSubSectionAlt) {
+
+            sportsSubSectionAlt.style.display =
+                "none";
+
+        }
 
 
         if (trendingPage) {
@@ -1659,22 +2021,32 @@ function createSportsGamePageHtml(
 
             <div class="sports-game-match-title">
 
-                ${escapeSportsHtml(game.title)}
+                ${escapeSportsHtml(
+                    game.title
+                )}
 
             </div>
 
 
-            <div class="sports-game-league">
+            ${
+                game.league
+                    ? `
+                        <div class="sports-game-league">
 
-                ${escapeSportsHtml(game.league)}
+                            ${escapeSportsHtml(
+                                game.league
+                            )}
 
-            </div>
+                        </div>
+                      `
+                    : ""
+            }
 
         </div>
 
 
         <!-- ==================================
-             MATCH HERO
+             SPORT MATCH HERO
         ================================== -->
 
         <div class="sports-game-hero">
@@ -1685,7 +2057,10 @@ function createSportsGamePageHtml(
 
                     ${
                         status === "live"
-                            ? "● LIVE"
+                            ? `
+                                <span class="live-dot"></span>
+                                LIVE
+                              `
                             : escapeSportsHtml(
                                 statusText
                               )
@@ -1703,14 +2078,28 @@ function createSportsGamePageHtml(
 
                 <div class="sports-animation-title">
 
-                    ${escapeSportsHtml(game.title)}
+                    ${escapeSportsHtml(
+                        game.home_team
+                    )}
+
+                    <span class="sports-animation-vs">
+
+                        VS
+
+                    </span>
+
+                    ${escapeSportsHtml(
+                        game.away_team
+                    )}
 
                 </div>
 
 
                 <div class="sports-animation-subtitle">
 
-                    ${escapeSportsHtml(sportName)}
+                    ${escapeSportsHtml(
+                        sportName
+                    )}
                     Match Centre
 
                 </div>
@@ -1718,6 +2107,15 @@ function createSportsGamePageHtml(
             </div>
 
         </div>
+
+
+        <!-- ==================================
+             SPORT-SPECIFIC INFORMATION
+        ================================== -->
+
+        ${createSportsSpecificGameInfo(
+            game
+        )}
 
 
         <!-- ==================================
@@ -1733,11 +2131,379 @@ function createSportsGamePageHtml(
             </div>
 
 
-            ${renderSportsMarkets(game)}
+            <div id="sports-full-game-markets">
+
+                ${renderSportsMarkets(
+                    game
+                )}
+
+            </div>
 
         </div>
 
     `;
+
+}
+
+
+// ==========================================
+// SPORT-SPECIFIC GAME INFORMATION
+// ==========================================
+
+function createSportsSpecificGameInfo(
+    game
+) {
+
+    const sport =
+        normalizeSportsSport(
+            game.sport
+        );
+
+
+    const homeTeam =
+        game.home_team ||
+        "";
+
+
+    const awayTeam =
+        game.away_team ||
+        "";
+
+
+    if (
+        sport === "cricket"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info cricket-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Cricket
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "football"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info football-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Football
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "basketball"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info basketball-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Basketball
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "tennis"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info tennis-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Tennis
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "volleyball"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info volleyball-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Volleyball
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "boxing"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info boxing-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Boxing
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "hockey"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info hockey-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Hockey
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "rugby"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info rugby-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Rugby
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        sport === "golf"
+    ) {
+
+        return `
+
+            <div class="sports-specific-info golf-game-info">
+
+                <div class="sports-specific-info-title">
+
+                    Golf
+
+                </div>
+
+                <div class="sports-specific-teams">
+
+                    <span>
+                        ${escapeSportsHtml(homeTeam)}
+                    </span>
+
+                    <strong>
+                        VS
+                    </strong>
+
+                    <span>
+                        ${escapeSportsHtml(awayTeam)}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return "";
 
 }
 
@@ -1750,215 +2516,29 @@ function renderSportsMarkets(
     game
 ) {
 
-    let html = "";
-
-
-    // ==========================================
-    // MATCH WINNER
-    // ==========================================
-
-    const matchWinnerEnabled =
-        String(
-            game.match_winner_enabled
-        ).toLowerCase() === "true";
+    const markets =
+        getSportsMarkets(
+            game
+        );
 
 
     if (
-        matchWinnerEnabled
+        markets.length ===
+        0
     ) {
 
-        html += `
+        return `
 
-            <div class="sports-market">
+            <div class="sports-market-empty">
 
-                <div class="sports-market-title">
-
-                    Match Winner
-
-                </div>
-
-
-                <div class="sports-bet-options">
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: '${escapeSportsHtml(game.home_team)}',
-                            odds: 1.85
-                        })"
-                    >
-
-                        <span>
-
-                            ${escapeSportsHtml(
-                                game.home_team
-                            )}
-
-                        </span>
-
-
-                        <strong>
-
-                            1.85
-
-                        </strong>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: '${escapeSportsHtml(game.away_team)}',
-                            odds: 1.65
-                        })"
-                    >
-
-                        <span>
-
-                            ${escapeSportsHtml(
-                                game.away_team
-                            )}
-
-                        </span>
-
-
-                        <strong>
-
-                            1.65
-
-                        </strong>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    // ==========================================
-    // TOTAL RUNS
-    // ==========================================
-
-    const totalRunsEnabled =
-        String(
-            game.total_runs_enabled
-        ).toLowerCase() === "true";
-
-
-    if (
-        totalRunsEnabled
-    ) {
-
-        html += `
-
-            <div class="sports-market">
-
-                <div class="sports-market-title">
-
-                    Total Runs
-
-                </div>
-
-
-                <div class="sports-bet-options">
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: 'Over 180.5',
-                            odds: 1.90
-                        })"
-                    >
-
-                        <span>
-
-                            Over 180.5
-
-                        </span>
-
-
-                        <strong>
-
-                            1.90
-
-                        </strong>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: 'Under 180.5',
-                            odds: 1.80
-                        })"
-                    >
-
-                        <span>
-
-                            Under 180.5
-
-                        </span>
-
-
-                        <strong>
-
-                            1.80
-
-                        </strong>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    // ==========================================
-    // NO ENABLED MARKET
-    // ==========================================
-
-    if (!html) {
-
-        html = `
-
-            <div class="sports-market">
-
-                <div class="sports-market-title">
+                <div class="sports-market-empty-title">
 
                     Markets
 
                 </div>
 
 
-                <div
-                    style="
-                        padding:15px;
-                        text-align:center;
-                        opacity:.65;
-                    "
-                >
+                <div class="sports-market-empty-text">
 
                     No markets available
 
@@ -1971,19 +2551,203 @@ function renderSportsMarkets(
     }
 
 
+    let html = "";
+
+
+    markets.forEach(
+        market => {
+
+            html += `
+
+                <div class="sports-market">
+
+                    <div class="sports-market-title">
+
+                        ${escapeSportsHtml(
+                            market.marketName
+                        )}
+
+                    </div>
+
+
+                    <div class="sports-bet-options">
+
+            `;
+
+
+            market.options.forEach(
+                option => {
+
+                    const odds =
+                        formatSportsOdds(
+                            option.odds
+                        );
+
+
+                    html += `
+
+                        <button
+                            type="button"
+                            class="sports-bet-option"
+                            data-sports-market="${escapeSportsAttribute(market.marketName)}"
+                            data-sports-selection="${escapeSportsAttribute(option.label)}"
+                            data-sports-odds="${escapeSportsAttribute(option.odds)}"
+                        >
+
+                            <span>
+
+                                ${escapeSportsHtml(
+                                    option.label
+                                )}
+
+                            </span>
+
+
+                            ${
+                                odds
+                                    ? `
+                                        <strong>
+                                            ${escapeSportsHtml(odds)}
+                                        </strong>
+                                      `
+                                    : ""
+                            }
+
+                        </button>
+
+                    `;
+
+                }
+            );
+
+
+            html += `
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
     return html;
 
 }
 
 
 // ==========================================
-// GLOBAL FUNCTION CHECK
+// ATTACH FULL GAME MARKET EVENTS
 // ==========================================
 
-console.log(
-    "🌍 GLOBAL openSportsGame:",
-    typeof window.openSportsGame
-);
+function attachSportsFullGameMarketEvents(
+    game
+) {
+
+    const container =
+        document.getElementById(
+            "sports-full-game-markets"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    container
+        .querySelectorAll(
+            ".sports-bet-option"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.stopPropagation();
+
+
+                        const market =
+                            button.dataset
+                                .sportsMarket ||
+                            "";
+
+
+                        const selection =
+                            button.dataset
+                                .sportsSelection ||
+                            "";
+
+
+                        const odds =
+                            button.dataset
+                                .sportsOdds;
+
+
+                        if (
+                            odds ===
+                                "" ||
+                            odds ===
+                                "null" ||
+                            odds ===
+                                "undefined"
+                        ) {
+
+                            showToast(
+                                "Odds are not available.",
+                                "error"
+                            );
+
+                            return;
+
+                        }
+
+
+                        addToBetSlip({
+
+                            eventId:
+                                game.game_id,
+
+                            eventName:
+                                game.title ||
+                                `${game.home_team || ""} VS ${game.away_team || ""}`,
+
+                            market:
+                                `${market} - ${selection}`,
+
+                            odds:
+                                odds
+
+                        });
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+// ==========================================
+// PATCH FULL GAME VIEW AFTER OPEN
+// ==========================================
+
+function initializeSportsFullGameView(
+    game
+) {
+
+    attachSportsFullGameMarketEvents(
+        game
+    );
+
+}
 
 
 // ==========================================
@@ -1991,10 +2755,6 @@ console.log(
 // ==========================================
 
 function backFromSportsGame() {
-
-    // ==========================================
-    // HIDE FULL GAME VIEW
-    // ==========================================
 
     const gamePage =
         document.getElementById(
@@ -2009,10 +2769,6 @@ function backFromSportsGame() {
 
     }
 
-
-    // ==========================================
-    // HIDE ALL EVENT PAGES
-    // ==========================================
 
     SUPPORTED_SPORTS.forEach(
         sport => {
@@ -2036,10 +2792,6 @@ function backFromSportsGame() {
     );
 
 
-    // ==========================================
-    // RESTORE SPORTS BANNER
-    // ==========================================
-
     const sportsSubBanner =
         document.getElementById(
             "sportsSubBanner"
@@ -2053,10 +2805,6 @@ function backFromSportsGame() {
 
     }
 
-
-    // ==========================================
-    // RESTORE SPORTS HEADER
-    // ==========================================
 
     const sportsHeader =
         document.querySelector(
@@ -2072,10 +2820,6 @@ function backFromSportsGame() {
     }
 
 
-    // ==========================================
-    // RESTORE SPORTS SUB CATEGORY GRID
-    // ==========================================
-
     const sportsGrid =
         document.getElementById(
             "sportsSubcatGrid"
@@ -2089,10 +2833,6 @@ function backFromSportsGame() {
 
     }
 
-
-    // ==========================================
-    // SHOW TRENDING
-    // ==========================================
 
     const trending =
         document.getElementById(
@@ -2108,10 +2848,6 @@ function backFromSportsGame() {
     }
 
 
-    // ==========================================
-    // REMOVE ACTIVE BUTTON
-    // ==========================================
-
     document
         .querySelectorAll(
             "#sportsSubcatGrid .subcat-item"
@@ -2126,10 +2862,6 @@ function backFromSportsGame() {
             }
         );
 
-
-    // ==========================================
-    // SCROLL BACK
-    // ==========================================
 
     const sportsSection =
         document.getElementById(
@@ -2173,20 +2905,243 @@ window.loadSportsGames =
     loadSportsGames;
 
 
+window.createSportsGameCard =
+    createSportsGameCard;
+
+
+window.createSportsGamePageHtml =
+    createSportsGamePageHtml;
+
+
+window.renderSportsMarkets =
+    renderSportsMarkets;
+
+
+window.getSportsMarkets =
+    getSportsMarkets;
+
+
 // ==========================================
-// DEBUG
+// SPORTS DATA LOADER
 // ==========================================
 
+const sportsGamesReady =
+    loadSportsGames();
+
+
 console.log(
-    "openSportsGame TYPE:",
-    typeof window.openSportsGame
+    "✅ SPORTS DATA LOADER PASSED"
 );
 
 
-console.log(
-    "backFromSportsGame TYPE:",
-    typeof window.backFromSportsGame
-);
+// ==========================================
+// RENDER WHEN HTML IS READY
+// ==========================================
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            renderAllSportsGames();
+
+        }
+    );
+
+} else {
+
+    renderAllSportsGames();
+
+}
+
+
+// ==========================================
+// SUPABASE REALTIME
+// SPORTS GAME INSERT / UPDATE / DELETE
+// ==========================================
+
+let sportsGamesRealtimeChannel =
+    null;
+
+
+function setupSportsGamesRealtime() {
+
+    if (
+        typeof supabaseClient ===
+        "undefined" ||
+        !supabaseClient
+    ) {
+
+        console.warn(
+            "⚠️ Supabase client unavailable for realtime."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        sportsGamesRealtimeChannel
+    ) {
+
+        console.log(
+            "ℹ️ Sports realtime already initialized."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        sportsGamesRealtimeChannel =
+            supabaseClient
+                .channel(
+                    "sports-games-live-updates"
+                )
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "*",
+                        schema: "public",
+                        table: "sports_games"
+                    },
+                    function (payload) {
+
+                        console.log(
+                            "🔔 SPORTS GAME REALTIME UPDATE:",
+                            payload
+                        );
+
+
+                        if (
+                            payload.eventType ===
+                            "INSERT"
+                        ) {
+
+                            const newGame =
+                                payload.new;
+
+
+                            if (
+                                newGame &&
+                                newGame.game_id
+                            ) {
+
+                                sportsGames[
+                                    newGame.game_id
+                                ] =
+                                    newGame;
+
+                            }
+
+                        }
+
+
+                        if (
+                            payload.eventType ===
+                            "UPDATE"
+                        ) {
+
+                            const updatedGame =
+                                payload.new;
+
+
+                            if (
+                                updatedGame &&
+                                updatedGame.game_id
+                            ) {
+
+                                sportsGames[
+                                    updatedGame.game_id
+                                ] =
+                                    updatedGame;
+
+                            }
+
+                        }
+
+
+                        if (
+                            payload.eventType ===
+                            "DELETE"
+                        ) {
+
+                            const deletedGame =
+                                payload.old;
+
+
+                            if (
+                                deletedGame &&
+                                deletedGame.game_id
+                            ) {
+
+                                delete sportsGames[
+                                    deletedGame.game_id
+                                ];
+
+                            }
+
+                        }
+
+
+                        renderAllSportsGames();
+
+                    }
+                )
+                .subscribe(
+                    function (status) {
+
+                        console.log(
+                            "📡 SPORTS REALTIME STATUS:",
+                            status
+                        );
+
+                    }
+                );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ SPORTS REALTIME SETUP ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// INITIALIZE REALTIME
+// ==========================================
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            setupSportsGamesRealtime();
+
+        }
+    );
+
+} else {
+
+    setupSportsGamesRealtime();
+
+}
 
 
 // ==========================================
@@ -2202,11 +3157,14 @@ function updateSlipBalance() {
 
 
     if (!balanceEl) {
+
         return;
+
     }
 
 
-    let balance = 0;
+    let balance =
+        0;
 
 
     if (
@@ -2215,7 +3173,8 @@ function updateSlipBalance() {
     ) {
 
         balance =
-            getCurrentBalance() || 0;
+            getCurrentBalance() ||
+            0;
 
     }
 
@@ -2230,70 +3189,7 @@ function updateSlipBalance() {
 
 
 // ==========================================
-// SUPABASE BALANCE UPDATE
-// ==========================================
-
-/*
-async function syncBalanceFromSupabase() {
-
-    const userId =
-        localStorage.getItem(
-            "userId"
-        );
-
-    const currency =
-        localStorage.getItem(
-            "selectedCurrency"
-        ) || "USDT";
-
-
-    const {
-        data,
-        error
-    } =
-        await supabase
-            .from("wallets")
-            .select(
-                "balance, currency_symbol"
-            )
-            .eq(
-                "user_id",
-                userId
-            )
-            .eq(
-                "currency",
-                currency
-            )
-            .single();
-
-
-    if (data) {
-
-        const formatted =
-            `${data.currency_symbol || "$"}${parseFloat(data.balance).toFixed(2)}`;
-
-
-        localStorage.setItem(
-            "selectedBalance",
-            formatted
-        );
-
-
-        updateSlipBalance();
-
-    }
-
-}
-*/
-
-
-// ==========================================
 // SPORTS BET SLIP SYSTEM
-// ==========================================
-
-
-// ==========================================
-// STATE
 // ==========================================
 
 let betSlip = [];
@@ -2339,13 +3235,59 @@ if (
 
 function addToBetSlip(data) {
 
+    if (!data) {
+
+        return;
+
+    }
+
+
+    const eventId =
+        data.eventId ||
+        "";
+
+
+    const eventName =
+        data.eventName ||
+        "Sports Event";
+
+
+    const market =
+        data.market ||
+        "";
+
+
+    const odds =
+        parseFloat(
+            data.odds
+        );
+
+
+    if (
+        !eventId ||
+        !market ||
+        !Number.isFinite(
+            odds
+        )
+    ) {
+
+        showToast(
+            "Invalid betting selection.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
     const isDuplicate =
         betSlip.some(
             bet =>
                 bet.eventId ===
-                    data.eventId &&
+                    eventId &&
                 bet.market ===
-                    data.market
+                    market
         );
 
 
@@ -2370,18 +3312,16 @@ function addToBetSlip(data) {
                 .substr(2, 9),
 
         eventId:
-            data.eventId,
+            eventId,
 
         eventName:
-            data.eventName,
+            eventName,
 
         market:
-            data.market,
+            market,
 
         odds:
-            parseFloat(
-                data.odds
-            ),
+            odds,
 
         stake:
             0,
@@ -2391,10 +3331,17 @@ function addToBetSlip(data) {
                 .toLocaleString(
                     "en-GB",
                     {
-                        day: "numeric",
-                        month: "short",
-                        hour: "2-digit",
-                        minute: "2-digit"
+                        day:
+                            "numeric",
+
+                        month:
+                            "short",
+
+                        hour:
+                            "2-digit",
+
+                        minute:
+                            "2-digit"
                     }
                 )
 
@@ -2701,10 +3648,6 @@ function renderBetSlip() {
     }
 
 
-    // ==========================================
-    // GROUP BY EVENT
-    // ==========================================
-
     const eventGroups = {};
 
 
@@ -2740,10 +3683,6 @@ function renderBetSlip() {
         ).length >= 2;
 
 
-    // ==========================================
-    // SINGLE MODE
-    // ==========================================
-
     if (
         currentMode ===
         "single"
@@ -2758,10 +3697,13 @@ function renderBetSlip() {
             eid => {
 
                 const bets =
-                    eventGroups[eid];
+                    eventGroups[
+                        eid
+                    ];
 
 
                 html += `
+
                     <div class="event-group">
 
                         <div
@@ -2778,6 +3720,7 @@ function renderBetSlip() {
                             )}
 
                         </div>
+
                 `;
 
 
@@ -2788,19 +3731,22 @@ function renderBetSlip() {
 
                             <div
                                 class="bet-item"
-                                data-bet-id="${escapeSportsHtml(bet.id)}"
+                                data-bet-id="${escapeSportsAttribute(bet.id)}"
                             >
 
                                 <button
                                     class="remove-btn"
-                                    onclick="removeSingleBet('${escapeSportsHtml(bet.id)}')"
+                                    type="button"
+                                    data-remove-bet="${escapeSportsAttribute(bet.id)}"
                                     style="
                                         position:absolute;
                                         top:12px;
                                         right:12px;
                                     "
                                 >
+
                                     ×
+
                                 </button>
 
 
@@ -2851,7 +3797,7 @@ function renderBetSlip() {
                                                         ? bet.stake
                                                         : ""
                                                 }"
-                                                oninput="updateStake('${escapeSportsHtml(bet.id)}', this.value)"
+                                                data-stake-bet="${escapeSportsAttribute(bet.id)}"
                                             >
 
                                         </div>
@@ -2902,7 +3848,9 @@ function renderBetSlip() {
 
 
                 html += `
+
                     </div>
+
                 `;
 
             }
@@ -2913,6 +3861,9 @@ function renderBetSlip() {
             html;
 
 
+        attachBetSlipEvents();
+
+
         if (multiSection) {
 
             multiSection.style.display =
@@ -2920,14 +3871,7 @@ function renderBetSlip() {
 
         }
 
-    }
-
-
-    // ==========================================
-    // MULTIPLE MODE
-    // ==========================================
-
-    else {
+    } else {
 
         if (!hasMultipleEvents) {
 
@@ -2959,7 +3903,9 @@ function renderBetSlip() {
             eid => {
 
                 const bets =
-                    eventGroups[eid];
+                    eventGroups[
+                        eid
+                    ];
 
 
                 html += `
@@ -2991,7 +3937,7 @@ function renderBetSlip() {
 
                             <div
                                 class="bet-item"
-                                data-bet-id="${escapeSportsHtml(bet.id)}"
+                                data-bet-id="${escapeSportsAttribute(bet.id)}"
                                 style="
                                     position:relative;
                                     padding-top:14px;
@@ -3000,7 +3946,8 @@ function renderBetSlip() {
 
                                 <button
                                     class="remove-btn"
-                                    onclick="removeSingleBet('${escapeSportsHtml(bet.id)}')"
+                                    type="button"
+                                    data-remove-bet="${escapeSportsAttribute(bet.id)}"
                                     style="
                                         position:absolute;
                                         top:10px;
@@ -3079,7 +4026,7 @@ function renderBetSlip() {
                                                     ? bet.stake
                                                     : ""
                                             }"
-                                            oninput="updateStake('${escapeSportsHtml(bet.id)}', this.value)"
+                                            data-stake-bet="${escapeSportsAttribute(bet.id)}"
                                         >
 
                                     </div>
@@ -3142,7 +4089,9 @@ function renderBetSlip() {
 
 
                 html += `
+
                     </div>
+
                 `;
 
             }
@@ -3151,6 +4100,9 @@ function renderBetSlip() {
 
         container.innerHTML =
             html;
+
+
+        attachBetSlipEvents();
 
 
         if (multiSection) {
@@ -3167,6 +4119,61 @@ function renderBetSlip() {
 
 
     updateTotalDisplay();
+
+}
+
+
+// ==========================================
+// ATTACH BET SLIP EVENTS
+// ==========================================
+
+function attachBetSlipEvents() {
+
+    document
+        .querySelectorAll(
+            "[data-remove-bet]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        removeSingleBet(
+                            button.dataset
+                                .removeBet
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            "[data-stake-bet]"
+        )
+        .forEach(
+            input => {
+
+                input.addEventListener(
+                    "input",
+                    function () {
+
+                        updateStake(
+                            input.dataset
+                                .stakeBet,
+                            input.value
+                        );
+
+                    }
+                );
+
+            }
+        );
 
 }
 
@@ -3301,14 +4308,16 @@ function calculateReturns() {
     }
 
 
-    let totalOdds =
+    const totalOdds =
         betSlip.reduce(
             (
                 acc,
-                b
+                bet
             ) =>
                 acc *
-                b.odds,
+                Number(
+                    bet.odds
+                ),
             1
         );
 
@@ -3407,11 +4416,11 @@ function updateTotalDisplay() {
             betSlip.reduce(
                 (
                     sum,
-                    b
+                    bet
                 ) =>
                     sum +
                     (
-                        b.stake ||
+                        bet.stake ||
                         0
                     ),
                 0
@@ -3464,10 +4473,6 @@ function placeSportsBet() {
         0;
 
 
-    // ==========================================
-    // SINGLE
-    // ==========================================
-
     if (
         currentMode ===
         "single"
@@ -3475,9 +4480,10 @@ function placeSportsBet() {
 
         const emptyStake =
             betSlip.some(
-                b =>
-                    !b.stake ||
-                    b.stake <= 0
+                bet =>
+                    !bet.stake ||
+                    bet.stake <=
+                        0
             );
 
 
@@ -3497,28 +4503,21 @@ function placeSportsBet() {
             betSlip.reduce(
                 (
                     sum,
-                    b
+                    bet
                 ) =>
                     sum +
-                    b.stake,
+                    bet.stake,
                 0
             );
 
-    }
-
-
-    // ==========================================
-    // MULTIPLE
-    // ==========================================
-
-    else {
+    } else {
 
         const eventIds =
             [
                 ...new Set(
                     betSlip.map(
-                        b =>
-                            b.eventId
+                        bet =>
+                            bet.eventId
                     )
                 )
             ];
@@ -3568,12 +4567,11 @@ function placeSportsBet() {
     }
 
 
-    // ==========================================
-    // BALANCE CHECK
-    // ==========================================
-
     let currentBalance =
-        getCurrentBalance();
+        typeof getCurrentBalance ===
+        "function"
+            ? getCurrentBalance()
+            : 0;
 
 
     if (
@@ -3591,50 +4589,47 @@ function placeSportsBet() {
     }
 
 
-    // ==========================================
-    // DEDUCT WALLET
-    // ==========================================
-
-    let newBalance =
+    const newBalance =
         currentBalance -
         totalStake;
 
 
-    setCurrentBalance(
-        newBalance
-    );
+    if (
+        typeof setCurrentBalance ===
+        "function"
+    ) {
+
+        setCurrentBalance(
+            newBalance
+        );
+
+    }
 
 
-    updateBalanceUI();
+    if (
+        typeof updateBalanceUI ===
+        "function"
+    ) {
+
+        updateBalanceUI();
+
+    }
+
 
     updateSlipBalance();
 
 
-    // ==========================================
-    // PLACE BET LOG
-    // ==========================================
-
-    console.log(
-        "Bet placed:",
-        {
-            mode:
-                currentMode,
-
-            bets:
-                betSlip,
-
-            totalStake:
-                totalStake,
-
-            remainingBalance:
-                newBalance
-        }
-    );
+    const singleOdds =
+        betSlip.length
+            ? Number(
+                betSlip[0].odds
+              )
+            : 0;
 
 
-    // ==========================================
-    // SAVE ACTIVE BET
-    // ==========================================
+    const totalOdds =
+        getTotalOdds();
+
 
     const activeBet = {
 
@@ -3645,7 +4640,7 @@ function placeSportsBet() {
         match:
             currentMode ===
             "single"
-                ? betSlip[0].match
+                ? betSlip[0].eventName
                 : "Multiple Bet",
 
         market:
@@ -3661,8 +4656,8 @@ function placeSportsBet() {
         odds:
             currentMode ===
             "single"
-                ? betSlip[0].odds
-                : getTotalOdds(),
+                ? singleOdds
+                : totalOdds,
 
         stake:
             totalStake,
@@ -3674,8 +4669,8 @@ function placeSportsBet() {
                     (
                         currentMode ===
                         "single"
-                            ? betSlip[0].odds
-                            : getTotalOdds()
+                            ? singleOdds
+                            : totalOdds
                     )
                 ).toFixed(2)
             ),
@@ -3684,7 +4679,10 @@ function placeSportsBet() {
             totalStake,
 
         currency:
-            walletManager.currentCurrency,
+            typeof walletManager !==
+            "undefined"
+                ? walletManager.currentCurrency
+                : "USDT",
 
         status:
             "ACTIVE",
@@ -3696,12 +4694,48 @@ function placeSportsBet() {
     };
 
 
-    walletManager.activeBets.push(
-        activeBet
+    if (
+        typeof walletManager !==
+            "undefined" &&
+        Array.isArray(
+            walletManager.activeBets
+        )
+    ) {
+
+        walletManager.activeBets.push(
+            activeBet
+        );
+
+
+        if (
+            typeof saveWalletManager ===
+            "function"
+        ) {
+
+            saveWalletManager();
+
+        }
+
+    }
+
+
+    console.log(
+        "Bet placed:",
+        {
+            mode:
+                currentMode,
+
+            bets:
+                betSlip,
+
+            totalStake:
+                totalStake,
+
+            remainingBalance:
+                newBalance
+
+        }
     );
-
-
-    saveWalletManager();
 
 
     showToast(
@@ -3709,10 +4743,6 @@ function placeSportsBet() {
         "success"
     );
 
-
-    // ==========================================
-    // CLEAR SLIP
-    // ==========================================
 
     betSlip = [];
 
@@ -3905,8 +4935,52 @@ function showToast(
 
 
 // ==========================================
-// BET HISTORY & CASH OUT SYSTEM
+// INITIALIZE FULL GAME EVENTS
 // ==========================================
+
+function initializeCurrentSportsGameView() {
+
+    const gamePage =
+        document.getElementById(
+            "sports-game-page"
+        );
+
+
+    if (
+        !gamePage
+    ) {
+
+        return;
+
+    }
+
+
+    const gameId =
+        gamePage.dataset.gameId;
+
+
+    if (!gameId) {
+
+        return;
+
+    }
+
+
+    const game =
+        sportsGames[
+            gameId
+        ];
+
+
+    if (game) {
+
+        initializeSportsFullGameView(
+            game
+        );
+
+    }
+
+}
 
 
 // ==========================================
