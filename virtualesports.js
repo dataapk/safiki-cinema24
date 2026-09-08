@@ -122,6 +122,8 @@ function () {
     // RENDER PAGE
     // --------------------------------------------------
 
+    showSportsBetSlip();
+
     renderVirtualSportsHome();
 
 };
@@ -156,6 +158,13 @@ function () {
         heroBanner.style.display =
             "block";
 
+    }
+
+    // Hide Virtual Sports Bet Slip
+    hideSportsBetSlip();
+
+    if (heroBanner) {
+        heroBanner.style.display = "block";
     }
 
 
