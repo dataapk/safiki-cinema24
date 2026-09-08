@@ -92,7 +92,7 @@
 .virtual-sports-banner-slider {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 125px;
     overflow: hidden;
 
     border-radius: 14px;
@@ -118,14 +118,6 @@
     border-radius: 14px;
 
     box-sizing: border-box;
-
-    background:
-        linear-gradient(
-            135deg,
-            #38bdf8 0%,
-            #facc15 50%,
-            #8b5cf6 100%
-        );
 }
 
 
@@ -137,19 +129,29 @@
 
 
 /* ======================================================
-   BANNER BACKGROUNDS
+   BANNER 1 — SKY BLUE
 ====================================================== */
 
-.virtual-sports-banner:nth-child(1),
-.virtual-sports-banner:nth-child(2),
+.virtual-sports-banner:nth-child(1) {
+    background: #38bdf8;
+}
+
+
+/* ======================================================
+   BANNER 2 — YELLOW
+====================================================== */
+
+.virtual-sports-banner:nth-child(2) {
+    background: #facc15;
+}
+
+
+/* ======================================================
+   BANNER 3 — PURPLE
+====================================================== */
+
 .virtual-sports-banner:nth-child(3) {
-    background:
-        linear-gradient(
-            135deg,
-            #38bdf8 0%,
-            #facc15 50%,
-            #8b5cf6 100%
-        );
+    background: #8b5cf6;
 }
 /* ======================================================
    BANNER CONTENT
