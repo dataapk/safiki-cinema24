@@ -685,86 +685,142 @@ function (tab) {
 // RENDER VIRTUAL SPORT GAMES
 // ======================================================
 
+// ======================================================
+// RENDER VIRTUAL SPORT GAMES
+// ======================================================
+
 function renderVirtualSportGames() {
 
-    const list =
+    const sport =
+        virtualSportsCurrentSport;
+
+
+    const liveList =
         document.getElementById(
-            "virtualSportGamesList"
+            "virtualLiveGamesList"
         );
 
-    if (!list) {
+    const upcomingList =
+        document.getElementById(
+            "virtualUpcomingGamesList"
+        );
 
-        return;
+    const featuredList =
+        document.getElementById(
+            "virtualFeaturedGamesList"
+        );
 
-    }
 
+    // --------------------------------------------------
+    // GET GAMES
+    // --------------------------------------------------
 
-    const games =
+    const liveGames =
         virtualSportsGames[
-            virtualSportsCurrentSport
-        ][
-            virtualSportsCurrentTab
-        ];
+            sport
+        ]?.live || [];
+
+
+    const upcomingGames =
+        virtualSportsGames[
+            sport
+        ]?.upcoming || [];
+
+
+    const featuredGames =
+        virtualSportsGames[
+            sport
+        ]?.featured || [];
 
 
     // --------------------------------------------------
-    // EMPTY STATE
+    // RENDER SECTION HELPER
     // --------------------------------------------------
 
-    if (
-        !games ||
-        games.length === 0
+    function renderGameList(
+        list,
+        games,
+        type
     ) {
 
-        list.innerHTML = `
+        if (!list) {
+            return;
+        }
 
-            <div
-                class="virtual-sports-empty-state">
+
+        if (
+            !games ||
+            games.length === 0
+        ) {
+
+            list.innerHTML = `
 
                 <div
-                    class="virtual-empty-icon">
+                    class="virtual-sports-empty-state">
 
-                    <i
-                        class="fas fa-calendar-times">
-                    </i>
+                    <div
+                        class="virtual-empty-icon">
+
+                        <i
+                            class="fas fa-calendar-times">
+                        </i>
+
+                    </div>
+
+                    <h4>
+                        No ${type} Games
+                    </h4>
+
+                    <p>
+                        There are currently no
+                        virtual games available.
+                    </p>
 
                 </div>
 
-                <h4>
-                    No ${capitalizeVirtualTab(
-                        virtualSportsCurrentTab
-                    )} Games
-                </h4>
+            `;
 
-                <p>
-                    There are currently no
-                    virtual games available.
-                </p>
+            return;
 
-            </div>
+        }
 
-        `;
 
-        return;
+        list.innerHTML =
+            games.map(
+                game =>
+                    createVirtualSportGameCard(
+                        game
+                    )
+            ).join("");
 
     }
 
 
     // --------------------------------------------------
-    // GAME CARDS
+    // RENDER ALL
     // --------------------------------------------------
 
-    list.innerHTML =
-        games.map(
-            game =>
-                createVirtualSportGameCard(
-                    game
-                )
-        ).join("");
+    renderGameList(
+        liveList,
+        liveGames,
+        "Live"
+    );
+
+
+    renderGameList(
+        upcomingList,
+        upcomingGames,
+        "Upcoming"
+    );
+
+
+    renderGameList(
+        featuredList,
+        featuredGames,
+        "Featured"
+    );
 
 }
-
-
 // ======================================================
 // CREATE GAME CARD
 // ======================================================
