@@ -1496,12 +1496,7 @@ window.openSportsGame =
         }
 
 
-        if (sportsSubSectionAlt) {
-
-            sportsSubSectionAlt.style.display =
-                "none";
-
-        }
+        
 
 
         if (trendingPage) {
