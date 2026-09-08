@@ -341,7 +341,7 @@ function selectMainCategory(category) {
 
     window.openVirtualSports();
 
-    hideSportsBetSlip();
+    showSportsBetSlip();
 
 }
 
