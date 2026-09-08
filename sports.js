@@ -841,7 +841,7 @@ function renderSportsGames(
     );
 
 
-    // ==========================================
+       // ==========================================
     // NO GAMES
     // ==========================================
 
@@ -852,6 +852,25 @@ function renderSportsGames(
         console.log(
             `ℹ️ No ${normalizedSport} ${normalizedStatus} games available.`
         );
+
+
+        container.innerHTML = `
+
+            <div class="sports-empty-state">
+
+                <div class="sports-empty-icon">
+
+                    <i class="fas fa-calendar-times"></i>
+
+                </div>
+
+                <h4>
+                    No Games Available
+                </h4>
+
+            </div>
+
+        `;
 
         return;
 
