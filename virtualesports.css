@@ -96,19 +96,11 @@
     overflow: hidden;
 
     border-radius: 14px;
-
     border: 1px solid var(--border);
 
     box-sizing: border-box;
-
-    background:
-        linear-gradient(
-            135deg,
-            #38bdf8 0%,
-            #facc15 45%,
-            #8b5cf6 100%
-        );
 }
+
 
 /* ======================================================
    BANNER SLIDES
@@ -125,15 +117,18 @@
 
     border-radius: 14px;
 
-       background: linear-gradient(
-        135deg,
-        #38bdf8 0%,
-        #facc15 50%,
-        #8b5cf6 100%
-    );
-
     box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            135deg,
+            #38bdf8 0%,
+            #facc15 50%,
+            #8b5cf6 100%
+        );
 }
+
+
 .virtual-sports-banner.virtual-banner-active {
     opacity: 1;
     visibility: visible;
@@ -145,37 +140,17 @@
    BANNER BACKGROUNDS
 ====================================================== */
 
-.virtual-sports-banner:nth-child(1) {
-    background:
-        linear-gradient(
-            135deg,
-            var(--header-green) 0%,
-            var(--primary) 65%,
-            rgba(29,133,72,.30) 100%
-        );
-}
-
-.virtual-sports-banner:nth-child(2) {
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary) 0%,
-            var(--header-green) 65%,
-            rgba(29,133,72,.28) 100%
-        );
-}
-
+.virtual-sports-banner:nth-child(1),
+.virtual-sports-banner:nth-child(2),
 .virtual-sports-banner:nth-child(3) {
     background:
         linear-gradient(
             135deg,
-            var(--header-mid) 0%,
-            var(--header-green) 70%,
-            rgba(29,133,72,.30) 100%
+            #38bdf8 0%,
+            #facc15 50%,
+            #8b5cf6 100%
         );
 }
-
-
 /* ======================================================
    BANNER CONTENT
 ====================================================== */
