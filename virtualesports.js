@@ -352,96 +352,90 @@ function renderVirtualSportsHome() {
 
         </div>
 
+       <!-- ================================= -->
+<!-- VIRTUAL SPORTS GAME SELECTOR -->
+<!-- ================================= -->
 
-                <!-- ================================= -->
-                <!-- CRICKET -->
-                <!-- ================================= -->
+<div class="virtual-sports-games-section">
 
-                <div
-                    class="virtual-sports-game-card
-                           active"
-                    onclick="
-                        openVirtualSportGame(
-                            'cricket'
-                        )
-                    ">
+    <div class="virtual-sports-game-grid">
 
-                    <div
-                        class="virtual-sports-game-icon
-                               cricket-icon">
+        <!-- ================================= -->
+        <!-- CRICKET -->
+        <!-- ================================= -->
 
-                        🏏
+        <div
+            class="virtual-sports-game-card active"
+            onclick="
+                openVirtualSportGame(
+                    'cricket'
+                )
+            ">
 
-                    </div>
+            <div
+                class="virtual-sports-game-icon cricket-icon">
 
-                    <div class="virtual-sports-game-info">
+                🏏
 
-                        <h3>
-                            Virtual Cricket
-                        </h3>
+            </div>
 
-                        
+            <div class="virtual-sports-game-info">
 
-                    </div>
+                <h3>
+                    Virtual Cricket
+                </h3>
 
-                    <div
-                        class="virtual-sports-game-arrow">
+            </div>
 
-                        <i
-                            class="fas fa-chevron-right">
-                        </i>
+            <div
+                class="virtual-sports-game-arrow">
 
-                    </div>
-
-                </div>
-
-
-                <!-- ================================= -->
-                <!-- FOOTBALL -->
-                <!-- ================================= -->
-
-                <div
-                    class="virtual-sports-game-card"
-                    onclick="
-                        openVirtualSportGame(
-                            'football'
-                        )
-                    ">
-
-                    <div
-                        class="virtual-sports-game-icon
-                               football-icon">
-
-                        ⚽
-
-                    </div>
-
-                    <div class="virtual-sports-game-info">
-
-                        <h3>
-                            Virtual Football
-                        </h3>
-
-
-                    </div>
-
-                    <div
-                        class="virtual-sports-game-arrow">
-
-                        <i
-                            class="fas fa-chevron-right">
-                        </i>
-
-                    </div>
-
-                </div>
-
+                <i class="fas fa-chevron-right"></i>
 
             </div>
 
         </div>
 
 
+        <!-- ================================= -->
+        <!-- FOOTBALL -->
+        <!-- ================================= -->
+
+        <div
+            class="virtual-sports-game-card"
+            onclick="
+                openVirtualSportGame(
+                    'football'
+                )
+            ">
+
+            <div
+                class="virtual-sports-game-icon football-icon">
+
+                ⚽
+
+            </div>
+
+            <div class="virtual-sports-game-info">
+
+                <h3>
+                    Virtual Football
+                </h3>
+
+            </div>
+
+            <div
+                class="virtual-sports-game-arrow">
+
+                <i class="fas fa-chevron-right"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
         <!-- ========================================= -->
         <!-- SELECTED SPORT SECTION -->
         <!-- ========================================= -->
