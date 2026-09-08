@@ -964,3 +964,55 @@
     }
 
 }
+/* ==========================================
+   VIRTUAL SPORTS EVENT SECTIONS
+   ========================================== */
+
+.virtual-sport-category-section {
+    width: 100%;
+    padding: 14px 14px 0;
+    box-sizing: border-box;
+}
+
+
+/* SECTION HEADER */
+
+.virtual-sport-category-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    box-sizing: border-box;
+}
+
+
+.virtual-sport-category-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+
+/* GAMES LIST */
+
+.virtual-sport-games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* SPACE BETWEEN SECTIONS */
+
+.virtual-sport-category-section
++ .virtual-sport-category-section {
+    margin-top: 10px;
+}
+
+/* ==========================================
+   END VIRTUAL SPORTS EVENT SECTIONS
+   ========================================== */
