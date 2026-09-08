@@ -580,139 +580,438 @@ function getSportsGamesByStatus(
 // CREATE COMMON SPORTS GAME CARD
 // ==========================================
 
-function createSportsGameCard(
-    game,
-    index
-) {
+// ==========================================
+// CREATE SPORTS GAME CARD
+// ==========================================
+
+function createSportsGameCard(game, index) {
 
     const sport =
         normalizeSportsSport(
             game.sport
         );
 
-
     const status =
         normalizeSportsStatus(
             game.status
         );
 
+    const statusText =
+        status === "live"
+            ? "LIVE"
+            : status === "featured"
+                ? "FEATURED"
+                : "UPCOMING";
 
-    const gameCard =
-        document.createElement(
-            "div"
-        );
+    const title =
+        game.title ||
+        `${game.home || "Team 1"} vs ${game.away || "Team 2"}`;
 
+    const homeTeam =
+        game.home ||
+        game.home_team ||
+        game.team1 ||
+        game.team_1 ||
+        "Team 1";
 
-    gameCard.className =
-        "sports-game-card";
-
-
-    // ==========================================
-    // STORE GAME DATA
-    // ==========================================
-
-    gameCard.dataset.gameId =
-        game.game_id;
-
-
-    gameCard.dataset.sport =
-        sport;
-
-
-    gameCard.dataset.status =
-        status;
-
-    // ==========================================
-// STATUS LABEL
-// ==========================================
-
-let statusLabel =
-    "UPCOMING";
+    const awayTeam =
+        game.away ||
+        game.away_team ||
+        game.team2 ||
+        game.team_2 ||
+        "Team 2";
 
 
-if (status === "live") {
+    // ------------------------------------------
+    // GET DYNAMIC SPORTS MARKETS
+    // ------------------------------------------
 
-    statusLabel =
-        `
-            <span class="live-dot"></span>
-            LIVE
-        `;
-
-} else if (
-    status === "featured"
-) {
-
-    statusLabel =
-        "FEATURED";
-
-}
+    const markets =
+        getSportsMarkets(game);
 
 
-   
+    // ------------------------------------------
+    // FIND PRIMARY MARKET
+    // ------------------------------------------
 
-    // ==========================================
-    // GAME CARD HTML
-    // ==========================================
+    let primaryMarket = null;
 
-    gameCard.innerHTML = `
+    if (Array.isArray(markets)) {
 
-        <div class="sports-game-card-header">
+        primaryMarket =
+            markets.find(
+                market => {
 
-            <div class="sports-game-status-label">
+                    const marketName =
+                        String(
+                            market.name ||
+                            market.market ||
+                            market.title ||
+                            ""
+                        ).toLowerCase();
 
-                ${statusLabel}
+                    return (
+                        marketName.includes("match winner") ||
+                        marketName.includes("winner") ||
+                        marketName.includes("match result") ||
+                        marketName.includes("moneyline")
+                    );
+
+                }
+            ) || markets[0];
+
+    } else if (
+        markets &&
+        typeof markets === "object"
+    ) {
+
+        const marketKeys =
+            Object.keys(markets);
+
+        const winnerKey =
+            marketKeys.find(
+                key => {
+
+                    const name =
+                        String(key).toLowerCase();
+
+                    return (
+                        name.includes("match winner") ||
+                        name.includes("winner") ||
+                        name.includes("match result") ||
+                        name.includes("moneyline")
+                    );
+
+                }
+            );
+
+        primaryMarket =
+            winnerKey
+                ? markets[winnerKey]
+                : markets[marketKeys[0]];
+
+    }
+
+
+    // ------------------------------------------
+    // NORMALIZE MARKET OPTIONS
+    // ------------------------------------------
+
+    let options = [];
+
+    if (Array.isArray(primaryMarket)) {
+
+        options =
+            primaryMarket;
+
+    } else if (
+        primaryMarket &&
+        typeof primaryMarket === "object"
+    ) {
+
+        options =
+            primaryMarket.options ||
+            primaryMarket.selections ||
+            primaryMarket.outcomes ||
+            primaryMarket.bets ||
+            [];
+
+        if (
+            !Array.isArray(options) &&
+            typeof options === "object"
+        ) {
+
+            options =
+                Object.entries(
+                    options
+                ).map(
+                    ([name, value]) => ({
+                        name,
+                        odds: value
+                    })
+                );
+
+        }
+
+    }
+
+
+    // ------------------------------------------
+    // FIND TEAM ODDS
+    // ------------------------------------------
+
+    let team1Odds = null;
+    let team2Odds = null;
+
+    options.forEach(option => {
+
+        const optionName =
+            String(
+                option.name ||
+                option.label ||
+                option.selection ||
+                option.team ||
+                option.outcome ||
+                ""
+            ).trim();
+
+        const oddsValue =
+            option.odds ??
+            option.price ??
+            option.value ??
+            option.rate;
+
+        const parsedOdds =
+            parseFloat(
+                oddsValue
+            );
+
+        if (
+            !optionName ||
+            !Number.isFinite(parsedOdds)
+        ) {
+            return;
+        }
+
+
+        const normalizedOption =
+            optionName.toLowerCase();
+
+        const normalizedHome =
+            String(
+                homeTeam
+            ).toLowerCase();
+
+        const normalizedAway =
+            String(
+                awayTeam
+            ).toLowerCase();
+
+
+        if (
+            normalizedOption === normalizedHome ||
+            normalizedOption.includes(normalizedHome)
+        ) {
+
+            team1Odds =
+                parsedOdds;
+
+        } else if (
+            normalizedOption === normalizedAway ||
+            normalizedOption.includes(normalizedAway)
+        ) {
+
+            team2Odds =
+                parsedOdds;
+
+        }
+
+    });
+
+
+    // ------------------------------------------
+    // CARD
+    // ------------------------------------------
+
+    return `
+
+        <div
+            class="sports-game-card"
+            data-status="${escapeSportsHtml(status)}"
+            data-game-id="${escapeSportsHtml(game.id || game.game_id || "")}"
+            onclick="
+                openSportsGame(
+                    '${escapeSportsHtml(game.id || game.game_id || "")}'
+                )
+            "
+        >
+
+            <!-- ==============================
+                 MATCH HEADER
+            =============================== -->
+
+            <div class="sports-game-card-header">
+
+                <div class="sports-game-card-title">
+
+                    ${escapeSportsHtml(title)}
+
+                </div>
+
+
+                <div class="sports-game-status-label">
+
+                    ${
+                        status === "live"
+                            ? `
+                                <span class="live-dot"></span>
+                                LIVE
+                              `
+                            : escapeSportsHtml(
+                                statusText
+                              )
+                    }
+
+                </div>
 
             </div>
 
 
-            <div class="sports-game-serial">
+            <!-- ==============================
+                 TEAMS + ODDS
+            =============================== -->
 
-                #${index + 1}
+            <div class="sports-game-card-teams">
 
-            </div>
+                <!-- TEAM 1 -->
 
-        </div>
+                <div
+                    class="sports-game-team-side"
+                    onclick="
+                        event.stopPropagation();
+                        openSportsGame(
+                            '${escapeSportsHtml(game.id || game.game_id || "")}'
+                        );
+                    "
+                >
 
+                    <div class="sports-game-team-label">
 
-        <div class="sports-game-card-title">
+                        Team 1
 
-            ${escapeSportsHtml(game.title)}
-
-        </div>
-
-
-        <div class="sports-game-card-league">
-
-            ${escapeSportsHtml(game.league)}
-
-        </div>
-
-
-        <div class="sports-game-card-teams">
-
-            <div class="sports-game-team">
-
-                ${escapeSportsHtml(game.home_team)}
-
-            </div>
+                    </div>
 
 
-            <div class="sports-game-vs">
+                    <div class="sports-game-team-name">
 
-                VS
+                        ${escapeSportsHtml(homeTeam)}
 
-            </div>
+                    </div>
+
+                </div>
 
 
-            <div class="sports-game-team">
+                <!-- TEAM 1 ODDS -->
 
-                ${escapeSportsHtml(game.away_team)}
+                <button
+                    type="button"
+                    class="sports-team-odds-btn"
+                    ${
+                        team1Odds === null
+                            ? "disabled"
+                            : ""
+                    }
+                    onclick="
+                        event.stopPropagation();
+
+                        ${
+                            team1Odds !== null
+                                ? `
+                                    addToBetSlip({
+                                        eventId:
+                                            '${escapeSportsHtml(game.id || game.game_id || "")}',
+
+                                        eventName:
+                                            '${escapeSportsHtml(title)}',
+
+                                        market:
+                                            'Match Winner - ${escapeSportsHtml(homeTeam)}',
+
+                                        odds:
+                                            ${team1Odds}
+                                    });
+                                  `
+                                : ""
+                        }
+                    "
+                >
+
+                    ${
+                        team1Odds !== null
+                            ? team1Odds.toFixed(2)
+                            : "-"
+                    }
+
+                </button>
+
+
+                <!-- TEAM 2 -->
+
+                <div
+                    class="sports-game-team-side"
+                    onclick="
+                        event.stopPropagation();
+                        openSportsGame(
+                            '${escapeSportsHtml(game.id || game.game_id || "")}'
+                        );
+                    "
+                >
+
+                    <div class="sports-game-team-label">
+
+                        Team 2
+
+                    </div>
+
+
+                    <div class="sports-game-team-name">
+
+                        ${escapeSportsHtml(awayTeam)}
+
+                    </div>
+
+                </div>
+
+
+                <!-- TEAM 2 ODDS -->
+
+                <button
+                    type="button"
+                    class="sports-team-odds-btn"
+                    ${
+                        team2Odds === null
+                            ? "disabled"
+                            : ""
+                    }
+                    onclick="
+                        event.stopPropagation();
+
+                        ${
+                            team2Odds !== null
+                                ? `
+                                    addToBetSlip({
+                                        eventId:
+                                            '${escapeSportsHtml(game.id || game.game_id || "")}',
+
+                                        eventName:
+                                            '${escapeSportsHtml(title)}',
+
+                                        market:
+                                            'Match Winner - ${escapeSportsHtml(awayTeam)}',
+
+                                        odds:
+                                            ${team2Odds}
+                                    });
+                                  `
+                                : ""
+                        }
+                    "
+                >
+
+                    ${
+                        team2Odds !== null
+                            ? team2Odds.toFixed(2)
+                            : "-"
+                    }
+
+                </button>
 
             </div>
 
         </div>
 
     `;
+}
 
 
     // ==========================================
