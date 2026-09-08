@@ -7,6 +7,7 @@
     background: var(--bg);
     overflow: hidden;
     position: relative;
+    box-sizing: border-box;
 }
 
 
@@ -17,14 +18,13 @@
 .virtual-sports-page-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+    padding: 10px 14px;
     background: var(--bg);
 }
 
 .virtual-sports-page-header h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--text);
 }
@@ -32,15 +32,41 @@
 .virtual-sports-back-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
-    padding: 8px 12px;
+
+    padding: 8px 13px;
+
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: var(--surface);
+
     color: var(--text);
+
     font-size: 12px;
     font-weight: 600;
+
     cursor: pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.virtual-sports-back-btn:hover {
+    background: var(--surface-2);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.virtual-sports-back-btn:active {
+    transform: scale(.97);
+}
+
+.virtual-sports-back-btn i {
+    font-size: 10px;
 }
 
 
@@ -50,31 +76,51 @@
 
 .virtual-sports-banner-wrapper {
     position: relative;
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-    background: var(--bg);
 
-    padding: 0 8px;
+    width: 100%;
+    height: 145px;
+
+    padding: 0 14px;
+
     box-sizing: border-box;
-}
 
-.virtual-sports-banner-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    border-radius: 10px 10px 0 0;
     overflow: hidden;
+
+    background: var(--bg);
 }
 
 
 /* ======================================================
-   BANNER SLIDES — SMOOTH CROSSFADE
+   BANNER SLIDER
+====================================================== */
+
+.virtual-sports-banner-slider {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    /*
+       Only top corners rounded
+    */
+    border-radius: 10px 10px 0 0;
+
+    border: 1px solid var(--border);
+    border-bottom: none;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   BANNER SLIDES
 ====================================================== */
 
 .virtual-sports-banner {
     position: absolute;
+
     inset: 0;
 
     width: 100%;
@@ -88,14 +134,13 @@
     visibility: hidden;
 
     transition:
-        opacity 0.7s ease-in-out,
-        visibility 0.7s ease-in-out;
+        opacity .65s ease-in-out,
+        visibility .65s ease-in-out;
 
     z-index: 1;
+
+    box-sizing: border-box;
 }
-
-
-/* Active banner */
 
 .virtual-sports-banner.virtual-banner-active {
     opacity: 1;
@@ -114,7 +159,7 @@
             135deg,
             var(--header-green) 0%,
             var(--primary) 65%,
-            rgba(29,133,72,0.25) 100%
+            rgba(29,133,72,.30) 100%
         );
 }
 
@@ -124,7 +169,7 @@
             135deg,
             var(--primary) 0%,
             var(--header-green) 65%,
-            rgba(29,133,72,0.22) 100%
+            rgba(29,133,72,.28) 100%
         );
 }
 
@@ -134,7 +179,7 @@
             135deg,
             var(--header-mid) 0%,
             var(--header-green) 70%,
-            rgba(29,133,72,0.25) 100%
+            rgba(29,133,72,.30) 100%
         );
 }
 
@@ -152,54 +197,53 @@
 
     padding: 0 20px;
 
+    box-sizing: border-box;
+
     text-align: center;
 }
-
 
 .virtual-banner-small {
     display: inline-block;
 
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 
-    padding: 4px 11px;
+    padding: 3px 9px;
 
     border-radius: 4px;
 
-    background: rgba(255,255,255,0.16);
+    background: rgba(255,255,255,.15);
 
     color: #fff;
 
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
 
-    letter-spacing: 0.8px;
+    letter-spacing: .7px;
     text-transform: uppercase;
 }
 
-
 .virtual-banner-content h2 {
-    margin: 0 0 7px 0;
+    margin: 0 0 5px 0;
 
     color: #fff;
 
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 800;
 
     line-height: 1.2;
 
     text-shadow:
-        0 2px 8px rgba(0,0,0,0.3);
+        0 2px 7px rgba(0,0,0,.30);
 }
-
 
 .virtual-banner-content p {
     margin: 0;
 
-    color: rgba(255,255,255,0.88);
+    color: rgba(255,255,255,.86);
 
-    font-size: 13px;
+    font-size: 11px;
 
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 
@@ -210,7 +254,7 @@
 .virtual-sports-banner-dots {
     position: absolute;
 
-    bottom: 9px;
+    bottom: 8px;
     left: 50%;
 
     transform: translateX(-50%);
@@ -218,41 +262,40 @@
     display: flex;
     align-items: center;
 
-    gap: 7px;
+    gap: 6px;
 
     z-index: 5;
 }
-
 
 .virtual-banner-dot {
     width: 7px;
     height: 7px;
 
+    padding: 0;
+
+    border: none;
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,.35);
 
     cursor: pointer;
 
-    transition:
-        all 0.3s ease;
+    transition: all .3s ease;
 }
 
-
 .virtual-banner-dot.active {
-    width: 18px;
+    width: 17px;
 
     border-radius: 4px;
 
     background: #fff;
 
     box-shadow:
-        0 0 6px rgba(255,255,255,0.3);
+        0 0 6px rgba(255,255,255,.25);
 }
 
-
 .virtual-banner-dot:hover {
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,.70);
 }
 
 
@@ -261,33 +304,43 @@
 ====================================================== */
 
 .virtual-sports-games-section {
-    padding: 16px;
+    width: 100%;
+
+    padding: 14px 14px 12px;
+
     background: var(--bg);
+
+    box-sizing: border-box;
 }
 
-
 .virtual-sports-section-title {
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
 
     color: var(--text);
 
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
+
+    letter-spacing: .2px;
 }
 
 
 /* ======================================================
    GAME GRID
+   ALWAYS TWO COLUMNS
 ====================================================== */
 
 .virtual-sports-game-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(2, 1fr);
+        repeat(2, minmax(0, 1fr));
 
     gap: 10px;
+
+    width: 100%;
 }
+
 
 /* ======================================================
    GAME CARD
@@ -299,9 +352,12 @@
     display: flex;
     align-items: center;
 
-    gap: 10px;
+    width: 100%;
+    min-width: 0;
 
-    padding: 14px;
+    gap: 9px;
+
+    padding: 12px;
 
     background: var(--surface);
 
@@ -309,14 +365,17 @@
 
     border-radius: 12px;
 
+    box-sizing: border-box;
+
     cursor: pointer;
 
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
-}
+    overflow: hidden;
 
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
 
 .virtual-sports-game-card:hover {
     transform: translateY(-2px);
@@ -324,18 +383,24 @@
     border-color: var(--primary);
 
     box-shadow:
-        0 10px 22px rgba(0,0,0,0.25);
+        0 8px 18px rgba(0,0,0,.25);
+}
+
+.virtual-sports-game-card:active {
+    transform: translateY(0);
 }
 
 
-/* Active */
+/* ======================================================
+   ACTIVE GAME CARD
+====================================================== */
 
 .virtual-sports-game-card.active {
     border-color: var(--primary);
 
     box-shadow:
-        0 0 0 1px rgba(47,191,113,0.15),
-        0 10px 24px rgba(0,0,0,0.25);
+        0 0 0 1px rgba(47,191,113,.14),
+        0 8px 18px rgba(0,0,0,.22);
 }
 
 
@@ -344,8 +409,8 @@
 ====================================================== */
 
 .virtual-sports-game-icon {
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 42px;
 
     flex-shrink: 0;
 
@@ -353,65 +418,112 @@
     align-items: center;
     justify-content: center;
 
-    border-radius: 11px;
+    border-radius: 10px;
 
     background: var(--surface-2);
 
-    font-size: 23px;
+    font-size: 21px;
+
+    box-sizing: border-box;
 }
 
+
+/* ======================================================
+   GAME INFO
+====================================================== */
 
 .virtual-sports-game-info {
     min-width: 0;
+
     flex: 1;
 }
 
-
 .virtual-sports-game-info h3 {
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
 
     color: var(--text);
 
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-}
 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .virtual-sports-game-info p {
     margin: 0;
 
     color: var(--text-muted);
 
-    font-size: 10px;
+    font-size: 9px;
 
-    line-height: 1.4;
-}
+    line-height: 1.35;
 
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 
-.virtual-sports-game-arrow {
-    color: var(--text-muted);
-
-    font-size: 12px;
+    overflow: hidden;
 }
 
 
 /* ======================================================
-   SPORT EVENTS
+   GAME ARROW
 ====================================================== */
 
-.virtual-sport-events-section {
-    padding: 0 16px 16px;
+.virtual-sports-game-arrow {
+    flex-shrink: 0;
 
-    background: var(--bg);
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.virtual-sports-game-card:hover
+.virtual-sports-game-arrow {
+    color: var(--primary);
+
+    transform: translateX(2px);
 }
 
 
+/* ======================================================
+   SPORT EVENTS SECTION
+====================================================== */
+
+.virtual-sport-events-section {
+    width: 100%;
+
+    padding: 0 14px 16px;
+
+    background: var(--bg);
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   EVENT HEADER
+====================================================== */
+
+.virtual-sport-events-header {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
 .virtual-sport-events-header h3 {
-    margin: 0 0 12px 0;
+    margin: 0;
 
     color: var(--text);
 
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
 }
 
@@ -423,46 +535,52 @@
 .virtual-sport-tabs {
     display: flex;
 
-    gap: 7px;
+    width: 100%;
 
-    margin-bottom: 12px;
+    gap: 6px;
 
-    padding: 6px;
+    margin-bottom: 10px;
+
+    padding: 5px;
 
     background: var(--surface-2);
 
     border: 1px solid var(--border);
 
-    border-radius: 11px;
-}
+    border-radius: 10px;
 
+    box-sizing: border-box;
+}
 
 .virtual-sport-tab {
     flex: 1;
 
+    min-width: 0;
+
+    padding: 8px 6px;
+
     border: none;
 
-    border-radius: 8px;
-
-    padding: 9px 8px;
+    border-radius: 7px;
 
     background: transparent;
 
     color: var(--text-muted);
 
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
 
     cursor: pointer;
 
-    transition: 0.25s ease;
+    transition:
+        background .25s ease,
+        color .25s ease,
+        box-shadow .25s ease;
 }
-
 
 .virtual-sport-tab:hover {
     color: var(--text);
 }
-
 
 .virtual-sport-tab.active {
     background: var(--primary);
@@ -470,7 +588,156 @@
     color: #fff;
 
     box-shadow:
-        0 6px 14px rgba(47,191,113,0.25);
+        0 5px 12px rgba(47,191,113,.22);
+}
+
+
+/* ======================================================
+   VIRTUAL EVENT GAME LIST
+====================================================== */
+
+.virtual-sport-games-list {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+/* ======================================================
+   EVENT CARD
+====================================================== */
+
+.virtual-sport-event-card {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 58px;
+
+    gap: 10px;
+
+    padding: 10px 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        transform .2s ease;
+}
+
+.virtual-sport-event-card:hover {
+    background: var(--surface-2);
+
+    border-color: var(--primary);
+
+    transform: translateY(-1px);
+}
+
+
+/* ======================================================
+   EVENT SPORT ICON
+====================================================== */
+
+.virtual-event-sport-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: var(--surface-2);
+
+    font-size: 18px;
+}
+
+
+/* ======================================================
+   EVENT MAIN
+====================================================== */
+
+.virtual-event-main {
+    min-width: 0;
+
+    flex: 1;
+}
+
+.virtual-event-teams {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    min-width: 0;
+}
+
+.virtual-event-teams strong {
+    min-width: 0;
+
+    color: var(--text);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.virtual-event-teams span {
+    flex-shrink: 0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+}
+
+.virtual-event-meta {
+    margin-top: 3px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+}
+
+
+/* ======================================================
+   EVENT ARROW
+====================================================== */
+
+.virtual-event-arrow {
+    flex-shrink: 0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.virtual-sport-event-card:hover
+.virtual-event-arrow {
+    color: var(--primary);
+
+    transform: translateX(2px);
 }
 
 
@@ -479,76 +746,56 @@
 ====================================================== */
 
 .virtual-sports-empty-state {
-    padding: 45px 20px;
+    width: 100%;
+
+    padding: 38px 20px;
 
     text-align: center;
 
     color: var(--text-muted);
+
+    box-sizing: border-box;
 }
 
-
 .virtual-empty-icon {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
     color: var(--primary);
 
-    font-size: 34px;
+    font-size: 30px;
 }
 
-
 .virtual-sports-empty-state h4 {
-    margin: 0 0 6px 0;
+    margin: 0 0 5px 0;
 
     color: var(--text);
 
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 700;
 }
-
 
 .virtual-sports-empty-state p {
     margin: 0;
 
-    font-size: 11px;
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    line-height: 1.4;
 }
 
 
 /* ======================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET
 ====================================================== */
 
 @media (max-width: 768px) {
 
     .virtual-sports-banner-wrapper {
-        height: 180px;
-    }
+        height: 140px;
 
-    .virtual-banner-content h2 {
-        font-size: 23px;
-    }
-
-    .virtual-banner-content p {
-        font-size: 12px;
-    }
-
-}
-
-
-@media (max-width: 480px) {
-
-    .virtual-sports-page-header {
-        padding: 10px 12px;
-    }
-
-    .virtual-sports-page-header h2 {
-        font-size: 16px;
-    }
-
-    .virtual-sports-banner-wrapper {
-        height: 165px;
-    }
-
-    .virtual-banner-content {
-        padding: 0 16px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     .virtual-banner-content h2 {
@@ -557,6 +804,177 @@
 
     .virtual-banner-content p {
         font-size: 11px;
+    }
+
+    .virtual-sports-games-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .virtual-sport-events-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+}
+
+
+/* ======================================================
+   RESPONSIVE — MOBILE
+   KEEP TWO GAME CARDS SIDE-BY-SIDE
+====================================================== */
+
+@media (max-width: 480px) {
+
+    .virtual-sports-page-header {
+        padding: 9px 10px;
+    }
+
+    .virtual-sports-back-btn {
+        padding: 7px 11px;
+
+        font-size: 11px;
+    }
+
+    .virtual-sports-banner-wrapper {
+        height: 130px;
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .virtual-sports-banner-slider {
+        border-radius: 8px 8px 0 0;
+    }
+
+    .virtual-banner-content {
+        padding: 0 12px;
+    }
+
+    .virtual-banner-small {
+        margin-bottom: 5px;
+
+        padding: 3px 8px;
+
+        font-size: 8px;
+    }
+
+    .virtual-banner-content h2 {
+        font-size: 18px;
+    }
+
+    .virtual-banner-content p {
+        font-size: 10px;
+    }
+
+    .virtual-sports-games-section {
+        padding: 11px 10px 10px;
+    }
+
+    .virtual-sports-section-title {
+        margin-bottom: 8px;
+
+        font-size: 14px;
+    }
+
+    /*
+       IMPORTANT:
+       Never change this to 1fr.
+       Virtual Cricket + Virtual Football
+       must remain side-by-side.
+    */
+    .virtual-sports-game-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 8px;
+    }
+
+    .virtual-sports-game-card {
+        gap: 7px;
+
+        padding: 9px;
+
+        border-radius: 10px;
+    }
+
+    .virtual-sports-game-icon {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 8px;
+
+        font-size: 17px;
+    }
+
+    .virtual-sports-game-info h3 {
+        font-size: 11px;
+    }
+
+    .virtual-sports-game-info p {
+        font-size: 8px;
+    }
+
+    .virtual-sports-game-arrow {
+        font-size: 9px;
+    }
+
+    .virtual-sport-events-section {
+        padding: 0 10px 12px;
+    }
+
+    .virtual-sport-events-header h3 {
+        font-size: 14px;
+    }
+
+    .virtual-sport-tabs {
+        gap: 4px;
+
+        padding: 4px;
+    }
+
+    .virtual-sport-tab {
+        padding: 7px 4px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* ======================================================
+   VERY SMALL MOBILE
+====================================================== */
+
+@media (max-width: 360px) {
+
+    .virtual-sports-game-grid {
+        gap: 6px;
+    }
+
+    .virtual-sports-game-card {
+        gap: 5px;
+
+        padding: 8px;
+    }
+
+    .virtual-sports-game-icon {
+        width: 30px;
+        height: 30px;
+
+        font-size: 15px;
+    }
+
+    .virtual-sports-game-info h3 {
+        font-size: 10px;
+    }
+
+    .virtual-sports-game-info p {
+        font-size: 7px;
+    }
+
+    .virtual-sports-game-arrow {
+        display: none;
     }
 
 }
