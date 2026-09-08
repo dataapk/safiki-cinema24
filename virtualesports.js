@@ -147,6 +147,22 @@ function () {
     }
 
 
+    // ==========================================
+    // SHOW MAIN HERO BANNER
+    // ==========================================
+
+    if (heroBanner) {
+
+        heroBanner.style.display =
+            "block";
+
+    }
+
+
+    // ==========================================
+    // SHOW MAIN CATEGORY CARDS
+    // ==========================================
+
     const mainCategory =
         document.getElementById(
             "mainCategorySection"
