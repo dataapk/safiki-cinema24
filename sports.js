@@ -820,8 +820,7 @@ function renderSportsGames(
     // CLEAR OLD GAMES
     // ==========================================
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
     // ==========================================
@@ -841,7 +840,114 @@ function renderSportsGames(
     );
 
 
-       // ==========================================
+    // ==========================================
+    // STATUS HEADER
+    // ==========================================
+
+    let statusIcon = "";
+    let statusTitle = "";
+    let statusIconClass = "";
+
+
+    if (
+        normalizedStatus === "live"
+    ) {
+
+        statusIcon =
+            '<i class="fas fa-circle"></i>';
+
+        statusTitle =
+            "LIVE GAMES";
+
+        statusIconClass =
+            "sports-live-icon";
+
+    }
+
+    else if (
+        normalizedStatus === "upcoming"
+    ) {
+
+        statusIcon =
+            '<i class="fas fa-clock"></i>';
+
+        statusTitle =
+            "UPCOMING GAMES";
+
+        statusIconClass =
+            "sports-upcoming-icon";
+
+    }
+
+    else if (
+        normalizedStatus === "featured"
+    ) {
+
+        statusIcon =
+            '<i class="fas fa-star"></i>';
+
+        statusTitle =
+            "FEATURED GAMES";
+
+        statusIconClass =
+            "sports-featured-icon";
+
+    }
+
+
+    // ==========================================
+    // CREATE SECTION HEADER
+    // ==========================================
+
+    const header =
+        document.createElement(
+            "div"
+        );
+
+    header.className =
+        "sports-category-header";
+
+
+    header.innerHTML = `
+
+        <div class="sports-category-title">
+
+            <span
+                class="sports-status-icon ${statusIconClass}">
+                ${statusIcon}
+            </span>
+
+            ${statusTitle}
+
+        </div>
+
+    `;
+
+
+    container.appendChild(
+        header
+    );
+
+
+    // ==========================================
+    // GAMES LIST
+    // ==========================================
+
+    const gamesList =
+        document.createElement(
+            "div"
+        );
+
+    gamesList.className =
+        "sports-games-list";
+
+
+    container.appendChild(
+        gamesList
+    );
+
+
+    // ==========================================
     // NO GAMES
     // ==========================================
 
@@ -854,7 +960,7 @@ function renderSportsGames(
         );
 
 
-        container.innerHTML = `
+        gamesList.innerHTML = `
 
             <div class="sports-empty-state">
 
@@ -878,7 +984,7 @@ function renderSportsGames(
 
 
     // ==========================================
-    // CREATE CARDS
+    // CREATE GAME CARDS
     // ==========================================
 
     games.forEach(
@@ -891,7 +997,7 @@ function renderSportsGames(
                 );
 
 
-            container.appendChild(
+            gamesList.appendChild(
                 card
             );
 
