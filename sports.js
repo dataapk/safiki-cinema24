@@ -623,31 +623,7 @@ function createSportsGameCard(
         status;
 
 
-    // ==========================================
-    // STATUS LABEL
-    // ==========================================
-
-    let statusLabel =
-        "UPCOMING";
-
-
-    if (status === "live") {
-
-        statusLabel =
-            `
-                <span class="live-dot"></span>
-                LIVE
-            `;
-
-    } else if (
-        status === "featured"
-    ) {
-
-        statusLabel =
-            "FEATURED";
-
-    }
-
+   
 
     // ==========================================
     // GAME CARD HTML
