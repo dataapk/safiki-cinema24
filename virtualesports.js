@@ -328,21 +328,6 @@ function renderVirtualSportsHome() {
         </div>
 
 
-        <!-- ========================================= -->
-        <!-- VIRTUAL SPORTS GAME CARDS -->
-        <!-- ========================================= -->
-
-        <div class="virtual-sports-games-section">
-
-
-            <h3 class="virtual-sports-section-title">
-                Virtual Sports
-            </h3>
-
-
-            <div class="virtual-sports-game-grid">
-
-
                 <!-- ================================= -->
                 <!-- CRICKET -->
                 <!-- ================================= -->
