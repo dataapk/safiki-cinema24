@@ -371,10 +371,7 @@ function renderVirtualSportsHome() {
                             Virtual Cricket
                         </h3>
 
-                        <p>
-                            Live & upcoming virtual
-                            cricket events
-                        </p>
+                        
 
                     </div>
 
@@ -416,10 +413,6 @@ function renderVirtualSportsHome() {
                             Virtual Football
                         </h3>
 
-                        <p>
-                            Live & upcoming virtual
-                            football events
-                        </p>
 
                     </div>
 
