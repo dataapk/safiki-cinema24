@@ -763,6 +763,10 @@ function renderSportsGames(
         normalizeSportsStatus(status);
 
 
+    // ==========================================
+    // VALIDATE SPORT
+    // ==========================================
+
     if (
         !SUPPORTED_SPORTS.includes(
             normalizedSport
@@ -779,6 +783,10 @@ function renderSportsGames(
     }
 
 
+    // ==========================================
+    // VALIDATE STATUS
+    // ==========================================
+
     if (
         !SPORTS_STATUSES.includes(
             normalizedStatus
@@ -794,6 +802,10 @@ function renderSportsGames(
 
     }
 
+
+    // ==========================================
+    // GET CONTAINER
+    // ==========================================
 
     const container =
         getSportsGamesContainer(
@@ -818,14 +830,15 @@ function renderSportsGames(
 
 
     // ==========================================
-    // CLEAR OLD GAMES
+    // CLEAR OLD CONTENT
     // ==========================================
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     // ==========================================
-    // GET MATCHES
+    // GET GAMES
     // ==========================================
 
     const games =
@@ -842,113 +855,6 @@ function renderSportsGames(
 
 
     // ==========================================
-    // STATUS HEADER
-    // ==========================================
-
-    let statusIcon = "";
-    let statusTitle = "";
-    let statusIconClass = "";
-
-
-    if (
-        normalizedStatus === "live"
-    ) {
-
-        statusIcon =
-            '<i class="fas fa-circle"></i>';
-
-        statusTitle =
-            "LIVE GAMES";
-
-        statusIconClass =
-            "sports-live-icon";
-
-    }
-
-    else if (
-        normalizedStatus === "upcoming"
-    ) {
-
-        statusIcon =
-            '<i class="fas fa-clock"></i>';
-
-        statusTitle =
-            "UPCOMING GAMES";
-
-        statusIconClass =
-            "sports-upcoming-icon";
-
-    }
-
-    else if (
-        normalizedStatus === "featured"
-    ) {
-
-        statusIcon =
-            '<i class="fas fa-star"></i>';
-
-        statusTitle =
-            "FEATURED GAMES";
-
-        statusIconClass =
-            "sports-featured-icon";
-
-    }
-
-
-    // ==========================================
-    // CREATE SECTION HEADER
-    // ==========================================
-
-    const header =
-        document.createElement(
-            "div"
-        );
-
-    header.className =
-        "sports-category-header";
-
-
-    header.innerHTML = `
-
-        <div class="sports-category-title">
-
-            <span
-                class="sports-status-icon ${statusIconClass}">
-                ${statusIcon}
-            </span>
-
-            ${statusTitle}
-
-        </div>
-
-    `;
-
-
-    container.appendChild(
-        header
-    );
-
-
-    // ==========================================
-    // GAMES LIST
-    // ==========================================
-
-    const gamesList =
-        document.createElement(
-            "div"
-        );
-
-    gamesList.className =
-        "sports-games-list";
-
-
-    container.appendChild(
-        gamesList
-    );
-
-
-    // ==========================================
     // NO GAMES
     // ==========================================
 
@@ -961,7 +867,7 @@ function renderSportsGames(
         );
 
 
-        gamesList.innerHTML = `
+        container.innerHTML = `
 
             <div class="sports-empty-state">
 
@@ -998,13 +904,21 @@ function renderSportsGames(
                 );
 
 
-            gamesList.appendChild(
-                card
-            );
+            if (card) {
+
+                container.appendChild(
+                    card
+                );
+
+            }
 
         }
     );
 
+
+    // ==========================================
+    // RENDER COMPLETE
+    // ==========================================
 
     console.log(
         `✅ ${games.length} ${getSportsDisplayName(normalizedSport)} ${normalizedStatus} Game(s) Rendered.`
