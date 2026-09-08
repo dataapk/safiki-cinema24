@@ -546,6 +546,11 @@ function (sport) {
 // RENDER LIVE / UPCOMING / FEATURED
 // ======================================================
 
+// ==========================================
+// RENDER VIRTUAL SPORTS EVENTS
+// LIVE + UPCOMING + FEATURED
+// ==========================================
+
 function renderVirtualSportTabs() {
 
     const container =
@@ -553,11 +558,7 @@ function renderVirtualSportTabs() {
             "virtualSportEventsSection"
         );
 
-    if (!container) {
-
-        return;
-
-    }
+    if (!container) return;
 
 
     const sportName =
@@ -566,113 +567,184 @@ function renderVirtualSportTabs() {
             : "Virtual Football";
 
 
+    const sportGames =
+        virtualSportsGames[
+            virtualSportsCurrentSport
+        ] || {
+            live: [],
+            upcoming: [],
+            featured: []
+        };
+
+
     container.innerHTML = `
 
-        <!-- ========================================= -->
-        <!-- SPORT TITLE -->
-        <!-- ========================================= -->
+        <!-- ================================= -->
+        <!-- LIVE EVENTS -->
+        <!-- ================================= -->
 
-        <div
-            class="virtual-sport-events-header">
+        <div class="virtual-sport-category-section">
 
-            <h3>
-                ${sportName}
-            </h3>
+            <div class="virtual-sport-category-header">
 
-        </div>
+                <span class="virtual-sport-category-title">
+                    🔥 LIVE
+                </span>
 
+            </div>
 
-        <!-- ========================================= -->
-        <!-- EVENT TABS -->
-        <!-- ========================================= -->
+            <div class="virtual-sport-games-list">
 
-        <div
-            class="virtual-sport-tabs">
+                ${
+                    sportGames.live &&
+                    sportGames.live.length > 0
 
-            <button
-                class="
-                    virtual-sport-tab
-                    ${virtualSportsCurrentTab === "live"
-                        ? "active"
-                        : ""}"
-                onclick="
-                    switchVirtualSportTab(
-                        'live'
-                    )
-                ">
+                    ?
 
-                Live
+                    sportGames.live
+                        .map(game =>
+                            createVirtualSportGameCard(game)
+                        )
+                        .join("")
 
-            </button>
+                    :
 
+                    `
+                    <div class="virtual-sports-empty-state">
 
-            <button
-                class="
-                    virtual-sport-tab
-                    ${virtualSportsCurrentTab === "upcoming"
-                        ? "active"
-                        : ""}"
-                onclick="
-                    switchVirtualSportTab(
-                        'upcoming'
-                    )
-                ">
+                        <div class="virtual-empty-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
 
-                Upcoming
+                        <h4>
+                            No Live Games
+                        </h4>
 
-            </button>
+                        <p>
+                            There are currently no
+                            live virtual games available.
+                        </p>
 
+                    </div>
+                    `
+                }
 
-            <button
-                class="
-                    virtual-sport-tab
-                    ${virtualSportsCurrentTab === "featured"
-                        ? "active"
-                        : ""}"
-                onclick="
-                    switchVirtualSportTab(
-                        'featured'
-                    )
-                ">
-
-                Featured
-
-            </button>
+            </div>
 
         </div>
 
 
-        <!-- ========================================= -->
-        <!-- EVENTS -->
-        <!-- ========================================= -->
+        <!-- ================================= -->
+        <!-- UPCOMING EVENTS -->
+        <!-- ================================= -->
 
-        <div
-            class="virtual-sport-games-list"
-            id="virtualSportGamesList">
+        <div class="virtual-sport-category-section">
+
+            <div class="virtual-sport-category-header">
+
+                <span class="virtual-sport-category-title">
+                    ⏱ UPCOMING
+                </span>
+
+            </div>
+
+            <div class="virtual-sport-games-list">
+
+                ${
+                    sportGames.upcoming &&
+                    sportGames.upcoming.length > 0
+
+                    ?
+
+                    sportGames.upcoming
+                        .map(game =>
+                            createVirtualSportGameCard(game)
+                        )
+                        .join("")
+
+                    :
+
+                    `
+                    <div class="virtual-sports-empty-state">
+
+                        <div class="virtual-empty-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+
+                        <h4>
+                            No Upcoming Games
+                        </h4>
+
+                        <p>
+                            There are currently no
+                            upcoming virtual games available.
+                        </p>
+
+                    </div>
+                    `
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- FEATURED EVENTS -->
+        <!-- ================================= -->
+
+        <div class="virtual-sport-category-section">
+
+            <div class="virtual-sport-category-header">
+
+                <span class="virtual-sport-category-title">
+                    ⭐ FEATURED
+                </span>
+
+            </div>
+
+            <div class="virtual-sport-games-list">
+
+                ${
+                    sportGames.featured &&
+                    sportGames.featured.length > 0
+
+                    ?
+
+                    sportGames.featured
+                        .map(game =>
+                            createVirtualSportGameCard(game)
+                        )
+                        .join("")
+
+                    :
+
+                    `
+                    <div class="virtual-sports-empty-state">
+
+                        <div class="virtual-empty-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+
+                        <h4>
+                            No Featured Games
+                        </h4>
+
+                        <p>
+                            There are currently no
+                            featured virtual games available.
+                        </p>
+
+                    </div>
+                    `
+                }
+
+            </div>
 
         </div>
 
     `;
-
-
-    renderVirtualSportGames();
-
 }
-
-
-// ======================================================
-// SWITCH TAB
-// ======================================================
-
-window.switchVirtualSportTab =
-function (tab) {
-
-    virtualSportsCurrentTab =
-        tab;
-
-    renderVirtualSportTabs();
-
-};
 
 
 // ======================================================
