@@ -580,6 +580,29 @@ function renderVirtualSportTabs() {
     container.innerHTML = `
 
         <!-- ================================= -->
+        <!-- SELECTED SPORT HEADER -->
+        <!-- ================================= -->
+
+        <div class="virtual-sport-selected-header">
+
+            <div class="virtual-sport-selected-icon">
+
+                ${
+                    virtualSportsCurrentSport === "cricket"
+                        ? "🏏"
+                        : "⚽"
+                }
+
+            </div>
+
+            <h3>
+                ${sportName}
+            </h3>
+
+        </div>
+
+
+        <!-- ================================= -->
         <!-- LIVE EVENTS -->
         <!-- ================================= -->
 
