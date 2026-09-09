@@ -1615,6 +1615,8 @@
 
     align-items: center;
 
+    justify-content: flex-end;
+
     gap: 8px;
 
     padding: 7px 12px;
@@ -1626,7 +1628,6 @@
     color: #ffffff;
 
 }
-
 
 .footer-dynamic-game i {
 
