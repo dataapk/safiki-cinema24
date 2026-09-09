@@ -696,11 +696,13 @@ if (status === "live") {
 
         <div class="sports-game-card-teams">
 
-            <div class="sports-game-team">
+            <div class="sports-game-team"
+     onclick="event.stopPropagation(); 
+     openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
 
-                ${escapeSportsHtml(game.home_team)}
+    ${escapeSportsHtml(game.home_team)}
 
-            </div>
+</div>
 
 
             <div class="sports-game-vs">
@@ -710,11 +712,13 @@ if (status === "live") {
             </div>
 
 
-            <div class="sports-game-team">
+            <div class="sports-game-team"
+     onclick="event.stopPropagation();
+     openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
 
-                ${escapeSportsHtml(game.away_team)}
+    ${escapeSportsHtml(game.away_team)}
 
-            </div>
+</div>
 
         </div>
 
