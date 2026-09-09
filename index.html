@@ -3963,74 +3963,567 @@
     </div>
 
 </footer>
-    
 <nav class="footer-sidebar-menu">
 
-    <!-- Casino -->
+    <!-- ==================================================
+         CASINO
+    ================================================== -->
+
     <div class="footer-menu-item">
 
         <div class="footer-menu-header"
              onclick="event.stopPropagation(); footerToggleMenuSub('casinoMenuSub','casinoArrow')">
 
             <i class="fas fa-dice"></i>
+
             <span>Casino</span>
 
-            <i class="fas fa-chevron-down footer-arrow" id="casinoArrow"></i>
+            <i class="fas fa-chevron-down footer-arrow"
+               id="casinoArrow"></i>
 
         </div>
+
 
         <div class="footer-menusub-list footer-menusub-hidden"
              id="casinoMenuSub">
 
-            <a href="#" class="footer-menusub-item">
+            <!-- Wheel Game -->
+            <a href="#"
+               class="footer-menusub-item">
+
                 <i class="fas fa-dharmachakra"></i>
-                Wheel Game
+
+                <span>Wheel Game</span>
+
             </a>
 
-            <a href="#" class="footer-menusub-item">
+
+            <!-- Slot Game -->
+            <a href="#"
+               class="footer-menusub-item">
+
                 <i class="fas fa-slot-machine"></i>
-                Slot Game
+
+                <span>Slot Game</span>
+
             </a>
 
-            <a href="#" class="footer-menusub-item">
+
+            <!-- Crash Game -->
+            <a href="#"
+               class="footer-menusub-item">
+
                 <i class="fas fa-rocket"></i>
-                Crash Game
+
+                <span>Crash Game</span>
+
             </a>
 
         </div>
 
     </div>
 
-    <!-- Sports -->
+
+
+    <!-- ==================================================
+         ESPORTS
+    ================================================== -->
+
     <div class="footer-menu-item">
 
         <div class="footer-menu-header"
-             onclick="event.stopPropagation(); footerToggleMenuSub('sportsMenuSub','sportsArrow')">
+             onclick="event.stopPropagation(); footerToggleMenuSub('esportsMenuSub','esportsArrow')">
 
-            <i class="fas fa-futbol"></i>
-            <span>Sports</span>
+            <i class="fas fa-gamepad"></i>
 
-            <i class="fas fa-chevron-down footer-arrow" id="sportsArrow"></i>
+            <span>Esports</span>
+
+            <i class="fas fa-chevron-down footer-arrow"
+               id="esportsArrow"></i>
 
         </div>
 
-        <div class="footer-menusub-list footer-menusub-hidden"
-             id="sportsMenuSub">
 
-            <a href="#" class="footer-menusub-item">
-                <i class="fas fa-cricket"></i>
-                Cricket
+        <div class="footer-menusub-list footer-menusub-hidden"
+             id="esportsMenuSub">
+
+
+            <!-- ===============================
+                 CRICKET
+            ================================ -->
+
+            <div class="footer-menu-item footer-nested-item">
+
+                <div class="footer-menu-header footer-nested-header"
+                     onclick="event.stopPropagation(); footerToggleMenuSub('esportsCricketSub','esportsCricketArrow')">
+
+                    <i class="fas fa-baseball-ball"></i>
+
+                    <span>Cricket</span>
+
+                    <i class="fas fa-chevron-down footer-arrow"
+                       id="esportsCricketArrow"></i>
+
+                </div>
+
+
+                <div class="footer-menusub-list footer-menusub-hidden"
+                     id="esportsCricketSub">
+
+
+                    <!-- Asia Cup T20 -->
+                    <div class="footer-menu-item footer-league-item">
+
+                        <div class="footer-menu-header footer-league-header"
+                             onclick="event.stopPropagation(); footerToggleMenuSub('esportsAsiaCupSub','esportsAsiaCupArrow')">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>Asia Cup T20</span>
+
+                            <i class="fas fa-chevron-down footer-arrow"
+                               id="esportsAsiaCupArrow"></i>
+
+                        </div>
+
+
+                        <div class="footer-menusub-list footer-menusub-hidden"
+                             id="esportsAsiaCupSub">
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Bangladesh vs India</span>
+
+                            </a>
+
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Pakistan vs Sri Lanka</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- International T20 -->
+                    <div class="footer-menu-item footer-league-item">
+
+                        <div class="footer-menu-header footer-league-header"
+                             onclick="event.stopPropagation(); footerToggleMenuSub('esportsT20Sub','esportsT20Arrow')">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>International T20</span>
+
+                            <i class="fas fa-chevron-down footer-arrow"
+                               id="esportsT20Arrow"></i>
+
+                        </div>
+
+
+                        <div class="footer-menusub-list footer-menusub-hidden"
+                             id="esportsT20Sub">
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Australia vs England</span>
+
+                            </a>
+
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>India vs South Africa</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- International ODI -->
+                    <div class="footer-menu-item footer-league-item">
+
+                        <div class="footer-menu-header footer-league-header"
+                             onclick="event.stopPropagation(); footerToggleMenuSub('esportsODISub','esportsODIArrow')">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>International ODI</span>
+
+                            <i class="fas fa-chevron-down footer-arrow"
+                               id="esportsODIArrow"></i>
+
+                        </div>
+
+
+                        <div class="footer-menusub-list footer-menusub-hidden"
+                             id="esportsODISub">
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Pakistan vs New Zealand</span>
+
+                            </a>
+
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>India vs Australia</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===============================
+                 FOOTBALL
+            ================================ -->
+
+            <div class="footer-menu-item footer-nested-item">
+
+                <div class="footer-menu-header footer-nested-header"
+                     onclick="event.stopPropagation(); footerToggleMenuSub('esportsFootballSub','esportsFootballArrow')">
+
+                    <i class="fas fa-futbol"></i>
+
+                    <span>Football</span>
+
+                    <i class="fas fa-chevron-down footer-arrow"
+                       id="esportsFootballArrow"></i>
+
+                </div>
+
+
+                <div class="footer-menusub-list footer-menusub-hidden"
+                     id="esportsFootballSub">
+
+
+                    <!-- Premier League -->
+                    <div class="footer-menu-item footer-league-item">
+
+                        <div class="footer-menu-header footer-league-header"
+                             onclick="event.stopPropagation(); footerToggleMenuSub('esportsPremierLeagueSub','esportsPremierLeagueArrow')">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>Premier League</span>
+
+                            <i class="fas fa-chevron-down footer-arrow"
+                               id="esportsPremierLeagueArrow"></i>
+
+                        </div>
+
+
+                        <div class="footer-menusub-list footer-menusub-hidden"
+                             id="esportsPremierLeagueSub">
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Arsenal vs Chelsea</span>
+
+                            </a>
+
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Liverpool vs Manchester City</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- La Liga -->
+                    <div class="footer-menu-item footer-league-item">
+
+                        <div class="footer-menu-header footer-league-header"
+                             onclick="event.stopPropagation(); footerToggleMenuSub('esportsLaLigaSub','esportsLaLigaArrow')">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>La Liga</span>
+
+                            <i class="fas fa-chevron-down footer-arrow"
+                               id="esportsLaLigaArrow"></i>
+
+                        </div>
+
+
+                        <div class="footer-menusub-list footer-menusub-hidden"
+                             id="esportsLaLigaSub">
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Barcelona vs Real Madrid</span>
+
+                            </a>
+
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Atletico Madrid vs Sevilla</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Champions League -->
+                    <div class="footer-menu-item footer-league-item">
+
+                        <div class="footer-menu-header footer-league-header"
+                             onclick="event.stopPropagation(); footerToggleMenuSub('esportsChampionsSub','esportsChampionsArrow')">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>Champions League</span>
+
+                            <i class="fas fa-chevron-down footer-arrow"
+                               id="esportsChampionsArrow"></i>
+
+                        </div>
+
+
+                        <div class="footer-menusub-list footer-menusub-hidden"
+                             id="esportsChampionsSub">
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Real Madrid vs Bayern Munich</span>
+
+                            </a>
+
+
+                            <a href="#"
+                               class="footer-menusub-item footer-match-item">
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>Manchester City vs PSG</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===============================
+                 BASKETBALL
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-basketball-ball"></i>
+
+                <span>Basketball</span>
+
             </a>
 
-            <a href="#" class="footer-menusub-item">
-                <i class="fas fa-futbol"></i>
-                Football
+
+
+            <!-- ===============================
+                 TENNIS
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-table-tennis"></i>
+
+                <span>Tennis</span>
+
+            </a>
+
+
+
+            <!-- ===============================
+                 VOLLEYBALL
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-volleyball-ball"></i>
+
+                <span>Volleyball</span>
+
+            </a>
+
+
+
+            <!-- ===============================
+                 HOCKEY
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-hockey-puck"></i>
+
+                <span>Hockey</span>
+
+            </a>
+
+
+
+            <!-- ===============================
+                 BOXING
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-fist-raised"></i>
+
+                <span>Boxing</span>
+
+            </a>
+
+
+
+            <!-- ===============================
+                 RUGBY
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-football-ball"></i>
+
+                <span>Rugby</span>
+
+            </a>
+
+
+
+            <!-- ===============================
+                 GOLF
+            ================================ -->
+
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-golf-ball"></i>
+
+                <span>Golf</span>
+
             </a>
 
         </div>
 
     </div>
 
+
+
+    <!-- ==================================================
+         VIRTUAL ESPORTS
+    ================================================== -->
+
+    <div class="footer-menu-item">
+
+        <div class="footer-menu-header"
+             onclick="event.stopPropagation(); footerToggleMenuSub('virtualEsportsMenuSub','virtualEsportsArrow')">
+
+            <i class="fas fa-gamepad"></i>
+
+            <span>Virtual Esports</span>
+
+            <i class="fas fa-chevron-down footer-arrow"
+               id="virtualEsportsArrow"></i>
+
+        </div>
+
+
+        <div class="footer-menusub-list footer-menusub-hidden"
+             id="virtualEsportsMenuSub">
+
+
+            <!-- Virtual Cricket -->
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-baseball-ball"></i>
+
+                <span>Cricket</span>
+
+            </a>
+
+
+            <!-- Virtual Football -->
+            <a href="#"
+               class="footer-menusub-item">
+
+                <i class="fas fa-futbol"></i>
+
+                <span>Football</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
     <!-- Bonuses -->
     <div class="footer-menu-item">
 
