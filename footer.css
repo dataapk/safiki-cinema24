@@ -1489,6 +1489,163 @@
 
 }
 
+/* ======================================================
+   FOOTER DYNAMIC SPORTS
+====================================================== */
+
+.footer-status-heading {
+
+    padding: 8px 12px;
+
+    margin: 5px 0 4px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+/* ======================================================
+   LIVE
+====================================================== */
+
+.footer-live-heading {
+
+    color: #22c55e;
+
+    text-shadow:
+        0 0 5px rgba(34,197,94,0.7),
+        0 0 12px rgba(34,197,94,0.45);
+
+    animation:
+        footerLiveGlow 1.5s ease-in-out infinite alternate;
+
+}
+
+
+@keyframes footerLiveGlow {
+
+    from {
+
+        opacity: 0.75;
+
+        text-shadow:
+            0 0 4px rgba(34,197,94,0.5),
+            0 0 8px rgba(34,197,94,0.25);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        text-shadow:
+            0 0 7px rgba(34,197,94,0.9),
+            0 0 16px rgba(34,197,94,0.6);
+
+    }
+
+}
+
+
+/* ======================================================
+   UPCOMING
+====================================================== */
+
+.footer-upcoming-heading {
+
+    color: #facc15;
+
+    text-shadow:
+        0 0 5px rgba(250,204,21,0.65),
+        0 0 12px rgba(250,204,21,0.4);
+
+    animation:
+        footerUpcomingGlow 1.8s ease-in-out infinite alternate;
+
+}
+
+
+@keyframes footerUpcomingGlow {
+
+    from {
+
+        opacity: 0.75;
+
+        text-shadow:
+            0 0 4px rgba(250,204,21,0.45),
+            0 0 8px rgba(250,204,21,0.2);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        text-shadow:
+            0 0 7px rgba(250,204,21,0.9),
+            0 0 16px rgba(250,204,21,0.55);
+
+    }
+
+}
+
+
+/* ======================================================
+   FEATURED
+====================================================== */
+
+.footer-featured-heading {
+
+    color: #ffffff;
+
+}
+
+
+/* ======================================================
+   GAME ROW
+====================================================== */
+
+.footer-dynamic-game {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 7px 12px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    color: #ffffff;
+
+}
+
+
+.footer-dynamic-game i {
+
+    font-size: 6px;
+
+    color: #94a3b8;
+
+}
+
+
+.footer-dynamic-game:hover {
+
+    background: rgba(255,255,255,0.05);
+
+}
+
+/* ======================================================
+  END  FOOTER DYNAMIC SPORTS
+====================================================== */
 
 /* =====================================================
    END MY BETS CSS
