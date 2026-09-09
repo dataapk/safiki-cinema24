@@ -284,6 +284,9 @@ window.renderFooterSportsGames = function () {
             row.dataset.gameId =
                 game.game_id;
 
+            row.dataset.footerStatus =
+                    status;
+
 
             row.innerHTML = `
 
