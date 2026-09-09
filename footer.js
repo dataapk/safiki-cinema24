@@ -174,6 +174,238 @@ window.footerCloseSidebar = function(){
 };
 
 
+// ======================================================
+// FOOTER SPORTS — DYNAMIC GAMES
+// ======================================================
+
+window.renderFooterSportsGames = function () {
+
+    const games =
+        getAllSportsGames()
+            .filter(game =>
+                isSportsGameEnabled(game)
+            );
+
+
+    // ==================================================
+    // FOOTER LEAGUE CONTAINERS
+    // ==================================================
+
+    const leagueContainers = {
+
+        "Asia Cup T20":
+            "footerAsiaCupDynamic",
+
+        "International T20":
+            "footerInternationalT20Dynamic",
+
+        "International ODI":
+            "footerInternationalODIDynamic",
+
+        "Premier League":
+            "footerPremierLeagueDynamic",
+
+        "La Liga":
+            "footerLaLigaDynamic",
+
+        "Champions League":
+            "footerChampionsLeagueDynamic"
+
+    };
+
+
+    // ==================================================
+    // CLEAR OLD GAMES
+    // ==================================================
+
+    Object.values(
+        leagueContainers
+    ).forEach(
+        containerId => {
+
+            const container =
+                document.getElementById(
+                    containerId
+                );
+
+            if (container) {
+                container.innerHTML = "";
+            }
+
+        }
+    );
+
+
+    // ==================================================
+    // RENDER GAMES
+    // ==================================================
+
+    games.forEach(
+        game => {
+
+            const containerId =
+                leagueContainers[
+                    game.league
+                ];
+
+
+            if (!containerId) {
+                return;
+            }
+
+
+            const container =
+                document.getElementById(
+                    containerId
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            const status =
+                normalizeSportsStatus(
+                    game.status
+                );
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "footer-dynamic-game";
+
+
+            row.dataset.gameId =
+                game.game_id;
+
+
+            row.innerHTML = `
+
+                <i class="fas fa-circle"></i>
+
+                <span>
+                    ${
+                        game.home_team ||
+                        ""
+                    }
+                    vs
+                    ${
+                        game.away_team ||
+                        ""
+                    }
+                </span>
+
+            `;
+
+
+            row.onclick =
+                function (event) {
+
+                    event.stopPropagation();
+
+                    openSportsGame(
+                        game.sport,
+                        game.game_id
+                    );
+
+                };
+
+
+            // ==========================================
+            // STATUS SECTIONS
+            // ==========================================
+
+            let section =
+                container.querySelector(
+                    `[data-footer-status="${status}"]`
+                );
+
+
+            if (!section) {
+
+                section =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                section.dataset.footerStatus =
+                    status;
+
+
+                const heading =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                if (status === "live") {
+
+                    heading.className =
+                        "footer-status-heading footer-live-heading";
+
+                    heading.innerHTML =
+                        "🔥 LIVE";
+
+                }
+
+                else if (
+                    status === "upcoming"
+                ) {
+
+                    heading.className =
+                        "footer-status-heading footer-upcoming-heading";
+
+                    heading.innerHTML =
+                        "⏱ UPCOMING";
+
+                }
+
+                else if (
+                    status === "featured"
+                ) {
+
+                    heading.className =
+                        "footer-status-heading footer-featured-heading";
+
+                    heading.innerHTML =
+                        "⭐ FEATURED";
+
+                }
+
+                else {
+                    return;
+                }
+
+
+                section.appendChild(
+                    heading
+                );
+
+
+                container.appendChild(
+                    section
+                );
+
+            }
+
+
+            section.appendChild(
+                row
+            );
+
+        }
+    );
+
+};
+
+
 // ============================================
 // FOOTER MENU SUB TOGGLE
 // ============================================
