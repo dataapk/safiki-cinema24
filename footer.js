@@ -176,47 +176,130 @@ window.footerCloseSidebar = function(){
 
 
    // ===== FOOTER MENU SUB TOGGLE =====
+
 window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
-    const menuSub = document.getElementById(menuSubId);
-    const arrow = document.getElementById(arrowId);
+    const menuSub =
+        document.getElementById(menuSubId);
+
+    const arrow =
+        document.getElementById(arrowId);
 
     if (!menuSub) return;
 
-    // Close other sub menus
-    document.querySelectorAll('.footer-menusub-list').forEach(function(menu){
 
-        if(menu.id !== menuSubId){
+    const isNested =
+        menuSub.classList.contains(
+            "footer-nested-submenu"
+        ) ||
+        menuSub.classList.contains(
+            "footer-match-list"
+        );
 
-            menu.classList.add('footer-menusub-hidden');
 
-            const otherArrow =
-                document.getElementById(
-                    menu.id.replace("MenuSub","Arrow")
+    // ==========================================
+    // NESTED MENU
+    // Cricket / Football / League → Match
+    // ==========================================
+
+    if (isNested) {
+
+        if (
+            menuSub.classList.contains(
+                "footer-menusub-hidden"
+            )
+        ) {
+
+            menuSub.classList.remove(
+                "footer-menusub-hidden"
+            );
+
+            if (arrow) {
+                arrow.classList.add("rotate");
+            }
+
+        } else {
+
+            menuSub.classList.add(
+                "footer-menusub-hidden"
+            );
+
+            if (arrow) {
+                arrow.classList.remove("rotate");
+            }
+
+        }
+
+        return;
+    }
+
+
+    // ==========================================
+    // MAIN MENU
+    // Casino / Sports / Virtual Sports
+    // ==========================================
+
+    document.querySelectorAll(
+        '.footer-sidebar-menu > .footer-menu-item > .footer-menusub-list'
+    ).forEach(function(menu) {
+
+        if (menu.id !== menuSubId) {
+
+            menu.classList.add(
+                "footer-menusub-hidden"
+            );
+
+
+            const parent =
+                menu.closest(
+                    ".footer-menu-item"
                 );
 
-            if(otherArrow){
-                otherArrow.classList.remove("rotate");
+            if (parent) {
+
+                const otherArrow =
+                    parent.querySelector(
+                        ".footer-menu-header .footer-arrow"
+                    );
+
+                if (otherArrow) {
+                    otherArrow.classList.remove(
+                        "rotate"
+                    );
+                }
+
             }
 
         }
 
     });
 
-    // Toggle Current
-    if(menuSub.classList.contains("footer-menusub-hidden")){
 
-        menuSub.classList.remove("footer-menusub-hidden");
+    // ==========================================
+    // TOGGLE CURRENT MAIN MENU
+    // ==========================================
 
-        if(arrow){
+    if (
+        menuSub.classList.contains(
+            "footer-menusub-hidden"
+        )
+    ) {
+
+        menuSub.classList.remove(
+            "footer-menusub-hidden"
+        );
+
+        if (arrow) {
             arrow.classList.add("rotate");
         }
 
-    }else{
+    } else {
 
-        menuSub.classList.add("footer-menusub-hidden");
+        menuSub.classList.add(
+            "footer-menusub-hidden"
+        );
 
-        if(arrow){
+        if (arrow) {
             arrow.classList.remove("rotate");
         }
 
