@@ -1615,17 +1615,15 @@
 
     align-items: center;
 
-    justify-content: flex-end;
-
-    gap: 8px;
+    width: 100%;
 
     padding: 7px 12px;
+
+    box-sizing: border-box;
 
     cursor: pointer;
 
     font-size: 13px;
-
-    color: #ffffff;
 
 }
 
@@ -1641,6 +1639,20 @@
 .footer-dynamic-game:hover {
 
     background: rgba(255,255,255,0.05);
+
+}
+
+.footer-dynamic-game span {
+
+    margin-left: auto;
+
+    background: #fef3a8;
+
+    color: #000000;
+
+    padding: 4px 8px;
+
+    border-radius: 5px;
 
 }
 
