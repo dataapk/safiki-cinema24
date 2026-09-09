@@ -1629,9 +1629,68 @@
 
 .footer-dynamic-game i {
 
-    font-size: 6px;
+    font-size: 10px;
 
-    color: #94a3b8;
+    color: #22c55e;
+
+    margin-right: 2px;
+
+    text-shadow:
+        0 0 5px rgba(34,197,94,0.8);
+
+}
+
+
+/* ======================================================
+   LIVE GAME DOT
+====================================================== */
+
+.footer-dynamic-game
+[data-footer-status="live"] i {
+
+    color: #22c55e;
+
+    animation:
+        footerGameLiveDot 1.2s ease-in-out infinite;
+
+}
+
+
+@keyframes footerGameLiveDot {
+
+    0% {
+
+        opacity: 0.45;
+
+        transform: scale(0.85);
+
+        text-shadow:
+            0 0 3px rgba(34,197,94,0.4);
+
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform: scale(1.2);
+
+        text-shadow:
+            0 0 8px rgba(34,197,94,1),
+            0 0 14px rgba(34,197,94,0.7);
+
+    }
+
+    100% {
+
+        opacity: 0.45;
+
+        transform: scale(0.85);
+
+        text-shadow:
+            0 0 3px rgba(34,197,94,0.4);
+
+    }
 
 }
 
