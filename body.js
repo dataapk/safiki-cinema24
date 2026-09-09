@@ -489,11 +489,24 @@ window.openMyBets = openMyBets;
 
 function closeMyBets(){
 
-    const popup = document.getElementById("my-bets-popup");
+    const popup =
+        document.getElementById("my-bets-popup");
 
     if(!popup) return;
 
+
+    // ==========================================
+    // CLOSE POPUP
+    // ==========================================
+
+    popup.style.display = "none";
+
     popup.classList.remove("show");
+
+
+    // ==========================================
+    // RESTORE BODY SCROLL
+    // ==========================================
 
     document.body.style.overflow = "";
 
