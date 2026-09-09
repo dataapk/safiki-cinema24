@@ -175,7 +175,9 @@ window.footerCloseSidebar = function(){
 
 
 
-   // ===== FOOTER MENU SUB TOGGLE =====
+  // ============================================
+// FOOTER MENU SUB TOGGLE
+// ============================================
 
 window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
@@ -188,109 +190,102 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
     if (!menuSub) return;
 
 
-    const isNested =
+    // ==========================================
+    // FIND CURRENT MENU LEVEL
+    // ==========================================
+
+    const parentContainer =
+        menuSub.parentElement;
+
+    if (!parentContainer) return;
+
+
+    // ==========================================
+    // CLOSE ONLY SIBLING SUB MENUS
+    // ==========================================
+
+    Array.from(parentContainer.children).forEach(
+        function(child) {
+
+            if (child === menuSub) return;
+
+
+            /*
+             * Only look for submenu elements
+             * belonging to this same level.
+             */
+
+            const siblingSub =
+                child.classList &&
+                (
+                    child.classList.contains(
+                        "footer-menusub-list"
+                    ) ||
+                    child.classList.contains(
+                        "footer-nested-submenu"
+                    ) ||
+                    child.classList.contains(
+                        "footer-match-list"
+                    )
+                )
+                    ? child
+                    : null;
+
+
+            if (!siblingSub) return;
+
+
+            siblingSub.classList.add(
+                "footer-menusub-hidden"
+            );
+
+
+            /*
+             * Reset arrow belonging
+             * to this sibling menu.
+             */
+
+            const siblingArrow =
+                child.querySelector(
+                    ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+                );
+
+
+            if (siblingArrow) {
+
+                siblingArrow.classList.remove(
+                    "rotate"
+                );
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // TOGGLE CURRENT MENU
+    // ==========================================
+
+    const isClosed =
         menuSub.classList.contains(
-            "footer-nested-submenu"
-        ) ||
-        menuSub.classList.contains(
-            "footer-match-list"
+            "footer-menusub-hidden"
         );
 
 
-    // ==========================================
-    // NESTED MENU
-    // Cricket / Football / League → Match
-    // ==========================================
-
-    if (isNested) {
-
-        if (
-            menuSub.classList.contains(
-                "footer-menusub-hidden"
-            )
-        ) {
-
-            menuSub.classList.remove(
-                "footer-menusub-hidden"
-            );
-
-            if (arrow) {
-                arrow.classList.add("rotate");
-            }
-
-        } else {
-
-            menuSub.classList.add(
-                "footer-menusub-hidden"
-            );
-
-            if (arrow) {
-                arrow.classList.remove("rotate");
-            }
-
-        }
-
-        return;
-    }
-
-
-    // ==========================================
-    // MAIN MENU
-    // Casino / Sports / Virtual Sports
-    // ==========================================
-
-    document.querySelectorAll(
-        '.footer-sidebar-menu > .footer-menu-item > .footer-menusub-list'
-    ).forEach(function(menu) {
-
-        if (menu.id !== menuSubId) {
-
-            menu.classList.add(
-                "footer-menusub-hidden"
-            );
-
-
-            const parent =
-                menu.closest(
-                    ".footer-menu-item"
-                );
-
-            if (parent) {
-
-                const otherArrow =
-                    parent.querySelector(
-                        ".footer-menu-header .footer-arrow"
-                    );
-
-                if (otherArrow) {
-                    otherArrow.classList.remove(
-                        "rotate"
-                    );
-                }
-
-            }
-
-        }
-
-    });
-
-
-    // ==========================================
-    // TOGGLE CURRENT MAIN MENU
-    // ==========================================
-
-    if (
-        menuSub.classList.contains(
-            "footer-menusub-hidden"
-        )
-    ) {
+    if (isClosed) {
 
         menuSub.classList.remove(
             "footer-menusub-hidden"
         );
 
+
         if (arrow) {
-            arrow.classList.add("rotate");
+
+            arrow.classList.add(
+                "rotate"
+            );
+
         }
 
     } else {
@@ -299,14 +294,18 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
             "footer-menusub-hidden"
         );
 
+
         if (arrow) {
-            arrow.classList.remove("rotate");
+
+            arrow.classList.remove(
+                "rotate"
+            );
+
         }
 
     }
 
 };
-
 
 // ===== FOOTER ACTIVE =====
 // ===== SET ACTIVE =====
