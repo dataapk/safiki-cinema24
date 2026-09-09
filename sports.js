@@ -459,10 +459,16 @@ async function loadSportsGames() {
 
 
     // ==========================================
-    // RENDER ALL SPORTS
-    // ==========================================
+// RENDER ALL SPORTS
+// ==========================================
 
-    renderAllSportsGames();
+renderAllSportsGames();
+
+// ==========================================
+// RENDER FOOTER SPORTS
+// ==========================================
+
+renderFooterSportsGames();
 
 
     return true;
