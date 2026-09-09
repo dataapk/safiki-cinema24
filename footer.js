@@ -609,11 +609,41 @@ let casinoTopWinners = JSON.parse(
    OPEN MY BETS
 ============================== */
 
-function footerOpenMyBets(){
+async function footerOpenMyBets(){
+
+    // ==========================================
+    // CHECK LOGIN STATUS
+    // ==========================================
+
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+
+    // ==========================================
+    // GUEST USER
+    // ==========================================
+
+    if(!session || !session.user){
+
+        // Guest হলে My Bets খুলবে না
+        // সরাসরি Login Page খুলবে
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // REAL USER
+    // ==========================================
+
     lockBodyScroll();
 
     const myBets =
-    document.getElementById("my-bets-page");
+        document.getElementById("my-bets-page");
 
 
     // Toggle Open / Close
@@ -646,7 +676,6 @@ function footerOpenMyBets(){
     updateMyBetsCount();
 
 }
-
 
 
 /* ==============================
