@@ -174,8 +174,7 @@ window.footerCloseSidebar = function(){
 };
 
 
-
-  // ============================================
+// ============================================
 // FOOTER MENU SUB TOGGLE
 // ============================================
 
@@ -201,7 +200,125 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
 
     // ==========================================
+    // MAIN MENU CHECK
+    // Casino / Sports / Virtual Sports
+    // ==========================================
+
+    const mainMenuIds = [
+        "casinoMenuSub",
+        "sportsMenuSub",
+        "virtualSportsMenuSub"
+    ];
+
+    const isMainMenu =
+        mainMenuIds.includes(menuSubId);
+
+
+    // ==========================================
+    // MAIN MENU BEHAVIOR
+    // ==========================================
+
+    if (isMainMenu) {
+
+        // ------------------------------------------
+        // Close other Main Menus only
+        // ------------------------------------------
+
+        mainMenuIds.forEach(function(id) {
+
+            if (id === menuSubId) return;
+
+
+            const otherMenu =
+                document.getElementById(id);
+
+            if (!otherMenu) return;
+
+
+            otherMenu.classList.add(
+                "footer-menusub-hidden"
+            );
+
+
+            // Reset other Main Menu arrow
+            const otherParent =
+                otherMenu.closest(
+                    ".footer-menu-item"
+                );
+
+
+            if (otherParent) {
+
+                const otherArrow =
+                    otherParent.querySelector(
+                        ".footer-menu-header .footer-arrow"
+                    );
+
+
+                if (otherArrow) {
+
+                    otherArrow.classList.remove(
+                        "rotate"
+                    );
+
+                }
+
+            }
+
+        });
+
+
+        // ------------------------------------------
+        // Toggle Current Main Menu
+        // ------------------------------------------
+
+        const isClosed =
+            menuSub.classList.contains(
+                "footer-menusub-hidden"
+            );
+
+
+        if (isClosed) {
+
+            menuSub.classList.remove(
+                "footer-menusub-hidden"
+            );
+
+
+            if (arrow) {
+
+                arrow.classList.add(
+                    "rotate"
+                );
+
+            }
+
+        } else {
+
+            menuSub.classList.add(
+                "footer-menusub-hidden"
+            );
+
+
+            if (arrow) {
+
+                arrow.classList.remove(
+                    "rotate"
+                );
+
+            }
+
+        }
+
+
+        return;
+
+    }
+
+
+    // ==========================================
     // CLOSE ONLY SIBLING SUB MENUS
+    // Cricket / Football / League / Match
     // ==========================================
 
     Array.from(parentContainer.children).forEach(
@@ -264,7 +381,7 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
 
     // ==========================================
-    // TOGGLE CURRENT MENU
+    // TOGGLE CURRENT NESTED MENU
     // ==========================================
 
     const isClosed =
@@ -306,6 +423,8 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
     }
 
 };
+
+// ===== FOOTER ACTIVE =====
 
 // ===== FOOTER ACTIVE =====
 // ===== SET ACTIVE =====
