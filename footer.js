@@ -636,14 +636,25 @@ async function footerOpenMyBets(){
     }
 
 
-    // ==========================================
+        // ==========================================
     // REAL USER
     // ==========================================
 
     lockBodyScroll();
 
     const myBets =
-        document.getElementById("my-bets-page");
+        document.getElementById("my-bets-popup");
+
+
+    if(!myBets) {
+
+        console.error(
+            "My Bets popup element not found: #my-bets-popup"
+        );
+
+        return;
+
+    }
 
 
     // Toggle Open / Close
