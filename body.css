@@ -1434,6 +1434,20 @@
     margin-bottom:6px;
 
 }
+.casino-blackjack .subcat-icon,
+.casino-slots .subcat-icon,
+.casino-aviator .subcat-icon,
+.casino-live .subcat-icon,
+.casino-roulette .subcat-icon,
+.casino-poker .subcat-icon,
+.casino-baccarat .subcat-icon,
+.casino-crash .subcat-icon,
+.casino-fishing .subcat-icon,
+.casino-view-all .subcat-icon {
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 6px;
+}
 
 .subcat-item span{
 
