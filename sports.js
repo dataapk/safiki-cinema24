@@ -1556,6 +1556,25 @@ window.openSportsGame =
 
         }
 
+        // ==========================================
+// SHOW SPORTS GAME PAGE PARENT
+// ==========================================
+
+if (sportsSubSectionAlt) {
+
+    sportsSubSectionAlt.style.display =
+        "block";
+
+}
+
+
+// ==========================================
+// SHOW FULL GAME PAGE
+// ==========================================
+
+gamePage.style.display =
+    "block";
+
 
         // ==========================================
         // HIDE ALL SPORT EVENT PAGES
@@ -1584,24 +1603,6 @@ window.openSportsGame =
 
 
        
-// ==========================================
-// SHOW SPORTS GAME PAGE PARENT
-// ==========================================
-
-if (sportsSubSectionAlt) {
-
-    sportsSubSectionAlt.style.display =
-        "block";
-
-}
-
-
-// ==========================================
-// SHOW FULL GAME PAGE
-// ==========================================
-
-gamePage.style.display =
-    "block";
 
         
         // ==========================================
