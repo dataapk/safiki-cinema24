@@ -308,16 +308,19 @@ window.renderFooterSportsGames = function () {
 
 
             row.onclick =
-                function (event) {
+    function (event) {
 
-                    event.stopPropagation();
+        event.stopPropagation();
 
-                    openSportsGame(
-                        game.sport,
-                        game.game_id
-                    );
+        // Mark that Full Game was opened from Footer
+        window.openedSportsGameFromFooter = true;
 
-                };
+        openSportsGame(
+            game.sport,
+            game.game_id
+        );
+
+    };
 
 
             // ==========================================
