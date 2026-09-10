@@ -277,28 +277,43 @@ function selectMainCategory(category) {
     }
 
     // Hide main category cards
-    if (mainCategorySection) {
-        mainCategorySection.style.display = 'none';
-    }
+if (mainCategorySection) {
+    mainCategorySection.style.display = 'none';
+}
 
-    // Hide all sub-sections first
-    if (casinoSubSection) {
-        casinoSubSection.style.display = 'none';
-    }
 
-    if (sportsSubSection) {
-        sportsSubSection.style.display = 'none';
-    }
+// Hide all sub-sections first
+if (casinoSubSection) {
+    casinoSubSection.style.display = 'none';
+}
 
-    const virtualSportsSection =
-        document.getElementById(
-            "virtualSportsFrontendSection"
-        );
+if (sportsSubSection) {
+    sportsSubSection.style.display = 'none';
+}
 
-    if (virtualSportsSection) {
-        virtualSportsSection.style.display = 'none';
-    }
 
+// Hide Sports Full Game Page
+const sportsGamePage =
+    document.getElementById(
+        "sports-game-page"
+    );
+
+if (sportsGamePage) {
+    sportsGamePage.style.display =
+        "none";
+}
+
+
+// Hide Virtual Sports Frontend Section
+const virtualSportsSection =
+    document.getElementById(
+        "virtualSportsFrontendSection"
+    );
+
+if (virtualSportsSection) {
+    virtualSportsSection.style.display =
+        "none";
+}
 
     // Show selected category
     if (category === 'casino') {
