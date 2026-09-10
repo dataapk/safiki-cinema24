@@ -1732,6 +1732,17 @@
    FOOTER INFORMATION POPUP
 ===================================================== */
 
+.premium-footer {
+    background: linear-gradient(
+        180deg,
+        #063b2b 0%,
+        #042d22 55%,
+        #021f18 100%
+    );
+
+    color: #ffffff;
+}
+
 .footer-info-popup {
 
     position: fixed;
