@@ -1,6 +1,6 @@
 // ============================================
 // FOOTER SIDEBAR
-// ============================================
+// ===========================================
 
 // ===== DOM ELEMENTS =====
 const footerSidebar = document.getElementById("footerSidebar");
