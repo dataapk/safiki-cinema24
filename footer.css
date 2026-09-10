@@ -1740,6 +1740,10 @@
 
     padding: 40px 20px 25px;
 
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+
     background:
         linear-gradient(
             180deg,
