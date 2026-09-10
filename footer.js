@@ -1578,7 +1578,7 @@ document.addEventListener("click", function(e){
 
 
 // ===== INITIALIZE =====
-footerCloseSidebar();
+//footerCloseSidebar();
 
 // =====================================================
 // PREMIUM FOOTER INFORMATION POPUP
