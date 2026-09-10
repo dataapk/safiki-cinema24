@@ -401,6 +401,12 @@ function backToMainDashboard() {
     // Hide both sub-sections
     if (casinoSubSection) casinoSubSection.style.display = 'none';
     if (sportsSubSection) sportsSubSection.style.display = 'none';
+   
+   // ==========================================
+// CLEAR PREVIOUS SPORTS PAGE STATE
+// ==========================================
+
+window.currentSportsPage = null;
 
    
     
