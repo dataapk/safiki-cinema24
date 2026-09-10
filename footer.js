@@ -305,16 +305,24 @@ window.renderFooterSportsGames = function () {
                 </span>
 
             `;
-
+            
+// ==========================================
+// স্পোর্টসের কোনো গেমে ডাইরেক্ট ক্লিক করার পর সাব মেনুটা কলাপ্স করার অপশন এখানে ।
+// ==========================================
 
             row.onclick =
     function (event) {
 
         event.stopPropagation();
 
-        // Mark that Full Game was opened from Footer
-        window.openedSportsGameFromFooter = true;
+        // Mark Footer origin
+        window.openedSportsGameFromFooter =
+            true;
 
+        // Close Footer Sidebar
+        footerCloseSidebar();
+
+        // Open Full Game Page
         openSportsGame(
             game.sport,
             game.game_id
