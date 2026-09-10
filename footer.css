@@ -1728,20 +1728,455 @@
  এ  FOOTER  আমাদের বডি সেকশনের পেমেন্ট বক্সের নিচে অংশগুলোর জন্য
 ===================================================== */
 
-/* =====================================================
-   FOOTER INFORMATION POPUP
+/* ====================================================
+   PREMIUM FOOTER
+   Soft Deep Green / Clean White / Soft Gold
 ===================================================== */
 
 .premium-footer {
-    background: linear-gradient(
-        180deg,
-        #063b2b 0%,
-        #042d22 55%,
-        #021f18 100%
-    );
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 40px 20px 25px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #0b5a3f 0%,
+            #084c36 50%,
+            #073f2f 100%
+        );
+
+    border-top:
+        1px solid
+        rgba(250,204,21,0.20);
 
     color: #ffffff;
+
 }
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.premium-footer-brand {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+.premium-footer-brand h2 {
+
+    margin: 0 0 8px;
+
+    font-size: 24px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    color: #ffffff;
+
+}
+
+.premium-footer-brand p {
+
+    margin: 0;
+
+    color:
+        rgba(255,255,255,0.82);
+
+    font-size: 13px;
+
+}
+
+
+/* =====================================================
+   SECTION TITLES
+===================================================== */
+
+.premium-footer h3 {
+
+    margin: 0 0 15px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+
+    color: #facc15;
+
+}
+
+
+/* =====================================================
+   INFORMATION
+===================================================== */
+
+.premium-footer-info {
+
+    max-width: 900px;
+
+    margin: 0 auto 30px;
+
+}
+
+.premium-footer-link-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+
+}
+
+.premium-footer-link-grid a {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 38px;
+
+    padding: 8px 10px;
+
+    box-sizing: border-box;
+
+    text-decoration: none !important;
+
+    color:
+        #ffffff !important;
+
+    background:
+        rgba(0,0,0,0.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    transition:
+        0.25s ease;
+
+}
+
+.premium-footer-link-grid a:visited {
+
+    color:
+        #ffffff !important;
+
+}
+
+.premium-footer-link-grid a:hover {
+
+    color:
+        #facc15 !important;
+
+    background:
+        rgba(250,204,21,0.08);
+
+    border-color:
+        rgba(250,204,21,0.35);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+/* =====================================================
+   COMMUNITY
+===================================================== */
+
+.premium-footer-community {
+
+    max-width: 700px;
+
+    margin: 0 auto 30px;
+
+}
+
+.premium-social-grid {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+}
+
+.premium-social-box {
+
+    min-width: 82px;
+
+    padding: 10px 9px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    box-sizing: border-box;
+
+    text-decoration: none !important;
+
+    color:
+        #ffffff !important;
+
+    background:
+        rgba(0,0,0,0.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    border-radius: 8px;
+
+    transition:
+        0.25s ease;
+
+}
+
+.premium-social-box:visited {
+
+    color:
+        #ffffff !important;
+
+}
+
+.premium-social-box i {
+
+    font-size: 17px;
+
+}
+
+.premium-social-box span {
+
+    font-size: 10px;
+
+    color:
+        rgba(255,255,255,0.78);
+
+}
+
+.premium-social-box:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(250,204,21,0.45);
+
+    color:
+        #facc15 !important;
+
+}
+
+
+/* =====================================================
+   TRUST & VERIFICATION
+===================================================== */
+
+.premium-footer-trust {
+
+    max-width: 500px;
+
+    margin: 0 auto 30px;
+
+}
+
+.premium-trust-logos {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+}
+
+.premium-trust-logo {
+
+    width: 150px;
+
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 8px;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(255,255,255,0.96);
+
+    border-radius: 8px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.18);
+
+}
+
+.premium-trust-logo img {
+
+    max-width: 100%;
+
+    max-height: 48px;
+
+    object-fit: contain;
+
+}
+
+
+/* =====================================================
+   COMPANY INFORMATION
+===================================================== */
+
+.premium-footer-company {
+
+    text-align: center;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.12);
+
+}
+
+.premium-company-name {
+
+    margin-bottom: 7px;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    color:
+        #ffffff;
+
+}
+
+.premium-footer-company p {
+
+    margin: 4px 0;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    color:
+        rgba(255,255,255,0.75);
+
+}
+
+.premium-copyright {
+
+    opacity: 0.75;
+
+}
+
+
+/* =====================================================
+   RESPONSIBLE GAMING
+===================================================== */
+
+.premium-footer-responsible {
+
+    margin: 20px auto 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+}
+
+.premium-age-badge {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        2px solid
+        #facc15;
+
+    border-radius: 50%;
+
+    color:
+        #facc15;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+.premium-footer-responsible strong {
+
+    display: block;
+
+    font-size: 12px;
+
+    color:
+        #ffffff;
+
+}
+
+.premium-footer-responsible span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color:
+        rgba(255,255,255,0.70);
+
+}
+
+
+/* =====================================================
+   FOOTER INFORMATION POPUP
+===================================================== */
 
 .footer-info-popup {
 
@@ -1757,6 +2192,7 @@
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 15px;
@@ -1764,7 +2200,7 @@
     box-sizing: border-box;
 
     background:
-        rgba(0, 0, 0, 0.35);
+        rgba(0,0,0,0.32);
 
     backdrop-filter:
         blur(3px);
@@ -1778,34 +2214,36 @@
 
 .footer-info-card {
 
-    width: min(850px, 100%);
+    width:
+        min(850px, 100%);
 
-    height: min(75vh, 650px);
+    height:
+        min(75vh, 650px);
 
     display: flex;
 
     flex-direction: column;
 
+    position: relative;
+
     background:
         linear-gradient(
             180deg,
-            #064532 0%,
-            #043426 100%
+            #0b5a3f 0%,
+            #084c36 100%
         );
 
     border:
         1px solid
-        rgba(250,204,21,0.25);
+        rgba(250,204,21,0.28);
 
     border-radius: 12px;
 
     box-shadow:
-        0 15px 50px
-        rgba(0,0,0,0.55);
+        0 15px 45px
+        rgba(0,0,0,0.42);
 
     overflow: hidden;
-
-    position: relative;
 
 }
 
@@ -1834,9 +2272,10 @@
     border-radius: 50%;
 
     background:
-        rgba(0,0,0,0.25);
+        rgba(0,0,0,0.20);
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     font-size: 15px;
 
@@ -1854,7 +2293,8 @@
     background:
         #facc15;
 
-    color: #062f23;
+    color:
+        #073f2f;
 
     transform:
         rotate(90deg);
@@ -1863,7 +2303,7 @@
 
 
 /* =====================================================
-   TITLE
+   POPUP TITLE
 ===================================================== */
 
 .footer-info-title {
@@ -1875,9 +2315,10 @@
 
     border-bottom:
         1px solid
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.12);
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     font-size: 18px;
 
@@ -1889,7 +2330,7 @@
 
 
 /* =====================================================
-   CONTENT
+   POPUP CONTENT
 ===================================================== */
 
 .footer-info-content {
@@ -1901,7 +2342,7 @@
     padding: 22px;
 
     color:
-        rgba(255,255,255,0.78);
+        rgba(255,255,255,0.84);
 
     font-size: 13px;
 
@@ -1910,7 +2351,9 @@
 }
 
 
-/* Scrollbar */
+/* =====================================================
+   POPUP SCROLLBAR
+===================================================== */
 
 .footer-info-content::-webkit-scrollbar {
 
@@ -1921,7 +2364,7 @@
 .footer-info-content::-webkit-scrollbar-track {
 
     background:
-        rgba(0,0,0,0.12);
+        rgba(0,0,0,0.10);
 
 }
 
@@ -1936,7 +2379,7 @@
 
 
 /* =====================================================
-   CONTENT HEADINGS
+   POPUP CONTENT HEADINGS
 ===================================================== */
 
 .footer-info-content h4 {
@@ -1944,7 +2387,8 @@
     margin:
         0 0 8px;
 
-    color: #facc15;
+    color:
+        #facc15;
 
     font-size: 14px;
 
@@ -1978,6 +2422,28 @@
 ===================================================== */
 
 @media (max-width: 600px) {
+
+    .premium-footer {
+
+        padding:
+            32px 12px 22px;
+
+    }
+
+    .premium-footer-link-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .premium-trust-logo {
+
+        width: 135px;
+
+        height: 60px;
+
+    }
 
     .footer-info-popup {
 
