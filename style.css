@@ -2746,13 +2746,14 @@ body.modal-open{
 /* GAME INFO */
 
 .game-info {
-    min-height: 38px;
+    min-height: 30px;
+    height: 30px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 7px 5px;
+    padding: 3px 4px;
 
     box-sizing: border-box;
 
@@ -2764,13 +2765,12 @@ body.modal-open{
 .game-info h3 {
     margin: 0;
 
-    font-size: 12px;
-    line-height: 1.3;
+    font-size: 11px;
+    line-height: 1.2;
     font-weight: 700;
 
     color: var(--text);
 }
-
 
 /* =========================
    MOBILE
