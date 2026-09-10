@@ -1584,12 +1584,20 @@ window.openSportsGame =
 
 
         // ==========================================
-        // SHOW FULL GAME PAGE
-        // ==========================================
+// SHOW FULL GAME PAGE
+// ==========================================
 
-        gamePage.style.display =
-            "block";
+console.log(
+    "BEFORE GAME PAGE SHOW"
+);
 
+gamePage.style.display =
+    "block";
+
+console.log(
+    "AFTER GAME PAGE SHOW:",
+    gamePage.style.display
+);
 
         // ==========================================
         // SCROLL TOP
