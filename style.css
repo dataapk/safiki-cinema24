@@ -2746,8 +2746,8 @@ body.modal-open{
 /* GAME INFO */
 
 .game-info {
-    min-height: 30px;
-    height: 30px;
+    min-height: 20px;
+    height: 20px;
 
     display: flex;
     align-items: center;
@@ -2765,7 +2765,7 @@ body.modal-open{
 .game-info h3 {
     margin: 0;
 
-    font-size: 11px;
+    font-size: 8px;
     line-height: 1.2;
     font-weight: 700;
 
@@ -2798,13 +2798,13 @@ body.modal-open{
     }
 
     .game-info {
-    min-height: 28px;
-    height: 28px;
+    min-height: 20px;
+    height: 20px;
     padding: 3px 3px;
 }
 
 .game-info h3 {
-    font-size: 10px;
+    font-size: 8px;
     line-height: 1.15;
 }
 
