@@ -1453,9 +1453,11 @@ if (window.openedSportsGameFromFooter) {
 
     }
 
+    // Bet Slip show
+    showSportsBetSlip();
+
     // Reset Footer flag
-    window.openedSportsGameFromFooter =
-        false;
+    window.openedSportsGameFromFooter = false;
 
 }
 
