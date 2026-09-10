@@ -1580,4 +1580,240 @@ document.addEventListener("click", function(e){
 // ===== INITIALIZE =====
 footerCloseSidebar();
 
+// =====================================================
+// PREMIUM FOOTER INFORMATION POPUP
+// =====================================================
+
+window.openFooterInfo = function (type) {
+
+    const popup =
+        document.getElementById("footerInfoPopup");
+
+    const title =
+        document.getElementById("footerInfoTitle");
+
+    const content =
+        document.getElementById("footerInfoContent");
+
+    if (!popup || !title || !content) {
+        console.log("Footer info popup elements not found");
+        return;
+    }
+
+    const footerInfo = {
+
+        about: {
+            title: "About Us",
+            content: `
+                <h4>Welcome to SPORTS BET</h4>
+
+                <p>
+                    SPORTS BET is an online platform designed
+                    to provide users with a simple and convenient
+                    destination for sports entertainment and gaming.
+                </p>
+
+                <p>
+                    Our goal is to create a clean, user-friendly
+                    experience where users can easily explore
+                    available sports and entertainment options.
+                </p>
+            `
+        },
+
+        promotions: {
+            title: "Promotions",
+            content: `
+                <h4>Current Promotions</h4>
+
+                <p>
+                    Discover our latest promotional offers,
+                    special events and seasonal campaigns.
+                </p>
+
+                <p>
+                    Promotional terms, eligibility requirements
+                    and applicable conditions will be displayed
+                    here.
+                </p>
+            `
+        },
+
+        contact: {
+            title: "Contact Us",
+            content: `
+                <h4>We're Here to Help</h4>
+
+                <p>
+                    If you have any questions or need assistance,
+                    please contact our support team.
+                </p>
+
+                <p>
+                    Email: support@example.com
+                </p>
+            `
+        },
+
+        affiliate: {
+            title: "Affiliate",
+            content: `
+                <h4>Affiliate Program</h4>
+
+                <p>
+                    Our affiliate program allows partners to
+                    introduce new users to SPORTS BET and
+                    participate in our partnership program.
+                </p>
+
+                <p>
+                    More information about registration,
+                    commission structure and requirements
+                    will be added here.
+                </p>
+            `
+        },
+
+        help: {
+            title: "Help Center",
+            content: `
+                <h4>How Can We Help?</h4>
+
+                <p>
+                    Find helpful information about your account,
+                    deposits, withdrawals, sports markets and
+                    general platform navigation.
+                </p>
+
+                <p>
+                    If you cannot find the answer you need,
+                    please contact our support team.
+                </p>
+            `
+        },
+
+        faq: {
+            title: "FAQ",
+            content: `
+                <h4>Frequently Asked Questions</h4>
+
+                <p>
+                    <strong>How do I create an account?</strong><br>
+                    Follow the registration process and provide
+                    the required information.
+                </p>
+
+                <p>
+                    <strong>How can I contact support?</strong><br>
+                    Use our Contact Us section for assistance.
+                </p>
+
+                <p>
+                    <strong>Where can I find the latest offers?</strong><br>
+                    Visit the Promotions section.
+                </p>
+            `
+        },
+
+        terms: {
+            title: "Terms & Conditions",
+            content: `
+                <h4>Terms & Conditions</h4>
+
+                <p>
+                    These terms describe the rules and conditions
+                    applicable to the use of the SPORTS BET platform.
+                </p>
+
+                <p>
+                    Please read all applicable terms carefully
+                    before using the platform.
+                </p>
+            `
+        },
+
+        privacy: {
+            title: "Privacy Policy",
+            content: `
+                <h4>Your Privacy Matters</h4>
+
+                <p>
+                    We respect user privacy and are committed to
+                    protecting information provided through our platform.
+                </p>
+
+                <p>
+                    Details regarding information collection,
+                    usage, storage and protection will be provided
+                    in this section.
+                </p>
+            `
+        },
+
+        responsible: {
+            title: "Responsible Gaming",
+            content: `
+                <h4>Play Responsibly</h4>
+
+                <p>
+                    Gaming should always be treated as entertainment.
+                    Please set reasonable limits and never spend more
+                    than you can afford.
+                </p>
+
+                <p>
+                    SPORTS BET is intended for adults only.
+                    If gaming becomes difficult to control,
+                    seek appropriate support.
+                </p>
+            `
+        }
+
+    };
+
+    const info =
+        footerInfo[type];
+
+    if (!info) {
+        console.log(
+            "Footer information type not found:",
+            type
+        );
+        return;
+    }
+
+    title.textContent =
+        info.title;
+
+    content.innerHTML =
+        info.content;
+
+    popup.style.display =
+        "flex";
+
+    document.body.style.overflow =
+        "hidden";
+};
+
+
+// =====================================================
+// CLOSE FOOTER INFORMATION POPUP
+// =====================================================
+
+window.closeFooterInfo = function () {
+
+    const popup =
+        document.getElementById("footerInfoPopup");
+
+    if (!popup) {
+        return;
+    }
+
+    popup.style.display =
+        "none";
+
+    document.body.style.overflow =
+        "";
+};
+
 console.log("✅ footer.js Ready!");
