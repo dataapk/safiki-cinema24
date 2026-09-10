@@ -1433,6 +1433,32 @@ window.openSportsGame =
 
         }
 
+        // ==========================================
+// HIDE MAIN DASHBOARD FOR FOOTER GAME
+// ==========================================
+
+if (window.openedSportsGameFromFooter) {
+
+    if (heroBanner) {
+
+        heroBanner.style.display =
+            "none";
+
+    }
+
+    if (mainCategorySection) {
+
+        mainCategorySection.style.display =
+            "none";
+
+    }
+
+    // Reset Footer flag
+    window.openedSportsGameFromFooter =
+        false;
+
+}
+
 
         // ==========================================
         // HIDE SPORTS SUB BANNER
