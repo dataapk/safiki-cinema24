@@ -2672,7 +2672,7 @@ body.modal-open{
 .game-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
 }
 
@@ -2765,7 +2765,7 @@ body.modal-open{
 .game-info h3 {
     margin: 0;
 
-    font-size: 8px;
+    font-size: 10px;
     line-height: 1.2;
     font-weight: 700;
 
@@ -2786,7 +2786,7 @@ body.modal-open{
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
 
-        gap: 7px;
+        gap: 5px;
     }
 
     .section-header h2 {
@@ -2804,7 +2804,7 @@ body.modal-open{
 }
 
 .game-info h3 {
-    font-size: 8px;
+    font-size: 10px;
     line-height: 1.15;
 }
 
