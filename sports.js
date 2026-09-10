@@ -1583,34 +1583,27 @@ window.openSportsGame =
         );
 
 
-        // ==========================================
-// SHOW FULL GAME PAGE
+       
+// ==========================================
+// SHOW SPORTS GAME PAGE PARENT
 // ==========================================
 
-console.log(
-    "BEFORE GAME PAGE SHOW"
-);
+if (sportsSubSectionAlt) {
+
+    sportsSubSectionAlt.style.display =
+        "block";
+
+}
+
+
+// ==========================================
+// SHOW FULL GAME PAGE
+// ==========================================
 
 gamePage.style.display =
     "block";
 
-console.log(
-    "AFTER GAME PAGE SHOW:",
-    gamePage.style.display
-);
-
-console.log(
-    "GAME PAGE DISPLAY:",
-    gamePage.style.display
-);
-
-console.log(
-    "GAME PAGE PARENT DISPLAY:",
-    gamePage.parentElement
-        ? gamePage.parentElement.style.display
-        : "NO PARENT"
-);
-
+        
         // ==========================================
         // SCROLL TOP
         // ==========================================
