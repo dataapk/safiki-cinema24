@@ -1599,6 +1599,18 @@ console.log(
     gamePage.style.display
 );
 
+console.log(
+    "GAME PAGE DISPLAY:",
+    gamePage.style.display
+);
+
+console.log(
+    "GAME PAGE PARENT DISPLAY:",
+    gamePage.parentElement
+        ? gamePage.parentElement.style.display
+        : "NO PARENT"
+);
+
         // ==========================================
         // SCROLL TOP
         // ==========================================
