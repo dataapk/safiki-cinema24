@@ -2502,71 +2502,143 @@
         </div>
     </div>
 
-    <!-- Casino Sub Categories -->
-    <div class="subcat-header-row">
-        <button class="sub-back-btn" onclick="backToMainDashboard()">
-            <i class="fas fa-arrow-left"></i> Back
-        </button>
-        <h3 class="subcat-section-title">Casino Games</h3>
-    </div>
-    
-    <div class="subcat-grid" id="casinoSubcatGrid">
-        <!-- Top Row: 5 items -->
-        <div class="subcat-row top-row">
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'slots', this)">
-                <i class="fas fa-slot-machine"></i>
-                <span>Slots</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'aviator', this)">
-                <i class="fas fa-plane"></i>
-                <span>Aviator</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'live', this)">
-                <i class="fas fa-video"></i>
-                <span>Live</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'roulette', this)">
-                <i class="fas fa-circle-notch"></i>
-                <span>Roulette</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'blackjack', this)">
-                <i class="fas fa-heart"></i>
-                <span>Blackjack</span>
-            </div>
+  
+<!-- ======================================================
+     CASINO SUB CATEGORIES
+====================================================== -->
+
+<div class="subcat-header-row">
+    <button class="sub-back-btn" onclick="backToMainDashboard()">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </button>
+
+    <h3 class="subcat-section-title">Casino Games</h3>
+</div>
+
+
+<!-- Casino Category Cards -->
+<div class="subcat-grid" id="casinoSubcatGrid">
+
+    <!-- Slots -->
+    <div class="subcat-item casino-slots"
+         onclick="selectSubCategory('casino', 'slots', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-gamepad"></i>
         </div>
-        <!-- Down Row: 4 items + View All -->
-        <div class="subcat-row down-row">
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'poker', this)">
-                <i class="fas fa-diamond"></i>
-                <span>Poker</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'baccarat', this)">
-                <i class="fas fa-money-bill-wave"></i>
-                <span>Baccarat</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'crash', this)">
-                <i class="fas fa-rocket"></i>
-                <span>Crash</span>
-            </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'fishing', this)">
-                <i class="fas fa-fish"></i>
-                <span>Fishing</span>
-            </div>
-            <div class="subcat-item view-all-btn" onclick="viewAllSubCategories('casino', this)">
-                <i class="fas fa-th-large"></i>
-                <span>View All</span>
-            </div>
-        </div>
+        <span>Slots</span>
     </div>
 
-    <!-- Selected Category Games -->
-    <div class="selected-games-area" id="casinoSelectedGames">
-        <h4 class="selected-games-title" id="casinoSelectedTitle">All Games</h4>
-        <div class="selected-games-grid" id="casinoGamesGrid">
-            <!-- Games injected by JS -->
+
+    <!-- Aviator -->
+    <div class="subcat-item casino-aviator"
+         onclick="selectSubCategory('casino', 'aviator', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-plane"></i>
         </div>
+        <span>Aviator</span>
     </div>
-</section>
+
+
+    <!-- Live -->
+    <div class="subcat-item casino-live"
+         onclick="selectSubCategory('casino', 'live', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-video"></i>
+        </div>
+        <span>Live</span>
+    </div>
+
+
+    <!-- Roulette -->
+    <div class="subcat-item casino-roulette"
+         onclick="selectSubCategory('casino', 'roulette', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-circle-notch"></i>
+        </div>
+        <span>Roulette</span>
+    </div>
+
+
+    <!-- Blackjack -->
+    <div class="subcat-item casino-blackjack"
+         onclick="selectSubCategory('casino', 'blackjack', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        <span>Blackjack</span>
+    </div>
+
+
+    <!-- Poker -->
+    <div class="subcat-item casino-poker"
+         onclick="selectSubCategory('casino', 'poker', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-diamond"></i>
+        </div>
+        <span>Poker</span>
+    </div>
+
+
+    <!-- Baccarat -->
+    <div class="subcat-item casino-baccarat"
+         onclick="selectSubCategory('casino', 'baccarat', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-money-bill-wave"></i>
+        </div>
+        <span>Baccarat</span>
+    </div>
+
+
+    <!-- Crash -->
+    <div class="subcat-item casino-crash"
+         onclick="selectSubCategory('casino', 'crash', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-rocket"></i>
+        </div>
+        <span>Crash</span>
+    </div>
+
+
+    <!-- Fishing -->
+    <div class="subcat-item casino-fishing"
+         onclick="selectSubCategory('casino', 'fishing', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-fish"></i>
+        </div>
+        <span>Fishing</span>
+    </div>
+
+
+    <!-- View All -->
+    <div class="subcat-item view-all-btn casino-view-all"
+         onclick="viewAllSubCategories('casino', this)">
+        <div class="subcat-icon">
+            <i class="fas fa-th-large"></i>
+        </div>
+        <span>View All</span>
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     SELECTED CATEGORY GAMES
+====================================================== -->
+
+<div class="selected-games-area" id="casinoSelectedGames">
+
+    <h4 class="selected-games-title" id="casinoSelectedTitle">
+        All Games
+    </h4>
+
+    <div class="selected-games-grid" id="casinoGamesGrid">
+        <!-- Games injected by JS -->
+    </div>
+
+</div>
+
+
 
 <!-- ===== SPORTS SUB SECTION ===== -->
 <section class="sports-sub-section" id="sportsSubSection" style="display: none;">
