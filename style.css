@@ -2798,13 +2798,15 @@ body.modal-open{
     }
 
     .game-info {
-        min-height: 36px;
-        padding: 6px 4px;
-    }
+    min-height: 28px;
+    height: 28px;
+    padding: 3px 3px;
+}
 
-    .game-info h3 {
-        font-size: 11px;
-    }
+.game-info h3 {
+    font-size: 10px;
+    line-height: 1.15;
+}
 
     .play-btn {
         padding: 6px 10px;
