@@ -1722,3 +1722,290 @@
 /* =====================================================
    END MY BETS CSS
 ===================================================== */
+
+/* ====================================================
+
+ এ  FOOTER  আমাদের বডি সেকশনের পেমেন্ট বক্সের নিচে অংশগুলোর জন্য
+===================================================== */
+
+/* =====================================================
+   FOOTER INFORMATION POPUP
+===================================================== */
+
+.footer-info-popup {
+
+    position: fixed;
+
+    top: 75px;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(0, 0, 0, 0.35);
+
+    backdrop-filter:
+        blur(3px);
+
+}
+
+
+/* =====================================================
+   INFORMATION CARD
+===================================================== */
+
+.footer-info-card {
+
+    width: min(850px, 100%);
+
+    height: min(75vh, 650px);
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #064532 0%,
+            #043426 100%
+        );
+
+    border:
+        1px solid
+        rgba(250,204,21,0.25);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,0.55);
+
+    overflow: hidden;
+
+    position: relative;
+
+}
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.footer-info-close {
+
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,0,0,0.25);
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition:
+        0.25s ease;
+
+}
+
+.footer-info-close:hover {
+
+    background:
+        #facc15;
+
+    color: #062f23;
+
+    transform:
+        rotate(90deg);
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.footer-info-title {
+
+    flex-shrink: 0;
+
+    padding:
+        20px 55px 18px 20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.footer-info-content {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 22px;
+
+    color:
+        rgba(255,255,255,0.78);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+}
+
+
+/* Scrollbar */
+
+.footer-info-content::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+.footer-info-content::-webkit-scrollbar-track {
+
+    background:
+        rgba(0,0,0,0.12);
+
+}
+
+.footer-info-content::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(250,204,21,0.55);
+
+    border-radius: 10px;
+
+}
+
+
+/* =====================================================
+   CONTENT HEADINGS
+===================================================== */
+
+.footer-info-content h4 {
+
+    margin:
+        0 0 8px;
+
+    color: #facc15;
+
+    font-size: 14px;
+
+}
+
+.footer-info-content p {
+
+    margin:
+        0 0 18px;
+
+}
+
+.footer-info-content ul {
+
+    margin:
+        0 0 20px;
+
+    padding-left: 20px;
+
+}
+
+.footer-info-content li {
+
+    margin-bottom: 7px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .footer-info-popup {
+
+        top: 65px;
+
+        bottom: 10px;
+
+        padding: 10px;
+
+    }
+
+    .footer-info-card {
+
+        height: 78vh;
+
+        border-radius: 10px;
+
+    }
+
+    .footer-info-title {
+
+        font-size: 16px;
+
+        padding:
+            17px 50px 15px 16px;
+
+    }
+
+    .footer-info-content {
+
+        padding: 17px;
+
+        font-size: 12px;
+
+        line-height: 1.7;
+
+    }
+
+}
+/* =====================================================
+   BODY FOOTER INFORMATION POPUP
+===================================================== */
