@@ -402,13 +402,7 @@ function backToMainDashboard() {
     if (casinoSubSection) casinoSubSection.style.display = 'none';
     if (sportsSubSection) sportsSubSection.style.display = 'none';
 
-   // Hide Full Game Page
-const sportsGamePage =
-    document.getElementById("sports-game-page");
-
-if (sportsGamePage) {
-    sportsGamePage.style.display = "none";
-}
+   
     
     // Stop auto-slides
     stopAutoSlide('casino');
