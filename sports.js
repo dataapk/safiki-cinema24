@@ -1439,21 +1439,12 @@ window.openSportsGame =
 
 if (window.openedSportsGameFromFooter) {
 
-    // ==========================================
-    // HIDE HERO BANNER
-    // ==========================================
-
     if (heroBanner) {
 
         heroBanner.style.display =
             "none";
 
     }
-
-
-    // ==========================================
-    // HIDE MAIN CATEGORY CARDS
-    // ==========================================
 
     if (mainCategorySection) {
 
@@ -1462,65 +1453,11 @@ if (window.openedSportsGameFromFooter) {
 
     }
 
-
-    // ==========================================
-    // COLLAPSE OPEN FOOTER MAIN MENU
-    // ==========================================
-
-    const footerMainMenus = [
-        "casinoMenuSub",
-        "sportsMenuSub",
-        "virtualSportsMenuSub"
-    ];
-
-    footerMainMenus.forEach(function(menuId) {
-
-        const menuSub =
-            document.getElementById(menuId);
-
-        if (!menuSub) return;
-
-        // Collapse menu
-        menuSub.classList.add(
-            "footer-menusub-hidden"
-        );
-
-
-        // Reset its arrow
-        const parent =
-            menuSub.closest(
-                ".footer-menu-item"
-            );
-
-        if (parent) {
-
-            const arrow =
-                parent.querySelector(
-                    ".footer-menu-header .footer-arrow"
-                );
-
-            if (arrow) {
-
-                arrow.classList.remove(
-                    "rotate"
-                );
-
-            }
-
-        }
-
-    });
-
-
-    // ==========================================
-    // RESET FOOTER FLAG
-    // ==========================================
-
+    // Reset Footer flag
     window.openedSportsGameFromFooter =
         false;
 
 }
-
 
         // ==========================================
         // HIDE SPORTS SUB BANNER
