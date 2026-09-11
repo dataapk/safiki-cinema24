@@ -1457,31 +1457,8 @@
 
 }
 
-/* View All */
-.subcat-item.view-all-btn {
-    background: linear-gradient(135deg, var(--surface-2), var(--surface));
-    border: 1px dashed var(--border-green);
-}
 
-.subcat-item.view-all-btn i {
-    color: var(--yellow);
-}
 
-.subcat-item.view-all-btn span {
-    color: var(--yellow);
-    font-weight: 700;
-}
-
-.subcat-item.view-all-btn:hover {
-    background: linear-gradient(135deg, var(--yellow), var(--yellow-hover));
-    border-style: solid;
-    border-color: var(--yellow);
-}
-
-.subcat-item.view-all-btn:hover i,
-.subcat-item.view-all-btn:hover span {
-    color: #1a1a1a;
-}
 
 /* ----- SELECTED GAMES AREA ----- */
 .selected-games-area {
