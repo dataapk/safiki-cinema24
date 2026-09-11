@@ -67,6 +67,35 @@ const casinoGames = {
 
 function selectCasinoCategory(category, element) {
 
+    const popularSection =
+        document.getElementById("popularcasinoSection");
+
+    const selectedSection =
+        document.getElementById("casinoSelectedGames");
+
+
+    // ------------------------------------------
+    // Hide Popular Casino Games
+    // ------------------------------------------
+
+    if (popularSection) {
+
+        popularSection.style.display = "none";
+
+    }
+
+
+    // ------------------------------------------
+    // Show Selected Category
+    // ------------------------------------------
+
+    if (selectedSection) {
+
+        selectedSection.style.display = "block";
+
+    }
+
+
     // ------------------------------------------
     // Active Category
     // ------------------------------------------
@@ -92,7 +121,7 @@ function selectCasinoCategory(category, element) {
 
 
     // ------------------------------------------
-    // Selected Title
+    // Update Title
     // ------------------------------------------
 
     const title =
@@ -107,7 +136,7 @@ function selectCasinoCategory(category, element) {
 
 
     // ------------------------------------------
-    // Render Games
+    // Render Category Games
     // ------------------------------------------
 
     renderCasinoGames(category);
@@ -369,25 +398,35 @@ function viewAllCasinoCategories(element) {
 
 function openCasinoDefault() {
 
+    const popularSection =
+        document.getElementById("popularcasinoSection");
+
+    const selectedSection =
+        document.getElementById("casinoSelectedGames");
+
+
     // ------------------------------------------
-    // Default = Popular Games
+    // Show Popular Casino Games
     // ------------------------------------------
 
-    const title =
-        document.getElementById("casinoSelectedTitle");
+    if (popularSection) {
 
-    if (title) {
-
-        title.textContent =
-            casinoCategories.popular;
+        popularSection.style.display = "block";
 
     }
 
 
-    renderCasinoGames("popular");
+    // ------------------------------------------
+    // Hide Selected Category Area
+    // ------------------------------------------
+
+    if (selectedSection) {
+
+        selectedSection.style.display = "none";
+
+    }
 
 }
-
 
 // ======================================================
 // GLOBAL
