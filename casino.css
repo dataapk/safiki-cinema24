@@ -2,3 +2,13 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
+/* ==========================================
+   CASINO GAME SECTIONS
+   Only affects Casino games below
+========================================== */
+
+.game-section {
+    padding-left: 4px;
+    padding-right: 4px;
+}
