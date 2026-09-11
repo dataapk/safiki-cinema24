@@ -389,20 +389,30 @@ window.hideSportsBetSlip = hideSportsBetSlip;
 // ===== BACK TO MAIN DASHBOARD =====
 function backToMainDashboard() {
 
-      hideSportsBetSlip();
+    hideSportsBetSlip();
+
     // Show hero banner again
     if (heroBanner) {
         heroBanner.style.display = 'block';
     }
-    
+
     // Show main category cards
     if (mainCategorySection) {
         mainCategorySection.style.display = 'block';
     }
-    
+
+    // Show Winner Section
+    const winnerSection =
+        document.getElementById("winnerSection");
+
+    if (winnerSection) {
+        winnerSection.style.display = "block";
+    }
+
     // Hide both sub-sections
     if (casinoSubSection) casinoSubSection.style.display = 'none';
     if (sportsSubSection) sportsSubSection.style.display = 'none';
+}
    
    // ==========================================
 // CLEAR PREVIOUS SPORTS PAGE STATE
