@@ -300,41 +300,43 @@ if (virtualSportsSection) {
 }
    
     // Show selected category
-    if (category === 'casino') {
+if (category === 'casino') {
 
-        if (casinoSubSection) {
+    if (casinoSubSection) {
 
-            casinoSubSection.style.display = 'block';
+        casinoSubSection.style.display = 'block';
 
-            casinoCurrentSlide = 0;
+        casinoCurrentSlide = 0;
 
-            updateSubSlider('casino', 0);
+        updateSubSlider('casino', 0);
 
-            startAutoSlide('casino');
+        startAutoSlide('casino');
 
-        }
-
-        hideSportsBetSlip();
+        openCasinoDefault();
 
     }
 
-    else if (category === 'sports') {
+    hideSportsBetSlip();
 
-        if (sportsSubSection) {
+}
 
-            sportsSubSection.style.display = 'block';
+else if (category === 'sports') {
 
-            sportsCurrentSlide = 0;
+    if (sportsSubSection) {
 
-            updateSubSlider('sports', 0);
+        sportsSubSection.style.display = 'block';
 
-            startAutoSlide('sports');
+        sportsCurrentSlide = 0;
 
-        }
+        updateSubSlider('sports', 0);
 
-        showSportsBetSlip();
+        startAutoSlide('sports');
 
     }
+
+    showSportsBetSlip();
+
+}
 
     else if (category === 'virtualSports') {
 
