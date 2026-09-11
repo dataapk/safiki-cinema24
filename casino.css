@@ -1,3 +1,4 @@
+
 /* ======================================================
    CASINO CATEGORY GAMES
    ====================================================== */
@@ -5,39 +6,40 @@
 
 /* ======================================================
    SELECTED CASINO GAMES AREA
+   Main selected-games section
    ====================================================== */
 
-#casinoSelectedTitle {
+#casinoSelectedGames {
     width: 100%;
-    margin: 0 0 14px 0;
-    padding: 12px 16px;
+    margin: 20px 0 0 0;
+    padding: 0;
 
     box-sizing: border-box;
-
-    background: #1b1b1b;
-    border-radius: 10px;
-
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 700;
 }
 
 
 /* ======================================================
-   CATEGORY TITLE
+   SELECTED / ALL GAMES TITLE
+   শুধু TEXT — কোনো CONTAINER নয়
    ====================================================== */
 
 #casinoSelectedTitle {
     width: 100%;
-    margin: 0 0 14px 0;
-    padding: 12px 16px;
 
-    background: #1b1b1b;
-    border-radius: 10px;
+    margin: 0 0 16px 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 
     color: #ffffff;
+
     font-size: 20px;
     font-weight: 700;
+    line-height: 1.3;
+
     text-align: left;
 
     box-sizing: border-box;
@@ -45,32 +47,104 @@
 
 
 /* ======================================================
-   CASINO GAMES GRID
+   CASINO GAMES MAIN AREA
+   Category এবং game rows নিচে নিচে রাখে
    ====================================================== */
 
 #casinoGamesGrid {
     width: 100%;
+
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
     box-sizing: border-box;
+}
+
+
+/* ======================================================
+   CATEGORY TITLE
+   যেমন:
+   Slot Games
+   Blackjack Games
+   Poker Games
+
+   শুধু TEXT — কোনো BOX নয়
+   ====================================================== */
+
+.casino-category-title {
+    width: 100%;
+
+    margin: 24px 0 12px 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    color: #ffffff;
+
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    text-align: left;
+
+    box-sizing: border-box;
+}
+
+
+/* প্রথম Category Title-এর উপরে extra gap থাকবে না */
+
+#casinoGamesGrid > .casino-category-title:first-child {
+    margin-top: 0;
+}
+
+
+/* ======================================================
+   CATEGORY GAME GRID
+   প্রতিটি Category-এর Game Card এখানে থাকবে
+   Desktop = প্রতি Row-তে ৩টি Card
+   ====================================================== */
+
+.casino-category-games {
+    width: 100%;
 
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
     gap: 16px;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
 }
 
 
 /* ======================================================
    CASINO GAME CARD
+   শুধু এই অংশটাই আসল Card / Container
    ====================================================== */
 
 .casino-game-card {
     width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
 
     background: #1b1b1b;
+
     border-radius: 12px;
 
     overflow: hidden;
-
-    box-sizing: border-box;
 
     cursor: pointer;
 
@@ -81,7 +155,7 @@
 
 
 /* ======================================================
-   CARD HOVER
+   GAME CARD HOVER
    ====================================================== */
 
 .casino-game-card:hover {
@@ -93,7 +167,7 @@
 
 
 /* ======================================================
-   GAME IMAGE
+   GAME IMAGE AREA
    ====================================================== */
 
 .casino-game-card-image {
@@ -137,7 +211,7 @@
 
 
 /* ======================================================
-   IMAGE PLACEHOLDER
+   GAME IMAGE PLACEHOLDER
    ====================================================== */
 
 .casino-game-placeholder {
@@ -156,164 +230,9 @@
 
 
 /* ======================================================
-   GAME TITLE
+   GAME CARD TITLE
+   Game-এর নাম Card-এর ভিতরে
    ====================================================== */
-
-.casino-game-card-title {
-    width: 100%;
-
-    padding: 11px 10px;
-
-    color: #ffffff;
-
-    font-size: 15px;
-    font-weight: 600;
-
-    text-align: center;
-
-    line-height: 1.3;
-
-    box-sizing: border-box;
-}
-
-
-/* ======================================================
-   NO GAMES AVAILABLE
-   ====================================================== */
-
-.casino-no-games {
-    width: 100%;
-
-    min-height: 100px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    background: #1b1b1b;
-
-    border-radius: 12px;
-
-    color: #aaaaaa;
-
-    font-size: 15px;
-    font-weight: 500;
-
-    text-align: center;
-
-    box-sizing: border-box;
-
-    grid-column: 1 / -1;
-}
-
-
-/* ======================================================
-   VIEW ALL CATEGORY SECTION
-   ====================================================== */
-
-.casino-category-section {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 0 24px 0;
-
-    box-sizing: border-box;
-}
-
-
-/* ======================================================
-   VIEW ALL CATEGORY TITLE
-   ====================================================== */
-
-.casino-category-title {
-    width: 100%;
-    margin: 0 0 12px 0;
-    padding: 10px 14px;
-
-    box-sizing: border-box;
-
-    background: #1b1b1b;
-    border-radius: 9px;
-
-    color: #ffffff;
-
-    font-size: 18px;
-    font-weight: 700;
-}
-
-
-/* ======================================================
-   VIEW ALL CATEGORY GAMES
-   ====================================================== */
-
-.casino-category-games {
-    width: 100%;
-    max-width: 100%;
-
-    box-sizing: border-box;
-
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-
-    align-items: stretch;
-}
-/* ======================================================
-   CASINO GAME CARD
-====================================================== */
-
-.casino-game-card {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-
-    background: #1b1b1b;
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    cursor: pointer;
-}
-
-
-/* ======================================================
-   CARD IMAGE
-====================================================== */
-
-.casino-game-card-image {
-    width: 100%;
-    height: auto;
-
-    aspect-ratio: 16 / 10;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-    background: #292929;
-}
-
-
-.casino-game-card-image img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-}
-
-
-/* ======================================================
-   CARD TITLE
-====================================================== */
 
 .casino-game-card-title {
     width: 100%;
@@ -329,51 +248,62 @@
     font-size: 14px;
     font-weight: 600;
 
+    line-height: 1.3;
+
     text-align: center;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 }
 
 
 /* ======================================================
-   NO GAMES
-====================================================== */
+   NO GAMES AVAILABLE
+   কোনো Category-তে Game না থাকলে
+   ====================================================== */
 
 .casino-no-games {
     width: 100%;
+
     min-height: 90px;
 
     grid-column: 1 / -1;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    box-sizing: border-box;
-
     padding: 20px;
 
+    box-sizing: border-box;
+
     background: #1b1b1b;
+
     border-radius: 12px;
 
     color: #aaaaaa;
 
     font-size: 15px;
+    font-weight: 500;
+
     text-align: center;
 }
 
 
 /* ======================================================
-   MOBILE / TABLET
-====================================================== */
+   TABLET / MOBILE
+   প্রতি Row-তে ২টি Game Card
+   ====================================================== */
 
 @media (max-width: 768px) {
 
-    #casinoGamesGrid,
     .casino-category-games {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
         gap: 12px;
     }
 
@@ -382,157 +312,29 @@
 
 /* ======================================================
    SMALL MOBILE
-====================================================== */
+   ====================================================== */
 
 @media (max-width: 480px) {
 
-    #casinoGamesGrid,
     .casino-category-games {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-    }
-
-    .casino-game-card-title {
-        font-size: 13px;
-        min-height: 38px;
-        padding: 8px 5px;
-    }
-
-   /* ======================================================
-   CASINO VIEW ALL STRUCTURE
-====================================================== */
-
-#casinoGamesGrid {
-    width: 100%;
-    display: block !important;
-    box-sizing: border-box;
-}
-
-
-/* ------------------------------------------
-   EACH CATEGORY = FULL WIDTH
------------------------------------------- */
-
-#casinoGamesGrid > .casino-category-section {
-    width: 100%;
-    display: block;
-    margin: 0 0 28px 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-/* ------------------------------------------
-   CATEGORY TITLE
-   TEXT ONLY — NO CONTAINER
------------------------------------------- */
-
-#casinoGamesGrid > .casino-category-section
-.casino-category-title {
-
-    width: 100%;
-
-    margin: 0 0 14px 0;
-
-    padding: 0;
-
-    background: none;
-
-    border: none;
-
-    border-radius: 0;
-
-    color: #ffffff;
-
-    font-size: 20px;
-
-    font-weight: 700;
-
-    line-height: 1.3;
-
-    box-sizing: border-box;
-}
-
-
-/* ------------------------------------------
-   GAMES UNDER EACH CATEGORY
------------------------------------------- */
-
-#casinoGamesGrid > .casino-category-section
-.casino-category-games {
-
-    width: 100%;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 16px;
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-}
-
-
-/* ------------------------------------------
-   GAME CARD
------------------------------------------- */
-
-#casinoGamesGrid
-.casino-game-card {
-
-    width: 100%;
-
-    min-width: 0;
-
-    max-width: none;
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-}
-
-
-/* ------------------------------------------
-   NO GAMES
------------------------------------------- */
-
-#casinoGamesGrid
-.casino-no-games {
-
-    grid-column: 1 / -1;
-
-    width: 100%;
-
-    box-sizing: border-box;
-}
-
-
-/* ------------------------------------------
-   MOBILE
------------------------------------------- */
-
-@media (max-width: 768px) {
-
-    #casinoGamesGrid > .casino-category-section
-    .casino-category-games {
-
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 12px;
-
+        gap: 10px;
     }
 
-}
-/* ======================================================
-   END CASINO VIEW ALL STRUCTURE
-====================================================== */
+
+    .casino-category-title {
+        font-size: 18px;
+    }
+
+
+    .casino-game-card-title {
+        min-height: 38px;
+
+        padding: 8px 5px;
+
+        font-size: 13px;
+    }
+
 }
