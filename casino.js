@@ -511,5 +511,4 @@ window.selectCasinoCategory =
 window.viewAllCasinoCategories =
     viewAllCasinoCategories;
 
-window.openCasinoDefault =
-    openCasinoDefault;
+
