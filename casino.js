@@ -74,16 +74,6 @@ function selectCasinoCategory(category, element) {
         document.getElementById("casinoSelectedGames");
 
 
-    // ------------------------------------------
-    // Hide Popular Casino Games
-    // ------------------------------------------
-
-    if (popularSection) {
-
-        popularSection.style.display = "none";
-
-    }
-
 
     // ------------------------------------------
     // Show Selected Category
