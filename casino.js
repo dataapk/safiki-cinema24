@@ -156,6 +156,19 @@ function renderCasinoGames(category) {
     if (!grid) return;
 
 
+    // ------------------------------------------
+    // Popular = HTML Existing Games
+    // ------------------------------------------
+
+    if (category === "popular") {
+        return;
+    }
+
+
+    // ------------------------------------------
+    // Clear Selected Games
+    // ------------------------------------------
+
     grid.innerHTML = "";
 
 
@@ -219,7 +232,6 @@ function renderCasinoGames(category) {
     });
 
 }
-
 
 // ======================================================
 // VIEW ALL CASINO CATEGORIES
