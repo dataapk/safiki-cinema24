@@ -94,10 +94,10 @@ function selectCasinoCategory(category, element) {
 
 
     // ------------------------------------------
-    // SCROLL TO SELECTED SECTION
-    // ------------------------------------------
+// SCROLL TO SELECTED SECTION
+// ------------------------------------------
 
-    const scrollTop =
+const scrollTop =
     selectedSection.getBoundingClientRect().top +
     window.pageYOffset -
     80;
@@ -107,6 +107,22 @@ window.scrollTo({
     behavior: "smooth"
 });
 
+}
+
+
+// ======================================================
+// GLOBAL
+// ======================================================
+
+window.selectCasinoCategory =
+    selectCasinoCategory;
+
+
+// ======================================================
+// BACK FROM CASINO
+// ======================================================
+
+function backFromCasino() {
 
 
 
@@ -147,8 +163,8 @@ function backFromCasino() {
 // GLOBAL
 // ======================================================
 
-window.selectCasinoCategory =
-    selectCasinoCategory;
+window.backFromCasino =
+    backFromCasino;
 
 
 
