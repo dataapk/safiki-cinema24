@@ -2544,59 +2544,541 @@
     <div class="subcat-grid" id="casinoSubcatGrid">
         <!-- Top Row: 5 items -->
         <div class="subcat-row top-row">
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'slots', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('slots', this)">
                 <i class="fas fa-slot-machine"></i>
                 <span>Slots</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'aviator', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('aviator', this)">
                 <i class="fas fa-plane"></i>
                 <span>Aviator</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'live', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('live', this)">
                 <i class="fas fa-video"></i>
                 <span>Live</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'roulette', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('roulette', this)">
                 <i class="fas fa-circle-notch"></i>
                 <span>Roulette</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'blackjack', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('blackjack', this)">
                 <i class="fas fa-heart"></i>
                 <span>Blackjack</span>
             </div>
         </div>
         <!-- Down Row: 4 items + View All -->
         <div class="subcat-row down-row">
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'poker', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('poker', this)">
                 <i class="fas fa-diamond"></i>
                 <span>Poker</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'baccarat', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('baccarat', this)">
                 <i class="fas fa-money-bill-wave"></i>
                 <span>Baccarat</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'crash', this)">
+            <div class="subcat-item" onclick="selectCasinoCategory('crash', this)">
                 <i class="fas fa-rocket"></i>
                 <span>Crash</span>
             </div>
-            <div class="subcat-item" onclick="selectSubCategory('casino', 'fishing', this)">
-                <i class="fas fa-fish"></i>
-                <span>Fishing</span>
-            </div>
-            <div class="subcat-item view-all-btn" onclick="viewAllSubCategories('casino', this)">
-                <i class="fas fa-th-large"></i>
-                <span>View All</span>
-            </div>
-        </div>
+            <!-- Fishing -->
+<div class="subcat-item casino-fishing"
+     onclick="selectCasinoCategory('fishing', this)">
+    <div class="subcat-icon">
+        🎣
     </div>
+    <span>Fishing</span>
+</div>
 
-    <!-- Selected Category Games -->
-    <div class="selected-games-area" id="casinoSelectedGames">
-        <h4 class="selected-games-title" id="casinoSelectedTitle">All Games</h4>
-        <div class="selected-games-grid" id="casinoGamesGrid">
-            <!-- Games injected by JS -->
+</div> <!-- subcat-grid শেষ -->
+
+
+<!-- ======================================================
+     CASINO GAMES LIST
+====================================================== -->
+
+<div id="casinoGamesList">
+
+
+    <!-- ==================================================
+         SLOT GAMES
+    ================================================== -->
+
+    <section class="game-section" id="slotsCasinoSection">
+
+        <div class="section-header">
+            <h2>Slot Games</h2>
         </div>
-    </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Slot Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Slot Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Slot Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         AVIATOR GAMES
+    ================================================== -->
+
+    <section class="game-section" id="aviatorCasinoSection">
+
+        <div class="section-header">
+            <h2>Aviator Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Aviator Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Aviator Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Aviator Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         LIVE CASINO
+    ================================================== -->
+
+    <section class="game-section" id="liveCasinoSection">
+
+        <div class="section-header">
+            <h2>Live Casino</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Live Casino Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Live Casino Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Live Casino Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         ROULETTE GAMES
+    ================================================== -->
+
+    <section class="game-section" id="rouletteCasinoSection">
+
+        <div class="section-header">
+            <h2>Roulette Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Roulette Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Roulette Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Roulette Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         BLACKJACK GAMES
+    ================================================== -->
+
+    <section class="game-section" id="blackjackCasinoSection">
+
+        <div class="section-header">
+            <h2>Blackjack Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Blackjack Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Blackjack Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Blackjack Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         POKER GAMES
+    ================================================== -->
+
+    <section class="game-section" id="pokerCasinoSection">
+
+        <div class="section-header">
+            <h2>Poker Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Poker Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Poker Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Poker Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         BACCARAT GAMES
+    ================================================== -->
+
+    <section class="game-section" id="baccaratCasinoSection">
+
+        <div class="section-header">
+            <h2>Baccarat Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Baccarat Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Baccarat Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Baccarat Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         CRASH GAMES
+    ================================================== -->
+
+    <section class="game-section" id="crashCasinoSection">
+
+        <div class="section-header">
+            <h2>Crash Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Crash Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Crash Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Crash Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         FISHING GAMES
+    ================================================== -->
+
+    <section class="game-section" id="fishingCasinoSection">
+
+        <div class="section-header">
+            <h2>Fishing Games</h2>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Fishing Game 1</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Fishing Game 2</h3>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-image">
+                    <div class="play-overlay">
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Fishing Game 3</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div> <!-- casinoGamesList শেষ -->
+
+</div> <!-- Casino section-এর main wrapper শেষ -->
+    
 </section>
 
 <!-- ===== SPORTS SUB SECTION ===== -->
