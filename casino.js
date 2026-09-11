@@ -159,12 +159,3 @@ function backFromCasino() {
     // Casino auto slide stop/reset যদি প্রয়োজন হয়
 }
 
-// ======================================================
-// GLOBAL
-// ======================================================
-
-window.backFromCasino =
-    backFromCasino;
-
-
-
