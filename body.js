@@ -401,14 +401,6 @@ function backToMainDashboard() {
         mainCategorySection.style.display = 'block';
     }
 
-    // Show Winner Section
-    const winnerSection =
-        document.getElementById("winnerSection");
-
-    if (winnerSection) {
-        winnerSection.style.display = "block";
-    }
-
     // Hide both sub-sections
     if (casinoSubSection) casinoSubSection.style.display = 'none';
     if (sportsSubSection) sportsSubSection.style.display = 'none';
