@@ -413,6 +413,34 @@ function openCasinoDefault() {
 
 }
 
+function backFromCasino() {
+
+    // Casino section hide
+    if (casinoSubSection) {
+        casinoSubSection.style.display = 'none';
+    }
+
+    // Main category cards show
+    if (mainCategorySection) {
+        mainCategorySection.style.display = 'block';
+    }
+
+    // Hero banner show
+    if (heroBanner) {
+        heroBanner.style.display = 'block';
+    }
+
+    // Winner Section show
+    const winnersSection =
+        document.getElementById("winnersSection");
+
+    if (winnersSection) {
+        winnersSection.style.display = "block";
+    }
+
+    // Casino auto slide stop/reset যদি প্রয়োজন হয়
+}
+
 // ======================================================
 // GLOBAL
 // ======================================================
