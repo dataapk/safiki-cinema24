@@ -356,10 +356,13 @@ function renderCasinoGames(category) {
 
 function viewAllCasinoCategories(element) {
 
-    // ------------------------------------------
-    // Active View All
-    // ------------------------------------------
+    const grid =
+        document.getElementById("casinoGamesGrid");
 
+    if (!grid) return;
+
+
+    // Active button
     const parentGrid =
         element
             ? element.closest(".subcat-grid")
@@ -380,32 +383,34 @@ function viewAllCasinoCategories(element) {
     }
 
 
-    // ------------------------------------------
-    // Selected Area
-    // ------------------------------------------
+    // Show selected area
+    const selectedSection =
+        document.getElementById("casinoSelectedGames");
 
-    const title =
-        document.getElementById("casinoSelectedTitle");
+    if (selectedSection) {
 
-    const grid =
-        document.getElementById("casinoGamesGrid");
-
-    if (!grid) return;
-
-
-    if (title) {
-
-        title.textContent =
-            "All Casino Games";
+        selectedSection.style.display = "block";
 
     }
 
 
+    // Title
+    const title =
+        document.getElementById("casinoSelectedTitle");
+
+    if (title) {
+
+        title.textContent = "All Games";
+
+    }
+
+
+    // Clear old content
     grid.innerHTML = "";
 
 
     // ------------------------------------------
-    // Casino Category Order
+    // CATEGORY ORDER
     // ------------------------------------------
 
     const categories = [
@@ -424,7 +429,7 @@ function viewAllCasinoCategories(element) {
 
 
     // ------------------------------------------
-    // Render Every Category
+    // CREATE EACH CATEGORY
     // ------------------------------------------
 
     categories.forEach(category => {
@@ -433,6 +438,7 @@ function viewAllCasinoCategories(element) {
             casinoGames[category] || [];
 
 
+        // Category wrapper
         const section =
             document.createElement("div");
 
@@ -440,79 +446,98 @@ function viewAllCasinoCategories(element) {
             "casino-category-section";
 
 
-        section.innerHTML = `
+        // Category title
+        const categoryTitle =
+            document.createElement("h4");
 
-            <h4 class="casino-category-title">
-                ${casinoCategories[category]}
-            </h4>
+        categoryTitle.className =
+            "casino-category-title";
 
-            <div class="casino-category-games"></div>
+        categoryTitle.textContent =
+            casinoCategories[category] ||
+            "Casino Games";
 
-        `;
 
+        // Games grid
+        const gamesGrid =
+            document.createElement("div");
 
-        const gamesContainer =
-            section.querySelector(
-                ".casino-category-games"
-            );
+        gamesGrid.className =
+            "casino-category-games";
 
 
         // --------------------------------------
-        // No Games
+        // NO GAMES
         // --------------------------------------
 
         if (games.length === 0) {
 
-            gamesContainer.innerHTML = `
-
+            gamesGrid.innerHTML = `
                 <div class="casino-no-games">
                     No Games Available
                 </div>
-
             `;
 
         }
 
 
         // --------------------------------------
-        // Games
+        // GAME CARDS
         // --------------------------------------
 
-        games.forEach(game => {
+        else {
 
-            const card =
-                document.createElement("div");
+            games.forEach(game => {
 
-            card.className =
-                "casino-game-card";
+                const card =
+                    document.createElement("div");
 
-
-            card.innerHTML = `
-
-                <div class="casino-game-card-image">
-
-                    ${
-                        game.image
-                        ? `<img src="${game.image}"
-                               alt="${game.name}">`
-                        : `<div class="casino-game-placeholder">
-                            🎮
-                           </div>`
-                    }
-
-                </div>
-
-                <div class="casino-game-card-title">
-                    ${game.name}
-                </div>
-
-            `;
+                card.className =
+                    "casino-game-card";
 
 
-            gamesContainer.appendChild(card);
+                card.innerHTML = `
 
-        });
+                    <div class="casino-game-card-image">
 
+                        ${
+                            game.image
+                            ? `
+                                <img
+                                    src="${game.image}"
+                                    alt="${game.name}"
+                                >
+                              `
+                            : `
+                                <div class="casino-game-placeholder">
+                                    🎮
+                                </div>
+                              `
+                        }
+
+                    </div>
+
+                    <div class="casino-game-card-title">
+                        ${game.name}
+                    </div>
+
+                `;
+
+
+                gamesGrid.appendChild(card);
+
+            });
+
+        }
+
+
+        // --------------------------------------
+        // APPEND
+        // --------------------------------------
+
+        section.appendChild(categoryTitle);
+
+        section.appendChild(gamesGrid);
 
         grid.appendChild(section);
 
