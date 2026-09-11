@@ -272,6 +272,10 @@ function renderCasinoGames(category) {
 
     if (!grid) return;
 
+    grid.classList.remove("view-all-mode");
+
+    grid.innerHTML = "";
+
 
     // ------------------------------------------
     // Popular = HTML Existing Games
@@ -350,10 +354,6 @@ function renderCasinoGames(category) {
 
 }
 
-// ======================================================
-// VIEW ALL CASINO CATEGORIES
-// ======================================================
-
 function viewAllCasinoCategories(element) {
 
     const grid =
@@ -362,43 +362,8 @@ function viewAllCasinoCategories(element) {
     if (!grid) return;
 
 
-    // Active button
-    const parentGrid =
-        element
-            ? element.closest(".subcat-grid")
-            : null;
+    grid.classList.add("view-all-mode");
 
-    if (parentGrid) {
-
-        parentGrid
-            .querySelectorAll(".subcat-item")
-            .forEach(item => {
-                item.classList.remove("active");
-            });
-
-        element.classList.add("active");
-    }
-
-
-    // Show selected area
-    const selectedSection =
-        document.getElementById("casinoSelectedGames");
-
-    if (selectedSection) {
-        selectedSection.style.display = "block";
-    }
-
-
-    // Main title
-    const title =
-        document.getElementById("casinoSelectedTitle");
-
-    if (title) {
-        title.textContent = "All Games";
-    }
-
-
-    // Clear old games
     grid.innerHTML = "";
 
 
@@ -421,38 +386,28 @@ function viewAllCasinoCategories(element) {
             casinoGames[category] || [];
 
 
-        // ------------------------------------------
-        // CATEGORY TITLE
-        // ------------------------------------------
-
-        const categoryTitle =
+        // Category text
+        const title =
             document.createElement("h4");
 
-        categoryTitle.className =
+        title.className =
             "casino-category-title";
 
-        categoryTitle.textContent =
+        title.textContent =
             casinoCategories[category] ||
             "Casino Games";
 
 
-        grid.appendChild(categoryTitle);
+        grid.appendChild(title);
 
 
-        // ------------------------------------------
-        // GAME GRID
-        // ------------------------------------------
-
+        // আলাদা game grid
         const gamesGrid =
             document.createElement("div");
 
         gamesGrid.className =
             "casino-category-games";
 
-
-        // ------------------------------------------
-        // NO GAMES
-        // ------------------------------------------
 
         if (games.length === 0) {
 
@@ -462,14 +417,7 @@ function viewAllCasinoCategories(element) {
                 </div>
             `;
 
-        }
-
-
-        // ------------------------------------------
-        // GAME CARDS
-        // ------------------------------------------
-
-        else {
+        } else {
 
             games.forEach(game => {
 
@@ -515,7 +463,6 @@ function viewAllCasinoCategories(element) {
         }
 
 
-        // সরাসরি main grid-এর নিচে
         grid.appendChild(gamesGrid);
 
     });
