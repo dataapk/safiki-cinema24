@@ -126,17 +126,46 @@
         </div>
         <div id="wallet-menu" class="dropdown-menu wallet-dropdown">
     <!-- হরিজন্টাল বক্সের ভেতরে আইকনসহ তিনটি ট্যাব -->
-    <div class="wallet-tabs-container">
-        <button class="tab-btn active" onclick="showTab('deposit')">
-            <i class="fas fa-arrow-down"></i> Deposit
-        </button>
-        <button class="tab-btn" onclick="showTab('withdraw')">
-            <i class="fas fa-arrow-up"></i> Withdraw
-        </button>
-        <button class="tab-btn" onclick="showTab('exchange')">
-            <i class="fas fa-exchange-alt"></i> Exchange
-        </button>
-    </div>
+    <!-- ======================================================
+     WALLET HEADER
+====================================================== -->
+
+<div class="wallet-header">
+
+    <h3 class="wallet-header-title">
+        Transactions
+    </h3>
+
+    <button class="wallet-close-btn"
+            type="button">
+        <i class="fas fa-times"></i>
+    </button>
+
+</div>
+
+
+<!-- হরিজন্টাল বক্সের ভেতরে আইকনসহ তিনটি ট্যাব -->
+<div class="wallet-tabs-container">
+
+    <button class="tab-btn active"
+            onclick="showTab('deposit')">
+        <i class="fas fa-arrow-down"></i>
+        Deposit
+    </button>
+
+    <button class="tab-btn"
+            onclick="showTab('withdraw')">
+        <i class="fas fa-arrow-up"></i>
+        Withdraw
+    </button>
+
+    <button class="tab-btn"
+            onclick="showTab('exchange')">
+        <i class="fas fa-exchange-alt"></i>
+        Exchange
+    </button>
+
+</div>
 
     <!-- নিচে গ্রিড কন্টেন্ট -->
     <!-- ডিপোজিট সেকশন -->
