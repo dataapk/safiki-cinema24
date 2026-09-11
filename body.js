@@ -299,16 +299,8 @@ if (virtualSportsSection) {
     virtualSportsSection.style.display = 'none';
 }
    
-    // Show selected category
+   // Show selected category
 if (category === 'casino') {
-
-    // Hide Winner Section
-    const winnersSection =
-        document.getElementById("winnersSection");
-
-    if (winnersSection) {
-        winnersSection.style.display = "none";
-    }
 
     if (casinoSubSection) {
 
@@ -319,8 +311,6 @@ if (category === 'casino') {
         updateSubSlider('casino', 0);
 
         startAutoSlide('casino');
-
-        openCasinoDefault();
 
     }
 
