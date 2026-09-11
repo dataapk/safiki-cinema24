@@ -40,25 +40,152 @@ const casinoGames = {
 
     popular: [],
 
-    slots: [],
 
-    aviator: [],
+    // ------------------------------------------
+    // SLOTS
+    // ------------------------------------------
 
-    live: [],
+    slots: [
 
-    roulette: [],
+        {
+            name: "Sweet Bonanza",
+            image: "image/sweet-bonanza.jpg"
+        },
 
-    blackjack: [],
+        {
+            name: "Book of Dead",
+            image: "image/book-of-dead.jpg"
+        },
 
-    poker: [],
+        {
+            name: "Gates of Olympus",
+            image: "image/gates-of-olympus.jpg"
+        }
 
-    baccarat: [],
+    ],
 
-    crash: [],
 
-    fishing: []
+    // ------------------------------------------
+    // AVIATOR
+    // ------------------------------------------
+
+    aviator: [
+
+        {
+            name: "Aviator",
+            image: "image/aviator.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // LIVE CASINO
+    // ------------------------------------------
+
+    live: [
+
+        {
+            name: "Live Roulette",
+            image: "image/live-roulette.jpg"
+        },
+
+        {
+            name: "Live Blackjack",
+            image: "image/live-blackjack.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // ROULETTE
+    // ------------------------------------------
+
+    roulette: [
+
+        {
+            name: "European Roulette",
+            image: "image/european-roulette.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // BLACKJACK
+    // ------------------------------------------
+
+    blackjack: [
+
+        {
+            name: "Classic Blackjack",
+            image: "image/classic-blackjack.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // POKER
+    // ------------------------------------------
+
+    poker: [
+
+        {
+            name: "Texas Hold'em",
+            image: "image/texas-holdem.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // BACCARAT
+    // ------------------------------------------
+
+    baccarat: [
+
+        {
+            name: "Classic Baccarat",
+            image: "image/classic-baccarat.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // CRASH
+    // ------------------------------------------
+
+    crash: [
+
+        {
+            name: "Crash Game",
+            image: "image/crash.jpg"
+        }
+
+    ],
+
+
+    // ------------------------------------------
+    // FISHING
+    // ------------------------------------------
+
+    fishing: [
+
+        {
+            name: "Fishing Game",
+            image: "image/fishing.jpg"
+        }
+
+    ]
 
 };
+
+// ======================================================
+// আর কোনো category এখন বন্ধ রাখতে চাইলে েমন Fishing এখন দেখাবে না, শুধু: fishing: [],
+// ======================================================
 
 
 // ======================================================
@@ -392,26 +519,10 @@ function viewAllCasinoCategories(element) {
     });
 
 }
-
-
 // ======================================================
-// OPEN CASINO DEFAULT
+// BACK FROM CASINO 
 // ======================================================
 
-function openCasinoDefault() {
-
-    // ------------------------------------------
-    // Hide Recent Winner / Live Section
-    // ------------------------------------------
-
-    const winnersSection =
-        document.getElementById("winnersSection");
-
-    if (winnersSection) {
-        winnersSection.style.display = "none";
-    }
-
-}
 
 function backFromCasino() {
 
