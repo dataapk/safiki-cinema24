@@ -404,22 +404,21 @@ function viewAllCasinoCategories(element) {
 }
 
 
+// ======================================================
+// OPEN CASINO DEFAULT
+// ======================================================
+
 function openCasinoDefault() {
 
-    const popularSection =
-        document.getElementById("popularcasinoSection");
+    // ------------------------------------------
+    // Hide Recent Winner / Live Section
+    // ------------------------------------------
 
-    const selectedSection =
-        document.getElementById("casinoSelectedGames");
+    const winnersSection =
+        document.getElementById("winnersSection");
 
-
-    if (popularSection) {
-        popularSection.style.display = "block";
-    }
-
-
-    if (selectedSection) {
-        selectedSection.style.display = "none";
+    if (winnersSection) {
+        winnersSection.style.display = "none";
     }
 
 }
