@@ -94,18 +94,18 @@ function selectCasinoCategory(category, element) {
 
 
     // ------------------------------------------
-// SCROLL TO SELECTED SECTION
-// ------------------------------------------
+    // SCROLL TO SELECTED SECTION
+    // ------------------------------------------
 
-const scrollTop =
-    selectedSection.getBoundingClientRect().top +
-    window.pageYOffset -
-    80;
+    const scrollTop =
+        selectedSection.getBoundingClientRect().top +
+        window.pageYOffset -
+        80;
 
-window.scrollTo({
-    top: scrollTop,
-    behavior: "smooth"
-});
+    window.scrollTo({
+        top: scrollTop,
+        behavior: "smooth"
+    });
 
 }
 
@@ -124,31 +124,37 @@ window.selectCasinoCategory =
 
 function backFromCasino() {
 
+    // ------------------------------------------
+    // CASINO SECTION HIDE
+    // ------------------------------------------
 
-
-// ======================================================
-// BACK FROM CASINO 
-// ======================================================
-
-
-function backFromCasino() {
-
-    // Casino section hide
     if (casinoSubSection) {
         casinoSubSection.style.display = 'none';
     }
 
-    // Main category cards show
+
+    // ------------------------------------------
+    // MAIN CATEGORY CARDS SHOW
+    // ------------------------------------------
+
     if (mainCategorySection) {
         mainCategorySection.style.display = 'block';
     }
 
-    // Hero banner show
+
+    // ------------------------------------------
+    // HERO BANNER SHOW
+    // ------------------------------------------
+
     if (heroBanner) {
         heroBanner.style.display = 'block';
     }
 
-    // Winner Section show
+
+    // ------------------------------------------
+    // WINNERS SECTION SHOW
+    // ------------------------------------------
+
     const winnersSection =
         document.getElementById("winnersSection");
 
@@ -156,6 +162,18 @@ function backFromCasino() {
         winnersSection.style.display = "block";
     }
 
-    // Casino auto slide stop/reset যদি প্রয়োজন হয়
+
+    // ------------------------------------------
+    // CASINO AUTO SLIDE STOP / RESET
+    // ------------------------------------------
+    // প্রয়োজন হলে এখানে পরে add করা যাবে
+
 }
 
+
+// ======================================================
+// GLOBAL
+// ======================================================
+
+window.backFromCasino =
+    backFromCasino;
