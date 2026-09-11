@@ -302,6 +302,14 @@ if (virtualSportsSection) {
    // Show selected category
 if (category === 'casino') {
 
+    // Hide Winner Section
+    const winnersSection =
+        document.getElementById("winnersSection");
+
+    if (winnersSection) {
+        winnersSection.style.display = "none";
+    }
+
     if (casinoSubSection) {
 
         casinoSubSection.style.display = 'block';
