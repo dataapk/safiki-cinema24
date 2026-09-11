@@ -97,12 +97,15 @@ function selectCasinoCategory(category, element) {
     // SCROLL TO SELECTED SECTION
     // ------------------------------------------
 
-    selectedSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    const scrollTop =
+    selectedSection.getBoundingClientRect().top +
+    window.pageYOffset -
+    80;
 
-}
+window.scrollTo({
+    top: scrollTop,
+    behavior: "smooth"
+});
 
 
 
