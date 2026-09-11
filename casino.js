@@ -392,10 +392,6 @@ function viewAllCasinoCategories(element) {
 }
 
 
-// ======================================================
-// OPEN CASINO DEFAULT
-// ======================================================
-
 function openCasinoDefault() {
 
     const popularSection =
@@ -405,25 +401,13 @@ function openCasinoDefault() {
         document.getElementById("casinoSelectedGames");
 
 
-    // ------------------------------------------
-    // Show Popular Casino Games
-    // ------------------------------------------
-
     if (popularSection) {
-
         popularSection.style.display = "block";
-
     }
 
 
-    // ------------------------------------------
-    // Hide Selected Category Area
-    // ------------------------------------------
-
     if (selectedSection) {
-
         selectedSection.style.display = "none";
-
     }
 
 }
