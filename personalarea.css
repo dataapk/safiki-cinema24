@@ -10,7 +10,7 @@
     top:70px;
     right:0;
 
-    width:110px;
+    width:170px;
     max-width:90vw;
 
     height:fit-content;
@@ -20,7 +20,6 @@
 
     box-sizing:border-box;
 
-}
     overflow-y:auto;
     overflow-x:hidden;
 
