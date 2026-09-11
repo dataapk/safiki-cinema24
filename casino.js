@@ -4,6 +4,10 @@
 
 function selectCasinoCategory(category, element) {
 
+    // ------------------------------------------
+    // CASINO GAMES LIST
+    // ------------------------------------------
+
     const gamesList =
         document.getElementById("casinoGamesList");
 
@@ -29,19 +33,55 @@ function selectCasinoCategory(category, element) {
 
             });
 
-        element.classList.add("active");
+        if (element) {
+            element.classList.add("active");
+        }
 
     }
 
 
     // ------------------------------------------
-    // FIND SELECTED CASINO SECTION
+    // CASINO CATEGORY SECTIONS
+    // ------------------------------------------
+
+    const casinoSections = {
+
+        slots:
+            document.getElementById("slotsCasinoSection"),
+
+        aviator:
+            document.getElementById("aviatorCasinoSection"),
+
+        live:
+            document.getElementById("liveCasinoSection"),
+
+        roulette:
+            document.getElementById("rouletteCasinoSection"),
+
+        blackjack:
+            document.getElementById("blackjackCasinoSection"),
+
+        poker:
+            document.getElementById("pokerCasinoSection"),
+
+        baccarat:
+            document.getElementById("baccaratCasinoSection"),
+
+        crash:
+            document.getElementById("crashCasinoSection"),
+
+        fishing:
+            document.getElementById("fishingCasinoSection")
+
+    };
+
+
+    // ------------------------------------------
+    // FIND SELECTED SECTION
     // ------------------------------------------
 
     const selectedSection =
-        gamesList.querySelector(
-            `[data-casino-category="${category}"]`
-        );
+        casinoSections[category];
 
     if (!selectedSection) return;
 
@@ -63,6 +103,8 @@ function selectCasinoCategory(category, element) {
     });
 
 }
+
+
 
 
 // ======================================================
