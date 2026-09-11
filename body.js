@@ -310,12 +310,7 @@ if (category === 'casino') {
         winnersSection.style.display = "none";
     }
    
-   const popularSection =
-    document.getElementById("popularcasinoSection");
-
-if (popularSection) {
-    popularSection.style.display = "block";
-}
+   
 
     if (casinoSubSection) {
 
