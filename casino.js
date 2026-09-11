@@ -1,220 +1,17 @@
 // ======================================================
-// CASINO.JS
-// ======================================================
-
-
-// ======================================================
-// CASINO CATEGORY DATA
-// ======================================================
-
-const casinoCategories = {
-
-    popular: "Popular Games",
-
-    slots: "Slot Games",
-
-    aviator: "Aviator Games",
-
-    live: "Live Casino",
-
-    roulette: "Roulette Games",
-
-    blackjack: "Blackjack Games",
-
-    poker: "Poker Games",
-
-    baccarat: "Baccarat Games",
-
-    crash: "Crash Games",
-
-    fishing: "Fishing Games"
-
-};
-
-
-// ======================================================
-// CASINO GAMES DATA
-// ======================================================
-
-const casinoGames = {
-
-    popular: [],
-
-
-    // ------------------------------------------
-    // SLOTS
-    // ------------------------------------------
-
-    slots: [
-
-        {
-            name: "Sweet Bonanza",
-            image: "image/sweet-bonanza.jpg"
-        },
-
-        {
-            name: "Book of Dead",
-            image: "image/book-of-dead.jpg"
-        },
-
-        {
-            name: "Gates of Olympus",
-            image: "image/gates-of-olympus.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // AVIATOR
-    // ------------------------------------------
-
-    aviator: [
-
-        {
-            name: "Aviator",
-            image: "image/aviator.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // LIVE CASINO
-    // ------------------------------------------
-
-    live: [
-
-        {
-            name: "Live Roulette",
-            image: "image/live-roulette.jpg"
-        },
-
-        {
-            name: "Live Blackjack",
-            image: "image/live-blackjack.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // ROULETTE
-    // ------------------------------------------
-
-    roulette: [
-
-        {
-            name: "European Roulette",
-            image: "image/european-roulette.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // BLACKJACK
-    // ------------------------------------------
-
-    blackjack: [
-
-        {
-            name: "Classic Blackjack",
-            image: "image/classic-blackjack.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // POKER
-    // ------------------------------------------
-
-    poker: [
-
-        {
-            name: "Texas Hold'em",
-            image: "image/texas-holdem.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // BACCARAT
-    // ------------------------------------------
-
-    baccarat: [
-
-        {
-            name: "Classic Baccarat",
-            image: "image/classic-baccarat.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // CRASH
-    // ------------------------------------------
-
-    crash: [
-
-        {
-            name: "Crash Game",
-            image: "image/crash.jpg"
-        }
-
-    ],
-
-
-    // ------------------------------------------
-    // FISHING
-    // ------------------------------------------
-
-    fishing: [
-
-        {
-            name: "Fishing Game",
-            image: "image/fishing.jpg"
-        }
-
-    ]
-
-};
-
-// ======================================================
-// আর কোনো category এখন বন্ধ রাখতে চাইলে েমন Fishing এখন দেখাবে না, শুধু: fishing: [],
-// ======================================================
-
-
-// ======================================================
 // SELECT CASINO CATEGORY
 // ======================================================
 
 function selectCasinoCategory(category, element) {
 
-    const popularSection =
-        document.getElementById("popularcasinoSection");
+    const gamesList =
+        document.getElementById("casinoGamesList");
 
-    const selectedSection =
-        document.getElementById("casinoSelectedGames");
-
+    if (!gamesList) return;
 
 
     // ------------------------------------------
-    // Show Selected Category
-    // ------------------------------------------
-
-    if (selectedSection) {
-
-        selectedSection.style.display = "block";
-
-    }
-
-
-    // ------------------------------------------
-    // Active Category
+    // ACTIVE SUB CATEGORY
     // ------------------------------------------
 
     const parentGrid =
@@ -238,236 +35,36 @@ function selectCasinoCategory(category, element) {
 
 
     // ------------------------------------------
-    // Update Title
+    // FIND SELECTED CASINO SECTION
     // ------------------------------------------
 
-    const title =
-        document.getElementById("casinoSelectedTitle");
+    const selectedSection =
+        gamesList.querySelector(
+            `[data-casino-category="${category}"]`
+        );
 
-    if (title) {
-
-        title.textContent =
-            casinoCategories[category] || "Casino Games";
-
-    }
+    if (!selectedSection) return;
 
 
     // ------------------------------------------
-    // Render Category Games
+    // MOVE SELECTED SECTION TO TOP
     // ------------------------------------------
 
-    renderCasinoGames(category);
-
-}
-
-
-// ======================================================
-// RENDER CASINO GAMES
-// ======================================================
-
-function renderCasinoGames(category) {
-
-    const grid =
-        document.getElementById("casinoGamesGrid");
-
-    if (!grid) return;
-
-    grid.classList.remove("view-all-mode");
-
-    grid.innerHTML = "";
+    gamesList.prepend(selectedSection);
 
 
     // ------------------------------------------
-    // Popular = HTML Existing Games
+    // SCROLL TO SELECTED SECTION
     // ------------------------------------------
 
-    if (category === "popular") {
-        return;
-    }
-
-
-    // ------------------------------------------
-    // Clear Selected Games
-    // ------------------------------------------
-
-    grid.innerHTML = "";
-
-
-    const games =
-        casinoGames[category] || [];
-
-
-    // ------------------------------------------
-    // No Games
-    // ------------------------------------------
-
-    if (games.length === 0) {
-
-        grid.innerHTML = `
-            <div class="casino-no-games">
-                No Games Available
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    // ------------------------------------------
-    // Game Cards
-    // ------------------------------------------
-
-    games.forEach(game => {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "casino-game-card";
-
-
-        card.innerHTML = `
-
-            <div class="casino-game-card-image">
-
-                ${
-                    game.image
-                    ? `<img src="${game.image}" alt="${game.name}">`
-                    : `<div class="casino-game-placeholder">
-                        🎮
-                       </div>`
-                }
-
-            </div>
-
-            <div class="casino-game-card-title">
-                ${game.name}
-            </div>
-
-        `;
-
-
-        grid.appendChild(card);
-
+    selectedSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
 
 }
 
-function viewAllCasinoCategories(element) {
 
-    const grid =
-        document.getElementById("casinoGamesGrid");
-
-    if (!grid) return;
-
-
-    grid.classList.add("view-all-mode");
-
-    grid.innerHTML = "";
-
-
-    const categories = [
-        "slots",
-        "aviator",
-        "live",
-        "roulette",
-        "blackjack",
-        "poker",
-        "baccarat",
-        "crash",
-        "fishing"
-    ];
-
-
-    categories.forEach(category => {
-
-        const games =
-            casinoGames[category] || [];
-
-
-        // Category text
-        const title =
-            document.createElement("h4");
-
-        title.className =
-            "casino-category-title";
-
-        title.textContent =
-            casinoCategories[category] ||
-            "Casino Games";
-
-
-        grid.appendChild(title);
-
-
-        // আলাদা game grid
-        const gamesGrid =
-            document.createElement("div");
-
-        gamesGrid.className =
-            "casino-category-games";
-
-
-        if (games.length === 0) {
-
-            gamesGrid.innerHTML = `
-                <div class="casino-no-games">
-                    No Games Available
-                </div>
-            `;
-
-        } else {
-
-            games.forEach(game => {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "casino-game-card";
-
-
-                card.innerHTML = `
-
-                    <div class="casino-game-card-image">
-
-                        ${
-                            game.image
-                            ? `
-                                <img
-                                    src="${game.image}"
-                                    alt="${game.name}"
-                                >
-                              `
-                            : `
-                                <div class="casino-game-placeholder">
-                                    🎮
-                                </div>
-                              `
-                        }
-
-                    </div>
-
-                    <div class="casino-game-card-title">
-                        ${game.name}
-                    </div>
-
-                `;
-
-
-                gamesGrid.appendChild(card);
-
-            });
-
-        }
-
-
-        grid.appendChild(gamesGrid);
-
-    });
-
-}
 // ======================================================
 // BACK FROM CASINO 
 // ======================================================
@@ -508,7 +105,5 @@ function backFromCasino() {
 window.selectCasinoCategory =
     selectCasinoCategory;
 
-window.viewAllCasinoCategories =
-    viewAllCasinoCategories;
 
 
