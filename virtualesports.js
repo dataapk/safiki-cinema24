@@ -1223,6 +1223,48 @@ document.addEventListener(
     }
 );
 
+// ======================================================
+// OPEN VIRTUAL SPORTS FROM FOOTER
+// ======================================================
+
+window.openVirtualSportsFromFooter =
+function (sport) {
+
+    // Close footer sidebar
+    if (
+        typeof footerCloseSidebar === "function"
+    ) {
+
+        footerCloseSidebar();
+
+    }
+
+
+    // Open existing Virtual Sports homepage
+    if (
+        typeof openVirtualSports === "function"
+    ) {
+
+        openVirtualSports();
+
+    }
+
+
+    // Select Cricket / Football
+    setTimeout(function () {
+
+        if (
+            typeof openVirtualSportGame === "function"
+        ) {
+
+            openVirtualSportGame(sport);
+
+        }
+
+    }, 0);
+
+};
+
 
 // ======================================================
 // END OF VIRTUAL SPORTS.JS
