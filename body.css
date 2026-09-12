@@ -849,7 +849,7 @@
 /* ===== ICONS GRID: 8 per row ===== */
 .crypto-icons-grid {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 8px;
 }
 
