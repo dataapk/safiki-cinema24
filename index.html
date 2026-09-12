@@ -4367,34 +4367,270 @@
 
 
 
-<!-- ===== FOOTER ===== -->
-<footer class="main-footer" id="mainFooter" style="background: var(--surface); border-top: 1px solid var(--border);">
-    <div class="footer-top">
-        <div class="footer-brand">
-            <h4 style="color: var(--text);">SPORTS BET</h4>
-            <p style="color: var(--text-muted);">The most trusted online betting platform</p>
-        </div>
-        <div class="footer-links">
-            <div class="link-col">
-                <h5 style="color: var(--text);">Company</h5>
-                <a href="#" style="color: var(--text-muted);">About Us</a>
-                <a href="#" style="color: var(--text-muted);">Contact</a>
-                <a href="#" style="color: var(--text-muted);">Affiliate</a>
-            </div>
-            <div class="link-col">
-                <h5 style="color: var(--text);">Support</h5>
-                <a href="#" style="color: var(--text-muted);">Help Center</a>
-                <a href="#" style="color: var(--text-muted);">Live Chat</a>
-                <a href="#" style="color: var(--text-muted);">FAQ</a>
-            </div>
-            <div class="link-col">
-                <h5 style="color: var(--text);">Legal</h5>
-                <a href="#" style="color: var(--text-muted);">Terms</a>
-                <a href="#" style="color: var(--text-muted);">Privacy</a>
-                <a href="#" style="color: var(--text-muted);">Responsible Gaming</a>
-            </div>
-        </div>
+<!-- =====================================================
+     PREMIUM FOOTER
+===================================================== -->
+
+<footer class="main-footer premium-footer"
+        id="mainFooter">
+
+    <!-- ==========================================
+         BRAND
+    ========================================== -->
+
+    <div class="premium-footer-brand">
+
+        <h2>SPORTS BET</h2>
+
+        <p>
+            Your trusted destination for sports,
+            entertainment and online gaming.
+        </p>
+
     </div>
+
+
+    <!-- ==========================================
+         INFORMATION
+    ========================================== -->
+
+    <div class="premium-footer-info">
+
+        <h3>Information</h3>
+
+        <div class="premium-footer-link-grid">
+
+            <a href="#"
+               onclick="openFooterInfo('about'); return false;">
+                About Us
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('promotions'); return false;">
+                Promotions
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('contact'); return false;">
+                Contact Us
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('affiliate'); return false;">
+                Affiliate
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('help'); return false;">
+                Help Center
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('faq'); return false;">
+                FAQ
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('terms'); return false;">
+                Terms & Conditions
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('privacy'); return false;">
+                Privacy Policy
+            </a>
+
+            <a href="#"
+               onclick="openFooterInfo('responsible'); return false;">
+                Responsible Gaming
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         JOIN OUR COMMUNITY
+    ========================================== -->
+
+    <div class="premium-footer-community">
+
+        <h3>Join Our Community</h3>
+
+        <div class="premium-social-grid">
+
+            <a href="#"
+               target="_blank"
+               class="premium-social-box">
+
+                <i class="fab fa-youtube"></i>
+                <span>YouTube</span>
+
+            </a>
+
+
+            <a href="#"
+               target="_blank"
+               class="premium-social-box">
+
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+
+            </a>
+
+
+            <a href="#"
+               target="_blank"
+               class="premium-social-box">
+
+                <i class="fab fa-x-twitter"></i>
+                <span>X</span>
+
+            </a>
+
+
+            <a href="#"
+               target="_blank"
+               class="premium-social-box">
+
+                <i class="fas fa-globe"></i>
+                <span>Blog</span>
+
+            </a>
+
+
+            <a href="#"
+               target="_blank"
+               class="premium-social-box">
+
+                <i class="fab fa-telegram-plane"></i>
+                <span>Telegram</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         TRUST & VERIFICATION
+    ========================================== -->
+
+    <div class="premium-footer-trust">
+
+        <h3>Trusted & Verified</h3>
+
+        <div class="premium-trust-logos">
+
+            <div class="premium-trust-logo">
+
+                <img src="images/comodo-verified.png"
+                     alt="Comodo Verified">
+
+            </div>
+
+
+            <div class="premium-trust-logo">
+
+                <img src="images/gaming-license.png"
+                     alt="Gaming License">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         COMPANY INFORMATION
+    ========================================== -->
+
+    <div class="premium-footer-company">
+
+        <div class="premium-company-name">
+            SPORTS BET
+        </div>
+
+        <p>
+            DZ is operated by Omok Company
+            under license of XXXXX.
+        </p>
+
+        <p class="premium-copyright">
+            © 2026 SPORTS BET. All rights reserved.
+        </p>
+
+    </div>
+
+
+    <!-- ==========================================
+         RESPONSIBLE GAMING
+    ========================================== -->
+
+    <div class="premium-footer-responsible">
+
+        <div class="premium-age-badge">
+            18+
+        </div>
+
+        <div>
+
+            <strong>Play Responsibly</strong>
+
+            <span>
+                For adults only
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     FOOTER INFORMATION POPUP
+===================================================== -->
+
+<div id="footerInfoPopup"
+     class="footer-info-popup"
+     style="display:none;">
+
+    <div class="footer-info-card">
+
+        <!-- Close -->
+
+        <button class="footer-info-close"
+                onclick="closeFooterInfo()">
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+
+        <!-- Title -->
+
+        <div class="footer-info-title"
+             id="footerInfoTitle">
+
+            About Us
+
+        </div>
+
+
+        <!-- Content -->
+
+        <div class="footer-info-content"
+             id="footerInfoContent">
+
+        </div>
+
+    </div>
+
+</div>
   
 </footer>
 
