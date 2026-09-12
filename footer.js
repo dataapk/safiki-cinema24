@@ -410,9 +410,45 @@ window.renderFooterSportsGames = function () {
             }
 
 
-            section.appendChild(
+                        section.appendChild(
                 row
             );
+
+        }
+    );
+
+
+    // ==================================================
+    // NO GAMES AVAILABLE
+    // ==================================================
+
+    Object.values(
+        leagueContainers
+    ).forEach(
+        containerId => {
+
+            const container =
+                document.getElementById(
+                    containerId
+                );
+
+            if (!container) {
+                return;
+            }
+
+            if (
+                container.children.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="footer-no-games">
+                        No Games Available
+                    </div>
+
+                `;
+
+            }
 
         }
     );
