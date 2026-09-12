@@ -786,111 +786,123 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
 
     // ==========================================
-    // MAIN MENU BEHAVIOR
+    // SPORTS MAIN SECTIONS
     // ==========================================
+
+    const sportsSectionIds = [
+        "footerCricketSub",
+        "footerFootballSub",
+        "footerBasketballSub",
+        "footerTennisSub",
+        "footerVolleyballSub",
+        "footerBoxingSub",
+        "footerHockeySub",
+        "footerRugbySub",
+        "footerGolfSub"
+    ];
+
+    const isSportsSection =
+        sportsSectionIds.includes(menuSubId);
+
+
     // ==========================================
-// SPORTS MAIN SECTIONS
-// ==========================================
+    // SPORTS SECTION BEHAVIOR
+    // Only one Sports section open at a time
+    // ==========================================
 
-const sportsSectionIds = [
-    "footerCricketSub",
-    "footerFootballSub",
-    "footerBasketballSub",
-    "footerTennisSub",
-    "footerVolleyballSub",
-    "footerBoxingSub",
-    "footerHockeySub",
-    "footerRugbySub",
-    "footerGolfSub"
-];
+    if (isSportsSection) {
 
-const isSportsSection =
-    sportsSectionIds.includes(menuSubId);
+        sportsSectionIds.forEach(function(id) {
+
+            if (id === menuSubId) return;
 
 
-// ==========================================
-// SPORTS SECTION BEHAVIOR
-// ==========================================
+            const otherMenu =
+                document.getElementById(id);
 
-if (isSportsSection) {
-
-    sportsSectionIds.forEach(function(id) {
-
-        if (id === menuSubId) return;
-
-        const otherMenu =
-            document.getElementById(id);
-
-        if (!otherMenu) return;
+            if (!otherMenu) return;
 
 
-        // Close other Sports section
-        otherMenu.classList.add(
-            "footer-menusub-hidden"
-        );
+            // --------------------------------------
+            // Close other Sports section
+            // --------------------------------------
 
-
-        // Reset other Sports arrow
-        const otherParent =
-            otherMenu.closest(
-                ".footer-menu-item"
+            otherMenu.classList.add(
+                "footer-menusub-hidden"
             );
 
-        if (otherParent) {
 
-            const otherArrow =
-                otherParent.querySelector(
-                    ".footer-menu-header .footer-arrow"
+            // --------------------------------------
+            // Reset Sports section arrow
+            // --------------------------------------
+
+            const otherParent =
+                otherMenu.closest(
+                    ".footer-menu-item"
                 );
 
-            if (otherArrow) {
+            if (otherParent) {
 
-                otherArrow.classList.remove(
-                    "rotate"
-                );
+                const otherArrow =
+                    otherParent.querySelector(
+                        ".footer-menu-header .footer-arrow"
+                    );
+
+                if (otherArrow) {
+
+                    otherArrow.classList.remove(
+                        "rotate"
+                    );
+
+                }
 
             }
 
-        }
+
+            // --------------------------------------
+            // Close inner League / Match menus
+            // --------------------------------------
+
+            otherMenu
+                .querySelectorAll(
+                    ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
+                )
+                .forEach(function(sub) {
+
+                    sub.classList.add(
+                        "footer-menusub-hidden"
+                    );
+
+                });
 
 
-        // Reset inner opened menus
-        otherMenu
-            .querySelectorAll(
-                ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
-            )
-            .forEach(function(sub) {
+            // --------------------------------------
+            // Reset inner arrows
+            // --------------------------------------
 
-                sub.classList.add(
-                    "footer-menusub-hidden"
-                );
+            otherMenu
+                .querySelectorAll(
+                    ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+                )
+                .forEach(function(innerArrow) {
 
-            });
+                    innerArrow.classList.remove(
+                        "rotate"
+                    );
 
+                });
 
-        // Reset inner arrows
-        otherMenu
-            .querySelectorAll(
-                ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
-            )
-            .forEach(function(innerArrow) {
+        });
 
-                innerArrow.classList.remove(
-                    "rotate"
-                );
-
-            });
-
-    });
-
-}
+    }
 
 
-// ==========================================
-// MAIN MENU BEHAVIOR
-// ==========================================
+    // ==========================================
+    // MAIN MENU BEHAVIOR
+    // ==========================================
 
     if (isMainMenu) {
+
 
         // ------------------------------------------
         // Close other Main Menus only
@@ -918,14 +930,12 @@ if (isSportsSection) {
                     ".footer-menu-item"
                 );
 
-
             if (otherParent) {
 
                 const otherArrow =
                     otherParent.querySelector(
                         ".footer-menu-header .footer-arrow"
                     );
-
 
                 if (otherArrow) {
 
@@ -940,65 +950,143 @@ if (isSportsSection) {
         });
 
 
-// ------------------------------------------
-// Toggle Current Main Menu
-// ------------------------------------------
+        // ------------------------------------------
+        // Main Menu Current State
+        // ------------------------------------------
 
-const isClosed =
-    menuSub.classList.contains(
-        "footer-menusub-hidden"
-    );
-
-
-if (isClosed) {
-
-
-    // ==========================================
-    // RESET SPORTS SECTIONS BEFORE RE-OPENING
-    // ==========================================
-
-    if (menuSubId === "sportsMenuSub") {
-
-        sportsSectionIds.forEach(function(id) {
-
-            const section =
-                document.getElementById(id);
-
-            if (!section) return;
-
-
-            // Close Sports section
-            section.classList.add(
+        const isMainMenuClosed =
+            menuSub.classList.contains(
                 "footer-menusub-hidden"
             );
 
 
-            // Reset section arrow
-            const sectionParent =
-                section.closest(
-                    ".footer-menu-item"
-                );
+        // ==========================================
+        // OPEN MAIN MENU
+        // ==========================================
 
-            if (sectionParent) {
+        if (isMainMenuClosed) {
 
-                const sectionArrow =
-                    sectionParent.querySelector(
-                        ".footer-menu-header .footer-arrow"
+
+            // --------------------------------------
+            // Reset Sports before reopening
+            // --------------------------------------
+
+            if (menuSubId === "sportsMenuSub") {
+
+                sportsSectionIds.forEach(function(id) {
+
+                    const section =
+                        document.getElementById(id);
+
+                    if (!section) return;
+
+
+                    // Close Sports section
+                    section.classList.add(
+                        "footer-menusub-hidden"
                     );
 
-                if (sectionArrow) {
 
-                    sectionArrow.classList.remove(
-                        "rotate"
-                    );
+                    // Reset Sports section arrow
+                    const sectionParent =
+                        section.closest(
+                            ".footer-menu-item"
+                        );
 
-                }
+                    if (sectionParent) {
+
+                        const sectionArrow =
+                            sectionParent.querySelector(
+                                ".footer-menu-header .footer-arrow"
+                            );
+
+                        if (sectionArrow) {
+
+                            sectionArrow.classList.remove(
+                                "rotate"
+                            );
+
+                        }
+
+                    }
+
+
+                    // Close inner menus
+                    section
+                        .querySelectorAll(
+                            ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
+                        )
+                        .forEach(function(sub) {
+
+                            sub.classList.add(
+                                "footer-menusub-hidden"
+                            );
+
+                        });
+
+
+                    // Reset inner arrows
+                    section
+                        .querySelectorAll(
+                            ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+                        )
+                        .forEach(function(innerArrow) {
+
+                            innerArrow.classList.remove(
+                                "rotate"
+                            );
+
+                        });
+
+                });
 
             }
 
 
-            // Close inner League / Match menus
-            section
+            // --------------------------------------
+            // Open Current Main Menu
+            // --------------------------------------
+
+            menuSub.classList.remove(
+                "footer-menusub-hidden"
+            );
+
+
+            if (arrow) {
+
+                arrow.classList.add(
+                    "rotate"
+                );
+
+            }
+
+
+        } else {
+
+
+            // ======================================
+            // CLOSE MAIN MENU
+            // ======================================
+
+            menuSub.classList.add(
+                "footer-menusub-hidden"
+            );
+
+
+            if (arrow) {
+
+                arrow.classList.remove(
+                    "rotate"
+                );
+
+            }
+
+
+            // --------------------------------------
+            // Reset all inner menus
+            // --------------------------------------
+
+            menuSub
                 .querySelectorAll(
                     ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
                 )
@@ -1011,8 +1099,11 @@ if (isClosed) {
                 });
 
 
-            // Reset inner arrows
-            section
+            // --------------------------------------
+            // Reset all inner arrows
+            // --------------------------------------
+
+            menuSub
                 .querySelectorAll(
                     ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
                 )
@@ -1024,178 +1115,112 @@ if (isClosed) {
 
                 });
 
-        });
+        }
+
+
+        return;
 
     }
 
 
     // ==========================================
-    // OPEN MAIN MENU
+    // CLOSE ONLY SIBLING SUB MENUS
+    // Cricket / Football / League / Match
     // ==========================================
 
-    menuSub.classList.remove(
-        "footer-menusub-hidden"
-    );
+    Array.from(parentContainer.children).forEach(
+        function(child) {
+
+            if (child === menuSub) return;
 
 
-    if (arrow) {
-
-        arrow.classList.add(
-            "rotate"
-        );
-
-    }
-
-
-} else {
-
-
-    // ==========================================
-    // CLOSE MAIN MENU
-    // ==========================================
-
-    menuSub.classList.add(
-        "footer-menusub-hidden"
-    );
+            const siblingSub =
+                child.classList &&
+                (
+                    child.classList.contains(
+                        "footer-menusub-list"
+                    ) ||
+                    child.classList.contains(
+                        "footer-nested-submenu"
+                    ) ||
+                    child.classList.contains(
+                        "footer-match-list"
+                    )
+                )
+                    ? child
+                    : null;
 
 
-    if (arrow) {
-
-        arrow.classList.remove(
-            "rotate"
-        );
-
-    }
+            if (!siblingSub) return;
 
 
-    // ==========================================
-    // RESET ALL INNER MENUS
-    // ==========================================
-
-    menuSub
-        .querySelectorAll(
-            ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
-        )
-        .forEach(function(sub) {
-
-            sub.classList.add(
+            siblingSub.classList.add(
                 "footer-menusub-hidden"
             );
 
-        });
+
+            // Reset sibling arrow
+            const siblingArrow =
+                child.querySelector(
+                    ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+                );
 
 
-// ==========================================
-// RESET ALL INNER ARROWS
-// ==========================================
+            if (siblingArrow) {
 
-menuSub
-    .querySelectorAll(
-        ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
-    )
-    .forEach(function(innerArrow) {
+                siblingArrow.classList.remove(
+                    "rotate"
+                );
 
-        innerArrow.classList.remove(
-            "rotate"
-        );
+            }
 
-    });
-
-}
+        }
+    );
 
 
-// ==========================================
-// CLOSE ONLY SIBLING SUB MENUS
-// Cricket / Football / League / Match
-// ==========================================
+    // ==========================================
+    // TOGGLE CURRENT NESTED MENU
+    // ==========================================
 
-Array.from(parentContainer.children).forEach(
-    function(child) {
-
-        if (child === menuSub) return;
-
-        const siblingSub =
-            child.classList &&
-            (
-                child.classList.contains(
-                    "footer-menusub-list"
-                ) ||
-                child.classList.contains(
-                    "footer-nested-submenu"
-                ) ||
-                child.classList.contains(
-                    "footer-match-list"
-                )
-            )
-                ? child
-                : null;
-
-        if (!siblingSub) return;
-
-        siblingSub.classList.add(
+    const isNestedMenuClosed =
+        menuSub.classList.contains(
             "footer-menusub-hidden"
         );
 
-        const siblingArrow =
-            child.querySelector(
-                ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+
+    if (isNestedMenuClosed) {
+
+        menuSub.classList.remove(
+            "footer-menusub-hidden"
+        );
+
+
+        if (arrow) {
+
+            arrow.classList.add(
+                "rotate"
             );
 
-        if (siblingArrow) {
+        }
 
-            siblingArrow.classList.remove(
+    } else {
+
+        menuSub.classList.add(
+            "footer-menusub-hidden"
+        );
+
+
+        if (arrow) {
+
+            arrow.classList.remove(
                 "rotate"
             );
 
         }
 
     }
-);
-
-
-// ==========================================
-// TOGGLE CURRENT NESTED MENU
-// ==========================================
-
-const isClosed =
-    menuSub.classList.contains(
-        "footer-menusub-hidden"
-    );
-
-
-if (isClosed) {
-
-    menuSub.classList.remove(
-        "footer-menusub-hidden"
-    );
-
-    if (arrow) {
-
-        arrow.classList.add(
-            "rotate"
-        );
-
-    }
-
-} else {
-
-    menuSub.classList.add(
-        "footer-menusub-hidden"
-    );
-
-    if (arrow) {
-
-        arrow.classList.remove(
-            "rotate"
-        );
-
-    }
-
-}
 
 };
-
-
 // ===== FOOTER ACTIVE =====
 // ===== SET ACTIVE =====
 window.footerSetActive = function(element) {
