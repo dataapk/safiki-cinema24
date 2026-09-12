@@ -4419,283 +4419,485 @@ button:last-child:hover {
 ====================================================== */
 
 
-/* ==========================================
-   SPORT CONTROL CARDS
-========================================== */
+/* ======================================================
+   VIRTUAL SPORTS SPORT CARDS
+====================================================== */
 
 .virtual-sports-admin-grid {
+
+    width: 100%;
+
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin: 15px 0 20px;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin: 0 0 24px 0;
+
 }
 
 
 .virtual-sports-admin-card {
+
+    width: 100%;
+
+    min-height: 70px;
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 
-    padding: 14px 15px;
+    padding: 14px 16px;
 
-    background: #151515;
-    border: 1px solid #292929;
+    border: 1px solid #e5e7eb;
+
     border-radius: 10px;
+
+    background: #ffffff;
 
     cursor: pointer;
 
+    box-sizing: border-box;
+
     transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease;
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+
 }
 
 
 .virtual-sports-admin-card:hover {
-    background: #1c1c1c;
-    border-color: #3a3a3a;
+
+    background: #f9fafb;
+
+    border-color: #d1d5db;
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.06);
+
 }
 
 
 .virtual-sports-admin-icon {
+
     width: 42px;
+
     height: 42px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    background: #222;
     border-radius: 9px;
 
-    font-size: 23px;
+    background: #f3f4f6;
+
+    font-size: 22px;
+
     flex-shrink: 0;
+
 }
 
 
 .virtual-sports-admin-info {
+
     flex: 1;
+
     min-width: 0;
+
 }
 
 
 .virtual-sports-admin-info h4 {
-    margin: 0 0 4px;
 
-    color: #fff;
+    margin: 0 0 4px 0;
+
+    color: #111827;
+
     font-size: 14px;
+
     font-weight: 700;
+
 }
 
 
 .virtual-sports-admin-info span {
-    color: #888;
+
+    color: #6b7280;
+
     font-size: 11px;
+
+    font-weight: 500;
+
 }
 
 
 .virtual-sports-admin-card > i {
-    color: #777;
+
+    color: #9ca3af;
+
     font-size: 12px;
+
 }
 
 
-/* ==========================================
+/* ======================================================
    CONTROL SECTION
-========================================== */
+====================================================== */
 
 .virtual-sports-control-section {
-    margin-top: 18px;
-    padding: 15px;
 
-    background: #111;
-    border: 1px solid #252525;
-    border-radius: 10px;
+    width: 100%;
+
+    padding: 0;
+
+    margin: 0 0 24px 0;
+
+    box-sizing: border-box;
+
 }
 
 
 .virtual-sports-control-section > h3 {
-    margin: 0 0 15px;
 
-    color: #fff;
+    margin: 0 0 18px 0;
+
+    color: #111827;
+
     font-size: 16px;
+
     font-weight: 700;
+
 }
 
 
-/* ==========================================
-   ADD NEW GAME BUTTON
-========================================== */
+/* ======================================================
+   ADD GAME BUTTON AREA
+====================================================== */
 
-.virtual-sports-control-section
-> button {
+.virtual-sports-add-game-row {
 
-    display: inline-flex;
-    align-items: center;
+    width: 100%;
+
+    display: flex;
+
     justify-content: center;
 
-    padding: 9px 14px;
+    margin: 0 0 22px 0;
 
-    border: 0;
-    border-radius: 7px;
+    box-sizing: border-box;
 
-    background: #22c55e;
-    color: #fff;
+}
 
-    font-size: 12px;
+
+.virtual-sports-add-game-btn {
+
+    min-width: 190px;
+
+    padding: 11px 20px;
+
+    border: 1px solid #16a34a;
+
+    border-radius: 9px;
+
+    background: #16a34a;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
     font-weight: 700;
 
     cursor: pointer;
 
+    box-sizing: border-box;
+
+    box-shadow:
+        0 5px 14px rgba(22, 163, 74, 0.16);
+
     transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+
 }
 
 
-.virtual-sports-control-section
-> button:hover {
+.virtual-sports-add-game-btn:hover {
 
-    background: #16a34a;
+    background: #15803d;
+
+    border-color: #15803d;
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 16px rgba(22, 163, 74, 0.20);
+
 }
 
 
-/* ==========================================
-   LIVE / UPCOMING / FEATURED TABS
-========================================== */
+/* ======================================================
+   VIRTUAL SPORTS TABS
+====================================================== */
 
 .virtual-sports-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
 
-    margin: 15px 0;
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 24px;
+
 }
 
 
 .virtual-sports-tabs button {
-    padding: 8px 12px;
 
-    border: 1px solid #303030;
-    border-radius: 7px;
+    width: 100%;
 
-    background: #1a1a1a;
-    color: #aaa;
+    min-height: 46px;
 
-    font-size: 11px;
-    font-weight: 600;
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    border: 1px solid #e5e7eb;
+
+    background: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 700;
 
     cursor: pointer;
 
+    box-sizing: border-box;
+
     transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+
 }
 
 
-.virtual-sports-tabs button:hover {
-    background: #242424;
-    color: #fff;
-    border-color: #444;
+/* ======================================================
+   LIVE
+====================================================== */
+
+.virtual-sports-tabs button:nth-child(1) {
+
+    color: #dc2626;
+
+    border-color: #fecaca;
+
+    background: #fff7f7;
+
 }
 
 
-/* ==========================================
-   CONTENT SECTION
-========================================== */
+.virtual-sports-tabs button:nth-child(1):hover {
+
+    background: #fee2e2;
+
+    border-color: #fca5a5;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ======================================================
+   UPCOMING
+====================================================== */
+
+.virtual-sports-tabs button:nth-child(2) {
+
+    color: #b7791f;
+
+    border-color: #fde68a;
+
+    background: #fffbeb;
+
+}
+
+
+.virtual-sports-tabs button:nth-child(2):hover {
+
+    background: #fef3c7;
+
+    border-color: #fcd34d;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ======================================================
+   FEATURED
+====================================================== */
+
+.virtual-sports-tabs button:nth-child(3) {
+
+    color: #7c3aed;
+
+    border-color: #ddd6fe;
+
+    background: #faf5ff;
+
+}
+
+
+.virtual-sports-tabs button:nth-child(3):hover {
+
+    background: #f3e8ff;
+
+    border-color: #c4b5fd;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ======================================================
+   GAME CONTENT
+====================================================== */
 
 .virtual-sports-content {
-    margin-top: 10px;
+
+    width: 100%;
+
+    margin: 0 0 24px 0;
+
 }
 
 
 .virtual-sports-content h4 {
-    margin: 0 0 12px;
 
-    color: #fff;
-    font-size: 13px;
+    margin: 0 0 14px 0;
+
+    color: #111827;
+
+    font-size: 14px;
+
     font-weight: 700;
+
 }
 
 
-/* ==========================================
-   EMPTY STATE
-========================================== */
+/* ======================================================
+   NO GAME MESSAGE
+====================================================== */
 
 .virtual-sports-content
 .no-sports-games {
 
-    padding: 15px 10px;
+    width: 100%;
 
     margin: 0;
 
+    padding: 14px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    background: #f9fafb;
+
+    color: #6b7280;
+
     text-align: center;
 
-    color: #777;
-
     font-size: 12px;
+
+    box-sizing: border-box;
+
 }
 
 
-/* ==========================================
-   VIRTUAL SPORTS EDIT MODAL
-========================================== */
+/* ======================================================
+   INLINE ADD / EDIT FORM
+====================================================== */
 
 #virtualSportsGameEditModal {
-    position: fixed;
 
-    inset: 0;
+    width: 100%;
 
     display: none;
 
-    align-items: center;
-    justify-content: center;
+    position: static;
 
-    padding: 20px;
+    margin: 0 0 24px 0;
 
-    background: rgba(0, 0, 0, 0.72);
+    padding: 0;
 
-    z-index: 9999;
+    background: transparent;
+
+    box-sizing: border-box;
+
+    z-index: auto;
+
 }
 
 
 #virtualSportsGameEditModal
 .sports-game-edit-box {
 
-    width: min(480px, 100%);
+    width: 100%;
 
-    max-height: 90vh;
+    max-width: none;
 
-    overflow-y: auto;
+    max-height: none;
 
-    background: #151515;
+    overflow: visible;
 
-    border: 1px solid #292929;
+    background: #ffffff;
 
-    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
 
     box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.45);
+        0 5px 14px rgba(0, 0, 0, 0.06);
+
 }
 
 
-/* ==========================================
-   MODAL HEADER
-========================================== */
+/* ======================================================
+   FORM HEADER
+====================================================== */
 
 #virtualSportsGameEditModal
 .sports-game-edit-header {
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding: 14px 16px;
+    padding: 13px 15px;
 
-    border-bottom: 1px solid #292929;
+    border-bottom: 1px solid #e5e7eb;
+
 }
 
 
@@ -4704,10 +4906,12 @@ button:last-child:hover {
 
     margin: 0;
 
-    color: #fff;
+    color: #111827;
 
-    font-size: 15px;
+    font-size: 14px;
+
     font-weight: 700;
+
 }
 
 
@@ -4715,43 +4919,66 @@ button:last-child:hover {
 .sports-game-edit-header button {
 
     width: 30px;
+
     height: 30px;
 
-    border: 0;
-    border-radius: 6px;
+    display: flex;
 
-    background: #242424;
-    color: #aaa;
+    align-items: center;
 
-    font-size: 15px;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #6b7280;
+
+    font-size: 14px;
 
     cursor: pointer;
+
 }
 
 
 #virtualSportsGameEditModal
 .sports-game-edit-header button:hover {
 
-    background: #303030;
-    color: #fff;
+    background: #f3f4f6;
+
+    color: #111827;
+
 }
 
 
-/* ==========================================
-   MODAL BODY
-========================================== */
+/* ======================================================
+   FORM BODY
+====================================================== */
 
 #virtualSportsGameEditModal
 .sports-game-edit-body {
 
     padding: 16px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+
 }
 
 
 #virtualSportsGameEditModal
 .edit-field {
 
-    margin-bottom: 13px;
+    width: 100%;
+
+    margin: 0;
+
 }
 
 
@@ -4760,12 +4987,14 @@ button:last-child:hover {
 
     display: block;
 
-    margin-bottom: 6px;
+    margin: 0 0 6px 0;
 
-    color: #aaa;
+    color: #374151;
 
     font-size: 11px;
-    font-weight: 600;
+
+    font-weight: 700;
+
 }
 
 
@@ -4775,19 +5004,29 @@ button:last-child:hover {
 .edit-field select {
 
     width: 100%;
-    box-sizing: border-box;
+
+    min-height: 40px;
 
     padding: 9px 10px;
 
-    border: 1px solid #303030;
-    border-radius: 7px;
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
 
     outline: none;
 
-    background: #1c1c1c;
-    color: #fff;
+    background: #ffffff;
+
+    color: #111827;
 
     font-size: 12px;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+
 }
 
 
@@ -4796,26 +5035,33 @@ button:last-child:hover {
 #virtualSportsGameEditModal
 .edit-field select:focus {
 
-    border-color: #555;
+    border-color: #9ca3af;
+
+    box-shadow:
+        0 0 0 3px rgba(156, 163, 175, 0.12);
+
 }
 
 
-/* ==========================================
-   MODAL FOOTER
-========================================== */
+/* ======================================================
+   FORM FOOTER
+====================================================== */
 
 #virtualSportsGameEditModal
 .sports-game-edit-footer {
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     gap: 10px;
 
     padding: 13px 16px;
 
-    border-top: 1px solid #292929;
+    border-top: 1px solid #e5e7eb;
+
 }
 
 
@@ -4823,105 +5069,140 @@ button:last-child:hover {
 .sports-edit-footer-actions {
 
     display: flex;
+
     gap: 8px;
+
 }
 
 
 #virtualSportsGameEditModal
 .sports-game-edit-footer button {
 
-    padding: 8px 12px;
+    min-height: 36px;
 
-    border: 0;
-    border-radius: 7px;
+    padding: 8px 13px;
+
+    border-radius: 8px;
 
     font-size: 11px;
-    font-weight: 600;
+
+    font-weight: 700;
 
     cursor: pointer;
+
+    box-sizing: border-box;
+
 }
 
 
-/* Delete */
+/* ======================================================
+   DELETE
+====================================================== */
 
 #virtualSportsGameEditModal
 .sports-delete-game-btn {
 
-    background: #3a1717;
-    color: #ff6b6b;
+    border: 1px solid #fecaca;
+
+    background: #fff7f7;
+
+    color: #dc2626;
+
 }
 
 
 #virtualSportsGameEditModal
 .sports-delete-game-btn:hover {
 
-    background: #4a1c1c;
+    background: #fee2e2;
+
+    border-color: #fca5a5;
+
 }
 
 
-/* Cancel */
+/* ======================================================
+   CANCEL
+====================================================== */
 
 #virtualSportsGameEditModal
 .sports-edit-cancel-btn {
 
-    background: #292929;
-    color: #aaa;
+    border: 1px solid #e5e7eb;
+
+    background: #ffffff;
+
+    color: #6b7280;
+
 }
 
 
 #virtualSportsGameEditModal
 .sports-edit-cancel-btn:hover {
 
-    background: #353535;
-    color: #fff;
+    background: #f9fafb;
+
+    color: #111827;
+
 }
 
 
-/* Save */
+/* ======================================================
+   SAVE
+====================================================== */
 
 #virtualSportsGameEditModal
 .sports-edit-save-btn {
 
-    background: #22c55e;
-    color: #fff;
+    border: 1px solid #16a34a;
+
+    background: #16a34a;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 4px 10px rgba(22, 163, 74, 0.14);
+
 }
 
 
 #virtualSportsGameEditModal
 .sports-edit-save-btn:hover {
 
-    background: #16a34a;
+    background: #15803d;
+
+    border-color: #15803d;
+
 }
 
 
-/* ==========================================
+/* ======================================================
    MOBILE
-========================================== */
+====================================================== */
 
 @media (max-width: 650px) {
 
     .virtual-sports-admin-grid {
+
         grid-template-columns: 1fr;
-    }
 
-
-    .virtual-sports-control-section {
-        padding: 12px;
     }
 
 
     .virtual-sports-tabs {
-        gap: 6px;
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
     }
 
 
-    .virtual-sports-tabs button {
-        flex: 1 1 auto;
-    }
+    #virtualSportsGameEditModal
+    .sports-game-edit-body {
 
+        grid-template-columns: 1fr;
 
-    #virtualSportsGameEditModal {
-        padding: 12px;
     }
 
 
@@ -4929,6 +5210,7 @@ button:last-child:hover {
     .sports-game-edit-footer {
 
         flex-direction: column;
+
         align-items: stretch;
 
     }
@@ -4938,6 +5220,7 @@ button:last-child:hover {
     .sports-edit-footer-actions {
 
         width: 100%;
+
     }
 
 
@@ -4945,6 +5228,7 @@ button:last-child:hover {
     .sports-edit-footer-actions button {
 
         flex: 1;
+
     }
 
 
@@ -4952,6 +5236,7 @@ button:last-child:hover {
     .sports-delete-game-btn {
 
         width: 100%;
+
     }
 
 }
