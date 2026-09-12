@@ -623,68 +623,66 @@ Object.entries(
     }
 );
 
-   
-    // ==================================================
-    // 4. RENDER GAMES WITHOUT LEAGUE
-    // ==================================================
+// ==================================================
+// RENDER GAMES WITHOUT LEAGUE
+// ==================================================
 
-    Object.entries(
-        sportContainers
-    ).forEach(
-        ([sport, containerId]) => {
+Object.entries(
+    sportContainers
+).forEach(
+    ([sport, containerId]) => {
 
-            const container =
-                document.getElementById(
-                    containerId
-                );
-
-
-            if (!container) {
-                return;
-            }
-
-
-            const directGames =
-                games.filter(
-                    game => {
-
-                        const gameSport =
-                            normalizeSportsSport(
-                                game.sport
-                            );
-
-
-                        const hasLeague =
-                            game.league &&
-                            String(
-                                game.league
-                            ).trim() !== "";
-
-
-                        return (
-                            gameSport === sport &&
-                            !hasLeague
-                        );
-
-                    }
-                );
-
-
-            if (
-                directGames.length === 0
-            ) {
-                return;
-            }
-
-
-            renderStatusGames(
-                container,
-                directGames
+        const container =
+            document.getElementById(
+                containerId
             );
 
+        if (!container) {
+            return;
         }
-    );
 
+
+        // Only games with NO league
+        const directGames =
+            games.filter(
+                game => {
+
+                    const gameSport =
+                        normalizeSportsSport(
+                            game.sport
+                        );
+
+                    const hasLeague =
+                        game.league &&
+                        String(
+                            game.league
+                        ).trim() !== "";
+
+                    return (
+                        gameSport === sport &&
+                        !hasLeague
+                    );
+
+                }
+            );
+
+
+        // No direct games
+        if (
+            directGames.length === 0
+        ) {
+            return;
+        }
+
+
+        // Render LIVE / UPCOMING / FEATURED
+        renderStatusGames(
+            container,
+            directGames
+        );
+
+    }
+);
 
     // ==================================================
     // 5. NO GAMES AVAILABLE
