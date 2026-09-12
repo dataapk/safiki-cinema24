@@ -174,13 +174,13 @@ window.footerCloseSidebar = function(){
 };
 
 
-// ======================================================
+ // ======================================================
 // FOOTER SPORTS — DYNAMIC GAMES
 // ======================================================
 
 window.renderFooterSportsGames = function () {
 
-    const allGames =
+    const games =
         getAllSportsGames()
             .filter(game =>
                 isSportsGameEnabled(game)
@@ -188,7 +188,35 @@ window.renderFooterSportsGames = function () {
 
 
     // ==================================================
-    // FOOTER SPORT CONTAINERS
+    // EXISTING LEAGUE CONTAINERS
+    // ==================================================
+
+    const leagueContainers = {
+
+        "Asia Cup T20":
+            "footerAsiaCupDynamic",
+
+        "International T20":
+            "footerInternationalT20Dynamic",
+
+        "International ODI":
+            "footerInternationalODIDynamic",
+
+        "Premier League":
+            "footerPremierLeagueDynamic",
+
+        "La Liga":
+            "footerLaLigaDynamic",
+
+        "Champions League":
+            "footerChampionsLeagueDynamic"
+
+    };
+
+
+    // ==================================================
+    // SPORT CONTAINERS
+    // Used when game has NO league
     // ==================================================
 
     const sportContainers = {
@@ -224,7 +252,29 @@ window.renderFooterSportsGames = function () {
 
 
     // ==================================================
-    // CLEAR ALL SPORT CONTAINERS
+    // CLEAR EXISTING LEAGUE CONTAINERS
+    // ==================================================
+
+    Object.values(
+        leagueContainers
+    ).forEach(
+        containerId => {
+
+            const container =
+                document.getElementById(
+                    containerId
+                );
+
+            if (container) {
+                container.innerHTML = "";
+            }
+
+        }
+    );
+
+
+    // ==================================================
+    // CLEAR DIRECT SPORT CONTAINERS
     // ==================================================
 
     Object.values(
@@ -246,7 +296,496 @@ window.renderFooterSportsGames = function () {
 
 
     // ==================================================
-    // GROUP GAMES BY SPORT
+    // STATUS TITLE
+    // ==================================================
+
+    function getStatusTitle(status) {
+
+        if (status === "live") {
+            return "🔥 LIVE";
+        }
+
+        if (status === "upcoming") {
+            return "⏱ UPCOMING";
+        }
+
+        if (status === "featured") {
+            return "⭐ FEATURED";
+        }
+
+        return "";
+
+    }
+
+
+    // ==================================================
+    // CREATE GAME ROW
+    // ==================================================
+
+    function createFooterGameRow(game, status) {
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+
+        row.className =
+            "footer-dynamic-game";
+
+
+        row.dataset.gameId =
+            game.game_id;
+
+
+        row.dataset.footerStatus =
+            status;
+
+
+        row.innerHTML = `
+
+            <i class="fas fa-circle"></i>
+
+            <span>
+                ${
+                    game.home_team ||
+                    ""
+                }
+                vs
+                ${
+                    game.away_team ||
+                    ""
+                }
+            </span>
+
+        `;
+
+
+        // ==================================================
+        // GAME CLICK
+        // ==================================================
+
+        row.onclick =
+            function (event) {
+
+                event.stopPropagation();
+
+                window.openedSportsGameFromFooter =
+                    true;
+
+                footerCloseSidebar();
+
+                openSportsGame(
+                    game.sport,
+                    game.game_id
+                );
+
+            };
+
+
+        return row;
+
+    }
+
+
+    // ==================================================
+    // RENDER STATUS SECTIONS
+    // ==================================================
+
+    function renderStatusGames(
+        container,
+        statusGames
+    ) {
+
+        const statuses = [
+            "live",
+            "upcoming",
+            "featured"
+        ];
+
+
+        statuses.forEach(
+            status => {
+
+                const gamesForStatus =
+                    statusGames.filter(
+                        game => {
+
+                            return (
+                                normalizeSportsStatus(
+                                    game.status
+                                ) === status
+                            );
+
+                        }
+                    );
+
+
+                // Empty status
+                // Do not show anything
+                if (
+                    gamesForStatus.length === 0
+                ) {
+                    return;
+                }
+
+
+                const section =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                section.className =
+                    "footer-sport-status-section";
+
+
+                const title =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                title.className =
+                    "footer-sport-status-title";
+
+
+                title.textContent =
+                    getStatusTitle(
+                        status
+                    );
+
+
+                section.appendChild(
+                    title
+                );
+
+
+                gamesForStatus.forEach(
+                    game => {
+
+                        const row =
+                            createFooterGameRow(
+                                game,
+                                status
+                            );
+
+
+                        section.appendChild(
+                            row
+                        );
+
+                    }
+                );
+
+
+                container.appendChild(
+                    section
+                );
+
+            }
+        );
+
+    }
+
+
+    // ==================================================
+    // 1. RENDER GAMES WITH LEAGUE
+    // ==================================================
+
+    games
+        .filter(
+            game =>
+                game.league &&
+                String(
+                    game.league
+                ).trim() !== ""
+        )
+        .forEach(
+            game => {
+
+                const league =
+                    String(
+                        game.league
+                    ).trim();
+
+
+                const sport =
+                    normalizeSportsSport(
+                        game.sport
+                    );
+
+
+                // ==================================================
+                // EXISTING LEAGUE CONTAINER
+                // ==================================================
+
+                let containerId =
+                    leagueContainers[
+                        league
+                    ];
+
+
+                // ==================================================
+                // EXISTING LEAGUE FOUND
+                // ==================================================
+
+                if (containerId) {
+
+                    const container =
+                        document.getElementById(
+                            containerId
+                        );
+
+
+                    if (!container) {
+                        return;
+                    }
+
+
+                    // Prevent duplicate status rendering
+                    // by collecting games first
+                    if (
+                        !container._footerLeagueGames
+                    ) {
+
+                        container._footerLeagueGames =
+                            [];
+
+                    }
+
+
+                    container._footerLeagueGames.push(
+                        game
+                    );
+
+                    return;
+
+                }
+
+
+                // ==================================================
+                // NEW / UNKNOWN LEAGUE
+                // ==================================================
+
+                const sportContainerId =
+                    sportContainers[
+                        sport
+                    ];
+
+
+                const sportContainer =
+                    document.getElementById(
+                        sportContainerId
+                    );
+
+
+                if (!sportContainer) {
+                    return;
+                }
+
+
+                let leagueBlock =
+                    sportContainer.querySelector(
+                        `[data-footer-league="${CSS.escape(league)}"]`
+                    );
+
+
+                if (!leagueBlock) {
+
+                    leagueBlock =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    leagueBlock.className =
+                        "footer-dynamic-league";
+
+
+                    leagueBlock.dataset.footerLeague =
+                        league;
+
+
+                    leagueBlock.innerHTML = `
+
+                        <div class="footer-dynamic-league-title">
+
+                            <i class="fas fa-trophy"></i>
+
+                            <span>
+                                ${league}
+                            </span>
+
+                            <i class="fas fa-chevron-down footer-arrow"></i>
+
+                        </div>
+
+                        <div class="footer-dynamic-league-games"></div>
+
+                    `;
+
+
+                    const gamesContainer =
+                        leagueBlock.querySelector(
+                            ".footer-dynamic-league-games"
+                        );
+
+
+                    leagueBlock
+                        .querySelector(
+                            ".footer-dynamic-league-title"
+                        )
+                        .onclick =
+                        function (event) {
+
+                            event.stopPropagation();
+
+                            gamesContainer.classList.toggle(
+                                "footer-menusub-hidden"
+                            );
+
+                        };
+
+
+                    sportContainer.appendChild(
+                        leagueBlock
+                    );
+
+                }
+
+
+                const gamesContainer =
+                    leagueBlock.querySelector(
+                        ".footer-dynamic-league-games"
+                    );
+
+
+                if (
+                    !leagueBlock._footerLeagueGames
+                ) {
+
+                    leagueBlock._footerLeagueGames =
+                        [];
+
+                }
+
+
+                leagueBlock._footerLeagueGames.push(
+                    game
+                );
+
+            }
+        );
+
+
+    // ==================================================
+    // 2. RENDER EXISTING LEAGUE GAMES
+    // ==================================================
+
+    Object.entries(
+        leagueContainers
+    ).forEach(
+        ([league, containerId]) => {
+
+            const container =
+                document.getElementById(
+                    containerId
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            const leagueGames =
+                container._footerLeagueGames ||
+                [];
+
+
+            if (
+                leagueGames.length === 0
+            ) {
+                return;
+            }
+
+
+            renderStatusGames(
+                container,
+                leagueGames
+            );
+
+
+            delete container._footerLeagueGames;
+
+        }
+    );
+
+
+    // ==================================================
+    // 3. RENDER NEW / UNKNOWN LEAGUES
+    // ==================================================
+
+    Object.values(
+        sportContainers
+    ).forEach(
+        containerId => {
+
+            const sportContainer =
+                document.getElementById(
+                    containerId
+                );
+
+
+            if (!sportContainer) {
+                return;
+            }
+
+
+            sportContainer
+                .querySelectorAll(
+                    "[data-footer-league]"
+                )
+                .forEach(
+                    leagueBlock => {
+
+                        const leagueGames =
+                            leagueBlock
+                                ._footerLeagueGames ||
+                            [];
+
+
+                        const gamesContainer =
+                            leagueBlock.querySelector(
+                                ".footer-dynamic-league-games"
+                            );
+
+
+                        if (
+                            !gamesContainer
+                        ) {
+                            return;
+                        }
+
+
+                        renderStatusGames(
+                            gamesContainer,
+                            leagueGames
+                        );
+
+
+                        delete leagueBlock._footerLeagueGames;
+
+                    }
+                );
+
+        }
+    );
+
+
+    // ==================================================
+    // 4. RENDER GAMES WITHOUT LEAGUE
     // ==================================================
 
     Object.entries(
@@ -259,13 +798,14 @@ window.renderFooterSportsGames = function () {
                     containerId
                 );
 
+
             if (!container) {
                 return;
             }
 
 
-            const sportGames =
-                allGames.filter(
+            const directGames =
+                games.filter(
                     game => {
 
                         const gameSport =
@@ -273,189 +813,90 @@ window.renderFooterSportsGames = function () {
                                 game.sport
                             );
 
+
+                        const hasLeague =
+                            game.league &&
+                            String(
+                                game.league
+                            ).trim() !== "";
+
+
                         return (
-                            gameSport === sport
+                            gameSport === sport &&
+                            !hasLeague
                         );
 
                     }
                 );
 
 
-            // ==================================================
-            // NO GAMES FOR THIS SPORT
-            // ==================================================
-
             if (
-                sportGames.length === 0
+                directGames.length === 0
             ) {
-
-                container.innerHTML = `
-
-                    <div class="footer-no-games">
-                        No Games Available
-                    </div>
-
-                `;
-
                 return;
             }
 
 
-            // ==================================================
-            // STATUS ORDER
-            // ==================================================
-
-            const statuses = [
-                "live",
-                "upcoming",
-                "featured"
-            ];
-
-
-            // ==================================================
-            // RENDER ONLY NON-EMPTY STATUS
-            // ==================================================
-
-            statuses.forEach(
-                status => {
-
-                    const statusGames =
-                        sportGames.filter(
-                            game => {
-
-                                const gameStatus =
-                                    normalizeSportsStatus(
-                                        game.status
-                                    );
-
-                                return (
-                                    gameStatus === status
-                                );
-
-                            }
-                        );
-
-
-                    // No games for this status
-                    // → Do not show this section
-                    if (
-                        statusGames.length === 0
-                    ) {
-                        return;
-                    }
-
-
-                    // ==================================================
-                    // STATUS SECTION
-                    // ==================================================
-
-                    const section =
-                        document.createElement(
-                            "div"
-                        );
-
-                    section.className =
-                        "footer-sport-status-section";
-
-
-                    section.innerHTML = `
-
-                        <div class="footer-sport-status-title">
-
-                            ${
-                                status === "live"
-                                    ? "🔥 LIVE"
-                                    : status === "upcoming"
-                                        ? "⏱ UPCOMING"
-                                        : "⭐ FEATURED"
-
-                            }
-
-                        </div>
-
-                    `;
-
-
-                    // ==================================================
-                    // RENDER GAMES
-                    // ==================================================
-
-                    statusGames.forEach(
-                        game => {
-
-                            const row =
-                                document.createElement(
-                                    "div"
-                                );
-
-
-                            row.className =
-                                "footer-dynamic-game";
-
-
-                            row.dataset.gameId =
-                                game.game_id;
-
-
-                            row.dataset.footerStatus =
-                                status;
-
-
-                            row.innerHTML = `
-
-                                <i class="fas fa-circle"></i>
-
-                                <span>
-                                    ${
-                                        game.home_team ||
-                                        ""
-                                    }
-                                    vs
-                                    ${
-                                        game.away_team ||
-                                        ""
-                                    }
-                                </span>
-
-                            `;
-
-
-                            // ==================================================
-                            // GAME CLICK
-                            // ==================================================
-
-                            row.onclick =
-                                function (event) {
-
-                                    event.stopPropagation();
-
-                                    window.openedSportsGameFromFooter =
-                                        true;
-
-                                    footerCloseSidebar();
-
-                                    openSportsGame(
-                                        game.sport,
-                                        game.game_id
-                                    );
-
-                                };
-
-
-                            section.appendChild(
-                                row
-                            );
-
-                        }
-                    );
-
-
-                    container.appendChild(
-                        section
-                    );
-
-                }
+            renderStatusGames(
+                container,
+                directGames
             );
+
+        }
+    );
+
+
+    // ==================================================
+    // 5. NO GAMES AVAILABLE
+    // ==================================================
+
+    Object.entries(
+        sportContainers
+    ).forEach(
+        ([sport, containerId]) => {
+
+            const container =
+                document.getElementById(
+                    containerId
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            const sportHasGames =
+                games.some(
+                    game => {
+
+                        return (
+                            normalizeSportsSport(
+                                game.sport
+                            ) === sport
+                        );
+
+                    }
+                );
+
+
+            if (
+                sportHasGames
+            ) {
+                return;
+            }
+
+
+            // Only show fallback when
+            // the sport has absolutely no games.
+
+            container.innerHTML = `
+
+                <div class="footer-no-games">
+                    No Games Available
+                </div>
+
+            `;
 
         }
     );
