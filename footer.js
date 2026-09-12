@@ -788,6 +788,107 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
     // ==========================================
     // MAIN MENU BEHAVIOR
     // ==========================================
+    // ==========================================
+// SPORTS MAIN SECTIONS
+// ==========================================
+
+const sportsSectionIds = [
+    "footerCricketSub",
+    "footerFootballSub",
+    "footerBasketballSub",
+    "footerTennisSub",
+    "footerVolleyballSub",
+    "footerBoxingSub",
+    "footerHockeySub",
+    "footerRugbySub",
+    "footerGolfSub"
+];
+
+const isSportsSection =
+    sportsSectionIds.includes(menuSubId);
+
+
+// ==========================================
+// SPORTS SECTION BEHAVIOR
+// ==========================================
+
+if (isSportsSection) {
+
+    sportsSectionIds.forEach(function(id) {
+
+        if (id === menuSubId) return;
+
+        const otherMenu =
+            document.getElementById(id);
+
+        if (!otherMenu) return;
+
+
+        // Close other Sports section
+        otherMenu.classList.add(
+            "footer-menusub-hidden"
+        );
+
+
+        // Reset other Sports arrow
+        const otherParent =
+            otherMenu.closest(
+                ".footer-menu-item"
+            );
+
+        if (otherParent) {
+
+            const otherArrow =
+                otherParent.querySelector(
+                    ".footer-menu-header .footer-arrow"
+                );
+
+            if (otherArrow) {
+
+                otherArrow.classList.remove(
+                    "rotate"
+                );
+
+            }
+
+        }
+
+
+        // Reset inner opened menus
+        otherMenu
+            .querySelectorAll(
+                ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
+            )
+            .forEach(function(sub) {
+
+                sub.classList.add(
+                    "footer-menusub-hidden"
+                );
+
+            });
+
+
+        // Reset inner arrows
+        otherMenu
+            .querySelectorAll(
+                ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+            )
+            .forEach(function(innerArrow) {
+
+                innerArrow.classList.remove(
+                    "rotate"
+                );
+
+            });
+
+    });
+
+}
+
+
+// ==========================================
+// MAIN MENU BEHAVIOR
+// ==========================================
 
     if (isMainMenu) {
 
@@ -866,21 +967,53 @@ window.footerToggleMenuSub = function(menuSubId, arrowId) {
 
         } else {
 
-            menuSub.classList.add(
+    menuSub.classList.add(
+        "footer-menusub-hidden"
+    );
+
+    if (arrow) {
+
+        arrow.classList.remove(
+            "rotate"
+        );
+
+    }
+
+
+    // ==========================================
+    // RESET ALL INNER MENUS
+    // ==========================================
+
+    menuSub
+        .querySelectorAll(
+            ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
+        )
+        .forEach(function(sub) {
+
+            sub.classList.add(
                 "footer-menusub-hidden"
             );
 
+        });
 
-            if (arrow) {
 
-                arrow.classList.remove(
-                    "rotate"
-                );
+    // ==========================================
+    // RESET ALL INNER ARROWS
+    // ==========================================
 
-            }
+    menuSub
+        .querySelectorAll(
+            ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+        )
+        .forEach(function(innerArrow) {
 
-        }
+            innerArrow.classList.remove(
+                "rotate"
+            );
 
+        });
+
+}
 
         return;
 
