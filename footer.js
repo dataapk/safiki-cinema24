@@ -1177,39 +1177,103 @@ if (isClosed) {
         );
 
 
-    if (isClosed) {
-
-        menuSub.classList.remove(
-            "footer-menusub-hidden"
-        );
+if (isClosed) {
 
 
-        if (arrow) {
+    // ==========================================
+    // RESET SPORTS SECTIONS BEFORE RE-OPENING
+    // ==========================================
 
-            arrow.classList.add(
-                "rotate"
+    if (menuSubId === "sportsMenuSub") {
+
+        sportsSectionIds.forEach(function(id) {
+
+            const section =
+                document.getElementById(id);
+
+            if (!section) return;
+
+
+            // Close Sports section
+            section.classList.add(
+                "footer-menusub-hidden"
             );
 
-        }
 
-    } else {
+            // Reset section arrow
+            const sectionParent =
+                section.closest(
+                    ".footer-menu-item"
+                );
 
-        menuSub.classList.add(
-            "footer-menusub-hidden"
-        );
+            if (sectionParent) {
+
+                const sectionArrow =
+                    sectionParent.querySelector(
+                        ".footer-menu-header .footer-arrow"
+                    );
+
+                if (sectionArrow) {
+
+                    sectionArrow.classList.remove(
+                        "rotate"
+                    );
+
+                }
+
+            }
 
 
-        if (arrow) {
+            // Close inner League / Match menus
+            section
+                .querySelectorAll(
+                    ".footer-menusub-list, .footer-nested-submenu, .footer-match-list"
+                )
+                .forEach(function(sub) {
 
-            arrow.classList.remove(
-                "rotate"
-            );
+                    sub.classList.add(
+                        "footer-menusub-hidden"
+                    );
 
-        }
+                });
+
+
+            // Reset inner arrows
+            section
+                .querySelectorAll(
+                    ".footer-arrow, .footer-nested-arrow, .footer-league-arrow"
+                )
+                .forEach(function(innerArrow) {
+
+                    innerArrow.classList.remove(
+                        "rotate"
+                    );
+
+                });
+
+        });
 
     }
 
-};
+
+    // ==========================================
+    // OPEN MAIN MENU
+    // ==========================================
+
+    menuSub.classList.remove(
+        "footer-menusub-hidden"
+    );
+
+
+    if (arrow) {
+
+        arrow.classList.add(
+            "rotate"
+        );
+
+    }
+
+}
 
 // ===== FOOTER ACTIVE =====
 
