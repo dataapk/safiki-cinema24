@@ -1837,15 +1837,13 @@
 ===================================================== */
 
 .premium-footer {
-
-    width: 100%;
+    width: calc(100% + 32px);
     box-sizing: border-box;
 
+    margin-left: -16px;
+    margin-right: -16px;
+
     padding: 40px 20px 25px;
-
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-
 
     background:
         linear-gradient(
@@ -1860,7 +1858,6 @@
         rgba(250,204,21,0.20);
 
     color: #ffffff;
-
 }
 
 
