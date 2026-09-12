@@ -180,7 +180,7 @@ window.footerCloseSidebar = function(){
 
 window.renderFooterSportsGames = function () {
 
-    const games =
+    const allGames =
         getAllSportsGames()
             .filter(game =>
                 isSportsGameEnabled(game)
@@ -188,38 +188,47 @@ window.renderFooterSportsGames = function () {
 
 
     // ==================================================
-    // FOOTER LEAGUE CONTAINERS
+    // FOOTER SPORT CONTAINERS
     // ==================================================
 
-    const leagueContainers = {
+    const sportContainers = {
 
-        "Asia Cup T20":
-            "footerAsiaCupDynamic",
+        cricket:
+            "footerCricketDynamic",
 
-        "International T20":
-            "footerInternationalT20Dynamic",
+        football:
+            "footerFootballDynamic",
 
-        "International ODI":
-            "footerInternationalODIDynamic",
+        basketball:
+            "footerBasketballDynamic",
 
-        "Premier League":
-            "footerPremierLeagueDynamic",
+        tennis:
+            "footerTennisDynamic",
 
-        "La Liga":
-            "footerLaLigaDynamic",
+        volleyball:
+            "footerVolleyballDynamic",
 
-        "Champions League":
-            "footerChampionsLeagueDynamic"
+        boxing:
+            "footerBoxingDynamic",
+
+        hockey:
+            "footerHockeyDynamic",
+
+        rugby:
+            "footerRugbyDynamic",
+
+        golf:
+            "footerGolfDynamic"
 
     };
 
 
     // ==================================================
-    // CLEAR OLD GAMES
+    // CLEAR ALL SPORT CONTAINERS
     // ==================================================
 
     Object.values(
-        leagueContainers
+        sportContainers
     ).forEach(
         containerId => {
 
@@ -237,195 +246,13 @@ window.renderFooterSportsGames = function () {
 
 
     // ==================================================
-    // RENDER GAMES
+    // GROUP GAMES BY SPORT
     // ==================================================
 
-    games.forEach(
-        game => {
-
-            const containerId =
-                leagueContainers[
-                    game.league
-                ];
-
-
-            if (!containerId) {
-                return;
-            }
-
-
-            const container =
-                document.getElementById(
-                    containerId
-                );
-
-
-            if (!container) {
-                return;
-            }
-
-
-            const status =
-                normalizeSportsStatus(
-                    game.status
-                );
-
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "footer-dynamic-game";
-
-
-            row.dataset.gameId =
-                game.game_id;
-
-            row.dataset.footerStatus =
-                    status;
-
-
-            row.innerHTML = `
-
-                <i class="fas fa-circle"></i>
-
-                <span>
-                    ${
-                        game.home_team ||
-                        ""
-                    }
-                    vs
-                    ${
-                        game.away_team ||
-                        ""
-                    }
-                </span>
-
-            `;
-            
-// ==========================================
-// স্পোর্টসের কোনো গেমে ডাইরেক্ট ক্লিক করার পর সাব মেনুটা কলাপ্স করার অপশন এখানে ।
-// ==========================================
-
-            row.onclick =
-    function (event) {
-
-        event.stopPropagation();
-
-        // Mark Footer origin
-        window.openedSportsGameFromFooter =
-            true;
-
-        // Close Footer Sidebar
-        footerCloseSidebar();
-
-        // Open Full Game Page
-        openSportsGame(
-            game.sport,
-            game.game_id
-        );
-
-    };
-
-
-            // ==========================================
-            // STATUS SECTIONS
-            // ==========================================
-
-            let section =
-                container.querySelector(
-                    `[data-footer-status="${status}"]`
-                );
-
-
-            if (!section) {
-
-                section =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                section.dataset.footerStatus =
-                    status;
-
-
-                const heading =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                if (status === "live") {
-
-                    heading.className =
-                        "footer-status-heading footer-live-heading";
-
-                    heading.innerHTML =
-                        "🔥 LIVE";
-
-                }
-
-                else if (
-                    status === "upcoming"
-                ) {
-
-                    heading.className =
-                        "footer-status-heading footer-upcoming-heading";
-
-                    heading.innerHTML =
-                        "⏱ UPCOMING";
-
-                }
-
-                else if (
-                    status === "featured"
-                ) {
-
-                    heading.className =
-                        "footer-status-heading footer-featured-heading";
-
-                    heading.innerHTML =
-                        "⭐ FEATURED";
-
-                }
-
-                else {
-                    return;
-                }
-
-
-                section.appendChild(
-                    heading
-                );
-
-
-                container.appendChild(
-                    section
-                );
-
-            }
-
-
-                        section.appendChild(
-                row
-            );
-
-        }
-    );
-
-
-    // ==================================================
-    // NO GAMES AVAILABLE
-    // ==================================================
-
-    Object.values(
-        leagueContainers
+    Object.entries(
+        sportContainers
     ).forEach(
-        containerId => {
+        ([sport, containerId]) => {
 
             const container =
                 document.getElementById(
@@ -435,9 +262,31 @@ window.renderFooterSportsGames = function () {
             if (!container) {
                 return;
             }
+
+
+            const sportGames =
+                allGames.filter(
+                    game => {
+
+                        const gameSport =
+                            normalizeSportsSport(
+                                game.sport
+                            );
+
+                        return (
+                            gameSport === sport
+                        );
+
+                    }
+                );
+
+
+            // ==================================================
+            // NO GAMES FOR THIS SPORT
+            // ==================================================
 
             if (
-                container.children.length === 0
+                sportGames.length === 0
             ) {
 
                 container.innerHTML = `
@@ -448,7 +297,165 @@ window.renderFooterSportsGames = function () {
 
                 `;
 
+                return;
             }
+
+
+            // ==================================================
+            // STATUS ORDER
+            // ==================================================
+
+            const statuses = [
+                "live",
+                "upcoming",
+                "featured"
+            ];
+
+
+            // ==================================================
+            // RENDER ONLY NON-EMPTY STATUS
+            // ==================================================
+
+            statuses.forEach(
+                status => {
+
+                    const statusGames =
+                        sportGames.filter(
+                            game => {
+
+                                const gameStatus =
+                                    normalizeSportsStatus(
+                                        game.status
+                                    );
+
+                                return (
+                                    gameStatus === status
+                                );
+
+                            }
+                        );
+
+
+                    // No games for this status
+                    // → Do not show this section
+                    if (
+                        statusGames.length === 0
+                    ) {
+                        return;
+                    }
+
+
+                    // ==================================================
+                    // STATUS SECTION
+                    // ==================================================
+
+                    const section =
+                        document.createElement(
+                            "div"
+                        );
+
+                    section.className =
+                        "footer-sport-status-section";
+
+
+                    section.innerHTML = `
+
+                        <div class="footer-sport-status-title">
+
+                            ${
+                                status === "live"
+                                    ? "🔥 LIVE"
+                                    : status === "upcoming"
+                                        ? "⏱ UPCOMING"
+                                        : "⭐ FEATURED"
+
+                            }
+
+                        </div>
+
+                    `;
+
+
+                    // ==================================================
+                    // RENDER GAMES
+                    // ==================================================
+
+                    statusGames.forEach(
+                        game => {
+
+                            const row =
+                                document.createElement(
+                                    "div"
+                                );
+
+
+                            row.className =
+                                "footer-dynamic-game";
+
+
+                            row.dataset.gameId =
+                                game.game_id;
+
+
+                            row.dataset.footerStatus =
+                                status;
+
+
+                            row.innerHTML = `
+
+                                <i class="fas fa-circle"></i>
+
+                                <span>
+                                    ${
+                                        game.home_team ||
+                                        ""
+                                    }
+                                    vs
+                                    ${
+                                        game.away_team ||
+                                        ""
+                                    }
+                                </span>
+
+                            `;
+
+
+                            // ==================================================
+                            // GAME CLICK
+                            // ==================================================
+
+                            row.onclick =
+                                function (event) {
+
+                                    event.stopPropagation();
+
+                                    window.openedSportsGameFromFooter =
+                                        true;
+
+                                    footerCloseSidebar();
+
+                                    openSportsGame(
+                                        game.sport,
+                                        game.game_id
+                                    );
+
+                                };
+
+
+                            section.appendChild(
+                                row
+                            );
+
+                        }
+                    );
+
+
+                    container.appendChild(
+                        section
+                    );
+
+                }
+            );
 
         }
     );
