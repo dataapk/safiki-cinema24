@@ -679,49 +679,64 @@ window.renderFooterSportsGames = function () {
         );
 
 
-    // ==================================================
-    // 2. RENDER EXISTING LEAGUE GAMES
-    // ==================================================
+   // ==================================================
+// 2. RENDER EXISTING LEAGUE GAMES
+// ==================================================
 
-    Object.entries(
-        leagueContainers
-    ).forEach(
-        ([league, containerId]) => {
+Object.entries(
+    leagueContainers
+).forEach(
+    ([league, containerId]) => {
 
-            const container =
-                document.getElementById(
-                    containerId
-                );
-
-
-            if (!container) {
-                return;
-            }
-
-
-            const leagueGames =
-                container._footerLeagueGames ||
-                [];
-
-
-            if (
-                leagueGames.length === 0
-            ) {
-                return;
-            }
-
-
-            renderStatusGames(
-                container,
-                leagueGames
+        const container =
+            document.getElementById(
+                containerId
             );
 
-
-            delete container._footerLeagueGames;
-
+        if (!container) {
+            return;
         }
-    );
 
+
+        const leagueGames =
+            container._footerLeagueGames ||
+            [];
+
+
+        // ==================================================
+        // NO GAMES INSIDE THIS LEAGUE
+        // ==================================================
+
+        if (
+            leagueGames.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="footer-no-games">
+                    No Games Available
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        // ==================================================
+        // RENDER LEAGUE GAMES
+        // ==================================================
+
+        renderStatusGames(
+            container,
+            leagueGames
+        );
+
+
+        delete container._footerLeagueGames;
+
+    }
+);
 
     // ==================================================
     // 3. RENDER NEW / UNKNOWN LEAGUES
