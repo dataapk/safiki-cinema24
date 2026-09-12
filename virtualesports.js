@@ -1230,35 +1230,24 @@ document.addEventListener(
 window.openVirtualSportsFromFooter =
 function (sport) {
 
-    // Close footer sidebar
-    if (
-        typeof footerCloseSidebar === "function"
-    ) {
-
+    if (typeof footerCloseSidebar === "function") {
         footerCloseSidebar();
-
     }
 
+    // Hide main hero banner
+    if (heroBanner) {
+        heroBanner.style.display = "none";
+    }
 
     // Open existing Virtual Sports homepage
-    if (
-        typeof openVirtualSports === "function"
-    ) {
-
+    if (typeof openVirtualSports === "function") {
         openVirtualSports();
-
     }
 
-
-    // Select Cricket / Football
     setTimeout(function () {
 
-        if (
-            typeof openVirtualSportGame === "function"
-        ) {
-
+        if (typeof openVirtualSportGame === "function") {
             openVirtualSportGame(sport);
-
         }
 
     }, 0);
