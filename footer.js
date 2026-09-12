@@ -510,172 +510,58 @@ window.renderFooterSportsGames = function () {
                     ).trim();
 
 
-                const sport =
-                    normalizeSportsSport(
-                        game.sport
-                    );
-
-
                 // ==================================================
-                // EXISTING LEAGUE CONTAINER
+                // ONLY USE EXISTING LEAGUE CONTAINERS
                 // ==================================================
 
-                let containerId =
+                const containerId =
                     leagueContainers[
                         league
                     ];
 
 
                 // ==================================================
-                // EXISTING LEAGUE FOUND
+                // LEAGUE DOES NOT EXIST IN FOOTER
+                // DO NOT CREATE A NEW LEAGUE
                 // ==================================================
 
-                if (containerId) {
-
-                    const container =
-                        document.getElementById(
-                            containerId
-                        );
-
-
-                    if (!container) {
-                        return;
-                    }
-
-
-                    // Prevent duplicate status rendering
-                    // by collecting games first
-                    if (
-                        !container._footerLeagueGames
-                    ) {
-
-                        container._footerLeagueGames =
-                            [];
-
-                    }
-
-
-                    container._footerLeagueGames.push(
-                        game
-                    );
-
+                if (!containerId) {
                     return;
-
                 }
 
 
-                // ==================================================
-                // NEW / UNKNOWN LEAGUE
-                // ==================================================
-
-                const sportContainerId =
-                    sportContainers[
-                        sport
-                    ];
-
-
-                const sportContainer =
+                const container =
                     document.getElementById(
-                        sportContainerId
+                        containerId
                     );
 
 
-                if (!sportContainer) {
+                if (!container) {
                     return;
                 }
 
 
-                let leagueBlock =
-                    sportContainer.querySelector(
-                        `[data-footer-league="${CSS.escape(league)}"]`
-                    );
-
-
-                if (!leagueBlock) {
-
-                    leagueBlock =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    leagueBlock.className =
-                        "footer-dynamic-league";
-
-
-                    leagueBlock.dataset.footerLeague =
-                        league;
-
-
-                   leagueBlock.innerHTML = `
-
-    <div class="footer-dynamic-league-title">
-
-        <i class="fas fa-trophy"></i>
-
-        <span>
-            ${league}
-        </span>
-
-        <i class="fas fa-chevron-down footer-arrow"></i>
-
-    </div>
-
-    <div class="footer-dynamic-league-games footer-menusub-hidden"></div>
-
-`;
-
-                    const gamesContainer =
-                        leagueBlock.querySelector(
-                            ".footer-dynamic-league-games"
-                        );
-
-
-                    leagueBlock
-                        .querySelector(
-                            ".footer-dynamic-league-title"
-                        )
-                        .onclick =
-                        function (event) {
-
-                            event.stopPropagation();
-
-                            gamesContainer.classList.toggle(
-                                "footer-menusub-hidden"
-                            );
-
-                        };
-
-
-                    sportContainer.appendChild(
-                        leagueBlock
-                    );
-
-                }
-
-
-                const gamesContainer =
-                    leagueBlock.querySelector(
-                        ".footer-dynamic-league-games"
-                    );
-
+                // ==================================================
+                // STORE GAME FOR THIS EXISTING LEAGUE
+                // ==================================================
 
                 if (
-                    !leagueBlock._footerLeagueGames
+                    !container._footerLeagueGames
                 ) {
 
-                    leagueBlock._footerLeagueGames =
+                    container._footerLeagueGames =
                         [];
 
                 }
 
 
-                leagueBlock._footerLeagueGames.push(
+                container._footerLeagueGames.push(
                     game
                 );
 
             }
         );
+
 
 
    // ==================================================
@@ -737,67 +623,7 @@ Object.entries(
     }
 );
 
-    // ==================================================
-    // 3. RENDER NEW / UNKNOWN LEAGUES
-    // ==================================================
-
-    Object.values(
-        sportContainers
-    ).forEach(
-        containerId => {
-
-            const sportContainer =
-                document.getElementById(
-                    containerId
-                );
-
-
-            if (!sportContainer) {
-                return;
-            }
-
-
-            sportContainer
-                .querySelectorAll(
-                    "[data-footer-league]"
-                )
-                .forEach(
-                    leagueBlock => {
-
-                        const leagueGames =
-                            leagueBlock
-                                ._footerLeagueGames ||
-                            [];
-
-
-                        const gamesContainer =
-                            leagueBlock.querySelector(
-                                ".footer-dynamic-league-games"
-                            );
-
-
-                        if (
-                            !gamesContainer
-                        ) {
-                            return;
-                        }
-
-
-                        renderStatusGames(
-                            gamesContainer,
-                            leagueGames
-                        );
-
-
-                        delete leagueBlock._footerLeagueGames;
-
-                    }
-                );
-
-        }
-    );
-
-
+   
     // ==================================================
     // 4. RENDER GAMES WITHOUT LEAGUE
     // ==================================================
