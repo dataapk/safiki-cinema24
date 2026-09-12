@@ -946,13 +946,12 @@
 }
 
 
-/* Sports */
+/* FOOTER SODEBAR MENU Sports */
 
-.footer-sidebar-menu
-.fa-futbol{
-
-    color:#38bdf8;
-
+.footer-sport-emoji{
+    display:inline-block;
+    line-height:1;
+    font-style:normal;
 }
 
 
