@@ -210,6 +210,9 @@ window.renderFooterSportsGames = function () {
 
         "Champions League":
             "footerChampionsLeagueDynamic"
+            
+        "Barsalona":
+        "footerBarsalonaDynamic"
 
     };
 
