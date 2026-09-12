@@ -1708,54 +1708,446 @@ if (!localStorage.getItem("adminAuth")) {
     <!-- VIRTUAL SPORTS SECTION -->
     <!-- ================================= -->
 
-    <div id="virtualSportsSection"
-         class="games-category-content"
-         style="display:none;">
+    <!-- ================================= -->
+<!-- VIRTUAL SPORTS CONTROL -->
+<!-- ================================= -->
 
-        <h3 class="subcat-section-title">
-            🖥 Virtual Sports
-        </h3>
+<div id="virtualSportsSection"
+     class="games-category-content"
+     style="display:none;">
 
-
-        <!-- =============================== -->
-        <!-- VIRTUAL SPORTS ICON GRID -->
-        <!-- =============================== -->
-
-        <div class="subcat-grid"
-             id="adminVirtualSportsGrid">
+    <h3 class="subcat-section-title">
+        🖥 Virtual Sports
+    </h3>
 
 
-            <!-- VIRTUAL CRICKET -->
-            <div class="subcat-item"
-                 onclick="adminVirtualSportsCricket(this)">
+    <!-- VIRTUAL SPORTS CARDS -->
 
+    <div class="virtual-sports-admin-grid">
+
+        <!-- VIRTUAL CRICKET -->
+
+        <div class="virtual-sports-admin-card"
+             onclick="openVirtualSportsAdminSport('cricket')">
+
+            <div class="virtual-sports-admin-icon">
                 🏏
+            </div>
 
-                <span>
+            <div class="virtual-sports-admin-info">
+
+                <h4>
                     Virtual Cricket
-                </span>
-
-            </div>
-
-
-            <!-- VIRTUAL FOOTBALL -->
-            <div class="subcat-item"
-                 onclick="adminVirtualSportsFootball(this)">
-
-                ⚽
+                </h4>
 
                 <span>
-                    Virtual Football
+                    Cricket Control
                 </span>
 
             </div>
 
+            <i class="fas fa-chevron-right"></i>
+
+        </div>
+
+
+        <!-- VIRTUAL FOOTBALL -->
+
+        <div class="virtual-sports-admin-card"
+             onclick="openVirtualSportsAdminSport('football')">
+
+            <div class="virtual-sports-admin-icon">
+                ⚽
+            </div>
+
+            <div class="virtual-sports-admin-info">
+
+                <h4>
+                    Virtual Football
+                </h4>
+
+                <span>
+                    Football Control
+                </span>
+
+            </div>
+
+            <i class="fas fa-chevron-right"></i>
 
         </div>
 
     </div>
+
+
+    <!-- ================================= -->
+    <!-- VIRTUAL CRICKET CONTROL -->
+    <!-- ================================= -->
+
+    <div id="virtualCricketAdminSection"
+         class="virtual-sports-control-section"
+         style="display:none;">
+
+        <h3>
+            🏏 Virtual Cricket Control
+        </h3>
+
+
+        <button type="button"
+                onclick="openVirtualSportsAddGame('cricket')">
+
+            ➕ Add New Game
+
+        </button>
+
+
+        <div class="virtual-sports-tabs">
+
+            <button type="button"
+                    onclick="openVirtualSportsLive('cricket')">
+
+                🔴 Live Events
+
+            </button>
+
+            <button type="button"
+                    onclick="openVirtualSportsUpcoming('cricket')">
+
+                📅 Upcoming Events
+
+            </button>
+
+            <button type="button"
+                    onclick="openVirtualSportsFeatured('cricket')">
+
+                ⭐ Featured Events
+
+            </button>
+
+        </div>
+
+
+        <div id="virtualCricketLive"
+             class="virtual-sports-content">
+
+            <h4>
+                🔴 Live Cricket Matches
+            </h4>
+
+            <div id="adminVirtualCricketLiveGrid"
+                 class="admin-sports-game-grid">
+            </div>
+
+        </div>
+
+
+        <div id="virtualCricketUpcoming"
+             class="virtual-sports-content"
+             style="display:none;">
+
+            <h4>
+                📅 Upcoming Cricket
+            </h4>
+
+            <div id="adminVirtualCricketUpcomingGrid"
+                 class="admin-sports-game-grid">
+            </div>
+
+        </div>
+
+
+        <div id="virtualCricketFeatured"
+             class="virtual-sports-content"
+             style="display:none;">
+
+            <h4>
+                ⭐ Featured Cricket
+            </h4>
+
+            <div id="adminVirtualCricketFeaturedGrid"
+                 class="admin-sports-game-grid">
+            </div>
+
+        </div>
+
     </div>
 
+
+    <!-- ================================= -->
+    <!-- VIRTUAL FOOTBALL CONTROL -->
+    <!-- ================================= -->
+
+    <div id="virtualFootballAdminSection"
+         class="virtual-sports-control-section"
+         style="display:none;">
+
+        <h3>
+            ⚽ Virtual Football Control
+        </h3>
+
+
+        <button type="button"
+                onclick="openVirtualSportsAddGame('football')">
+
+            ➕ Add New Game
+
+        </button>
+
+
+        <div class="virtual-sports-tabs">
+
+            <button type="button"
+                    onclick="openVirtualSportsLive('football')">
+
+                🔴 Live Events
+
+            </button>
+
+            <button type="button"
+                    onclick="openVirtualSportsUpcoming('football')">
+
+                📅 Upcoming Events
+
+            </button>
+
+            <button type="button"
+                    onclick="openVirtualSportsFeatured('football')">
+
+                ⭐ Featured Events
+
+            </button>
+
+        </div>
+
+
+        <div id="virtualFootballLive"
+             class="virtual-sports-content">
+
+            <h4>
+                🔴 Live Football Matches
+            </h4>
+
+            <div id="adminVirtualFootballLiveGrid"
+                 class="admin-sports-game-grid">
+            </div>
+
+        </div>
+
+
+        <div id="virtualFootballUpcoming"
+             class="virtual-sports-content"
+             style="display:none;">
+
+            <h4>
+                📅 Upcoming Football
+            </h4>
+
+            <div id="adminVirtualFootballUpcomingGrid"
+                 class="admin-sports-game-grid">
+            </div>
+
+        </div>
+
+
+        <div id="virtualFootballFeatured"
+             class="virtual-sports-content"
+             style="display:none;">
+
+            <h4>
+                ⭐ Featured Football
+            </h4>
+
+            <div id="adminVirtualFootballFeaturedGrid"
+                 class="admin-sports-game-grid">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- VIRTUAL SPORTS EDIT MODAL -->
+<!-- ================================= -->
+
+<div id="virtualSportsGameEditModal"
+     class="sports-game-edit-modal"
+     style="display:none;">
+
+    <div class="sports-game-edit-box">
+
+        <div class="sports-game-edit-header">
+
+            <h3>
+                ✏️ Edit Virtual Sports Game
+            </h3>
+
+            <button type="button"
+                    onclick="closeVirtualSportsEditor()">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="sports-game-edit-body">
+
+            <!-- GAME ID -->
+
+            <div class="edit-field">
+
+                <label>
+                    Game ID
+                </label>
+
+                <input type="text"
+                       id="editVirtualGameId"
+                       readonly>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <div class="edit-field">
+
+                <label>
+                    Match Title
+                </label>
+
+                <input type="text"
+                       id="editVirtualGameTitle"
+                       placeholder="Virtual Cricket Match">
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="edit-field">
+
+                <label>
+                    Status
+                </label>
+
+                <select id="editVirtualGameStatus">
+
+                    <option value="live">
+                        LIVE
+                    </option>
+
+                    <option value="upcoming">
+                        UPCOMING
+                    </option>
+
+                    <option value="featured">
+                        FEATURED
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- MATCH STATUS -->
+
+            <div class="edit-field">
+
+                <label>
+                    Match Status
+                </label>
+
+                <select id="editVirtualGameMatchStatus">
+
+                    <option value="enable">
+                        ENABLE
+                    </option>
+
+                    <option value="disable">
+                        DISABLE
+                    </option>
+
+                    <option value="reject">
+                        REJECT
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- HOME TEAM -->
+
+            <div class="edit-field">
+
+                <label>
+                    Home Team
+                </label>
+
+                <input type="text"
+                       id="editVirtualGameHome"
+                       placeholder="Team A">
+
+            </div>
+
+
+            <!-- AWAY TEAM -->
+
+            <div class="edit-field">
+
+                <label>
+                    Away Team
+                </label>
+
+                <input type="text"
+                       id="editVirtualGameAway"
+                       placeholder="Team B">
+
+            </div>
+
+        </div>
+
+
+        <div class="sports-game-edit-footer">
+
+            <button type="button"
+                    class="sports-delete-game-btn"
+                    onclick="confirmDeleteVirtualSportsGame()">
+
+                🗑 Delete
+
+            </button>
+
+
+            <div class="sports-edit-footer-actions">
+
+                <button type="button"
+                        class="sports-edit-cancel-btn"
+                        onclick="closeVirtualSportsEditor()">
+
+                    Cancel
+
+                </button>
+
+
+                <button type="button"
+                        class="sports-edit-save-btn"
+                        onclick="saveVirtualSportsGameChanges()">
+
+                    💾 Save Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
     <!-- ===================================
      END VIRTUAL SPORTS  SECTION
 ================================= -->
@@ -3853,6 +4245,7 @@ if (logoutBtn) {
 <script src="supabase.js"></script>
 
 <script src="admin.js"></script>
+    <script src="virtualsports-admin.js"></script>
 
 </body>
 </html>
