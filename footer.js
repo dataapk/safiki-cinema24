@@ -607,24 +607,23 @@ window.renderFooterSportsGames = function () {
                         league;
 
 
-                    leagueBlock.innerHTML = `
+                   leagueBlock.innerHTML = `
 
-                        <div class="footer-dynamic-league-title">
+    <div class="footer-dynamic-league-title">
 
-                            <i class="fas fa-trophy"></i>
+        <i class="fas fa-trophy"></i>
 
-                            <span>
-                                ${league}
-                            </span>
+        <span>
+            ${league}
+        </span>
 
-                            <i class="fas fa-chevron-down footer-arrow"></i>
+        <i class="fas fa-chevron-down footer-arrow"></i>
 
-                        </div>
+    </div>
 
-                        <div class="footer-dynamic-league-games"></div>
+    <div class="footer-dynamic-league-games footer-menusub-hidden"></div>
 
-                    `;
-
+`;
 
                     const gamesContainer =
                         leagueBlock.querySelector(
