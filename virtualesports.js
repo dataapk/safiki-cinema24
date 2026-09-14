@@ -262,9 +262,11 @@ function () {
 
     showSportsBetSlip();
 
-    renderVirtualSportsHome();
+setTimeout(function () {
 
-};
+    loadVirtualSportsGames();
+
+}, 500);
 
 
 // ======================================================
