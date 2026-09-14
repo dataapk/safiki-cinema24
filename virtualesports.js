@@ -106,6 +106,31 @@ async function loadVirtualSportsGames() {
     // MAP SUPABASE DATA TO EXISTING UI FORMAT
     // --------------------------------------------------
 
+    console.log(
+    "🎮 Virtual Sports games loaded from Supabase:",
+    data
+);
+
+
+(data || []).forEach(
+    game => {
+
+        const sport =
+            String(
+                game.sport || ""
+            ).toLowerCase().trim();
+
+
+        const status =
+            String(
+                game.status || ""
+            ).toLowerCase().trim();
+
+
+        if (
+            !virtualSportsGames[sport]
+        ) {
+
     (data || []).forEach(
         game => {
 
