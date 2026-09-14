@@ -75,10 +75,11 @@ async function loadVirtualSportsGames() {
 
     }
 
+
     console.log(
-    "🎮 Virtual Sports games loaded from Supabase:",
-    data
-);
+        "🎮 Virtual Sports games loaded from Supabase:",
+        data
+    );
 
 
     // --------------------------------------------------
@@ -106,32 +107,25 @@ async function loadVirtualSportsGames() {
     // MAP SUPABASE DATA TO EXISTING UI FORMAT
     // --------------------------------------------------
 
-    console.log(
-    "🎮 Virtual Sports games loaded from Supabase:",
-    data
-);
+    (data || []).forEach(
+        game => {
+
+            const sport =
+                String(
+                    game.sport || ""
+                ).toLowerCase().trim();
 
 
-(data || []).forEach(
-    game => {
-
-        const sport =
-            String(
-                game.sport || ""
-            ).toLowerCase().trim();
+            const status =
+                String(
+                    game.status || ""
+                ).toLowerCase().trim();
 
 
-        const status =
-            String(
-                game.status || ""
-            ).toLowerCase().trim();
+            if (
+                !virtualSportsGames[sport]
+            ) {
 
-
-        if (
-            !virtualSportsGames[sport]
-        ) {
-
-   
                 return;
 
             }
@@ -166,20 +160,23 @@ async function loadVirtualSportsGames() {
     );
 
 
-    // ======================================================
-// REFRESH ONLY GAME SECTIONS
-// ======================================================
+    // ==================================================
+    // REFRESH ONLY GAME SECTIONS
+    // ==================================================
 
-if (
-    typeof renderVirtualSportTabs === "function" &&
-    document.getElementById(
-        "virtualSportEventsSection"
-    )
-) {
+    if (
+        typeof renderVirtualSportTabs === "function" &&
+        document.getElementById(
+            "virtualSportEventsSection"
+        )
+    ) {
 
-    renderVirtualSportTabs();
+        renderVirtualSportTabs();
+
+    }
 
 }
+
 
 // ======================================================
 // OPEN VIRTUAL SPORTS
@@ -191,6 +188,7 @@ function () {
     console.log(
         "🖥️ Opening Virtual Sports..."
     );
+
 
     let section =
         document.getElementById(
@@ -205,10 +203,14 @@ function () {
     if (!section) {
 
         section =
-            document.createElement("section");
+            document.createElement(
+                "section"
+            );
+
 
         section.id =
             "virtualSportsFrontendSection";
+
 
         section.className =
             "virtual-sports-frontend-section";
@@ -220,10 +222,12 @@ function () {
                 "mainCategorySection"
             );
 
+
         if (mainCategory) {
 
             mainCategory.style.display =
                 "none";
+
 
             mainCategory.parentNode.insertBefore(
                 section,
@@ -258,6 +262,7 @@ function () {
             "mainCategorySection"
         );
 
+
     if (mainCategory) {
 
         mainCategory.style.display =
@@ -267,26 +272,20 @@ function () {
 
 
     // --------------------------------------------------
-    // RENDER PAGE
+    // OPEN / RENDER VIRTUAL SPORTS
     // --------------------------------------------------
 
-showSportsBetSlip();
+    showSportsBetSlip();
 
-// প্রথমে Virtual Sports page তৈরি হবে
-renderVirtualSportsHome();
 
-// তারপর Supabase থেকে games load হবে
-loadVirtualSportsGames();
+    // প্রথমে Virtual Sports page তৈরি হবে
+    renderVirtualSportsHome();
+
+
+    // তারপর Supabase থেকে games load হবে
+    loadVirtualSportsGames();
 
 };
-
-
-// ======================================================
-// CLOSE VIRTUAL SPORTS
-// ======================================================
-
-window.closeVirtualSports =
-function () {
 
     const section =
         document.getElementById(
