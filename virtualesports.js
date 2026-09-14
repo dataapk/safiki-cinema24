@@ -166,8 +166,18 @@ async function loadVirtualSportsGames() {
     );
 
 
-    // REFRESH PAGE AFTER DATA LOAD
-    renderVirtualSportsHome();
+    // ======================================================
+// REFRESH ONLY GAME SECTIONS
+// ======================================================
+
+if (
+    typeof renderVirtualSportTabs === "function" &&
+    document.getElementById(
+        "virtualSportEventsSection"
+    )
+) {
+
+    renderVirtualSportTabs();
 
 }
 
@@ -262,11 +272,11 @@ function () {
 
 showSportsBetSlip();
 
-setTimeout(function () {
+// প্রথমে Virtual Sports page তৈরি হবে
+renderVirtualSportsHome();
 
-    loadVirtualSportsGames();
-
-}, 500);
+// তারপর Supabase থেকে games load হবে
+loadVirtualSportsGames();
 
 };
 
