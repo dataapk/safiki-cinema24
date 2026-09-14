@@ -1207,6 +1207,136 @@ function capitalizeVirtualTab(
 
 }
 
+// ======================================================
+// LOAD VIRTUAL SPORTS GAMES FROM SUPABASE
+// ======================================================
+
+async function loadVirtualSportsGames() {
+
+    if (!window.supabaseClient) {
+
+        console.warn(
+            "⚠️ Supabase connection unavailable."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from("virtual_sports_games")
+            .select(
+                "game_id, sport, title, status, match_status, home_team, away_team"
+            )
+            .eq(
+                "match_status",
+                "enable"
+            );
+
+
+    if (error) {
+
+        console.error(
+            "❌ Failed to load Virtual Sports games:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------
+    // RESET CACHE
+    // --------------------------------------------------
+
+    virtualSportsGames = {
+
+        cricket: {
+            live: [],
+            upcoming: [],
+            featured: []
+        },
+
+        football: {
+            live: [],
+            upcoming: [],
+            featured: []
+        }
+
+    };
+
+
+    // --------------------------------------------------
+    // MAP SUPABASE DATA TO EXISTING UI FORMAT
+    // --------------------------------------------------
+
+    (data || []).forEach(
+        game => {
+
+            const sport =
+                String(
+                    game.sport || ""
+                ).toLowerCase().trim();
+
+
+            const status =
+                String(
+                    game.status || ""
+                ).toLowerCase().trim();
+
+
+            if (
+                !virtualSportsGames[sport]
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                !virtualSportsGames[sport][status]
+            ) {
+
+                return;
+
+            }
+
+
+            virtualSportsGames[sport][status].push({
+
+                id:
+                    game.game_id,
+
+                home:
+                    game.home_team,
+
+                away:
+                    game.away_team,
+
+                time:
+                    game.title
+
+            });
+
+        }
+    );
+
+
+    // --------------------------------------------------
+    // REFRESH CURRENT UI
+    // --------------------------------------------------
+
+    renderVirtualSportGames();
+
+}
+
 
 // ======================================================
 // INITIALIZATION
