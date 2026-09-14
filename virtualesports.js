@@ -75,6 +75,11 @@ async function loadVirtualSportsGames() {
 
     }
 
+    console.log(
+    "🎮 Virtual Sports games loaded from Supabase:",
+    data
+);
+
 
     // --------------------------------------------------
     // RESET CACHE
