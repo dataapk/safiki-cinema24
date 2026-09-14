@@ -347,23 +347,22 @@
 
     margin-top:8px;
 
-    color:#ff6b6b;
+    color:#ef4444;
 
-    background:
-    rgba(255,107,107,.035);
-   z-index:9999
+    background:rgba(239,68,68,.08);
+
+    border:1px solid rgba(239,68,68,.16);
+
+    border-radius:8px;
 
 }
 
 
 .profile-sidebar-item.logout-item i{
 
-    color:#ff6b6b;
-   
+    color:#ef4444;
 
 }
-
-
 .profile-sidebar-item.logout-item:hover{
 
     background:
