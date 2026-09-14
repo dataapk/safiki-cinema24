@@ -347,11 +347,11 @@
 
     margin-top:8px;
 
-    color:#ef4444;
+    color:#ff6b6b;
 
-    background:rgba(239,68,68,.08);
+    background:rgba(255,107,107,.10);
 
-    border:1px solid rgba(239,68,68,.16);
+    border:1px solid rgba(255,107,107,.15);
 
     border-radius:8px;
 
@@ -360,9 +360,10 @@
 
 .profile-sidebar-item.logout-item i{
 
-    color:#ef4444;
+    color:#ff6b6b;
 
 }
+
 .profile-sidebar-item.logout-item:hover{
 
     background:
