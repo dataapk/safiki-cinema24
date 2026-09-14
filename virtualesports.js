@@ -169,13 +169,6 @@ async function loadVirtualSportsGames() {
     // REFRESH PAGE AFTER DATA LOAD
 renderVirtualSportsHome();
 
-if (
-    typeof renderVirtualSportTabs === "function"
-) {
-    renderVirtualSportTabs();
-}
-
-
 // ======================================================
 // OPEN VIRTUAL SPORTS
 // ======================================================
