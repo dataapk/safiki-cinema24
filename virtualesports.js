@@ -131,25 +131,7 @@ async function loadVirtualSportsGames() {
             !virtualSportsGames[sport]
         ) {
 
-    (data || []).forEach(
-        game => {
-
-            const sport =
-                String(
-                    game.sport || ""
-                ).toLowerCase().trim();
-
-
-            const status =
-                String(
-                    game.status || ""
-                ).toLowerCase().trim();
-
-
-            if (
-                !virtualSportsGames[sport]
-            ) {
-
+   
                 return;
 
             }
