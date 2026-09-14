@@ -166,12 +166,13 @@ async function loadVirtualSportsGames() {
     );
 
 
-    // --------------------------------------------------
-    // REFRESH CURRENT UI
-    // --------------------------------------------------
+    // REFRESH PAGE AFTER DATA LOAD
+renderVirtualSportsHome();
 
-    renderVirtualSportGames();
-
+if (
+    typeof renderVirtualSportTabs === "function"
+) {
+    renderVirtualSportTabs();
 }
 
 
