@@ -270,22 +270,27 @@ function () {
 
     }
 
-
     // --------------------------------------------------
     // OPEN / RENDER VIRTUAL SPORTS
     // --------------------------------------------------
 
     showSportsBetSlip();
 
-
     // প্রথমে Virtual Sports page তৈরি হবে
     renderVirtualSportsHome();
-
 
     // তারপর Supabase থেকে games load হবে
     loadVirtualSportsGames();
 
 };
+
+
+// ======================================================
+// CLOSE VIRTUAL SPORTS
+// ======================================================
+
+window.closeVirtualSports =
+function () {
 
     const section =
         document.getElementById(
@@ -311,12 +316,9 @@ function () {
 
     }
 
+
     // Hide Virtual Sports Bet Slip
     hideSportsBetSlip();
-
-    if (heroBanner) {
-        heroBanner.style.display = "block";
-    }
 
 
     // ==========================================
