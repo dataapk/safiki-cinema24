@@ -260,13 +260,15 @@ function () {
     // RENDER PAGE
     // --------------------------------------------------
 
-    showSportsBetSlip();
+showSportsBetSlip();
 
 setTimeout(function () {
 
     loadVirtualSportsGames();
 
 }, 500);
+
+};
 
 
 // ======================================================
