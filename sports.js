@@ -351,23 +351,57 @@ async function testCricketApiConnection() {
     try {
 
         const response =
-    await fetch(
-        "https://safiki-cinema24.vercel.app/api/cricket"
-    );
-
-        const result =
-            await response.json();
+            await fetch(
+                "https://safiki-cinema24.vercel.app/api/cricket"
+            );
 
         console.log(
-            "🏏 CRICKET API RESPONSE:",
+            "🌐 HTTP STATUS:",
+            response.status
+        );
+
+        console.log(
+            "🌐 RESPONSE OK:",
+            response.ok
+        );
+
+        const rawText =
+            await response.text();
+
+        console.log(
+            "📦 RAW API RESPONSE:",
+            rawText
+        );
+
+        let result;
+
+        try {
+
+            result =
+                JSON.parse(rawText);
+
+        } catch (jsonError) {
+
+            console.error(
+                "❌ Response is NOT valid JSON:",
+                jsonError
+            );
+
+            return false;
+        }
+
+        console.log(
+            "🏏 PARSED CRICKET API RESPONSE:",
             result
         );
 
-        if (!response.ok || !result.success) {
+        if (
+            !response.ok ||
+            !result.success
+        ) {
 
             console.error(
-                "❌ Cricket API test failed:",
-                result
+                "❌ Cricket API test failed."
             );
 
             return false;
