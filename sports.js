@@ -341,7 +341,56 @@ function getSportsGamesContainer(
 
 
 // ==========================================
-// LOAD SPORTS GAMES FROM SUPABASE
+// CRICKET API TEST
+// ==========================================
+
+async function testCricketApiConnection() {
+
+    console.log("🔄 Testing Vercel Cricket API...");
+
+    try {
+
+        const response =
+            await fetch("/api/cricket");
+
+        const result =
+            await response.json();
+
+        console.log(
+            "🏏 CRICKET API RESPONSE:",
+            result
+        );
+
+        if (!response.ok || !result.success) {
+
+            console.error(
+                "❌ Cricket API test failed:",
+                result
+            );
+
+            return false;
+        }
+
+        console.log(
+            "✅ Cricket API connection successful!"
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "❌ Cricket API request error:",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+// ==========================================
+// LOAD SPORTS GAMES
 // ==========================================
 
 async function loadSportsGames() {
