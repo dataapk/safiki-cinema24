@@ -351,7 +351,9 @@ async function testCricketApiConnection() {
     try {
 
         const response =
-            await fetch("/api/cricket");
+    await fetch(
+        "https://safiki-cinema24.vercel.app/api/cricket"
+    );
 
         const result =
             await response.json();
