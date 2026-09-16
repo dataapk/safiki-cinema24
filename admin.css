@@ -5255,3 +5255,115 @@ button:last-child:hover {
     }
 
 }
+
+/* ======================================================
+   EDIT SPORTS GAME - BETTING MARKETS
+====================================================== */
+
+.sports-edit-markets {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.sports-edit-markets h4 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.sports-edit-markets-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+/* Individual market */
+
+.sports-edit-markets-list
+.sports-market-toggle {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 10px 12px;
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.07);
+
+    border-radius: 5px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    box-sizing: border-box;
+}
+
+/* Market name */
+
+.sports-edit-markets-list
+.sports-market-toggle span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* Checkbox */
+
+.sports-edit-markets-list
+.sports-market-toggle input {
+    flex: 0 0 auto;
+
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    cursor: pointer;
+}
+
+/* Loading / empty message */
+
+.sports-edit-markets-list
+.sports-markets-loading,
+.sports-edit-markets-list
+.sports-markets-empty {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    padding: 14px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    opacity: 0.65;
+
+    box-sizing: border-box;
+}
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 600px) {
+
+    .sports-edit-markets-list {
+        grid-template-columns: 1fr;
+    }
+
+}
