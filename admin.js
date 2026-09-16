@@ -2223,7 +2223,7 @@ function ensureSportsAddGameButton(
 // ======================================================
 
 window.openAddSportsGameModal =
-function (sport) {
+async function (sport) {
 
     console.log(
         "➕ ADD NEW GAME CLICKED:",
