@@ -4422,7 +4422,7 @@ function createAdminSportsCard(
             </div>
 
             // ======================================================
-// LOAD MASTER MARKETS FOR EXPANDABLE SPORTS GAME PANEL
+// LOAD MASTER MARKETS FOR EDIT MATCH SPORTS GAME PANEL
 // ======================================================
 
 async function loadAdminGameMasterMarkets(
@@ -4611,7 +4611,7 @@ async function loadAdminGameMasterMarkets(
 
 
             <!-- =========================================
-                 EXPANDABLE MARKETS
+                EDIT MATCH  MARKETS
             ========================================== -->
 
             <div
