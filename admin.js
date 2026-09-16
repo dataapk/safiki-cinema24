@@ -2735,6 +2735,173 @@ function () {
 
 };
 
+async function loadSportsMasterMarkets(
+    sport
+) {
+
+    const container =
+        document.getElementById(
+            "addSportsMarketsContainer"
+        );
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = `
+        <div class="sports-markets-loading">
+            Loading markets...
+        </div>
+    `;
+
+
+    if (!window.supabaseClient) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Supabase connection unavailable.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const normalizedSport =
+        String(
+            sport || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (!normalizedSport) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No sport selected.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from("sports_markets")
+            .select(
+                "market_key, market_name, enabled, display_order"
+            )
+            .eq(
+                "sport",
+                normalizedSport
+            )
+            .order(
+                "display_order",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "❌ Failed to load master sports markets:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Failed to load markets.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No markets available for this sport.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        data
+            .map(
+                market => {
+
+                    const marketKey =
+                        String(
+                            market.market_key || ""
+                        )
+                        .trim();
+
+
+                    const marketName =
+                        String(
+                            market.market_name || ""
+                        )
+                        .trim();
+
+
+                    if (!marketKey) {
+                        return "";
+                    }
+
+
+                    return `
+                        <label
+                            class="sports-market-toggle">
+
+                            <span>
+                                ${marketName}
+                            </span>
+
+                            <input
+                                type="checkbox"
+                                class="sports-master-market-checkbox"
+                                data-market-key="${marketKey}"
+                                ${market.enabled !== false
+                                    ? "checked"
+                                    : ""}>
+
+                        </label>
+                    `;
+                }
+            )
+            .join("");
+
+
+    console.log(
+        "✅ MASTER MARKETS LOADED:",
+        {
+            sport: normalizedSport,
+            markets: data
+        }
+    );
+
+}
+
+// ======================================================
+//end  LOAD MASTER SPORTS MARKETS
+// ======================================================
+
 
 // ======================================================
 // SAVE NEW SPORTS GAME
@@ -2943,6 +3110,64 @@ async function () {
     }
 
 
+        // ==================================================
+    // SELECTED MASTER MARKETS
+    // ==================================================
+
+    const enabledMarkets = {};
+
+    document
+        .querySelectorAll(
+            "#addSportsMarketsContainer .sports-master-market-checkbox"
+        )
+        .forEach(
+            checkbox => {
+
+                const marketKey =
+                    checkbox.dataset.marketKey;
+
+                if (!marketKey) {
+                    return;
+                }
+
+                enabledMarkets[
+                    marketKey
+                ] =
+                    checkbox.checked;
+
+            }
+        );
+
+
+        // ==================================================
+    // SELECTED MASTER MARKETS
+    // ==================================================
+
+    const enabledMarkets = {};
+
+    document
+        .querySelectorAll(
+            "#addSportsMarketsContainer .sports-master-market-checkbox"
+        )
+        .forEach(
+            checkbox => {
+
+                const marketKey =
+                    checkbox.dataset.marketKey;
+
+                if (!marketKey) {
+                    return;
+                }
+
+                enabledMarkets[
+                    marketKey
+                ] =
+                    checkbox.checked;
+
+            }
+        );
+
+
     // ==================================================
     // NEW GAME OBJECT
     // ==================================================
@@ -2980,10 +3205,12 @@ async function () {
             overUnderEnabled,
 
         match_winner_enabled:
-            matchWinnerEnabled
+            matchWinnerEnabled,
+
+        enabled_markets:
+            enabledMarkets
 
     };
-
 
     console.log(
         "➕ ADMIN: NEW SPORTS GAME:",
