@@ -516,11 +516,44 @@ function getLiveCricketApiGames() {
     const liveGames =
         cricketApiGames.filter(game => {
 
-            return (
-                game &&
-                game.matchStarted === true &&
-                game.matchEnded === false
-            );
+            if (!game) {
+                return false;
+            }
+
+            const status =
+                String(
+                    game.status || ""
+                ).toLowerCase();
+
+            const matchStarted =
+                game.matchStarted === true;
+
+            const matchEnded =
+                game.matchEnded === true;
+
+            // Match is currently active
+            if (
+                matchStarted &&
+                !matchEnded
+            ) {
+                return true;
+            }
+
+            // Fallback:
+            // CricketData status does not indicate
+            // that the match has ended.
+            if (
+                matchStarted &&
+                !status.includes("won") &&
+                !status.includes("draw") &&
+                !status.includes("abandoned") &&
+                !status.includes("no result") &&
+                !status.includes("cancelled")
+            ) {
+                return true;
+            }
+
+            return false;
 
         });
 
@@ -536,7 +569,6 @@ function getLiveCricketApiGames() {
 
     return liveGames;
 }
-
 
 // ==========================================
 // LOAD SPORTS GAMES
