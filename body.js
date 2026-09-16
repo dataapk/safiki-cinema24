@@ -352,6 +352,8 @@ else if (category === 'sports') {
 
     showSportsBetSlip();
 
+   startSportsApiSystem();
+
 }
 
 
