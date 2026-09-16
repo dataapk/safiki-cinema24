@@ -2501,24 +2501,20 @@ function createSportsGamePageHtml(
             game.sport
         );
 
-
     const status =
         normalizeSportsStatus(
             game.status
         );
-
 
     const icon =
         getSportsIcon(
             sport
         );
 
-
     const sportName =
         getSportsDisplayName(
             sport
         );
-
 
     const statusText =
         status === "live"
@@ -2529,118 +2525,131 @@ function createSportsGamePageHtml(
 
 
     // ==========================================
-    // CRICKET API DATA
+    // CRICKET API SCORE
     // ==========================================
 
-    const cricketApiMatch =
-        findCricketApiMatchForSportsGame(
-            game
-        );
-
-
-    let cricketApiScoreHtml = "";
-
+    let cricketScoreHtml = "";
 
     if (
-        cricketApiMatch &&
-        Array.isArray(
-            cricketApiMatch.score
-        ) &&
-        cricketApiMatch.score.length > 0
+        sport === "cricket"
     ) {
 
-        const scoreRows =
-            cricketApiMatch.score
-                .map(score => {
+        const apiGame =
+            findCricketApiMatchForSportsGame(
+                game
+            );
 
-                    const inning =
-                        String(
-                            score.inning || ""
-                        );
+        if (apiGame) {
 
+            const scores =
+                Array.isArray(apiGame.score)
+                    ? apiGame.score
+                    : [];
 
-                    const teamName =
-                        inning.replace(
-                            /\s+Inning\s+\d+$/i,
-                            ""
-                        );
+            const scoreRows =
+                scores
+                    .slice(0, 2)
+                    .map(score => {
 
+                        const inning =
+                            String(
+                                score.inning || ""
+                            )
+                            .replace(
+                                /\s+Inning\s+\d+$/i,
+                                ""
+                            );
 
-                    const runs =
-                        score.r ??
-                        "-";
+                        const runs =
+                            score.r ??
+                            "-";
 
+                        const wickets =
+                            score.w ??
+                            "-";
 
-                    const wickets =
-                        score.w ??
-                        "-";
+                        const overs =
+                            score.o ??
+                            "-";
 
+                        return `
+                            <div class="sports-full-score-row">
 
-                    const overs =
-                        score.o ??
-                        "-";
+                                <div class="sports-full-score-team">
 
+                                    ${escapeSportsHtml(
+                                        inning
+                                    )}
 
-                    return `
-
-                        <div class="cricket-api-score-row">
-
-                            <div class="cricket-api-score-team">
-
-                                ${escapeSportsHtml(
-                                    teamName
-                                )}
-
-                            </div>
-
-
-                            <div class="cricket-api-score-value">
-
-                                ${runs}/${wickets}
-
-                            </div>
+                                </div>
 
 
-                            <div class="cricket-api-score-overs">
+                                <div class="sports-full-score-number">
 
-                                (${overs} ov)
+                                    ${runs}/${wickets}
 
-                            </div>
-
-                        </div>
-
-                    `;
-
-                })
-                .join("");
+                                </div>
 
 
-        cricketApiScoreHtml = `
+                                <div class="sports-full-score-overs">
 
-            <div class="cricket-api-score-area">
+                                    ${overs} ov
 
-                ${scoreRows}
-
-
-                ${
-                    cricketApiMatch.status
-                        ? `
-
-                            <div class="cricket-api-match-status">
-
-                                ${escapeSportsHtml(
-                                    cricketApiMatch.status
-                                )}
+                                </div>
 
                             </div>
+                        `;
 
-                          `
-                        : ""
-                }
+                    })
+                    .join("");
 
-            </div>
 
-        `;
+            cricketScoreHtml = `
+
+                <div class="sports-full-score-card">
+
+                    <div class="sports-full-score-header">
+
+                        <span>
+                            SCORE
+                        </span>
+
+                    </div>
+
+
+                    <div class="sports-full-score-list">
+
+                        ${
+                            scoreRows ||
+                            `
+                                <div class="sports-full-score-empty">
+                                    Score not available
+                                </div>
+                            `
+                        }
+
+                    </div>
+
+
+                    ${
+                        apiGame.status
+                            ? `
+                                <div class="sports-full-match-result">
+
+                                    ${escapeSportsHtml(
+                                        apiGame.status
+                                    )}
+
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+        }
 
     }
 
@@ -2648,7 +2657,7 @@ function createSportsGamePageHtml(
     return `
 
         <!-- ==================================
-             GAME HEADER
+             FULL GAME HEADER
         ================================== -->
 
         <div class="sports-game-match-header">
@@ -2690,65 +2699,127 @@ function createSportsGamePageHtml(
 
 
         <!-- ==================================
-             MATCH HERO
+             GRAPHICS / VIDEO CARD
         ================================== -->
 
-        <div class="sports-game-hero">
+        <div class="sports-media-card">
 
-            <div class="sports-game-animation">
+            <div class="sports-media-controls">
 
-                <div class="sports-animation-live">
+                <button
+                    type="button"
+                    class="sports-media-control active"
+                    onclick="
+                        switchSportsMedia(
+                            'graphics',
+                            this
+                        )
+                    "
+                >
 
-                    ${
-                        status === "live"
-                            ? "● LIVE"
-                            : escapeSportsHtml(
-                                statusText
-                              )
-                    }
+                    <i class="fas fa-chart-line"></i>
+
+                    <span>
+                        Graphics
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="sports-media-control"
+                    onclick="
+                        switchSportsMedia(
+                            'video',
+                            this
+                        )
+                    "
+                >
+
+                    <i class="fas fa-video"></i>
+
+                    <span>
+                        Video
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="sports-media-display"
+                id="sportsMediaDisplay"
+            >
+
+                <div
+                    class="sports-graphics-view"
+                    id="sportsGraphicsView"
+                >
+
+                    <div class="sports-graphics-icon">
+
+                        ${icon}
+
+                    </div>
+
+
+                    <div class="sports-graphics-pulse"></div>
+
+
+                    <div class="sports-graphics-label">
+
+                        LIVE GRAPHICS
+
+                    </div>
+
+
+                    <div class="sports-graphics-sport">
+
+                        ${escapeSportsHtml(
+                            sportName
+                        )}
+
+                    </div>
 
                 </div>
 
 
-                <div class="sports-animation-icon">
+                <div
+                    class="sports-video-view"
+                    id="sportsVideoView"
+                    style="display:none;"
+                >
 
-                    ${icon}
+                    <div class="sports-video-placeholder">
 
-                </div>
+                        <i class="fas fa-video-slash"></i>
 
+                        <span>
+                            No video available
+                        </span>
 
-                <div class="sports-animation-title">
-
-                    ${escapeSportsHtml(
-                        game.title
-                    )}
-
-                </div>
-
-
-                <div class="sports-animation-subtitle">
-
-                    ${escapeSportsHtml(
-                        sportName
-                    )}
-                    Match Centre
+                    </div>
 
                 </div>
 
             </div>
 
-
-            <!-- ==================================
-                 API SCORE / RESULT
-            ================================== -->
-
-            ${cricketApiScoreHtml}
-
         </div>
 
 
         <!-- ==================================
-             BETTING SECTION
+             COMPACT SCORE CARD
+        ================================== -->
+
+        ${
+            cricketScoreHtml
+        }
+
+
+        <!-- ==================================
+             MATCH BETTING
         ================================== -->
 
         <div class="sports-betting-box">
@@ -2760,13 +2831,90 @@ function createSportsGamePageHtml(
             </div>
 
 
-            ${renderSportsMarkets(game)}
+            ${renderSportsMarkets(
+                game
+            )}
 
         </div>
 
     `;
 
 }
+
+// ==========================================
+// SWITCH SPORTS MEDIA
+// ==========================================
+
+window.switchSportsMedia =
+function (
+    type,
+    button
+) {
+
+    const graphics =
+        document.getElementById(
+            "sportsGraphicsView"
+        );
+
+    const video =
+        document.getElementById(
+            "sportsVideoView"
+        );
+
+
+    if (
+        !graphics ||
+        !video
+    ) {
+        return;
+    }
+
+
+    document
+        .querySelectorAll(
+            ".sports-media-control"
+        )
+        .forEach(
+            control => {
+
+                control.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    if (
+        type === "video"
+    ) {
+
+        graphics.style.display =
+            "none";
+
+        video.style.display =
+            "flex";
+
+    } else {
+
+        video.style.display =
+            "none";
+
+        graphics.style.display =
+            "flex";
+
+    }
+
+
+    if (button) {
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+};
 
 
 // ==========================================
