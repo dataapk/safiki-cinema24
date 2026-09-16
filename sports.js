@@ -507,6 +507,36 @@ async function loadCricketApiGames() {
     }
 }
 
+// ======================================================
+// GET LIVE CRICKET API GAMES
+// ======================================================
+
+function getLiveCricketApiGames() {
+
+    const liveGames =
+        cricketApiGames.filter(game => {
+
+            return (
+                game &&
+                game.matchStarted === true &&
+                game.matchEnded === false
+            );
+
+        });
+
+    console.log(
+        "🏏 LIVE CRICKET API GAMES:",
+        liveGames.length
+    );
+
+    console.log(
+        "🏏 LIVE CRICKET MATCHES:",
+        liveGames
+    );
+
+    return liveGames;
+}
+
 
 // ==========================================
 // LOAD SPORTS GAMES
