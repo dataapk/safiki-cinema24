@@ -1374,6 +1374,102 @@ if (status === "live") {
 
 }
 
+// ======================================================
+// FIND MATCHING CRICKET API GAME
+// ======================================================
+
+function findCricketApiMatchForSportsGame(
+    game
+) {
+
+    // Only Cricket games
+    if (
+        normalizeSportsSport(game.sport) !==
+        "cricket"
+    ) {
+        return null;
+    }
+
+
+    if (
+        !Array.isArray(cricketApiGames) ||
+        cricketApiGames.length === 0
+    ) {
+        return null;
+    }
+
+
+    const homeTeam =
+        String(
+            game.home_team || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const awayTeam =
+        String(
+            game.away_team || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        !homeTeam ||
+        !awayTeam
+    ) {
+        return null;
+    }
+
+
+    const matchedGame =
+        cricketApiGames.find(
+            apiGame => {
+
+                const apiTeams =
+                    Array.isArray(
+                        apiGame.teams
+                    )
+                        ? apiGame.teams
+                        : [];
+
+
+                if (
+                    apiTeams.length < 2
+                ) {
+                    return false;
+                }
+
+
+                const apiHome =
+                    String(
+                        apiTeams[0] || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                const apiAway =
+                    String(
+                        apiTeams[1] || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                return (
+                    apiHome === homeTeam &&
+                    apiAway === awayTeam
+                );
+
+            }
+        );
+
+
+    return matchedGame || null;
+}
+
 
 // ==========================================
 // COMMON SPORTS RENDERER
