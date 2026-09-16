@@ -510,6 +510,37 @@ async function loadCricketApiGames() {
 }
 
 // ======================================================
+// START SPORTS API SYSTEM
+// ======================================================
+
+async function startSportsApiSystem() {
+
+    console.log(
+        "🏏 Starting Cricket API system..."
+    );
+
+    const loaded =
+        await loadCricketApiGames();
+
+    if (loaded) {
+
+        renderAllSportsGames();
+
+    }
+
+    startCricketApiAutoRefresh();
+
+}
+
+
+// ======================================================
+// GLOBAL SPORTS API SYSTEM
+// ======================================================
+
+window.startSportsApiSystem =
+    startSportsApiSystem;
+
+// ======================================================
 // GET LIVE CRICKET API GAMES
 // ======================================================
 
