@@ -1,15 +1,59 @@
 export default async function handler(req, res) {
+
+    // ==========================================
+    // CORS
+    // ==========================================
+
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "*"
+    );
+
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, OPTIONS"
+    );
+
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type"
+    );
+
+    // Browser preflight request
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
+    // ==========================================
+    // ONLY GET REQUEST
+    // ==========================================
+
+    if (req.method !== "GET") {
+
+        return res.status(405).json({
+            success: false,
+            error: "Method not allowed."
+        });
+
+    }
+
+    // ==========================================
+    // CRICKET API
+    // ==========================================
+
     try {
 
         const apiKey =
             process.env.CRICKET_API_KEY;
 
         if (!apiKey) {
+
             return res.status(500).json({
                 success: false,
                 error:
                     "CRICKET_API_KEY is not configured."
             });
+
         }
 
         const apiUrl =
@@ -23,7 +67,9 @@ export default async function handler(req, res) {
                 method: "GET",
                 headers: {
                     "Accept":
-                        "application/json"
+                        "application/json",
+                    "User-Agent":
+                        "SportsWebsite/1.0"
                 }
             });
 
@@ -47,5 +93,7 @@ export default async function handler(req, res) {
             error:
                 String(error)
         });
+
     }
+
 }
