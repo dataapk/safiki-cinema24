@@ -4430,9 +4430,10 @@ async function loadAdminGameMasterMarkets(
 ) {
 
     const container =
-        document.getElementById(
-            `adminMarketsGrid-${game.game_id}`
-        );
+    document.getElementById(
+        "adminMarketsGrid-" +
+        game.game_id
+    );
 
     if (!container) {
         console.warn(
