@@ -2528,6 +2528,123 @@ function createSportsGamePageHtml(
                 : "UPCOMING";
 
 
+    // ==========================================
+    // CRICKET API DATA
+    // ==========================================
+
+    const cricketApiMatch =
+        findCricketApiMatchForSportsGame(
+            game
+        );
+
+
+    let cricketApiScoreHtml = "";
+
+
+    if (
+        cricketApiMatch &&
+        Array.isArray(
+            cricketApiMatch.score
+        ) &&
+        cricketApiMatch.score.length > 0
+    ) {
+
+        const scoreRows =
+            cricketApiMatch.score
+                .map(score => {
+
+                    const inning =
+                        String(
+                            score.inning || ""
+                        );
+
+
+                    const teamName =
+                        inning.replace(
+                            /\s+Inning\s+\d+$/i,
+                            ""
+                        );
+
+
+                    const runs =
+                        score.r ??
+                        "-";
+
+
+                    const wickets =
+                        score.w ??
+                        "-";
+
+
+                    const overs =
+                        score.o ??
+                        "-";
+
+
+                    return `
+
+                        <div class="cricket-api-score-row">
+
+                            <div class="cricket-api-score-team">
+
+                                ${escapeSportsHtml(
+                                    teamName
+                                )}
+
+                            </div>
+
+
+                            <div class="cricket-api-score-value">
+
+                                ${runs}/${wickets}
+
+                            </div>
+
+
+                            <div class="cricket-api-score-overs">
+
+                                (${overs} ov)
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                })
+                .join("");
+
+
+        cricketApiScoreHtml = `
+
+            <div class="cricket-api-score-area">
+
+                ${scoreRows}
+
+
+                ${
+                    cricketApiMatch.status
+                        ? `
+
+                            <div class="cricket-api-match-status">
+
+                                ${escapeSportsHtml(
+                                    cricketApiMatch.status
+                                )}
+
+                            </div>
+
+                          `
+                        : ""
+                }
+
+            </div>
+
+        `;
+
+    }
+
+
     return `
 
         <!-- ==================================
@@ -2554,14 +2671,18 @@ function createSportsGamePageHtml(
 
             <div class="sports-game-match-title">
 
-                ${escapeSportsHtml(game.title)}
+                ${escapeSportsHtml(
+                    game.title
+                )}
 
             </div>
 
 
             <div class="sports-game-league">
 
-                ${escapeSportsHtml(game.league)}
+                ${escapeSportsHtml(
+                    game.league
+                )}
 
             </div>
 
@@ -2598,19 +2719,30 @@ function createSportsGamePageHtml(
 
                 <div class="sports-animation-title">
 
-                    ${escapeSportsHtml(game.title)}
+                    ${escapeSportsHtml(
+                        game.title
+                    )}
 
                 </div>
 
 
                 <div class="sports-animation-subtitle">
 
-                    ${escapeSportsHtml(sportName)}
+                    ${escapeSportsHtml(
+                        sportName
+                    )}
                     Match Centre
 
                 </div>
 
             </div>
+
+
+            <!-- ==================================
+                 API SCORE / RESULT
+            ================================== -->
+
+            ${cricketApiScoreHtml}
 
         </div>
 
@@ -2675,16 +2807,7 @@ function renderSportsMarkets(
 
                 <div class="sports-bet-options">
 
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: '${escapeSportsHtml(game.home_team)}',
-                            odds: 1.85
-                        })"
-                    >
+                    <div class="sports-bet-option">
 
                         <span>
 
@@ -2697,23 +2820,14 @@ function renderSportsMarkets(
 
                         <strong>
 
-                            1.85
+                            API
 
                         </strong>
 
-                    </button>
+                    </div>
 
 
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: '${escapeSportsHtml(game.away_team)}',
-                            odds: 1.65
-                        })"
-                    >
+                    <div class="sports-bet-option">
 
                         <span>
 
@@ -2726,11 +2840,11 @@ function renderSportsMarkets(
 
                         <strong>
 
-                            1.65
+                            API
 
                         </strong>
 
-                    </button>
+                    </div>
 
                 </div>
 
@@ -2768,58 +2882,44 @@ function renderSportsMarkets(
 
                 <div class="sports-bet-options">
 
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: 'Over 180.5',
-                            odds: 1.90
-                        })"
-                    >
+                    <div class="sports-bet-option">
 
                         <span>
 
-                            Over 180.5
+                            ${escapeSportsHtml(
+                                game.home_team
+                            )}
 
                         </span>
 
 
                         <strong>
 
-                            1.90
+                            API
 
                         </strong>
 
-                    </button>
+                    </div>
 
 
-                    <button
-                        type="button"
-                        class="sports-bet-option"
-                        onclick="addToBetSlip({
-                            eventId: '${escapeSportsHtml(game.game_id)}',
-                            eventName: '${escapeSportsHtml(game.title)}',
-                            market: 'Under 180.5',
-                            odds: 1.80
-                        })"
-                    >
+                    <div class="sports-bet-option">
 
                         <span>
 
-                            Under 180.5
+                            ${escapeSportsHtml(
+                                game.away_team
+                            )}
 
                         </span>
 
 
                         <strong>
 
-                            1.80
+                            API
 
                         </strong>
 
-                    </button>
+                    </div>
 
                 </div>
 
@@ -2834,7 +2934,9 @@ function renderSportsMarkets(
     // NO ENABLED MARKET
     // ==========================================
 
-    if (!html) {
+    if (
+        !html
+    ) {
 
         html = `
 
@@ -2869,7 +2971,6 @@ function renderSportsMarkets(
     return html;
 
 }
-
 
 // ==========================================
 // GLOBAL FUNCTION CHECK
