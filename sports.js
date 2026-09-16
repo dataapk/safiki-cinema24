@@ -626,6 +626,97 @@ function renderCricketApiGames() {
     );
 }
 
+
+// ======================================================
+// CRICKET API AUTO REFRESH
+// ======================================================
+
+let cricketApiRefreshTimer = null;
+
+
+// ======================================================
+// START CRICKET API AUTO REFRESH
+// ======================================================
+
+function startCricketApiAutoRefresh() {
+
+    console.log(
+        "🏏 Starting Cricket API auto refresh..."
+    );
+
+
+    // Prevent duplicate timers
+    if (cricketApiRefreshTimer) {
+
+        console.log(
+            "⚠️ Cricket API auto refresh is already running."
+        );
+
+        return;
+    }
+
+
+    // Refresh every 20 minutes
+    cricketApiRefreshTimer =
+        setInterval(
+            async function () {
+
+                console.log(
+                    "🔄 Refreshing Cricket API data..."
+                );
+
+
+                const loaded =
+                    await loadCricketApiGames();
+
+
+                if (loaded) {
+
+                    renderCricketApiGames();
+
+                }
+
+            },
+            20 * 60 * 1000
+        );
+
+
+    console.log(
+        "✅ Cricket API auto refresh started."
+    );
+}
+
+
+// ======================================================
+// STOP CRICKET API AUTO REFRESH
+// ======================================================
+
+function stopCricketApiAutoRefresh() {
+
+    if (!cricketApiRefreshTimer) {
+
+        console.log(
+            "⚠️ Cricket API auto refresh is not running."
+        );
+
+        return;
+    }
+
+
+    clearInterval(
+        cricketApiRefreshTimer
+    );
+
+
+    cricketApiRefreshTimer =
+        null;
+
+
+    console.log(
+        "🛑 Cricket API auto refresh stopped."
+    );
+}
+
 // ======================================================
 // CREATE CRICKET API GAME CARD
 // ======================================================
