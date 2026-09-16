@@ -1199,6 +1199,104 @@ function getSportsGamesByStatus(
 
 }
 
+// ======================================================
+// BUILD CRICKET API SCORE HTML
+// ======================================================
+
+function getCricketApiScoreHtml(game) {
+
+    if (
+        normalizeSportsSport(game.sport) !==
+        "cricket"
+    ) {
+        return "";
+    }
+
+    const apiGame =
+        findCricketApiMatchForSportsGame(
+            game
+        );
+
+    if (!apiGame) {
+        return "";
+    }
+
+    const scores =
+        Array.isArray(apiGame.score)
+            ? apiGame.score
+            : [];
+
+    if (scores.length === 0) {
+        return "";
+    }
+
+    const scoreRows =
+        scores
+            .map(score => {
+
+                const inning =
+                    String(
+                        score.inning || ""
+                    );
+
+                const runs =
+                    score.r ??
+                    "-";
+
+                const wickets =
+                    score.w ??
+                    "-";
+
+                const overs =
+                    score.o ??
+                    "-";
+
+                return `
+                    <div class="cricket-api-score-row">
+
+                        <div class="cricket-api-score-team">
+                            ${escapeSportsHtml(
+                                inning.replace(
+                                    /\s+Inning\s+\d+$/i,
+                                    ""
+                                )
+                            )}
+                        </div>
+
+                        <div class="cricket-api-score-value">
+                            ${runs}/${wickets}
+                        </div>
+
+                        <div class="cricket-api-score-overs">
+                            (${overs} ov)
+                        </div>
+
+                    </div>
+                `;
+            })
+            .join("");
+
+    return `
+        <div class="cricket-api-score-area">
+
+            ${scoreRows}
+
+            ${
+                apiGame.status
+                    ? `
+                        <div class="cricket-api-match-status">
+                            ${escapeSportsHtml(
+                                apiGame.status
+                            )}
+                        </div>
+                    `
+                    : ""
+            }
+
+        </div>
+    `;
+}
+
 
 // ==========================================
 // CREATE COMMON SPORTS GAME CARD
