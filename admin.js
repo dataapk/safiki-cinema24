@@ -2499,68 +2499,33 @@ function (sport) {
                     </div>
 
 
-                    <!-- ==================================
-                         LEGACY MARKET CONTROLS
-                    =================================== -->
+              <!-- ==================================
+     MASTER BETTING MARKETS
+=================================== -->
 
-                    <div class="sports-add-markets-row">
+<div class="sports-add-markets-row">
 
-                        <div class="sports-add-markets-title">
-                            Betting Markets
-                        </div>
-
-
-                        <div class="sports-add-market-items">
-
-                            <label class="sports-market-toggle">
-
-                                <span>
-                                    Total Runs
-                                </span>
-
-                                <input
-                                    type="checkbox"
-                                    id="addSportsTotalRuns"
-                                    checked>
-
-                            </label>
+    <div class="sports-add-markets-title">
+        Betting Markets
+    </div>
 
 
-                            <label class="sports-market-toggle">
+    <div
+        class="sports-add-market-items"
+        id="addSportsMarketsContainer">
 
-                                <span>
-                                    Over / Under
-                                </span>
+        <div class="sports-markets-loading">
+            Loading markets...
+        </div>
 
-                                <input
-                                    type="checkbox"
-                                    id="addSportsOverUnder"
-                                    checked>
+    </div>
 
-                            </label>
+</div>
 
-
-                            <label class="sports-market-toggle">
-
-                                <span>
-                                    Match Winner
-                                </span>
-
-                                <input
-                                    type="checkbox"
-                                    id="addSportsMatchWinner"
-                                    checked>
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                </div>
+</div>
 
 
-                <div class="sports-game-edit-footer">
+<div class="sports-game-edit-footer">
 
                     <button
                         type="button"
