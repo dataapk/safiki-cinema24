@@ -2,7 +2,7 @@
 // SPORTS.JS
 // SPORTS FULL GAME VIEW
 // COMMON SPORTS RENDERING SYSTEM
-// ==========================================
+// =========================================
 
 console.log("🚀 SPORTS.JS STARTED");
 
