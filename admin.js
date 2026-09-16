@@ -4421,7 +4421,52 @@ function createAdminSportsCard(
 
             </div>
 
-            // ======================================================
+           
+
+
+            <!-- =========================================
+                EDIT MATCH  MARKETS
+            ========================================== -->
+
+            <div
+                id="adminMarkets-${escapeAdminSportsHTML(
+                    game.game_id
+                )}"
+                class="admin-markets-panel"
+                style="display:none;"
+            >
+
+                <div class="admin-markets-panel-title">
+                    Betting Markets
+                </div>
+
+
+                <div
+    class="admin-markets-grid"
+    id="adminMarketsGrid-${escapeAdminSportsHTML(
+        game.game_id
+    )}"
+>
+
+    <div class="sports-markets-loading">
+        Loading markets...
+    </div>
+
+</div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+
+}
+
+ // ======================================================
 // LOAD MASTER MARKETS FOR EDIT MATCH SPORTS GAME PANEL
 // ======================================================
 
@@ -4608,49 +4653,6 @@ async function loadAdminGameMasterMarkets(
             enabledMarkets: enabledMarkets
         }
     );
-}
-
-
-            <!-- =========================================
-                EDIT MATCH  MARKETS
-            ========================================== -->
-
-            <div
-                id="adminMarkets-${escapeAdminSportsHTML(
-                    game.game_id
-                )}"
-                class="admin-markets-panel"
-                style="display:none;"
-            >
-
-                <div class="admin-markets-panel-title">
-                    Betting Markets
-                </div>
-
-
-                <div
-    class="admin-markets-grid"
-    id="adminMarketsGrid-${escapeAdminSportsHTML(
-        game.game_id
-    )}"
->
-
-    <div class="sports-markets-loading">
-        Loading markets...
-    </div>
-
-</div>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    `;
-
 }
 
 
