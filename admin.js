@@ -2633,22 +2633,6 @@ function (sport) {
             "addSportsGameAway"
         );
 
-    const totalRuns =
-        document.getElementById(
-            "addSportsTotalRuns"
-        );
-
-    const overUnder =
-        document.getElementById(
-            "addSportsOverUnder"
-        );
-
-    const matchWinner =
-        document.getElementById(
-            "addSportsMatchWinner"
-        );
-
-
     if (gameIdInput) {
 
         gameIdInput.value =
@@ -2707,28 +2691,9 @@ function (sport) {
     }
 
 
-    if (totalRuns) {
-
-        totalRuns.checked =
-            true;
-
-    }
-
-
-    if (overUnder) {
-
-        overUnder.checked =
-            true;
-
-    }
-
-
-    if (matchWinner) {
-
-        matchWinner.checked =
-            true;
-
-    }
+    await loadSportsMasterMarkets(
+    currentSport
+);
 
 
     modal.style.display =
