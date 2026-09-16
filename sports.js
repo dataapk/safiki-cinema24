@@ -642,36 +642,133 @@ function createCricketApiGameCard(
         "cricket-api-game-card";
 
 
+    // ==========================================
+    // BASIC MATCH DATA
+    // ==========================================
+
     const matchName =
         game.name ||
         "Cricket Match";
-
 
     const status =
         game.status ||
         "Status unavailable";
 
-
     const date =
         game.date ||
         "";
 
+    const matchType =
+        game.matchType ||
+        "";
+
+    const venue =
+        game.venue ||
+        "";
+
+
+    // ==========================================
+    // TEAMS
+    // ==========================================
 
     const teams =
         Array.isArray(game.teams)
             ? game.teams
             : [];
 
-
     const homeTeam =
         teams[0] ||
         "Home";
-
 
     const awayTeam =
         teams[1] ||
         "Away";
 
+
+    // ==========================================
+    // SCORE
+    // ==========================================
+
+    const scores =
+        Array.isArray(game.score)
+            ? game.score
+            : [];
+
+
+    let scoreHtml = "";
+
+
+    if (scores.length > 0) {
+
+        scoreHtml = scores
+            .map(score => {
+
+                const inning =
+                    score.inning ||
+                    "";
+
+                const runs =
+                    score.r ??
+                    "-";
+
+                const wickets =
+                    score.w ??
+                    "-";
+
+                const overs =
+                    score.o ??
+                    "-";
+
+
+                return `
+
+                    <div class="cricket-api-score-row">
+
+                        <div class="cricket-api-score-inning">
+
+                            ${escapeSportsHtml(inning)}
+
+                        </div>
+
+
+                        <div class="cricket-api-score-value">
+
+                            ${runs}/${wickets}
+
+                        </div>
+
+
+                        <div class="cricket-api-score-overs">
+
+                            (${overs} ov)
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            })
+            .join("");
+
+    } else {
+
+        scoreHtml = `
+
+            <div class="cricket-api-no-score">
+
+                Score not available
+
+            </div>
+
+        `;
+
+    }
+
+
+    // ==========================================
+    // GAME CARD HTML
+    // ==========================================
 
     gameCard.innerHTML = `
 
@@ -702,7 +799,13 @@ function createCricketApiGameCard(
 
         <div class="sports-game-card-league">
 
-            ${escapeSportsHtml(date)}
+            ${escapeSportsHtml(matchType)}
+
+            ${
+                date
+                    ? ` • ${escapeSportsHtml(date)}`
+                    : ""
+            }
 
         </div>
 
@@ -732,11 +835,31 @@ function createCricketApiGameCard(
         </div>
 
 
+        <div class="cricket-api-score-container">
+
+            ${scoreHtml}
+
+        </div>
+
+
         <div class="sports-game-card-league">
 
             ${escapeSportsHtml(status)}
 
         </div>
+
+
+        ${
+            venue
+                ? `
+                    <div class="sports-game-card-league">
+
+                        ${escapeSportsHtml(venue)}
+
+                    </div>
+                  `
+                : ""
+        }
 
     `;
 
