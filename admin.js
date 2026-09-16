@@ -5043,7 +5043,7 @@ function (gameId) {
 // ======================================================
 
 window.openSportsGameEditor =
-function (gameId) {
+async function (gameId) {
 
     console.log(
         "✏️ ADMIN: Opening editor:",
@@ -5119,24 +5119,6 @@ function (gameId) {
         );
 
 
-    const totalRunsInput =
-        document.getElementById(
-            "editTotalRuns"
-        );
-
-
-    const overUnderInput =
-        document.getElementById(
-            "editOverUnder"
-        );
-
-
-    const matchWinnerInput =
-        document.getElementById(
-            "editMatchWinner"
-        );
-
-
     if (gameIdInput) {
 
         gameIdInput.value =
@@ -5197,35 +5179,17 @@ function (gameId) {
     }
 
 
-    if (totalRunsInput) {
-
-        totalRunsInput.checked =
-            game.total_runs_enabled !==
-            false;
-
-    }
-
-
-    if (overUnderInput) {
-
-        overUnderInput.checked =
-            game.over_under_enabled !==
-            false;
-
-    }
-
-
-    if (matchWinnerInput) {
-
-        matchWinnerInput.checked =
-            game.match_winner_enabled !==
-            false;
-
-    }
-
-
     window.activeSportsGameId =
         gameId;
+
+
+    // ==================================================
+    // LOAD MASTER MARKETS FOR EDITOR
+    // ==================================================
+
+    await loadSportsEditMasterMarkets(
+        game
+    );
 
 
     const modal =
@@ -5253,6 +5217,200 @@ function (gameId) {
     }
 
 };
+
+// ======================================================
+// LOAD MASTER MARKETS FOR SPORTS GAME EDITOR
+// ======================================================
+
+async function loadSportsEditMasterMarkets(
+    game
+) {
+
+    const container =
+        document.getElementById(
+            "editSportsMarketsContainer"
+        );
+
+
+    if (!container) {
+
+        console.warn(
+            "⚠️ Edit Sports Markets container not found."
+        );
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+        <div class="sports-markets-loading">
+            Loading markets...
+        </div>
+    `;
+
+
+    if (!window.supabaseClient) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Supabase connection unavailable.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const sport =
+        String(
+            game.sport || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (!sport) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No sport selected.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from("sports_markets")
+            .select(
+                "market_key, market_name, enabled, display_order"
+            )
+            .eq(
+                "sport",
+                sport
+            )
+            .order(
+                "display_order",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "❌ Failed to load edit master markets:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Failed to load markets.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No markets available for this sport.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const enabledMarkets =
+        game.enabled_markets &&
+        typeof game.enabled_markets === "object"
+            ? game.enabled_markets
+            : {};
+
+
+    container.innerHTML =
+        data
+            .map(
+                market => {
+
+                    const marketKey =
+                        String(
+                            market.market_key || ""
+                        )
+                        .trim();
+
+
+                    const marketName =
+                        String(
+                            market.market_name || ""
+                        )
+                        .trim();
+
+
+                    if (!marketKey) {
+                        return "";
+                    }
+
+
+                    const isChecked =
+                        enabledMarkets[
+                            marketKey
+                        ] === true;
+
+
+                    return `
+                        <label
+                            class="sports-market-toggle">
+
+                            <span>
+                                ${marketName}
+                            </span>
+
+                            <input
+                                type="checkbox"
+                                class="sports-edit-market-checkbox"
+                                data-market-key="${marketKey}"
+                                ${isChecked
+                                    ? "checked"
+                                    : ""}>
+
+                        </label>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    console.log(
+        "✅ EDIT MASTER MARKETS LOADED:",
+        {
+            sport,
+            gameId: game.game_id,
+            markets: data,
+            enabledMarkets
+        }
+    );
+
+}
 
 
 // ======================================================
