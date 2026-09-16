@@ -14,6 +14,12 @@ console.log("🚀 SPORTS.JS STARTED");
 let sportsGames = {};
 let sportsGamesLoaded = false;
 
+// ======================================================
+// CRICKET API DATA
+// ======================================================
+
+let cricketApiGames = [];
+
 
 // ==========================================
 // SUPPORTED SPORTS
@@ -417,6 +423,83 @@ async function testCricketApiConnection() {
 
         console.error(
             "❌ Cricket API request error:",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+
+// ======================================================
+// LOAD CRICKET API DATA
+// ======================================================
+
+async function loadCricketApiGames() {
+
+    console.log(
+        "🏏 Loading Cricket API data..."
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                "https://safiki-cinema24.vercel.app/api/cricket"
+            );
+
+        if (!response.ok) {
+
+            console.error(
+                "❌ Cricket API HTTP error:",
+                response.status
+            );
+
+            return false;
+        }
+
+        const result =
+            await response.json();
+
+        if (
+            !result ||
+            !result.success ||
+            !result.data
+        ) {
+
+            console.error(
+                "❌ Invalid Cricket API response:",
+                result
+            );
+
+            return false;
+        }
+
+        const apiData =
+            result.data;
+
+        cricketApiGames =
+            Array.isArray(apiData.data)
+                ? apiData.data
+                : [];
+
+        console.log(
+            "🏏 Cricket API games loaded:",
+            cricketApiGames.length
+        );
+
+        console.log(
+            "🏏 Cricket API games:",
+            cricketApiGames
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "❌ Failed to load Cricket API games:",
             error
         );
 
