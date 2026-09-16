@@ -3412,21 +3412,13 @@
 
     overflow: hidden;
 
-    border-radius: 16px;
+    border-radius: 3px;
 
     background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.055),
-            rgba(255,255,255,0.018)
-        );
+        rgba(255,255,255,0.018);
 
     border: 1px solid
-        rgba(255,255,255,0.07);
-
-    box-shadow:
-        0 8px 30px
-        rgba(0,0,0,0.12);
+        rgba(255,255,255,0.055);
 }
 
 
@@ -3494,7 +3486,137 @@
 .sports-media-display {
     position: relative;
 
-    min-height: 140px;
+    min-height: 160px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 3px;
+
+    overflow: hidden;
+}
+
+/* ======================================================
+   GRAPHICS AREA
+====================================================== */
+
+.sports-graphics-view {
+    position: relative;
+
+    width: 100%;
+    min-height: 154px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid
+        rgba(80,160,255,0.28);
+
+    border-radius: 3px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(80,140,255,0.07),
+            transparent 60%
+        );
+}
+
+
+/* ======================================================
+   INNER GRAPHICS FRAME
+====================================================== */
+
+.sports-graphics-view::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 5px;
+
+    border: 1px dotted
+        rgba(120,180,255,0.25);
+
+    border-radius: 2px;
+
+    pointer-events: none;
+}
+
+/* ======================================================
+   LIGHT DOT PATTERN
+====================================================== */
+
+.sports-graphics-view::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    background-image:
+        radial-gradient(
+            rgba(120,180,255,0.28) 1px,
+            transparent 1px
+        );
+
+    background-size: 12px 12px;
+
+    opacity: 0.22;
+
+    pointer-events: none;
+}
+
+
+
+/* subtle grid */
+
+.sports-graphics-view::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.16;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        32px 32px;
+
+    pointer-events: none;
+}
+
+
+হ্যাঁ বন্ধু, বুঝেছি। 👍
+
+Width একদম একই থাকবে, শুধু Graphics/Video card-এর height প্রায় 30% কমাবো। আর Graphics area-র ভেতরে ছোট rounded indicator/dot থাকবে, যাতে বোঝা যায় এখানে graphics content render হবে।
+
+তোমার আগের CSS-এর এই অংশগুলো replace করো:
+
+/* ======================================================
+   MEDIA DISPLAY
+====================================================== */
+
+.sports-media-display {
+    position: relative;
+
+    min-height: 160px;
 
     display: flex;
 
@@ -3513,7 +3635,7 @@
     position: relative;
 
     width: 100%;
-    min-height: 140px;
+    min-height: 160px;
 
     display: flex;
 
@@ -3561,8 +3683,6 @@
     pointer-events: none;
 }
 
-
-/* central icon */
 
 /* ======================================================
    GRAPHICS PLACEHOLDER DOT
@@ -3637,7 +3757,6 @@
 }
 
 
-
 /* ======================================================
    GRAPHICS TEXT
 ====================================================== */
@@ -3670,6 +3789,327 @@
 }
 
 
+/* ======================================================
+   VIDEO VIEW
+====================================================== */
+
+.sports-video-view {
+    width: 100%;
+
+    min-height: 160px;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,0.10);
+}
+
+
+.sports-video-placeholder {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    color:
+        rgba(255,255,255,0.32);
+
+    font-size: 10px;
+}
+
+
+.sports-video-placeholder i {
+    font-size: 19px;
+
+    opacity: 0.4;
+}
+
+আর একটা ছোট পরিবর্তন করেছি—আগের 58×58 icon → 42×42 করেছি। তাই পুরো graphics area-টা এখন অনেক বেশি compact দেখাবে।
+
+তোমার চাওয়া layout এখন হবে:
+
+┌──────────────────────────────┐
+│  📈 Graphics     🎥 Video    │
+├──────────────────────────────┤
+│                              │
+│            ◉                 │
+│        LIVE GRAPHICS         │
+│          Cricket             │
+│                              │
+└──────────────────────────────┘
+
+এখানে ◉-টাই ছোট rounded indicator, আর পরে যখন আসল graphics engine বসাবো, ওই জায়গাতেই graphics animation/content বসানো যাবে।
+
+Width একই থাকবে, height প্রায় 30% কম থাকবে।
+
+হ্যাঁ বন্ধু, এখন ঠিক আছে । আর হচ্ছে কি আইকনটা আছে। আইকনটা মনে হচ্ছে যেহেতু তোমার কার্ডে আমরা হাইটটাকে আপডেট করছি । তো এখন আইকনটা ঠিক এই মিডিলে এখনো নাই । মিডিলে আসে নাই । আর হচ্ছে আমাদের কার্ডের যে কর্নারে বন্ধু যেটা রাউন্ডেড করছি । তো যেহেতু আমরা একটা গ্রাফিক্সের একটা বক্স । এখানে আমাদের চতুর্ভুজ কর্নারের রাউন্ডেড দরকার নাই । আর আমি একটা যেটা বলছিলাম, আমাদের যে টোটাল যে কার্ডটা আছে, টোটাল অর্থাৎ কার্ডের ভিতরে চতুর্পাশে তুমি দুই-তিন পিক্সেল একটা রাউন্ডেড জায়গা রেখে জাস্ট ওখানে একটা তুমি যেকোনো একটা কালারের একটা ডট ডট ডট ডট এরকম কিছু দিতে পারতা । যাতে বোঝা যায় যে এটার ভিতরে কোনো গ্রাফিক্স দেখানো যাবে । এরকম চাচ্ছিলাম আরকি ।
+
+হ্যাঁ বন্ধু, এবার একদম পরিষ্কার বুঝেছি। আগেরটা আমি একটু ভুল বুঝেছিলাম। 😄
+
+তুমি আসলে মাঝখানে বড় rounded icon box চাচ্ছো না। তুমি চাচ্ছো:
+
+Graphics/Video card-এর নিজস্ব corner থাকবে খুব সামান্য rounded, প্রায় 2–3px।
+পুরো graphics area-র চারপাশে একটা ছোট dotted/dot pattern থাকবে।
+ওই dots দেখাবে যে এই জায়গাটাই graphics content-এর display area।
+মাঝখানে আলাদা বড় icon box থাকবে না।
+Sport icon থাকলে সেটা একদম true center-এ থাকবে।
+Overall design হবে খুব lightweight
+
+AudioEye
+
+Check Your Website for ADA Issues
+
+See where your site may fall short of ADA and WCAG accessibility expectations.
+
+Ad
+More options
+হ্যাঁ বন্ধু সেটাই । হ্যাঁ বন্ধু তুমি ঠিক বলছো । আমি ঠিক এই জিনিসটাই তোমাকে বলতে চাচ্ছিলাম । যেহেতু আমাদের টোটাল কার্ডটার চতুর্বাসে দু তিন পিক্সেল একটা জায়গা রাখলাম । এবং কার্ডের ভেতরে চতুর্বাসে একটা তোমার ই থাকবে । একটা রাউন্ডেড একটা কালার থাকবে । ঠিক আছে? চিকন একটা কালার থাকবে । ওটার ভেতরে আমাদের ফুল গ্রাফিক্সটা শো করানো হবে । এইটার জন্য । সেইটা দিবা । আর হচ্ছে আইকনটাকে একটু একটা রাখতে হবে । আর চতুর্বাসে কর্নার যে রাউন্ডেড আছে কর্নার রাউন্ডেড আমাদের দরকার নাই ।
+
+হ্যাঁ বন্ধু, এবার ঠিক জায়গাটা ধরেছি। 👍
+
+তাহলে পুরো Graphics/Video card-এর outer corner প্রায় square থাকবে, আর তার ভেতরে 2–3px inset রেখে একটা পাতলা colored rounded border/frame থাকবে। ওই frame-এর ভিতরেই পরে পুরো graphics বসবে। মাঝখানের icon-টাও থাকবে, কিন্তু ছোট এবং একদম center-এ।
+
+আগের Graphics CSS-এর relevant অংশগুলো এইভাবে replace করো:
+
+/* ======================================================
+   MEDIA CARD
+====================================================== */
+
+.sports-media-card {
+    width: 100%;
+
+    margin-top: 12px;
+
+    overflow: hidden;
+
+    border-radius: 3px;
+
+    background:
+        rgba(255,255,255,0.018);
+
+    border: 1px solid
+        rgba(255,255,255,0.055);
+}
+
+
+/* ======================================================
+   MEDIA DISPLAY
+====================================================== */
+
+.sports-media-display {
+    position: relative;
+
+    min-height: 160px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 3px;
+
+    overflow: hidden;
+}
+
+
+/* ======================================================
+   GRAPHICS AREA
+====================================================== */
+
+.sports-graphics-view {
+    position: relative;
+
+    width: 100%;
+    min-height: 154px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid
+        rgba(80,160,255,0.28);
+
+    border-radius: 3px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(80,140,255,0.07),
+            transparent 60%
+        );
+}
+
+
+/* ======================================================
+   INNER GRAPHICS FRAME
+====================================================== */
+
+.sports-graphics-view::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 5px;
+
+    border: 1px dotted
+        rgba(120,180,255,0.25);
+
+    border-radius: 2px;
+
+    pointer-events: none;
+}
+
+
+/* ======================================================
+   LIGHT DOT PATTERN
+====================================================== */
+
+.sports-graphics-view::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    background-image:
+        radial-gradient(
+            rgba(120,180,255,0.28) 1px,
+            transparent 1px
+        );
+
+    background-size: 12px 12px;
+
+    opacity: 0.22;
+
+    pointer-events: none;
+}
+
+
+/* ======================================================
+   CENTER ICON
+====================================================== */
+
+.sports-graphics-icon {
+    position: relative;
+
+    z-index: 3;
+
+    width: auto;
+    height: auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    border: 0;
+
+    box-shadow: none;
+
+    font-size: 25px;
+
+    line-height: 1;
+}
+
+
+/* small rounded graphics indicator */
+
+.sports-graphics-icon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.72);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(255,255,255,0.06);
+}
+
+
+/* ======================================================
+   CENTER PULSE
+====================================================== */
+
+.sports-graphics-pulse {
+    position: absolute;
+
+    z-index: 2;
+
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    border: 1px solid
+        rgba(120,180,255,0.16);
+
+    animation:
+        sportsGraphicsPulse
+        2.8s ease-out
+        infinite;
+}
+
+
+
+/* ======================================================
+   GRAPHICS LABEL
+====================================================== */
+
+.sports-graphics-label {
+    position: absolute;
+
+    z-index: 4;
+
+    bottom: 15px;
+
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    opacity: 0.42;
+}
+
+
+.sports-graphics-sport {
+    position: absolute;
+
+    z-index: 4;
+
+    bottom: 4px;
+
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    opacity: 0.28;
+}
 
 
 
