@@ -43,11 +43,11 @@ export default async function handler(req, res) {
     }
 
 
-    // ==================================================
-    // GET API KEY
-    // ==================================================
-
     try {
+
+        // ==================================================
+        // API KEY
+        // ==================================================
 
         const apiKey =
             process.env.ODDS_API_KEY;
@@ -65,22 +65,88 @@ export default async function handler(req, res) {
 
 
         // ==================================================
-        // CRICKET ODDS API
+        // SPORT KEY
         // ==================================================
 
         const sportKey =
-            "cricket_caribbean_premier_league";
+            String(
+                req.query?.sport ||
+                "cricket_caribbean_premier_league"
+            ).trim();
+
+
+        if (!sportKey) {
+
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Sport key is required."
+            });
+
+        }
+
+
+        // ==================================================
+        // REGIONS
+        // ==================================================
+
+        const regions =
+            String(
+                req.query?.regions ||
+                "uk,eu,au"
+            ).trim();
+
+
+        // ==================================================
+        // MARKETS
+        // ==================================================
+
+        const markets =
+            String(
+                req.query?.markets ||
+                "h2h"
+            ).trim();
+
+
+        // ==================================================
+        // ODDS FORMAT
+        // ==================================================
+
+        const oddsFormat =
+            String(
+                req.query?.oddsFormat ||
+                "decimal"
+            ).trim();
+
+
+        // ==================================================
+        // BUILD API URL
+        // ==================================================
+
+        const params =
+            new URLSearchParams({
+
+                apiKey:
+                    apiKey,
+
+                regions:
+                    regions,
+
+                markets:
+                    markets,
+
+                oddsFormat:
+                    oddsFormat
+
+            });
 
 
         const apiUrl =
-    "https://api.the-odds-api.com/v4/sports/" +
-    sportKey +
-    "/odds" +
-    "?regions=uk,eu,au" +
-    "&markets=h2h" +
-    "&oddsFormat=decimal" +
-    "&apiKey=" +
-    encodeURIComponent(apiKey);
+            "https://api.the-odds-api.com/v4/sports/" +
+            encodeURIComponent(sportKey) +
+            "/odds?" +
+            params.toString();
+
 
         // ==================================================
         // FETCH ODDS
@@ -115,6 +181,9 @@ export default async function handler(req, res) {
 
             success:
                 response.ok,
+
+            sport:
+                sportKey,
 
             data:
                 data
