@@ -1336,26 +1336,30 @@ button[onclick="saveGameSettings()"]{
    FOOTER
 ====================================================== */
 
-#addCricketGameModal
+.sports-game-edit-modal
 .sports-game-edit-footer {
+
+    width: 100%;
 
     display: flex;
 
     align-items: center;
 
-    justify-content: flex-end;
+    justify-content: space-between;
 
     gap: 10px;
 
-    padding: 13px 18px;
+    padding: 11px 16px;
+
+    margin: 0;
 
     background: #fafafa;
 
-    border-top:
-        1px solid rgba(168, 85, 247, 0.10);
+    border-top: 1px solid #e5e7eb;
+
+    box-sizing: border-box;
 
 }
-
 
 /* CANCEL */
 
