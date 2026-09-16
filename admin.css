@@ -3871,11 +3871,13 @@ button:last-child:hover {
 ====================================================== */
 
 .sports-game-edit-modal
-.sports-add-markets-row {
+.sports-edit-markets {
 
     grid-column: 1 / -1;
 
     width: 100%;
+
+    min-width: 0;
 
     margin-top: 5px;
 
@@ -3891,7 +3893,7 @@ button:last-child:hover {
 ====================================================== */
 
 .sports-game-edit-modal
-.sports-add-markets-title {
+.sports-edit-markets h4 {
 
     width: 100%;
 
@@ -3937,20 +3939,22 @@ button:last-child:hover {
 
 
 /* ======================================================
-   MARKET GRID
+   DYNAMIC MARKET GRID
 ====================================================== */
 
 .sports-game-edit-modal
-.sports-add-market-items {
+.sports-edit-markets-list {
 
     width: 100%;
+
+    min-width: 0;
 
     display: grid;
 
     grid-template-columns:
         repeat(
-            auto-fit,
-            minmax(125px, 1fr)
+            3,
+            minmax(0, 1fr)
         );
 
     gap: 6px;
@@ -3965,6 +3969,7 @@ button:last-child:hover {
 ====================================================== */
 
 .sports-game-edit-modal
+.sports-edit-markets-list
 .sports-market-toggle {
 
     width: 100%;
@@ -4007,6 +4012,7 @@ button:last-child:hover {
 
 
 .sports-game-edit-modal
+.sports-edit-markets-list
 .sports-market-toggle:hover {
 
     background: #fffdf7;
@@ -4015,7 +4021,29 @@ button:last-child:hover {
         rgba(234, 179, 8, 0.30);
 
     box-shadow:
-        0 1px 5px rgba(234, 179, 8, 0.07);
+        0 1px 5px
+        rgba(234, 179, 8, 0.07);
+
+}
+
+
+/* ======================================================
+   MARKET NAME
+====================================================== */
+
+.sports-game-edit-modal
+.sports-edit-markets-list
+.sports-market-toggle span {
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 
 }
 
@@ -4025,7 +4053,9 @@ button:last-child:hover {
 ====================================================== */
 
 .sports-game-edit-modal
-.sports-market-toggle input[type="checkbox"] {
+.sports-edit-markets-list
+.sports-market-toggle
+input[type="checkbox"] {
 
     flex: 0 0 auto;
 
@@ -4038,6 +4068,35 @@ button:last-child:hover {
     cursor: pointer;
 
     accent-color: #d4a72c;
+
+}
+
+
+/* ======================================================
+   MARKET LOADING / EMPTY
+====================================================== */
+
+.sports-game-edit-modal
+.sports-edit-markets-list
+.sports-markets-loading,
+
+.sports-game-edit-modal
+.sports-edit-markets-list
+.sports-markets-empty {
+
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    padding: 13px 10px;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    color: #6b7280;
+
+    box-sizing: border-box;
 
 }
 
@@ -4061,11 +4120,57 @@ button:last-child:hover {
 
     padding: 11px 16px;
 
+    margin: 0;
+
     background: #fafafa;
 
     border-top: 1px solid #e5e7eb;
 
     box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   FOOTER LEFT / RIGHT GROUPS
+====================================================== */
+
+.sports-game-edit-modal
+.sports-game-edit-footer > * {
+
+    min-width: 0;
+
+}
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 600px) {
+
+    .sports-game-edit-modal
+    .sports-edit-markets-list {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .sports-game-edit-modal
+    .sports-edit-markets-list {
+
+        grid-template-columns: 1fr;
+
+    }
 
 }
 
