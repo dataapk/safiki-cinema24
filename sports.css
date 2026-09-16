@@ -1808,3 +1808,51 @@
 .bet-slip-toast.toast-info {
     background: #1E88E5;
 }
+
+/* ======================================================
+   CRICKET API SCORE
+====================================================== */
+
+.cricket-api-score-area {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cricket-api-score-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.cricket-api-score-team {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.cricket-api-score-value {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.cricket-api-score-overs {
+    font-size: 11px;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.cricket-api-match-status {
+    margin-top: 7px;
+    font-size: 11px;
+    line-height: 1.4;
+    opacity: 0.75;
+}
+
+/* ======================================================
+   END CRICKET API SCORE
+====================================================== */
