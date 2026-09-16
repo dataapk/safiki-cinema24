@@ -3139,35 +3139,6 @@ async function () {
         );
 
 
-        // ==================================================
-    // SELECTED MASTER MARKETS
-    // ==================================================
-
-    const enabledMarkets = {};
-
-    document
-        .querySelectorAll(
-            "#addSportsMarketsContainer .sports-master-market-checkbox"
-        )
-        .forEach(
-            checkbox => {
-
-                const marketKey =
-                    checkbox.dataset.marketKey;
-
-                if (!marketKey) {
-                    return;
-                }
-
-                enabledMarkets[
-                    marketKey
-                ] =
-                    checkbox.checked;
-
-            }
-        );
-
-
     // ==================================================
     // NEW GAME OBJECT
     // ==================================================
