@@ -626,6 +626,124 @@ function renderCricketApiGames() {
     );
 }
 
+// ======================================================
+// CREATE CRICKET API GAME CARD
+// ======================================================
+
+function createCricketApiGameCard(
+    game,
+    index
+) {
+
+    const gameCard =
+        document.createElement("div");
+
+    gameCard.className =
+        "cricket-api-game-card";
+
+
+    const matchName =
+        game.name ||
+        "Cricket Match";
+
+
+    const status =
+        game.status ||
+        "Status unavailable";
+
+
+    const date =
+        game.date ||
+        "";
+
+
+    const teams =
+        Array.isArray(game.teams)
+            ? game.teams
+            : [];
+
+
+    const homeTeam =
+        teams[0] ||
+        "Home";
+
+
+    const awayTeam =
+        teams[1] ||
+        "Away";
+
+
+    gameCard.innerHTML = `
+
+        <div class="sports-game-card-header">
+
+            <div class="sports-game-status-label">
+
+                API
+
+            </div>
+
+
+            <div class="sports-game-serial">
+
+                #${index + 1}
+
+            </div>
+
+        </div>
+
+
+        <div class="sports-game-card-title">
+
+            ${escapeSportsHtml(matchName)}
+
+        </div>
+
+
+        <div class="sports-game-card-league">
+
+            ${escapeSportsHtml(date)}
+
+        </div>
+
+
+        <div class="sports-game-card-teams">
+
+            <div class="sports-game-team">
+
+                ${escapeSportsHtml(homeTeam)}
+
+            </div>
+
+
+            <div class="sports-game-vs">
+
+                VS
+
+            </div>
+
+
+            <div class="sports-game-team">
+
+                ${escapeSportsHtml(awayTeam)}
+
+            </div>
+
+        </div>
+
+
+        <div class="sports-game-card-league">
+
+            ${escapeSportsHtml(status)}
+
+        </div>
+
+    `;
+
+
+    return gameCard;
+}
+
 // ==========================================
 // LOAD SPORTS GAMES
 // ==========================================
