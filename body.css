@@ -3494,7 +3494,7 @@
 .sports-media-display {
     position: relative;
 
-    min-height: 230px;
+    min-height: 140px;
 
     display: flex;
 
@@ -3513,7 +3513,7 @@
     position: relative;
 
     width: 100%;
-    min-height: 230px;
+    min-height: 140px;
 
     display: flex;
 
@@ -3564,31 +3564,56 @@
 
 /* central icon */
 
+/* ======================================================
+   GRAPHICS PLACEHOLDER DOT
+====================================================== */
+
 .sports-graphics-icon {
     position: relative;
     z-index: 2;
 
-    width: 58px;
-    height: 58px;
+    width: 42px;
+    height: 42px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 16px;
+    border-radius: 13px;
 
     background:
-        rgba(255,255,255,0.055);
+        rgba(255,255,255,0.045);
 
     border: 1px solid
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.07);
 
-    font-size: 28px;
+    font-size: 21px;
 
     box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.12);
+        0 6px 18px
+        rgba(0,0,0,0.10);
+}
+
+
+/* small rounded graphics indicator */
+
+.sports-graphics-icon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.72);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(255,255,255,0.06);
 }
 
 
@@ -3597,13 +3622,13 @@
 .sports-graphics-pulse {
     position: absolute;
 
-    width: 110px;
-    height: 110px;
+    width: 82px;
+    height: 82px;
 
     border-radius: 50%;
 
     border: 1px solid
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.07);
 
     animation:
         sportsGraphicsPulse
@@ -3611,39 +3636,25 @@
         infinite;
 }
 
-@keyframes sportsGraphicsPulse {
 
-    0% {
-        transform: scale(0.65);
-        opacity: 0.55;
-    }
 
-    70% {
-        transform: scale(1);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 0;
-    }
-
-}
-
+/* ======================================================
+   GRAPHICS TEXT
+====================================================== */
 
 .sports-graphics-label {
     position: relative;
     z-index: 2;
 
-    margin-top: 18px;
+    margin-top: 12px;
 
-    font-size: 10px;
+    font-size: 9px;
 
     font-weight: 700;
 
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
 
-    opacity: 0.55;
+    opacity: 0.48;
 }
 
 
@@ -3651,12 +3662,15 @@
     position: relative;
     z-index: 2;
 
-    margin-top: 4px;
+    margin-top: 3px;
 
-    font-size: 11px;
+    font-size: 10px;
 
-    opacity: 0.38;
+    opacity: 0.32;
 }
+
+
+
 
 
 /* ======================================================
@@ -3665,14 +3679,16 @@
 
 .sports-video-view {
     width: 100%;
-    min-height: 230px;
+
+    min-height: 160px;
 
     align-items: center;
     justify-content: center;
 
     background:
-        rgba(0,0,0,0.12);
+        rgba(0,0,0,0.10);
 }
+
 
 .sports-video-placeholder {
     display: flex;
@@ -3682,19 +3698,20 @@
     align-items: center;
     justify-content: center;
 
-    gap: 9px;
+    gap: 7px;
 
-    color: rgba(255,255,255,0.35);
+    color:
+        rgba(255,255,255,0.32);
 
-    font-size: 11px;
+    font-size: 10px;
 }
+
 
 .sports-video-placeholder i {
-    font-size: 22px;
+    font-size: 19px;
 
-    opacity: 0.45;
+    opacity: 0.4;
 }
-
 
 /* ======================================================
    COMPACT SCORE CARD
