@@ -3336,3 +3336,509 @@
   END RECENT WINNERS
 ==================================================*/
 
+/* ======================================================
+   FULL SPORTS GAME HEADER
+====================================================== */
+
+.sports-game-match-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.sports-game-live-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    padding: 4px 9px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: rgba(255, 255, 255, 0.75);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+.sports-game-match-title {
+    margin-top: 8px;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+.sports-game-league {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    opacity: 0.55;
+}
+
+
+/* ======================================================
+   LIVE DOT
+====================================================== */
+
+.sports-game-live-badge .live-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #36d66b;
+
+    box-shadow:
+        0 0 0 3px rgba(54, 214, 107, 0.10);
+}
+
+
+/* ======================================================
+   GRAPHICS / VIDEO CARD
+====================================================== */
+
+.sports-media-card {
+    width: 100%;
+
+    margin-top: 12px;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.055),
+            rgba(255,255,255,0.018)
+        );
+
+    border: 1px solid
+        rgba(255,255,255,0.07);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.12);
+}
+
+
+/* ======================================================
+   MEDIA CONTROLS
+====================================================== */
+
+.sports-media-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    padding: 7px;
+
+    border-bottom: 1px solid
+        rgba(255,255,255,0.06);
+}
+
+.sports-media-control {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-width: 92px;
+
+    padding: 7px 11px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: rgba(255,255,255,0.55);
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.sports-media-control i {
+    font-size: 11px;
+}
+
+.sports-media-control.active {
+    background:
+        rgba(255,255,255,0.08);
+
+    color: #ffffff;
+}
+
+
+/* ======================================================
+   MEDIA DISPLAY
+====================================================== */
+
+.sports-media-display {
+    position: relative;
+
+    min-height: 230px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* ======================================================
+   GRAPHICS VIEW
+====================================================== */
+
+.sports-graphics-view {
+    position: relative;
+
+    width: 100%;
+    min-height: 230px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(80,140,255,0.10),
+            transparent 55%
+        );
+}
+
+
+/* subtle grid */
+
+.sports-graphics-view::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.16;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        32px 32px;
+
+    pointer-events: none;
+}
+
+
+/* central icon */
+
+.sports-graphics-icon {
+    position: relative;
+    z-index: 2;
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,0.055);
+
+    border: 1px solid
+        rgba(255,255,255,0.08);
+
+    font-size: 28px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.12);
+}
+
+
+/* soft pulse */
+
+.sports-graphics-pulse {
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    border-radius: 50%;
+
+    border: 1px solid
+        rgba(255,255,255,0.08);
+
+    animation:
+        sportsGraphicsPulse
+        2.8s ease-out
+        infinite;
+}
+
+@keyframes sportsGraphicsPulse {
+
+    0% {
+        transform: scale(0.65);
+        opacity: 0.55;
+    }
+
+    70% {
+        transform: scale(1);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+
+}
+
+
+.sports-graphics-label {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 18px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    opacity: 0.55;
+}
+
+
+.sports-graphics-sport {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 4px;
+
+    font-size: 11px;
+
+    opacity: 0.38;
+}
+
+
+/* ======================================================
+   VIDEO VIEW
+====================================================== */
+
+.sports-video-view {
+    width: 100%;
+    min-height: 230px;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,0.12);
+}
+
+.sports-video-placeholder {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    color: rgba(255,255,255,0.35);
+
+    font-size: 11px;
+}
+
+.sports-video-placeholder i {
+    font-size: 22px;
+
+    opacity: 0.45;
+}
+
+
+/* ======================================================
+   COMPACT SCORE CARD
+====================================================== */
+
+.sports-full-score-card {
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 11px 13px;
+
+    border-bottom: 1px solid
+        rgba(255,255,255,0.08);
+}
+
+
+/* small score label */
+
+.sports-full-score-header {
+    margin-bottom: 8px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.9px;
+
+    opacity: 0.38;
+}
+
+
+/* score rows */
+
+.sports-full-score-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        auto;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-height: 30px;
+}
+
+
+.sports-full-score-team {
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+
+.sports-full-score-number {
+    font-size: 15px;
+
+    font-weight: 750;
+
+    white-space: nowrap;
+}
+
+
+.sports-full-score-overs {
+    min-width: 42px;
+
+    font-size: 10px;
+
+    opacity: 0.45;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+
+/* match result */
+
+.sports-full-match-result {
+    margin-top: 7px;
+
+    padding-top: 7px;
+
+    border-top: 1px solid
+        rgba(255,255,255,0.045);
+
+    font-size: 10px;
+
+    line-height: 1.4;
+
+    opacity: 0.58;
+}
+
+
+/* empty state */
+
+.sports-full-score-empty {
+    padding: 5px 0;
+
+    font-size: 10px;
+
+    opacity: 0.4;
+}
+
+
+/* ======================================================
+   MATCH BETTING
+====================================================== */
+
+.sports-betting-box {
+    width: 100%;
+
+    margin-top: 14px;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    border: 1px solid
+        rgba(255,255,255,0.06);
+}
+
+
+.sports-betting-title {
+    margin-bottom: 12px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+/* ======================================================
+   enbd FULL SPORTS GAME HEADER
+====================================================== */
