@@ -4421,6 +4421,194 @@ function createAdminSportsCard(
 
             </div>
 
+            // ======================================================
+// LOAD MASTER MARKETS FOR EXPANDABLE SPORTS GAME PANEL
+// ======================================================
+
+async function loadAdminGameMasterMarkets(
+    game
+) {
+
+    const container =
+        document.getElementById(
+            `adminMarketsGrid-${game.game_id}`
+        );
+
+    if (!container) {
+        console.warn(
+            "⚠️ Admin market container not found:",
+            game.game_id
+        );
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="sports-markets-loading">
+            Loading markets...
+        </div>
+    `;
+
+    if (!window.supabaseClient) {
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Supabase connection unavailable.
+            </div>
+        `;
+        return;
+    }
+
+    const sport =
+        String(
+            game.sport || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    if (!sport) {
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No sport selected.
+            </div>
+        `;
+        return;
+    }
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from("sports_markets")
+            .select(
+                "market_key, market_name, enabled, display_order"
+            )
+            .eq(
+                "sport",
+                sport
+            )
+            .order(
+                "display_order",
+                {
+                    ascending: true
+                }
+            );
+
+    if (error) {
+
+        console.error(
+            "❌ Failed to load admin master markets:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Failed to load markets.
+            </div>
+        `;
+
+        return;
+    }
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No markets available.
+            </div>
+        `;
+
+        return;
+    }
+
+    const enabledMarkets =
+        game.enabled_markets &&
+        typeof game.enabled_markets === "object"
+            ? game.enabled_markets
+            : {};
+
+    container.innerHTML =
+        data
+            .map(
+                market => {
+
+                    const marketKey =
+                        String(
+                            market.market_key || ""
+                        )
+                        .trim();
+
+                    const marketName =
+                        String(
+                            market.market_name || ""
+                        )
+                        .trim();
+
+                    if (!marketKey) {
+                        return "";
+                    }
+
+                    const isOn =
+                        enabledMarkets[
+                            marketKey
+                        ] === true;
+
+                    return `
+                        <div
+                            class="admin-market-item">
+
+                            <span>
+                                ${escapeAdminSportsHTML(
+                                    marketName
+                                )}
+                            </span>
+
+                            <button
+                                type="button"
+                                class="${
+                                    isOn
+                                        ? "market-on"
+                                        : "market-off"
+                                }"
+                                onclick="
+                                    toggleAdminMasterMarket(
+                                        '${escapeAdminSportsJS(
+                                            game.game_id
+                                        )}',
+                                        '${escapeAdminSportsJS(
+                                            marketKey
+                                        )}'
+                                    )
+                                "
+                            >
+
+                                ${
+                                    isOn
+                                        ? "ON"
+                                        : "OFF"
+                                }
+
+                            </button>
+
+                        </div>
+                    `;
+                }
+            )
+            .join("");
+
+    console.log(
+        "✅ ADMIN MASTER MARKETS LOADED:",
+        {
+            gameId: game.game_id,
+            sport: sport,
+            markets: data,
+            enabledMarkets: enabledMarkets
+        }
+    );
+}
+
 
             <!-- =========================================
                  EXPANDABLE MARKETS
@@ -4439,115 +4627,18 @@ function createAdminSportsCard(
                 </div>
 
 
-                <div class="admin-markets-grid">
+                <div
+    class="admin-markets-grid"
+    id="adminMarketsGrid-${escapeAdminSportsHTML(
+        game.game_id
+    )}"
+>
 
+    <div class="sports-markets-loading">
+        Loading markets...
+    </div>
 
-                    <!-- TOTAL RUNS -->
-
-                    <div class="admin-market-item">
-
-                        <span>
-                            Total Runs
-                        </span>
-
-
-                        <button
-                            type="button"
-                            class="${
-                                totalRuns
-                                    ? "market-on"
-                                    : "market-off"
-                            }"
-
-                            onclick="
-                                toggleAdminMarket(
-                                    '${escapeAdminSportsJS(
-                                        game.game_id
-                                    )}',
-                                    'total_runs_enabled'
-                                )
-                            "
-                        >
-
-                            ${totalRuns
-                                ? "ON"
-                                : "OFF"}
-
-                        </button>
-
-                    </div>
-
-
-                    <!-- OVER / UNDER -->
-
-                    <div class="admin-market-item">
-
-                        <span>
-                            Over / Under
-                        </span>
-
-
-                        <button
-                            type="button"
-                            class="${
-                                overUnder
-                                    ? "market-on"
-                                    : "market-off"
-                            }"
-
-                            onclick="
-                                toggleAdminMarket(
-                                    '${escapeAdminSportsJS(
-                                        game.game_id
-                                    )}',
-                                    'over_under_enabled'
-                                )
-                            "
-                        >
-
-                            ${overUnder
-                                ? "ON"
-                                : "OFF"}
-
-                        </button>
-
-                    </div>
-
-
-                    <!-- MATCH WINNER -->
-
-                    <div class="admin-market-item">
-
-                        <span>
-                            Match Winner
-                        </span>
-
-
-                        <button
-                            type="button"
-                            class="${
-                                matchWinner
-                                    ? "market-on"
-                                    : "market-off"
-                            }"
-
-                            onclick="
-                                toggleAdminMarket(
-                                    '${escapeAdminSportsJS(
-                                        game.game_id
-                                    )}',
-                                    'match_winner_enabled'
-                                )
-                            "
-                        >
-
-                            ${matchWinner
-                                ? "ON"
-                                : "OFF"}
-
-                        </button>
-
-                    </div>
+</div>
 
 
                 </div>
