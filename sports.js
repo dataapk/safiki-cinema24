@@ -269,6 +269,8 @@ function getSportsContainerId(
 
 }
 
+// এই ফাংশনটি Sport ও Status অনুযায়ী Main UI-এর সঠিক Game Container খুঁজে বের করে।
+// অর্থাৎ Cricket/Football এবং Live/Upcoming/Featured অনুযায়ী যেখানে Game Card দেখাবে, সেই Container নির্ধারণ করে।
 
 // ==========================================
 // GET SPORTS CONTAINER
@@ -535,6 +537,93 @@ function getLiveCricketApiGames() {
     );
 
     return liveGames;
+}
+
+// ======================================================
+// RENDER CRICKET API GAMES
+// ======================================================
+
+function renderCricketApiGames() {
+
+    console.log(
+        "🏏 Rendering Cricket API games..."
+    );
+
+    if (
+        !Array.isArray(cricketApiGames) ||
+        cricketApiGames.length === 0
+    ) {
+
+        console.warn(
+            "⚠️ No Cricket API games available."
+        );
+
+        return;
+    }
+
+
+    // ==========================================
+    // GET CRICKET LIVE CONTAINER
+    // ==========================================
+
+    const container =
+        getSportsGamesContainer(
+            "cricket",
+            "live"
+        );
+
+
+    if (!container) {
+
+        console.error(
+            "❌ Cricket Live container not found."
+        );
+
+        return;
+    }
+
+
+    // ==========================================
+    // CLEAR ONLY API RENDERED GAMES
+    // ==========================================
+
+    container
+        .querySelectorAll(
+            ".cricket-api-game-card"
+        )
+        .forEach(card => {
+            card.remove();
+        });
+
+
+    // ==========================================
+    // CREATE API GAME CARDS
+    // ==========================================
+
+    cricketApiGames.forEach(
+        (game, index) => {
+
+            const card =
+                createCricketApiGameCard(
+                    game,
+                    index
+                );
+
+            if (card) {
+
+                container.appendChild(
+                    card
+                );
+
+            }
+
+        }
+    );
+
+
+    console.log(
+        `🏏 ${cricketApiGames.length} Cricket API game(s) rendered.`
+    );
 }
 
 // ==========================================
