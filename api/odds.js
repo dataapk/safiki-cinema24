@@ -73,15 +73,14 @@ export default async function handler(req, res) {
 
 
         const apiUrl =
-            "https://api.the-odds-api.com/v4/sports/" +
-            sportKey +
-            "/odds" +
-            "?regions=us" +
-            "&markets=h2h" +
-            "&oddsFormat=decimal" +
-            "&apiKey=" +
-            encodeURIComponent(apiKey);
-
+    "https://api.the-odds-api.com/v4/sports/" +
+    sportKey +
+    "/odds" +
+    "?regions=uk,eu,au" +
+    "&markets=h2h" +
+    "&oddsFormat=decimal" +
+    "&apiKey=" +
+    encodeURIComponent(apiKey);
 
         // ==================================================
         // FETCH ODDS
