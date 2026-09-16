@@ -1437,6 +1437,7 @@ if (status === "live") {
 </div>
 
         </div>
+        ${getCricketApiScoreHtml(game)}
 
     `;
     
