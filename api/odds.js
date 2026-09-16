@@ -65,14 +65,27 @@ export default async function handler(req, res) {
 
 
         // ==================================================
-        // THE ODDS API
+        // CRICKET ODDS API
         // ==================================================
 
+        const sportKey =
+            "cricket_caribbean_premier_league";
+
+
         const apiUrl =
-            "https://api.the-odds-api.com/v4/sports" +
-            "?apiKey=" +
+            "https://api.the-odds-api.com/v4/sports/" +
+            sportKey +
+            "/odds" +
+            "?regions=us" +
+            "&markets=h2h" +
+            "&oddsFormat=decimal" +
+            "&apiKey=" +
             encodeURIComponent(apiKey);
 
+
+        // ==================================================
+        // FETCH ODDS
+        // ==================================================
 
         const response =
             await fetch(
@@ -104,7 +117,8 @@ export default async function handler(req, res) {
             success:
                 response.ok,
 
-            data: data
+            data:
+                data
 
         });
 
