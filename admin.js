@@ -2127,8 +2127,9 @@ function setSportsTabVisibility(
 
 }
 
+
 // ======================================================
-// COMMON SPORTS ADD GAME BUTTON
+// COMMON SPORTS ADD GAME BUTTON + API CHECK
 // ======================================================
 
 function ensureSportsAddGameButton(
@@ -2141,7 +2142,6 @@ function ensureSportsAddGameButton(
             sportSectionId
         );
 
-
     if (!section) {
 
         console.error(
@@ -2150,15 +2150,12 @@ function ensureSportsAddGameButton(
         );
 
         return;
-
     }
-
 
     let addGameRow =
         section.querySelector(
             ".sports-add-game-row"
         );
-
 
     if (!addGameRow) {
 
@@ -2167,69 +2164,73 @@ function ensureSportsAddGameButton(
                 "div"
             );
 
-
         addGameRow.className =
             "sports-add-game-row";
 
+        addGameRow.innerHTML = `
 
-      addGameRow.innerHTML = `
+            <!-- MANUAL ADD GAME -->
 
-    <!-- MANUAL ADD GAME -->
+            <button
+                type="button"
+                class="sports-add-game-btn"
+                onclick="
+                    openAddSportsGameModal(
+                        '${escapeAdminSportsJS(
+                            sportName
+                        )}'
+                    )
+                "
+            >
+                ➕ Add New Game
+            </button>
 
-    <button
-        type="button"
-        class="sports-add-game-btn"
-        onclick="
-            openAddSportsGameModal(
-                '${escapeAdminSportsJS(
+
+            <!-- API CHECK -->
+
+            <div
+                class="sports-api-check-box"
+                data-sport="${escapeAdminSportsJS(
                     sportName
-                )}'
-            )
-        "
-    >
-        ➕ Add New Game
-    </button>
+                )}"
+            >
+
+                <input
+                    type="text"
+                    class="sports-api-key-input"
+                    placeholder="Check API"
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+
+                <button
+                    type="button"
+                    class="sports-api-check-btn"
+                    onclick="
+                        openSportsApiCheck(
+                            this
+                        )
+                    "
+                >
+                    Check
+                </button>
+
+            </div>
 
 
-    <!-- TEMPORARY API CHECK -->
+            <!-- API GAME DROPDOWN -->
 
-    <div
-        class="sports-api-check-box"
-        data-sport="${escapeAdminSportsJS(
-            sportName
-        )}"
-    >
+            <div
+                class="sports-api-games-dropdown"
+                style="display:none;"
+            ></div>
 
-        <input
-            type="text"
-            class="sports-api-key-input"
-            placeholder="Check API"
-            autocomplete="off"
-            spellcheck="false"
-        >
-
-        <button
-            type="button"
-            class="sports-api-check-btn"
-            onclick="
-                openSportsApiCheck(
-                    this
-                )
-            "
-        >
-            Check
-        </button>
-
-    </div>
-
-`;
-
+        `;
 
         const title =
             section.querySelector(
                 "h3"
             );
-
 
         if (title) {
 
@@ -2243,12 +2244,905 @@ function ensureSportsAddGameButton(
             section.prepend(
                 addGameRow
             );
-
         }
+    }
+}
 
+// ======================================================
+// SPORTS API CHECK
+// ======================================================
+
+window.openSportsApiCheck =
+async function (button) {
+
+    const apiBox =
+        button.closest(
+            ".sports-api-check-box"
+        );
+
+    if (!apiBox) {
+        return;
     }
 
-}
+    const sport =
+        String(
+            apiBox.dataset.sport || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    if (!sport) {
+
+        console.error(
+            "❌ API CHECK: Sport not found."
+        );
+
+        return;
+    }
+
+    const row =
+        apiBox.closest(
+            ".sports-add-game-row"
+        );
+
+    if (!row) {
+        return;
+    }
+
+    const input =
+        apiBox.querySelector(
+            ".sports-api-key-input"
+        );
+
+    const dropdown =
+        row.querySelector(
+            ".sports-api-games-dropdown"
+        );
+
+    if (!dropdown) {
+        return;
+    }
+
+
+    // ==================================================
+    // SHOW DROPDOWN
+    // ==================================================
+
+    dropdown.style.display =
+        "block";
+
+    dropdown.innerHTML = `
+
+        <div class="sports-api-loading">
+            Checking available games...
+        </div>
+
+    `;
+
+
+    // ==================================================
+    // OPTIONAL TEMPORARY VALUE
+    // ==================================================
+
+    const temporaryApiValue =
+        input
+            ? input.value.trim()
+            : "";
+
+    console.log(
+        "🔎 SPORTS API CHECK:",
+        {
+            sport,
+            temporaryApiValue:
+                temporaryApiValue
+                    ? "[provided]"
+                    : "[empty]"
+        }
+    );
+
+
+    // ==================================================
+    // LOAD AVAILABLE API SPORTS
+    // ==================================================
+
+    try {
+
+        const response =
+            await fetch(
+                "https://safiki-cinema24.vercel.app/api/odds?sports=list"
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "API HTTP " +
+                response.status
+            );
+        }
+
+        const result =
+            await response.json();
+
+        if (
+            !result ||
+            !result.success ||
+            !Array.isArray(
+                result.data
+            )
+        ) {
+
+            throw new Error(
+                "Invalid API response."
+            );
+        }
+
+
+        // ==================================================
+        // FIND SPORTS MATCHING CURRENT CONTROL PANEL
+        // ==================================================
+
+        const matchingSports =
+            result.data.filter(
+                apiSport => {
+
+                    const key =
+                        String(
+                            apiSport.key || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+                    const group =
+                        String(
+                            apiSport.group || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+                    const title =
+                        String(
+                            apiSport.title || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    if (
+                        sport === "football"
+                    ) {
+
+                        return (
+                            key.includes("soccer") ||
+                            group.includes("soccer") ||
+                            title.includes("soccer") ||
+                            title.includes("football")
+                        );
+                    }
+
+
+                    if (
+                        sport === "cricket"
+                    ) {
+
+                        return (
+                            key.includes("cricket") ||
+                            group.includes("cricket") ||
+                            title.includes("cricket")
+                        );
+                    }
+
+
+                    if (
+                        sport === "basketball"
+                    ) {
+
+                        return (
+                            key.includes("basketball") ||
+                            group.includes("basketball") ||
+                            title.includes("basketball")
+                        );
+                    }
+
+
+                    if (
+                        sport === "tennis"
+                    ) {
+
+                        return (
+                            key.includes("tennis") ||
+                            group.includes("tennis") ||
+                            title.includes("tennis")
+                        );
+                    }
+
+
+                    if (
+                        sport === "hockey"
+                    ) {
+
+                        return (
+                            key.includes("hockey") ||
+                            group.includes("hockey") ||
+                            title.includes("hockey")
+                        );
+                    }
+
+
+                    if (
+                        sport === "volleyball"
+                    ) {
+
+                        return (
+                            key.includes("volleyball") ||
+                            group.includes("volleyball") ||
+                            title.includes("volleyball")
+                        );
+                    }
+
+
+                    if (
+                        sport === "boxing"
+                    ) {
+
+                        return (
+                            key.includes("boxing") ||
+                            group.includes("boxing") ||
+                            title.includes("boxing")
+                        );
+                    }
+
+
+                    if (
+                        sport === "rugby"
+                    ) {
+
+                        return (
+                            key.includes("rugby") ||
+                            group.includes("rugby") ||
+                            title.includes("rugby")
+                        );
+                    }
+
+
+                    if (
+                        sport === "golf"
+                    ) {
+
+                        return (
+                            key.includes("golf") ||
+                            group.includes("golf") ||
+                            title.includes("golf")
+                        );
+                    }
+
+
+                    return (
+                        key.includes(sport) ||
+                        group.includes(sport) ||
+                        title.includes(sport)
+                    );
+                }
+            );
+
+
+        // ==================================================
+        // NO SPORTS AVAILABLE
+        // ==================================================
+
+        if (
+            matchingSports.length === 0
+        ) {
+
+            dropdown.innerHTML = `
+
+                <div class="sports-api-empty">
+                    No Games Available
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        // ==================================================
+        // LOAD EVENTS FROM MATCHING SPORTS
+        // ==================================================
+
+        let allEvents = [];
+
+
+        for (
+            const apiSport
+            of matchingSports
+        ) {
+
+            const sportKey =
+                String(
+                    apiSport.key || ""
+                )
+                .trim();
+
+            if (!sportKey) {
+                continue;
+            }
+
+
+            try {
+
+                const eventsResponse =
+                    await fetch(
+                        "https://safiki-cinema24.vercel.app/api/odds?sport=" +
+                        encodeURIComponent(
+                            sportKey
+                        )
+                    );
+
+
+                if (
+                    !eventsResponse.ok
+                ) {
+                    continue;
+                }
+
+
+                const eventsResult =
+                    await eventsResponse.json();
+
+
+                if (
+                    !eventsResult ||
+                    !eventsResult.success ||
+                    !Array.isArray(
+                        eventsResult.data
+                    )
+                ) {
+                    continue;
+                }
+
+
+                eventsResult.data.forEach(
+                    event => {
+
+                        allEvents.push({
+
+                            ...event,
+
+                            api_sport_key:
+                                sportKey,
+
+                            api_sport_title:
+                                apiSport.title ||
+                                sportKey
+
+                        });
+
+                    }
+                );
+
+            } catch (eventError) {
+
+                console.warn(
+                    "⚠️ Failed to load API sport:",
+                    sportKey,
+                    eventError
+                );
+            }
+        }
+
+
+        // ==================================================
+        // NO EVENTS AVAILABLE
+        // ==================================================
+
+        if (
+            allEvents.length === 0
+        ) {
+
+            dropdown.innerHTML = `
+
+                <div class="sports-api-empty">
+                    No Games Available
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        // ==================================================
+        // REMOVE DUPLICATE EVENTS
+        // ==================================================
+
+        const uniqueEvents =
+            Array.from(
+                new Map(
+                    allEvents.map(
+                        event => [
+                            event.id ||
+                            (
+                                event.home_team +
+                                "-" +
+                                event.away_team +
+                                "-" +
+                                event.commence_time
+                            ),
+                            event
+                        ]
+                    )
+                ).values()
+            );
+
+
+        // ==================================================
+        // RENDER API GAME CARDS
+        // ==================================================
+
+        dropdown.innerHTML =
+            uniqueEvents
+                .map(
+                    event => {
+
+                        const eventId =
+                            String(
+                                event.id || ""
+                            );
+
+                        const homeTeam =
+                            String(
+                                event.home_team ||
+                                "Home Team"
+                            );
+
+                        const awayTeam =
+                            String(
+                                event.away_team ||
+                                "Away Team"
+                            );
+
+                        const league =
+                            String(
+                                event.api_sport_title ||
+                                ""
+                            );
+
+
+                        return `
+
+                            <div
+                                class="sports-api-game-card"
+                                data-api-event-id="${escapeAdminSportsHTML(
+                                    eventId
+                                )}"
+                            >
+
+                                <div
+                                    class="sports-api-game-info"
+                                >
+
+                                    <div
+                                        class="sports-api-game-teams"
+                                    >
+                                        ${escapeAdminSportsHTML(
+                                            homeTeam
+                                        )}
+
+                                        <span>
+                                            vs
+                                        </span>
+
+                                        ${escapeAdminSportsHTML(
+                                            awayTeam
+                                        )}
+                                    </div>
+
+                                    <div
+                                        class="sports-api-game-league"
+                                    >
+                                        ${escapeAdminSportsHTML(
+                                            league
+                                        )}
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="sports-api-add-btn"
+                                    onclick="
+                                        addSportsApiGame(
+                                            this
+                                        )
+                                    "
+                                >
+                                    Add
+                                </button>
+
+                            </div>
+
+                        `;
+                    }
+                )
+                .join("");
+
+
+        // ==================================================
+        // STORE EVENTS TEMPORARILY
+        // ==================================================
+
+        dropdown._sportsApiEvents =
+            uniqueEvents;
+
+
+        console.log(
+            "✅ API EVENTS FOUND:",
+            {
+                sport,
+                count:
+                    uniqueEvents.length,
+                events:
+                    uniqueEvents
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ SPORTS API CHECK FAILED:",
+            error
+        );
+
+        dropdown.innerHTML = `
+
+            <div class="sports-api-empty">
+                No Games Available
+            </div>
+
+        `;
+    }
+};
+
+
+// ======================================================
+// ADD SPORTS API GAME DIRECTLY TO SUPABASE
+// ======================================================
+
+window.addSportsApiGame =
+async function (button) {
+
+    const card =
+        button.closest(
+            ".sports-api-game-card"
+        );
+
+    if (!card) {
+        return;
+    }
+
+    const dropdown =
+        card.closest(
+            ".sports-api-games-dropdown"
+        );
+
+    if (!dropdown) {
+        return;
+    }
+
+    const events =
+        dropdown._sportsApiEvents || [];
+
+    const eventId =
+        card.dataset.apiEventId;
+
+    const event =
+        events.find(
+            item =>
+                String(
+                    item.id || ""
+                ) ===
+                String(
+                    eventId
+                )
+        );
+
+    if (!event) {
+
+        alert(
+            "API game data not found."
+        );
+
+        return;
+    }
+
+
+    const row =
+        dropdown.closest(
+            ".sports-add-game-row"
+        );
+
+    const apiBox =
+        row
+            ? row.querySelector(
+                ".sports-api-check-box"
+            )
+            : null;
+
+    const sport =
+        apiBox
+            ? String(
+                apiBox.dataset.sport || ""
+            )
+            .trim()
+            .toLowerCase()
+            : "";
+
+
+    if (!sport) {
+
+        alert(
+            "Unable to determine sport."
+        );
+
+        return;
+    }
+
+
+    // ==================================================
+    // PREVENT DOUBLE CLICK
+    // ==================================================
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Adding...";
+
+
+    // ==================================================
+    // BUILD GAME DATA
+    // ==================================================
+
+    const gameId =
+        "api-" +
+        String(
+            event.id
+        );
+
+
+    const title =
+        String(
+            event.home_team ||
+            "Home Team"
+        ) +
+        " vs " +
+        String(
+            event.away_team ||
+            "Away Team"
+        );
+
+
+    const league =
+        String(
+            event.api_sport_title ||
+            ""
+        );
+
+
+    const newApiGame = {
+
+        game_id:
+            gameId,
+
+        sport:
+            sport,
+
+        title:
+            title,
+
+        league:
+            league,
+
+        // IMPORTANT:
+        // API-added games start DISABLED
+
+        status:
+            "upcoming",
+
+        match_status:
+            "disable",
+
+        home_team:
+            event.home_team ||
+            "",
+
+        away_team:
+            event.away_team ||
+            "",
+
+
+        total_runs_enabled:
+            false,
+
+        over_under_enabled:
+            false,
+
+        match_winner_enabled:
+            false,
+
+
+        // All Master Markets
+        // start OFF
+
+        enabled_markets:
+            {}
+
+    };
+
+
+    console.log(
+        "➕ API GAME TO INSERT:",
+        newApiGame
+    );
+
+
+    // ==================================================
+    // INSERT INTO SUPABASE
+    // ==================================================
+
+    if (
+        !window.supabaseClient
+    ) {
+
+        alert(
+            "Supabase connection unavailable."
+        );
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Add";
+
+        return;
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await window.supabaseClient
+                .from(
+                    "sports_games"
+                )
+                .insert([
+                    newApiGame
+                ])
+                .select()
+                .single();
+
+
+        if (error) {
+
+            // Duplicate game
+            if (
+                error.code ===
+                "23505"
+            ) {
+
+                alert(
+                    "This game has already been added."
+                );
+
+            } else {
+
+                console.error(
+                    "❌ API game insert failed:",
+                    error
+                );
+
+                alert(
+                    "Failed to add API game."
+                );
+            }
+
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Add";
+
+            return;
+        }
+
+
+        console.log(
+            "✅ API GAME ADDED:",
+            data
+        );
+
+
+        // ==================================================
+        // UPDATE ADMIN CACHE
+        // ==================================================
+
+        if (
+            window.adminSportsGames
+        ) {
+
+            window.adminSportsGames[
+                data.game_id
+            ] =
+                data;
+        }
+
+
+        // ==================================================
+        // REFRESH CURRENT ADMIN SPORTS LIST
+        // ==================================================
+
+        if (
+            typeof loadAdminSportsGames ===
+            "function"
+        ) {
+
+            await loadAdminSportsGames(
+                sport
+            );
+
+        } else if (
+            typeof renderAdminSportsGames ===
+            "function"
+        ) {
+
+            renderAdminSportsGames(
+                sport
+            );
+        }
+
+
+        // ==================================================
+        // CHANGE BUTTON STATE
+        // ==================================================
+
+        button.textContent =
+            "Added";
+
+        button.disabled =
+            true;
+
+        card.classList.add(
+            "sports-api-game-added"
+        );
+
+
+        console.log(
+            "🎉 API game successfully added as DISABLED."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ API ADD ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to add API game."
+        );
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Add";
+    }
+};
 
 
 // ======================================================
