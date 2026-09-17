@@ -2947,29 +2947,13 @@ async function addSportsApiGame(button) {
     ============================================================
     */
 
-    if (
-        !apiGame ||
-        !apiGame.id ||
-        !apiGame.home_team ||
-        !apiGame.away_team
-    ) {
+   if (!apiGame) {
 
-        console.error(
-            "❌ ADMIN: Complete API game data not found.",
-            {
-                apiGameId,
-                apiGame
-            }
-        );
+    console.warn(
+        "⚠️ ADMIN: API game not found in cache. Using dropdown card data."
+    );
 
-        alert(
-            "API game data not found."
-        );
-
-        return;
-
-    }
-
+}
 
     /*
     ============================================================
