@@ -2771,158 +2771,286 @@ async function openSportsApiCheck(button) {
 // ADD SPORTS API GAME DIRECTLY TO SUPABASE
 // ======================================================
 
-window.addSportsApiGame =
-async function (button) {
+async function addSportsApiGame(button) {
 
-    const card =
+    console.log(
+        "➕ ADMIN: Adding API Sports Game..."
+    );
+
+
+    /*
+    ============================================================
+        FIND API GAME CARD
+    ============================================================
+    */
+
+    const gameCard =
         button.closest(
             ".sports-api-game-card"
         );
 
-    if (!card) {
-        return;
-    }
 
-    const dropdown =
-        card.closest(
-            ".sports-api-games-dropdown"
+    if (!gameCard) {
+
+        console.error(
+            "❌ ADMIN: API game card not found."
         );
 
-    if (!dropdown) {
         return;
+
     }
 
-    const events =
-        dropdown._sportsApiEvents || [];
 
-    const eventId =
-        card.dataset.apiEventId;
+    /*
+    ============================================================
+        GET API GAME ID
+    ============================================================
+    */
 
-    const event =
-        events.find(
-            item =>
-                String(
-                    item.id || ""
-                ) ===
-                String(
-                    eventId
-                )
+    const encodedGameId =
+        gameCard.dataset.apiGameId || "";
+
+
+    let apiGameId = "";
+
+
+    try {
+
+        apiGameId =
+            decodeURIComponent(
+                encodedGameId
+            );
+
+    } catch (error) {
+
+        apiGameId =
+            encodedGameId;
+
+    }
+
+
+    apiGameId =
+        String(
+            apiGameId || ""
+        ).trim();
+
+
+    if (!apiGameId) {
+
+        console.error(
+            "❌ ADMIN: API game ID missing."
         );
 
-    if (!event) {
+        return;
+
+    }
+
+
+    /*
+    ============================================================
+        GET GAME DATA
+        FROM CURRENT API CHECK RESULT
+    ============================================================
+    */
+
+    const apiGame =
+        window.sportsApiCheckGames &&
+        Array.isArray(
+            window.sportsApiCheckGames
+        )
+            ? window.sportsApiCheckGames.find(
+                game =>
+                    String(
+                        game.id || ""
+                    ) === apiGameId
+            )
+            : null;
+
+
+    /*
+    ============================================================
+        FALLBACK:
+        READ DATA DIRECTLY FROM CARD
+    ============================================================
+    */
+
+    const homeTeam =
+        apiGame?.home_team ||
+        gameCard.querySelector(
+            ".sports-api-game-teams"
+        )?.childNodes?.[0]
+            ?.textContent
+            ?.trim() ||
+        "";
+
+
+    const awayTeam =
+        apiGame?.away_team ||
+        "";
+
+
+    const league =
+        apiGame?.api_sport_title ||
+        gameCard.querySelector(
+            ".sports-api-game-league"
+        )?.textContent
+            ?.trim() ||
+        "";
+
+
+    const status =
+        String(
+            apiGame?.status ||
+            "upcoming"
+        )
+        .trim()
+        .toLowerCase();
+
+
+    /*
+    ============================================================
+        SPORT
+    ============================================================
+    */
+
+    const apiCheckBox =
+        gameCard.closest(
+            ".sports-add-game-row"
+        )?.querySelector(
+            ".sports-api-check-box"
+        );
+
+
+    const sport =
+        String(
+            apiCheckBox?.dataset?.sport ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (!sport) {
+
+        console.error(
+            "❌ ADMIN: Sports category not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    ============================================================
+        VALIDATE API GAME DATA
+    ============================================================
+    */
+
+    if (
+        !apiGame ||
+        !apiGame.id ||
+        !apiGame.home_team ||
+        !apiGame.away_team
+    ) {
+
+        console.error(
+            "❌ ADMIN: Complete API game data not found.",
+            {
+                apiGameId,
+                apiGame
+            }
+        );
 
         alert(
             "API game data not found."
         );
 
         return;
+
     }
 
 
-    const row =
-        dropdown.closest(
-            ".sports-add-game-row"
-        );
+    /*
+    ============================================================
+        PREVENT DOUBLE ADD
+    ============================================================
+    */
 
-    const apiBox =
-        row
-            ? row.querySelector(
-                ".sports-api-check-box"
-            )
-            : null;
-
-    const sport =
-        apiBox
-            ? String(
-                apiBox.dataset.sport || ""
-            )
-            .trim()
-            .toLowerCase()
-            : "";
+    const existingGame =
+        window.adminSportsGames &&
+        window.adminSportsGames[
+            "api-" + apiGameId
+        ];
 
 
-    if (!sport) {
+    if (existingGame) {
 
-        alert(
-            "Unable to determine sport."
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Added";
+
+        gameCard.classList.add(
+            "sports-api-game-added"
         );
 
         return;
+
     }
 
 
-    // ==================================================
-    // PREVENT DOUBLE CLICK
-    // ==================================================
+    /*
+    ============================================================
+        BUILD SPORTS GAME
+        SAME STRUCTURE AS EXISTING SPORTS GAMES
+    ============================================================
+    */
 
-    button.disabled =
-        true;
-
-    button.textContent =
-        "Adding...";
-
-
-    // ==================================================
-    // BUILD GAME DATA
-    // ==================================================
-
-    const gameId =
-        "api-" +
-        String(
-            event.id
-        );
-
-
-    const title =
-        String(
-            event.home_team ||
-            "Home Team"
-        ) +
-        " vs " +
-        String(
-            event.away_team ||
-            "Away Team"
-        );
-
-
-    const league =
-        String(
-            event.api_sport_title ||
-            ""
-        );
-
-
-    const newApiGame = {
+    const newGame = {
 
         game_id:
-            gameId,
+            "api-" +
+            apiGameId,
 
         sport:
             sport,
 
         title:
-            title,
+            `${apiGame.home_team} vs ${apiGame.away_team}`,
 
         league:
             league,
 
-        // IMPORTANT:
-        // API-added games start DISABLED
-
         status:
-            "upcoming",
+            status === "live"
+                ? "live"
+                : "upcoming",
+
+        /*
+        --------------------------------------------------------
+            IMPORTANT:
+            NEW API GAME IS DISABLED INITIALLY
+        --------------------------------------------------------
+        */
 
         match_status:
             "disable",
 
         home_team:
-            event.home_team ||
-            "",
+            apiGame.home_team,
 
         away_team:
-            event.away_team ||
-            "",
+            apiGame.away_team,
 
+
+        /*
+        --------------------------------------------------------
+            OLD MARKET FLAGS
+            KEPT FALSE
+        --------------------------------------------------------
+        */
 
         total_runs_enabled:
             false,
@@ -2934,8 +3062,12 @@ async function (button) {
             false,
 
 
-        // All Master Markets
-        // start OFF
+        /*
+        --------------------------------------------------------
+            MASTER MARKETS
+            START EMPTY
+        --------------------------------------------------------
+        */
 
         enabled_markets:
             {}
@@ -2944,34 +3076,42 @@ async function (button) {
 
 
     console.log(
-        "➕ API GAME TO INSERT:",
-        newApiGame
+        "📦 ADMIN: API game prepared:",
+        newGame
     );
 
 
-    // ==================================================
-    // INSERT INTO SUPABASE
-    // ==================================================
+    /*
+    ============================================================
+        DISABLE BUTTON DURING SAVE
+    ============================================================
+    */
 
-    if (
-        !window.supabaseClient
-    ) {
+    button.disabled =
+        true;
 
-        alert(
-            "Supabase connection unavailable."
-        );
-
-        button.disabled =
-            false;
-
-        button.textContent =
-            "Add";
-
-        return;
-    }
+    button.textContent =
+        "Adding...";
 
 
     try {
+
+        /*
+        ========================================================
+            INSERT INTO EXISTING sports_games
+        ========================================================
+        */
+
+        if (
+            !window.supabaseClient
+        ) {
+
+            throw new Error(
+                "Supabase connection unavailable."
+            );
+
+        }
+
 
         const {
             data,
@@ -2981,131 +3121,151 @@ async function (button) {
                 .from(
                     "sports_games"
                 )
-                .insert([
-                    newApiGame
-                ])
+                .insert(
+                    newGame
+                )
                 .select()
                 .single();
 
 
+        /*
+        ========================================================
+            SUPABASE ERROR
+        ========================================================
+        */
+
         if (error) {
 
-            // Duplicate game
-            if (
-                error.code ===
-                "23505"
-            ) {
+            console.error(
+                "❌ ADMIN: Failed to add API game:",
+                error
+            );
 
-                alert(
-                    "This game has already been added."
-                );
+            throw error;
 
-            } else {
-
-                console.error(
-                    "❌ API game insert failed:",
-                    error
-                );
-
-                alert(
-                    "Failed to add API game."
-                );
-            }
-
-
-            button.disabled =
-                false;
-
-            button.textContent =
-                "Add";
-
-            return;
         }
+
+
+        /*
+        ========================================================
+            USE SAVED SUPABASE ROW
+        ========================================================
+        */
+
+        const savedGame =
+            data ||
+            newGame;
 
 
         console.log(
-            "✅ API GAME ADDED:",
-            data
+            "✅ ADMIN: API game added to sports_games:",
+            savedGame
         );
 
 
-        // ==================================================
-        // UPDATE ADMIN CACHE
-        // ==================================================
+        /*
+        ========================================================
+            UPDATE EXISTING ADMIN CACHE
+        ========================================================
+        */
 
         if (
-            window.adminSportsGames
+            !window.adminSportsGames
         ) {
 
-            window.adminSportsGames[
-                data.game_id
-            ] =
-                data;
+            window.adminSportsGames =
+                {};
+
         }
 
 
-        // ==================================================
-        // REFRESH CURRENT ADMIN SPORTS LIST
-        // ==================================================
-
-        if (
-            typeof loadAdminSportsGames ===
-            "function"
-        ) {
-
-            await loadAdminSportsGames(
-                sport
-            );
-
-        } else if (
-            typeof renderAdminSportsGames ===
-            "function"
-        ) {
-
-            renderAdminSportsGames(
-                sport
-            );
-        }
+        window.adminSportsGames[
+            savedGame.game_id
+        ] =
+            savedGame;
 
 
-        // ==================================================
-        // CHANGE BUTTON STATE
-        // ==================================================
+        /*
+        ========================================================
+            UPDATE EXISTING ADMIN LOADED STATE
+        ========================================================
+        */
 
-        button.textContent =
-            "Added";
-
-        button.disabled =
+        window.adminSportsGamesLoaded =
             true;
 
-        card.classList.add(
+
+        /*
+        ========================================================
+            REFRESH EXISTING ADMIN GAME LIST
+        ========================================================
+        */
+
+        if (
+            typeof renderAllAdminSportsGames ===
+            "function"
+        ) {
+
+            renderAllAdminSportsGames();
+
+        }
+
+
+        /*
+        ========================================================
+            MARK API RESULT AS ADDED
+        ========================================================
+        */
+
+        gameCard.classList.add(
             "sports-api-game-added"
         );
 
 
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Added";
+
+
+        /*
+        ========================================================
+            OPTIONAL DATA ATTRIBUTE
+        ========================================================
+        */
+
+        gameCard.dataset.addedGameId =
+            savedGame.game_id;
+
+
         console.log(
-            "🎉 API game successfully added as DISABLED."
+            "✅ ADMIN: API game successfully added and admin list refreshed."
         );
+
 
     } catch (error) {
 
         console.error(
-            "❌ API ADD ERROR:",
+            "❌ ADMIN: Add API game failed:",
             error
         );
 
-        alert(
-            "Failed to add API game."
-        );
 
         button.disabled =
             false;
 
         button.textContent =
             "Add";
-    }
-};
 
+
+        alert(
+            "Failed to add game."
+        );
+
+    }
+
+}
 
 // ======================================================
 // COMMON ADD SPORTS GAME MODAL
