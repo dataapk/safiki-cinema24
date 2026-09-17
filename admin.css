@@ -5539,8 +5539,8 @@ input[type="checkbox"] {
 
     height: 100%;
 
-     padding-top: -5;
-    padding-bottom: 5px;
+     padding-top: 0;
+    padding-bottom: 12px;
 
     border: none;
     outline: none;
@@ -5555,6 +5555,8 @@ input[type="checkbox"] {
     line-height: 34px;
 
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
 }
 
 .sports-api-key-input::placeholder {
