@@ -5477,21 +5477,6 @@ input[type="checkbox"] {
 
 }
 
-/* ======================================================
-   SPORTS ADD GAME + API CHECK
-====================================================== */
-
-.sports-add-game-row {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 7px;
-    margin: 10px 0 12px 0;
-    box-sizing: border-box;
-}
-
-
 
 
 
@@ -5576,10 +5561,10 @@ input[type="checkbox"] {
     border-left: 1px solid #eee4bd;
 
     background: #fff8dc;
-    color: #8a6800;
+    color: #0bbcbf;
 
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 900;
 
     cursor: pointer;
 
@@ -5590,10 +5575,6 @@ input[type="checkbox"] {
         color .2s ease;
 }
 
-.sports-api-check-btn:hover {
-    background: #ffefad;
-    color: #5f4600;
-}
 
 
 /* ======================================================
