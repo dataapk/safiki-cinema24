@@ -5714,3 +5714,45 @@ input[type="checkbox"] {
 .sports-api-game-added {
     opacity: 0.55;
 }
+.sports-api-game-meta {
+    margin-top: 3px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    min-width: 0;
+}
+
+
+.sports-api-game-league {
+    font-size: 9px;
+    color: #9ca3af;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.sports-api-status {
+    flex: 0 0 auto;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+.sports-api-status-live {
+    color: #b42318;
+}
+
+
+.sports-api-status-upcoming {
+    color: #8a6800;
+}
