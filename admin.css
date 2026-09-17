@@ -5492,45 +5492,7 @@ input[type="checkbox"] {
 }
 
 
-/* ======================================================
-   MANUAL ADD GAME BUTTON
-====================================================== */
 
-.sports-add-game-btn {
-    height: 34px;
-    padding: 0 13px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-
-    border: 1px solid #e5e7eb;
-    border-radius: 7px;
-
-    background: #ffffff;
-    color: #374151;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    box-sizing: border-box;
-
-    transition:
-        background .2s ease,
-        border-color .2s ease,
-        color .2s ease,
-        box-shadow .2s ease;
-}
-
-.sports-add-game-btn:hover {
-    background: #fffdf7;
-    border-color: #e5d18a;
-    color: #5f4600;
-    box-shadow:
-        0 2px 7px rgba(0, 0, 0, 0.05);
-}
 
 
 /* ======================================================
