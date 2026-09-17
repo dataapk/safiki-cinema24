@@ -2172,38 +2172,57 @@ function ensureSportsAddGameButton(
             "sports-add-game-row";
 
 
-        addGameRow.innerHTML = `
+      addGameRow.innerHTML = `
 
-            <button
-                type="button"
-                class="sports-add-game-btn"
-                onclick="
-                    openAddSportsGameModal(
-                        '${escapeAdminSportsJS(
-                            sportName
-                        )}'
-                    )
-                "
-            >
-                ➕ Add New Game
-            </button>
+    <!-- MANUAL ADD GAME -->
+
+    <button
+        type="button"
+        class="sports-add-game-btn"
+        onclick="
+            openAddSportsGameModal(
+                '${escapeAdminSportsJS(
+                    sportName
+                )}'
+            )
+        "
+    >
+        ➕ Add New Game
+    </button>
 
 
-            <button
-                type="button"
-                class="sports-api-check-btn"
-                onclick="
-                    openSportsApiCheck(
-                        '${escapeAdminSportsJS(
-                            sportName
-                        )}'
-                    )
-                "
-            >
-                🔍 Check API
-            </button>
+    <!-- TEMPORARY API CHECK -->
 
-        `;
+    <div
+        class="sports-api-check-box"
+        data-sport="${escapeAdminSportsJS(
+            sportName
+        )}"
+    >
+
+        <input
+            type="text"
+            class="sports-api-key-input"
+            placeholder="Check API"
+            autocomplete="off"
+            spellcheck="false"
+        >
+
+        <button
+            type="button"
+            class="sports-api-check-btn"
+            onclick="
+                openSportsApiCheck(
+                    this
+                )
+            "
+        >
+            Check
+        </button>
+
+    </div>
+
+`;
 
 
         const title =
