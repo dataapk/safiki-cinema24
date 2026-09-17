@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
     res.setHeader(
         "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS"
+        "GET, OPTIONS"
     );
 
     res.setHeader(
@@ -21,469 +21,23 @@ export default async function handler(req, res) {
     }
 
 
-    /*
-    ======================================================
-        POST
-        TEMPORARY API KEY CHECK
-    ======================================================
-    */
-
-    if (req.method === "POST") {
-
-        try {
-
-            const body =
-                req.body || {};
-
-            const temporaryApiKey =
-                String(
-                    body.apiKey || ""
-                ).trim();
-
-            const sportKey =
-                String(
-                    body.sport || ""
-                ).trim();
-
-            if (!temporaryApiKey) {
-
-                return res.status(400).json({
-                    success: false,
-                    error:
-                        "API key is required."
-                });
-            }
-
-
-            if (!sportKey) {
-
-                return res.status(400).json({
-                    success: false,
-                    error:
-                        "Sport key is required."
-                });
-            }
-
-
-            /*
-            ==================================================
-                1. GET EVENTS
-
-                This endpoint gives in-play and pre-match
-                events without spending an odds request.
-            ==================================================
-            */
-
-            const eventsUrl =
-                "https://api.the-odds-api.com/v4/sports/" +
-                encodeURIComponent(
-                    sportKey
-                ) +
-                "/events?apiKey=" +
-                encodeURIComponent(
-                    temporaryApiKey
-                );
-
-
-            const eventsResponse =
-                await fetch(
-                    eventsUrl,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Accept":
-                                "application/json",
-                            "User-Agent":
-                                "SportsWebsite/1.0"
-                        }
-                    }
-                );
-
-
-            const eventsData =
-                await eventsResponse.json();
-
-
-            if (!eventsResponse.ok) {
-
-                return res.status(
-                    eventsResponse.status
-                ).json({
-
-                    success: false,
-
-                    error:
-                        eventsData?.message ||
-                        eventsData?.error ||
-                        "API request failed."
-
-                });
-
-            }
-
-
-            /*
-            ==================================================
-                2. GET LIVE / RECENT SCORE STATUS
-
-                daysFrom is NOT used here.
-
-                Therefore completed historical games are
-                not requested.
-
-                Live + upcoming only.
-            ==================================================
-            */
-
-            const scoresUrl =
-                "https://api.the-odds-api.com/v4/sports/" +
-                encodeURIComponent(
-                    sportKey
-                ) +
-                "/scores?apiKey=" +
-                encodeURIComponent(
-                    temporaryApiKey
-                );
-
-
-            const scoresResponse =
-                await fetch(
-                    scoresUrl,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Accept":
-                                "application/json",
-                            "User-Agent":
-                                "SportsWebsite/1.0"
-                        }
-                    }
-                );
-
-
-            let scoresData = [];
-
-
-            if (scoresResponse.ok) {
-
-                const scoreJson =
-                    await scoresResponse.json();
-
-                scoresData =
-                    Array.isArray(
-                        scoreJson
-                    )
-                        ? scoreJson
-                        : [];
-
-            }
-
-
-            /*
-            ==================================================
-                3. CREATE SCORE LOOKUP
-            ==================================================
-            */
-
-            const scoreMap =
-                new Map();
-
-
-            scoresData.forEach(
-                scoreGame => {
-
-                    if (
-                        scoreGame &&
-                        scoreGame.id
-                    ) {
-
-                        scoreMap.set(
-                            String(
-                                scoreGame.id
-                            ),
-                            scoreGame
-                        );
-
-                    }
-
-                }
-            );
-
-
-            /*
-            ==================================================
-                4. NORMALIZE ONLY NON-COMPLETED EVENTS
-            ==================================================
-            */
-
-            const now =
-                Date.now();
-
-
-            const games =
-                (
-                    Array.isArray(
-                        eventsData
-                    )
-                        ? eventsData
-                        : []
-                )
-                .map(
-                    event => {
-
-                        if (!event) {
-                            return null;
-                        }
-
-
-                        const eventId =
-                            String(
-                                event.id || ""
-                            );
-
-
-                        if (!eventId) {
-                            return null;
-                        }
-
-
-                        const scoreGame =
-                            scoreMap.get(
-                                eventId
-                            );
-
-
-                        /*
-                        --------------------------------------
-                            COMPLETED CHECK
-                        --------------------------------------
-                        */
-
-                        if (
-                            scoreGame &&
-                            scoreGame.completed === true
-                        ) {
-
-                            return null;
-
-                        }
-
-
-                        const commenceTime =
-                            event.commence_time
-                                ? new Date(
-                                    event.commence_time
-                                ).getTime()
-                                : 0;
-
-
-                        /*
-                        --------------------------------------
-                            STATUS
-                        --------------------------------------
-                        */
-
-                        let status =
-                            "upcoming";
-
-
-                        /*
-                            If provider score data says
-                            completed=false and the match
-                            has already started, treat it
-                            as LIVE.
-                        */
-
-                        if (
-                            scoreGame &&
-                            scoreGame.completed === false &&
-                            commenceTime <= now
-                        ) {
-
-                            status =
-                                "live";
-
-                        }
-
-
-                        /*
-                            If event has already started but
-                            score endpoint didn't return it,
-                            don't incorrectly call it LIVE.
-
-                            Keep it out rather than showing
-                            a potentially completed match.
-                        */
-
-                        if (
-                            commenceTime &&
-                            commenceTime <= now &&
-                            !scoreGame
-                        ) {
-
-                            return null;
-
-                        }
-
-
-                        return {
-
-                            id:
-                                eventId,
-
-                            sport_key:
-                                event.sport_key ||
-                                sportKey,
-
-                            sport_title:
-                                event.sport_title ||
-                                "",
-
-                            commence_time:
-                                event.commence_time ||
-                                null,
-
-                            home_team:
-                                event.home_team ||
-                                "",
-
-                            away_team:
-                                event.away_team ||
-                                "",
-
-                            status:
-                                status,
-
-                            completed:
-                                scoreGame
-                                    ? Boolean(
-                                        scoreGame.completed
-                                    )
-                                    : false,
-
-                            scores:
-                                scoreGame
-                                    ? (
-                                        scoreGame.scores ||
-                                        null
-                                    )
-                                    : null
-
-                        };
-
-                    }
-                )
-                .filter(
-                    Boolean
-                );
-
-
-            /*
-            ==================================================
-                5. SORT
-                LIVE FIRST
-                THEN UPCOMING BY TIME
-            ==================================================
-            */
-
-            games.sort(
-                (a, b) => {
-
-                    if (
-                        a.status === "live" &&
-                        b.status !== "live"
-                    ) {
-                        return -1;
-                    }
-
-                    if (
-                        a.status !== "live" &&
-                        b.status === "live"
-                    ) {
-                        return 1;
-                    }
-
-
-                    const timeA =
-                        new Date(
-                            a.commence_time || 0
-                        ).getTime();
-
-
-                    const timeB =
-                        new Date(
-                            b.commence_time || 0
-                        ).getTime();
-
-
-                    return timeA - timeB;
-
-                }
-            );
-
-
-            /*
-            ==================================================
-                FINAL RESPONSE
-
-                IMPORTANT:
-                temporaryApiKey is NEVER returned.
-            ==================================================
-            */
-
-            return res.status(200).json({
-
-                success: true,
-
-                sport:
-                    sportKey,
-
-                games:
-                    games
-
-            });
-
-
-        } catch (error) {
-
-            console.error(
-                "Temporary Sports API check error:",
-                error
-            );
-
-
-            return res.status(500).json({
-
-                success: false,
-
-                error:
-                    "Unable to check API."
-
-            });
-
-        }
-
-    }
-
-
-    /*
-    ======================================================
-        EXISTING GET FLOW
-        KEEPING YOUR CURRENT VERCEL API
-    ======================================================
-    */
-
     if (req.method !== "GET") {
-
         return res.status(405).json({
             success: false,
             error: "Method not allowed."
         });
-
     }
 
 
     try {
+
+        /*
+        ==================================================
+            SECRET API KEY
+
+            ONLY VERCEL ENVIRONMENT VARIABLE
+        ==================================================
+        */
 
         const apiKey =
             process.env.ODDS_API_KEY;
@@ -500,122 +54,149 @@ export default async function handler(req, res) {
         }
 
 
-        if (
-            req.query?.sports === "list"
-        ) {
+        /*
+        ==================================================
+            ADMIN REQUEST
 
-            const apiUrl =
-                "https://api.the-odds-api.com/v4/sports" +
-                "?apiKey=" +
-                encodeURIComponent(
-                    apiKey
-                ) +
-                "&all=true";
+            Example:
 
+            /api/odds?check=1&sport=cricket
+        ==================================================
+        */
 
-            const response =
-                await fetch(
-                    apiUrl,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Accept":
-                                "application/json",
-                            "User-Agent":
-                                "SportsWebsite/1.0"
-                        }
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            return res.status(
-                response.status
-            ).json({
-
-                success:
-                    response.ok,
-
-                data:
-                    data
-
-            });
-
-        }
-
-
-        const sportKey =
+        const check =
             String(
-                req.query?.sport ||
-                "cricket_caribbean_premier_league"
-            ).trim();
+                req.query?.check || ""
+            )
+            .trim()
+            .toLowerCase();
 
 
-        if (!sportKey) {
+        const requestedSport =
+            String(
+                req.query?.sport || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        if (
+            check !== "1" ||
+            !requestedSport
+        ) {
 
             return res.status(400).json({
                 success: false,
                 error:
-                    "Sport key is required."
+                    "Sport check request is required."
             });
 
         }
 
 
-        const regions =
-            String(
-                req.query?.regions ||
-                "uk,eu,au"
-            ).trim();
+        /*
+        ==================================================
+            SPORT FAMILY MATCHING
+
+            ADMIN SENDS ONLY:
+
+                cricket
+                football
+                basketball
+                tennis
+                hockey
+                etc.
+
+            WE NEVER SEND "cricket" DIRECTLY TO
+            THE ODDS API.
+
+            WE FIRST DISCOVER THE REAL SPORT KEYS.
+        ==================================================
+        */
+
+        const sportPrefixes = {
+
+            cricket:
+                ["cricket_"],
+
+            football:
+                ["soccer_"],
+
+            soccer:
+                ["soccer_"],
+
+            basketball:
+                ["basketball_"],
+
+            tennis:
+                ["tennis_"],
+
+            hockey:
+                ["icehockey_"],
+
+            icehockey:
+                ["icehockey_"],
+
+            rugby:
+                ["rugby_"],
+
+            golf:
+                ["golf_"],
+
+            baseball:
+                ["baseball_"],
+
+            boxing:
+                ["boxing_"],
+
+            mma:
+                ["mma_"],
+
+            aussie_rules:
+                ["aussierules_"],
+
+            american_football:
+                ["americanfootball_"]
+
+        };
 
 
-        const markets =
-            String(
-                req.query?.markets ||
-                "h2h"
-            ).trim();
+        const prefixes =
+            sportPrefixes[
+                requestedSport
+            ] || [];
 
 
-        const oddsFormat =
-            String(
-                req.query?.oddsFormat ||
-                "decimal"
-            ).trim();
+        if (
+            prefixes.length === 0
+        ) {
 
-
-        const params =
-            new URLSearchParams({
-
-                apiKey:
-                    apiKey,
-
-                regions:
-                    regions,
-
-                markets:
-                    markets,
-
-                oddsFormat:
-                    oddsFormat
-
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Unsupported sport."
             });
 
+        }
 
-        const apiUrl =
-            "https://api.the-odds-api.com/v4/sports/" +
+
+        /*
+        ==================================================
+            GET REAL SPORT LIST
+        ==================================================
+        */
+
+        const sportsUrl =
+            "https://api.the-odds-api.com/v4/sports" +
+            "?apiKey=" +
             encodeURIComponent(
-                sportKey
-            ) +
-            "/odds?" +
-            params.toString();
+                apiKey
+            );
 
 
-        const response =
+        const sportsResponse =
             await fetch(
-                apiUrl,
+                sportsUrl,
                 {
                     method: "GET",
                     headers: {
@@ -628,27 +209,560 @@ export default async function handler(req, res) {
             );
 
 
-        const data =
-            await response.json();
+        const sportsData =
+            await sportsResponse.json();
 
 
-        return res.status(
-            response.status
-        ).json({
+        if (
+            !sportsResponse.ok
+        ) {
 
-            success:
-                response.ok,
+            return res.status(
+                sportsResponse.status
+            ).json({
+
+                success: false,
+
+                error:
+                    sportsData?.message ||
+                    sportsData?.error ||
+                    "Unable to load sports."
+
+            });
+
+        }
+
+
+        /*
+        ==================================================
+            ONLY ACTIVE / IN-SEASON SPORT KEYS
+        ==================================================
+        */
+
+        const matchingSports =
+            (
+                Array.isArray(
+                    sportsData
+                )
+                    ? sportsData
+                    : []
+            )
+            .filter(
+                sport => {
+
+                    const key =
+                        String(
+                            sport.key || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    const active =
+                        sport.active !== false;
+
+
+                    const prefixMatch =
+                        prefixes.some(
+                            prefix =>
+                                key.startsWith(
+                                    prefix
+                                )
+                        );
+
+
+                    return (
+                        active &&
+                        prefixMatch
+                    );
+
+                }
+            );
+
+
+        /*
+        ==================================================
+            NO ACTIVE COMPETITIONS
+        ==================================================
+        */
+
+        if (
+            matchingSports.length === 0
+        ) {
+
+            return res.status(200).json({
+
+                success: true,
+
+                sport:
+                    requestedSport,
+
+                games: [],
+
+                sports: []
+
+            });
+
+        }
+
+
+        /*
+        ==================================================
+            GET EVENTS
+
+            /events DOES NOT COUNT AGAINST QUOTA
+        ==================================================
+        */
+
+        const eventResults =
+            await Promise.all(
+                matchingSports.map(
+                    async sport => {
+
+                        try {
+
+                            const eventsUrl =
+                                "https://api.the-odds-api.com/v4/sports/" +
+                                encodeURIComponent(
+                                    sport.key
+                                ) +
+                                "/events?apiKey=" +
+                                encodeURIComponent(
+                                    apiKey
+                                );
+
+
+                            const response =
+                                await fetch(
+                                    eventsUrl,
+                                    {
+                                        method: "GET",
+                                        headers: {
+                                            "Accept":
+                                                "application/json",
+                                            "User-Agent":
+                                                "SportsWebsite/1.0"
+                                        }
+                                    }
+                                );
+
+
+                            if (
+                                !response.ok
+                            ) {
+
+                                return [];
+
+                            }
+
+
+                            const data =
+                                await response.json();
+
+
+                            if (
+                                !Array.isArray(
+                                    data
+                                )
+                            ) {
+
+                                return [];
+
+                            }
+
+
+                            return data.map(
+                                event => ({
+
+                                    id:
+                                        event.id,
+
+                                    sport_key:
+                                        sport.key,
+
+                                    sport_title:
+                                        sport.title ||
+                                        event.sport_title ||
+                                        "",
+
+                                    commence_time:
+                                        event.commence_time ||
+                                        null,
+
+                                    home_team:
+                                        event.home_team ||
+                                        "",
+
+                                    away_team:
+                                        event.away_team ||
+                                        ""
+
+                                })
+                            );
+
+                        } catch (
+                            error
+                        ) {
+
+                            console.error(
+                                "Event request failed:",
+                                sport.key
+                            );
+
+                            return [];
+
+                        }
+
+                    }
+                )
+            );
+
+
+        let games =
+            eventResults.flat();
+
+
+        /*
+        ==================================================
+            REMOVE DUPLICATES
+        ==================================================
+        */
+
+        const uniqueGames =
+            new Map();
+
+
+        games.forEach(
+            game => {
+
+                if (
+                    game &&
+                    game.id
+                ) {
+
+                    uniqueGames.set(
+                        String(
+                            game.id
+                        ),
+                        game
+                    );
+
+                }
+
+            }
+        );
+
+
+        games =
+            Array.from(
+                uniqueGames.values()
+            );
+
+
+        /*
+        ==================================================
+            GET LIVE STATUS
+
+            scores WITHOUT daysFrom
+            = live + upcoming
+
+            Cost = 1 request credit per sport.
+        ==================================================
+        */
+
+        const scoreResults =
+            await Promise.all(
+                matchingSports.map(
+                    async sport => {
+
+                        try {
+
+                            const scoresUrl =
+                                "https://api.the-odds-api.com/v4/sports/" +
+                                encodeURIComponent(
+                                    sport.key
+                                ) +
+                                "/scores?apiKey=" +
+                                encodeURIComponent(
+                                    apiKey
+                                );
+
+
+                            const response =
+                                await fetch(
+                                    scoresUrl,
+                                    {
+                                        method: "GET",
+                                        headers: {
+                                            "Accept":
+                                                "application/json",
+                                            "User-Agent":
+                                                "SportsWebsite/1.0"
+                                        }
+                                    }
+                                );
+
+
+                            if (
+                                !response.ok
+                            ) {
+
+                                return [];
+
+                            }
+
+
+                            const data =
+                                await response.json();
+
+
+                            return Array.isArray(
+                                data
+                            )
+                                ? data
+                                : [];
+
+                        } catch (
+                            error
+                        ) {
+
+                            console.error(
+                                "Score request failed:",
+                                sport.key
+                            );
+
+                            return [];
+
+                        }
+
+                    }
+                )
+            );
+
+
+        const scoreMap =
+            new Map();
+
+
+        scoreResults
+            .flat()
+            .forEach(
+                score => {
+
+                    if (
+                        score &&
+                        score.id
+                    ) {
+
+                        scoreMap.set(
+                            String(
+                                score.id
+                            ),
+                            score
+                        );
+
+                    }
+
+                }
+            );
+
+
+        /*
+        ==================================================
+            BUILD LIVE / UPCOMING STATUS
+        ==================================================
+        */
+
+        const now =
+            Date.now();
+
+
+        games =
+            games
+                .map(
+                    game => {
+
+                        const score =
+                            scoreMap.get(
+                                String(
+                                    game.id
+                                )
+                            );
+
+
+                        /*
+                        ----------------------------------
+                            COMPLETED
+                        ----------------------------------
+                        */
+
+                        if (
+                            score &&
+                            score.completed === true
+                        ) {
+
+                            return null;
+
+                        }
+
+
+                        const startTime =
+                            game.commence_time
+                                ? new Date(
+                                    game.commence_time
+                                ).getTime()
+                                : 0;
+
+
+                        let status =
+                            "upcoming";
+
+
+                        /*
+                        ----------------------------------
+                            LIVE
+                        ----------------------------------
+                        */
+
+                        if (
+                            score &&
+                            score.completed === false &&
+                            startTime <= now
+                        ) {
+
+                            status =
+                                "live";
+
+                        }
+
+
+                        /*
+                        ----------------------------------
+                            SAFETY FILTER
+
+                            Started event without score
+                            confirmation is not shown.
+                        ----------------------------------
+                        */
+
+                        if (
+                            startTime &&
+                            startTime <= now &&
+                            !score
+                        ) {
+
+                            return null;
+
+                        }
+
+
+                        return {
+
+                            ...game,
+
+                            status:
+                                status,
+
+                            completed:
+                                false,
+
+                            scores:
+                                score?.scores ||
+                                null
+
+                        };
+
+                    }
+                )
+                .filter(
+                    Boolean
+                );
+
+
+        /*
+        ==================================================
+            SORT
+
+            LIVE FIRST
+            UPCOMING AFTER THAT
+        ==================================================
+        */
+
+        games.sort(
+            (a, b) => {
+
+                if (
+                    a.status === "live" &&
+                    b.status !== "live"
+                ) {
+
+                    return -1;
+
+                }
+
+
+                if (
+                    a.status !== "live" &&
+                    b.status === "live"
+                ) {
+
+                    return 1;
+
+                }
+
+
+                return (
+                    new Date(
+                        a.commence_time || 0
+                    ).getTime()
+                    -
+                    new Date(
+                        b.commence_time || 0
+                    ).getTime()
+                );
+
+            }
+        );
+
+
+        /*
+        ==================================================
+            RESPONSE
+
+            API KEY IS NEVER INCLUDED
+        ==================================================
+        */
+
+        return res.status(200).json({
+
+            success: true,
 
             sport:
-                sportKey,
+                requestedSport,
 
-            data:
-                data
+            sports:
+                matchingSports.map(
+                    sport => ({
+                        key:
+                            sport.key,
+
+                        title:
+                            sport.title,
+
+                        group:
+                            sport.group
+                    })
+                ),
+
+            games:
+                games
 
         });
 
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
         console.error(
             "Odds API relay error:",
@@ -661,7 +775,7 @@ export default async function handler(req, res) {
             success: false,
 
             error:
-                String(error)
+                "Unable to check sports API."
 
         });
 
