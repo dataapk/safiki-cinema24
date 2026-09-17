@@ -2127,7 +2127,6 @@ function setSportsTabVisibility(
 
 }
 
-
 // ======================================================
 // COMMON SPORTS ADD GAME BUTTON
 // ======================================================
@@ -2187,6 +2186,21 @@ function ensureSportsAddGameButton(
                 "
             >
                 ➕ Add New Game
+            </button>
+
+
+            <button
+                type="button"
+                class="sports-api-check-btn"
+                onclick="
+                    openSportsApiCheck(
+                        '${escapeAdminSportsJS(
+                            sportName
+                        )}'
+                    )
+                "
+            >
+                🔍 Check API
             </button>
 
         `;
