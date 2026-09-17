@@ -2252,26 +2252,87 @@ function ensureSportsAddGameButton(
 // SPORTS API CHECK
 // ======================================================
 
-window.openSportsApiCheck =
-async function (button) {
+async function openSportsApiCheck(button) {
+
+    console.log(
+        "🔎 ADMIN: Opening Sports API Check..."
+    );
+
+
+    /*
+    ============================================================
+        FIND API CHECK BOX
+    ============================================================
+    */
 
     const apiBox =
         button.closest(
             ".sports-api-check-box"
         );
 
+
     if (!apiBox) {
+
+        console.error(
+            "❌ ADMIN: API check box not found."
+        );
+
         return;
+
     }
 
 
-    const sport =
+    /*
+    ============================================================
+        GET SPORT
+        FROM CURRENT SPORT CONTROL PANEL
+    ============================================================
+    */
+
+    const sportSection =
+        button.closest(
+            "[id$='-sports-section'], " +
+            ".admin-sports-section, " +
+            ".sports-admin-section"
+        );
+
+
+    let selectedSport =
+        apiBox.dataset.sport ||
+        "";
+
+
+    /*
+    ------------------------------------------------------------
+        FALLBACK:
+        READ SPORT FROM EXISTING ADMIN CONTEXT
+    ------------------------------------------------------------
+    */
+
+    if (!selectedSport) {
+
+        selectedSport =
+            window.currentAdminSportsSport ||
+            window.currentSportsSport ||
+            window.activeSportsSport ||
+            "";
+
+    }
+
+
+    selectedSport =
         String(
-            apiBox.dataset.sport || ""
+            selectedSport
         )
         .trim()
         .toLowerCase();
 
+
+    /*
+    ============================================================
+        API INPUT
+    ============================================================
+    */
 
     const input =
         apiBox.querySelector(
@@ -2279,16 +2340,10 @@ async function (button) {
         );
 
 
-    const dropdown =
-        apiBox.parentElement.querySelector(
-            ".sports-api-games-dropdown"
-        );
-
-
-    if (!sport) {
+    if (!input) {
 
         console.error(
-            "❌ API Check sport not found."
+            "❌ ADMIN: API key input not found."
         );
 
         return;
@@ -2296,45 +2351,37 @@ async function (button) {
     }
 
 
-    if (!input || !dropdown) {
-
-        console.error(
-            "❌ API Check elements not found."
-        );
-
-        return;
-
-    }
-
-
-    /*
-    ======================================================
-        ORIGINAL PROVIDER API KEY
-    ======================================================
-    */
-
-    const apiKey =
+    const temporaryApiKey =
         String(
             input.value || ""
         ).trim();
 
 
-    if (!apiKey) {
+    /*
+    ============================================================
+        DROPDOWN
+    ============================================================
+    */
 
-        dropdown.style.display =
-            "block";
+    const addGameRow =
+        apiBox.closest(
+            ".sports-add-game-row"
+        );
 
-        dropdown.innerHTML = `
 
-            <div
-                class="sports-api-empty"
-            >
-                API key required.
-            </div>
+    const dropdown =
+        addGameRow
+            ? addGameRow.querySelector(
+                ".sports-api-games-dropdown"
+            )
+            : null;
 
-        `;
 
-        input.focus();
+    if (!dropdown) {
+
+        console.error(
+            "❌ ADMIN: API games dropdown not found."
+        );
 
         return;
 
@@ -2342,9 +2389,47 @@ async function (button) {
 
 
     /*
-    ======================================================
-        OPEN DROPDOWN
-    ======================================================
+    ============================================================
+        VALIDATION
+    ============================================================
+    */
+
+    if (!temporaryApiKey) {
+
+        dropdown.style.display =
+            "block";
+
+        dropdown.innerHTML = `
+            <div class="sports-api-empty">
+                Wrong API
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (!selectedSport) {
+
+        dropdown.style.display =
+            "block";
+
+        dropdown.innerHTML = `
+            <div class="sports-api-empty">
+                Sport not selected.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    /*
+    ============================================================
+        LOADING
+    ============================================================
     */
 
     dropdown.style.display =
@@ -2352,39 +2437,34 @@ async function (button) {
 
 
     dropdown.innerHTML = `
-
-        <div
-            class="sports-api-loading"
-        >
+        <div class="sports-api-loading">
             Checking API...
         </div>
-
     `;
 
+
+    /*
+    ============================================================
+        DISABLE CHECK BUTTON
+    ============================================================
+    */
 
     button.disabled =
         true;
 
 
-    button.textContent =
-        "Checking";
-
-
     try {
 
         /*
-        ==================================================
-            IMPORTANT
+        ========================================================
+            SEND ONLY:
+                apiKey
+                sport
 
-            The typed value is sent as the temporary
-            provider API key.
-
-            We do NOT use:
-
-            process.env.ODDS_API_KEY
-
-            for this check.
-        ==================================================
+            NO TEAM
+            NO MATCH TITLE
+            NO SEARCH TEXT
+        ========================================================
         */
 
         const response =
@@ -2395,6 +2475,9 @@ async function (button) {
 
                     headers: {
                         "Content-Type":
+                            "application/json",
+
+                        "Accept":
                             "application/json"
                     },
 
@@ -2402,61 +2485,60 @@ async function (button) {
                         JSON.stringify({
 
                             apiKey:
-                                apiKey,
+                                temporaryApiKey,
 
                             sport:
-                                sport
+                                selectedSport
 
                         })
-
                 }
             );
 
 
-        const result =
-            await response.json();
+        /*
+        ========================================================
+            READ RESPONSE
+        ========================================================
+        */
+
+        let result = null;
 
 
-        if (
-            !response.ok ||
-            !result ||
-            !result.success
-        ) {
+        try {
 
-            throw new Error(
-                result?.error ||
-                "API check failed."
-            );
+            result =
+                await response.json();
+
+        } catch (error) {
+
+            result = null;
 
         }
 
 
-        const games =
-            Array.isArray(
-                result.games
-            )
-                ? result.games
-                : [];
+        console.log(
+            "🔎 ADMIN: Sports API Check Response:",
+            result
+        );
 
 
         /*
-        ==================================================
-            NO GAMES
-        ==================================================
+        ========================================================
+            WRONG API
+        ========================================================
         */
 
         if (
-            games.length === 0
+            !response.ok ||
+            !result ||
+            result.code ===
+                "WRONG_API"
         ) {
 
             dropdown.innerHTML = `
-
-                <div
-                    class="sports-api-empty"
-                >
-                    No Games Available
+                <div class="sports-api-empty">
+                    Wrong API
                 </div>
-
             `;
 
             return;
@@ -2465,10 +2547,40 @@ async function (button) {
 
 
         /*
-        ==================================================
-            RENDER PROVIDER GAMES
-        ==================================================
+        ========================================================
+            NO GAMES AVAILABLE
+        ========================================================
         */
+
+        if (
+            result.code ===
+                "NO_GAMES_AVAILABLE" ||
+            !Array.isArray(
+                result.games
+            ) ||
+            result.games.length === 0
+        ) {
+
+            dropdown.innerHTML = `
+                <div class="sports-api-empty">
+                    No Games Available
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        /*
+        ========================================================
+            RENDER REAL API GAMES
+        ========================================================
+        */
+
+        const games =
+            result.games;
+
 
         dropdown.innerHTML =
             games
@@ -2478,32 +2590,28 @@ async function (button) {
                         const gameId =
                             String(
                                 game.id || ""
-                            )
-                            .trim();
+                            );
 
 
                         const homeTeam =
                             String(
                                 game.home_team ||
                                 ""
-                            )
-                            .trim();
+                            );
 
 
                         const awayTeam =
                             String(
                                 game.away_team ||
                                 ""
-                            )
-                            .trim();
+                            );
 
 
                         const league =
                             String(
-                                game.sport_title ||
+                                game.api_sport_title ||
                                 ""
-                            )
-                            .trim();
+                            );
 
 
                         const status =
@@ -2511,68 +2619,89 @@ async function (button) {
                                 game.status ||
                                 "upcoming"
                             )
-                            .toLowerCase()
-                            .trim();
+                            .toLowerCase();
 
 
-                        const statusText =
-                            status === "live"
-                                ? "LIVE"
-                                : "UPCOMING";
+                        let statusHtml =
+                            "";
 
 
-                        const statusClass =
-                            status === "live"
-                                ? "sports-api-status-live"
-                                : "sports-api-status-upcoming";
+                        if (
+                            status ===
+                            "live"
+                        ) {
+
+                            statusHtml = `
+                                <span
+                                    class="sports-api-status sports-api-status-live">
+                                    LIVE
+                                </span>
+                            `;
+
+                        } else {
+
+                            statusHtml = `
+                                <span
+                                    class="sports-api-status sports-api-status-upcoming">
+                                    UPCOMING
+                                </span>
+                            `;
+
+                        }
+
+
+                        /*
+                        ------------------------------------------------
+                            SAFE DISPLAY VALUES
+                        ------------------------------------------------
+                        */
+
+                        const safeGameId =
+                            encodeURIComponent(
+                                gameId
+                            );
 
 
                         return `
-
                             <div
                                 class="sports-api-game-card"
-                                data-api-game-id="${escapeAdminSportsHTML(
-                                    gameId
-                                )}"
+                                data-api-game-id="${safeGameId}"
                             >
 
                                 <div
-                                    class="sports-api-game-info"
-                                >
+                                    class="sports-api-game-info">
 
                                     <div
-                                        class="sports-api-game-teams"
-                                    >
+                                        class="sports-api-game-teams">
+
                                         ${escapeAdminSportsHTML(
                                             homeTeam
                                         )}
 
-                                        <span>vs</span>
+                                        <span>
+                                            vs
+                                        </span>
 
                                         ${escapeAdminSportsHTML(
                                             awayTeam
                                         )}
+
                                     </div>
 
 
                                     <div
-                                        class="sports-api-game-meta"
-                                    >
+                                        class="sports-api-game-meta">
 
                                         <span
-                                            class="sports-api-game-league"
-                                        >
+                                            class="sports-api-game-league">
+
                                             ${escapeAdminSportsHTML(
                                                 league
                                             )}
+
                                         </span>
 
-
-                                        <span
-                                            class="sports-api-status ${statusClass}"
-                                        >
-                                            ${statusText}
-                                        </span>
+                                        ${statusHtml}
 
                                     </div>
 
@@ -2592,7 +2721,6 @@ async function (button) {
                                 </button>
 
                             </div>
-
                         `;
 
                     }
@@ -2600,48 +2728,44 @@ async function (button) {
                 .join("");
 
 
-        /*
-        ==================================================
-            TEMPORARY KEY IS NOT STORED
-        ==================================================
-        */
-
-        input.value = "";
-
-
     } catch (error) {
 
         console.error(
-            "❌ Sports API Check Error:",
-            error
+            "❌ ADMIN: Sports API Check failed."
         );
 
 
         dropdown.innerHTML = `
-
-            <div
-                class="sports-api-empty"
-            >
-                ${escapeAdminSportsHTML(
-                    error.message ||
-                    "API check failed."
-                )}
+            <div class="sports-api-empty">
+                Wrong API
             </div>
-
         `;
 
+
     } finally {
+
+        /*
+        ========================================================
+            RESTORE CHECK BUTTON
+        ========================================================
+        */
 
         button.disabled =
             false;
 
-        button.textContent =
-            "Check";
+
+        /*
+        --------------------------------------------------------
+            TEMPORARY KEY
+            REMOVE FROM INPUT AFTER CHECK
+        --------------------------------------------------------
+        */
+
+        input.value = "";
 
     }
 
-};
-
+}
 
 // ======================================================
 // ADD SPORTS API GAME DIRECTLY TO SUPABASE
