@@ -5539,8 +5539,8 @@ input[type="checkbox"] {
 
     height: 100%;
 
-     padding-top: 0;
-    padding-bottom: 3px;
+     padding-top: 5;
+    padding-bottom: 5px;
 
     border: none;
     outline: none;
