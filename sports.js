@@ -2705,6 +2705,16 @@ window.openSportsGame =
             return;
 
         }
+        
+        // ==========================================
+// LOAD ODDS + MASTER MARKETS
+// ==========================================
+
+await loadOddsApiGames();
+
+await loadSportsMasterMarketsForGame(
+    game
+);
 
 
         console.log(
@@ -3388,185 +3398,32 @@ function (
 };
 
 
-// ==========================================
+// ======================================================
 // RENDER SPORTS MARKETS
-// ==========================================
+// ======================================================
 
 function renderSportsMarkets(
     game
 ) {
 
-    let html = "";
-
-
-    // ==========================================
-    // MATCH WINNER
-    // ==========================================
-
-    const matchWinnerEnabled =
-        String(
-            game.match_winner_enabled
-        ).toLowerCase() === "true";
-
+    const matchingMarkets =
+        getMatchingOddsMarkets(
+            game
+        );
 
     if (
-        matchWinnerEnabled
+        !Array.isArray(
+            matchingMarkets
+        ) ||
+        matchingMarkets.length === 0
     ) {
 
-        html += `
-
+        return `
             <div class="sports-market">
 
                 <div class="sports-market-title">
-
-                    Match Winner
-
-                </div>
-
-
-                <div class="sports-bet-options">
-
-                    <div class="sports-bet-option">
-
-                        <span>
-
-                            ${escapeSportsHtml(
-                                game.home_team
-                            )}
-
-                        </span>
-
-
-                        <strong>
-
-                            API
-
-                        </strong>
-
-                    </div>
-
-
-                    <div class="sports-bet-option">
-
-                        <span>
-
-                            ${escapeSportsHtml(
-                                game.away_team
-                            )}
-
-                        </span>
-
-
-                        <strong>
-
-                            API
-
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    // ==========================================
-    // TOTAL RUNS
-    // ==========================================
-
-    const totalRunsEnabled =
-        String(
-            game.total_runs_enabled
-        ).toLowerCase() === "true";
-
-
-    if (
-        totalRunsEnabled
-    ) {
-
-        html += `
-
-            <div class="sports-market">
-
-                <div class="sports-market-title">
-
-                    Total Runs
-
-                </div>
-
-
-                <div class="sports-bet-options">
-
-                    <div class="sports-bet-option">
-
-                        <span>
-
-                            ${escapeSportsHtml(
-                                game.home_team
-                            )}
-
-                        </span>
-
-
-                        <strong>
-
-                            API
-
-                        </strong>
-
-                    </div>
-
-
-                    <div class="sports-bet-option">
-
-                        <span>
-
-                            ${escapeSportsHtml(
-                                game.away_team
-                            )}
-
-                        </span>
-
-
-                        <strong>
-
-                            API
-
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    // ==========================================
-    // NO ENABLED MARKET
-    // ==========================================
-
-    if (
-        !html
-    ) {
-
-        html = `
-
-            <div class="sports-market">
-
-                <div class="sports-market-title">
-
                     Markets
-
                 </div>
-
 
                 <div
                     style="
@@ -3575,20 +3432,92 @@ function renderSportsMarkets(
                         opacity:.65;
                     "
                 >
-
                     No markets available
-
                 </div>
 
             </div>
-
         `;
-
     }
 
+    return matchingMarkets
+        .map(
+            market => {
 
-    return html;
+                const outcomeHtml =
+                    market.outcomes
+                        .map(
+                            outcome => {
 
+                                const pointHtml =
+                                    outcome.point !== null &&
+                                    outcome.point !== undefined
+                                        ? `
+                                            <small>
+                                                ${escapeSportsHtml(
+                                                    String(
+                                                        outcome.point
+                                                    )
+                                                )}
+                                            </small>
+                                        `
+                                        : "";
+
+                                return `
+                                    <div
+                                        class="sports-bet-option"
+                                    >
+
+                                        <span>
+                                            ${escapeSportsHtml(
+                                                outcome.name
+                                            )}
+
+                                            ${pointHtml}
+                                        </span>
+
+                                        <strong>
+                                            ${escapeSportsHtml(
+                                                String(
+                                                    outcome.price
+                                                )
+                                            )}
+                                        </strong>
+
+                                    </div>
+                                `;
+                            }
+                        )
+                        .join("");
+
+                return `
+                    <div
+                        class="sports-market"
+                        data-market-key="${escapeSportsHtml(
+                            market.market_key
+                        )}"
+                    >
+
+                        <div
+                            class="sports-market-title"
+                        >
+                            ${escapeSportsHtml(
+                                market.market_name
+                            )}
+                        </div>
+
+                        <div
+                            class="sports-bet-options"
+                        >
+
+                            ${outcomeHtml}
+
+                        </div>
+
+                    </div>
+                `;
+            }
+        )
+        .join("");
 }
 
 // ==========================================
