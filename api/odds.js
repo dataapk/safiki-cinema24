@@ -65,6 +65,59 @@ export default async function handler(req, res) {
 
 
         // ==================================================
+        // SPORTS LIST
+        // ==================================================
+
+        if (
+            req.query?.sports === "list"
+        ) {
+
+            const apiUrl =
+                "https://api.the-odds-api.com/v4/sports" +
+                "?apiKey=" +
+                encodeURIComponent(
+                    apiKey
+                ) +
+                "&all=true";
+
+
+            const response =
+                await fetch(
+                    apiUrl,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Accept":
+                                "application/json",
+
+                            "User-Agent":
+                                "SportsWebsite/1.0"
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            return res.status(
+                response.status
+            ).json({
+
+                success:
+                    response.ok,
+
+                data:
+                    data
+
+            });
+
+        }
+
+
+        // ==================================================
         // SPORT KEY
         // ==================================================
 
@@ -143,7 +196,9 @@ export default async function handler(req, res) {
 
         const apiUrl =
             "https://api.the-odds-api.com/v4/sports/" +
-            encodeURIComponent(sportKey) +
+            encodeURIComponent(
+                sportKey
+            ) +
             "/odds?" +
             params.toString();
 
@@ -157,9 +212,11 @@ export default async function handler(req, res) {
                 apiUrl,
                 {
                     method: "GET",
+
                     headers: {
                         "Accept":
                             "application/json",
+
                         "User-Agent":
                             "SportsWebsite/1.0"
                     }
@@ -192,6 +249,10 @@ export default async function handler(req, res) {
 
 
     } catch (error) {
+
+        // ==================================================
+        // ERROR
+        // ==================================================
 
         console.error(
             "Odds API relay error:",
