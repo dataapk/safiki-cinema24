@@ -2264,6 +2264,7 @@ async function (button) {
         return;
     }
 
+
     const sport =
         String(
             apiBox.dataset.sport || ""
@@ -2271,449 +2272,267 @@ async function (button) {
         .trim()
         .toLowerCase();
 
-    if (!sport) {
-
-        console.error(
-            "❌ API CHECK: Sport not found."
-        );
-
-        return;
-    }
-
-    const row =
-        apiBox.closest(
-            ".sports-add-game-row"
-        );
-
-    if (!row) {
-        return;
-    }
 
     const input =
         apiBox.querySelector(
             ".sports-api-key-input"
         );
 
+
     const dropdown =
-        row.querySelector(
+        apiBox.parentElement.querySelector(
             ".sports-api-games-dropdown"
         );
 
-    if (!dropdown) {
+
+    if (!sport) {
+
+        console.error(
+            "❌ API Check sport not found."
+        );
+
         return;
+
     }
 
 
-    // ==================================================
-    // SHOW DROPDOWN
-    // ==================================================
+    if (!input || !dropdown) {
+
+        console.error(
+            "❌ API Check elements not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    ======================================================
+        ORIGINAL PROVIDER API KEY
+    ======================================================
+    */
+
+    const apiKey =
+        String(
+            input.value || ""
+        ).trim();
+
+
+    if (!apiKey) {
+
+        dropdown.style.display =
+            "block";
+
+        dropdown.innerHTML = `
+
+            <div
+                class="sports-api-empty"
+            >
+                API key required.
+            </div>
+
+        `;
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    /*
+    ======================================================
+        OPEN DROPDOWN
+    ======================================================
+    */
 
     dropdown.style.display =
         "block";
 
+
     dropdown.innerHTML = `
 
-        <div class="sports-api-loading">
-            Checking available games...
+        <div
+            class="sports-api-loading"
+        >
+            Checking API...
         </div>
 
     `;
 
 
-    // ==================================================
-    // OPTIONAL TEMPORARY VALUE
-    // ==================================================
-
-    const temporaryApiValue =
-        input
-            ? input.value.trim()
-            : "";
-
-    console.log(
-        "🔎 SPORTS API CHECK:",
-        {
-            sport,
-            temporaryApiValue:
-                temporaryApiValue
-                    ? "[provided]"
-                    : "[empty]"
-        }
-    );
+    button.disabled =
+        true;
 
 
-    // ==================================================
-    // LOAD AVAILABLE API SPORTS
-    // ==================================================
+    button.textContent =
+        "Checking";
+
 
     try {
 
+        /*
+        ==================================================
+            IMPORTANT
+
+            The typed value is sent as the temporary
+            provider API key.
+
+            We do NOT use:
+
+            process.env.ODDS_API_KEY
+
+            for this check.
+        ==================================================
+        */
+
         const response =
             await fetch(
-                "https://safiki-cinema24.vercel.app/api/odds?sports=list"
+                "https://safiki-cinema24.vercel.app/api/odds",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            apiKey:
+                                apiKey,
+
+                            sport:
+                                sport
+
+                        })
+
+                }
             );
 
-        if (!response.ok) {
-
-            throw new Error(
-                "API HTTP " +
-                response.status
-            );
-        }
 
         const result =
             await response.json();
 
+
         if (
+            !response.ok ||
             !result ||
-            !result.success ||
-            !Array.isArray(
-                result.data
-            )
+            !result.success
         ) {
 
             throw new Error(
-                "Invalid API response."
+                result?.error ||
+                "API check failed."
             );
+
         }
 
 
-        // ==================================================
-        // FIND SPORTS MATCHING CURRENT CONTROL PANEL
-        // ==================================================
-
-        const matchingSports =
-            result.data.filter(
-                apiSport => {
-
-                    const key =
-                        String(
-                            apiSport.key || ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-                    const group =
-                        String(
-                            apiSport.group || ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-                    const title =
-                        String(
-                            apiSport.title || ""
-                        )
-                        .trim()
-                        .toLowerCase();
+        const games =
+            Array.isArray(
+                result.games
+            )
+                ? result.games
+                : [];
 
 
-                    if (
-                        sport === "football"
-                    ) {
-
-                        return (
-                            key.includes("soccer") ||
-                            group.includes("soccer") ||
-                            title.includes("soccer") ||
-                            title.includes("football")
-                        );
-                    }
-
-
-                    if (
-                        sport === "cricket"
-                    ) {
-
-                        return (
-                            key.includes("cricket") ||
-                            group.includes("cricket") ||
-                            title.includes("cricket")
-                        );
-                    }
-
-
-                    if (
-                        sport === "basketball"
-                    ) {
-
-                        return (
-                            key.includes("basketball") ||
-                            group.includes("basketball") ||
-                            title.includes("basketball")
-                        );
-                    }
-
-
-                    if (
-                        sport === "tennis"
-                    ) {
-
-                        return (
-                            key.includes("tennis") ||
-                            group.includes("tennis") ||
-                            title.includes("tennis")
-                        );
-                    }
-
-
-                    if (
-                        sport === "hockey"
-                    ) {
-
-                        return (
-                            key.includes("hockey") ||
-                            group.includes("hockey") ||
-                            title.includes("hockey")
-                        );
-                    }
-
-
-                    if (
-                        sport === "volleyball"
-                    ) {
-
-                        return (
-                            key.includes("volleyball") ||
-                            group.includes("volleyball") ||
-                            title.includes("volleyball")
-                        );
-                    }
-
-
-                    if (
-                        sport === "boxing"
-                    ) {
-
-                        return (
-                            key.includes("boxing") ||
-                            group.includes("boxing") ||
-                            title.includes("boxing")
-                        );
-                    }
-
-
-                    if (
-                        sport === "rugby"
-                    ) {
-
-                        return (
-                            key.includes("rugby") ||
-                            group.includes("rugby") ||
-                            title.includes("rugby")
-                        );
-                    }
-
-
-                    if (
-                        sport === "golf"
-                    ) {
-
-                        return (
-                            key.includes("golf") ||
-                            group.includes("golf") ||
-                            title.includes("golf")
-                        );
-                    }
-
-
-                    return (
-                        key.includes(sport) ||
-                        group.includes(sport) ||
-                        title.includes(sport)
-                    );
-                }
-            );
-
-
-        // ==================================================
-        // NO SPORTS AVAILABLE
-        // ==================================================
+        /*
+        ==================================================
+            NO GAMES
+        ==================================================
+        */
 
         if (
-            matchingSports.length === 0
+            games.length === 0
         ) {
 
             dropdown.innerHTML = `
 
-                <div class="sports-api-empty">
+                <div
+                    class="sports-api-empty"
+                >
                     No Games Available
                 </div>
 
             `;
 
             return;
+
         }
 
 
-        // ==================================================
-        // LOAD EVENTS FROM MATCHING SPORTS
-        // ==================================================
-
-        let allEvents = [];
-
-
-        for (
-            const apiSport
-            of matchingSports
-        ) {
-
-            const sportKey =
-                String(
-                    apiSport.key || ""
-                )
-                .trim();
-
-            if (!sportKey) {
-                continue;
-            }
-
-
-            try {
-
-                const eventsResponse =
-                    await fetch(
-                        "https://safiki-cinema24.vercel.app/api/odds?sport=" +
-                        encodeURIComponent(
-                            sportKey
-                        )
-                    );
-
-
-                if (
-                    !eventsResponse.ok
-                ) {
-                    continue;
-                }
-
-
-                const eventsResult =
-                    await eventsResponse.json();
-
-
-                if (
-                    !eventsResult ||
-                    !eventsResult.success ||
-                    !Array.isArray(
-                        eventsResult.data
-                    )
-                ) {
-                    continue;
-                }
-
-
-                eventsResult.data.forEach(
-                    event => {
-
-                        allEvents.push({
-
-                            ...event,
-
-                            api_sport_key:
-                                sportKey,
-
-                            api_sport_title:
-                                apiSport.title ||
-                                sportKey
-
-                        });
-
-                    }
-                );
-
-            } catch (eventError) {
-
-                console.warn(
-                    "⚠️ Failed to load API sport:",
-                    sportKey,
-                    eventError
-                );
-            }
-        }
-
-
-        // ==================================================
-        // NO EVENTS AVAILABLE
-        // ==================================================
-
-        if (
-            allEvents.length === 0
-        ) {
-
-            dropdown.innerHTML = `
-
-                <div class="sports-api-empty">
-                    No Games Available
-                </div>
-
-            `;
-
-            return;
-        }
-
-
-        // ==================================================
-        // REMOVE DUPLICATE EVENTS
-        // ==================================================
-
-        const uniqueEvents =
-            Array.from(
-                new Map(
-                    allEvents.map(
-                        event => [
-                            event.id ||
-                            (
-                                event.home_team +
-                                "-" +
-                                event.away_team +
-                                "-" +
-                                event.commence_time
-                            ),
-                            event
-                        ]
-                    )
-                ).values()
-            );
-
-
-        // ==================================================
-        // RENDER API GAME CARDS
-        // ==================================================
+        /*
+        ==================================================
+            RENDER PROVIDER GAMES
+        ==================================================
+        */
 
         dropdown.innerHTML =
-            uniqueEvents
+            games
                 .map(
-                    event => {
+                    game => {
 
-                        const eventId =
+                        const gameId =
                             String(
-                                event.id || ""
-                            );
+                                game.id || ""
+                            )
+                            .trim();
+
 
                         const homeTeam =
                             String(
-                                event.home_team ||
-                                "Home Team"
-                            );
+                                game.home_team ||
+                                ""
+                            )
+                            .trim();
+
 
                         const awayTeam =
                             String(
-                                event.away_team ||
-                                "Away Team"
-                            );
+                                game.away_team ||
+                                ""
+                            )
+                            .trim();
+
 
                         const league =
                             String(
-                                event.api_sport_title ||
+                                game.sport_title ||
                                 ""
-                            );
+                            )
+                            .trim();
+
+
+                        const status =
+                            String(
+                                game.status ||
+                                "upcoming"
+                            )
+                            .toLowerCase()
+                            .trim();
+
+
+                        const statusText =
+                            status === "live"
+                                ? "LIVE"
+                                : "UPCOMING";
+
+
+                        const statusClass =
+                            status === "live"
+                                ? "sports-api-status-live"
+                                : "sports-api-status-upcoming";
 
 
                         return `
 
                             <div
                                 class="sports-api-game-card"
-                                data-api-event-id="${escapeAdminSportsHTML(
-                                    eventId
+                                data-api-game-id="${escapeAdminSportsHTML(
+                                    gameId
                                 )}"
                             >
 
@@ -2728,21 +2547,33 @@ async function (button) {
                                             homeTeam
                                         )}
 
-                                        <span>
-                                            vs
-                                        </span>
+                                        <span>vs</span>
 
                                         ${escapeAdminSportsHTML(
                                             awayTeam
                                         )}
                                     </div>
 
+
                                     <div
-                                        class="sports-api-game-league"
+                                        class="sports-api-game-meta"
                                     >
-                                        ${escapeAdminSportsHTML(
-                                            league
-                                        )}
+
+                                        <span
+                                            class="sports-api-game-league"
+                                        >
+                                            ${escapeAdminSportsHTML(
+                                                league
+                                            )}
+                                        </span>
+
+
+                                        <span
+                                            class="sports-api-status ${statusClass}"
+                                        >
+                                            ${statusText}
+                                        </span>
+
                                     </div>
 
                                 </div>
@@ -2763,45 +2594,52 @@ async function (button) {
                             </div>
 
                         `;
+
                     }
                 )
                 .join("");
 
 
-        // ==================================================
-        // STORE EVENTS TEMPORARILY
-        // ==================================================
+        /*
+        ==================================================
+            TEMPORARY KEY IS NOT STORED
+        ==================================================
+        */
 
-        dropdown._sportsApiEvents =
-            uniqueEvents;
+        input.value = "";
 
-
-        console.log(
-            "✅ API EVENTS FOUND:",
-            {
-                sport,
-                count:
-                    uniqueEvents.length,
-                events:
-                    uniqueEvents
-            }
-        );
 
     } catch (error) {
 
         console.error(
-            "❌ SPORTS API CHECK FAILED:",
+            "❌ Sports API Check Error:",
             error
         );
 
+
         dropdown.innerHTML = `
 
-            <div class="sports-api-empty">
-                No Games Available
+            <div
+                class="sports-api-empty"
+            >
+                ${escapeAdminSportsHTML(
+                    error.message ||
+                    "API check failed."
+                )}
             </div>
 
         `;
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Check";
+
     }
+
 };
 
 
