@@ -657,6 +657,477 @@ function renderCricketApiGames() {
     );
 }
 
+// ======================================================
+// ODDS API GAMES
+// ======================================================
+
+let oddsApiGames = [];
+
+async function loadOddsApiGames(
+    sportKey = "cricket_caribbean_premier_league"
+) {
+
+    console.log(
+        "🎯 Loading Odds API games..."
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                "https://safiki-cinema24.vercel.app/api/odds" +
+                "?sport=" +
+                encodeURIComponent(
+                    sportKey
+                ) +
+                "&markets=" +
+                encodeURIComponent(
+                    "h2h,spreads,totals"
+                ) +
+                "&oddsFormat=decimal"
+            );
+
+        if (!response.ok) {
+
+            console.error(
+                "❌ Odds API HTTP error:",
+                response.status
+            );
+
+            oddsApiGames = [];
+
+            return false;
+        }
+
+        const result =
+            await response.json();
+
+        if (
+            !result ||
+            !result.success ||
+            !Array.isArray(
+                result.data
+            )
+        ) {
+
+            console.error(
+                "❌ Invalid Odds API response:",
+                result
+            );
+
+            oddsApiGames = [];
+
+            return false;
+        }
+
+        oddsApiGames =
+            result.data;
+
+        console.log(
+            "🎯 Odds API games loaded:",
+            oddsApiGames.length
+        );
+
+        console.log(
+            "🎯 Odds API games:",
+            oddsApiGames
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "❌ Failed to load Odds API games:",
+            error
+        );
+
+        oddsApiGames = [];
+
+        return false;
+    }
+}
+
+// ======================================================
+// FIND ODDS API GAME FOR SPORTS GAME
+// ======================================================
+
+function findOddsApiGameForSportsGame(
+    game
+) {
+
+    if (!game) {
+        return null;
+    }
+
+    if (
+        !Array.isArray(
+            oddsApiGames
+        ) ||
+        oddsApiGames.length === 0
+    ) {
+        return null;
+    }
+
+    const homeTeam =
+        String(
+            game.home_team || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    const awayTeam =
+        String(
+            game.away_team || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    if (
+        !homeTeam ||
+        !awayTeam
+    ) {
+        return null;
+    }
+
+    const matchedGame =
+        oddsApiGames.find(
+            apiGame => {
+
+                const apiHome =
+                    String(
+                        apiGame.home_team || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+                const apiAway =
+                    String(
+                        apiGame.away_team || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+                return (
+                    apiHome === homeTeam &&
+                    apiAway === awayTeam
+                );
+            }
+        );
+
+    return (
+        matchedGame ||
+        null
+    );
+}
+
+// ======================================================
+// LOAD MASTER MARKET CONFIGURATION
+// ======================================================
+
+let sportsMasterMarketsCache = {};
+
+async function loadSportsMasterMarketsForGame(
+    game
+) {
+
+    sportsMasterMarketsCache = {};
+
+    if (
+        !window.supabaseClient
+    ) {
+
+        console.warn(
+            "⚠️ Supabase connection unavailable for master markets."
+        );
+
+        return {};
+    }
+
+    const sport =
+        String(
+            game?.sport || "cricket"
+        )
+        .trim()
+        .toLowerCase();
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from(
+                "sports_markets"
+            )
+            .select(
+                "market_key, market_name, enabled, display_order"
+            )
+            .eq(
+                "sport",
+                sport
+            )
+            .order(
+                "display_order",
+                {
+                    ascending: true
+                }
+            );
+
+    if (error) {
+
+        console.error(
+            "❌ Failed to load master markets:",
+            error
+        );
+
+        return {};
+    }
+
+    if (
+        !Array.isArray(data)
+    ) {
+        return {};
+    }
+
+    data.forEach(
+        market => {
+
+            const key =
+                String(
+                    market.market_key || ""
+                )
+                .trim()
+                .toLowerCase();
+
+            if (!key) {
+                return;
+            }
+
+            sportsMasterMarketsCache[
+                key
+            ] = {
+                market_key:
+                    key,
+
+                market_name:
+                    String(
+                        market.market_name || key
+                    ),
+
+                enabled:
+                    market.enabled !== false,
+
+                display_order:
+                    Number(
+                        market.display_order || 0
+                    )
+            };
+        }
+    );
+
+    return (
+        sportsMasterMarketsCache
+    );
+}
+
+// ======================================================
+// COLLECT MATCHING ODDS MARKETS
+// ======================================================
+
+function getMatchingOddsMarkets(
+    game
+) {
+
+    const apiGame =
+        findOddsApiGameForSportsGame(
+            game
+        );
+
+    if (!apiGame) {
+
+        console.log(
+            "ℹ️ No Odds API match found:",
+            game?.game_id
+        );
+
+        return [];
+    }
+
+    const enabledMarkets =
+        game.enabled_markets &&
+        typeof game.enabled_markets === "object"
+            ? game.enabled_markets
+            : {};
+
+    const marketMap = {};
+
+    const bookmakers =
+        Array.isArray(
+            apiGame.bookmakers
+        )
+            ? apiGame.bookmakers
+            : [];
+
+    bookmakers.forEach(
+        bookmaker => {
+
+            const markets =
+                Array.isArray(
+                    bookmaker.markets
+                )
+                    ? bookmaker.markets
+                    : [];
+
+            markets.forEach(
+                providerMarket => {
+
+                    const providerKey =
+                        normalizeOddsMarketKey(
+                            providerMarket.key
+                        );
+
+                    const masterKey =
+                        mapOddsMarketToMasterMarket(
+                            providerKey
+                        );
+
+                    if (!masterKey) {
+                        return;
+                    }
+
+                    const masterMarket =
+                        sportsMasterMarketsCache[
+                            masterKey
+                        ];
+
+                    if (!masterMarket) {
+                        return;
+                    }
+
+                    if (
+                        masterMarket.enabled !== true
+                    ) {
+                        return;
+                    }
+
+                    if (
+                        enabledMarkets[
+                            masterKey
+                        ] !== true
+                    ) {
+                        return;
+                    }
+
+                    const outcomes =
+                        Array.isArray(
+                            providerMarket.outcomes
+                        )
+                            ? providerMarket.outcomes
+                            : [];
+
+                    if (
+                        outcomes.length === 0
+                    ) {
+                        return;
+                    }
+
+                    if (
+                        !marketMap[
+                            masterKey
+                        ]
+                    ) {
+
+                        marketMap[
+                            masterKey
+                        ] = {
+
+                            market_key:
+                                masterKey,
+
+                            market_name:
+                                masterMarket.market_name,
+
+                            display_order:
+                                masterMarket.display_order,
+
+                            outcomes: [],
+
+                            bookmakers: []
+                        };
+                    }
+
+                    outcomes.forEach(
+                        outcome => {
+
+                            marketMap[
+                                masterKey
+                            ]
+                            .outcomes
+                            .push({
+
+                                name:
+                                    outcome.name,
+
+                                price:
+                                    outcome.price,
+
+                                point:
+                                    outcome.point ??
+                                    null,
+
+                                description:
+                                    outcome.description ??
+                                    null,
+
+                                bookmaker:
+                                    bookmaker.title ||
+                                    bookmaker.key
+
+                            });
+                        }
+                    );
+
+                    if (
+                        !marketMap[
+                            masterKey
+                        ]
+                        .bookmakers
+                        .includes(
+                            bookmaker.title ||
+                            bookmaker.key
+                        )
+                    ) {
+
+                        marketMap[
+                            masterKey
+                        ]
+                        .bookmakers
+                        .push(
+                            bookmaker.title ||
+                            bookmaker.key
+                        );
+                    }
+
+                }
+            );
+        }
+    );
+
+    return Object.values(
+        marketMap
+    )
+    .sort(
+        (
+            a,
+            b
+        ) =>
+            a.display_order -
+            b.display_order
+    );
+}
+
+
+
 
 // ======================================================
 // CRICKET API AUTO REFRESH
