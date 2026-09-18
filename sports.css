@@ -553,6 +553,7 @@
     grid-template-columns:
         minmax(0, 1fr)
         auto
+        auto
         minmax(0, 1fr);
 
     align-items: center;
@@ -572,6 +573,8 @@
     border-radius: 8px;
 
     box-sizing: border-box;
+
+    column-gap: 8px;
 
 }
 
@@ -620,28 +623,75 @@
 
 
 /* ======================================================
-   VS
+   SPORTS CARD TEAM ODDS
 ====================================================== */
 
-.sports-game-vs {
+.sports-card-team-odds {
 
-    display: flex;
+    display: inline-flex;
 
     align-items: center;
 
     justify-content: center;
 
-    min-width: 30px;
+    min-width: 44px;
+
+    height: 25px;
 
     padding: 0 7px;
 
-    font-size: 9px;
+    border: 1px solid rgba(229, 231, 235, 0.9);
 
-    font-weight: 800;
+    border-radius: 5px;
+
+    background: #fffdf5;
+
+    color: #6b5200;
+
+    font-size: 10px;
+
+    font-weight: 700;
 
     line-height: 1;
 
-    color: var(--text-muted);
+    white-space: nowrap;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   HOME TEAM ODDS
+====================================================== */
+
+.sports-game-team:first-child
+.sports-card-team-odds {
+
+    margin-left: 7px;
+
+}
+
+
+/* ======================================================
+   AWAY TEAM ODDS
+====================================================== */
+
+.sports-game-team:last-child
+.sports-card-team-odds {
+
+    margin-right: 7px;
+
+}
+
+
+/* ======================================================
+   REMOVE OLD VS
+====================================================== */
+
+.sports-game-vs {
+
+    display: none;
 
 }
 
