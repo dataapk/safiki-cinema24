@@ -1131,7 +1131,8 @@ function getMatchingOddsMarkets(
 // ======================================================
 
 function getSportsCardMatchWinnerHtml(
-    game
+    game,
+    side
 ) {
 
     const matchingMarkets =
@@ -1154,70 +1155,48 @@ function getSportsCardMatchWinnerHtml(
         return "";
     }
 
-    const outcomes =
-        matchWinnerMarket.outcomes
-            .filter(
-                outcome =>
-                    outcome &&
-                    outcome.name &&
-                    outcome.price !== undefined &&
-                    outcome.price !== null
-            )
-            .slice(
-                0,
-                2
-            );
+    const teamName =
+        side === "home"
+            ? String(
+                game.home_team || ""
+            ).trim().toLowerCase()
+            : String(
+                game.away_team || ""
+            ).trim().toLowerCase();
+
+    if (!teamName) {
+        return "";
+    }
+
+    const outcome =
+        matchWinnerMarket.outcomes.find(
+            item =>
+                String(
+                    item?.name || ""
+                )
+                .trim()
+                .toLowerCase() ===
+                teamName
+        );
 
     if (
-        outcomes.length < 2
+        !outcome ||
+        outcome.price === undefined ||
+        outcome.price === null
     ) {
         return "";
     }
 
     return `
-        <div class="sports-card-match-winner">
-
-            <div class="sports-card-winner-team">
-
-                <span class="sports-card-winner-name">
-                    ${escapeSportsHtml(
-                        outcomes[0].name
-                    )}
-                </span>
-
-                <span class="sports-card-winner-odds">
-                    ${escapeSportsHtml(
-                        String(
-                            outcomes[0].price
-                        )
-                    )}
-                </span>
-
-            </div>
-
-
-            <div class="sports-card-winner-team">
-
-                <span class="sports-card-winner-name">
-                    ${escapeSportsHtml(
-                        outcomes[1].name
-                    )}
-                </span>
-
-                <span class="sports-card-winner-odds">
-                    ${escapeSportsHtml(
-                        String(
-                            outcomes[1].price
-                        )
-                    )}
-                </span>
-
-            </div>
-
-        </div>
+        <span class="sports-card-team-odds">
+            ${escapeSportsHtml(
+                String(
+                    outcome.price
+                )
+            )}
+        </span>
     `;
 }
-
 
 
 
