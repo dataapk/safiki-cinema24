@@ -1948,18 +1948,11 @@ if (status === "live") {
 
 gameCard.innerHTML = `
 
-    <div class="sports-game-card-title">
+    <div class="sports-game-card-title-row">
 
-        ${escapeSportsHtml(game.title)}
+        <div class="sports-game-card-title">
 
-    </div>
-
-
-    <div class="sports-game-card-league-row">
-
-        <div class="sports-game-card-league">
-
-            ${escapeSportsHtml(game.league)}
+            ${escapeSportsHtml(game.title)}
 
         </div>
 
@@ -1969,6 +1962,13 @@ gameCard.innerHTML = `
             ${statusLabel}
 
         </div>
+
+    </div>
+
+
+    <div class="sports-game-card-league">
+
+        ${escapeSportsHtml(game.league)}
 
     </div>
 
@@ -2009,6 +2009,7 @@ gameCard.innerHTML = `
         )}
 
     </div>
+
 
     ${getCricketApiScoreHtml(game)}
 
