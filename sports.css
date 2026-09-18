@@ -553,8 +553,8 @@
     grid-template-columns:
         minmax(0, 1fr)
         auto
-        auto
-        minmax(0, 1fr);
+        minmax(0, 1fr)
+        auto;
 
     align-items: center;
 
@@ -575,7 +575,6 @@
     box-sizing: border-box;
 
     column-gap: 8px;
-
 }
 
 
@@ -615,12 +614,11 @@
 }
 
 
-.sports-game-team:last-child {
+.sports-game-team:nth-child(3) {
 
-    text-align: right;
+    text-align: left;
 
 }
-
 
 /* ==========================================
    SPORTS CARD ODDS BOX
