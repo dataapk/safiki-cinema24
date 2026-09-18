@@ -1359,6 +1359,7 @@ button[onclick="saveGameSettings()"]{
 
     box-sizing: border-box;
 
+    grid-column: 1 / -1;
 }
 
 
@@ -4111,6 +4112,7 @@ input[type="checkbox"] {
 
     box-sizing: border-box;
 
+    grid-column: 1 / -1;
 }
 
 
@@ -4487,13 +4489,6 @@ input[type="checkbox"] {
 
     }
 
-
-    .sports-game-edit-modal
-    .sports-game-edit-footer {
-
-        padding: 9px 10px;
-
-    }
 
 }
 
