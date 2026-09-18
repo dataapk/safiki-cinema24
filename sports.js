@@ -2004,14 +2004,14 @@ if (status === "live") {
         </div>
 
 
-        <div class="sports-game-card-teams">
+<div class="sports-game-card-teams">
 
     <!-- HOME TEAM -->
     <div class="sports-game-team"
          onclick="event.stopPropagation(); 
          openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
 
-        ${escapeSportsHtml(game.home_team)}
+        ${getSportsTeamShortCode(game.home_team)}
 
     </div>
 
@@ -2035,7 +2035,7 @@ if (status === "live") {
          onclick="event.stopPropagation();
          openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
 
-        ${escapeSportsHtml(game.away_team)}
+        ${getSportsTeamShortCode(game.away_team)}
 
     </div>
 
