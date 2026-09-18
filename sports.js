@@ -1942,36 +1942,20 @@ if (status === "live") {
 
    
 
-    // ==========================================
-    // GAME CARD HTML
-    // ==========================================
+// ==========================================
+// GAME CARD HTML
+// ==========================================
 
-    gameCard.innerHTML = `
+gameCard.innerHTML = `
 
-        <div class="sports-game-card-header">
+    <div class="sports-game-card-title">
 
-            <div class="sports-game-status-label">
+        ${escapeSportsHtml(game.title)}
 
-                ${statusLabel}
-
-            </div>
+    </div>
 
 
-            <div class="sports-game-serial">
-
-                #${index + 1}
-
-            </div>
-
-        </div>
-
-
-        <div class="sports-game-card-title">
-
-            ${escapeSportsHtml(game.title)}
-
-        </div>
-
+    <div class="sports-game-card-league-row">
 
         <div class="sports-game-card-league">
 
@@ -1980,46 +1964,59 @@ if (status === "live") {
         </div>
 
 
-<div class="sports-game-card-teams">
+        <div class="sports-game-status-label">
 
-    <!-- HOME TEAM -->
-    <div class="sports-game-team"
-         onclick="event.stopPropagation(); 
-         openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+            ${statusLabel}
 
-        ${getSportsTeamShortCode(game.home_team)}
+        </div>
 
     </div>
 
 
-    <!-- HOME ODDS -->
-    ${getSportsCardMatchWinnerHtml(
-        game,
-        "home"
-    )}
+    <div class="sports-game-card-teams">
+
+        <!-- HOME TEAM -->
+        <div class="sports-game-team"
+             onclick="event.stopPropagation(); 
+             openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+
+            ${getSportsTeamShortCode(game.home_team)}
+
+        </div>
 
 
-    <!-- AWAY ODDS -->
-    ${getSportsCardMatchWinnerHtml(
-        game,
-        "away"
-    )}
+        <!-- HOME ODDS -->
+        ${getSportsCardMatchWinnerHtml(
+            game,
+            "home"
+        )}
 
 
-    <!-- AWAY TEAM -->
-    <div class="sports-game-team"
-         onclick="event.stopPropagation();
-         openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+        <!-- AWAY TEAM -->
+        <div class="sports-game-team"
+             onclick="event.stopPropagation();
+             openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
 
-        ${getSportsTeamShortCode(game.away_team)}
+            ${getSportsTeamShortCode(game.away_team)}
+
+        </div>
+
+
+        <!-- AWAY ODDS -->
+        ${getSportsCardMatchWinnerHtml(
+            game,
+            "away"
+        )}
 
     </div>
 
-</div>
-
-${getCricketApiScoreHtml(game)}
+    ${getCricketApiScoreHtml(game)}
 
 `;
+
+    // ==========================================
+// GAME CARD HEALPER
+// ==========================================
 
     function getSportsTeamShortCode(
     teamName
