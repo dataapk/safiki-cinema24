@@ -427,6 +427,65 @@
 
 }
 
+/* ======================================================
+   SPORTS GAME CARD — INFO SECTION
+====================================================== */
+
+.sports-game-card-info {
+
+    width: 100%;
+
+    padding: 9px 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+}
+
+
+/* ======================================================
+   SPORTS GAME CARD — BETTING SECTION
+====================================================== */
+
+.sports-game-card-market {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 42px;
+
+    margin-top: 6px;
+
+    padding: 9px 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    column-gap: 8px;
+
+}
+
 
 /* ======================================================
    GAME SERIAL
