@@ -1359,6 +1359,10 @@ button[onclick="saveGameSettings()"]{
 
     box-sizing: border-box;
 
+    flex: 0 0 auto;
+
+    clear: both;
+
 }
 
 /* CANCEL */
@@ -1379,28 +1383,6 @@ button:first-child {
 button:first-child:hover {
 
     background: #e5e7eb;
-
-}
-
-
-/* ADD GAME */
-
-#addCricketGameModal
-.sports-game-edit-footer
-button:last-child {
-
-    background: #a855f7;
-
-    color: #ffffff;
-
-}
-
-
-#addCricketGameModal
-.sports-game-edit-footer
-button:last-child:hover {
-
-    background: #9333ea;
 
 }
 
