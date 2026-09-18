@@ -1984,39 +1984,47 @@ gameCard.innerHTML = `
     </div>
 
 
-    <!-- BETTING MARKET AREA -->
-    <div class="sports-game-card-market">
+<!-- ==========================================
+     BETTING MARKET AREA
+========================================== -->
 
-        <!-- HOME TEAM -->
-        <div class="sports-game-team">
+<div class="sports-game-card-market"
+     onclick="event.stopPropagation();">
 
-            ${getSportsTeamShortCode(game.home_team)}
+    <!-- HOME TEAM -->
+    <div class="sports-game-team">
 
-        </div>
-
-
-        <!-- HOME ODDS -->
-        ${getSportsCardMatchWinnerHtml(
-            game,
-            "home"
-        )}
-
-
-        <!-- AWAY TEAM -->
-        <div class="sports-game-team">
-
-            ${getSportsTeamShortCode(game.away_team)}
-
-        </div>
-
-
-        <!-- AWAY ODDS -->
-        ${getSportsCardMatchWinnerHtml(
-            game,
-            "away"
+        ${getSportsTeamShortCode(
+            game.home_team
         )}
 
     </div>
+
+
+    <!-- HOME ODDS -->
+    ${getSportsCardMatchWinnerHtml(
+        game,
+        "home"
+    )}
+
+
+    <!-- AWAY TEAM -->
+    <div class="sports-game-team">
+
+        ${getSportsTeamShortCode(
+            game.away_team
+        )}
+
+    </div>
+
+
+    <!-- AWAY ODDS -->
+    ${getSportsCardMatchWinnerHtml(
+        game,
+        "away"
+    )}
+
+</div>
 
 
     ${getCricketApiScoreHtml(game)}
