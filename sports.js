@@ -2044,6 +2044,70 @@ if (status === "live") {
 ${getCricketApiScoreHtml(game)}
 
 `;
+
+    function getSportsTeamShortCode(
+    teamName
+) {
+
+    const name =
+        String(
+            teamName || ""
+        )
+        .trim();
+
+    if (!name) {
+        return "";
+    }
+
+    const words =
+        name
+            .split(/\s+/)
+            .filter(Boolean);
+
+    // ==========================================
+    // ONE WORD
+    // First 3 letters
+    // ==========================================
+
+    if (words.length === 1) {
+
+        return words[0]
+            .slice(0, 3)
+            .toUpperCase();
+
+    }
+
+
+    // ==========================================
+    // TWO WORDS
+    // First letter of each word
+    // ==========================================
+
+    if (words.length === 2) {
+
+        return (
+            words[0].charAt(0) +
+            words[1].charAt(0)
+        ).toUpperCase();
+
+    }
+
+
+    // ==========================================
+    // THREE OR MORE WORDS
+    // First letter of first 3 words
+    // ==========================================
+
+    return words
+        .slice(0, 3)
+        .map(
+            word =>
+                word.charAt(0)
+        )
+        .join("")
+        .toUpperCase();
+
+}
     
 
     // ==========================================
