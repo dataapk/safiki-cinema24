@@ -1948,37 +1948,47 @@ if (status === "live") {
 
 gameCard.innerHTML = `
 
-    <div class="sports-game-card-title-row">
+    <!-- FULL GAME PAGE CLICK AREA -->
+    <div class="sports-game-card-info"
+         onclick="
+             openSportsGame(
+                 '${escapeSportsHtml(game.sport)}',
+                 '${escapeSportsHtml(game.game_id)}'
+             )
+         ">
 
-        <div class="sports-game-card-title">
+        <div class="sports-game-card-title-row">
 
-            ${escapeSportsHtml(game.title)}
+            <div class="sports-game-card-title">
+
+                ${escapeSportsHtml(game.title)}
+
+            </div>
+
+
+            <div class="sports-game-status-label">
+
+                ${statusLabel}
+
+            </div>
 
         </div>
 
 
-        <div class="sports-game-status-label">
+        <div class="sports-game-card-league">
 
-            ${statusLabel}
+            ${escapeSportsHtml(game.league)}
 
         </div>
 
     </div>
 
 
-    <div class="sports-game-card-league">
-
-        ${escapeSportsHtml(game.league)}
-
-    </div>
-
-
-    <div class="sports-game-card-teams">
+    <!-- BETTING MARKET AREA -->
+    <div class="sports-game-card-market">
 
         <!-- HOME TEAM -->
-        <div class="sports-game-team"
-             onclick="event.stopPropagation(); 
-             openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+        <div class="sports-game-team">
 
             ${getSportsTeamShortCode(game.home_team)}
 
@@ -1993,9 +2003,7 @@ gameCard.innerHTML = `
 
 
         <!-- AWAY TEAM -->
-        <div class="sports-game-team"
-             onclick="event.stopPropagation();
-             openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+        <div class="sports-game-team">
 
             ${getSportsTeamShortCode(game.away_team)}
 
