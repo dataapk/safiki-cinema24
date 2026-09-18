@@ -1126,6 +1126,98 @@ function getMatchingOddsMarkets(
     );
 }
 
+// ======================================================
+// GET MATCH WINNER ODDS FOR SPORTS GAME CARD
+// ======================================================
+
+function getSportsCardMatchWinnerHtml(
+    game
+) {
+
+    const matchingMarkets =
+        getMatchingOddsMarkets(
+            game
+        );
+
+    const matchWinnerMarket =
+        matchingMarkets.find(
+            market =>
+                market.market_key === "h2h"
+        );
+
+    if (
+        !matchWinnerMarket ||
+        !Array.isArray(
+            matchWinnerMarket.outcomes
+        )
+    ) {
+        return "";
+    }
+
+    const outcomes =
+        matchWinnerMarket.outcomes
+            .filter(
+                outcome =>
+                    outcome &&
+                    outcome.name &&
+                    outcome.price !== undefined &&
+                    outcome.price !== null
+            )
+            .slice(
+                0,
+                2
+            );
+
+    if (
+        outcomes.length < 2
+    ) {
+        return "";
+    }
+
+    return `
+        <div class="sports-card-match-winner">
+
+            <div class="sports-card-winner-team">
+
+                <span class="sports-card-winner-name">
+                    ${escapeSportsHtml(
+                        outcomes[0].name
+                    )}
+                </span>
+
+                <span class="sports-card-winner-odds">
+                    ${escapeSportsHtml(
+                        String(
+                            outcomes[0].price
+                        )
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="sports-card-winner-team">
+
+                <span class="sports-card-winner-name">
+                    ${escapeSportsHtml(
+                        outcomes[1].name
+                    )}
+                </span>
+
+                <span class="sports-card-winner-odds">
+                    ${escapeSportsHtml(
+                        String(
+                            outcomes[1].price
+                        )
+                    )}
+                </span>
+
+            </div>
+
+        </div>
+    `;
+}
+
 
 
 
@@ -1914,34 +2006,40 @@ if (status === "live") {
 
         <div class="sports-game-card-teams">
 
-            <div class="sports-game-team"
-     onclick="event.stopPropagation(); 
-     openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+<div class="sports-game-card-teams">
 
-    ${escapeSportsHtml(game.home_team)}
+    <div class="sports-game-team"
+         onclick="event.stopPropagation(); 
+         openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+
+        ${escapeSportsHtml(game.home_team)}
+
+        ${getSportsCardMatchWinnerHtml(
+            game,
+            "home"
+        )}
+
+    </div>
+
+
+    <div class="sports-game-team"
+         onclick="event.stopPropagation();
+         openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
+
+        ${getSportsCardMatchWinnerHtml(
+            game,
+            "away"
+        )}
+
+        ${escapeSportsHtml(game.away_team)}
+
+    </div>
 
 </div>
 
+${getCricketApiScoreHtml(game)}
 
-            <div class="sports-game-vs">
-
-                VS
-
-            </div>
-
-
-            <div class="sports-game-team"
-     onclick="event.stopPropagation();
-     openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
-
-    ${escapeSportsHtml(game.away_team)}
-
-</div>
-
-        </div>
-        ${getCricketApiScoreHtml(game)}
-
-    `;
+`;
     
 
     // ==========================================
