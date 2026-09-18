@@ -2006,30 +2006,34 @@ if (status === "live") {
 
         <div class="sports-game-card-teams">
 
-<div class="sports-game-card-teams">
-
+    <!-- HOME TEAM -->
     <div class="sports-game-team"
          onclick="event.stopPropagation(); 
          openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
 
         ${escapeSportsHtml(game.home_team)}
 
-        ${getSportsCardMatchWinnerHtml(
-            game,
-            "home"
-        )}
-
     </div>
 
 
+    <!-- HOME ODDS -->
+    ${getSportsCardMatchWinnerHtml(
+        game,
+        "home"
+    )}
+
+
+    <!-- AWAY ODDS -->
+    ${getSportsCardMatchWinnerHtml(
+        game,
+        "away"
+    )}
+
+
+    <!-- AWAY TEAM -->
     <div class="sports-game-team"
          onclick="event.stopPropagation();
          openSportsGame('${escapeSportsHtml(game.sport)}', '${escapeSportsHtml(game.game_id)}')">
-
-        ${getSportsCardMatchWinnerHtml(
-            game,
-            "away"
-        )}
 
         ${escapeSportsHtml(game.away_team)}
 
