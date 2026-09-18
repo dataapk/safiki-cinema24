@@ -1438,38 +1438,35 @@ function createCricketApiGameCard(
 
         <div class="sports-game-card-header">
 
+            <div class="sports-game-card-title">
+
+                ${escapeSportsHtml(matchName)}
+
+            </div>
+
+        </div>
+
+
+        <div class="sports-game-card-league-row">
+
+            <div class="sports-game-card-league">
+
+                ${escapeSportsHtml(matchType)}
+
+                ${
+                    date
+                        ? ` • ${escapeSportsHtml(date)}`
+                        : ""
+                }
+
+            </div>
+
+
             <div class="sports-game-status-label">
 
-                API
+                ${statusLabel}
 
             </div>
-
-
-            <div class="sports-game-serial">
-
-                #${index + 1}
-
-            </div>
-
-        </div>
-
-
-        <div class="sports-game-card-title">
-
-            ${escapeSportsHtml(matchName)}
-
-        </div>
-
-
-        <div class="sports-game-card-league">
-
-            ${escapeSportsHtml(matchType)}
-
-            ${
-                date
-                    ? ` • ${escapeSportsHtml(date)}`
-                    : ""
-            }
 
         </div>
 
