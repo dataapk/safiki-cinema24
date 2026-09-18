@@ -296,72 +296,28 @@
    INDIVIDUAL SPORTS GAME CARD
 ====================================================== */
 
-.sports-game-card {
-
-    position: relative;
-
-    display: block;
-
-    width: 100%;
-
-    margin: 0;
-
-    padding: 0;
-
-    background: transparent;
-
-    border: none;
-
-    border-radius: 0;
-
-    box-sizing: border-box;
-
-    overflow: visible;
-
-}
-
-
-/* ======================================================
-   GAME CARD HOVER
-====================================================== */
-
-.sports-game-card:hover {
-
-    background: transparent;
-
-    border-color: transparent;
-
-    transform: none;
-
-    box-shadow: none;
-
-}
-
-
-/* ======================================================
-   GAME CARD HEADER
-====================================================== */
-
-.sports-game-card-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    width: 100%;
-
-    min-height: 20px;
-
-    margin: 0 0 9px 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-}
-
+.sports-game-card { 
+ position: relative; 
+ display: block; 
+  width: 100%;
+ margin: 0;
+  padding: 13px; 
+ background: var(--surface); 
+    border: 1px solid var(--border); 
+  border-radius: 10px; box-sizing: 
+   border-box; overflow: hidden; transition: 
+   background 0.2s ease, 
+   border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+/* ===== GAME CARD HOVER ===== */ 
+.sports-game-card:hover { background: var(--surface-2); 
+    border-color: rgba(47, 191, 113, 0.35); transform: translateY(-1px);
+                         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20); } 
+/* ==== GAME CARD HEADER === */
+.sports-game-card-header { display: flex; 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                align-items: center; justify-content: space-between;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                width: 100%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                min-height: 20px; margin: 0 0 9px 0; 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 0; box-sizing: border-box; }
 
 /* ======================================================
    LIVE DOT
