@@ -306,23 +306,17 @@
 
     margin: 0;
 
-    padding: 13px;
+    padding: 0;
 
-    background: var(--surface);
+    background: transparent;
 
-    border: 1px solid var(--border);
+    border: none;
 
-    border-radius: 10px;
+    border-radius: 0;
 
     box-sizing: border-box;
 
-    overflow: hidden;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    overflow: visible;
 
 }
 
@@ -333,14 +327,13 @@
 
 .sports-game-card:hover {
 
-    background: var(--surface-2);
+    background: transparent;
 
-    border-color: rgba(47, 191, 113, 0.35);
+    border-color: transparent;
 
-    transform: translateY(-1px);
+    transform: none;
 
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.20);
+    box-shadow: none;
 
 }
 
@@ -368,8 +361,6 @@
     box-sizing: border-box;
 
 }
-
-
 
 
 /* ======================================================
