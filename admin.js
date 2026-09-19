@@ -2780,7 +2780,7 @@ async function addSportsApiGame(button) {
 
     /*
     ============================================================
-        FIND API GAME CARD
+        FIND CLICKED API GAME CARD
     ============================================================
     */
 
@@ -2848,55 +2848,126 @@ async function addSportsApiGame(button) {
 
     /*
     ============================================================
-        GET GAME DATA
-        FROM CURRENT API CHECK RESULT
+        GET API GAME FROM CURRENT CHECK RESULT
     ============================================================
     */
 
-    const apiGame =
-        window.sportsApiCheckGames &&
+    const apiGames =
         Array.isArray(
             window.sportsApiCheckGames
         )
-            ? window.sportsApiCheckGames.find(
-                game =>
-                    String(
-                        game.id || ""
-                    ) === apiGameId
-            )
-            : null;
+            ? window.sportsApiCheckGames
+            : [];
+
+
+    const apiGame =
+        apiGames.find(
+            game =>
+                String(
+                    game?.id || ""
+                ).trim() === apiGameId
+        ) || null;
 
 
     /*
     ============================================================
-        FALLBACK:
-        READ DATA DIRECTLY FROM CARD
+        READ DATA FROM API OR DROPDOWN CARD
     ============================================================
     */
 
-    const homeTeam =
-        apiGame?.home_team ||
-        gameCard.querySelector(
-            ".sports-api-game-teams"
-        )?.childNodes?.[0]
-            ?.textContent
-            ?.trim() ||
-        "";
+    let homeTeam =
+        String(
+            apiGame?.home_team || ""
+        ).trim();
 
 
-    const awayTeam =
-        apiGame?.away_team ||
-        "";
+    let awayTeam =
+        String(
+            apiGame?.away_team || ""
+        ).trim();
 
+
+    /*
+    ------------------------------------------------------------
+        FALLBACK: READ TEAMS FROM CLICKED CARD
+    ------------------------------------------------------------
+    */
+
+    if (
+        !homeTeam ||
+        !awayTeam
+    ) {
+
+        const teamsElement =
+            gameCard.querySelector(
+                ".sports-api-game-teams"
+            );
+
+
+        if (teamsElement) {
+
+            const teamText =
+                String(
+                    teamsElement.textContent || ""
+                )
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+                .trim();
+
+
+            const parts =
+                teamText
+                    .split(/\s+vs\s+/i)
+                    .map(
+                        value =>
+                            value.trim()
+                    );
+
+
+            if (!homeTeam) {
+
+                homeTeam =
+                    parts[0] || "";
+
+            }
+
+
+            if (!awayTeam) {
+
+                awayTeam =
+                    parts[1] || "";
+
+            }
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+        LEAGUE
+    ============================================================
+    */
 
     const league =
-        apiGame?.api_sport_title ||
-        gameCard.querySelector(
-            ".sports-api-game-league"
-        )?.textContent
-            ?.trim() ||
-        "";
+        String(
+            apiGame?.api_sport_title ||
+            gameCard.querySelector(
+                ".sports-api-game-league"
+            )?.textContent ||
+            ""
+        )
+        .trim();
 
+
+    /*
+    ============================================================
+        STATUS
+    ============================================================
+    */
 
     const status =
         String(
@@ -2914,11 +2985,13 @@ async function addSportsApiGame(button) {
     */
 
     const apiCheckBox =
-        gameCard.closest(
-            ".sports-add-game-row"
-        )?.querySelector(
-            ".sports-api-check-box"
-        );
+        gameCard
+            .closest(
+                ".sports-add-game-row"
+            )
+            ?.querySelector(
+                ".sports-api-check-box"
+            );
 
 
     const sport =
@@ -2943,17 +3016,32 @@ async function addSportsApiGame(button) {
 
     /*
     ============================================================
-        VALIDATE API GAME DATA
+        VALIDATE TEAM DATA
     ============================================================
     */
 
-   if (!apiGame) {
+    if (
+        !homeTeam ||
+        !awayTeam
+    ) {
 
-    console.warn(
-        "⚠️ ADMIN: API game not found in cache. Using dropdown card data."
-    );
+        console.error(
+            "❌ ADMIN: Team data missing.",
+            {
+                apiGameId,
+                homeTeam,
+                awayTeam
+            }
+        );
 
-}
+        alert(
+            "Game team information is missing."
+        );
+
+        return;
+
+    }
+
 
     /*
     ============================================================
@@ -2988,7 +3076,6 @@ async function addSportsApiGame(button) {
     /*
     ============================================================
         BUILD SPORTS GAME
-        SAME STRUCTURE AS EXISTING SPORTS GAMES
     ============================================================
     */
 
@@ -3002,7 +3089,7 @@ async function addSportsApiGame(button) {
             sport,
 
         title:
-            `${apiGame.home_team} vs ${apiGame.away_team}`,
+            `${homeTeam} vs ${awayTeam}`,
 
         league:
             league,
@@ -3014,7 +3101,6 @@ async function addSportsApiGame(button) {
 
         /*
         --------------------------------------------------------
-            IMPORTANT:
             NEW API GAME IS DISABLED INITIALLY
         --------------------------------------------------------
         */
@@ -3023,11 +3109,10 @@ async function addSportsApiGame(button) {
             "disable",
 
         home_team:
-            apiGame.home_team,
+            homeTeam,
 
         away_team:
-            apiGame.away_team,
-
+            awayTeam,
 
         /*
         --------------------------------------------------------
@@ -3044,7 +3129,6 @@ async function addSportsApiGame(button) {
 
         match_winner_enabled:
             false,
-
 
         /*
         --------------------------------------------------------
@@ -3082,7 +3166,7 @@ async function addSportsApiGame(button) {
 
         /*
         ========================================================
-            INSERT INTO EXISTING sports_games
+            CHECK SUPABASE
         ========================================================
         */
 
@@ -3096,6 +3180,12 @@ async function addSportsApiGame(button) {
 
         }
 
+
+        /*
+        ========================================================
+            INSERT INTO EXISTING sports_games
+        ========================================================
+        */
 
         const {
             data,
@@ -3171,7 +3261,7 @@ async function addSportsApiGame(button) {
 
         /*
         ========================================================
-            UPDATE EXISTING ADMIN LOADED STATE
+            UPDATE ADMIN LOADED STATE
         ========================================================
         */
 
@@ -3197,7 +3287,7 @@ async function addSportsApiGame(button) {
 
         /*
         ========================================================
-            MARK API RESULT AS ADDED
+            MARK THIS API RESULT AS ADDED
         ========================================================
         */
 
@@ -3215,7 +3305,7 @@ async function addSportsApiGame(button) {
 
         /*
         ========================================================
-            OPTIONAL DATA ATTRIBUTE
+            SAVE ADDED GAME ID ON CARD
         ========================================================
         */
 
@@ -3224,7 +3314,7 @@ async function addSportsApiGame(button) {
 
 
         console.log(
-            "✅ ADMIN: API game successfully added and admin list refreshed."
+            "✅ ADMIN: API game successfully added."
         );
 
 
@@ -3235,6 +3325,12 @@ async function addSportsApiGame(button) {
             error
         );
 
+
+        /*
+        --------------------------------------------------------
+            RESTORE BUTTON IF SAVE FAILED
+        --------------------------------------------------------
+        */
 
         button.disabled =
             false;
@@ -3250,6 +3346,10 @@ async function addSportsApiGame(button) {
     }
 
 }
+
+// ======================================================
+//  END  ADD SPORTS API GAME DIRECTLY TO SUPABASE
+// ======================================================
 
 // ======================================================
 // COMMON ADD SPORTS GAME MODAL
