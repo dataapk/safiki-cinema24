@@ -1211,11 +1211,15 @@ let cricketApiRefreshTimer = null;
 // START CRICKET API AUTO REFRESH
 // ======================================================
 
+// Cricket API auto refresh is temporarily disabled
 function startCricketApiAutoRefresh() {
 
     console.log(
-        "🏏 Starting Cricket API auto refresh..."
+        "⏸️ Cricket API auto refresh is temporarily OFF."
     );
+
+    return;
+}
 
 
     // Prevent duplicate timers
