@@ -453,58 +453,55 @@ export default async function handler(req, res) {
     ============================================================
     */
 
-    async function fetchSportsList(
-        apiKey
-    ) {
+async function fetchSportsList(
+    apiKey
+) {
 
-        const apiUrl =
-            "https://api.the-odds-api.com/v4/sports" +
-            "?apiKey=" +
-            encodeURIComponent(
-                apiKey
-            ) +
-            "&all=true";
+    const apiUrl =
+        "https://parlay-api.com/v1/sports";
 
 
-        const response =
-            await fetch(
-                apiUrl,
-                {
-                    method: "GET",
+    const response =
+        await fetch(
+            apiUrl,
+            {
+                method: "GET",
 
-                    headers: {
-                        "Accept":
-                            "application/json",
+                headers: {
+                    "Accept":
+                        "application/json",
 
-                        "User-Agent":
-                            "SportsWebsite/1.0"
-                    }
+                    "X-API-Key":
+                        apiKey,
+
+                    "User-Agent":
+                        "SportsWebsite/1.0"
                 }
-            );
+            }
+        );
 
 
-        let data = null;
+    let data = null;
 
 
-        try {
+    try {
 
-            data =
-                await response.json();
+        data =
+            await response.json();
 
-        } catch (error) {
+    } catch (error) {
 
-            data = null;
-
-        }
-
-
-        return {
-            response,
-            data
-        };
+        data = null;
 
     }
 
+
+    return {
+        response,
+        data
+    };
+
+}
 
     /*
     ============================================================
@@ -513,76 +510,75 @@ export default async function handler(req, res) {
     */
 
     async function fetchSportOdds(
-        apiKey,
-        sportKey
-    ) {
+    apiKey,
+    sportKey
+) {
 
-        const params =
-            new URLSearchParams({
+    const params =
+        new URLSearchParams({
 
-                apiKey:
-                    apiKey,
+            regions:
+                "us",
 
-                regions:
-                    "uk,eu,au",
+            markets:
+                "h2h",
 
-                markets:
-                    "h2h",
+            oddsFormat:
+                "decimal"
 
-                oddsFormat:
-                    "decimal"
-
-            });
+        });
 
 
-        const apiUrl =
-            "https://api.the-odds-api.com/v4/sports/" +
-            encodeURIComponent(
-                sportKey
-            ) +
-            "/odds?" +
-            params.toString();
+    const apiUrl =
+        "https://parlay-api.com/v1/sports/" +
+        encodeURIComponent(
+            sportKey
+        ) +
+        "/odds?" +
+        params.toString();
 
 
-        const response =
-            await fetch(
-                apiUrl,
-                {
-                    method: "GET",
+    const response =
+        await fetch(
+            apiUrl,
+            {
+                method: "GET",
 
-                    headers: {
-                        "Accept":
-                            "application/json",
+                headers: {
+                    "Accept":
+                        "application/json",
 
-                        "User-Agent":
-                            "SportsWebsite/1.0"
-                    }
+                    "X-API-Key":
+                        apiKey,
+
+                    "User-Agent":
+                        "SportsWebsite/1.0"
                 }
-            );
+            }
+        );
 
 
-        let data = [];
+    let data = [];
 
 
-        try {
+    try {
 
-            data =
-                await response.json();
+        data =
+            await response.json();
 
-        } catch (error) {
+    } catch (error) {
 
-            data = [];
-
-        }
-
-
-        return {
-            response,
-            data
-        };
+        data = [];
 
     }
 
+
+    return {
+        response,
+        data
+    };
+
+}
 
     /*
     ============================================================
@@ -590,63 +586,61 @@ export default async function handler(req, res) {
     ============================================================
     */
 
-    async function fetchSportScores(
-        apiKey,
-        sportKey
-    ) {
+   async function fetchSportScores(
+    apiKey,
+    sportKey
+) {
 
-        const apiUrl =
-            "https://api.the-odds-api.com/v4/sports/" +
-            encodeURIComponent(
-                sportKey
-            ) +
-            "/scores" +
-            "?apiKey=" +
-            encodeURIComponent(
-                apiKey
-            ) +
-            "&daysFrom=3";
+    const apiUrl =
+        "https://parlay-api.com/v1/sports/" +
+        encodeURIComponent(
+            sportKey
+        ) +
+        "/scores" +
+        "?daysFrom=3";
 
 
-        const response =
-            await fetch(
-                apiUrl,
-                {
-                    method: "GET",
+    const response =
+        await fetch(
+            apiUrl,
+            {
+                method: "GET",
 
-                    headers: {
-                        "Accept":
-                            "application/json",
+                headers: {
+                    "Accept":
+                        "application/json",
 
-                        "User-Agent":
-                            "SportsWebsite/1.0"
-                    }
+                    "X-API-Key":
+                        apiKey,
+
+                    "User-Agent":
+                        "SportsWebsite/1.0"
                 }
-            );
+            }
+        );
 
 
-        let data = [];
+    let data = [];
 
 
-        try {
+    try {
 
-            data =
-                await response.json();
+        data =
+            await response.json();
 
-        } catch (error) {
+    } catch (error) {
 
-            data = [];
-
-        }
-
-
-        return {
-            response,
-            data
-        };
+        data = [];
 
     }
 
+
+    return {
+        response,
+        data
+    };
+
+}
 
     /*
     ============================================================
@@ -1405,7 +1399,7 @@ export default async function handler(req, res) {
 
 
             const apiUrl =
-                "https://api.the-odds-api.com/v4/sports/" +
+                "https://api.the-odds-api.com/v1/sports/" +
                 encodeURIComponent(
                     sportKey
                 ) +
@@ -1414,20 +1408,23 @@ export default async function handler(req, res) {
 
 
             const response =
-                await fetch(
-                    apiUrl,
-                    {
-                        method: "GET",
+    await fetch(
+        apiUrl,
+        {
+            method: "GET",
 
-                        headers: {
-                            "Accept":
-                                "application/json",
+            headers: {
+                "Accept":
+                    "application/json",
 
-                            "User-Agent":
-                                "SportsWebsite/1.0"
-                        }
-                    }
-                );
+                "X-API-Key":
+                    apiKey,
+
+                "User-Agent":
+                    "SportsWebsite/1.0"
+            }
+        }
+    );
 
 
             let data = null;
