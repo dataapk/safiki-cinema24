@@ -1219,52 +1219,25 @@ function startCricketApiAutoRefresh() {
     );
 
     return;
-
-    /*
-    if (cricketApiRefreshTimer) {
-
-        console.log(
-            "⚠️ Cricket API auto refresh is already running."
-        );
-
-        return;
-    }
-
-    // পুরোনো বাকি auto-refresh code...
-    */
 }
-
-
-    // Refresh every 20 minutes
-    cricketApiRefreshTimer =
-        setInterval(
-            async function () {
-
-                console.log(
-                    "🔄 Refreshing Cricket API data..."
-                );
-
-
-                const loaded =
-                    await loadCricketApiGames();
-
-
-                if (loaded) {
-
-                    renderCricketApiGames();
-
-                }
-
-            },
-            20 * 60 * 1000
-        );
-
+async function startSportsApiSystem() {
 
     console.log(
-        "✅ Cricket API auto refresh started."
+        "🏏 Starting Cricket API system..."
     );
-}
 
+    const loaded =
+        await loadCricketApiGames();
+
+    if (loaded) {
+
+        renderAllSportsGames();
+
+    }
+
+    startCricketApiAutoRefresh();
+
+}
 
 // ======================================================
 // STOP CRICKET API AUTO REFRESH
