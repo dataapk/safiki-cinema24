@@ -1219,10 +1219,8 @@ function startCricketApiAutoRefresh() {
     );
 
     return;
-}
 
-
-    // Prevent duplicate timers
+    /*
     if (cricketApiRefreshTimer) {
 
         console.log(
@@ -1231,6 +1229,10 @@ function startCricketApiAutoRefresh() {
 
         return;
     }
+
+    // পুরোনো বাকি auto-refresh code...
+    */
+}
 
 
     // Refresh every 20 minutes
