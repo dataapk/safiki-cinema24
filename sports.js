@@ -2841,22 +2841,22 @@ window.openSportsGame =
 
         }
         
-        // ==========================================
+      // ==========================================
 // LOAD ODDS + MASTER MARKETS
 // ==========================================
 
-await loadOddsApiGames();
+await loadOddsApiGames(
+    game.api_sport_key
+);
 
 await loadSportsMasterMarketsForGame(
     game
 );
 
-
-        console.log(
-            "✅ Selected sports game:",
-            game
-        );
-
+console.log(
+    "✅ Selected sports game:",
+    game
+);
 
         // ==========================================
         // GAME PAGE ELEMENTS
