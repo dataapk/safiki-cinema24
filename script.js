@@ -2723,9 +2723,10 @@ async function signupUser() {
         confirmPasswordInput.value;
 
     const referralCode =
-        referralCodeInput
-            ? referralCodeInput.value.trim()
-            : "";
+    referralCodeInput &&
+    typeof referralCodeInput.value === "string"
+        ? referralCodeInput.value.trim()
+        : "";
 
     const agreeTerms =
         agreeTermsInput.checked;
