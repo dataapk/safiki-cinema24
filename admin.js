@@ -4283,6 +4283,9 @@ async function () {
 
         sport:
             sport,
+        
+        api_sport_key:
+        apiGame?.api_sport_key || "",
 
         title:
             title,
