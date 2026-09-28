@@ -4275,6 +4275,10 @@ async function () {
     // ==================================================
     // NEW GAME OBJECT
     // ==================================================
+    console.log(
+    "🔑 API GAME SPORT KEY:",
+    apiGame?.api_sport_key
+);
 
     const newGame = {
 
