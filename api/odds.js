@@ -504,14 +504,16 @@ async function fetchSportsList(
 }
 
     /*
-    ============================================================
-        FETCH ODDS FOR ONE SPORT KEY
-    ============================================================
-    */
+   /*
+============================================================
+    FETCH ODDS FOR ONE SPORT KEY + EVENT
+============================================================
+*/
 
-    async function fetchSportOdds(
+async function fetchSportOdds(
     apiKey,
-    sportKey
+    sportKey,
+    eventId
 ) {
 
     const params =
@@ -521,12 +523,32 @@ async function fetchSportsList(
                 "us",
 
             markets:
-                "h2h",
+                "h2h,spreads,totals",
 
             oddsFormat:
                 "decimal"
 
         });
+
+
+    /*
+    --------------------------------------------------------
+        ADD SPECIFIC PROVIDER EVENT ID
+    --------------------------------------------------------
+    */
+
+    if (
+        eventId
+    ) {
+
+        params.set(
+            "eventIds",
+            String(
+                eventId
+            ).trim()
+        );
+
+    }
 
 
     const apiUrl =
@@ -536,6 +558,12 @@ async function fetchSportsList(
         ) +
         "/odds?" +
         params.toString();
+
+
+    console.log(
+        "🎯 Parlay Odds URL:",
+        apiUrl
+    );
 
 
     const response =
@@ -1379,33 +1407,45 @@ async function fetchSportsList(
                     "decimal"
                 ).trim();
 
+            const eventIds =
+    String(
+        req.query?.eventIds ||
+        ""
+    ).trim();
+
 
             const params =
-                new URLSearchParams({
+    new URLSearchParams({
 
-                    apiKey:
-                        apiKey,
+        apiKey:
+            apiKey,
 
-                    regions:
-                        regions,
+        regions:
+            regions,
 
-                    markets:
-                        markets,
+        markets:
+            markets,
 
-                    oddsFormat:
-                        oddsFormat
+        oddsFormat:
+            oddsFormat,
 
-                });
+        ...(eventIds
+            ? {
+                eventIds:
+                    eventIds
+            }
+            : {})
+
+    });
 
 
             const apiUrl =
-                "https://api.the-odds-api.com/v1/sports/" +
-                encodeURIComponent(
-                    sportKey
-                ) +
-                "/odds?" +
-                params.toString();
-
+    "https://parlay-api.com/v1/sports/" +
+    encodeURIComponent(
+        sportKey
+    ) +
+    "/odds?" +
+    params.toString();
 
             const response =
     await fetch(
