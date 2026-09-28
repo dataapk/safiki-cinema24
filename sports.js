@@ -664,7 +664,7 @@ function renderCricketApiGames() {
 let oddsApiGames = [];
 
 async function loadOddsApiGames(
-    sportKey = "cricket_caribbean_premier_league"
+    sportKey
 ) {
 
     console.log(
