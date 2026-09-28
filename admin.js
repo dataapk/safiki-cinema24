@@ -27,6 +27,1098 @@ window.pendingDeleteSportsGameId =
 
 
 // ======================================================
+// DASHBOARD ENGINE START
+// ======================================================
+
+// ------------------------------------------------------
+// DASHBOARD DEFAULT STATE
+// ------------------------------------------------------
+
+const dashboardState = {
+
+    totalUsers: 0,
+
+    totalDeposit: null,
+
+    totalWithdraw: null,
+
+    pendingWithdraw: null,
+
+    todayNewAccounts: 0,
+
+    activeUsers: 0,
+
+    suspendedUsers: 0,
+
+    onlineUsers: null,
+
+    totalGames: 0,
+
+    systemStatus: "Online",
+
+    todayDeposit: null,
+
+    todayWithdraw: null,
+
+    todayProfit: null,
+
+    todayPendingDeposit: null,
+
+    todayPendingWithdraw: null
+
+};
+
+
+// ------------------------------------------------------
+// DASHBOARD VALUE HELPER
+// ------------------------------------------------------
+
+function setDashboardValue(
+    elementId,
+    value,
+    fallback = "—"
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    if (!element) return;
+
+
+    element.textContent =
+        value !== null &&
+        value !== undefined &&
+        value !== ""
+            ? value
+            : fallback;
+
+}
+
+
+// ------------------------------------------------------
+// LOAD DASHBOARD USER DATA
+// ------------------------------------------------------
+
+async function loadDashboardUserData() {
+
+    try {
+
+        const { data, error } =
+            await supabaseClient
+                .from("user_data")
+                .select(
+                    "user_id, status, created_at"
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Dashboard user data error:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        const users =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        dashboardState.totalUsers =
+            users.length;
+
+
+        dashboardState.activeUsers =
+            users.filter(
+                user =>
+                    String(user.status)
+                        .toLowerCase()
+                    === "active"
+            ).length;
+
+
+        dashboardState.suspendedUsers =
+            users.filter(
+                user =>
+                    String(user.status)
+                        .toLowerCase()
+                    === "suspended"
+            ).length;
+
+
+        // ----------------------------------------------
+        // TODAY'S NEW ACCOUNTS
+        // ----------------------------------------------
+
+        const now =
+            new Date();
+
+
+        const todayStart =
+            new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate()
+            );
+
+
+        dashboardState.todayNewAccounts =
+            users.filter(
+                user => {
+
+                    if (!user.created_at) {
+                        return false;
+                    }
+
+
+                    const createdAt =
+                        new Date(
+                            user.created_at
+                        );
+
+
+                    return createdAt >=
+                        todayStart;
+
+                }
+            ).length;
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard loading failed:",
+            error
+        );
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// LOAD DASHBOARD GAME DATA
+// ------------------------------------------------------
+
+async function loadDashboardGameData() {
+
+    try {
+
+        const { data, error } =
+            await supabaseClient
+                .from("sports_games")
+                .select("game_id");
+
+
+        if (error) {
+
+            console.error(
+                "Dashboard game data error:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        dashboardState.totalGames =
+            Array.isArray(data)
+                ? data.length
+                : 0;
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard game loading failed:",
+            error
+        );
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// RENDER DASHBOARD
+// ------------------------------------------------------
+
+function renderDashboard() {
+
+    setDashboardValue(
+        "dashboardTotalUsers",
+        dashboardState.totalUsers
+    );
+
+
+    setDashboardValue(
+        "dashboardTotalDeposit",
+        dashboardState.totalDeposit !== null
+            ? dashboardState.totalDeposit
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardTotalWithdraw",
+        dashboardState.totalWithdraw !== null
+            ? dashboardState.totalWithdraw
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardPendingWithdraw",
+        dashboardState.pendingWithdraw !== null
+            ? dashboardState.pendingWithdraw
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardTodayNewAccounts",
+        dashboardState.todayNewAccounts
+    );
+
+
+    setDashboardValue(
+        "dashboardActiveUsers",
+        dashboardState.activeUsers
+    );
+
+
+    setDashboardValue(
+        "dashboardSuspendedUsers",
+        dashboardState.suspendedUsers
+    );
+
+
+    setDashboardValue(
+        "dashboardOnlineUsers",
+        dashboardState.onlineUsers
+    );
+
+
+    setDashboardValue(
+        "dashboardTotalGames",
+        dashboardState.totalGames
+    );
+
+
+    setDashboardValue(
+        "dashboardSystemStatus",
+        dashboardState.systemStatus
+    );
+
+
+    setDashboardValue(
+        "dashboardTodayDeposit",
+        dashboardState.todayDeposit !== null
+            ? dashboardState.todayDeposit
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardTodayWithdraw",
+        dashboardState.todayWithdraw !== null
+            ? dashboardState.todayWithdraw
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardTodayProfit",
+        dashboardState.todayProfit !== null
+            ? dashboardState.todayProfit
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardTodayPendingDeposit",
+        dashboardState.todayPendingDeposit !== null
+            ? dashboardState.todayPendingDeposit
+            : null
+    );
+
+
+    setDashboardValue(
+        "dashboardTodayPendingWithdraw",
+        dashboardState.todayPendingWithdraw !== null
+            ? dashboardState.todayPendingWithdraw
+            : null
+    );
+
+}
+
+
+// ------------------------------------------------------
+// MAIN DASHBOARD LOADER
+// ------------------------------------------------------
+
+async function loadDashboard() {
+
+    await Promise.all([
+        loadDashboardUserData(),
+        loadDashboardGameData()
+    ]);
+
+
+    renderDashboard();
+
+}
+
+
+// ======================================================
+// DASHBOARD ENGINE END
+// ======================================================
+
+
+// ======================================================
+// USER DATA ENGINE START
+// ======================================================
+
+
+// ------------------------------------------------------
+// USER DATA STATE
+// ------------------------------------------------------
+
+let currentSelectedUser =
+    null;
+
+
+// ------------------------------------------------------
+// USER DATA DEFAULT VALUE
+// ------------------------------------------------------
+
+function getUserDataValue(
+    value,
+    fallback = "—"
+) {
+
+    return value !== null &&
+        value !== undefined &&
+        value !== ""
+        ? value
+        : fallback;
+
+}
+
+
+// ------------------------------------------------------
+// FORMAT DATE
+// ------------------------------------------------------
+
+function formatUserDate(
+    value
+) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if (Number.isNaN(
+        date.getTime()
+    )) {
+        return "—";
+    }
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+// ------------------------------------------------------
+// LOAD USER DATA
+// ------------------------------------------------------
+
+async function loadUserData(
+    searchUserId = ""
+) {
+
+    const userListBody =
+        document.getElementById(
+            "userListBody"
+        );
+
+    if (!userListBody) {
+        return;
+    }
+
+
+    userListBody.innerHTML =
+        `<tr>
+            <td colspan="8">
+                Loading users...
+            </td>
+        </tr>`;
+
+
+    try {
+
+        let query =
+            supabaseClient
+                .from("user_data")
+                .select(
+                    "user_id, email, full_name, country, address, account_level, status, created_at, last_login_at"
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        // ----------------------------------------------
+        // SEARCH BY USER ID
+        // ----------------------------------------------
+
+        if (searchUserId) {
+
+            query =
+                query.eq(
+                    "user_id",
+                    searchUserId
+                );
+
+        }
+
+
+        const {
+            data,
+            error
+        } = await query;
+
+
+        if (error) {
+
+            console.error(
+                "User data loading error:",
+                error
+            );
+
+            userListBody.innerHTML =
+                `<tr>
+                    <td colspan="8">
+                        Failed to load user data.
+                    </td>
+                </tr>`;
+
+            return;
+
+        }
+
+
+        const users =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        if (!users.length) {
+
+            userListBody.innerHTML =
+                `<tr>
+                    <td colspan="8">
+                        No user found.
+                    </td>
+                </tr>`;
+
+            return;
+
+        }
+
+
+        // ----------------------------------------------
+        // RENDER USERS
+        // ----------------------------------------------
+
+        userListBody.innerHTML =
+            "";
+
+
+        users.forEach(
+            user => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                // --------------------------------------
+                // USER ID
+                // --------------------------------------
+
+                const idCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                idCell.textContent =
+                    getUserDataValue(
+                        user.user_id
+                    );
+
+
+                // --------------------------------------
+                // USERNAME
+                // --------------------------------------
+
+                const usernameCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                usernameCell.textContent =
+                    "—";
+
+
+                // --------------------------------------
+                // BALANCE
+                // --------------------------------------
+
+                const balanceCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                balanceCell.textContent =
+                    "—";
+
+
+                // --------------------------------------
+                // TOTAL DEPOSIT
+                // --------------------------------------
+
+                const depositCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                depositCell.textContent =
+                    "—";
+
+
+                // --------------------------------------
+                // TOTAL WITHDRAW
+                // --------------------------------------
+
+                const withdrawCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                withdrawCell.textContent =
+                    "—";
+
+
+                // --------------------------------------
+                // PENDING WITHDRAW
+                // --------------------------------------
+
+                const pendingWithdrawCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                pendingWithdrawCell.textContent =
+                    "—";
+
+
+                // --------------------------------------
+                // STATUS
+                // --------------------------------------
+
+                const statusCell =
+                    document.createElement(
+                        "td"
+                    );
+
+                statusCell.textContent =
+                    getUserDataValue(
+                        user.status
+                    );
+
+
+                // --------------------------------------
+                // ACTION
+                // --------------------------------------
+
+                const actionCell =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                const detailsButton =
+                    document.createElement(
+                        "button"
+                    );
+
+                detailsButton.className =
+                    "view-user";
+
+                detailsButton.textContent =
+                    "Details";
+
+
+                detailsButton.addEventListener(
+                    "click",
+                    function () {
+
+                        selectUser(
+                            user
+                        );
+
+                        toggleActionButtons();
+
+                    }
+                );
+
+
+                actionCell.appendChild(
+                    detailsButton
+                );
+
+
+                // --------------------------------------
+                // ADD ROW CELLS
+                // --------------------------------------
+
+                row.appendChild(
+                    idCell
+                );
+
+                row.appendChild(
+                    usernameCell
+                );
+
+                row.appendChild(
+                    balanceCell
+                );
+
+                row.appendChild(
+                    depositCell
+                );
+
+                row.appendChild(
+                    withdrawCell
+                );
+
+                row.appendChild(
+                    pendingWithdrawCell
+                );
+
+                row.appendChild(
+                    statusCell
+                );
+
+                row.appendChild(
+                    actionCell
+                );
+
+
+                userListBody.appendChild(
+                    row
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "User data loading failed:",
+            error
+        );
+
+        userListBody.innerHTML =
+            `<tr>
+                <td colspan="8">
+                    Failed to load user data.
+                </td>
+            </tr>`;
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// SELECT USER
+// ------------------------------------------------------
+
+function selectUser(
+    user
+) {
+
+    currentSelectedUser =
+        user;
+
+
+    console.log(
+        "Selected user:",
+        user.user_id
+    );
+
+
+    loadPersonalInformation(
+        user
+    );
+
+
+    // ----------------------------------------------
+    // Prepare history panels
+    // ----------------------------------------------
+
+    resetDepositHistory();
+
+    resetWithdrawHistory();
+
+}
+
+
+// ------------------------------------------------------
+// LOAD PERSONAL INFORMATION
+// ------------------------------------------------------
+
+function loadPersonalInformation(
+    user
+) {
+
+    if (!user) {
+        return;
+    }
+
+
+    const fullName =
+        document.getElementById(
+            "profileFullName"
+        );
+
+    const email =
+        document.getElementById(
+            "profileEmail"
+        );
+
+    const country =
+        document.getElementById(
+            "profileCountry"
+        );
+
+    const address =
+        document.getElementById(
+            "profileAddress"
+        );
+
+    const accountLevel =
+        document.getElementById(
+            "profileAccountLevel"
+        );
+
+    const registrationDate =
+        document.getElementById(
+            "profileRegistrationDate"
+        );
+
+    const lastLogin =
+        document.getElementById(
+            "profileLastLogin"
+        );
+
+
+    if (fullName) {
+
+        fullName.textContent =
+            getUserDataValue(
+                user.full_name
+            );
+
+    }
+
+
+    if (email) {
+
+        email.textContent =
+            getUserDataValue(
+                user.email
+            );
+
+    }
+
+
+    if (country) {
+
+        country.textContent =
+            getUserDataValue(
+                user.country
+            );
+
+    }
+
+
+    if (address) {
+
+        address.textContent =
+            getUserDataValue(
+                user.address
+            );
+
+    }
+
+
+    if (accountLevel) {
+
+        accountLevel.textContent =
+            getUserDataValue(
+                user.account_level
+            );
+
+    }
+
+
+    if (registrationDate) {
+
+        registrationDate.textContent =
+            formatUserDate(
+                user.created_at
+            );
+
+    }
+
+
+    if (lastLogin) {
+
+        lastLogin.textContent =
+            formatUserDate(
+                user.last_login_at
+            );
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// RESET DEPOSIT HISTORY
+// ------------------------------------------------------
+
+function resetDepositHistory() {
+
+    const totalDeposit =
+        document.getElementById(
+            "totalDeposit"
+        );
+
+    const todayDeposit =
+        document.getElementById(
+            "todayDeposit"
+        );
+
+    const depositHistoryList =
+        document.getElementById(
+            "depositHistoryList"
+        );
+
+
+    if (totalDeposit) {
+
+        totalDeposit.textContent =
+            "—";
+
+    }
+
+
+    if (todayDeposit) {
+
+        todayDeposit.textContent =
+            "—";
+
+    }
+
+
+    if (depositHistoryList) {
+
+        depositHistoryList.innerHTML =
+            "";
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// RESET WITHDRAW HISTORY
+// ------------------------------------------------------
+
+function resetWithdrawHistory() {
+
+    const totalWithdraw =
+        document.getElementById(
+            "totalWithdraw"
+        );
+
+    const todayWithdraw =
+        document.getElementById(
+            "todayWithdraw"
+        );
+
+    const withdrawHistoryList =
+        document.getElementById(
+            "withdrawHistoryList"
+        );
+
+
+    if (totalWithdraw) {
+
+        totalWithdraw.textContent =
+            "—";
+
+    }
+
+
+    if (todayWithdraw) {
+
+        todayWithdraw.textContent =
+            "—";
+
+    }
+
+
+    if (withdrawHistoryList) {
+
+        withdrawHistoryList.innerHTML =
+            "";
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// USER SEARCH
+// ------------------------------------------------------
+
+function searchUserData() {
+
+    const searchInput =
+        document.getElementById(
+            "userSearchInput"
+        );
+
+    if (!searchInput) {
+        return;
+    }
+
+
+    const userId =
+        searchInput.value
+            .trim();
+
+
+    loadUserData(
+        userId
+    );
+
+}
+
+
+// ------------------------------------------------------
+// USER SEARCH BUTTON
+// ------------------------------------------------------
+
+function initUserSearch() {
+
+    const searchButton =
+        document.getElementById(
+            "userSearchBtn"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "userSearchInput"
+        );
+
+
+    if (searchButton) {
+
+        searchButton.addEventListener(
+            "click",
+            function () {
+
+                searchUserData();
+
+            }
+        );
+
+    }
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    searchUserData();
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+// ------------------------------------------------------
+// USER DATA INITIALIZATION
+// ------------------------------------------------------
+
+function initUserData() {
+
+    initUserSearch();
+
+    loadUserData();
+
+}
+
+
+// ======================================================
+// USER DATA ENGINE END
+// ======================================================
+
+
+
+// ======================================================
 // DOM READY
 // ======================================================
 
@@ -38,7 +1130,19 @@ document.addEventListener(
         // INIT SIDEBAR
         // ==================================================
 
-        initSidebar();
+             initSidebar();
+
+        // ==================================================
+        // DASHBOARD
+        // ==================================================
+
+             loadDashboard();
+
+        // ==================================================
+       // USER DATA
+       // ==================================================
+
+             initUserData();
 
 
         // ==================================================
