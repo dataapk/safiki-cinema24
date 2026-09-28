@@ -2647,122 +2647,299 @@ function togglePassword(inputId, icon){
 // ==============================
 
 async function signupUser() {
-     console.log("Signup Clicked");
 
-const checkbox = document.getElementById("agreeTerms");
+    console.log("Signup Clicked");
 
-console.log(checkbox);
 
-console.log(checkbox.checked);
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
+    // --------------------------------
+    // GET FORM ELEMENTS SAFELY
+    // --------------------------------
+
+    const firstNameInput =
+        document.getElementById("firstName");
+
+    const lastNameInput =
+        document.getElementById("lastName");
+
+    const emailInput =
+        document.getElementById("signupEmail");
+
+    const passwordInput =
+        document.getElementById("signupPassword");
+
+    const confirmPasswordInput =
+        document.getElementById("signupConfirm");
+
+    const referralCodeInput =
+        document.getElementById("referralCode");
+
+    const agreeTermsInput =
+        document.getElementById("agreeTerms");
+
+
+    // --------------------------------
+    // CHECK REQUIRED ELEMENTS
+    // --------------------------------
+
+    if (
+        !firstNameInput ||
+        !lastNameInput ||
+        !emailInput ||
+        !passwordInput ||
+        !confirmPasswordInput ||
+        !agreeTermsInput
+    ) {
+
+        console.error(
+            "Signup form element is missing."
+        );
+
+        alert(
+            "Signup form is not configured correctly. Please try again."
+        );
+
+        return;
+
+    }
+
+
+    // --------------------------------
+    // GET VALUES
+    // --------------------------------
+
+    const firstName =
+        firstNameInput.value.trim();
+
+    const lastName =
+        lastNameInput.value.trim();
+
+    const email =
+        emailInput.value.trim().toLowerCase();
+
+    const password =
+        passwordInput.value;
+
+    const confirmPassword =
+        confirmPasswordInput.value;
+
+    const referralCode =
+        referralCodeInput
+            ? referralCodeInput.value.trim()
+            : "";
+
+    const agreeTerms =
+        agreeTermsInput.checked;
+
+
+    // --------------------------------
+    // REQUIRED FIELD VALIDATION
+    // --------------------------------
+
+    if (
+        !firstName ||
+        !lastName ||
+        !email ||
+        !password ||
+        !confirmPassword
+    ) {
+
+        alert(
+            "Please fill in all required fields."
+        );
+
+        return;
+
+    }
+
+
+    // --------------------------------
+    // EMAIL DOMAIN VALIDATION
+    // ONLY GMAIL + YAHOO
+    // --------------------------------
+
     const allowedDomains = [
-    "@gmail.com",
-    "@yahoo.com",
-    "@outlook.com",
-    "@hotmail.com"
-];
+        "@gmail.com",
+        "@yahoo.com"
+    ];
 
-const isValidDomain = allowedDomains.some(domain =>
-    email.toLowerCase().endsWith(domain)
-);
 
-if (!isValidDomain) {
-    alert("Please use a valid Gmail, Yahoo, Outlook or Hotmail email.");
-    return;
-}
-    
-    const password = document.getElementById("signupPassword").value;
-    // Password must be at least 8 characters,
-// contain one uppercase letter,
-// one lowercase letter,
-// one number,
-// and one special character.
+    const isValidDomain =
+        allowedDomains.some(
+            domain =>
+                email.endsWith(domain)
+        );
 
-const passwordPattern =
-/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_\-+=])[A-Za-z\d@$!%*?&.#^()_\-+=]{8,}$/;
 
-if (!passwordPattern.test(password)) {
+    if (!isValidDomain) {
 
-    alert(
-        "Password must be at least 8 characters and include:\n\n" +
-        "• One uppercase letter\n" +
-        "• One lowercase letter\n" +
-        "• One number\n" +
-        "• One special character"
-    );
+        alert(
+            "Please use a valid Gmail or Yahoo email."
+        );
 
-    return;
-}
-    const confirmPassword = document.getElementById("signupConfirm").value;
-    const referralCode = document.getElementById("referralCode").value.trim();
-    const agreeTerms = document.getElementById("agreeTerms").checked;
-
-    // Validation
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-        alert("Please fill in all required fields.");
         return;
+
     }
 
-    if (password !== confirmPassword) {
-        alert("Passwords do not match.");
+
+    // --------------------------------
+    // PASSWORD VALIDATION
+    // --------------------------------
+
+    const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_\-+=])[A-Za-z\d@$!%*?&.#^()_\-+=]{8,}$/;
+
+
+    if (
+        !passwordPattern.test(
+            password
+        )
+    ) {
+
+        alert(
+            "Password must be at least 8 characters and include:\n\n" +
+            "• One uppercase letter\n" +
+            "• One lowercase letter\n" +
+            "• One number\n" +
+            "• One special character"
+        );
+
         return;
+
     }
 
-    console.log("agreeTerms =", agreeTerms);
 
-if (!agreeTerms) {
-    alert("Please accept the Terms & Conditions.");
-    console.log(document.getElementById("agreeTerms"));
-    console.log(document.getElementById("agreeTerms").checked);
-    return;
-}
+    // --------------------------------
+    // CONFIRM PASSWORD
+    // --------------------------------
 
-    // Create Account
-    const { data, error } = await supabaseClient.auth.signUp({
+    if (
+        password !== confirmPassword
+    ) {
 
-        email: email,
+        alert(
+            "Passwords do not match."
+        );
 
-        password: password,
+        return;
 
-        options: {
+    }
 
-            data: {
-                first_name: firstName,
-                last_name: lastName,
-                referral_code: referralCode
+
+    // --------------------------------
+    // TERMS & CONDITIONS
+    // --------------------------------
+
+    if (!agreeTerms) {
+
+        alert(
+            "Please accept the Terms & Conditions."
+        );
+
+        return;
+
+    }
+
+
+    // --------------------------------
+    // CREATE SUPABASE AUTH ACCOUNT
+    // --------------------------------
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+                data: {
+
+                    first_name:
+                        firstName,
+
+                    last_name:
+                        lastName,
+
+                    referral_code:
+                        referralCode
+
+                }
+
             }
 
-        }
+        });
 
-    });
+
+    // --------------------------------
+    // SIGNUP ERROR
+    // --------------------------------
 
     if (error) {
 
-        alert(error.message);
+        console.error(
+            "Signup error:",
+            error
+        );
+
+        alert(
+            error.message
+        );
 
         return;
 
     }
 
-alert("🎉 Account created successfully!");
 
-closeAuth();
+    // --------------------------------
+    // ACCOUNT CREATED
+    // --------------------------------
 
-await updateHeaderAuth();
+    console.log(
+        "Signup User:",
+        data.user
+    );
 
-console.log("Signup User:", data.user);
+
+    alert(
+        "🎉 Account created successfully!"
+    );
 
 
-if(window.footerCheckUser){
+    // --------------------------------
+    // CLOSE AUTH
+    // --------------------------------
 
-    await footerCheckUser();
+    closeAuth();
+
+
+    // --------------------------------
+    // UPDATE HEADER
+    // --------------------------------
+
+    await updateHeaderAuth();
+
+
+    // --------------------------------
+    // FOOTER USER CHECK
+    // --------------------------------
+
+    if (
+        window.footerCheckUser
+    ) {
+
+        await footerCheckUser();
+
+    }
+
 
 }
 
+// signupUser closing
 
-} // signupUser closing
 // ==============================
 // PAGE LOAD
 // ==============================
