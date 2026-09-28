@@ -101,38 +101,40 @@ if (!localStorage.getItem("adminAuth")) {
 <!-- MAIN CONTENT start -->
 <div class="main-content">
 
-  <!-- =================================== -->
+
+<!-- =================================== -->
 <!-- DASHBOARD SECTION START -->
 <!-- =================================== -->
 
 <div id="dashboardSection" class="admin-section">
 
     <h2>Dashboard Overview</h2>
+
     <div class="stats-grid">
 
         <div class="stat-card">
             <h3>Total Users</h3>
-            <span>0</span>
+            <span id="dashboardTotalUsers"></span>
         </div>
 
         <div class="stat-card">
             <h3>Total Deposit</h3>
-            <span>$0</span>
+            <span id="dashboardTotalDeposit"></span>
         </div>
 
         <div class="stat-card">
             <h3>Total Withdraw</h3>
-            <span>$0</span>
+            <span id="dashboardTotalWithdraw"></span>
         </div>
 
         <div class="stat-card">
             <h3>Pending Withdraw</h3>
-            <span>0</span>
+            <span id="dashboardPendingWithdraw"></span>
         </div>
 
         <div class="stat-card">
             <h3>Today's New Accounts</h3>
-            <span>0</span>
+            <span id="dashboardTodayNewAccounts"></span>
         </div>
 
     </div>
@@ -145,59 +147,60 @@ if (!localStorage.getItem("adminAuth")) {
 
         <div class="stat-card">
             <h3>Active Users</h3>
-            <span>0</span>
+            <span id="dashboardActiveUsers"></span>
         </div>
 
         <div class="stat-card">
             <h3>Suspended Users</h3>
-            <span>0</span>
+            <span id="dashboardSuspendedUsers"></span>
         </div>
 
         <div class="stat-card">
             <h3>Online Users</h3>
-            <span>0</span>
+            <span id="dashboardOnlineUsers"></span>
         </div>
 
         <div class="stat-card">
             <h3>Total Games</h3>
-            <span>0</span>
+            <span id="dashboardTotalGames"></span>
         </div>
 
         <div class="stat-card">
             <h3>System Status</h3>
-            <span>Online</span>
+            <span id="dashboardSystemStatus"></span>
         </div>
 
     </div>
 
     <br>
+
     <!-- ROW 3 -->
 
     <div class="stats-grid">
 
         <div class="stat-card">
             <h3>Today's Deposit</h3>
-            <span>$0</span>
+            <span id="dashboardTodayDeposit"></span>
         </div>
 
         <div class="stat-card">
             <h3>Today's Withdraw</h3>
-            <span>$0</span>
+            <span id="dashboardTodayWithdraw"></span>
         </div>
 
         <div class="stat-card">
             <h3>Today's Profit</h3>
-            <span>$0</span>
+            <span id="dashboardTodayProfit"></span>
         </div>
 
         <div class="stat-card">
             <h3>Today Pending Deposit</h3>
-            <span>0</span>
+            <span id="dashboardTodayPendingDeposit"></span>
         </div>
 
         <div class="stat-card">
             <h3>Today Pending Withdraw</h3>
-            <span>0</span>
+            <span id="dashboardTodayPendingWithdraw"></span>
         </div>
 
     </div>
@@ -207,6 +210,8 @@ if (!localStorage.getItem("adminAuth")) {
 <!-- =================================== -->
 <!-- DASHBOARD SECTION END -->
 <!-- =================================== -->
+
+
 
 <!-- =================================== -->
 <!-- USER DATA SECTION START -->
