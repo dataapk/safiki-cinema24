@@ -664,11 +664,22 @@ function renderCricketApiGames() {
 let oddsApiGames = [];
 
 async function loadOddsApiGames(
-    sportKey
+    sportKey,
+    eventId
 ) {
 
     console.log(
         "🎯 Loading Odds API games..."
+    );
+
+    console.log(
+        "🎯 Sport Key:",
+        sportKey
+    );
+
+    console.log(
+        "🎯 Event ID:",
+        eventId
     );
 
     try {
@@ -679,6 +690,10 @@ async function loadOddsApiGames(
                 "?sport=" +
                 encodeURIComponent(
                     sportKey
+                ) +
+                "&eventIds=" +
+                encodeURIComponent(
+                    eventId
                 ) +
                 "&markets=" +
                 encodeURIComponent(
@@ -2841,12 +2856,27 @@ window.openSportsGame =
 
         }
         
-      // ==========================================
+    // ==========================================
 // LOAD ODDS + MASTER MARKETS
 // ==========================================
 
-await loadOddsApiGames(
+const providerEventId =
+    String(game.game_id || "")
+        .replace(/^api-/, "");
+
+console.log(
+    "🎯 PROVIDER EVENT ID:",
+    providerEventId
+);
+
+console.log(
+    "🎯 PROVIDER SPORT KEY:",
     game.api_sport_key
+);
+
+await loadOddsApiGames(
+    game.api_sport_key,
+    providerEventId
 );
 
 await loadSportsMasterMarketsForGame(
