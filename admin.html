@@ -214,6 +214,10 @@ if (!localStorage.getItem("adminAuth")) {
 
 
 <!-- =================================== -->
+<!-- DASHBOARD SECTION END -->
+<!-- =================================== -->
+
+<!-- =================================== -->
 <!-- USER DATA SECTION START -->
 <!-- =================================== -->
 
@@ -231,8 +235,11 @@ if (!localStorage.getItem("adminAuth")) {
                id="userSearchInput"
                placeholder="Enter User ID">
 
-        <button class="save-btn">
+        <button class="save-btn"
+                id="userSearchBtn">
+
             Search
+
         </button>
 
     </div>
@@ -253,134 +260,157 @@ if (!localStorage.getItem("adminAuth")) {
                 <th>Total Deposit</th>
                 <th>Total Withdrawl</th>
                 <th>Pending Withdrawl</th>
-                 <th>Status</th>
+                <th>Status</th>
                 <th>Action</th>
-                
 
             </tr>
 
         </thead>
 
-        <tbody>
+        <tbody id="userListBody">
 
-            <tr>
-
-                <td>32658425</td>
-                <td>rafibd</td>
-                <td>$350</td>
-                <td>$2550</td>
-                <td>$1500</td>
-                <td>$1350</td>
-                <td>Active</td>
-
-                <td>
-
-    <button
-    class="view-user"
-    onclick="toggleActionButtons()">
-
-    Details
-
-</button>
-
-</td>
-
-            </tr>
+            <!-- USER DATA WILL LOAD FROM SUPABASE -->
 
         </tbody>
 
     </table>
-    
 
-  <!-- ACTION BUTTONS -->
-<div class="action-buttons"
-     id="actionButtons"
-     style="display:none; margin-top:15px;">
-    
-    <button onclick="toggleActionPanel('profilePanel')">
-        Profile
-    </button>
 
-    <button onclick="toggleActionPanel('addBalancePanel')">
-        Add Balance
-    </button>
+    <!-- ACTION BUTTONS -->
 
-    <button onclick="toggleActionPanel('deductBalancePanel')">
-        Deduct Balance
-    </button>
+    <div class="action-buttons"
+         id="actionButtons"
+         style="display:none; margin-top:15px;">
 
-    <button onclick="toggleActionPanel('rtpPanel')">
-        Player RTP %
-    </button>
+        <button onclick="toggleActionPanel('profilePanel')">
+            Profile
+        </button>
 
-    <button onclick="toggleActionPanel('notificationPanel')">
-        Send Notification
-    </button>
+        <button onclick="toggleActionPanel('addBalancePanel')">
+            Add Balance
+        </button>
 
-    <button onclick="toggleActionPanel('suspendPanel')">
-        Suspend User
-    </button>
+        <button onclick="toggleActionPanel('deductBalancePanel')">
+            Deduct Balance
+        </button>
 
-    <button onclick="toggleActionPanel('deletePanel')">
-        Delete User
-    </button>
+        <button onclick="toggleActionPanel('rtpPanel')">
+            Player RTP %
+        </button>
+
+        <button onclick="toggleActionPanel('notificationPanel')">
+            Send Notification
+        </button>
+
+        <button onclick="toggleActionPanel('suspendPanel')">
+            Suspend User
+        </button>
+
+        <button onclick="toggleActionPanel('deletePanel')">
+            Delete User
+        </button>
+
+    </div>
 
 </div>
-<!-- USER DETAILS PANEL END -->
-    <!-- =================================== -->
+
+<!-- =================================== -->
+<!-- USER DATA SECTION END -->
+<!-- =================================== -->
+<!-- =================================== -->
 <!-- PROFILE PANEL -->
 <!-- =================================== -->
+
 <div id="profilePanel"
      class="action-panel"
      style="display:none;">
 
-<h3>Player Profile</h3>
+    <h3>Player Profile</h3>
 
-<div class="action-buttons">
+    <div class="action-buttons">
 
-    <button class="profile-toggle-btn"
-            onclick="toggleActionPanel('personalInfoPanel', this)">
-        Personal Information
-    </button>
+        <button class="profile-toggle-btn"
+                onclick="toggleActionPanel('personalInfoPanel', this)">
+            Personal Information
+        </button>
 
-    <button class="profile-toggle-btn"
-            onclick="toggleActionPanel('depositHistoryPanel', this)">
-        Deposit History
-    </button>
+        <button class="profile-toggle-btn"
+                onclick="toggleActionPanel('depositHistoryPanel', this)">
+            Deposit History
+        </button>
 
-    <button class="profile-toggle-btn"
-            onclick="toggleActionPanel('withdrawHistoryPanel', this)">
-        Withdraw History
-    </button>
+        <button class="profile-toggle-btn"
+                onclick="toggleActionPanel('withdrawHistoryPanel', this)">
+            Withdraw History
+        </button>
 
-    <button class="profile-toggle-btn"
-            onclick="toggleActionPanel('gamingHistoryPanel', this)">
-        Gaming History
-    </button>
+        <button class="profile-toggle-btn"
+                onclick="toggleActionPanel('gamingHistoryPanel', this)">
+            Gaming History
+        </button>
+
+    </div>
 
 </div>
 
-</div>
-    <!-- =================================== -->
+
+<!-- =================================== -->
 <!-- PERSONAL INFORMATION PANEL -->
 <!-- =================================== -->
-    <div id="personalInfoPanel"
+
+<div id="personalInfoPanel"
      class="action-panel sub-panel"
      style="display:none;">
 
     <h4>Personal Information</h4>
 
-    <p><b>Full Name:</b> John Doe</p>
-    <p><b>Email:</b> john@example.com</p>
-    <p><b>Country:</b> Bangladesh</p>
-    <p><b>Address:</b> Dhaka</p>
-    <p><b>Account Level:</b> Silver</p>
-    <p><b>Total XP:</b> 1200</p>
-    <p><b>Today XP:</b> 150</p>
-    <p><b>Registration Date:</b> 2026-01-01</p>
-    <p><b>Last Login:</b> 2026-06-07</p>
+    <p>
+        <b>Full Name:</b>
+        <span id="profileFullName"></span>
+    </p>
+
+    <p>
+        <b>Email:</b>
+        <span id="profileEmail"></span>
+    </p>
+
+    <p>
+        <b>Country:</b>
+        <span id="profileCountry"></span>
+    </p>
+
+    <p>
+        <b>Address:</b>
+        <span id="profileAddress"></span>
+    </p>
+
+    <p>
+        <b>Account Level:</b>
+        <span id="profileAccountLevel"></span>
+    </p>
+
+    <p>
+        <b>Total XP:</b>
+        <span id="profileTotalXp"></span>
+    </p>
+
+    <p>
+        <b>Today XP:</b>
+        <span id="profileTodayXp"></span>
+    </p>
+
+    <p>
+        <b>Registration Date:</b>
+        <span id="profileRegistrationDate"></span>
+    </p>
+
+    <p>
+        <b>Last Login:</b>
+        <span id="profileLastLogin"></span>
+    </p>
 
 </div>
+
 
 <!-- =================================== -->
 <!-- PERSONAL INFORMATION END -->
@@ -396,40 +426,59 @@ if (!localStorage.getItem("adminAuth")) {
 
     <h4>Deposit History</h4>
 
-    <p><b>Total Deposit:</b> 5000 BDT</p>
-    <p><b>Today Deposit:</b> 500 BDT</p>
+    <p>
+        <b>Total Deposit:</b>
+        <span id="totalDeposit"></span>
+        BDT
+    </p>
+
+    <p>
+        <b>Today Deposit:</b>
+        <span id="todayDeposit"></span>
+        BDT
+    </p>
 
     <hr>
 
-    <p>10 Jun - 1000 BDT</p>
-    <p>09 Jun - 2000 BDT</p>
-    <p>08 Jun - 2000 BDT</p>
+    <div id="depositHistoryList">
+        <!-- DYNAMIC DEPOSIT HISTORY WILL LOAD HERE -->
+    </div>
 
 </div>
-    <!-- =================================== -->
-<!-- WITHDRAW HISTORYSTART -->
-<!-- =================================== -->
 
+
+<!-- =================================== -->
+<!-- WITHDRAW HISTORY START -->
+<!-- =================================== -->
 
 <div id="withdrawHistoryPanel"
      class="action-panel sub-panel"
      style="display:none;">
 
+    <h4>Withdraw History</h4>
 
-<h4>Withdraw History</h4>
+    <p>
+        <b>Total Withdraw:</b>
+        <span id="totalWithdraw"></span>
+        BDT
+    </p>
 
-<p><b>Total Withdraw:</b> <span id="totalWithdraw">0</span> BDT</p>
-<p><b>Today Withdraw:</b> <span id="todayWithdraw">0</span> BDT</p>
+    <p>
+        <b>Today Withdraw:</b>
+        <span id="todayWithdraw"></span>
+        BDT
+    </p>
 
-<hr>
+    <hr>
 
-<div id="withdrawHistoryList">
-    <!-- dynamic rows here -->
+    <div id="withdrawHistoryList">
+        <!-- DYNAMIC WITHDRAW HISTORY WILL LOAD HERE -->
+    </div>
+
 </div>
 
 
-</div>
-    <!-- =================================== -->
+<!-- ===================================-->
 <!-- WITHDRAW HISTORY END -->
 <!-- =================================== -->
 
