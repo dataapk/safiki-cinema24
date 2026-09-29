@@ -7,17 +7,6 @@
     },
     {
       "src": "^/admin-login\\.html$",
-      "has": [
-        {
-          "type": "cookie",
-          "key": "admin_gate",
-          "value": "verified"
-        }
-      ],
-      "dest": "/admin-login.html"
-    },
-    {
-      "src": "^/admin-login\\.html$",
       "status": 404
     }
   ]
