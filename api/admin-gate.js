@@ -10,7 +10,7 @@ export default function handler(req, res) {
     const secretPath =
         process.env.ADMIN_SECRET_PATH || "";
 
-    // Secret path must exist in Vercel Environment Variables
+    // Wrong path
     if (
         !secretPath ||
         requestPath !== secretPath
@@ -18,7 +18,12 @@ export default function handler(req, res) {
         return res.status(404).send("Not Found");
     }
 
-    // Secret path is correct
+    // Allow Admin Login page only through the secret gate
+    res.setHeader(
+        "Set-Cookie",
+        "admin_gate=verified; Path=/; HttpOnly; SameSite=Lax; Max-Age=300"
+    );
+
     return res.redirect(
         302,
         "/admin-login.html"
