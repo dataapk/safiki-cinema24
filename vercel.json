@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/dg-control1984",
+      "destination": "/admin-login.html"
+    }
+  ]
+}
