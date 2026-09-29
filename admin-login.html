@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link
+    rel="stylesheet"
+    href="admin-login.css"
+>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Login</title>
+
+    <link
+        rel="stylesheet"
+        href="admin-login.css"
+    >
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h2>Admin Login</h2>
+
+        <div
+            class="error"
+            id="errorMessage"
+        ></div>
+
+        <form
+            id="adminLoginForm"
+        >
+
+            <input
+                type="email"
+                id="adminEmail"
+                placeholder="Email"
+                autocomplete="username"
+                required
+            >
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="Password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button
+                type="submit"
+                id="adminLoginButton"
+            >
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- ====================================== -->
+    <!-- SUPABASE LIBRARY -->
+    <!-- ====================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- ====================================== -->
+    <!-- SAFIKI SUPABASE CONFIG -->
+    <!-- ====================================== -->
+
+    <script src="supabase.js"></script>
+
+
+    <!-- ====================================== -->
+    <!-- ADMIN LOGIN ENGINE -->
+    <!-- ====================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const form =
+                    document.getElementById(
+                        "adminLoginForm"
+                    );
+
+                const errorMessage =
+                    document.getElementById(
+                        "errorMessage"
+                    );
+
+                const loginButton =
+                    document.getElementById(
+                        "adminLoginButton"
+                    );
+
+
+                if (
+                    !window.supabaseClient
+                ) {
+
+                    console.error(
+                        "Supabase client is not available."
+                    );
+
+                    errorMessage.textContent =
+                        "System configuration error.";
+
+                    return;
+
+                }
+
+
+                form.addEventListener(
+                    "submit",
+                    async function (event) {
+
+                        event.preventDefault();
+
+
+                        errorMessage.textContent =
+                            "";
+
+
+                        const email =
+                            document.getElementById(
+                                "adminEmail"
+                            )
+                            .value
+                            .trim()
+                            .toLowerCase();
+
+
+                        const password =
+                            document.getElementById(
+                                "adminPassword"
+                            )
+                            .value;
+
+
+                        if (
+                            !email ||
+                            !password
+                        ) {
+
+                            errorMessage.textContent =
+                                "Please enter your email and password.";
+
+                            return;
+
+                        }
+
+
+                        loginButton.disabled =
+                            true;
+
+                        loginButton.textContent =
+                            "Logging in...";
+
+
+                        try {
+
+                            // ==================================
+                            // SUPABASE AUTH LOGIN
+                            // ==================================
+
+                            const {
+                                data,
+                                error
+                            } =
+                                await window
+                                    .supabaseClient
+                                    .auth
+                                    .signInWithPassword({
+
+                                        email:
+                                            email,
+
+                                        password:
+                                            password
+
+                                    });
+
+
+                            if (error) {
+
+                                console.error(
+                                    "Admin login error:",
+                                    error
+                                );
+
+                                errorMessage.textContent =
+                                    "Invalid email or password.";
+
+                                return;
+
+                            }
+
+
+                            const authUser =
+                                data &&
+                                data.user
+                                    ? data.user
+                                    : null;
+
+
+                            if (!authUser) {
+
+                                errorMessage.textContent =
+                                    "Unable to verify Admin account.";
+
+                                await window
+                                    .supabaseClient
+                                    .auth
+                                    .signOut();
+
+                                return;
+
+                            }
+
+
+                            // ==================================
+                            // ADMIN AUTHORIZATION CHECK
+                            // ==================================
+
+                            const {
+                                data: adminRecord,
+                                error: adminError
+                            } =
+                                await window
+                                    .supabaseClient
+                                    .from(
+                                        "admin_users"
+                                    )
+                                    .select(
+                                        "auth_user_id"
+                                    )
+                                    .eq(
+                                        "auth_user_id",
+                                        authUser.id
+                                    )
+                                    .maybeSingle();
+
+
+                            if (adminError) {
+
+                                console.error(
+                                    "Admin authorization error:",
+                                    adminError
+                                );
+
+                                await window
+                                    .supabaseClient
+                                    .auth
+                                    .signOut();
+
+                                errorMessage.textContent =
+                                    "Admin authorization check failed.";
+
+                                return;
+
+                            }
+
+
+                            // ==================================
+                            // NOT AN ADMIN
+                            // ==================================
+
+                            if (!adminRecord) {
+
+                                await window
+                                    .supabaseClient
+                                    .auth
+                                    .signOut();
+
+                                errorMessage.textContent =
+                                    "You are not authorized to access the Admin Panel.";
+
+                                return;
+
+                            }
+
+
+                           // ==================================
+                    // ADMIN VERIFIED
+                  // ==================================
+
+                "admin_entry=verified; Path=/; SameSite=Lax";
+
+                 window.location.href =
+                              "admin.html";
+                            
+                        } catch (error) {
+
+                            console.error(
+                                "Admin login failed:",
+                                error
+                            );
+
+                            errorMessage.textContent =
+                                "Login failed. Please try again.";
+
+                        } finally {
+
+                            loginButton.disabled =
+                                false;
+
+                            loginButton.textContent =
+                                "Login";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
