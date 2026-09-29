@@ -15,7 +15,7 @@
           "value": "verified"
         }
       ],
-      "check": true
+      "dest": "/admin-login.html"
     },
 
     {
@@ -32,7 +32,7 @@
           "value": "verified"
         }
       ],
-      "check": true
+      "dest": "/admin.html"
     },
 
     {
