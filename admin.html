@@ -84,22 +84,27 @@
                 .maybeSingle();
 
 
-        if (
-            adminError ||
-            !adminRecord
-        ) {
+if (adminError) {
 
-            await window.supabaseClient
-                .auth
-                .signOut();
+    console.error(
+        "❌ Admin DB check failed:",
+        adminError
+    );
 
-            window.location.replace(
-                "admin-login.html"
-            );
+    return;
 
-            return;
+}
 
-        }
+if (!adminRecord) {
+
+    console.error(
+        "❌ Admin record not found for:",
+        authUser.id
+    );
+
+    return;
+
+}
 
 
         // =========================================
