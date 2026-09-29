@@ -6,23 +6,15 @@
       "dest": "/api/admin-gate?path=$1"
     },
     {
-      "src": "/admin-login\\.html$",
-      "missing": [
-        {
-          "type": "cookie",
-          "key": "admin_gate"
-        }
-      ],
+      "src": "^/admin-login\\.html$",
       "status": 404
     },
     {
-      "src": "/admin\\.html$",
-      "missing": [
-        {
-          "type": "cookie",
-          "key": "admin_entry"
-        }
-      ],
+      "src": "^/private/admin-login\\.html$",
+      "status": 404
+    },
+    {
+      "src": "^/admin\\.html$",
       "status": 404
     }
   ]
