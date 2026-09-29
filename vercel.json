@@ -1,8 +1,9 @@
 {
-  "rewrites": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
     {
-      "source": "/__admin_gate/:path*",
-      "destination": "/api/admin-gate?path=:path*"
+      "src": "^/(dg-control[0-9]+)$",
+      "dest": "/api/admin-gate?path=$1"
     }
   ]
 }
