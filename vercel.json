@@ -7,14 +7,15 @@
     },
     {
       "src": "/admin-login\\.html$",
-      "status": 404
+      "has": [
+        {
+          "type": "cookie",
+          "key": "admin_gate",
+          "value": "verified"
+        }
+      ],
+      "check": true
     },
-    {
-      "src": "/admin\\.html$",
-      "status": 404
-    }
-  ]
-}
     {
       "src": "/admin-login\\.html$",
       "status": 404
@@ -28,15 +29,11 @@
           "value": "verified"
         }
       ],
-      "continue": true
+      "check": true
     },
     {
       "src": "/admin\\.html$",
       "status": 404
-    },
-    {
-      "src": "^/(dg-control[0-9]+)$",
-      "dest": "/api/admin-gate?path=$1"
     }
   ]
 }
