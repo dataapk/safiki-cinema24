@@ -17,7 +17,7 @@
       "status": 404
     },
     {
-      "src": "/admin.html$",
+      "src": "/admin\\.html$",
       "has": [
         {
           "type": "cookie",
@@ -28,7 +28,7 @@
       "continue": true
     },
     {
-      "src": "/admin.html$",
+      "src": "/admin\\.html$",
       "status": 404
     },
     {
