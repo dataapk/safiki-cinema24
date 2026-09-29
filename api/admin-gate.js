@@ -30,7 +30,6 @@ export default function handler(req, res) {
     // Serve admin-login.html internally
     const filePath = path.join(
     process.cwd(),
-    "private",
     "admin-login.html"
 );
 
