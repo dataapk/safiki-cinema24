@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,36 +63,21 @@
 
 
     <!-- ====================================== -->
-    <!-- SUPABASE -->
+    <!-- SUPABASE LIBRARY -->
     <!-- ====================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
     <!-- ====================================== -->
-    <!-- SUPABASE CONFIG -->
+    <!-- SAFIKI SUPABASE CONFIG -->
     <!-- ====================================== -->
 
-    <script>
-
-        const SUPABASE_URL =
-            "YOUR_SUPABASE_URL";
-
-        const SUPABASE_ANON_KEY =
-            "YOUR_SUPABASE_ANON_KEY";
-
-
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
-
-    </script>
+    <script src="supabase.js"></script>
 
 
     <!-- ====================================== -->
-    <!-- ADMIN LOGIN -->
+    <!-- ADMIN LOGIN ENGINE -->
     <!-- ====================================== -->
 
     <script>
@@ -116,6 +100,22 @@
                     document.getElementById(
                         "adminLoginButton"
                     );
+
+
+                if (
+                    !window.supabaseClient
+                ) {
+
+                    console.error(
+                        "Supabase client is not available."
+                    );
+
+                    errorMessage.textContent =
+                        "System configuration error.";
+
+                    return;
+
+                }
 
 
                 form.addEventListener(
@@ -167,17 +167,16 @@
 
                         try {
 
-                            /*
-                             * --------------------------------
-                             * SUPABASE AUTH LOGIN
-                             * --------------------------------
-                             */
+                            // ==================================
+                            // SUPABASE AUTH LOGIN
+                            // ==================================
 
                             const {
                                 data,
                                 error
                             } =
-                                await supabaseClient
+                                await window
+                                    .supabaseClient
                                     .auth
                                     .signInWithPassword({
 
@@ -217,7 +216,8 @@
                                 errorMessage.textContent =
                                     "Unable to verify Admin account.";
 
-                                await supabaseClient
+                                await window
+                                    .supabaseClient
                                     .auth
                                     .signOut();
 
@@ -226,20 +226,16 @@
                             }
 
 
-                            /*
-                             * --------------------------------
-                             * ADMIN AUTHORIZATION CHECK
-                             * --------------------------------
-                             *
-                             * The user must exist inside
-                             * admin_users.
-                             */
+                            // ==================================
+                            // ADMIN AUTHORIZATION CHECK
+                            // ==================================
 
                             const {
                                 data: adminRecord,
                                 error: adminError
                             } =
-                                await supabaseClient
+                                await window
+                                    .supabaseClient
                                     .from(
                                         "admin_users"
                                     )
@@ -260,7 +256,8 @@
                                     adminError
                                 );
 
-                                await supabaseClient
+                                await window
+                                    .supabaseClient
                                     .auth
                                     .signOut();
 
@@ -272,15 +269,14 @@
                             }
 
 
-                            /*
-                             * --------------------------------
-                             * NOT AN ADMIN
-                             * --------------------------------
-                             */
+                            // ==================================
+                            // NOT AN ADMIN
+                            // ==================================
 
                             if (!adminRecord) {
 
-                                await supabaseClient
+                                await window
+                                    .supabaseClient
                                     .auth
                                     .signOut();
 
@@ -292,11 +288,9 @@
                             }
 
 
-                            /*
-                             * --------------------------------
-                             * ADMIN VERIFIED
-                             * --------------------------------
-                             */
+                            // ==================================
+                            // ADMIN VERIFIED
+                            // ==================================
 
                             window.location.href =
                                 "admin.html";
@@ -333,4 +327,3 @@
 </body>
 
 </html>
-```
