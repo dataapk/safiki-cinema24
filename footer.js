@@ -139,7 +139,7 @@ window.footerUpdateUserUI = function(user){
 
     if(!guest || !profile) return;
 
-   if(user){
+if(user){
 
     guest.style.display = "none";
     profile.style.display = "block";
@@ -147,18 +147,40 @@ window.footerUpdateUserUI = function(user){
     document.getElementById("footerUserName").textContent =
         user.name || "Player";
 
-document.getElementById("footerUserLevel").textContent =
-    user.vip || "Bronze";
+    const level = user.vip || "Bronze";
 
-    document.getElementById("footerUserAvatar").src =
-        user.avatar || "images/default-avatar.png";
+    document.getElementById("footerUserLevel").textContent =
+        level;
 
-    }else{
+    const levelIcon =
+        document.getElementById("footerUserLevelIcon");
 
-        guest.style.display = "block";
-        profile.style.display = "none";
+    if(levelIcon){
+
+        levelIcon.classList.remove(
+            "level-bronze",
+            "level-silver",
+            "level-gold"
+        );
+
+        if(level === "Gold"){
+            levelIcon.classList.add("level-gold");
+        }
+        else if(level === "Silver"){
+            levelIcon.classList.add("level-silver");
+        }
+        else{
+            levelIcon.classList.add("level-bronze");
+        }
 
     }
+
+}else{
+
+    guest.style.display = "block";
+    profile.style.display = "none";
+
+}
 
 };
 // ===== SIDEBAR CLOSE =====
