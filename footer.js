@@ -147,8 +147,10 @@ window.footerUpdateUserUI = function(user){
     document.getElementById("footerUserName").textContent =
         user.name || "Player";
 
-    document.getElementById("footerUserLevel").textContent =
-        "Level: " + (user.vip || "Bronze");
+    document.getElementById("footerUserLevel").textContent = "Level:";
+
+document.getElementById("footerUserLevel").dataset.level =
+    user.vip || "Bronze";
 
     document.getElementById("footerUserAvatar").src =
         user.avatar || "images/default-avatar.png";
