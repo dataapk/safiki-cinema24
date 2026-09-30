@@ -64,14 +64,7 @@ function updateDisplayedBalance() {
 }
 
 
-/* --- ইভেন্ট লিসেনার: কারেন্সি পাল্টালেই যেন ব্যালেন্স আপডেট হয় --- */
-document.getElementById('from-currency').addEventListener('change', function() {
-    updateDisplayedBalance(); // ব্যালেন্স টেক্সট আপডেট করবে
-    // এখানে চাইলে তুমি প্রাইস ক্যালকুলেশন ফাংশনটিও কল করতে পারো
-    if (typeof calculateExchange === 'function') {
-        calculateExchange();
-    }
-});
+
 
 // API থেকে লাইভ রেট আনার ফাংশন
 async function fetchLiveRates() {
