@@ -2943,202 +2943,212 @@ async function signupUser() {
 
 async function loadMainUIUserProfile() {
 
+    console.log("🔄 Loading Main UI User Profile...");
 
-console.log("🔄 Loading Main UI User Profile...");
-
-// --------------------------------
-// CHECK SUPABASE
-// --------------------------------
-
-if (!window.supabaseClient) {
-    console.error("❌ Supabase client not found.");
-    return;
-}
-
-try {
-
-    // --------------------------------
-    // GET LOGGED-IN USER
-    // --------------------------------
-
-    const {
-        data: authData,
-        error: authError
-    } = await window.supabaseClient.auth.getUser();
-
-    if (authError) {
-        console.error(
-            "❌ Auth User Error:",
-            authError
-        );
+    if (!window.supabaseClient) {
+        console.error("❌ Supabase client not found.");
         return;
     }
 
-    const loggedUser = authData?.user;
+    try {
 
-    if (!loggedUser || !loggedUser.email) {
-        console.warn(
-            "⚠️ No logged-in user found."
-        );
-        return;
-    }
+        // ==============================
+        // GET LOGGED-IN AUTH USER
+        // ==============================
 
-    console.log(
-        "✅ Logged-in Email:",
-        loggedUser.email
-    );
+        const {
+            data: authData,
+            error: authError
+        } = await window.supabaseClient.auth.getUser();
 
-    // --------------------------------
-    // LOAD USER DATA
-    // --------------------------------
+        if (authError) {
+            console.error(
+                "❌ Auth User Error:",
+                authError
+            );
+            return;
+        }
 
-    const {
-        data: userData,
-        error: userDataError
-    } = await window.supabaseClient
-        .from("user_data")
-        .select(
-            "user_id, email, kyc_status, account_level"
-        )
-        .eq("email", loggedUser.email)
-        .maybeSingle();
+        const loggedUser = authData?.user;
 
-    if (userDataError) {
-        console.error(
-            "❌ User Data Error:",
-            userDataError
-        );
-        return;
-    }
+        if (!loggedUser || !loggedUser.email) {
+            console.warn(
+                "⚠️ No logged-in user found."
+            );
+            return;
+        }
 
-    if (!userData) {
-        console.warn(
-            "⚠️ User data not found for:",
+        console.log(
+            "✅ Logged-in Email:",
             loggedUser.email
         );
-        return;
-    }
 
-    console.log(
-        "✅ Main UI User Data:",
-        userData
-    );
 
-    // --------------------------------
-    // USER ID
-    // --------------------------------
+        // ==============================
+        // GET USER DATA
+        // ==============================
 
-    const profileUserId =
-        document.getElementById(
-            "profileUserId"
-        );
-
-    if (profileUserId) {
-
-        profileUserId.textContent =
-            userData.user_id || "—";
-
-    }
-
-    // --------------------------------
-    // VERIFICATION STATUS
-    // --------------------------------
-
-    const verificationStatus =
-        document.getElementById(
-            "profileUserVerificationStatus"
-        );
-
-    if (verificationStatus) {
-
-        const kycStatus =
-            String(
-                userData.kyc_status || ""
+        const {
+            data: userData,
+            error: userDataError
+        } = await window.supabaseClient
+            .from("user_data")
+            .select(
+                "user_id, email, kyc_status, account_level"
             )
-            .trim()
-            .toLowerCase();
+            .eq("email", loggedUser.email)
+            .maybeSingle();
 
-        if (kycStatus === "verified") {
+        if (userDataError) {
+            console.error(
+                "❌ User Data Error:",
+                userDataError
+            );
+            return;
+        }
 
-            verificationStatus.textContent =
-                "Verified";
+        if (!userData) {
+            console.warn(
+                "⚠️ User data not found for:",
+                loggedUser.email
+            );
+            return;
+        }
 
-        } else {
+        console.log(
+            "✅ Main UI User Data:",
+            userData
+        );
 
-            verificationStatus.textContent =
-                "Unverified";
+
+        // ==============================
+        // USER ID
+        // ==============================
+
+        const profileUserId =
+            document.getElementById(
+                "profileUserId"
+            );
+
+        if (profileUserId) {
+
+            profileUserId.textContent =
+                userData.user_id || "—";
 
         }
-    }
 
-    // --------------------------------
-    // ACCOUNT LEVEL
-    // --------------------------------
 
-    const footerUserLevel =
-        document.getElementById(
-            "footerUserLevel"
-        );
+        // ==============================
+        // KYC VERIFICATION STATUS
+        // Pending  → Unverified
+        // Approved → Verified
+        // ==============================
 
-    if (footerUserLevel) {
+        const verificationStatus =
+            document.getElementById(
+                "profileUserVerificationStatus"
+            );
 
-        const accountLevel =
-            String(
-                userData.account_level || ""
-            ).trim();
+        if (verificationStatus) {
 
-        footerUserLevel.textContent =
-            accountLevel || "Bronze";
-    }
+            const kycStatus =
+                String(
+                    userData.kyc_status || ""
+                )
+                .trim()
+                .toLowerCase();
 
-    // --------------------------------
-    // SAVE EXISTING APP USER ID
-    // --------------------------------
-    // This does NOT create an ID.
-    // It only stores the existing DG ID
-    // already created in user_data.
-    // --------------------------------
+            if (kycStatus === "approved") {
 
-    if (userData.user_id) {
+                verificationStatus.textContent =
+                    "Verified";
 
-        localStorage.setItem(
-            "userId",
-            userData.user_id
-        );
+            } else {
 
-        localStorage.setItem(
-            "userID",
-            userData.user_id
-        );
+                verificationStatus.textContent =
+                    "Unverified";
 
-        localStorage.setItem(
-            "user_id",
-            userData.user_id
-        );
-    }
+            }
 
-    console.log(
-        "✅ Main UI Profile Updated:",
-        {
-            userId: userData.user_id,
-            verification:
-                userData.kyc_status,
-            level:
-                userData.account_level
         }
-    );
 
-} catch (error) {
 
-    console.error(
-        "❌ Main UI Profile Load Error:",
-        error
-    );
+        // ==============================
+        // ACCOUNT LEVEL
+        // ==============================
+
+        const footerUserLevel =
+            document.getElementById(
+                "footerUserLevel"
+            );
+
+        if (footerUserLevel) {
+
+            const accountLevel =
+                String(
+                    userData.account_level || "Bronze"
+                )
+                .trim();
+
+            footerUserLevel.textContent =
+                accountLevel || "Bronze";
+
+        }
+
+
+        // ==============================
+        // SAVE EXISTING APP USER ID
+        // ==============================
+
+        if (userData.user_id) {
+
+            localStorage.setItem(
+                "userId",
+                userData.user_id
+            );
+
+            localStorage.setItem(
+                "userID",
+                userData.user_id
+            );
+
+            localStorage.setItem(
+                "user_id",
+                userData.user_id
+            );
+
+        }
+
+
+        // ==============================
+        // FINAL CONSOLE CHECK
+        // ==============================
+
+        console.log(
+            "✅ Main UI Profile Updated:",
+            {
+                userId: userData.user_id,
+                kycStatus: userData.kyc_status,
+                verification:
+                    String(
+                        userData.kyc_status || ""
+                    ).toLowerCase() === "approved"
+                        ? "Verified"
+                        : "Unverified",
+                accountLevel:
+                    userData.account_level || "Bronze"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ Main UI Profile Load Error:",
+            error
+        );
+
+    }
 }
-
-
-}
-
 
 // ==============================
 // PAGE LOAD
