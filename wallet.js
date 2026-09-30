@@ -325,8 +325,9 @@ function updateBalanceUI(){
     // ======================================
 
     const balanceText =
-        Number(balance || 0).toFixed(8);
-
+    walletManager.currentCurrency === "USDT"
+        ? Number(balance || 0).toFixed(2)
+        : Number(balance || 0).toFixed(8);
 
     // ======================================
     // COMMON BALANCE SELECTORS
