@@ -2941,6 +2941,78 @@ async function signupUser() {
 
 // signupUser closing
 
+async function loadMainUIUserProfile() {
+
+    if (!window.supabaseClient) {
+        console.error("Supabase client not found.");
+        return;
+    }
+
+    try {
+
+        const {
+            data: { user },
+            error: authError
+        } = await window.supabaseClient.auth.getUser();
+
+        if (authError || !user) {
+            return;
+        }
+
+        const { data, error } =
+            await window.supabaseClient
+                .from("user_data")
+                .select("user_id, kyc_status")
+                .eq("email", user.email)
+                .maybeSingle();
+
+        if (error) {
+            console.error("❌ Main UI User Data Error:", error);
+            return;
+        }
+
+        if (!data) {
+            console.warn("⚠️ User data not found.");
+            return;
+        }
+
+        // Existing DG User ID
+        const profileUserId =
+            document.getElementById("profileUserId");
+
+        if (profileUserId) {
+            profileUserId.textContent =
+                data.user_id || "—";
+        }
+
+        // Existing KYC status
+        const verificationStatus =
+            document.getElementById(
+                "profileUserVerificationStatus"
+            );
+
+        if (verificationStatus) {
+
+            const kycStatus =
+                String(data.kyc_status || "")
+                    .trim()
+                    .toLowerCase();
+
+            verificationStatus.textContent =
+                kycStatus === "verified"
+                    ? "Verified"
+                    : "Unverified";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "❌ Main UI Profile Load Error:",
+            error
+        );
+    }
+}
+
 // ==============================
 // PAGE LOAD
 // ==============================
