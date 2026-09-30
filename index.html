@@ -42,7 +42,7 @@
     <!-- ড্রপডাউন হেডার বার -->
 <!-- ড্রপডাউন হেডার বার -->
 <div class="dropdown-header-bar">
-    <!-- বাম পাশে সর্টিং অপশনস -->
+    <!-- বাম পাশে সর্টিং অপশনস -->deposit
     <div class="left-controls">
         <i class="fas fa-sort-amount-down" onclick="sortAssets('amount')" title="Sort by Amount"></i>
         <i class="fas fa-sort-alpha-down" onclick="sortAssets('alpha')" title="Sort A-Z"></i>
@@ -160,223 +160,477 @@
         Withdraw
     </button>
 
-    <button class="tab-btn"
-            onclick="showTab('exchange')">
-        <i class="fas fa-exchange-alt"></i>
-        Exchange
-    </button>
-
 </div>
 
     <!-- নিচে গ্রিড কন্টেন্ট -->
     <!-- ডিপোজিট সেকশন -->
 
-<div id="deposit" class="crypto-grid">
+<!-- ==========================================
+     WALLET TABS
+     ========================================== -->
 
-    <div class="crypto-item" onclick="selectCrypto('USDT', 'TRX123456789ABCDEF')">
+<div class="wallet-tabs-container">
 
-        <img src="image/usdt.png" alt="USDT"> USDT
+    <button class="tab-btn active"
+            onclick="showTab('deposit')">
+        <i class="fas fa-arrow-down"></i>
+        Deposit
+    </button>
 
-    </div>
-
-    <div class="crypto-item" onclick="selectCrypto('BTC', 'BC1QXYZ987654')">
-
-        <img src="image/btc.png" alt="BTC"> BTC
-
-    </div>
-
-    <div class="crypto-item" onclick="selectCrypto('TRX', 'TRX987654321XYZ')">
-
-        <img src="image/trx.png" alt="TRX"> TRX
-
-    </div>
-
-    <div class="crypto-item" onclick="selectCrypto('SOL', 'SOL123456789ABC')">
-
-        <img src="image/sol.png" alt="SOL"> SOL
-
-    </div>
-
-    <div class="crypto-item see-all"><span>+</span> See All</div>
+    <button class="tab-btn"
+            onclick="showTab('withdraw')">
+        <i class="fas fa-arrow-up"></i>
+        Withdraw
+    </button>
 
 </div>
 
 
+<!-- ==========================================
+     DEPOSIT SECTION
+     ========================================== -->
 
-<!-- অ্যাড্রেস বক্স (ডিপোজিট সেকশনের ঠিক পরেই এটি বসাবে) -->
+<div id="deposit" class="crypto-grid">
 
-<div id="address-box" class="address-container" style="display:none;">
+    <div class="crypto-item"
+         onclick="selectCrypto('USDT', 'TRX123456789ABCDEF')">
+        <img src="image/usdt.png" alt="USDT"> USDT
+    </div>
 
-    <!-- আপডেট করা হেডার -->
+    <div class="crypto-item"
+         onclick="selectCrypto('BTC', 'BC1QXYZ987654')">
+        <img src="image/btc.png" alt="BTC"> BTC
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('ETH', 'ETH123456789ABC')">
+        <img src="image/eth.png" alt="ETH"> ETH
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('SOL', 'SOL123456789ABC')">
+        <img src="image/sol.png" alt="SOL"> SOL
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('XRP', 'XRP123456789ABC')">
+        <img src="image/xrp.png" alt="XRP"> XRP
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('LTC', 'LTC123456789ABC')">
+        <img src="image/ltc.png" alt="LTC"> LTC
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('BCH', 'BCH123456789ABC')">
+        <img src="image/bch.png" alt="BCH"> BCH
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('ZEC', 'ZEC123456789ABC')">
+        <img src="image/zec.png" alt="ZEC"> ZEC
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('XMR', 'XMR123456789ABC')">
+        <img src="image/xmr.png" alt="XMR"> XMR
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('DASH', 'DASH123456789ABC')">
+        <img src="image/dash.png" alt="DASH"> DASH
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('DOGE', 'DOGE123456789ABC')">
+        <img src="image/doge.png" alt="DOGE"> DOGE
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('TRX', 'TRX987654321XYZ')">
+        <img src="image/trx.png" alt="TRX"> TRX
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('GRAM', 'GRAM123456789ABC')">
+        <img src="image/gram.png" alt="GRAM"> GRAM
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('ADA', 'ADA123456789ABC')">
+        <img src="image/ada.png" alt="ADA"> ADA
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('BNB', 'BNB123456789ABC')">
+        <img src="image/bnb.png" alt="BNB"> BNB
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('LINK', 'LINK123456789ABC')">
+        <img src="image/link.png" alt="LINK"> LINK
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('XLM', 'XLM123456789ABC')">
+        <img src="image/xlm.png" alt="XLM"> XLM
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('SUI', 'SUI123456789ABC')">
+        <img src="image/sui.png" alt="SUI"> SUI
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('QNT', 'QNT123456789ABC')">
+        <img src="image/qnt.png" alt="QNT"> QNT
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectCrypto('SHIB', 'SHIB123456789ABC')">
+        <img src="image/shib.png" alt="SHIB"> SHIB
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     DEPOSIT ADDRESS BOX
+     ========================================== -->
+
+<div id="address-box"
+     class="address-container"
+     style="display:none;">
 
     <div class="addr-header">
 
-        <div class="back-box" onclick="goBack()">
+        <div class="back-box"
+             onclick="goBack()">
 
-            <button>←</button>
+            <button type="button">←</button>
 
             <span>Back</span>
 
         </div>
 
-        <h4 id="coin-title">Deposit</h4>
+        <h4 id="coin-title">
+            Deposit
+        </h4>
+
+        <button type="button"
+                class="wallet-close-btn"
+                onclick="goBack()">
+            ×
+        </button>
 
     </div>
 
 
+    <!-- NETWORK -->
 
-    <select id="network-select" onchange="updateAddress()">
+    <p class="wallet-field-label">
+        Select Network
+    </p>
 
-        <option value="ERC20">Ethereum (ERC-20)</option>
+    <select id="network-select"
+            onchange="updateAddress()">
 
-        <option value="TRC20">Tron (TRC-20)</option>
+        <option value="ERC20">
+            Ethereum (ERC-20)
+        </option>
 
-        <option value="BEP20">BNB Smart Chain (BEP-20)</option>
+        <option value="TRC20">
+            Tron (TRC-20)
+        </option>
+
+        <option value="BEP20">
+            BNB Smart Chain (BEP-20)
+        </option>
+
+        <option value="POLYGON">
+            Polygon
+        </option>
+
+        <option value="ARBITRUM">
+            Arbitrum
+        </option>
+
+        <option value="OPTIMISM">
+            Optimism
+        </option>
 
     </select>
 
 
+    <!-- QR CODE -->
 
     <div class="qr-code-box">
 
-        <img src="image/qr-placeholder.png" alt="QR Code" id="qr-image">
+        <img src="image/qr-placeholder.png"
+             alt="QR Code"
+             id="qr-image">
 
     </div>
 
 
+    <p>
+        Deposit Address
+    </p>
 
-    <p>Deposit Address</p>
 
     <div class="address-input-box">
 
-        <span id="wallet-address">Select a network</span>
+        <span id="wallet-address">
+            Select a network
+        </span>
 
-        <button onclick="copyAddress()">📋</button>
+        <button type="button"
+                onclick="copyAddress()">
+            📋
+        </button>
 
     </div>
 
+
+    <div class="wallet-address-hint">
+        Enter your selected currency address on the selected network.
+    </div>
 
 
     <div class="info-box">
 
-        <p>• Minimum = 5.00</p>
+        <p>
+            • Minimum = 5.00
+        </p>
 
-        <p>• Please make sure to only send selected coin to this address.</p>
+        <p>
+            • Please make sure to only send the selected coin to this address.
+        </p>
+
+        <p>
+            • Sending a different currency or unsupported network may result in permanent loss.
+        </p>
 
     </div>
 
 </div>
 
-            <!-- উইথড্র সেকশন -->
 
-<div id="withdraw" class="crypto-grid" style="display:none;">
-    <div class="crypto-item" onclick="selectWithdraw('USDT')">
+
+<!-- ==========================================
+     WITHDRAW SECTION
+     ========================================== -->
+
+<div id="withdraw"
+     class="crypto-grid"
+     style="display:none;">
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('USDT')">
         <img src="image/usdt.png" alt="USDT"> USDT
     </div>
-    <div class="crypto-item" onclick="selectWithdraw('BTC')">
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('BTC')">
         <img src="image/btc.png" alt="BTC"> BTC
     </div>
-    <div class="crypto-item" onclick="selectWithdraw('TRX')">
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('ETH')">
+        <img src="image/eth.png" alt="ETH"> ETH
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('SOL')">
+        <img src="image/sol.png" alt="SOL"> SOL
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('XRP')">
+        <img src="image/xrp.png" alt="XRP"> XRP
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('LTC')">
+        <img src="image/ltc.png" alt="LTC"> LTC
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('BCH')">
+        <img src="image/bch.png" alt="BCH"> BCH
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('ZEC')">
+        <img src="image/zec.png" alt="ZEC"> ZEC
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('XMR')">
+        <img src="image/xmr.png" alt="XMR"> XMR
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('DASH')">
+        <img src="image/dash.png" alt="DASH"> DASH
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('DOGE')">
+        <img src="image/doge.png" alt="DOGE"> DOGE
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('TRX')">
         <img src="image/trx.png" alt="TRX"> TRX
     </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('GRAM')">
+        <img src="image/gram.png" alt="GRAM"> GRAM
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('ADA')">
+        <img src="image/ada.png" alt="ADA"> ADA
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('BNB')">
+        <img src="image/bnb.png" alt="BNB"> BNB
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('LINK')">
+        <img src="image/link.png" alt="LINK"> LINK
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('XLM')">
+        <img src="image/xlm.png" alt="XLM"> XLM
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('SUI')">
+        <img src="image/sui.png" alt="SUI"> SUI
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('QNT')">
+        <img src="image/qnt.png" alt="QNT"> QNT
+    </div>
+
+    <div class="crypto-item"
+         onclick="selectWithdraw('SHIB')">
+        <img src="image/shib.png" alt="SHIB"> SHIB
+    </div>
+
 </div>
 
-<!-- উইথড্র ইনপুট বক্স -->
-<div id="withdraw-input-box" class="address-container" style="display:none;">
+
+
+<!-- ==========================================
+     WITHDRAW INPUT BOX
+     ========================================== -->
+
+<div id="withdraw-input-box"
+     class="address-container"
+     style="display:none;">
+
     <div class="addr-header">
-        <div class="back-box" onclick="goBackFromWithdraw()">
-            <button>←</button>
+
+        <div class="back-box"
+             onclick="goBackFromWithdraw()">
+
+            <button type="button">←</button>
+
             <span>Back</span>
+
         </div>
-        <h4 id="withdraw-coin-title">Withdraw</h4>
+
+        <h4 id="withdraw-coin-title">
+            Withdraw
+        </h4>
+
+        <button type="button"
+                class="wallet-close-btn"
+                onclick="goBackFromWithdraw()">
+            ×
+        </button>
+
     </div>
-    <p>Select Network</p>
+
+
+    <!-- NETWORK -->
+
+    <p class="wallet-field-label">
+        Select Network
+    </p>
+
     <select id="network-select-withdraw">
-        <option value="ERC20">Ethereum (ERC-20)</option>
-        <option value="TRC20">Tron (TRC-20)</option>
+
+        <option value="ERC20">
+            Ethereum (ERC-20)
+        </option>
+
+        <option value="TRC20">
+            Tron (TRC-20)
+        </option>
+
+        <option value="BEP20">
+            BNB Smart Chain (BEP-20)
+        </option>
+
+        <option value="POLYGON">
+            Polygon
+        </option>
+
+        <option value="ARBITRUM">
+            Arbitrum
+        </option>
+
+        <option value="OPTIMISM">
+            Optimism
+        </option>
+
     </select>
-    <p>Withdrawal Address</p>
-    <input type="text" id="withdraw-address" placeholder="Enter your wallet address">
-    <p>Account Password</p>
-    <input type="password" id="withdraw-password" placeholder="Enter your password">
-    <button class="withdraw-btn" onclick="processWithdraw()">Confirm Withdraw</button>
+
+
+    <!-- ADDRESS -->
+
+    <p class="wallet-field-label">
+        Withdrawal Address
+    </p>
+
+    <input type="text"
+           id="withdraw-address"
+           placeholder="Enter your selected currency address">
+
+
+    <!-- PASSWORD -->
+
+    <p class="wallet-field-label">
+        Account Password
+    </p>
+
+    <input type="password"
+           id="withdraw-password"
+           placeholder="Enter your account password">
+
+
+    <!-- CONFIRM -->
+
+    <button type="button"
+            class="withdraw-btn"
+            onclick="processWithdraw()">
+
+        Confirm Withdraw
+
+    </button>
+
 </div>
-
-<!-- START EXCHANGE SECTION DROPDOWN (এটি ঠিক করা হয়েছে) -->
-<!-- START EXCHANGE SECTION DROPDOWN (এটি ঠিক করা হয়েছে) -->
-<div id="exchange-box" class="exchanger-box" style="display:none;">
-    <!-- হেডার -->
-    <div class="exchanger-header">
-        <h3><i class="fas fa-chevron-left"></i> Exchanger</h3>
-        <button class="close-btn" onclick="closeExchange()">×</button>
-    </div>
-
-    <!-- কারেন্সি সিলেকশন (From) -->
-    <div class="currency-group">
-        <!-- আইকন এবং ড্রপডাউন একসাথে রাখার জন্য flex যোগ করা হয়েছে -->
-        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-            <img id="from-icon" src="image/ada.png" width="24" height="24" style="margin-right: 10px;">
-            <select id="from-currency" class="currency-select" 
-        onchange="updateIcons(); updateStatLimits(); checkMinimumLimit();" 
-        style="border:none; background:transparent; outline:none; color:inherit; width: 100%;">
-    <option value="ada" data-img="image/ada.png">Cardano (ADA)</option>
-    <option value="btc" data-img="image/btc.png">Bitcoin (BTC)</option>
-    <option value="eth" data-img="image/eth.png">Ethereum (ETH)</option>
-    <option value="usdt" data-img="image/usdt.png">USDT</option>
-    <option value="doge" data-img="doge.png">Dogecoin (DOGE)</option>
-    <option value="trx" data-img="image/trx.png">Tron (TRX)</option>
-</select>
-        </div>
-        <div class="input-row">
-            <input type="number" id="from-amount" placeholder="0.00">
-            <button class="max-btn" onclick="setMax()">Max</button>
-        </div>
-        <small class="error-msg" id="balance-error" style="display:none;">Amount is higher than balance</small>
-    </div>
-
-    <!-- অদলবদল আইকন -->
-    <div class="swap-icon" onclick="swapCoins()" style="cursor: pointer;"><i class="fas fa-sync-alt"></i> To</div>
-
-    <!-- কারেন্সি সিলেকশন (To) -->
-    <div class="currency-group">
-        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-            <img id="to-icon" src="image/btc.png" width="24" height="24" style="margin-right: 10px;">
-            <select id="to-currency" class="currency-select" onchange="updateIcons();" style="border:none; background:transparent; outline:none; color:inherit; width: 100%;">
-                <option value="btc" data-img="image/btc.png">Bitcoin (BTC)</option>
-                <option value="ada" data-img="image/ada.png">Cardano (ADA)</option>
-                <option value="eth" data-img="image/eth.png">Ethereum (ETH)</option>
-                <option value="usdt" data-img="image/usdt.png">USDT</option>
-                <option value="doge" data-img="image/doge.png">Dogecoin (DOGE)</option>
-                <option value="trx" data-img="image/trx.png">Tron (TRX)</option>
-            </select>
-        </div>
-        <div class="output-row">
-            <span id="to-amount">0.00000000</span>
-        </div>
-    </div>
-    <!-- ইনফো বক্স সেকশন -->
-<div class="info-box">
-    <div class="info-row">
-        <span>Balance:</span>
-        <span id="user-balance">0.00</span>
-    </div>
-    <div class="info-row">
-        <span>Min amount:</span>
-        <span id="min-amount">31.40</span>
-    </div>
-    <div class="info-row">
-        <span>Max amount:</span>
-        <span id="max-amount">1,256,036.82</span>
-    </div>
-</div>
-
-    <!-- বাটন -->
-    <button class="exchange-btn" onclick="processExchange()">Exchange</button></div>
-<!-- এই ডিভগুলো তোমার মেনু বা প্যারেন্ট সেকশন ক্লোজ করবে, যা আগে মিসিং ছিল -->
-</div> 
-</div>
-        </div>
-<!-- END EXCHANGE SECTION DROPDOWN -->
+<!-- END deposit witgdraw section -->
             
  
     <!-- পুরো স্ক্রিনজুড়ে আসা কন্টেইনার -->
