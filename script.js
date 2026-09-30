@@ -2354,71 +2354,326 @@ function updateLogoutUI(){
 // =========================
 // Header Login Status
 // =========================
+// =========================
+// Header Login Status
+// =========================
 
 async function updateHeaderAuth() {
 
     console.log("updateHeaderAuth() Running");
 
-    const { data } = await supabaseClient.auth.getUser();
+    const { data, error } =
+        await supabaseClient.auth.getUser();
 
-    const user = data.user;
-
-    const memberControls = document.getElementById("member-controls");
-    const guestArea = document.getElementById("guest-actions-area");
-    const userArea = document.getElementById("user-actions-area");
-
-   console.log("Supabase User:", user);
-
-// ===== DEBUG =====
-// আপাতত সবসময় Header দেখাও
-if (user) {
-
-    if (memberControls) memberControls.style.display = "flex";
-    if (userArea) userArea.style.display = "flex";
-    if (guestArea) guestArea.style.display = "none";
-
-
-    // Update Home Member View
-    if(window.updateHomeView){
-        updateHomeView(true);
+    if (error) {
+        console.error(
+            "❌ Auth User Error:",
+            error
+        );
     }
 
+    const user = data?.user;
 
-    // Footer Menu Update
-    if(window.footerUpdateUserUI){
+    const memberControls =
+        document.getElementById("member-controls");
 
-        footerUpdateUserUI({
-            name: user.user_metadata?.name || "Player",
-            vip: user.user_metadata?.vip || "VIP 0",
-            avatar: user.user_metadata?.avatar || "images/default-avatar.png"
-        });
+    const guestArea =
+        document.getElementById("guest-actions-area");
+
+    const userArea =
+        document.getElementById("user-actions-area");
+
+    console.log(
+        "Supabase User:",
+        user
+    );
+
+
+    // =========================
+    // LOGGED IN USER
+    // =========================
+
+    if (user) {
+
+        if (memberControls)
+            memberControls.style.display = "flex";
+
+        if (userArea)
+            userArea.style.display = "flex";
+
+        if (guestArea)
+            guestArea.style.display = "none";
+
+
+        // =========================
+        // HOME MEMBER VIEW
+        // =========================
+
+        if (window.updateHomeView) {
+            updateHomeView(true);
+        }
+
+
+        // =========================
+        // GET USER DATA
+        // =========================
+
+        let userData = null;
+
+        try {
+
+            const {
+                data: profileData,
+                error: profileError
+            } = await supabaseClient
+                .from("user_data")
+                .select(
+                    "user_id, email, kyc_status, account_level"
+                )
+                .eq("email", user.email)
+                .maybeSingle();
+
+            if (profileError) {
+
+                console.error(
+                    "❌ User Data Error:",
+                    profileError
+                );
+
+            } else {
+
+                userData = profileData;
+
+                console.log(
+                    "✅ Header User Data:",
+                    userData
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "❌ User Data Load Error:",
+                error
+            );
+
+        }
+
+
+        // =========================
+        // USER ID
+        // =========================
+
+        const profileUserId =
+            document.getElementById(
+                "profileUserId"
+            );
+
+        if (profileUserId) {
+
+            profileUserId.textContent =
+                userData?.user_id || "—";
+
+        }
+
+
+        // =========================
+        // KYC STATUS
+        // Pending  → Unverified
+        // Approved → Verified
+        // =========================
+
+        const verificationStatus =
+            document.getElementById(
+                "profileUserVerificationStatus"
+            );
+
+        if (verificationStatus) {
+
+            const kycStatus =
+                String(
+                    userData?.kyc_status || ""
+                )
+                .trim()
+                .toLowerCase();
+
+            if (kycStatus === "approved") {
+
+                verificationStatus.textContent =
+                    "Verified";
+
+            } else {
+
+                verificationStatus.textContent =
+                    "Unverified";
+
+            }
+
+        }
+
+
+        // =========================
+        // ACCOUNT LEVEL
+        // =========================
+
+        const accountLevel =
+            String(
+                userData?.account_level || "Bronze"
+            ).trim() || "Bronze";
+
+
+        // =========================
+        // FOOTER USER UI
+        // Player + Account Level
+        // =========================
+
+        if (window.footerUpdateUserUI) {
+
+            footerUpdateUserUI({
+
+                name: "Player",
+
+                vip: accountLevel,
+
+                avatar:
+                    user.user_metadata?.avatar ||
+                    "images/default-avatar.png"
+
+            });
+
+        }
+
+
+        // =========================
+        // DIRECT FOOTER LEVEL UPDATE
+        // =========================
+
+        const footerUserName =
+            document.getElementById(
+                "footerUserName"
+            );
+
+        if (footerUserName) {
+
+            footerUserName.textContent =
+                "Player";
+
+        }
+
+
+        const footerUserLevel =
+            document.getElementById(
+                "footerUserLevel"
+            );
+
+        if (footerUserLevel) {
+
+            footerUserLevel.textContent =
+                accountLevel;
+
+        }
+
+
+        // =========================
+        // SAVE EXISTING APP USER ID
+        // =========================
+
+        if (userData?.user_id) {
+
+            localStorage.setItem(
+                "userId",
+                userData.user_id
+            );
+
+            localStorage.setItem(
+                "userID",
+                userData.user_id
+            );
+
+            localStorage.setItem(
+                "user_id",
+                userData.user_id
+            );
+
+        }
+
+
+        console.log(
+            "✅ Header User UI Updated:",
+            {
+                userId:
+                    userData?.user_id || "—",
+
+                email:
+                    userData?.email || user.email,
+
+                kycStatus:
+                    userData?.kyc_status || "Pending",
+
+                verification:
+                    String(
+                        userData?.kyc_status || ""
+                    )
+                    .trim()
+                    .toLowerCase() === "approved"
+                        ? "Verified"
+                        : "Unverified",
+
+                accountLevel:
+                    accountLevel
+            }
+        );
+
+
+    // =========================
+    // LOGGED OUT USER
+    // =========================
+
+    } else {
+
+        if (memberControls)
+            memberControls.style.display = "none";
+
+        if (userArea)
+            userArea.style.display = "none";
+
+        if (guestArea)
+            guestArea.style.display = "flex";
+
+
+        // =========================
+        // HOME GUEST VIEW
+        // =========================
+
+        if (window.updateHomeView) {
+            updateHomeView(false);
+        }
 
     }
-
-} else {
-
-    if (memberControls) memberControls.style.display = "none";
-    if (userArea) userArea.style.display = "none";
-    if (guestArea) guestArea.style.display = "flex";
-
-
-    // Update Home Guest View
-    if(window.updateHomeView){
-        updateHomeView(false);
-    }
-
 }
- }  // updateHeaderAuth function close
 
-   // Make globally available
-window.updateHeaderAuth = updateHeaderAuth;
 
-// First Header Load
-document.addEventListener("DOMContentLoaded", async () => {
+// =========================
+// MAKE GLOBALLY AVAILABLE
+// =========================
 
-    await updateHeaderAuth();
+window.updateHeaderAuth =
+    updateHeaderAuth;
 
-});
+
+// =========================
+// FIRST HEADER LOAD
+// =========================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        await updateHeaderAuth();
+
+    }
+);
 // =========================
 // Logout Popup
 // =========================
