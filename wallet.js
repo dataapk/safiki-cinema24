@@ -217,6 +217,20 @@ async function loadWalletManager(){
 
         }
 
+        if(data){
+
+    WALLET_CURRENCIES.forEach(currency=>{
+        const columnName = currency.toLowerCase();
+
+        walletManager.balances[currency] =
+            Number(data[columnName]) || 0;
+    });
+
+    console.log("✅ SUPABASE WALLET DATA:", data);
+    console.log("✅ WALLET MANAGER BALANCES:", walletManager.balances);
+    console.log("✅ CURRENT CURRENCY:", walletManager.currentCurrency);
+}
+
 
         // ==========================================
         // UPDATE UI
