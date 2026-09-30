@@ -1329,14 +1329,14 @@ if(window.supabaseClient){
             if(window.footerUpdateUserUI){
 
                 footerUpdateUserUI({
-                    name: user?.user_metadata?.name || "Player",
-                    vip: "VIP 0",
-                    avatar: "images/default-avatar.png"
+                    name: user?.user_metadata?.name || "Player"
                 });
 
             }
 
         }
+    });
+}
 
 
         if(event === "SIGNED_OUT"){
