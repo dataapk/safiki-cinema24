@@ -183,6 +183,91 @@ if(user){
 }
 
 };
+
+// =========================
+// Player Level Popup
+// =========================
+
+window.footerOpenProfile = function(){
+
+    const oldPopup = document.getElementById("playerLevelPopup");
+
+    if(oldPopup){
+        oldPopup.remove();
+    }
+
+    const currentLevel =
+        document.getElementById("footerUserLevel")?.textContent.trim()
+        || "Bronze";
+
+    const popup = document.createElement("div");
+
+    popup.id = "playerLevelPopup";
+
+    popup.innerHTML = `
+
+        <div class="player-level-popup-box">
+
+            <button class="player-level-close"
+                    onclick="document.getElementById('playerLevelPopup').remove()">
+                ×
+            </button>
+
+            <h2>Player Level</h2>
+
+            <div class="player-level-row level-bronze">
+
+                <i class="fas fa-crown"></i>
+
+                <div>
+                    <strong>BRONZE</strong>
+                    <span>Normal Account</span>
+                    <span>Total Bet Amount: $0.00</span>
+                </div>
+
+            </div>
+
+
+            <div class="player-level-row level-silver">
+
+                <i class="fas fa-crown"></i>
+
+                <div>
+                    <strong>SILVER</strong>
+                    <span>Minimum Bet Amount: $5,000</span>
+                    <span>Total Bet Amount: $0.00</span>
+                    <span>Cashback Benefits</span>
+                </div>
+
+            </div>
+
+
+            <div class="player-level-row level-gold">
+
+                <i class="fas fa-crown"></i>
+
+                <div>
+                    <strong>GOLD</strong>
+                    <span>Minimum Bet Amount: $20,000</span>
+                    <span>Total Bet Amount: $0.00</span>
+                    <span>Extra Cashback Benefits</span>
+                </div>
+
+            </div>
+
+
+            <div class="player-current-level">
+                Current Level: ${currentLevel}
+            </div>
+
+        </div>
+
+    `;
+
+    document.body.appendChild(popup);
+};
+
+
 // ===== SIDEBAR CLOSE =====
 window.footerCloseSidebar = function(){
 
