@@ -1335,9 +1335,7 @@ if(window.supabaseClient){
             }
 
         }
-    });
-}
-
+  
 
         if(event === "SIGNED_OUT"){
 
