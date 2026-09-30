@@ -206,15 +206,17 @@ function updateBalanceUI(){
 
     if(header){
 
-        console.log(
-            "balanceText =",
-            balanceText,
-            typeof balanceText
-        );
+    const displayBalance =
+        Number(balance).toFixed(8);
 
-        header.textContent = balanceText;
+    console.log(
+        "displayBalance =",
+        displayBalance
+    );
 
-    }
+    header.textContent = displayBalance;
+
+}
 
 
     // ============================
