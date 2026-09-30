@@ -203,21 +203,6 @@ async function loadWalletManager(){
         // LOAD CURRENCY COLUMNS
         // ==========================================
 
-        if(data){
-
-            WALLET_CURRENCIES.forEach(currency => {
-
-                const columnName =
-                    currency.toLowerCase();
-
-                walletManager.balances[currency] =
-                    Number(data[columnName]) || 0;
-
-            });
-
-        }
-
-        if(data){
 
     WALLET_CURRENCIES.forEach(currency=>{
         const columnName = currency.toLowerCase();
