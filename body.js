@@ -156,7 +156,7 @@ let casinoCurrentSlide = 0;
 let sportsCurrentSlide = 0;
 
 
-   // ==========================================
+// ==========================================
 // UPDATE BALANCE UI
 // ==========================================
 
@@ -164,7 +164,10 @@ function updateBalanceUI(){
 
     let balance = 0;
 
+    // ======================================
     // Wallet Manager থেকে Current Balance
+    // ======================================
+
     if(window.walletManager){
 
         balance =
@@ -174,13 +177,18 @@ function updateBalanceUI(){
 
     }
 
+
+    // ======================================
+    // Balance Text
+    // ======================================
+
     const balanceText =
-        "$" + Number(balance).toFixed(2);
+        Number(balance).toFixed(8);
 
 
-    // ============================
+    // ======================================
     // UPDATE WALLET DROPDOWN
-    // ============================
+    // ======================================
 
     if(typeof updateWalletDropdown === "function"){
 
@@ -189,24 +197,24 @@ function updateBalanceUI(){
     }
 
 
-    // ============================
-    // Header Balance
-    // ============================
+    // ======================================
+    // HEADER BALANCE
+    // ======================================
 
     const header =
         document.getElementById("selected-balance");
 
     if(header){
 
-    console.log(
-        "balanceText =",
-        balanceText,
-        typeof balanceText
-    );
+        console.log(
+            "balanceText =",
+            balanceText,
+            typeof balanceText
+        );
 
-    header.textContent = balanceText;
+        header.textContent = balanceText;
 
-}
+    }
 
 
     // ============================
