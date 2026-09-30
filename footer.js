@@ -139,19 +139,19 @@ window.footerUpdateUserUI = function(user){
 
     if(!guest || !profile) return;
 
-    if(user){
+   if(user){
 
-        guest.style.display = "none";
-        profile.style.display = "block";
+    guest.style.display = "none";
+    profile.style.display = "block";
 
-        document.getElementById("footerUserName").textContent =
-            user.name || "Player";
+    document.getElementById("footerUserName").textContent =
+        user.name || "Player";
 
-        document.getElementById("footerUserVip").textContent =
-            user.vip || "VIP 0";
+    document.getElementById("footerUserLevel").textContent =
+        "Level: " + (user.vip || "Bronze");
 
-        document.getElementById("footerUserAvatar").src =
-            user.avatar || "images/default-avatar.png";
+    document.getElementById("footerUserAvatar").src =
+        user.avatar || "images/default-avatar.png";
 
     }else{
 
