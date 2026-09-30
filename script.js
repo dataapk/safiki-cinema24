@@ -272,9 +272,8 @@ function showTab(tabId) {
     if (targetTab) {
         targetTab.style.display = 'grid';
     }
-}
 
-    // ৫. বাটনে 'active' ক্লাস যোগ করা
+    // বাটনে active ক্লাস যোগ করা
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
     }
