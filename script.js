@@ -251,30 +251,28 @@ function toggleFavorite(element, event) {
 let currentTab = 'deposit'; // ডিফল্ট ট্যাব
 
 function showTab(tabId) {
-    // ১. সব গ্রিড হাইড করা
+
+    // সব গ্রিড হাইড করা
     document.querySelectorAll('.crypto-grid').forEach(content => {
         content.style.display = 'none';
     });
-    
-    // ২. সব বক্স হাইড করা (address-box, withdraw-box, exchange-box)
+
+    // সব বক্স হাইড করা
     document.getElementById('address-box').style.display = 'none';
     document.getElementById('withdraw-input-box').style.display = 'none';
-    document.getElementById('exchange-box').style.display = 'none';
 
-    // ৩. বাটন থেকে 'active' ক্লাস সরানো
+    // সব বাটন থেকে active ক্লাস সরানো
     document.querySelectorAll('.tab-btn').forEach(button => {
         button.classList.remove('active');
     });
 
-    // ৪. লজিক: কোনটা শো করতে হবে
-    if (tabId === 'exchange') {
-        document.getElementById('exchange-box').style.display = 'block';
-    } else {
-        const targetTab = document.getElementById(tabId);
-        if (targetTab) {
-            targetTab.style.display = 'grid';
-        }
+    // কোনটা শো করতে হবে
+    const targetTab = document.getElementById(tabId);
+
+    if (targetTab) {
+        targetTab.style.display = 'grid';
     }
+}
 
     // ৫. বাটনে 'active' ক্লাস যোগ করা
     if (event && event.currentTarget) {
