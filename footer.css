@@ -236,6 +236,364 @@
 }
 
 
+/* ==========================================
+   PLAYER LEVEL POPUP
+   ========================================== */
+
+#playerLevelPopup{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,0.65);
+
+    z-index:99999;
+
+    box-sizing:border-box;
+
+}
+
+
+/* ==========================================
+   POPUP BOX
+   ========================================== */
+
+.player-level-popup-box{
+
+    position:relative;
+
+    width:100%;
+    max-width:430px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    padding:25px 20px 20px;
+
+    background:#111827;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:16px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,0.45);
+
+    box-sizing:border-box;
+
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+   ========================================== */
+
+.player-level-close{
+
+    position:absolute;
+
+    top:10px;
+    left:12px;
+
+    width:32px;
+    height:32px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    border:none;
+
+    background:rgba(255,255,255,0.06);
+
+    color:#ffffff;
+
+    border-radius:50%;
+
+    font-size:22px;
+
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:0.2s ease;
+
+}
+
+
+.player-level-close:hover{
+
+    background:rgba(255,255,255,0.12);
+
+    transform:scale(1.05);
+
+}
+
+
+/* ==========================================
+   POPUP TITLE
+   ========================================== */
+
+.player-level-popup-box h2{
+
+    margin:0 0 20px;
+
+    text-align:center;
+
+    color:#ffffff;
+
+    font-size:19px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   LEVEL ROW
+   ========================================== */
+
+.player-level-row{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:14px;
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    border-radius:12px;
+
+    background:#1a2230;
+
+    border:1px solid rgba(255,255,255,0.07);
+
+    box-sizing:border-box;
+
+    transition:0.2s ease;
+
+}
+
+
+.player-level-row:hover{
+
+    transform:translateY(-1px);
+
+    background:#202a3a;
+
+}
+
+
+/* ==========================================
+   CROWN
+   ========================================== */
+
+.player-level-row > i{
+
+    flex-shrink:0;
+
+    width:38px;
+    height:38px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,0.05);
+
+    font-size:20px;
+
+}
+
+
+/* ==========================================
+   LEVEL CONTENT
+   ========================================== */
+
+.player-level-row > div{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    min-width:0;
+
+}
+
+
+.player-level-row strong{
+
+    margin-bottom:2px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    letter-spacing:0.5px;
+
+}
+
+
+.player-level-row span{
+
+    color:#aeb7c5;
+
+    font-size:12px;
+
+    line-height:1.4;
+
+}
+
+
+/* ==========================================
+   BRONZE
+   ========================================== */
+
+.player-level-row.level-bronze > i{
+
+    color:#cd7f32;
+
+}
+
+.player-level-row.level-bronze strong{
+
+    color:#cd7f32;
+
+}
+
+
+/* ==========================================
+   SILVER
+   ========================================== */
+
+.player-level-row.level-silver > i{
+
+    color:#c0c0c0;
+
+}
+
+.player-level-row.level-silver strong{
+
+    color:#c0c0c0;
+
+}
+
+
+/* ==========================================
+   GOLD
+   ========================================== */
+
+.player-level-row.level-gold > i{
+
+    color:#d4af37;
+
+}
+
+.player-level-row.level-gold strong{
+
+    color:#d4af37;
+
+}
+
+
+/* ==========================================
+   CURRENT LEVEL
+   ========================================== */
+
+.player-current-level{
+
+    width:100%;
+
+    margin-top:5px;
+
+    padding:12px;
+
+    text-align:center;
+
+    color:#ffffff;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.07);
+
+    border-radius:10px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    box-sizing:border-box;
+
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media(max-width:480px){
+
+    #playerLevelPopup{
+
+        padding:15px;
+
+    }
+
+    .player-level-popup-box{
+
+        max-width:100%;
+
+        padding:23px 15px 15px;
+
+        border-radius:14px;
+
+    }
+
+    .player-level-row{
+
+        padding:13px;
+
+        gap:11px;
+
+    }
+
+    .player-level-row > i{
+
+        width:34px;
+        height:34px;
+
+        font-size:18px;
+
+    }
+
+}
+
+
 /* =====================================================
    SIDEBAR
 ===================================================== */
