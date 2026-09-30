@@ -11,21 +11,54 @@ console.log("WALLET.JS LOADED");
 // WALLET MANAGER
 // ==========================================
 
+const WALLET_CURRENCIES = [
+    "USDT",
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "LTC",
+    "BCH",
+    "ZEC",
+    "XMR",
+    "DASH",
+    "DOGE",
+    "TRX",
+    "GRAM",
+    "ADA",
+    "BNB",
+    "LINK",
+    "XLM",
+    "SUI",
+    "QNT",
+    "SHIB"
+];
+
 const walletManager = {
 
-    // ======================================
-    // REAL USER BALANCES
-    // Loaded from Supabase
-    // ======================================
-
     balances: {
+
         USDT: 0,
         BTC: 0,
         ETH: 0,
+        SOL: 0,
+        XRP: 0,
+        LTC: 0,
+        BCH: 0,
+        ZEC: 0,
+        XMR: 0,
+        DASH: 0,
         DOGE: 0,
         TRX: 0,
-        SOL: 0,
-        LTC: 0
+        GRAM: 0,
+        ADA: 0,
+        BNB: 0,
+        LINK: 0,
+        XLM: 0,
+        SUI: 0,
+        QNT: 0,
+        SHIB: 0
+
     },
 
     currentCurrency: "USDT",
@@ -35,24 +68,20 @@ const walletManager = {
     betHistory: []
 
 };
-
-
 // ==========================================
 // LOAD WALLET
 // ==========================================
 
 async function loadWalletManager(){
 
-    // ======================================
-    // RESTORE SELECTED CURRENCY
-    // ======================================
+    // ==========================================
+    // SELECTED CURRENCY
+    // ==========================================
 
     const savedCurrency =
-        localStorage.getItem(
-            "selectedCurrency"
-        );
+        localStorage.getItem("selectedCurrency");
 
-    if(savedCurrency){
+    if(savedCurrency && WALLET_CURRENCIES.includes(savedCurrency)){
 
         walletManager.currentCurrency =
             savedCurrency;
@@ -60,9 +89,9 @@ async function loadWalletManager(){
     }
 
 
-    // ======================================
-    // LOAD ACTIVE BETS
-    // ======================================
+    // ==========================================
+    // ACTIVE BETS
+    // ==========================================
 
     const savedActiveBets =
         localStorage.getItem("activeBets");
@@ -83,9 +112,9 @@ async function loadWalletManager(){
     }
 
 
-    // ======================================
-    // LOAD BET HISTORY
-    // ======================================
+    // ==========================================
+    // BET HISTORY
+    // ==========================================
 
     const savedBetHistory =
         localStorage.getItem("betHistory");
@@ -106,156 +135,106 @@ async function loadWalletManager(){
     }
 
 
-    // ======================================
-    // LOAD REAL BALANCE FROM SUPABASE
-    // ======================================
+    // ==========================================
+    // GET LOGGED-IN USER ID
+    // ==========================================
 
-    if(
-        !window.supabaseClient
-    ){
+    const userId =
+        localStorage.getItem("userId") ||
+        localStorage.getItem("userID") ||
+        localStorage.getItem("user_id");
 
-        console.warn(
-            "⚠️ Supabase client not available yet."
+
+    if(!userId){
+
+        console.log(
+            "⚠️ Wallet: User ID not found."
         );
 
         updateBalanceUI();
         updateWalletDropdown();
-        updateSlipBalance();
 
         return;
 
     }
 
 
+    // ==========================================
+    // LOAD ONE WALLET ROW
+    // ==========================================
+
     try{
 
-        // ==================================
-        // GET CURRENT AUTH USER
-        // ==================================
-
         const {
-            data: userData,
-            error: userError
-        } =
-            await window.supabaseClient
-                .auth
-                .getUser();
-
-
-        if(
-            userError ||
-            !userData ||
-            !userData.user
-        ){
-
-            console.log(
-                "ℹ️ No logged-in user. Wallet balance remains zero."
-            );
-
-            updateBalanceUI();
-            updateWalletDropdown();
-            updateSlipBalance();
-
-            return;
-
-        }
-
-
-        const user =
-            userData.user;
-
-
-        // ==================================
-        // GET USER WALLET BALANCES
-        // ==================================
-
-        const {
-            data: walletData,
-            error: walletError
+            data,
+            error
         } =
             await window.supabaseClient
                 .from("wallet_balances")
-                .select(
-                    "currency, balance"
-                )
-                .eq(
-                    "user_id",
-                    user.id
-                );
+                .select("*")
+                .eq("user_id", userId)
+                .maybeSingle();
 
 
-        if(walletError){
+        if(error){
 
             console.error(
                 "❌ Wallet Load Error:",
-                walletError
+                error
             );
-
-            updateBalanceUI();
-            updateWalletDropdown();
-            updateSlipBalance();
 
             return;
 
         }
 
 
-        // ==================================
-        // RESET LOCAL BALANCES
-        // ==================================
+        // ==========================================
+        // RESET ALL BALANCES
+        // ==========================================
 
-        walletManager.balances = {
+        WALLET_CURRENCIES.forEach(currency => {
 
-            USDT: 0,
-            BTC: 0,
-            ETH: 0,
-            DOGE: 0,
-            TRX: 0,
-            SOL: 0,
-            LTC: 0
+            walletManager.balances[currency] = 0;
 
-        };
+        });
 
 
-        // ==================================
-        // APPLY SUPABASE BALANCES
-        // ==================================
+        // ==========================================
+        // LOAD CURRENCY COLUMNS
+        // ==========================================
 
-        if(
-            Array.isArray(walletData)
-        ){
+        if(data){
 
-            walletData.forEach(row => {
+            WALLET_CURRENCIES.forEach(currency => {
 
-                const currency =
-                    String(
-                        row.currency || ""
-                    ).toUpperCase();
+                const columnName =
+                    currency.toLowerCase();
 
-                const balance =
-                    Number(
-                        row.balance || 0
-                    );
-
-
-                if(
-                    walletManager.balances
-                    .hasOwnProperty(currency)
-                ){
-
-                    walletManager.balances[
-                        currency
-                    ] = balance;
-
-                }
+                walletManager.balances[currency] =
+                    Number(data[columnName]) || 0;
 
             });
 
         }
 
 
+        // ==========================================
+        // UPDATE UI
+        // ==========================================
+
+        updateBalanceUI();
+
+        updateWalletDropdown();
+
+        if(typeof updateSlipBalance === "function"){
+
+            updateSlipBalance();
+
+        }
+
+
         console.log(
-            "✅ Wallet balances loaded:",
+            "✅ Wallet Loaded:",
             walletManager.balances
         );
 
@@ -263,22 +242,11 @@ async function loadWalletManager(){
     }catch(error){
 
         console.error(
-            "❌ Wallet Load Failed:",
+            "❌ Wallet System Error:",
             error
         );
 
     }
-
-
-    // ======================================
-    // REFRESH UI
-    // ======================================
-
-    updateBalanceUI();
-
-    updateWalletDropdown();
-
-    updateSlipBalance();
 
 }
 
@@ -400,135 +368,118 @@ function getCurrentBalance(){
 
 async function setCurrentBalance(amount){
 
-    amount =
-        Number(amount);
+    const currency =
+        walletManager.currentCurrency;
+
+    const userId =
+        localStorage.getItem("userId") ||
+        localStorage.getItem("userID") ||
+        localStorage.getItem("user_id");
 
 
-    if(
-        !Number.isFinite(amount)
-    ){
+    if(!userId){
+
+        console.error(
+            "❌ Cannot update wallet: User ID not found."
+        );
 
         return;
 
     }
 
 
-    // ======================================
-    // Update local manager immediately
-    // ======================================
+    if(!WALLET_CURRENCIES.includes(currency)){
 
-    walletManager.balances[
-        walletManager.currentCurrency
-    ] = amount;
+        console.error(
+            "❌ Invalid wallet currency:",
+            currency
+        );
+
+        return;
+
+    }
 
 
-    // ======================================
-    // Save existing wallet state
-    // ======================================
+    const numericAmount =
+        Number(amount);
+
+
+    if(!Number.isFinite(numericAmount)){
+
+        console.error(
+            "❌ Invalid wallet amount:",
+            amount
+        );
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // UPDATE LOCAL WALLET STATE
+    // ==========================================
+
+    walletManager.balances[currency] =
+        numericAmount;
+
 
     saveWalletManager();
 
 
-    // ======================================
-    // Update UI immediately
-    // ======================================
+    // ==========================================
+    // UPDATE UI
+    // ==========================================
 
     updateBalanceUI();
 
     updateWalletDropdown();
 
-    updateSlipBalance();
+    if(typeof updateSlipBalance === "function"){
+
+        updateSlipBalance();
+
+    }
 
 
-    // ======================================
-    // Sync balance to Supabase
-    // ======================================
+    // ==========================================
+    // UPDATE SUPABASE COLUMN
+    // ==========================================
 
-    if(
-        !window.supabaseClient
-    ){
+    const columnName =
+        currency.toLowerCase();
+
+    const updateData = {};
+
+    updateData[columnName] =
+        numericAmount;
+
+
+    const {
+        error
+    } =
+        await window.supabaseClient
+            .from("wallet_balances")
+            .update(updateData)
+            .eq("user_id", userId);
+
+
+    if(error){
+
+        console.error(
+            "❌ Wallet Balance Update Error:",
+            error
+        );
 
         return;
 
     }
 
 
-    try{
-
-        const {
-            data: userData,
-            error: userError
-        } =
-            await window.supabaseClient
-                .auth
-                .getUser();
-
-
-        if(
-            userError ||
-            !userData ||
-            !userData.user
-        ){
-
-            return;
-
-        }
-
-
-        const user =
-            userData.user;
-
-
-        const {
-            error: upsertError
-        } =
-            await window.supabaseClient
-                .from("wallet_balances")
-                .upsert(
-                    {
-                        user_id:
-                            user.id,
-
-                        currency:
-                            walletManager.currentCurrency,
-
-                        balance:
-                            amount
-                    },
-                    {
-                        onConflict:
-                            "user_id,currency"
-                    }
-                );
-
-
-        if(upsertError){
-
-            console.error(
-                "❌ Wallet Save Error:",
-                upsertError
-            );
-
-            return;
-
-        }
-
-
-        console.log(
-            "✅ Wallet balance synced:",
-            walletManager.currentCurrency,
-            amount
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "❌ Wallet Sync Failed:",
-            error
-        );
-
-    }
+    console.log(
+        `✅ ${currency} balance updated:`,
+        numericAmount
+    );
 
 }
 
@@ -652,56 +603,45 @@ window.selectCurrency =
 
 
 // ==========================================
-// UPDATE DROPDOWN
+// UPDATE WALLET DROPDOWN
 // ==========================================
 
 function updateWalletDropdown(){
 
     document
-        .querySelectorAll(
-            ".currency-option"
-        )
+        .querySelectorAll(".currency-option")
         .forEach(option => {
 
+            const nameElement =
+                option.querySelector(".name");
+
+            const balanceElement =
+                option.querySelector(".balance");
+
+            if(!nameElement || !balanceElement){
+
+                return;
+
+            }
+
             const currency =
-                option
-                    .querySelector(".name")
-                    ?.textContent
-                    ?.trim()
-                    ?.toUpperCase();
-
-
-            const balance =
-                option.querySelector(
-                    ".balance"
-                );
+                nameElement.textContent
+                    .trim()
+                    .toUpperCase();
 
 
             if(
-                balance &&
-                currency &&
-                walletManager.balances[
-                    currency
-                ] !== undefined
+                WALLET_CURRENCIES.includes(currency)
             ){
 
-                const value =
+                const amount =
                     Number(
-                        walletManager
-                            .balances[
-                                currency
-                            ] || 0
-                    );
+                        walletManager.balances[currency]
+                    ) || 0;
 
 
-                // =================================
-                // IMPORTANT:
-                // Show crypto amount.
-                // Do NOT convert to USDT.
-                // =================================
-
-                balance.textContent =
-                    value.toFixed(8);
+                balanceElement.textContent =
+                    amount.toFixed(8);
 
             }
 
