@@ -5504,35 +5504,29 @@ if (
 
     }
 
+// ==================================================
+// SELECTED MASTER MARKETS
+// ==================================================
 
-        // ==================================================
-    // SELECTED MASTER MARKETS
-    // ==================================================
+let enabledMarkets = {};
 
-    const enabledMarkets = {};
+const currentGame =
+    window.adminSportsGames[gameId];
 
-    document
-        .querySelectorAll(
-            "#addSportsMarketsContainer .sports-master-market-checkbox"
-        )
-        .forEach(
-            checkbox => {
+if (
+    currentGame &&
+    currentGame.enabled_markets &&
+    typeof currentGame.enabled_markets === "object"
+) {
+    enabledMarkets = {
+        ...currentGame.enabled_markets
+    };
+}
 
-                const marketKey =
-                    checkbox.dataset.marketKey;
-
-                if (!marketKey) {
-                    return;
-                }
-
-                enabledMarkets[
-                    marketKey
-                ] =
-                    checkbox.checked;
-
-            }
-        );
-
+console.log(
+    "💾 SELECTED MASTER MARKETS:",
+    enabledMarkets
+);
 
     // ==================================================
     // NEW GAME OBJECT
