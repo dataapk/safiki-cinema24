@@ -3804,6 +3804,17 @@ async function openSportsApiCheck(button) {
         const games =
             result.games;
 
+        console.log(
+    "🔑 API CHECK - SPORT KEYS:",
+    games.map(game => ({
+        game_id: game.id,
+        api_sport_key: game.api_sport_key,
+        api_sport_title: game.api_sport_title,
+        home_team: game.home_team,
+        away_team: game.away_team
+    }))
+);
+
 
         dropdown.innerHTML =
             games
