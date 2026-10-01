@@ -3815,6 +3815,12 @@ async function openSportsApiCheck(button) {
                                 game.id || ""
                             );
 
+                        const apiSportKey =
+                 String(
+                game.api_sport_key ||
+                   ""
+                    ).trim();
+
 
                         const homeTeam =
                             String(
@@ -5299,6 +5305,11 @@ async function () {
             "addSportsGameId"
         );
 
+    const apiSportKeyInput =
+    document.getElementById(
+        "editSportsGameApiSportKey"
+    );
+
     const titleInput =
         document.getElementById(
             "addSportsGameTitle"
@@ -5349,6 +5360,11 @@ async function () {
         gameIdInput
             ? gameIdInput.value.trim()
             : "";
+
+    const apiSportKey =
+    apiSportKeyInput
+        ? apiSportKeyInput.value.trim()
+        : "";
 
     const title =
         titleInput
@@ -5402,25 +5418,25 @@ async function () {
             : true;
 
 
-    // ==================================================
-    // VALIDATION
-    // ==================================================
+// ==================================================
+// VALIDATION
+// ==================================================
 
-    if (
-        !gameId ||
-        !title ||
-        !league ||
-        !homeTeam ||
-        !awayTeam
-    ) {
+if (
+    !gameId ||
+    !apiSportKey ||
+    !title ||
+    !league ||
+    !homeTeam ||
+    !awayTeam
+) {
 
-        alert(
-            "Please fill in all match information."
-        );
+    alert(
+        "Please fill in all match information."
+    );
 
-        return;
-
-    }
+    return;
+}
 
 
     if (
@@ -5504,24 +5520,24 @@ async function () {
     // ==================================================
     // NEW GAME OBJECT
     // ==================================================
-    console.log(
-    "🔑 API GAME SPORT KEY:",
-    apiGame?.api_sport_key
-);
+const apiSportKey =
+    String(
+        apiGame?.api_sport_key || ""
+    ).trim();
 
-    const newGame = {
+const newGame = {
 
-        game_id:
-            gameId,
+    game_id:
+        gameId,
 
-        sport:
-            sport,
-        
-        api_sport_key:
-        apiGame?.api_sport_key || "",
+    sport:
+        sport,
 
-        title:
-            title,
+    api_sport_key:
+        apiSportKey,
+
+    title:
+        title,
 
         league:
             league,
