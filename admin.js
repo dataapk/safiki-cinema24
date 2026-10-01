@@ -4337,11 +4337,6 @@ console.log(
 
 
 /*
-============================================================
-    BUILD SPORTS GAME
-============================================================
-*/
-
 /*
 ============================================================
     BUILD SPORTS GAME
@@ -4382,32 +4377,29 @@ const newGame = {
     status:
         status === "live"
             ? "live"
+            : "upcoming",
 
-        game_id:
-            "api-" +
-            apiGameId,
+    match_status:
+        "disable",
 
-        sport:
-            sport,
+    home_team:
+        homeTeam,
 
-        api_sport_key:
-        String(
-            apiGame?.api_sport_key ||
-            ""
-        ).trim(),
+    away_team:
+        awayTeam,
 
-        title:
-            `${homeTeam} vs ${awayTeam}`,
+    total_runs_enabled:
+        false,
 
-        league:
-            league,
+    over_under_enabled:
+        false,
 
-        status:
-            status === "live"
-                ? "live"
-                : "upcoming",
+    match_winner_enabled:
+        false,
 
-        /*
+    enabled_markets:
+        {}
+};
         --------------------------------------------------------
             NEW API GAME IS DISABLED INITIALLY
         --------------------------------------------------------
