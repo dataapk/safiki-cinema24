@@ -4342,7 +4342,46 @@ console.log(
 ============================================================
 */
 
+/*
+============================================================
+    BUILD SPORTS GAME
+============================================================
+*/
+
+console.log(
+    "🧪 BEFORE NEW GAME - API SPORT KEY:",
+    apiGame?.api_sport_key
+);
+
+console.log(
+    "🧪 BEFORE NEW GAME - API GAME:",
+    apiGame
+);
+
 const newGame = {
+
+    game_id:
+        "api-" +
+        apiGameId,
+
+    sport:
+        sport,
+
+    api_sport_key:
+        String(
+            apiGame?.api_sport_key ||
+            ""
+        ).trim(),
+
+    title:
+        `${homeTeam} vs ${awayTeam}`,
+
+    league:
+        league,
+
+    status:
+        status === "live"
+            ? "live"
 
         game_id:
             "api-" +
