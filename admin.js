@@ -8049,13 +8049,87 @@ async function () {
     // Do NOT generate a random key here.
     // ==================================================
 
-    const apiSportKey =
-        existingGame &&
-        existingGame.api_sport_key
-            ? String(
-                existingGame.api_sport_key
-            ).trim()
-            : "";
+  const apiSportKey =
+    existingGame &&
+    existingGame.api_sport_key
+        ? String(
+            existingGame.api_sport_key
+        ).trim()
+        : "";
+
+
+// ==================================================
+// SELECTED MASTER MARKETS
+// ==================================================
+
+const enabledMarkets = {};
+
+const marketsContainer =
+    document.getElementById(
+        "adminMarketsGrid-" + gameId
+    );
+
+if (marketsContainer) {
+
+    marketsContainer
+        .querySelectorAll(
+            ".admin-market-item"
+        )
+        .forEach(item => {
+
+            const button =
+                item.querySelector(
+                    "button.market-on"
+                );
+
+            if (!button) {
+                return;
+            }
+
+            const onclickValue =
+                button.getAttribute(
+                    "onclick"
+                ) || "";
+
+            const match =
+                onclickValue.match(
+                    /toggleAdminMasterMarket\(\s*['"][^'"]+['"]\s*,\s*['"]([^'"]+)['"]\s*\)/
+                );
+
+            if (!match) {
+                return;
+            }
+
+            const marketKey =
+                String(
+                    match[1] || ""
+                ).trim();
+
+            if (marketKey) {
+
+                enabledMarkets[
+                    marketKey
+                ] = true;
+
+            }
+
+        });
+
+}
+
+
+console.log(
+    "💾 SELECTED MASTER MARKETS:",
+    enabledMarkets
+);
+
+
+const selectedStatus =
+    statusInput
+        ? normalizeStatus(
+            statusInput.value
+        )
+        : "";
 
 
     const selectedStatus =
