@@ -14,6 +14,13 @@ console.log("🚀 SPORTS.JS STARTED");
 let sportsGames = {};
 let sportsGamesLoaded = false;
 
+// ==========================================
+// ODDS API GAMES
+// GLOBAL STORAGE
+// ==========================================
+
+let oddsApiGames = [];
+
 // ======================================================
 // CRICKET API DATA
 // ======================================================
@@ -659,7 +666,7 @@ function renderCricketApiGames() {
 
 // ======================================================
 // ODDS API GAMES
-// ======================================================let oddsApiGames = [];
+// ======================================================
 
 async function loadOddsApiGames(
     sportKey,
