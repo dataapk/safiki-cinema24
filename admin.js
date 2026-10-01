@@ -5531,10 +5531,6 @@ if (
     // ==================================================
     // NEW GAME OBJECT
     // ==================================================
-const apiSportKey =
-    String(
-        apiGame?.api_sport_key || ""
-    ).trim();
 
 const newGame = {
 
