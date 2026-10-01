@@ -4337,10 +4337,11 @@ console.log(
 
 
 /*
-/*
 ============================================================
     BUILD SPORTS GAME
 ============================================================
+*/
+
 const newGame = {
 
     game_id:
@@ -4388,53 +4389,6 @@ const newGame = {
     enabled_markets:
         {}
 };
-        --------------------------------------------------------
-            NEW API GAME IS DISABLED INITIALLY
-        --------------------------------------------------------
-        */
-
-        match_status:
-            "disable",
-
-        home_team:
-            homeTeam,
-
-        away_team:
-            awayTeam,
-
-        /*
-        --------------------------------------------------------
-            OLD MARKET FLAGS
-            KEPT FALSE
-        --------------------------------------------------------
-        */
-
-        total_runs_enabled:
-            false,
-
-        over_under_enabled:
-            false,
-
-        match_winner_enabled:
-            false,
-
-        /*
-        --------------------------------------------------------
-            MASTER MARKETS
-            START EMPTY
-        --------------------------------------------------------
-        */
-
-        enabled_markets:
-            {}
-
-    };
-
-
-    console.log(
-        "📦 ADMIN: API game prepared:",
-        newGame
-    );
 
 
     /*
