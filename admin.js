@@ -4298,30 +4298,41 @@ async function addSportsApiGame(button) {
         ];
 
 
-    if (existingGame) {
+if (existingGame) {
 
-        button.disabled =
-            true;
+    button.disabled =
+        true;
 
-        button.textContent =
-            "Added";
+    button.textContent =
+        "Added";
 
-        gameCard.classList.add(
-            "sports-api-game-added"
-        );
+    gameCard.classList.add(
+        "sports-api-game-added"
+    );
 
-        return;
+    return;
 
-    }
+}
 
 
-    /*
-    ============================================================
-        BUILD SPORTS GAME
-    ============================================================
-    */
+console.log(
+    "🔑 ADD GAME - API GAME:",
+    apiGame
+);
 
-    const newGame = {
+console.log(
+    "🔑 ADD GAME - API SPORT KEY:",
+    apiGame?.api_sport_key
+);
+
+
+/*
+============================================================
+    BUILD SPORTS GAME
+============================================================
+*/
+
+const newGame = {
 
         game_id:
             "api-" +
