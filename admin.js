@@ -4342,6 +4342,16 @@ console.log(
 ============================================================
 */
 
+console.log(
+    "🧪 BEFORE NEW GAME - API SPORT KEY:",
+    apiGame?.api_sport_key
+);
+
+console.log(
+    "🧪 BEFORE NEW GAME - API GAME:",
+    apiGame
+);
+
 const newGame = {
 
     game_id:
