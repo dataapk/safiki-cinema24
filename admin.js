@@ -8281,6 +8281,164 @@ async function () {
     );
 
 };
+
+
+// ======================================================
+// TOGGLE ADMIN MASTER MARKET
+// ======================================================
+
+window.toggleAdminMasterMarket =
+async function (
+    gameId,
+    marketKey
+) {
+
+    const game =
+        window.adminSportsGames &&
+        window.adminSportsGames[gameId]
+            ? window.adminSportsGames[gameId]
+            : null;
+
+
+    if (!game) {
+
+        console.error(
+            "❌ ADMIN: Game not found:",
+            gameId
+        );
+
+        return;
+
+    }
+
+
+    const safeMarketKey =
+        String(
+            marketKey || ""
+        ).trim();
+
+
+    if (!safeMarketKey) {
+
+        console.error(
+            "❌ ADMIN: Market key is missing."
+        );
+
+        return;
+
+    }
+
+
+    if (!window.supabaseClient) {
+
+        alert(
+            "Supabase connection unavailable."
+        );
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // EXISTING ENABLED MARKETS
+    // ==================================================
+
+    const enabledMarkets =
+        game.enabled_markets &&
+        typeof game.enabled_markets === "object"
+            ? {
+                ...game.enabled_markets
+            }
+            : {};
+
+
+    // ==================================================
+    // TOGGLE MARKET
+    // ==================================================
+
+    const currentValue =
+        enabledMarkets[safeMarketKey] === true;
+
+
+    enabledMarkets[safeMarketKey] =
+        !currentValue;
+
+
+    console.log(
+        "🔄 ADMIN MASTER MARKET TOGGLE:",
+        {
+            gameId: gameId,
+            marketKey: safeMarketKey,
+            enabled: enabledMarkets[safeMarketKey]
+        }
+    );
+
+
+    // ==================================================
+    // SAVE TO SUPABASE
+    // ==================================================
+
+    const {
+        data,
+        error
+    } =
+        await window.supabaseClient
+            .from("sports_games")
+            .update({
+                enabled_markets:
+                    enabledMarkets
+            })
+            .eq(
+                "game_id",
+                gameId
+            )
+            .select()
+            .single();
+
+
+    if (error) {
+
+        console.error(
+            "❌ ADMIN: Master market update failed:",
+            error
+        );
+
+        alert(
+            "Failed to update market.\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // UPDATE ADMIN MEMORY
+    // ==================================================
+
+    window.adminSportsGames[
+        gameId
+    ] = data;
+
+
+    console.log(
+        "✅ ADMIN: Master market saved:",
+        data.enabled_markets
+    );
+
+
+    // ==================================================
+    // REFRESH MARKET PANEL
+    // ==================================================
+
+    await loadAdminGameMasterMarkets(
+        data
+    );
+
+};
+
 // ======================================================
 // HTML ESCAPE
 // ======================================================
