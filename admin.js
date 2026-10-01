@@ -4110,6 +4110,16 @@ async function addSportsApiGame(button) {
                 ).trim() === apiGameId
         ) || null;
 
+    console.log(
+    "🔎 ADD GAME - FOUND API GAME:",
+    apiGame
+);
+
+console.log(
+    "🔑 ADD GAME - FOUND SPORT KEY:",
+    apiGame?.api_sport_key
+);
+
 
     /*
     ============================================================
