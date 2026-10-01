@@ -7985,6 +7985,32 @@ async function () {
         );
 
 
+    // ==================================================
+    // EXISTING GAME DATA
+    // ==================================================
+
+    const existingGame =
+        window.adminSportsGames &&
+        window.adminSportsGames[gameId]
+            ? window.adminSportsGames[gameId]
+            : null;
+
+
+    // ==================================================
+    // API SPORT KEY
+    // Keep the existing provider sport key.
+    // Do NOT generate a random key here.
+    // ==================================================
+
+    const apiSportKey =
+        existingGame &&
+        existingGame.api_sport_key
+            ? String(
+                existingGame.api_sport_key
+            ).trim()
+            : "";
+
+
     const selectedStatus =
         statusInput
             ? normalizeStatus(
@@ -8094,7 +8120,14 @@ async function () {
         match_winner_enabled:
             matchWinnerInput
                 ? matchWinnerInput.checked
-                : true
+                : true,
+
+        // ==============================================
+        // PROVIDER SPORT KEY
+        // ==============================================
+
+        api_sport_key:
+            apiSportKey
 
     };
 
@@ -8201,8 +8234,6 @@ async function () {
     );
 
 };
-
-
 // ======================================================
 // HTML ESCAPE
 // ======================================================
