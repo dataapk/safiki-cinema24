@@ -659,9 +659,7 @@ function renderCricketApiGames() {
 
 // ======================================================
 // ODDS API GAMES
-// ======================================================
-
-let oddsApiGames = [];
+// ======================================================let oddsApiGames = [];
 
 async function loadOddsApiGames(
     sportKey,
@@ -681,6 +679,65 @@ async function loadOddsApiGames(
         "🎯 Event ID:",
         eventId
     );
+
+    // ==========================================
+    // 🔍 SAFE MARKET / ODDS DIAGNOSTIC CHECK
+    // ⚠️ এখানে কোনো নতুন API request নেই
+    // ==========================================
+
+    console.log(
+        "🔍 CURRENT oddsApiGames:",
+        oddsApiGames
+    );
+
+    console.log(
+        "🔍 CURRENT GAME:",
+        window.currentGame
+    );
+
+    console.log(
+        "🔍 CURRENT SPORTS GAMES:",
+        window.sportsGames
+    );
+
+    console.log(
+        "🔍 LOCAL STORAGE:",
+        {
+            userId: localStorage.getItem("userId"),
+            selectedGame: localStorage.getItem("selectedGame"),
+            selectedGameId: localStorage.getItem("selectedGameId"),
+            oddsApiGames: localStorage.getItem("oddsApiGames")
+        }
+    );
+
+    console.log(
+        "🔍 MARKET / ODDS GLOBALS:",
+        Object.keys(window).filter(key =>
+            key.toLowerCase().includes("market") ||
+            key.toLowerCase().includes("odds")
+        )
+    );
+
+    console.log(
+        "🔍 FUNCTION CHECK:",
+        {
+            loadOddsApiGames:
+                typeof loadOddsApiGames,
+
+            renderMarkets:
+                typeof renderMarkets,
+
+            loadMarkets:
+                typeof loadMarkets,
+
+            displayMarkets:
+                typeof displayMarkets
+        }
+    );
+
+    // ==========================================
+    // 🔍 END SAFE CHECK
+    // ==========================================
 
     try {
 
@@ -2861,8 +2918,27 @@ window.openSportsGame =
 // ==========================================
 
 const providerEventId =
-    String(game.game_id || "")
-        .replace(/^api-/, "");
+    String(
+        game.provider_event_id ||
+        game.providerEventId ||
+        game.game_id ||
+        ""
+    )
+    .replace(/^api-/, "")
+    .trim();
+
+
+const providerSportKey =
+    String(
+        game.api_sport_key ||
+        game.provider_sport_key ||
+        game.providerSportKey ||
+        game.sport_key ||
+        game.sportKey ||
+        ""
+    )
+    .trim();
+
 
 console.log(
     "🎯 PROVIDER EVENT ID:",
@@ -2871,12 +2947,46 @@ console.log(
 
 console.log(
     "🎯 PROVIDER SPORT KEY:",
-    game.api_sport_key
+    providerSportKey
 );
 
-await loadOddsApiGames(
-    game.api_sport_key,
-    providerEventId
+
+if (
+    !providerEventId
+) {
+
+    console.error(
+        "❌ Provider Event ID is missing:",
+        game
+    );
+
+} else if (
+    !providerSportKey
+) {
+
+    console.error(
+        "❌ Provider Sport Key is missing:",
+        game
+    );
+
+} else {
+
+    await loadOddsApiGames(
+        providerSportKey,
+        providerEventId
+    );
+
+}
+
+
+await loadSportsMasterMarketsForGame(
+    game
+);
+
+
+console.log(
+    "✅ Selected sports game:",
+    game
 );
 
 await loadSportsMasterMarketsForGame(
