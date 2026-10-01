@@ -8124,12 +8124,6 @@ console.log(
 );
 
 
-const selectedStatus =
-    statusInput
-        ? normalizeStatus(
-            statusInput.value
-        )
-        : "";
 
 
     const selectedStatus =
