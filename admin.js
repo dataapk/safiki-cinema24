@@ -3804,6 +3804,8 @@ async function openSportsApiCheck(button) {
         const games =
             result.games;
 
+        window.sportsApiCheckGames = games;
+
         console.log(
     "🔑 API CHECK - SPORT KEYS:",
     games.map(game => ({
