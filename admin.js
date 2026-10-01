@@ -7010,23 +7010,26 @@ async function loadAdminGameMasterMarkets(
                             </span>
 
                             <button
-                                type="button"
-                                class="${
-                                    isOn
-                                        ? "market-on"
-                                        : "market-off"
-                                }"
-                                onclick="
-                                    toggleAdminMasterMarket(
-                                        '${escapeAdminSportsJS(
-                                            game.game_id
-                                        )}',
-                                        '${escapeAdminSportsJS(
-                                            marketKey
-                                        )}'
-                                    )
-                                "
-                            >
+    type="button"
+    class="${
+        isOn
+            ? "market-on"
+            : "market-off"
+    }"
+    data-market-key="${escapeAdminSportsJS(
+        marketKey
+    )}"
+    onclick="
+        toggleAdminMasterMarket(
+            '${escapeAdminSportsJS(
+                game.game_id
+            )}',
+            '${escapeAdminSportsJS(
+                marketKey
+            )}'
+        )
+    "
+>
 
                                 ${
                                     isOn
@@ -8073,50 +8076,22 @@ if (marketsContainer) {
 
     marketsContainer
         .querySelectorAll(
-            ".admin-market-item"
+            "button.market-on"
         )
-        .forEach(item => {
-
-            const button =
-                item.querySelector(
-                    "button.market-on"
-                );
-
-            if (!button) {
-                return;
-            }
-
-            const onclickValue =
-                button.getAttribute(
-                    "onclick"
-                ) || "";
-
-            const match =
-                onclickValue.match(
-                    /toggleAdminMasterMarket\(\s*['"][^'"]+['"]\s*,\s*['"]([^'"]+)['"]\s*\)/
-                );
-
-            if (!match) {
-                return;
-            }
+        .forEach(button => {
 
             const marketKey =
                 String(
-                    match[1] || ""
+                    button.dataset.marketKey || ""
                 ).trim();
 
             if (marketKey) {
-
-                enabledMarkets[
-                    marketKey
-                ] = true;
-
+                enabledMarkets[marketKey] = true;
             }
 
         });
 
 }
-
 
 console.log(
     "💾 SELECTED MASTER MARKETS:",
@@ -8236,6 +8211,9 @@ console.log(
             matchWinnerInput
                 ? matchWinnerInput.checked
                 : true,
+
+        enabled_markets:
+        enabledMarkets,
 
         // ==============================================
         // PROVIDER SPORT KEY
