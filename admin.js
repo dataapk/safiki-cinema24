@@ -7545,6 +7545,11 @@ async function (gameId) {
             "editSportsGameId"
         );
 
+    const apiSportKeyInput =
+    document.getElementById(
+        "editSportsGameApiSportKey"
+    );
+
 
     const titleInput =
         document.getElementById(
@@ -7588,6 +7593,13 @@ async function (gameId) {
             game.game_id || "";
 
     }
+
+    if (apiSportKeyInput) {
+
+    apiSportKeyInput.value =
+        game.api_sport_key || "";
+
+}
 
 
     if (titleInput) {
