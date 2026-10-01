@@ -4311,6 +4311,12 @@ async function addSportsApiGame(button) {
         sport:
             sport,
 
+        api_sport_key:
+        String(
+            apiGame?.api_sport_key ||
+            ""
+        ).trim(),
+
         title:
             `${homeTeam} vs ${awayTeam}`,
 
