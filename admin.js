@@ -3744,6 +3744,11 @@ async function openSportsApiCheck(button) {
             result
         );
 
+        console.log(
+    "🔎 ADMIN: API CHECK GAMES:",
+    response?.games
+);
+
 
         /*
         ========================================================
