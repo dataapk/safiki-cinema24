@@ -8396,6 +8396,15 @@ window.toggleAdminMasterMarket = async function (
     gameId,
     marketKey
 ) {
+
+    console.log(
+        "🚨 TOGGLE FUNCTION CALLED:",
+        {
+            gameId: gameId,
+            marketKey: marketKey
+        }
+    );
+
     try {
 
         const game =
