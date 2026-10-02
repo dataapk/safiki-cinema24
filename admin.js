@@ -8212,6 +8212,21 @@ console.log(
 
     }
 
+    console.log(
+    "🚨 BEFORE UPDATED GAME:",
+    JSON.stringify(
+        enabledMarkets,
+        null,
+        2
+    )
+);
+
+console.log(
+    "🚨 ENABLED MARKETS TYPE:",
+    typeof enabledMarkets,
+    Array.isArray(enabledMarkets)
+);
+
 
     const updatedGame = {
 
