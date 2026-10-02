@@ -6609,24 +6609,17 @@ function renderAdminCricketGames(
 // CREATE ADMIN SPORTS CARD
 // ======================================================
 
+// ======================================================
+// CREATE ADMIN SPORTS CARD
+// ======================================================
+
+// ======================================================
+// CREATE ADMIN SPORTS CARD
+// ======================================================
+
 function createAdminSportsCard(
     game
 ) {
-
-    const totalRuns =
-        game.total_runs_enabled !==
-        false;
-
-
-    const overUnder =
-        game.over_under_enabled !==
-        false;
-
-
-    const matchWinner =
-        game.match_winner_enabled !==
-        false;
-
 
     const matchStatus =
         normalizeMatchStatus(
@@ -6634,18 +6627,37 @@ function createAdminSportsCard(
         );
 
 
+    // ==================================================
+    // MASTER MARKET SOURCE OF TRUTH
+    // ==================================================
+
+    const enabledMarkets =
+        game.enabled_markets &&
+        typeof game.enabled_markets === "object" &&
+        !Array.isArray(
+            game.enabled_markets
+        )
+            ? game.enabled_markets
+            : {};
+
+
     const enabledMarketCount =
-        [
-            totalRuns,
-            overUnder,
-            matchWinner
-        ]
-        .filter(Boolean)
+        Object.keys(
+            enabledMarkets
+        )
+        .filter(
+            marketKey =>
+                enabledMarkets[
+                    marketKey
+                ] === true
+        )
         .length;
 
 
     const totalMarketCount =
-        3;
+        Object.keys(
+            enabledMarkets
+        ).length;
 
 
     return `
