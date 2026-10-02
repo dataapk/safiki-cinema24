@@ -8172,20 +8172,20 @@ const enabledMarkets = {};
 
 const marketsContainer =
     document.getElementById(
-        "adminMarketsGrid-" + gameId
+        "editSportsMarketsContainer"
     );
 
 if (marketsContainer) {
 
     marketsContainer
         .querySelectorAll(
-            "button.market-on"
+            "input.sports-edit-market-checkbox:checked"
         )
-        .forEach(button => {
+        .forEach(checkbox => {
 
             const marketKey =
                 String(
-                    button.dataset.marketKey || ""
+                    checkbox.dataset.marketKey || ""
                 ).trim();
 
             if (marketKey) {
