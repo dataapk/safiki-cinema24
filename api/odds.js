@@ -1120,63 +1120,77 @@ uniqueGames.forEach(
 );
 
 
-            /*
-            ====================================================
-                STEP 7
-                FILTER + FORMAT EVENTS
-            ====================================================
-            */
+           /*
+============================================================
+    STEP 7
+    FILTER + FORMAT EVENTS
+============================================================
+*/
 
-            const finalGames =
-                uniqueGames
-                    .map(
-                        game => {
+const finalGames =
+    uniqueGames
+        .map(
+            game => {
 
-                            const status =
-                                getEventStatus(
-                                    game,
-                                    scoreMap
-                                );
-
-
-                            return {
-                                id:
-                                    String(
-                                        game.id
-                                    ),
-
-                                home_team:
-                                    game.home_team ||
-                                    "",
-
-                                away_team:
-                                    game.away_team ||
-                                    "",
-
-                                commence_time:
-                                    game.commence_time ||
-                                    null,
-
-                                api_sport_key:
-                                    game.api_sport_key ||
-                                    "",
-
-                                api_sport_title:
-                                    game.api_sport_title ||
-                                    "",
-
-                                status:
-                                    status
-                            };
-
-                        }
-                    )
-                    .filter(
-                        game =>
-                            game.status !==
-                            "completed"
+                const status =
+                    getEventStatus(
+                        game,
+                        scoreMap
                     );
 
+
+                /*
+                ------------------------------------------------
+                    PRESERVE FULL PROVIDER GAME RESPONSE
+                ------------------------------------------------
+
+                    Keep the complete original provider
+                    object so that bookmakers, markets,
+                    outcomes, prices, etc. are not removed.
+                ------------------------------------------------
+                */
+
+                return {
+
+                    ...game,
+
+                    id:
+                        String(
+                            game.id || ""
+                        ),
+
+                    home_team:
+                        game.home_team ||
+                        "",
+
+                    away_team:
+                        game.away_team ||
+                        "",
+
+                    commence_time:
+                        game.commence_time ||
+                        null,
+
+                    api_sport_key:
+                        game.api_sport_key ||
+                        "",
+
+                    api_sport_title:
+                        game.api_sport_title ||
+                        "",
+
+                    status:
+                        status
+
+                };
+
+            }
+        )
+        .filter(
+            game =>
+                game.status !==
+                "completed"
+        );
 
             /*
             ====================================================
