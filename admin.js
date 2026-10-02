@@ -6981,6 +6981,20 @@ async function loadAdminGameMasterMarkets(
                 }
             );
 
+    console.log(
+    "🚨 MASTER MARKET QUERY RESULT:",
+    {
+        gameId: game.game_id,
+        sport: sport,
+        data: data,
+        error: error,
+        count:
+            Array.isArray(data)
+                ? data.length
+                : "NOT_ARRAY"
+    }
+);
+
     if (error) {
 
         console.error(
