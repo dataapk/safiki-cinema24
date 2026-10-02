@@ -3835,33 +3835,39 @@ async function openSportsApiCheck(button) {
                     ).trim();
 
 
-                        const homeTeam =
-                            String(
-                                game.home_team ||
-                                ""
-                            );
+                      console.log(
+    "🔎 API CHECK RAW GAME:",
+    game
+);
 
 
-                        const awayTeam =
-                            String(
-                                game.away_team ||
-                                ""
-                            );
+const homeTeam =
+    String(
+        game.home_team ||
+        ""
+    );
 
 
-                        const league =
-                            String(
-                                game.api_sport_title ||
-                                ""
-                            );
+const awayTeam =
+    String(
+        game.away_team ||
+        ""
+    );
 
 
-                        const status =
-                            String(
-                                game.status ||
-                                "upcoming"
-                            )
-                            .toLowerCase();
+const league =
+    String(
+        game.api_sport_title ||
+        ""
+    );
+
+
+const status =
+    String(
+        game.status ||
+        "upcoming"
+    )
+    .toLowerCase();
 
 
                         let statusHtml =
