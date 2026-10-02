@@ -7064,35 +7064,15 @@ async function loadAdminGameMasterMarkets(
         marketKey
     )}"
     onclick="
-    console.log(
-        '🚨 MARKET BUTTON CLICKED:',
-        '${escapeAdminSportsJS(
-            game.game_id
-        )}',
-        '${escapeAdminSportsJS(
-            marketKey
-        )}'
-    );
-
-    toggleAdminMasterMarket(
-        '${escapeAdminSportsJS(
-            game.game_id
-        )}',
-        '${escapeAdminSportsJS(
-            marketKey
-        )}'
-    )
-"
+        console.log('🚨 MARKET BUTTON CLICKED');
+    "
 >
-
-                                ${
-                                    isOn
-                                        ? "ON"
-                                        : "OFF"
-                                }
-
-                            </button>
-
+    ${
+        isOn
+            ? "ON"
+            : "OFF"
+    }
+</button>
                         </div>
                     `;
                 }
