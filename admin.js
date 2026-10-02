@@ -5508,24 +5508,74 @@ if (
 // SELECTED MASTER MARKETS
 // ==================================================
 
-let enabledMarkets = {};
+const enabledMarkets = {};
 
-const currentGame =
-    window.adminSportsGames[gameId];
+const marketsContainer =
+    document.getElementById(
+        "adminMarketsGrid-" + gameId
+    );
 
-if (
-    currentGame &&
-    currentGame.enabled_markets &&
-    typeof currentGame.enabled_markets === "object"
-) {
-    enabledMarkets = {
-        ...currentGame.enabled_markets
-    };
+if (marketsContainer) {
+
+    const marketButtons =
+        marketsContainer.querySelectorAll(
+            "button[data-market-key]"
+        );
+
+    console.log(
+        "🔎 MASTER MARKET BUTTON COUNT:",
+        marketButtons.length
+    );
+
+    marketButtons.forEach(button => {
+
+        const marketKey =
+            String(
+                button.getAttribute(
+                    "data-market-key"
+                ) || ""
+            ).trim();
+
+        const isOn =
+            button.classList.contains(
+                "market-on"
+            );
+
+        console.log(
+            "🔎 MASTER MARKET STATE:",
+            {
+                marketKey: marketKey,
+                isOn: isOn
+            }
+        );
+
+        if (
+            marketKey &&
+            isOn
+        ) {
+            enabledMarkets[
+                marketKey
+            ] = true;
+        }
+
+    });
+
+} else {
+
+    console.error(
+        "❌ MASTER MARKETS CONTAINER NOT FOUND:",
+        "adminMarketsGrid-" + gameId
+    );
+
 }
 
 console.log(
     "💾 SELECTED MASTER MARKETS:",
-    enabledMarkets
+    JSON.stringify(
+        enabledMarkets,
+        null,
+        2
+    )
 );
 
     // ==================================================
