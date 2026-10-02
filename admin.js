@@ -8017,6 +8017,8 @@ async function loadSportsEditMasterMarkets(
         gameId: game.game_id,
         markets: data,
         enabledMarkets
+
+         )
     }
 );
 
