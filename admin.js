@@ -6980,6 +6980,13 @@ async function loadAdminGameMasterMarkets(
                     ascending: true
                 }
             );
+    console.log(
+    "🚨 MARKET QUERY START:",
+    {
+        gameId: game.game_id,
+        sport: sport
+    }
+);
 
     console.log(
     "🚨 MASTER MARKET QUERY RESULT:",
