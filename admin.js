@@ -8015,13 +8015,8 @@ async function loadSportsEditMasterMarkets(
     {
         sport,
         gameId: game.game_id,
-        marketCount: data.length,
-        enabledMarketKeys: Object.keys(
-            enabledMarkets
-        ),
-        enabledMarkets: JSON.parse(
-            JSON.stringify(enabledMarkets)
-    
+        markets: data,
+        enabledMarkets
     }
 );
 
