@@ -8011,16 +8011,19 @@ async function loadSportsEditMasterMarkets(
 
 
     console.log(
-        "✅ EDIT MASTER MARKETS LOADED:",
-        {
-            sport,
-            gameId: game.game_id,
-            markets: data,
+    "✅ EDIT MASTER MARKETS LOADED:",
+    {
+        sport,
+        gameId: game.game_id,
+        marketCount: data.length,
+        enabledMarketKeys: Object.keys(
             enabledMarkets
-        }
-    );
-
-}
+        ),
+        enabledMarkets: JSON.parse(
+            JSON.stringify(enabledMarkets)
+        )
+    }
+);
 
 
 // ======================================================
