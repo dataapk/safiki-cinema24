@@ -7832,6 +7832,10 @@ async function (gameId) {
 // LOAD MASTER MARKETS FOR SPORTS GAME EDITOR
 // ======================================================
 
+// ======================================================
+// LOAD MASTER MARKETS FOR SPORTS GAME EDITOR
+// ======================================================
+
 async function loadSportsEditMasterMarkets(
     game
 ) {
@@ -7873,9 +7877,70 @@ async function loadSportsEditMasterMarkets(
     }
 
 
+    const gameId =
+        String(
+            game?.game_id || ""
+        ).trim();
+
+
+    if (!gameId) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Game ID not found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // GET FRESH GAME DATA FROM SUPABASE
+    // ==================================================
+
+    const {
+        data: freshGame,
+        error: gameError
+    } =
+        await window.supabaseClient
+            .from("sports_games")
+            .select(
+                "game_id, sport, enabled_markets"
+            )
+            .eq(
+                "game_id",
+                gameId
+            )
+            .maybeSingle();
+
+
+    if (gameError) {
+
+        console.error(
+            "❌ Failed to load current game data:",
+            gameError
+        );
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                Failed to load current game data.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const currentGame =
+        freshGame || game;
+
+
     const sport =
         String(
-            game.sport || ""
+            currentGame?.sport || ""
         )
         .trim()
         .toLowerCase();
@@ -7893,6 +7958,10 @@ async function loadSportsEditMasterMarkets(
 
     }
 
+
+    // ==================================================
+    // LOAD MASTER MARKETS
+    // ==================================================
 
     const {
         data,
@@ -7949,12 +8018,25 @@ async function loadSportsEditMasterMarkets(
     }
 
 
+    // ==================================================
+    // CURRENT SAVED MASTER MARKETS
+    // ==================================================
+
     const enabledMarkets =
-        game.enabled_markets &&
-        typeof game.enabled_markets === "object"
-            ? game.enabled_markets
+        currentGame?.enabled_markets &&
+        typeof currentGame.enabled_markets === "object" &&
+        !Array.isArray(
+            currentGame.enabled_markets
+        )
+            ? {
+                ...currentGame.enabled_markets
+            }
             : {};
 
+
+    // ==================================================
+    // RENDER MASTER MARKET CHECKBOXES
+    // ==================================================
 
     container.innerHTML =
         data
@@ -7976,7 +8058,9 @@ async function loadSportsEditMasterMarkets(
 
 
                     if (!marketKey) {
+
                         return "";
+
                     }
 
 
@@ -8010,17 +8094,50 @@ async function loadSportsEditMasterMarkets(
             .join("");
 
 
-    console.log(
-    "✅ EDIT MASTER MARKETS LOADED:",
-    {
-        sport,
-        gameId: game.game_id,
-        markets: data,
-        enabledMarkets
+    // ==================================================
+    // UPDATE ADMIN GAME CACHE WITH FRESH STATE
+    // ==================================================
 
-         )
+    if (
+        window.adminSportsGames &&
+        window.adminSportsGames[gameId]
+    ) {
+
+        window.adminSportsGames[gameId] = {
+            ...window.adminSportsGames[gameId],
+            enabled_markets: {
+                ...enabledMarkets
+            }
+        };
+
     }
-);
+
+
+    // ==================================================
+    // DEBUG — CURRENT SAVED MARKET STATE
+    // ==================================================
+
+    console.log(
+        "✅ EDIT MASTER MARKETS LOADED:",
+        {
+            sport,
+            gameId,
+            marketCount:
+                data.length,
+            enabledMarketKeys:
+                Object.keys(
+                    enabledMarkets
+                ),
+            enabledMarkets:
+                JSON.parse(
+                    JSON.stringify(
+                        enabledMarkets
+                    )
+                )
+        }
+    );
+
+}
 
 
 // ======================================================
