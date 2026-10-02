@@ -6917,10 +6917,10 @@ async function loadAdminGameMasterMarkets(
 ) {
 
     const container =
-    document.getElementById(
-        "adminMarketsGrid-" +
-        game.game_id
-    );
+        document.getElementById(
+            "adminMarketsGrid-" +
+            game.game_id
+        );
 
     if (!container) {
         console.warn(
@@ -7014,7 +7014,9 @@ async function loadAdminGameMasterMarkets(
     const enabledMarkets =
         game.enabled_markets &&
         typeof game.enabled_markets === "object"
-            ? game.enabled_markets
+            ? {
+                ...game.enabled_markets
+            }
             : {};
 
     container.innerHTML =
@@ -7054,38 +7056,84 @@ async function loadAdminGameMasterMarkets(
                             </span>
 
                             <button
-    type="button"
-    class="${
-        isOn
-            ? "market-on"
-            : "market-off"
-    }"
-    data-market-key="${escapeAdminSportsJS(
-        marketKey
-    )}"
-    onclick="
-        console.log('🚨 MARKET BUTTON CLICKED');
-    "
->
-    ${
-        isOn
-            ? "ON"
-            : "OFF"
-    }
-</button>
+                                type="button"
+                                class="${
+                                    isOn
+                                        ? "market-on"
+                                        : "market-off"
+                                }"
+                                data-market-key="${escapeAdminSportsJS(
+                                    marketKey
+                                )}"
+                            >
+                                ${
+                                    isOn
+                                        ? "ON"
+                                        : "OFF"
+                                }
+                            </button>
+
                         </div>
                     `;
                 }
             )
             .join("");
 
+    // ==================================================
+    // MARKET CLICK DIAGNOSTIC
+    // ==================================================
+
+    container.onclick = function (
+        event
+    ) {
+
+        const button =
+            event.target.closest(
+                "button[data-market-key]"
+            );
+
+        if (!button) {
+            return;
+        }
+
+        console.log(
+            "🚨 MARKET BUTTON CLICKED:",
+            {
+                gameId:
+                    game.game_id,
+
+                marketKey:
+                    button.getAttribute(
+                        "data-market-key"
+                    ),
+
+                currentState:
+                    button.classList.contains(
+                        "market-on"
+                    )
+            }
+        );
+
+    };
+
+    // ==================================================
+    // LOADED
+    // ==================================================
+
     console.log(
         "✅ ADMIN MASTER MARKETS LOADED:",
         {
-            gameId: game.game_id,
-            sport: sport,
-            markets: data,
-            enabledMarkets: enabledMarkets
+            gameId:
+                game.game_id,
+
+            sport:
+                sport,
+
+            markets:
+                data,
+
+            enabledMarkets:
+                enabledMarkets
         }
     );
 }
