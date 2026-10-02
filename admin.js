@@ -8472,6 +8472,15 @@ window.toggleAdminMasterMarket = async function (
             }
         );
 
+        console.log(
+    "🚨 AFTER TOGGLE LOCAL GAME:",
+    JSON.stringify(
+        window.adminSportsGames[gameId].enabled_markets,
+        null,
+        2
+    )
+);
+
         // ==================================================
         // REFRESH MASTER MARKET UI
         // ==================================================
