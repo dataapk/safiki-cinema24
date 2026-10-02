@@ -5735,3 +5735,8 @@ input[type="checkbox"] {
 .sports-api-status-upcoming {
     color: #8a6800;
 }
+
+.admin-market-item,
+.admin-market-item button {
+    pointer-events: auto !important;
+}
