@@ -8021,7 +8021,7 @@ async function loadSportsEditMasterMarkets(
         ),
         enabledMarkets: JSON.parse(
             JSON.stringify(enabledMarkets)
-        )
+    
     }
 );
 
