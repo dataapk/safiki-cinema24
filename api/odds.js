@@ -1087,6 +1087,40 @@ async function fetchSportOdds(
 
 
             /*
+============================================================
+    TEMPORARY H2H RESPONSE CHECK
+    DO NOT CHANGE GAME LOGIC
+============================================================
+*/
+
+uniqueGames.forEach(
+    game => {
+
+        console.log(
+            "🔎 H2H RAW API GAME:",
+            {
+                gameId:
+                    game?.id,
+
+                homeTeam:
+                    game?.home_team,
+
+                awayTeam:
+                    game?.away_team,
+
+                bookmakers:
+                    game?.bookmakers,
+
+                markets:
+                    game?.markets
+            }
+        );
+
+    }
+);
+
+
+            /*
             ====================================================
                 STEP 7
                 FILTER + FORMAT EVENTS
