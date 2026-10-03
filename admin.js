@@ -4485,10 +4485,17 @@ const newGame = {
         false,
 
     match_winner_enabled:
-        false,
+    false,
 
-    enabled_markets:
-        {}
+enabled_markets:
+    {},
+
+api_bookmakers:
+    Array.isArray(
+        apiGame?.bookmakers
+    )
+        ? apiGame.bookmakers
+        : []
 };
 
 
