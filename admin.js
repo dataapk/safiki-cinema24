@@ -5408,6 +5408,396 @@ async function loadSportsMasterMarkets(
 //end  LOAD MASTER SPORTS MARKETS
 // ======================================================
 
+// ======================================================
+// LOAD API MARKETS FOR SPORTS GAME
+// ======================================================
+
+async function loadSportsApiMarkets(
+    game
+) {
+
+    const container =
+        document.getElementById(
+            "editSportsApiMarketsContainer"
+        );
+
+    if (!container) {
+
+        console.warn(
+            "⚠️ API Sports Markets container not found."
+        );
+
+        return;
+    }
+
+
+    container.innerHTML = `
+        <div class="sports-markets-loading">
+            Loading API markets...
+        </div>
+    `;
+
+
+    /*
+    ========================================================
+        READ SAVED API BOOKMAKERS
+    ========================================================
+    */
+
+    const apiBookmakers =
+        Array.isArray(
+            game?.api_bookmakers
+        )
+            ? game.api_bookmakers
+            : [];
+
+
+    /*
+    ========================================================
+        NO API MARKETS
+    ========================================================
+    */
+
+    if (
+        apiBookmakers.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="sports-markets-empty">
+                No API markets available for this game.
+            </div>
+        `;
+
+        console.log(
+            "ℹ️ No saved API bookmakers for game:",
+            game?.game_id || ""
+        );
+
+        return;
+    }
+
+
+    /*
+    ========================================================
+        BUILD API MARKET HTML
+    ========================================================
+    */
+
+    const bookmakerHtml =
+        apiBookmakers
+            .map(
+                bookmaker => {
+
+                    const bookmakerTitle =
+                        String(
+                            bookmaker?.title ||
+                            bookmaker?.key ||
+                            "Bookmaker"
+                        )
+                        .trim();
+
+
+                    const markets =
+                        Array.isArray(
+                            bookmaker?.markets
+                        )
+                            ? bookmaker.markets
+                            : [];
+
+
+                    if (
+                        markets.length === 0
+                    ) {
+
+                        return `
+                            <div class="sports-api-market-group">
+
+                                <div
+                                    class="sports-api-bookmaker-title">
+                                    ${escapeAdminSportsHTML(
+                                        bookmakerTitle
+                                    )}
+                                </div>
+
+                                <div class="sports-markets-empty">
+                                    No markets available.
+                                </div>
+
+                            </div>
+                        `;
+
+                    }
+
+
+                    const marketHtml =
+                        markets
+                            .map(
+                                market => {
+
+                                    const marketKey =
+                                        String(
+                                            market?.key ||
+                                            ""
+                                        )
+                                        .trim();
+
+
+                                    const outcomes =
+                                        Array.isArray(
+                                            market?.outcomes
+                                        )
+                                            ? market.outcomes
+                                            : [];
+
+
+                                    /*
+                                    --------------------------------
+                                        DISPLAY MARKET NAME
+                                    --------------------------------
+                                    */
+
+                                    let marketName =
+                                        marketKey;
+
+
+                                    if (
+                                        marketKey === "h2h"
+                                    ) {
+
+                                        marketName =
+                                            "Match Winner";
+
+                                    }
+                                    else if (
+                                        marketKey === "h2h_lay"
+                                    ) {
+
+                                        marketName =
+                                            "Match Winner Lay";
+
+                                    }
+                                    else if (
+                                        marketKey === "totals"
+                                    ) {
+
+                                        marketName =
+                                            "Total Runs — Over / Under";
+
+                                    }
+                                    else if (
+                                        marketKey === "spreads"
+                                    ) {
+
+                                        marketName =
+                                            "Run Handicap";
+
+                                    }
+
+
+                                    /*
+                                    --------------------------------
+                                        OUTCOMES
+                                    --------------------------------
+                                    */
+
+                                    const outcomeHtml =
+                                        outcomes
+                                            .map(
+                                                outcome => {
+
+                                                    const name =
+                                                        String(
+                                                            outcome?.name ||
+                                                            ""
+                                                        )
+                                                        .trim();
+
+
+                                                    const price =
+                                                        outcome?.price !==
+                                                        undefined &&
+                                                        outcome?.price !==
+                                                        null
+                                                            ? String(
+                                                                outcome.price
+                                                            )
+                                                            : "";
+
+
+                                                    if (
+                                                        !name &&
+                                                        !price
+                                                    ) {
+
+                                                        return "";
+
+                                                    }
+
+
+                                                    return `
+                                                        <div
+                                                            class="sports-api-market-outcome">
+
+                                                            <span
+                                                                class="sports-api-market-outcome-name">
+                                                                ${escapeAdminSportsHTML(
+                                                                    name
+                                                                )}
+                                                            </span>
+
+                                                            ${
+                                                                price
+                                                                    ? `
+                                                                        <span
+                                                                            class="sports-api-market-outcome-price">
+                                                                            ${escapeAdminSportsHTML(
+                                                                                price
+                                                                            )}
+                                                                        </span>
+                                                                    `
+                                                                    : ""
+                                                            }
+
+                                                        </div>
+                                                    `;
+
+                                                }
+                                            )
+                                            .join("");
+
+
+                                    return `
+                                        <div
+                                            class="sports-api-market-item">
+
+                                            <div
+                                                class="sports-api-market-name">
+
+                                                ${escapeAdminSportsHTML(
+                                                    marketName
+                                                )}
+
+                                                <span
+                                                    class="sports-api-market-key">
+
+                                                    ${escapeAdminSportsHTML(
+                                                        marketKey
+                                                    )}
+
+                                                </span>
+
+                                            </div>
+
+                                            ${
+                                                outcomeHtml
+                                                    ? `
+                                                        <div
+                                                            class="sports-api-market-outcomes">
+
+                                                            ${outcomeHtml}
+
+                                                        </div>
+                                                    `
+                                                    : ""
+                                            }
+
+                                        </div>
+                                    `;
+
+                                }
+                            )
+                            .join("");
+
+
+                    return `
+                        <div
+                            class="sports-api-market-group">
+
+                            <div
+                                class="sports-api-bookmaker-title">
+
+                                ${escapeAdminSportsHTML(
+                                    bookmakerTitle
+                                )}
+
+                            </div>
+
+                            <div
+                                class="sports-api-market-list">
+
+                                ${marketHtml}
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    /*
+    ========================================================
+        RENDER
+    ========================================================
+    */
+
+    container.innerHTML =
+        bookmakerHtml ||
+        `
+            <div class="sports-markets-empty">
+                No API markets available for this game.
+            </div>
+        `;
+
+
+    /*
+    ========================================================
+        DEBUG
+    ========================================================
+    */
+
+    console.log(
+        "✅ API MARKETS LOADED:",
+        {
+            gameId:
+                game?.game_id || "",
+
+            bookmakerCount:
+                apiBookmakers.length,
+
+            bookmakers:
+                apiBookmakers,
+
+            marketKeys:
+                apiBookmakers.flatMap(
+                    bookmaker =>
+                        Array.isArray(
+                            bookmaker?.markets
+                        )
+                            ? bookmaker.markets.map(
+                                market =>
+                                    String(
+                                        market?.key ||
+                                        ""
+                                    ).trim()
+                            )
+                            : []
+                )
+                .filter(
+                    Boolean
+                )
+        }
+    );
+
+}
+
+
+// ======================================================
+// END LOAD API MARKETS
+// ======================================================
+
 
 // ======================================================
 // SAVE NEW SPORTS GAME
