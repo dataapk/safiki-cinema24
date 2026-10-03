@@ -1556,17 +1556,20 @@ async function fetchSportOdds(
 // ======================================================
 // END FETCH ODDS
 // ======================================================
-            /*
-            ====================================================
-                STEP 1
-                VALIDATE TEMPORARY API KEY
-            ====================================================
-            */
 
-            const sportsResult =
-                await fetchSportsList(
-                    temporaryApiKey
-                );
+try {
+
+    /*
+    ====================================================
+        STEP 1
+        VALIDATE TEMPORARY API KEY
+    ====================================================
+    */
+
+    const sportsResult =
+        await fetchSportsList(
+            temporaryApiKey
+        );
 
 
          /*
