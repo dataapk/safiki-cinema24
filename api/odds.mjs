@@ -1749,18 +1749,94 @@ if (
             }
 
 
-          /*
-            ====================================================
-                STEP 4
-                GET REAL EVENTS
-            ====================================================
-            */
+         /*
+====================================================
+    STEP 4
+    GET REAL EVENTS
+====================================================
+*/
 
-            const allGames = [];
-
-            ...
+const allGames = [];
 
 
+/*
+----------------------------------------------------
+    QUERY EACH MATCHING PROVIDER SPORT KEY
+----------------------------------------------------
+*/
+
+for (
+    const sportKey
+    of matchingSportKeys
+) {
+
+    try {
+
+        const eventsResult =
+            await fetchSportEvents(
+                temporaryApiKey,
+                sportKey
+            );
+
+
+        if (
+            !eventsResult.response.ok
+        ) {
+
+            continue;
+
+        }
+
+
+        const games =
+            Array.isArray(
+                eventsResult.data
+            )
+                ? eventsResult.data
+                : [];
+
+
+        games.forEach(
+            game => {
+
+                if (
+                    !game ||
+                    !game.id
+                ) {
+
+                    return;
+
+                }
+
+
+                allGames.push({
+
+                    ...game,
+
+                    api_sport_key:
+                        sportKey,
+
+                    api_sport_title:
+                        providerSports
+                            .find(
+                                item =>
+                                    item.key ===
+                                    sportKey
+                            )
+                            ?.title || ""
+
+                });
+
+            }
+        );
+
+    } catch (error) {
+
+        continue;
+
+    }
+
+}
             /*
             ====================================================
                 STEP 5
