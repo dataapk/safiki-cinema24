@@ -763,26 +763,80 @@ async function fetchSportOdds(
                 );
 
 
-            /*
-            ----------------------------------------------------
-                INVALID API KEY
-            ----------------------------------------------------
-            */
+         /*
+----------------------------------------------------
+    PROVIDER RESPONSE DIAGNOSTIC
+----------------------------------------------------
+*/
 
-            if (
-                sportsResult.response.status === 401 ||
-                sportsResult.response.status === 403
-            ) {
+if (
+    !sportsResult.response.ok
+) {
 
-                return res
-                    .status(401)
-                    .json({
-                        success: false,
-                        code: "WRONG_API",
-                        message: "Wrong API"
-                    });
+    console.error(
+        "❌ PARLAY PROVIDER RESPONSE:",
+        {
+            status:
+                sportsResult.response.status,
 
-            }
+            statusText:
+                sportsResult.response.statusText,
+
+            data:
+                sportsResult.data
+        }
+    );
+
+
+    /*
+    ------------------------------------------------
+        INVALID API KEY / AUTH
+    ------------------------------------------------
+    */
+
+    if (
+        sportsResult.response.status === 401 ||
+        sportsResult.response.status === 403
+    ) {
+
+        return res
+            .status(401)
+            .json({
+                success: false,
+                code: "WRONG_API",
+                message: "Wrong API"
+            });
+
+    }
+
+
+    /*
+    ------------------------------------------------
+        OTHER PROVIDER ERROR
+    ------------------------------------------------
+    */
+
+    return res
+        .status(
+            sportsResult.response.status
+        )
+        .json({
+            success: false,
+
+            code:
+                "PROVIDER_API_ERROR",
+
+            message:
+                "Provider API error.",
+
+            provider_status:
+                sportsResult.response.status,
+
+            provider_error:
+                sportsResult.data
+        });
+
+}
 
 
             /*
