@@ -8317,12 +8317,21 @@ async function (gameId) {
 
 
     // ==================================================
-    // LOAD MASTER MARKETS FOR EDITOR
-    // ==================================================
+// LOAD API MARKETS FOR EDITOR
+// ==================================================
 
-    await loadSportsEditMasterMarkets(
-        game
-    );
+await loadSportsApiMarkets(
+    game
+);
+
+
+// ==================================================
+// LOAD MASTER MARKETS FOR EDITOR
+// ==================================================
+
+await loadSportsEditMasterMarkets(
+    game
+);
 
 
     const modal =
