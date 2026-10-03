@@ -5008,6 +5008,30 @@ async function (sport) {
 </div>
 
 
+<!-- ==================================
+     API MARKETS
+=================================== -->
+
+<div class="sports-add-markets-row api-markets-section">
+
+    <div class="sports-add-markets-title">
+        API Markets
+    </div>
+
+    <div
+        id="editSportsApiMarketsContainer"
+        class="sports-api-markets-container"
+    >
+
+        <div class="sports-markets-loading">
+            Loading API markets...
+        </div>
+
+    </div>
+
+</div>
+
+
               <!-- ==================================
      MASTER BETTING MARKETS
 =================================== -->
@@ -5518,110 +5542,42 @@ async function loadSportsApiMarkets(
     }
 
 
-    /*
-    ========================================================
-        CREATE API MARKETS SECTION
-        ABOVE MASTER BETTING MARKETS
-    ========================================================
-    */
+   
+/*
+/*
+========================================================
+    FIND API MARKETS CONTAINER
+========================================================
+*/
 
-    let apiSection =
-        document.getElementById(
-            "editSportsApiMarketsSection"
-        );
-
-
-    let container =
-        document.getElementById(
-            "editSportsApiMarketsContainer"
-        );
-
-
-    if (!apiSection) {
-
-        apiSection =
-            document.createElement(
-                "div"
-            );
-
-
-        apiSection.id =
-            "editSportsApiMarketsSection";
-
-
-        apiSection.className =
-    "sports-add-markets-row sports-api-markets-row";
-
-
-        apiSection.innerHTML = `
-            <div
-    class="sports-add-markets-title"
->
-    API Markets
-</div>
-
-            <div
-                id="editSportsApiMarketsContainer"
-                class="sports-add-api-markets-container"
-            >
-                <div class="sports-markets-loading">
-                    Loading API markets...
-                </div>
-            </div>
-        `;
-
-
-       if (
-    masterSection &&
-    masterSection.parentNode
-) {
-
-    masterSection.parentNode.insertBefore(
-        apiSection,
-        masterSection
+const container =
+    document.getElementById(
+        "editSportsApiMarketsContainer"
     );
 
-} else {
 
-    masterContainer.parentNode.insertBefore(
-        apiSection,
-        masterContainer
+if (!container) {
+
+    console.warn(
+        "⚠️ API Sports Markets container not found."
     );
+
+    return;
 
 }
 
 
-        container =
-            document.getElementById(
-                "editSportsApiMarketsContainer"
-            );
+/*
+========================================================
+    LOADING STATE
+========================================================
+*/
 
-    }
-
-
-    if (!container) {
-
-        console.warn(
-            "⚠️ API Sports Markets container could not be created."
-        );
-
-        return;
-
-    }
-
-
-    /*
-    ========================================================
-        LOADING STATE
-    ========================================================
-    */
-
-    container.innerHTML = `
-        <div class="sports-markets-loading">
-            Loading API markets...
-        </div>
-    `;
-
+container.innerHTML = `
+    <div class="sports-markets-loading">
+        Loading API markets...
+    </div>
+`;
 
     /*
     ========================================================
