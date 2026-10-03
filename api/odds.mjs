@@ -1645,27 +1645,6 @@ if (
 }
 
 
-            /*
-            ----------------------------------------------------
-                OTHER PROVIDER ERROR
-            ----------------------------------------------------
-            */
-
-            if (
-                !sportsResult.response.ok
-            ) {
-
-                return res
-                    .status(
-                        sportsResult.response.status
-                    )
-                    .json({
-                        success: false,
-                        code: "WRONG_API",
-                        message: "Wrong API"
-                    });
-
-            }
 
 
             /*
