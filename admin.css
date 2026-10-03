@@ -5736,7 +5736,116 @@ input[type="checkbox"] {
     color: #8a6800;
 }
 
-.admin-market-item,
-.admin-market-item button {
-    pointer-events: auto !important;
+/* =========================================
+   API MARKETS
+========================================= */
+
+.sports-add-api-markets-row {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.sports-add-api-markets-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.sports-api-market-group {
+    margin-bottom: 14px;
+}
+
+.sports-api-bookmaker-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.sports-api-market-list {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(240px, 1fr)
+    );
+    gap: 10px;
+}
+
+.sports-api-market-card {
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+}
+
+.sports-api-market-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.sports-api-market-card-title {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.sports-api-market-card-key {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    opacity: 0.6;
+    font-weight: 500;
+}
+
+.sports-api-market-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.sports-api-market-check {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+}
+
+.sports-api-market-delete-btn {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.sports-api-market-outcomes {
+    margin-top: 9px;
+}
+
+.sports-api-market-outcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 0;
+    border-top: 1px solid #eeeeee;
+}
+
+.sports-api-market-outcome-name {
+    font-size: 12px;
+}
+
+.sports-api-market-outcome-values {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.sports-api-market-outcome-price,
+.sports-api-market-outcome-point,
+.sports-api-market-extra {
+    font-size: 11px;
+    font-weight: 600;
 }
