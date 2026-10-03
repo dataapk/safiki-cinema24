@@ -3845,6 +3845,86 @@ async function openSportsApiCheck(button) {
     game
 );
 
+                        /*
+========================================================
+    INSPECT PROVIDER BOOKMAKERS + MARKETS
+========================================================
+*/
+
+try {
+
+    const bookmakers =
+        Array.isArray(
+            game?.bookmakers
+        )
+            ? game.bookmakers
+            : [];
+
+
+    console.log(
+        "🏦 API CHECK - BOOKMAKERS:",
+        bookmakers
+    );
+
+
+    bookmakers.forEach(
+        (bookmaker, bookmakerIndex) => {
+
+            const bookmakerMarkets =
+                Array.isArray(
+                    bookmaker?.markets
+                )
+                    ? bookmaker.markets
+                    : [];
+
+
+            console.log(
+                `🏦 BOOKMAKER ${bookmakerIndex + 1}:`,
+                {
+                    key:
+                        bookmaker?.key || "",
+
+                    title:
+                        bookmaker?.title || "",
+
+                    marketCount:
+                        bookmakerMarkets.length
+                }
+            );
+
+
+            console.log(
+                `📊 BOOKMAKER ${bookmakerIndex + 1} - MARKETS:`,
+                bookmakerMarkets
+            );
+
+
+            console.log(
+                `🔑 BOOKMAKER ${bookmakerIndex + 1} - MARKET KEYS:`,
+                bookmakerMarkets.map(
+                    market =>
+                        String(
+                            market?.key || ""
+                        ).trim()
+                )
+                .filter(
+                    Boolean
+                )
+            );
+
+        }
+    );
+
+
+} catch (error) {
+
+    console.error(
+        "❌ Failed to inspect bookmaker markets:",
+        error
+    );
+
+}
+
 
 const homeTeam =
     String(
