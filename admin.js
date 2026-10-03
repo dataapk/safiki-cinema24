@@ -5499,6 +5499,13 @@ async function loadSportsApiMarkets(
             "editSportsMarketsContainer"
         );
 
+    const masterSection =
+    masterContainer
+        ? masterContainer.closest(
+            ".sports-add-markets-row"
+        )
+        : null;
+
 
     if (!masterContainer) {
 
@@ -5543,15 +5550,15 @@ async function loadSportsApiMarkets(
 
 
         apiSection.className =
-            "sports-add-api-markets-row";
+    "sports-add-markets-row sports-api-markets-row";
 
 
         apiSection.innerHTML = `
             <div
-                class="sports-add-api-markets-title"
-            >
-                API Markets
-            </div>
+    class="sports-add-markets-title"
+>
+    API Markets
+</div>
 
             <div
                 id="editSportsApiMarketsContainer"
@@ -5564,10 +5571,24 @@ async function loadSportsApiMarkets(
         `;
 
 
-        masterContainer.parentNode.insertBefore(
-            apiSection,
-            masterContainer
-        );
+       if (
+    masterSection &&
+    masterSection.parentNode
+) {
+
+    masterSection.parentNode.insertBefore(
+        apiSection,
+        masterSection
+    );
+
+} else {
+
+    masterContainer.parentNode.insertBefore(
+        apiSection,
+        masterContainer
+    );
+
+}
 
 
         container =
