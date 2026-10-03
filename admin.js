@@ -4230,6 +4230,33 @@ async function addSportsApiGame(
 
     /*
     ========================================================
+        READ API CHECK API KEY
+    ========================================================
+    */
+
+    const apiKey =
+        String(
+            window.sportsApiCheckApiKey || ""
+        ).trim();
+
+
+    if (!apiKey) {
+
+        console.error(
+            "❌ ADMIN: Sports API key is not available."
+        );
+
+        alert(
+            "Sports API key is not available."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    ========================================================
         READ TEAMS
     ========================================================
     */
@@ -4316,6 +4343,7 @@ async function addSportsApiGame(
     const league =
         String(
             apiGame?.api_sport_title ||
+            apiGame?.sport_title ||
             gameCard.querySelector(
                 ".sports-api-game-league"
             )?.textContent ||
@@ -4381,13 +4409,11 @@ async function addSportsApiGame(
 
     /*
     ========================================================
-        VALIDATE
+        VALIDATION
     ========================================================
     */
 
-    if (
-        !sport
-    ) {
+    if (!sport) {
 
         console.error(
             "❌ ADMIN: Sports category not found."
@@ -4398,9 +4424,7 @@ async function addSportsApiGame(
     }
 
 
-    if (
-        !apiSportKey
-    ) {
+    if (!apiSportKey) {
 
         console.error(
             "❌ ADMIN: Provider sport key missing."
@@ -4473,7 +4497,7 @@ async function addSportsApiGame(
 
     /*
     ========================================================
-        DISABLE BUTTON
+        DISABLE BUTTON DURING SAVE
     ========================================================
     */
 
@@ -4485,16 +4509,6 @@ async function addSportsApiGame(
 
 
     try {
-
-    if (
-        !window.sportsApiCheckApiKey
-    ) {
-
-        throw new Error(
-            "Sports API key is not available."
-        );
-
-    }
 
         /*
         ====================================================
@@ -4515,39 +4529,27 @@ async function addSportsApiGame(
 
         /*
         ====================================================
-            FETCH ACTUAL EVENT ODDS
+            STEP 1
+            DISCOVER PROVIDER MARKET CATALOG
         ====================================================
 
-            IMPORTANT:
-
-            API CHECK uses the FREE events endpoint.
-
-            This request is made ONLY for the game
-            the admin is adding.
-
-            We deliberately request the core game-line
-            markets first, avoiding a large arbitrary
-            market list that could consume credits rapidly.
-
+            This uses the catalog function already added.
+            Discovery itself is not an odds charge.
         ====================================================
         */
 
-        let oddsResult = null;
+        let marketCatalog = null;
 
 
         if (
-            typeof fetchSportOdds ===
-                "function"
+            typeof fetchSportsMarketCatalog ===
+            "function"
         ) {
 
-            oddsResult =
-                await fetchSportOdds(
-                    window.sportsApiCheckApiKey || "",
-                    apiSportKey,
-                    apiGameId,
-                    [
-                        "h2h"
-                    ]
+            marketCatalog =
+                await fetchSportsMarketCatalog(
+                    apiKey,
+                    apiSportKey
                 );
 
         }
@@ -4555,11 +4557,517 @@ async function addSportsApiGame(
 
         /*
         ====================================================
-            READ BOOKMAKERS
+            BUILD ODDS MARKET CANDIDATES
+        ====================================================
+
+            We use catalog -> served_by.
+
+            Player / batter / pitcher / anytime / futures
+            props are handled by the single /props request,
+            so we do not request those again through /odds.
+
+            Outrights are not tied to this selected fixture,
+            so they are excluded from this event fetch.
         ====================================================
         */
 
-        let apiBookmakers = [];
+        let oddsCandidateKeys =
+            [];
+
+
+        if (
+            marketCatalog &&
+            Array.isArray(
+                marketCatalog.oddsMarketKeys
+            )
+        ) {
+
+            oddsCandidateKeys =
+                marketCatalog
+                    .oddsMarketKeys
+                    .filter(
+                        marketKey => {
+
+                            const key =
+                                String(
+                                    marketKey || ""
+                                )
+                                .trim()
+                                .toLowerCase();
+
+
+                            if (
+                                !key
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                key ===
+                                "outrights"
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                key.startsWith(
+                                    "player_"
+                                )
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                key.startsWith(
+                                    "batter_"
+                                )
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                key.startsWith(
+                                    "pitcher_"
+                                )
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                key.startsWith(
+                                    "anytime_"
+                                )
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                key.startsWith(
+                                    "futures_"
+                                )
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            return true;
+
+                        }
+                    );
+
+        }
+
+
+        oddsCandidateKeys =
+            [
+                ...new Set(
+                    oddsCandidateKeys
+                )
+            ];
+
+
+        /*
+        ====================================================
+            FREE EVENT ODDS COVERAGE
+        ====================================================
+        */
+
+        let coveredOddsMarkets =
+            [];
+
+
+        if (
+            oddsCandidateKeys.length > 0
+        ) {
+
+            try {
+
+                const coverageParams =
+                    new URLSearchParams({
+
+                        regions:
+                            "us",
+
+                        markets:
+                            oddsCandidateKeys.join(","),
+
+                        eventIds:
+                            apiGameId
+
+                    });
+
+
+                const coverageUrl =
+                    "https://parlay-api.com/v1/sports/" +
+                    encodeURIComponent(
+                        apiSportKey
+                    ) +
+                    "/odds/coverage?" +
+                    coverageParams.toString();
+
+
+                const coverageResponse =
+                    await fetch(
+                        coverageUrl,
+                        {
+                            method:
+                                "GET",
+
+                            headers: {
+                                "Accept":
+                                    "application/json",
+
+                                "X-API-Key":
+                                    apiKey,
+
+                                "User-Agent":
+                                    "SportsWebsite/1.0"
+                            }
+                        }
+                    );
+
+
+                let coverageData =
+                    null;
+
+
+                try {
+
+                    coverageData =
+                        await coverageResponse.json();
+
+                } catch (error) {
+
+                    coverageData =
+                        null;
+
+                }
+
+
+                const discoveredKeys =
+                    new Set();
+
+
+                /*
+                ------------------------------------------------
+                    READ MARKET LISTS FROM HEADERS
+                ------------------------------------------------
+                */
+
+                const servedHeader =
+                    String(
+                        coverageResponse.headers.get(
+                            "x-markets-served"
+                        ) ||
+                        ""
+                    );
+
+
+                servedHeader
+                    .split(",")
+                    .map(
+                        value =>
+                            value.trim()
+                    )
+                    .filter(
+                        Boolean
+                    )
+                    .forEach(
+                        key =>
+                            discoveredKeys.add(
+                                key
+                            )
+                    );
+
+
+                /*
+                ------------------------------------------------
+                    RECURSIVE MARKET KEY EXTRACTOR
+                ------------------------------------------------
+                */
+
+                const collectMarketKeys =
+                    value => {
+
+                        if (
+                            !value
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        if (
+                            typeof value ===
+                            "string"
+                        ) {
+
+                            const trimmed =
+                                value.trim();
+
+
+                            if (
+                                oddsCandidateKeys.includes(
+                                    trimmed
+                                )
+                            ) {
+
+                                discoveredKeys.add(
+                                    trimmed
+                                );
+
+                            }
+
+
+                            return;
+
+                        }
+
+
+                        if (
+                            Array.isArray(
+                                value
+                            )
+                        ) {
+
+                            value.forEach(
+                                item =>
+                                    collectMarketKeys(
+                                        item
+                                    )
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (
+                            typeof value !==
+                            "object"
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const directKeys = [
+                            "market_key",
+                            "marketKey",
+                            "key"
+                        ];
+
+
+                        directKeys.forEach(
+                            field => {
+
+                                const fieldValue =
+                                    String(
+                                        value?.[
+                                            field
+                                        ] ||
+                                        ""
+                                    ).trim();
+
+
+                                if (
+                                    fieldValue &&
+                                    oddsCandidateKeys.includes(
+                                        fieldValue
+                                    )
+                                ) {
+
+                                    discoveredKeys.add(
+                                        fieldValue
+                                    );
+
+                                }
+
+                            }
+                        );
+
+
+                        const marketFields = [
+                            "markets",
+                            "market_keys",
+                            "marketKeys",
+                            "served",
+                            "served_markets",
+                            "results",
+                            "data",
+                            "coverage"
+                        ];
+
+
+                        marketFields.forEach(
+                            field => {
+
+                                if (
+                                    value?.[
+                                        field
+                                    ] !== undefined
+                                ) {
+
+                                    collectMarketKeys(
+                                        value[
+                                            field
+                                        ]
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    };
+
+
+                collectMarketKeys(
+                    coverageData
+                );
+
+
+                coveredOddsMarkets =
+                    [
+                        ...discoveredKeys
+                    ]
+                    .filter(
+                        key =>
+                            oddsCandidateKeys.includes(
+                                key
+                            )
+                    );
+
+
+                /*
+                ------------------------------------------------
+                    FALLBACK
+
+                    If the free coverage endpoint does not
+                    expose the served list in its body/header,
+                    use the catalog candidates.
+
+                    They are already restricted to
+                    fixture-level /odds markets.
+                ------------------------------------------------
+                */
+
+                if (
+                    coveredOddsMarkets.length ===
+                    0 &&
+                    coverageResponse.ok
+                ) {
+
+                    coveredOddsMarkets =
+                        [
+                            ...oddsCandidateKeys
+                        ];
+
+                }
+
+
+            } catch (error) {
+
+                console.warn(
+                    "⚠️ Odds coverage discovery failed. Using catalog market candidates."
+                );
+
+
+                coveredOddsMarkets =
+                    [
+                        ...oddsCandidateKeys
+                    ];
+
+            }
+
+        }
+
+
+        coveredOddsMarkets =
+            [
+                ...new Set(
+                    coveredOddsMarkets
+                        .map(
+                            key =>
+                                String(
+                                    key || ""
+                                ).trim()
+                        )
+                        .filter(
+                            Boolean
+                        )
+                )
+            ];
+
+
+        console.log(
+            "🔎 ADD GAME - COVERED ODDS MARKETS:",
+            coveredOddsMarkets
+        );
+
+
+        /*
+        ====================================================
+            STEP 2
+            FETCH ACTUAL GAME-LINE ODDS
+        ====================================================
+
+            This is the first charged call.
+
+            It requests only the market keys selected above,
+            for this one event.
+        ====================================================
+        */
+
+        let oddsResult =
+            null;
+
+
+        if (
+            coveredOddsMarkets.length > 0
+        ) {
+
+            oddsResult =
+                await fetchSportOdds(
+                    apiKey,
+                    apiSportKey,
+                    apiGameId,
+                    coveredOddsMarkets
+                );
+
+        }
+
+
+        /*
+        ====================================================
+            READ BOOKMAKERS FROM ODDS RESPONSE
+        ====================================================
+        */
+
+        let apiBookmakers =
+            [];
 
 
         if (
@@ -4569,19 +5077,42 @@ async function addSportsApiGame(
             )
         ) {
 
-            /*
-            ------------------------------------------------
-                /odds returns an array of event objects.
-            ------------------------------------------------
-            */
-
             const matchingEvent =
                 oddsResult.data.find(
-                    event =>
-                        String(
-                            event?.id || ""
-                        ).trim() ===
-                        apiGameId
+                    event => {
+
+                        const eventId =
+                            String(
+                                event?.id ||
+                                ""
+                            ).trim();
+
+
+                        const canonicalId =
+                            String(
+                                event?.canonical_event_id ||
+                                ""
+                            ).trim();
+
+
+                        const requestedCanonicalId =
+                            String(
+                                apiGame?.canonical_event_id ||
+                                ""
+                            ).trim();
+
+
+                        return (
+                            eventId ===
+                                apiGameId ||
+                            (
+                                requestedCanonicalId &&
+                                canonicalId ===
+                                    requestedCanonicalId
+                            )
+                        );
+
+                    }
                 ) ||
                 oddsResult.data[0] ||
                 null;
@@ -4595,7 +5126,22 @@ async function addSportsApiGame(
             ) {
 
                 apiBookmakers =
-                    matchingEvent.bookmakers;
+                    matchingEvent.bookmakers
+                        .map(
+                            bookmaker =>
+                                ({
+                                    ...bookmaker,
+
+                                    markets:
+                                        Array.isArray(
+                                            bookmaker?.markets
+                                        )
+                                            ? [
+                                                ...bookmaker.markets
+                                            ]
+                                            : []
+                                })
+                        );
 
             }
 
@@ -4604,21 +5150,649 @@ async function addSportsApiGame(
 
         /*
         ====================================================
-            FALLBACK: USE EXISTING API GAME BOOKMAKERS
+            STEP 3
+            FETCH ACTUAL PLAYER / PROP MARKETS
+        ====================================================
+
+            One /props call is 3 credits and returns all
+            books/markets for the requested sport board.
+            eventId narrows it to the selected game.
         ====================================================
         */
 
-        if (
-            apiBookmakers.length === 0 &&
+        const propsMarketKeys =
+            marketCatalog &&
             Array.isArray(
-                apiGame?.bookmakers
+                marketCatalog.propsMarketKeys
             )
+                ? [
+                    ...new Set(
+                        marketCatalog.propsMarketKeys
+                            .map(
+                                key =>
+                                    String(
+                                        key || ""
+                                    ).trim()
+                            )
+                            .filter(
+                                Boolean
+                            )
+                    )
+                ]
+                : [];
+
+
+        if (
+            propsMarketKeys.length > 0
         ) {
 
-            apiBookmakers =
-                apiGame.bookmakers;
+            try {
+
+                const propsParams =
+                    new URLSearchParams({
+
+                        eventId:
+                            apiGameId,
+
+                        markets:
+                            propsMarketKeys.join(","),
+
+                        limit:
+                            "10000",
+
+                        offset:
+                            "0",
+
+                        maxAgeSec:
+                            "600"
+
+                    });
+
+
+                const propsUrl =
+                    "https://parlay-api.com/v1/sports/" +
+                    encodeURIComponent(
+                        apiSportKey
+                    ) +
+                    "/props?" +
+                    propsParams.toString();
+
+
+                const propsResponse =
+                    await fetch(
+                        propsUrl,
+                        {
+                            method:
+                                "GET",
+
+                            headers: {
+                                "Accept":
+                                    "application/json",
+
+                                "X-API-Key":
+                                    apiKey,
+
+                                "User-Agent":
+                                    "SportsWebsite/1.0"
+                            }
+                        }
+                    );
+
+
+                let propsData =
+                    null;
+
+
+                try {
+
+                    propsData =
+                        await propsResponse.json();
+
+                } catch (error) {
+
+                    propsData =
+                        null;
+
+                }
+
+
+                const propsRows =
+                    Array.isArray(
+                        propsData
+                    )
+                        ? propsData
+                        : (
+                            Array.isArray(
+                                propsData?.data
+                            )
+                                ? propsData.data
+                                : (
+                                    Array.isArray(
+                                        propsData?.results
+                                    )
+                                        ? propsData.results
+                                        : (
+                                            Array.isArray(
+                                                propsData?.rows
+                                            )
+                                                ? propsData.rows
+                                                : []
+                                        )
+                                )
+                        );
+
+
+                /*
+                ------------------------------------------------
+                    GROUP PROP ROWS
+                ------------------------------------------------
+                */
+
+                const propGroups =
+                    new Map();
+
+
+                propsRows.forEach(
+                    row => {
+
+                        if (
+                            !row ||
+                            typeof row !==
+                                "object"
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const bookmakerKey =
+                            String(
+                                row?.bookmaker ||
+                                row?.bookmaker_key ||
+                                row?.source ||
+                                ""
+                            )
+                            .trim();
+
+
+                        const bookmakerTitle =
+                            String(
+                                row?.bookmaker_title ||
+                                row?.bookmaker ||
+                                row?.bookmaker_key ||
+                                row?.source ||
+                                "Bookmaker"
+                            )
+                            .trim();
+
+
+                        const marketKey =
+                            String(
+                                row?.market_key ||
+                                ""
+                            )
+                            .trim();
+
+
+                        if (
+                            !bookmakerKey ||
+                            !marketKey
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const groupKey =
+                            bookmakerKey +
+                            "::" +
+                            marketKey;
+
+
+                        if (
+                            !propGroups.has(
+                                groupKey
+                            )
+                        ) {
+
+                            propGroups.set(
+                                groupKey,
+                                {
+                                    bookmakerKey,
+                                    bookmakerTitle,
+                                    marketKey,
+                                    marketTitle:
+                                        String(
+                                            row?.market ||
+                                            row?.market_title ||
+                                            row?.market_name ||
+                                            marketKey
+                                        )
+                                        .trim(),
+
+                                    outcomes: []
+                                }
+                            );
+
+                        }
+
+
+                        const group =
+                            propGroups.get(
+                                groupKey
+                            );
+
+
+                        const player =
+                            String(
+                                row?.player ||
+                                row?.selection ||
+                                row?.name ||
+                                row?.team ||
+                                row?.outcome ||
+                                ""
+                            )
+                            .trim();
+
+
+                        const line =
+                            row?.line !==
+                                undefined &&
+                            row?.line !==
+                                null
+                                ? row.line
+                                : null;
+
+
+                        const addOutcome =
+                            (
+                                outcomeName,
+                                price
+                            ) => {
+
+                                if (
+                                    price ===
+                                        undefined ||
+                                    price ===
+                                        null
+                                ) {
+
+                                    return;
+
+                                }
+
+
+                                const existing =
+                                    group.outcomes.find(
+                                        outcome =>
+                                            outcome.name ===
+                                                outcomeName &&
+                                            String(
+                                                outcome.price
+                                            ) ===
+                                                String(
+                                                    price
+                                                ) &&
+                                            String(
+                                                outcome.point
+                                            ) ===
+                                                String(
+                                                    line
+                                                )
+                                    );
+
+
+                                if (
+                                    existing
+                                ) {
+
+                                    return;
+
+                                }
+
+
+                                group.outcomes.push({
+                                    name:
+                                        outcomeName,
+
+                                    price:
+                                        price,
+
+                                    ...(line !==
+                                        null
+                                        ? {
+                                            point:
+                                                line
+                                        }
+                                        : {})
+                                });
+
+                            };
+
+
+                        const overPrice =
+                            row?.over_price;
+
+
+                        const underPrice =
+                            row?.under_price;
+
+
+                        if (
+                            overPrice !==
+                                undefined &&
+                            overPrice !==
+                                null
+                        ) {
+
+                            addOutcome(
+                                player
+                                    ? player +
+                                      " Over"
+                                    : "Over",
+                                overPrice
+                            );
+
+                        }
+
+
+                        if (
+                            underPrice !==
+                                undefined &&
+                            underPrice !==
+                                null
+                        ) {
+
+                            addOutcome(
+                                player
+                                    ? player +
+                                      " Under"
+                                    : "Under",
+                                underPrice
+                            );
+
+                        }
+
+
+                        /*
+                        ----------------------------------------
+                            GENERIC SINGLE-PRICE PROP
+                        ----------------------------------------
+                        */
+
+                        if (
+                            (
+                                overPrice ===
+                                    undefined ||
+                                overPrice ===
+                                    null
+                            ) &&
+                            (
+                                underPrice ===
+                                    undefined ||
+                                underPrice ===
+                                    null
+                            ) &&
+                            row?.price !==
+                                undefined &&
+                            row?.price !==
+                                null
+                        ) {
+
+                            addOutcome(
+                                player ||
+                                "Selection",
+                                row.price
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                ------------------------------------------------
+                    MERGE NORMALIZED PROP MARKETS INTO
+                    API BOOKMAKERS
+                ------------------------------------------------
+                */
+
+                propGroups.forEach(
+                    group => {
+
+                        let bookmaker =
+                            apiBookmakers.find(
+                                item =>
+                                    String(
+                                        item?.key ||
+                                        ""
+                                    )
+                                    .trim() ===
+                                    group.bookmakerKey
+                            );
+
+
+                        if (
+                            !bookmaker
+                        ) {
+
+                            bookmaker = {
+
+                                key:
+                                    group.bookmakerKey,
+
+                                title:
+                                    group.bookmakerTitle,
+
+                                markets:
+                                    []
+
+                            };
+
+
+                            apiBookmakers.push(
+                                bookmaker
+                            );
+
+                        }
+
+
+                        if (
+                            !Array.isArray(
+                                bookmaker.markets
+                            )
+                        ) {
+
+                            bookmaker.markets =
+                                [];
+
+                        }
+
+
+                        let market =
+                            bookmaker.markets.find(
+                                item =>
+                                    String(
+                                        item?.key ||
+                                        ""
+                                    )
+                                    .trim() ===
+                                    group.marketKey
+                            );
+
+
+                        if (
+                            !market
+                        ) {
+
+                            market = {
+
+                                key:
+                                    group.marketKey,
+
+                                title:
+                                    group.marketTitle,
+
+                                outcomes:
+                                    []
+
+                            };
+
+
+                            bookmaker.markets.push(
+                                market
+                            );
+
+                        }
+
+
+                        if (
+                            !Array.isArray(
+                                market.outcomes
+                            )
+                        ) {
+
+                            market.outcomes =
+                                [];
+
+                        }
+
+
+                        group.outcomes.forEach(
+                            outcome => {
+
+                                const exists =
+                                    market.outcomes.find(
+                                        existing =>
+                                            existing?.name ===
+                                                outcome?.name &&
+                                            String(
+                                                existing?.price
+                                            ) ===
+                                                String(
+                                                    outcome?.price
+                                                ) &&
+                                            String(
+                                                existing?.point
+                                            ) ===
+                                                String(
+                                                    outcome?.point
+                                                )
+                                    );
+
+
+                                if (
+                                    !exists
+                                ) {
+
+                                    market.outcomes.push(
+                                        outcome
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                console.log(
+                    "📊 ADD GAME - PROP MARKETS:",
+                    {
+                        rows:
+                            propsRows.length,
+
+                        marketKeys:
+                            propsMarketKeys,
+
+                        groups:
+                            propGroups.size
+                    }
+                );
+
+
+            } catch (error) {
+
+                /*
+                ------------------------------------------------
+                    PROP FAILURE DOES NOT CANCEL GAME ADD
+                ------------------------------------------------
+                */
+
+                console.warn(
+                    "⚠️ API prop market fetch failed. Game will continue with game-line markets."
+                );
+
+            }
 
         }
+
+
+        /*
+        ====================================================
+            NORMALIZE FINAL BOOKMAKER DATA
+        ====================================================
+        */
+
+        apiBookmakers =
+            apiBookmakers
+                .filter(
+                    bookmaker =>
+                        bookmaker &&
+                        Array.isArray(
+                            bookmaker.markets
+                        ) &&
+                        bookmaker.markets.length > 0
+                )
+                .map(
+                    bookmaker =>
+                        ({
+                            ...bookmaker,
+
+                            markets:
+                                bookmaker.markets
+                                    .filter(
+                                        market =>
+                                            market &&
+                                            String(
+                                                market?.key ||
+                                                ""
+                                            ).trim()
+                                    )
+                                    .map(
+                                        market =>
+                                            ({
+                                                ...market,
+
+                                                key:
+                                                    String(
+                                                        market?.key ||
+                                                        ""
+                                                    ).trim(),
+
+                                                ...(Array.isArray(
+                                                    market?.outcomes
+                                                )
+                                                    ? {
+                                                        outcomes:
+                                                            market.outcomes
+                                                    }
+                                                    : {})
+                                            })
+                                    )
+                        })
+                );
+
+
+        console.log(
+            "🏦 ADD GAME - FINAL API BOOKMAKERS:",
+            apiBookmakers
+        );
 
 
         /*
@@ -4650,6 +5824,12 @@ async function addSportsApiGame(
                     ? "live"
                     : "upcoming",
 
+            /*
+            ------------------------------------------------
+                ALWAYS START DISABLED
+            ------------------------------------------------
+            */
+
             match_status:
                 "disable",
 
@@ -4677,7 +5857,7 @@ async function addSportsApiGame(
 
             /*
             ------------------------------------------------
-                EXISTING ADMIN MASTER MARKET STATE
+                EXISTING MASTER MARKET STATE
             ------------------------------------------------
             */
 
@@ -4686,7 +5866,7 @@ async function addSportsApiGame(
 
             /*
             ------------------------------------------------
-                PROVIDER BOOKMAKERS
+                PROVIDER MARKET DATA
             ------------------------------------------------
             */
 
@@ -4695,7 +5875,7 @@ async function addSportsApiGame(
 
             /*
             ------------------------------------------------
-                PROVIDER MARKET SETTINGS
+                API MARKET ADMIN STATE
             ------------------------------------------------
             */
 
@@ -4707,32 +5887,7 @@ async function addSportsApiGame(
 
         /*
         ====================================================
-            LOG PROVIDER MARKET DATA
-        ====================================================
-        */
-
-        console.log(
-            "🏦 ADD GAME - API BOOKMAKERS:",
-            apiBookmakers
-        );
-
-
-        console.log(
-            "📊 ADD GAME - API MARKETS:",
-            apiBookmakers.flatMap(
-                bookmaker =>
-                    Array.isArray(
-                        bookmaker?.markets
-                    )
-                        ? bookmaker.markets
-                        : []
-            )
-        );
-
-
-        /*
-        ====================================================
-            INSERT INTO SPORTS GAMES
+            INSERT INTO EXISTING sports_games
         ====================================================
         */
 
@@ -4773,7 +5928,7 @@ async function addSportsApiGame(
 
         /*
         ====================================================
-            USE SAVED ROW
+            USE SAVED SUPABASE ROW
         ====================================================
         */
 
@@ -4879,7 +6034,7 @@ async function addSportsApiGame(
 
         /*
         ----------------------------------------------------
-            RESTORE BUTTON
+            RESTORE BUTTON IF SAVE FAILED
         ----------------------------------------------------
         */
 
