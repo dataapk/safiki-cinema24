@@ -4988,15 +4988,15 @@ async function (sport) {
      API MARKETS
 =================================== -->
 
-<div class="sports-add-api-markets-row">
+<div class="sports-api-markets-section">
 
-    <div class="sports-add-api-markets-title">
+    <div class="sports-add-markets-title">
         API Markets
     </div>
 
     <div
         id="editSportsApiMarketsContainer"
-        class="sports-add-api-markets-container"
+        class="sports-api-markets-container"
     >
 
         <div class="sports-markets-loading">
@@ -5008,8 +5008,7 @@ async function (sport) {
 </div>
 
 
-
-              <!-- ==================================
+<!-- ==================================
      MASTER BETTING MARKETS
 =================================== -->
 
@@ -8951,88 +8950,7 @@ async function (gameId) {
         gameId;
 
 
-   // ==================================================
-// PREPARE API MARKETS CONTAINER
-// ==================================================
-
-const masterMarketsContainer =
-    document.getElementById(
-        "editSportsMarketsContainer"
-    );
-
-
-if (masterMarketsContainer) {
-
-    let apiMarketsSection =
-        document.getElementById(
-            "editSportsApiMarketsSection"
-        );
-
-
-    if (!apiMarketsSection) {
-
-        apiMarketsSection =
-            document.createElement(
-                "div"
-            );
-
-
-        apiMarketsSection.id =
-            "editSportsApiMarketsSection";
-
-
-        apiMarketsSection.className =
-            "sports-add-markets-row sports-api-markets-row";
-
-
-        apiMarketsSection.innerHTML = `
-            <div
-                class="sports-add-markets-title"
-            >
-                API Markets
-            </div>
-
-            <div
-                id="editSportsApiMarketsContainer"
-                class="sports-api-markets-container"
-            >
-                <div class="sports-markets-loading">
-                    Loading API markets...
-                </div>
-            </div>
-        `;
-
-
-        const masterMarketsSection =
-            masterMarketsContainer.closest(
-                ".sports-add-markets-row"
-            );
-
-
-        if (
-            masterMarketsSection &&
-            masterMarketsSection.parentNode
-        ) {
-
-            masterMarketsSection.parentNode.insertBefore(
-                apiMarketsSection,
-                masterMarketsSection
-            );
-
-        } else {
-
-            masterMarketsContainer.parentNode.insertBefore(
-                apiMarketsSection,
-                masterMarketsContainer
-            );
-
-        }
-
-    }
-
-}
-
-
+  
 // ==================================================
 // LOAD API MARKETS FOR EDITOR
 // ==================================================
