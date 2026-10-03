@@ -504,6 +504,733 @@ async function fetchSportsList(
 }
 
 
+    // ============================================================
+// FETCH SPORTS MARKET CATALOG
+// ============================================================
+
+async function fetchSportsMarketCatalog(
+    apiKey,
+    sportKey
+) {
+
+    /*
+    ========================================================
+        VALIDATE SPORT KEY
+    ========================================================
+    */
+
+    const normalizedSportKey =
+        String(
+            sportKey || ""
+        )
+        .trim();
+
+
+    if (
+        !normalizedSportKey
+    ) {
+
+        return {
+            success: false,
+            sportKey: "",
+            markets: [],
+            oddsMarketKeys: [],
+            propsMarketKeys: [],
+            error:
+                "Sport key is required."
+        };
+
+    }
+
+
+    /*
+    ========================================================
+        HELPER
+        NORMALIZE ARRAY RESPONSE
+    ========================================================
+    */
+
+    function normalizeArrayResponse(
+        data
+    ) {
+
+        if (
+            Array.isArray(
+                data
+            )
+        ) {
+
+            return data;
+
+        }
+
+
+        if (
+            data &&
+            Array.isArray(
+                data.markets
+            )
+        ) {
+
+            return data.markets;
+
+        }
+
+
+        if (
+            data &&
+            Array.isArray(
+                data.data
+            )
+        ) {
+
+            return data.data;
+
+        }
+
+
+        if (
+            data &&
+            Array.isArray(
+                data.market_keys
+            )
+        ) {
+
+            return data.market_keys;
+
+        }
+
+
+        if (
+            data &&
+            Array.isArray(
+                data.keys
+            )
+        ) {
+
+            return data.keys;
+
+        }
+
+
+        return [];
+
+    }
+
+
+    /*
+    ========================================================
+        FETCH GLOBAL MARKET CATALOG
+        0 CREDITS
+    ========================================================
+    */
+
+    let globalMarketsData =
+        [];
+
+
+    try {
+
+        const globalResponse =
+            await fetch(
+                "https://parlay-api.com/v1/markets",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "User-Agent":
+                            "SportsWebsite/1.0"
+                    }
+                }
+            );
+
+
+        if (
+            globalResponse.ok
+        ) {
+
+            let responseData =
+                null;
+
+
+            try {
+
+                responseData =
+                    await globalResponse.json();
+
+            } catch (
+                error
+            ) {
+
+                responseData =
+                    null;
+
+            }
+
+
+            globalMarketsData =
+                normalizeArrayResponse(
+                    responseData
+                );
+
+        }
+
+
+    } catch (
+        error
+    ) {
+
+        console.error(
+            "❌ Failed to fetch global ParlayAPI market catalog."
+        );
+
+    }
+
+
+    /*
+    ========================================================
+        FETCH SPORT PROP MARKET CATALOG
+        0 CREDITS
+    ========================================================
+    */
+
+    let sportPropMarkets =
+        [];
+
+
+    if (
+        apiKey
+    ) {
+
+        try {
+
+            const propsUrl =
+                "https://parlay-api.com/v1/sports/" +
+                encodeURIComponent(
+                    normalizedSportKey
+                ) +
+                "/props/markets";
+
+
+            const propsResponse =
+                await fetch(
+                    propsUrl,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Accept":
+                                "application/json",
+
+                            "X-API-Key":
+                                apiKey,
+
+                            "User-Agent":
+                                "SportsWebsite/1.0"
+                        }
+                    }
+                );
+
+
+            if (
+                propsResponse.ok
+            ) {
+
+                let propsData =
+                    null;
+
+
+                try {
+
+                    propsData =
+                        await propsResponse.json();
+
+                } catch (
+                    error
+                ) {
+
+                    propsData =
+                        null;
+
+                }
+
+
+                sportPropMarkets =
+                    normalizeArrayResponse(
+                        propsData
+                    );
+
+            }
+
+
+        } catch (
+            error
+        ) {
+
+            console.error(
+                "❌ Failed to fetch sport prop market catalog."
+            );
+
+        }
+
+    }
+
+
+    /*
+    ========================================================
+        BUILD CANONICAL MARKET MAP
+    ========================================================
+    */
+
+    const marketMap =
+        new Map();
+
+
+    /*
+    --------------------------------------------------------
+        GLOBAL MARKET CATALOG
+    --------------------------------------------------------
+    */
+
+    globalMarketsData.forEach(
+        market => {
+
+            let marketKey = "";
+            let servedBy = [];
+
+
+            /*
+            ------------------------------------------------
+                STRING MARKET KEY
+            ------------------------------------------------
+            */
+
+            if (
+                typeof market ===
+                    "string"
+            ) {
+
+                marketKey =
+                    String(
+                        market
+                    )
+                    .trim();
+
+            }
+
+
+            /*
+            ------------------------------------------------
+                OBJECT MARKET
+            ------------------------------------------------
+            */
+
+            else if (
+                market &&
+                typeof market ===
+                    "object"
+            ) {
+
+                marketKey =
+                    String(
+                        market.market_key ||
+                        market.key ||
+                        market.name ||
+                        ""
+                    )
+                    .trim();
+
+
+                const rawServedBy =
+                    market.served_by;
+
+
+                if (
+                    Array.isArray(
+                        rawServedBy
+                    )
+                ) {
+
+                    servedBy =
+                        rawServedBy
+                            .map(
+                                value =>
+                                    String(
+                                        value || ""
+                                    )
+                                    .trim()
+                            )
+                            .filter(
+                                Boolean
+                            );
+
+                }
+                else if (
+                    rawServedBy
+                ) {
+
+                    servedBy =
+                        String(
+                            rawServedBy
+                        )
+                        .split(",")
+                        .map(
+                            value =>
+                                value.trim()
+                        )
+                        .filter(
+                            Boolean
+                        );
+
+                }
+
+            }
+
+
+            if (
+                !marketKey
+            ) {
+
+                return;
+
+            }
+
+
+            marketMap.set(
+                marketKey,
+                {
+                    market_key:
+                        marketKey,
+
+                    served_by:
+                        servedBy,
+
+                    source:
+                        "global_catalog"
+                }
+            );
+
+        }
+    );
+
+
+    /*
+    --------------------------------------------------------
+        SPORT PROP MARKETS
+    --------------------------------------------------------
+    */
+
+    sportPropMarkets.forEach(
+        market => {
+
+            let marketKey = "";
+
+
+            if (
+                typeof market ===
+                    "string"
+            ) {
+
+                marketKey =
+                    String(
+                        market
+                    )
+                    .trim();
+
+            }
+            else if (
+                market &&
+                typeof market ===
+                    "object"
+            ) {
+
+                marketKey =
+                    String(
+                        market.market_key ||
+                        market.key ||
+                        market.name ||
+                        ""
+                    )
+                    .trim();
+
+            }
+
+
+            if (
+                !marketKey
+            ) {
+
+                return;
+
+            }
+
+
+            const existing =
+                marketMap.get(
+                    marketKey
+                );
+
+
+            if (
+                existing
+            ) {
+
+                const servedBy =
+                    Array.isArray(
+                        existing.served_by
+                    )
+                        ? [
+                            ...existing.served_by
+                        ]
+                        : [];
+
+
+                if (
+                    !servedBy.includes(
+                        "props"
+                    )
+                ) {
+
+                    servedBy.push(
+                        "props"
+                    );
+
+                }
+
+
+                existing.served_by =
+                    servedBy;
+
+
+                existing.source =
+                    "global_catalog+props";
+
+            }
+            else {
+
+                marketMap.set(
+                    marketKey,
+                    {
+                        market_key:
+                            marketKey,
+
+                        served_by: [
+                            "props"
+                        ],
+
+                        source:
+                            "sport_props_catalog"
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+    ========================================================
+        CONVERT MAP TO ARRAY
+    ========================================================
+    */
+
+    const markets =
+        Array.from(
+            marketMap.values()
+        );
+
+
+    /*
+    ========================================================
+        CLASSIFY ENDPOINTS
+    ========================================================
+    */
+
+    const oddsMarketKeys = [];
+    const propsMarketKeys = [];
+
+
+    markets.forEach(
+        market => {
+
+            const servedBy =
+                Array.isArray(
+                    market.served_by
+                )
+                    ? market.served_by
+                    : [];
+
+
+            const key =
+                String(
+                    market.market_key ||
+                    ""
+                )
+                .trim();
+
+
+            if (
+                !key
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+            ------------------------------------------------
+                PARLAY ODDS SERVED MARKET
+            ------------------------------------------------
+            */
+
+            const isOddsMarket =
+                servedBy.some(
+                    endpoint =>
+                        String(
+                            endpoint
+                        )
+                        .toLowerCase()
+                        .includes(
+                            "odds"
+                        )
+                );
+
+
+            /*
+            ------------------------------------------------
+                PROP SERVED MARKET
+            ------------------------------------------------
+            */
+
+            const isPropsMarket =
+                servedBy.some(
+                    endpoint =>
+                        String(
+                            endpoint
+                        )
+                        .toLowerCase()
+                        .includes(
+                            "prop"
+                        )
+                );
+
+
+            if (
+                isOddsMarket
+            ) {
+
+                oddsMarketKeys.push(
+                    key
+                );
+
+            }
+
+
+            if (
+                isPropsMarket
+            ) {
+
+                propsMarketKeys.push(
+                    key
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+    ========================================================
+        RETURN DISCOVERY RESULT
+    ========================================================
+    */
+
+    const uniqueOddsMarketKeys =
+        [
+            ...new Set(
+                oddsMarketKeys
+            )
+        ];
+
+
+    const uniquePropsMarketKeys =
+        [
+            ...new Set(
+                propsMarketKeys
+            )
+        ];
+
+
+    markets.sort(
+        (
+            a,
+            b
+        ) =>
+            String(
+                a.market_key
+            )
+            .localeCompare(
+                String(
+                    b.market_key
+                )
+            )
+    );
+
+
+    console.log(
+        "✅ PARLAYAPI MARKET CATALOG DISCOVERED:",
+        {
+            sportKey:
+                normalizedSportKey,
+
+            totalMarkets:
+                markets.length,
+
+            oddsMarketCount:
+                uniqueOddsMarketKeys.length,
+
+            propsMarketCount:
+                uniquePropsMarketKeys.length,
+
+            markets:
+                markets
+        }
+    );
+
+
+    return {
+
+        success:
+            markets.length > 0,
+
+        sportKey:
+            normalizedSportKey,
+
+        markets:
+            markets,
+
+        oddsMarketKeys:
+            uniqueOddsMarketKeys,
+
+        propsMarketKeys:
+            uniquePropsMarketKeys
+
+    };
+
+}
+
+
+// ======================================================
+// END FETCH SPORTS MARKET CATALOG
+// ======================================================
+
+
 /*
 ============================================================
     FETCH EVENTS FOR ONE SPORT KEY
