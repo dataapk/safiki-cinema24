@@ -3579,6 +3579,9 @@ async function openSportsApiCheck(button) {
             input.value || ""
         ).trim();
 
+    window.sportsApiCheckApiKey =
+    temporaryApiKey;
+
 
     /*
     ============================================================
@@ -4483,6 +4486,16 @@ async function addSportsApiGame(
 
     try {
 
+    if (
+        !window.sportsApiCheckApiKey
+    ) {
+
+        throw new Error(
+            "Sports API key is not available."
+        );
+
+    }
+
         /*
         ====================================================
             CHECK SUPABASE
@@ -4529,7 +4542,7 @@ async function addSportsApiGame(
 
             oddsResult =
                 await fetchSportOdds(
-                    temporaryApiKey,
+                    window.sportsApiCheckApiKey || "",
                     apiSportKey,
                     apiGameId,
                     [
