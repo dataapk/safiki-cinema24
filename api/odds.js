@@ -503,8 +503,80 @@ async function fetchSportsList(
 
 }
 
-    /*
-   /*
+
+/*
+============================================================
+    FETCH EVENTS FOR ONE SPORT KEY
+============================================================
+*/
+
+async function fetchSportEvents(
+    apiKey,
+    sportKey
+) {
+
+    const params =
+        new URLSearchParams({
+
+            dateFormat:
+                "iso"
+
+        });
+
+
+    const apiUrl =
+        "https://parlay-api.com/v1/sports/" +
+        encodeURIComponent(
+            sportKey
+        ) +
+        "/events?" +
+        params.toString();
+
+
+    const response =
+        await fetch(
+            apiUrl,
+            {
+                method: "GET",
+
+                headers: {
+                    "Accept":
+                        "application/json",
+
+                    "X-API-Key":
+                        apiKey,
+
+                    "User-Agent":
+                        "SportsWebsite/1.0"
+                }
+            }
+        );
+
+
+    let data = [];
+
+
+    try {
+
+        data =
+            await response.json();
+
+    } catch (error) {
+
+        data = [];
+
+    }
+
+
+    return {
+        response,
+        data
+    };
+
+}
+
+
+/*
 ============================================================
     FETCH ODDS FOR ONE SPORT KEY + EVENT
 ============================================================
@@ -513,17 +585,50 @@ async function fetchSportsList(
 async function fetchSportOdds(
     apiKey,
     sportKey,
-    eventId
+    eventId,
+    marketKeys
 ) {
+
+
+    /*
+    ========================================================
+        NORMALIZE MARKET KEYS
+    ========================================================
+    */
+
+    const normalizedMarketKeys =
+        Array.isArray(
+            marketKeys
+        )
+            ? [
+                ...new Set(
+                    marketKeys
+                        .map(
+                            market =>
+                                String(
+                                    market || ""
+                                )
+                                .trim()
+                        )
+                        .filter(
+                            Boolean
+                        )
+                )
+            ]
+            : [];
+
+
+    /*
+    ========================================================
+        BUILD REQUEST PARAMETERS
+    ========================================================
+    */
 
     const params =
         new URLSearchParams({
 
             regions:
                 "us",
-
-            markets:
-                "h2h,spreads,totals",
 
             oddsFormat:
                 "decimal"
@@ -533,8 +638,26 @@ async function fetchSportOdds(
 
     /*
     --------------------------------------------------------
-        ADD SPECIFIC PROVIDER EVENT ID
+        ADD DYNAMIC MARKET KEYS
     --------------------------------------------------------
+    */
+
+    if (
+        normalizedMarketKeys.length > 0
+    ) {
+
+        params.set(
+            "markets",
+            normalizedMarketKeys.join(",")
+        );
+
+    }
+
+
+    /*
+    ========================================================
+        ADD SPECIFIC PROVIDER EVENT ID
+    ========================================================
     */
 
     if (
@@ -551,6 +674,12 @@ async function fetchSportOdds(
     }
 
 
+    /*
+    ========================================================
+        BUILD API URL
+    ========================================================
+    */
+
     const apiUrl =
         "https://parlay-api.com/v1/sports/" +
         encodeURIComponent(
@@ -566,67 +695,11 @@ async function fetchSportOdds(
     );
 
 
-    const response =
-        await fetch(
-            apiUrl,
-            {
-                method: "GET",
-
-                headers: {
-                    "Accept":
-                        "application/json",
-
-                    "X-API-Key":
-                        apiKey,
-
-                    "User-Agent":
-                        "SportsWebsite/1.0"
-                }
-            }
-        );
-
-
-    let data = [];
-
-
-    try {
-
-        data =
-            await response.json();
-
-    } catch (error) {
-
-        data = [];
-
-    }
-
-
-    return {
-        response,
-        data
-    };
-
-}
-
     /*
-    ============================================================
-        FETCH SCORES FOR ONE SPORT KEY
-    ============================================================
+    ========================================================
+        REQUEST
+    ========================================================
     */
-
-   async function fetchSportScores(
-    apiKey,
-    sportKey
-) {
-
-    const apiUrl =
-        "https://parlay-api.com/v1/sports/" +
-        encodeURIComponent(
-            sportKey
-        ) +
-        "/scores" +
-        "?daysFrom=3";
-
 
     const response =
         await fetch(
@@ -648,6 +721,12 @@ async function fetchSportOdds(
         );
 
 
+    /*
+    ========================================================
+        READ RESPONSE
+    ========================================================
+    */
+
     let data = [];
 
 
@@ -663,93 +742,85 @@ async function fetchSportOdds(
     }
 
 
+    /*
+    ========================================================
+        READ PARLAY MARKET HEADERS
+    ========================================================
+    */
+
+    const marketsServed =
+        String(
+            response.headers.get(
+                "x-markets-served"
+            ) ||
+            ""
+        )
+        .split(",")
+        .map(
+            value =>
+                value.trim()
+        )
+        .filter(
+            Boolean
+        );
+
+
+    const marketsUnservable =
+        String(
+            response.headers.get(
+                "x-markets-unservable"
+            ) ||
+            ""
+        )
+        .split(",")
+        .map(
+            value =>
+                value.trim()
+        )
+        .filter(
+            Boolean
+        );
+
+
+    const marketsServedElsewhere =
+        String(
+            response.headers.get(
+                "x-markets-served-elsewhere"
+            ) ||
+            ""
+        )
+        .trim();
+
+
+    /*
+    ========================================================
+        RETURN COMPLETE RESULT
+    ========================================================
+    */
+
     return {
+
         response,
-        data
+
+        data,
+
+        marketsRequested:
+            normalizedMarketKeys,
+
+        marketsServed,
+
+        marketsUnservable,
+
+        marketsServedElsewhere
+
     };
 
 }
 
-    /*
-    ============================================================
-        POST
-        TEMPORARY API CHECK
-    ============================================================
-    */
 
-    if (
-        req.method === "POST"
-    ) {
-
-        /*
-        --------------------------------------------------------
-            ONLY THESE VALUES ARE ACCEPTED:
-                apiKey
-                sport
-
-            NO TEAM TITLE
-            NO MATCH TITLE
-            NO SEARCH TEXT
-        --------------------------------------------------------
-        */
-
-        const body =
-            req.body || {};
-
-
-        const temporaryApiKey =
-            String(
-                body.apiKey || ""
-            ).trim();
-
-
-        const selectedSport =
-            String(
-                body.sport || ""
-            ).trim();
-
-
-        /*
-        --------------------------------------------------------
-            API KEY REQUIRED
-        --------------------------------------------------------
-        */
-
-        if (!temporaryApiKey) {
-
-            return res
-                .status(401)
-                .json({
-                    success: false,
-                    code: "WRONG_API",
-                    message: "Wrong API"
-                });
-
-        }
-
-
-        /*
-        --------------------------------------------------------
-            SPORT CONTEXT REQUIRED
-        --------------------------------------------------------
-        */
-
-        if (!selectedSport) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    code: "SPORT_REQUIRED",
-                    message:
-                        "Sport context is required."
-                });
-
-        }
-
-
-        try {
-
+// ======================================================
+// END FETCH ODDS
+// ======================================================
             /*
             ====================================================
                 STEP 1
@@ -943,7 +1014,7 @@ if (
             }
 
 
-            /*
+          /*
             ====================================================
                 STEP 4
                 GET REAL EVENTS
@@ -952,98 +1023,7 @@ if (
 
             const allGames = [];
 
-
-            /*
-            ----------------------------------------------------
-                Query each matching provider sport key
-            ----------------------------------------------------
-            */
-
-            for (
-                const sportKey
-                of matchingSportKeys
-            ) {
-
-                try {
-
-                    const oddsResult =
-                        await fetchSportOdds(
-                            temporaryApiKey,
-                            sportKey
-                        );
-
-
-                    /*
-                    ------------------------------------------------
-                        If this individual sport key fails,
-                        skip it and continue.
-                    ------------------------------------------------
-                    */
-
-                    if (
-                        !oddsResult.response.ok
-                    ) {
-
-                        continue;
-
-                    }
-
-
-                    const games =
-                        Array.isArray(
-                            oddsResult.data
-                        )
-                            ? oddsResult.data
-                            : [];
-
-
-                    games.forEach(
-                        game => {
-
-                            if (
-                                !game ||
-                                !game.id
-                            ) {
-
-                                return;
-
-                            }
-
-
-                            allGames.push({
-
-                                ...game,
-
-                                api_sport_key:
-                                    sportKey,
-
-                                api_sport_title:
-                                    providerSports
-                                        .find(
-                                            item =>
-                                                item.key ===
-                                                sportKey
-                                        )
-                                        ?.title || ""
-
-                            });
-
-                        }
-                    );
-
-                } catch (error) {
-
-                    /*
-                    ------------------------------------------------
-                        Don't expose provider key or request data.
-                    ------------------------------------------------
-                    */
-
-                    continue;
-
-                }
-
-            }
+            ...
 
 
             /*
