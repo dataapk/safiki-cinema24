@@ -4981,6 +4981,29 @@ async function (sport) {
 
                     </div>
 
+<!-- ==================================
+     API MARKETS
+=================================== -->
+
+<div class="sports-add-api-markets-row">
+
+    <div class="sports-add-api-markets-title">
+        API Markets
+    </div>
+
+    <div
+        id="editSportsApiMarketsContainer"
+        class="sports-add-api-markets-container"
+    >
+
+        <div class="sports-markets-loading">
+            Loading API markets...
+        </div>
+
+    </div>
+
+</div>
+
 
               <!-- ==================================
      MASTER BETTING MARKETS
