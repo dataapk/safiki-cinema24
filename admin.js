@@ -5421,7 +5421,76 @@ async function loadSportsApiMarkets(
 
     /*
     ========================================================
-        FIND MASTER BETTING MARKETS CONTAINER
+        DYNAMIC MARKET LABEL FORMATTER
+    ========================================================
+    */
+
+    function formatMarketLabel(
+        value
+    ) {
+
+        const text =
+            String(
+                value || ""
+            )
+            .trim()
+            .replace(
+                /[_-]+/g,
+                " "
+            )
+            .replace(
+                /\s+/g,
+                " "
+            );
+
+        if (!text) {
+
+            return "Unnamed Market";
+
+        }
+
+
+        return text
+            .split(" ")
+            .map(
+                word => {
+
+                    /*
+                    --------------------------------------------
+                        Generic formatting only.
+                        No market names are hardcoded.
+                    --------------------------------------------
+                    */
+
+                    if (
+                        /^[a-z0-9]+$/i.test(
+                            word
+                        ) &&
+                        /\d/.test(
+                            word
+                        )
+                    ) {
+
+                        return word.toUpperCase();
+
+                    }
+
+
+                    return (
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1)
+                    );
+
+                }
+            )
+            .join(" ");
+
+    }
+
+
+    /*
+    ========================================================
+        FIND EXISTING MASTER MARKET CONTAINER
     ========================================================
     */
 
@@ -5438,14 +5507,22 @@ async function loadSportsApiMarkets(
         );
 
         return;
+
     }
 
 
     /*
     ========================================================
-        CREATE API MARKETS CONTAINER IF NOT EXISTS
+        CREATE API MARKETS SECTION
+        ABOVE MASTER BETTING MARKETS
     ========================================================
     */
+
+    let apiSection =
+        document.getElementById(
+            "editSportsApiMarketsSection"
+        );
+
 
     let container =
         document.getElementById(
@@ -5453,18 +5530,23 @@ async function loadSportsApiMarkets(
         );
 
 
-    if (!container) {
+    if (!apiSection) {
 
-        const apiMarketsSection =
+        apiSection =
             document.createElement(
                 "div"
             );
 
-        apiMarketsSection.className =
+
+        apiSection.id =
+            "editSportsApiMarketsSection";
+
+
+        apiSection.className =
             "sports-add-api-markets-row";
 
 
-        apiMarketsSection.innerHTML = `
+        apiSection.innerHTML = `
             <div
                 class="sports-add-api-markets-title"
             >
@@ -5483,7 +5565,7 @@ async function loadSportsApiMarkets(
 
 
         masterContainer.parentNode.insertBefore(
-            apiMarketsSection,
+            apiSection,
             masterContainer
         );
 
@@ -5499,10 +5581,11 @@ async function loadSportsApiMarkets(
     if (!container) {
 
         console.warn(
-            "⚠️ Failed to create API Sports Markets container."
+            "⚠️ API Sports Markets container could not be created."
         );
 
         return;
+
     }
 
 
@@ -5521,7 +5604,7 @@ async function loadSportsApiMarkets(
 
     /*
     ========================================================
-        READ SAVED API BOOKMAKERS
+        READ SAVED PROVIDER BOOKMAKERS
     ========================================================
     */
 
@@ -5535,7 +5618,26 @@ async function loadSportsApiMarkets(
 
     /*
     ========================================================
-        NO API MARKETS
+        READ SAVED API MARKET SETTINGS
+    ========================================================
+    */
+
+    const apiMarketSettings =
+        game?.api_market_settings &&
+        typeof game.api_market_settings ===
+            "object" &&
+        !Array.isArray(
+            game.api_market_settings
+        )
+            ? {
+                ...game.api_market_settings
+            }
+            : {};
+
+
+    /*
+    ========================================================
+        NO API DATA
     ========================================================
     */
 
@@ -5550,30 +5652,46 @@ async function loadSportsApiMarkets(
         `;
 
         console.log(
-            "ℹ️ No saved API bookmakers for game:",
-            game?.game_id || ""
+            "ℹ️ API MARKETS: No saved provider bookmakers.",
+            {
+                gameId:
+                    game?.game_id || ""
+            }
         );
 
         return;
+
     }
 
 
     /*
     ========================================================
-        BUILD API MARKET HTML
+        BUILD ALL BOOKMAKER MARKET CARDS
     ========================================================
     */
 
     const bookmakerHtml =
         apiBookmakers
             .map(
-                bookmaker => {
+                (
+                    bookmaker,
+                    bookmakerIndex
+                ) => {
+
+                    const bookmakerKey =
+                        String(
+                            bookmaker?.key ||
+                            bookmaker?.title ||
+                            `bookmaker_${bookmakerIndex + 1}`
+                        )
+                        .trim();
+
 
                     const bookmakerTitle =
                         String(
                             bookmaker?.title ||
                             bookmaker?.key ||
-                            "Bookmaker"
+                            `Bookmaker ${bookmakerIndex + 1}`
                         )
                         .trim();
 
@@ -5586,43 +5704,131 @@ async function loadSportsApiMarkets(
                             : [];
 
 
-                    if (
-                        markets.length === 0
-                    ) {
-
-                        return `
-                            <div class="sports-api-market-group">
-
-                                <div
-                                    class="sports-api-bookmaker-title"
-                                >
-                                    ${escapeAdminSportsHTML(
-                                        bookmakerTitle
-                                    )}
-                                </div>
-
-                                <div class="sports-markets-empty">
-                                    No markets available.
-                                </div>
-
-                            </div>
-                        `;
-
-                    }
-
-
-                    const marketHtml =
+                    const marketCards =
                         markets
                             .map(
-                                market => {
+                                (
+                                    market,
+                                    marketIndex
+                                ) => {
+
+                                    if (
+                                        !market ||
+                                        typeof market !==
+                                            "object"
+                                    ) {
+
+                                        return "";
+
+                                    }
+
 
                                     const marketKey =
                                         String(
                                             market?.key ||
-                                            ""
+                                            `market_${marketIndex + 1}`
                                         )
                                         .trim();
 
+
+                                    if (
+                                        !marketKey
+                                    ) {
+
+                                        return "";
+
+                                    }
+
+
+                                    /*
+                                    --------------------------------
+                                        UNIQUE MARKET SETTING KEY
+                                    --------------------------------
+                                    */
+
+                                    const settingKey =
+                                        bookmakerKey +
+                                        "::" +
+                                        marketKey;
+
+
+                                    const encodedSettingKey =
+                                        encodeURIComponent(
+                                            settingKey
+                                        );
+
+
+                                    /*
+                                    --------------------------------
+                                        CURRENT ADMIN STATE
+                                    --------------------------------
+                                    */
+
+                                    const savedSetting =
+                                        apiMarketSettings[
+                                            settingKey
+                                        ] &&
+                                        typeof apiMarketSettings[
+                                            settingKey
+                                        ] === "object" &&
+                                        !Array.isArray(
+                                            apiMarketSettings[
+                                                settingKey
+                                            ]
+                                        )
+                                            ? apiMarketSettings[
+                                                settingKey
+                                            ]
+                                            : {};
+
+
+                                    /*
+                                    --------------------------------
+                                        DELETED MARKETS STAY HIDDEN
+                                    --------------------------------
+                                    */
+
+                                    if (
+                                        savedSetting.deleted ===
+                                            true
+                                    ) {
+
+                                        return "";
+
+                                    }
+
+
+                                    const isEnabled =
+                                        savedSetting.enabled !==
+                                            false;
+
+
+                                    /*
+                                    --------------------------------
+                                        FULLY DYNAMIC MARKET NAME
+                                    --------------------------------
+                                    */
+
+                                    const providerMarketName =
+                                        String(
+                                            market?.title ||
+                                            market?.name ||
+                                            marketKey
+                                        )
+                                        .trim();
+
+
+                                    const marketName =
+                                        formatMarketLabel(
+                                            providerMarketName
+                                        );
+
+
+                                    /*
+                                    --------------------------------
+                                        OUTCOMES
+                                    --------------------------------
+                                    */
 
                                     const outcomes =
                                         Array.isArray(
@@ -5632,175 +5838,644 @@ async function loadSportsApiMarkets(
                                             : [];
 
 
-                                    let marketName =
-                                        marketKey;
+                                    const outcomeHtml =
+                                        outcomes
+                                            .map(
+                                                outcome => {
+
+                                                    if (
+                                                        !outcome ||
+                                                        typeof outcome !==
+                                                            "object"
+                                                    ) {
+
+                                                        return "";
+
+                                                    }
 
 
-                                    // ======================================================
-// FORMAT API MARKET LABEL DYNAMICALLY
-// ======================================================
-
-function formatSportsApiMarketLabel(
-    value
-) {
-
-    const text =
-        String(
-            value || ""
-        )
-        .trim()
-        .replace(
-            /[_-]+/g,
-            " "
-        )
-        .replace(
-            /\s+/g,
-            " "
-        );
+                                                    const outcomeName =
+                                                        String(
+                                                            outcome?.name ||
+                                                            ""
+                                                        )
+                                                        .trim();
 
 
-    if (!text) {
-        return "Unnamed Market";
+                                                    const price =
+                                                        outcome?.price !==
+                                                            undefined &&
+                                                        outcome?.price !==
+                                                            null
+                                                            ? String(
+                                                                outcome.price
+                                                            )
+                                                            : "";
+
+
+                                                    const point =
+                                                        outcome?.point !==
+                                                            undefined &&
+                                                        outcome?.point !==
+                                                            null
+                                                            ? String(
+                                                                outcome.point
+                                                            )
+                                                            : "";
+
+
+                                                    if (
+                                                        !outcomeName &&
+                                                        !price &&
+                                                        !point
+                                                    ) {
+
+                                                        return "";
+
+                                                    }
+
+
+                                                    return `
+                                                        <div
+                                                            class="sports-api-market-outcome"
+                                                        >
+
+                                                            <span
+                                                                class="sports-api-market-outcome-name"
+                                                            >
+                                                                ${escapeAdminSportsHTML(
+                                                                    outcomeName ||
+                                                                    "Unnamed outcome"
+                                                                )}
+                                                            </span>
+
+                                                            <span
+                                                                class="sports-api-market-outcome-values"
+                                                            >
+
+                                                                ${
+                                                                    point
+                                                                        ? `
+                                                                            <span
+                                                                                class="sports-api-market-outcome-point"
+                                                                            >
+                                                                                ${escapeAdminSportsHTML(
+                                                                                    point
+                                                                                )}
+                                                                            </span>
+                                                                        `
+                                                                        : ""
+                                                                }
+
+                                                                ${
+                                                                    price
+                                                                        ? `
+                                                                            <span
+                                                                                class="sports-api-market-outcome-price"
+                                                                            >
+                                                                                ${escapeAdminSportsHTML(
+                                                                                    price
+                                                                                )}
+                                                                            </span>
+                                                                        `
+                                                                        : ""
+                                                                }
+
+                                                            </span>
+
+                                                        </div>
+                                                    `;
+
+                                                }
+                                            )
+                                            .join("");
+
+
+                                    /*
+                                    --------------------------------
+                                        MARKET CARD
+                                    --------------------------------
+                                    */
+
+                                    return `
+                                        <div
+                                            class="sports-api-market-card"
+                                            data-api-setting-key="${encodedSettingKey}"
+                                        >
+
+                                            <div
+                                                class="sports-api-market-card-header"
+                                            >
+
+                                                <div
+                                                    class="sports-api-market-card-title"
+                                                >
+
+                                                    ${escapeAdminSportsHTML(
+                                                        marketName
+                                                    )}
+
+                                                    <span
+                                                        class="sports-api-market-card-key"
+                                                    >
+                                                        ${escapeAdminSportsHTML(
+                                                            marketKey
+                                                        )}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div
+                                                    class="sports-api-market-card-actions"
+                                                >
+
+                                                    <label
+                                                        class="sports-api-market-check"
+                                                    >
+
+                                                        <input
+                                                            type="checkbox"
+                                                            class="sports-api-market-checkbox"
+                                                            data-setting-key="${encodedSettingKey}"
+                                                            ${
+                                                                isEnabled
+                                                                    ? "checked"
+                                                                    : ""
+                                                            }
+                                                        >
+
+                                                        <span>
+                                                            Enable
+                                                        </span>
+
+                                                    </label>
+
+
+                                                    <button
+                                                        type="button"
+                                                        class="sports-api-market-delete-btn"
+                                                        data-setting-key="${encodedSettingKey}"
+                                                    >
+                                                        Delete
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            ${
+                                                outcomeHtml
+                                                    ? `
+                                                        <div
+                                                            class="sports-api-market-outcomes"
+                                                        >
+                                                            ${outcomeHtml}
+                                                        </div>
+                                                    `
+                                                    : `
+                                                        <div
+                                                            class="sports-markets-empty"
+                                                        >
+                                                            No outcomes available.
+                                                        </div>
+                                                    `
+                                            }
+
+                                        </div>
+                                    `;
+
+                                }
+                            )
+                            .join("");
+
+
+                    if (
+                        !marketCards
+                    ) {
+
+                        return "";
+
+                    }
+
+
+                    return `
+                        <div
+                            class="sports-api-market-group"
+                        >
+
+                            <div
+                                class="sports-api-bookmaker-title"
+                            >
+                                ${escapeAdminSportsHTML(
+                                    bookmakerTitle
+                                )}
+                            </div>
+
+                            <div
+                                class="sports-api-market-list"
+                            >
+                                ${marketCards}
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    /*
+    ========================================================
+        RENDER
+    ========================================================
+    */
+
+    container.innerHTML =
+        bookmakerHtml ||
+        `
+            <div class="sports-markets-empty">
+                No API markets available for this game.
+            </div>
+        `;
+
+
+    /*
+    ========================================================
+        SAVE MARKET SETTINGS
+    ========================================================
+    */
+
+    async function saveMarketSettings(
+        settings
+    ) {
+
+        if (
+            !window.supabaseClient
+        ) {
+
+            throw new Error(
+                "Supabase connection unavailable."
+            );
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await window.supabaseClient
+                .from(
+                    "sports_games"
+                )
+                .update({
+                    api_market_settings:
+                        settings
+                })
+                .eq(
+                    "game_id",
+                    game.game_id
+                )
+                .select(
+                    "game_id, api_market_settings"
+                )
+                .single();
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        const savedSettings =
+            data?.api_market_settings ||
+            {};
+
+
+        game.api_market_settings =
+            savedSettings;
+
+
+        if (
+            window.adminSportsGames &&
+            window.adminSportsGames[
+                game.game_id
+            ]
+        ) {
+
+            window.adminSportsGames[
+                game.game_id
+            ] = {
+                ...window.adminSportsGames[
+                    game.game_id
+                ],
+
+                api_market_settings:
+                    savedSettings
+            };
+
+        }
+
+
+        window.currentEditingSportsGame =
+            game;
+
+
+        return savedSettings;
+
     }
 
 
-    return text
-        .split(" ")
-        .map(
-            word => {
+    /*
+    ========================================================
+        ENABLE / DISABLE CHECKBOX
+    ========================================================
+    */
 
-                /*
-                --------------------------------------------
-                    Keep short alpha-numeric market keys
-                    readable, e.g. h2h → H2H
-                --------------------------------------------
-                */
+    container
+        .querySelectorAll(
+            ".sports-api-market-checkbox"
+        )
+        .forEach(
+            checkbox => {
 
-                if (
-                    /^[a-z0-9]{2,4}$/i.test(
-                        word
-                    ) &&
-                    /\d/.test(
-                        word
-                    )
-                ) {
+                checkbox.addEventListener(
+                    "change",
+                    async () => {
 
-                    return word.toUpperCase();
-
-                }
+                        const settingKey =
+                            decodeURIComponent(
+                                checkbox.dataset.settingKey ||
+                                ""
+                            );
 
 
-                return (
-                    word.charAt(0).toUpperCase() +
-                    word.slice(1)
+                        if (
+                            !settingKey
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const settings =
+                            game?.api_market_settings &&
+                            typeof game.api_market_settings ===
+                                "object" &&
+                            !Array.isArray(
+                                game.api_market_settings
+                            )
+                                ? {
+                                    ...game.api_market_settings
+                                }
+                                : {};
+
+
+                        settings[
+                            settingKey
+                        ] = {
+
+                            ...(settings[
+                                settingKey
+                            ] || {}),
+
+                            enabled:
+                                checkbox.checked,
+
+                            deleted:
+                                false
+
+                        };
+
+
+                        checkbox.disabled =
+                            true;
+
+
+                        try {
+
+                            await saveMarketSettings(
+                                settings
+                            );
+
+                        } catch (error) {
+
+                            console.error(
+                                "❌ Failed to save API market state:",
+                                error
+                            );
+
+
+                            checkbox.checked =
+                                !checkbox.checked;
+
+
+                            alert(
+                                "Failed to save API market state."
+                            );
+
+                        } finally {
+
+                            checkbox.disabled =
+                                false;
+
+                        }
+
+                    }
                 );
 
             }
+        );
+
+
+    /*
+    ========================================================
+        DELETE API MARKET
+    ========================================================
+    */
+
+    container
+        .querySelectorAll(
+            ".sports-api-market-delete-btn"
         )
-        .join(" ");
+        .forEach(
+            deleteButton => {
 
-}
+                deleteButton.addEventListener(
+                    "click",
+                    async () => {
+
+                        const settingKey =
+                            decodeURIComponent(
+                                deleteButton.dataset.settingKey ||
+                                ""
+                            );
 
 
-// ======================================================
-// SAVE API MARKET SETTINGS
-// ======================================================
+                        if (
+                            !settingKey
+                        ) {
 
-async function saveSportsApiMarketSettings(
-    gameId,
-    settings
-) {
+                            return;
 
-    if (
-        !window.supabaseClient
-    ) {
+                        }
 
-        throw new Error(
-            "Supabase connection unavailable."
+
+                        const confirmed =
+                            window.confirm(
+                                "Delete this API market from this game?"
+                            );
+
+
+                        if (
+                            !confirmed
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const settings =
+                            game?.api_market_settings &&
+                            typeof game.api_market_settings ===
+                                "object" &&
+                            !Array.isArray(
+                                game.api_market_settings
+                            )
+                                ? {
+                                    ...game.api_market_settings
+                                }
+                                : {};
+
+
+                        settings[
+                            settingKey
+                        ] = {
+
+                            ...(settings[
+                                settingKey
+                            ] || {}),
+
+                            enabled:
+                                false,
+
+                            deleted:
+                                true
+
+                        };
+
+
+                        deleteButton.disabled =
+                            true;
+
+
+                        try {
+
+                            await saveMarketSettings(
+                                settings
+                            );
+
+
+                            await loadSportsApiMarkets(
+                                game
+                            );
+
+                        } catch (error) {
+
+                            console.error(
+                                "❌ Failed to delete API market:",
+                                error
+                            );
+
+
+                            deleteButton.disabled =
+                                false;
+
+
+                            alert(
+                                "Failed to delete API market."
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
         );
 
-    }
 
+    /*
+    ========================================================
+        DEBUG
+    ========================================================
+    */
 
-    const {
-        data,
-        error
-    } =
-        await window.supabaseClient
-            .from(
-                "sports_games"
+    const marketKeys =
+        apiBookmakers
+            .flatMap(
+                bookmaker =>
+                    Array.isArray(
+                        bookmaker?.markets
+                    )
+                        ? bookmaker.markets.map(
+                            market =>
+                                String(
+                                    market?.key ||
+                                    ""
+                                ).trim()
+                        )
+                        : []
             )
-            .update({
-                api_market_settings:
-                    settings
-            })
-            .eq(
-                "game_id",
-                gameId
-            )
-            .select(
-                "game_id, api_market_settings"
-            )
-            .single();
+            .filter(
+                Boolean
+            );
 
 
-    if (error) {
+    console.log(
+        "✅ API MARKETS LOADED DYNAMICALLY:",
+        {
+            gameId:
+                game?.game_id || "",
 
-        console.error(
-            "❌ Failed to save API market settings:",
-            error
-        );
+            bookmakerCount:
+                apiBookmakers.length,
 
-        throw error;
+            totalAvailableMarkets:
+                apiBookmakers.reduce(
+                    (
+                        total,
+                        bookmaker
+                    ) =>
+                        total +
+                        (
+                            Array.isArray(
+                                bookmaker?.markets
+                            )
+                                ? bookmaker.markets.length
+                                : 0
+                        ),
+                    0
+                ),
 
-    }
-
-
-    if (
-        window.adminSportsGames &&
-        window.adminSportsGames[
-            gameId
-        ]
-    ) {
-
-        window.adminSportsGames[
-            gameId
-        ] = {
-            ...window.adminSportsGames[
-                gameId
-            ],
-
-            api_market_settings:
-                data?.api_market_settings ||
-                {}
-        };
-
-    }
-
-
-    if (
-        window.currentEditingSportsGame &&
-        window.currentEditingSportsGame.game_id ===
-            gameId
-    ) {
-
-        window.currentEditingSportsGame = {
-            ...window.currentEditingSportsGame,
-
-            api_market_settings:
-                data?.api_market_settings ||
-                {}
-        };
-
-    }
-
-
-    return (
-        data?.api_market_settings ||
-        {}
+            marketKeys:
+                marketKeys
+        }
     );
 
 }
+
+
+// ======================================================
+// END LOAD API MARKETS
+// ======================================================
 
 
 
