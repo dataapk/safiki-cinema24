@@ -5028,7 +5028,7 @@ async function addSportsApiGame(
         );
 
 
-        /*
+               /*
         ====================================================
             STEP 2
             FETCH ACTUAL GAME-LINE ODDS
@@ -5059,6 +5059,187 @@ async function addSportsApiGame(
 
         }
 
+
+        /*
+        ====================================================
+            TEMPORARY ODDS DIAGNOSTIC
+            DO NOT REMOVE OTHER ODDS LOGIC
+        ====================================================
+        */
+
+        console.log(
+            "🔎 ADD GAME - ODDS DEBUG:",
+            {
+                apiSportKey:
+                    apiSportKey,
+
+                apiGameId:
+                    apiGameId,
+
+                coveredOddsMarkets:
+                    coveredOddsMarkets,
+
+                oddsResponseOk:
+                    oddsResult?.response?.ok,
+
+                oddsResponseStatus:
+                    oddsResult?.response?.status,
+
+                dataIsArray:
+                    Array.isArray(
+                        oddsResult?.data
+                    ),
+
+                dataLength:
+                    Array.isArray(
+                        oddsResult?.data
+                    )
+                        ? oddsResult.data.length
+                        : null,
+
+                eventIds:
+                    Array.isArray(
+                        oddsResult?.data
+                    )
+                        ? oddsResult.data
+                            .map(
+                                event =>
+                                    event?.id
+                            )
+                            .filter(
+                                Boolean
+                            )
+                        : [],
+
+                bookmakers:
+                    Array.isArray(
+                        oddsResult?.data
+                    )
+                        ? oddsResult.data.map(
+                            event => ({
+                                eventId:
+                                    event?.id ||
+                                    "",
+
+                                canonicalEventId:
+                                    event?.canonical_event_id ||
+                                    "",
+
+                                bookmakerCount:
+                                    Array.isArray(
+                                        event?.bookmakers
+                                    )
+                                        ? event.bookmakers.length
+                                        : 0,
+
+                                bookmakerKeys:
+                                    Array.isArray(
+                                        event?.bookmakers
+                                    )
+                                        ? event.bookmakers
+                                            .map(
+                                                bookmaker =>
+                                                    bookmaker?.key ||
+                                                    bookmaker?.title ||
+                                                    ""
+                                            )
+                                            .filter(
+                                                Boolean
+                                            )
+                                        : []
+                            })
+                        )
+                        : []
+            }
+        );
+
+
+        /*
+        ====================================================
+            READ BOOKMAKERS FROM ODDS RESPONSE
+        ====================================================
+        */
+
+        let apiBookmakers =
+            [];
+
+
+        if (
+            oddsResult &&
+            Array.isArray(
+                oddsResult.data
+            )
+        ) {
+
+            const matchingEvent =
+                oddsResult.data.find(
+                    event => {
+
+                        const eventId =
+                            String(
+                                event?.id ||
+                                ""
+                            ).trim();
+
+
+                        const canonicalId =
+                            String(
+                                event?.canonical_event_id ||
+                                ""
+                            ).trim();
+
+
+                        const requestedCanonicalId =
+                            String(
+                                apiGame?.canonical_event_id ||
+                                ""
+                            ).trim();
+
+
+                        return (
+                            eventId ===
+                                apiGameId ||
+                            (
+                                requestedCanonicalId &&
+                                canonicalId ===
+                                    requestedCanonicalId
+                            )
+                        );
+
+                    }
+                ) ||
+                oddsResult.data[0] ||
+                null;
+
+
+            if (
+                matchingEvent &&
+                Array.isArray(
+                    matchingEvent.bookmakers
+                )
+            ) {
+
+                apiBookmakers =
+                    matchingEvent.bookmakers
+                        .map(
+                            bookmaker =>
+                                ({
+                                    ...bookmaker,
+
+                                    markets:
+                                        Array.isArray(
+                                            bookmaker?.markets
+                                        )
+                                            ? [
+                                                ...bookmaker.markets
+                                            ]
+                                            : []
+                                })
+                        );
+
+            }
+
+        }
 
         /*
         ====================================================
