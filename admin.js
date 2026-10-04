@@ -4559,13 +4559,18 @@ async function addSportsApiGame(
     PARLAYAPI MARKET CATALOG DISCOVERY
 ====================================================
 
-    Purpose:
-    - Discover ParlayAPI market keys dynamically.
-    - Do NOT hardcode market names.
-    - Keep game-line and prop markets available
-      to the existing Add Game filtering logic.
-    - Return the exact structure expected by
-      the existing Add Game flow.
+    Source of truth:
+    GET /v1/markets
+
+    Game-line markets come from:
+    data.game_lines
+
+    Prop markets come from:
+    data.props_by_sport[apiSportKey]
+
+    Futures / outrights are excluded from
+    event-level odds because they are not tied
+    to the selected fixture.
 
     No odds request is made here.
 ====================================================
@@ -4581,7 +4586,8 @@ async function fetchSportsMarketCatalog(
         sportKey:
             String(
                 apiSportKey || ""
-            ).trim(),
+            )
+            .trim(),
 
         oddsMarketKeys:
             [],
@@ -4610,200 +4616,6 @@ async function fetchSportsMarketCatalog(
     }
 
 
-    /*
-    ====================================================
-        HELPER
-        EXTRACT MARKET KEYS FROM UNKNOWN RESPONSE SHAPE
-    ====================================================
-    */
-
-    const discoveredKeys =
-        new Set();
-
-
-    const collectMarketKeys =
-        value => {
-
-            if (
-                value === null ||
-                value === undefined
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-            ------------------------------------------------
-                DIRECT STRING
-            ------------------------------------------------
-            */
-
-            if (
-                typeof value ===
-                "string"
-            ) {
-
-                const key =
-                    value.trim();
-
-                if (
-                    key
-                ) {
-
-                    discoveredKeys.add(
-                        key
-                    );
-
-                }
-
-                return;
-
-            }
-
-
-            /*
-            ------------------------------------------------
-                ARRAY
-            ------------------------------------------------
-            */
-
-            if (
-                Array.isArray(
-                    value
-                )
-            ) {
-
-                value.forEach(
-                    item =>
-                        collectMarketKeys(
-                            item
-                        )
-                );
-
-                return;
-
-            }
-
-
-            /*
-            ------------------------------------------------
-                OBJECT
-            ------------------------------------------------
-            */
-
-            if (
-                typeof value !==
-                "object"
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-            ------------------------------------------------
-                COMMON MARKET KEY FIELDS
-            ------------------------------------------------
-            */
-
-            const directFields = [
-                "market_key",
-                "marketKey",
-                "key",
-                "market",
-                "name"
-            ];
-
-
-            directFields.forEach(
-                field => {
-
-                    const valueForField =
-                        value?.[
-                            field
-                        ];
-
-
-                    if (
-                        typeof valueForField ===
-                        "string"
-                    ) {
-
-                        const key =
-                            valueForField.trim();
-
-                        if (
-                            key
-                        ) {
-
-                            discoveredKeys.add(
-                                key
-                            );
-
-                        }
-
-                    }
-
-                }
-            );
-
-
-            /*
-            ------------------------------------------------
-                COMMON CONTAINER FIELDS
-            ------------------------------------------------
-            */
-
-            const nestedFields = [
-                "markets",
-                "market_keys",
-                "marketKeys",
-                "results",
-                "data",
-                "items",
-                "catalog",
-                "coverage"
-            ];
-
-
-            nestedFields.forEach(
-                field => {
-
-                    if (
-                        value?.[
-                            field
-                        ] !== undefined
-                    ) {
-
-                        collectMarketKeys(
-                            value[
-                                field
-                            ]
-                        );
-
-                    }
-
-                }
-            );
-
-        };
-
-
-    /*
-    ====================================================
-        1. AUTHORITATIVE PARLAYAPI MARKET REGISTRY
-    ====================================================
-
-        Documentation:
-        GET /v1/markets
-
-        This is the authoritative market list.
-    ====================================================
-    */
-
     try {
 
         const response =
@@ -4829,20 +4641,20 @@ async function fetchSportsMarketCatalog(
             );
 
 
-        let data =
+        let responseData =
             null;
 
 
         try {
 
-            data =
+            responseData =
                 await response.json();
 
         } catch (
             error
         ) {
 
-            data =
+            responseData =
                 null;
 
         }
@@ -4858,32 +4670,158 @@ async function fetchSportsMarketCatalog(
                     response.status,
 
                 data:
-                    data
+                    responseData
 
             }
         );
 
 
         if (
-            response.ok
+            !response.ok ||
+            !responseData ||
+            typeof responseData !==
+                "object"
         ) {
 
-            collectMarketKeys(
-                data
+            console.warn(
+                "⚠️ MARKET CATALOG: /v1/markets failed."
             );
 
+            return result;
+
         }
+
+
+        const data =
+            responseData.data;
+
+
+        /*
+        ====================================================
+            GAME-LINE MARKETS
+        ====================================================
+        */
+
+        if (
+            Array.isArray(
+                data?.game_lines
+            )
+        ) {
+
+            result.oddsMarketKeys =
+                data.game_lines
+                    .map(
+                        key =>
+                            String(
+                                key || ""
+                            )
+                            .trim()
+                            .toLowerCase()
+                    )
+                    .filter(Boolean);
+
+        }
+
+
+        /*
+        ====================================================
+            SPORT-SPECIFIC PROP MARKETS
+        ====================================================
+        */
+
+        const sportProps =
+            data?.props_by_sport?.[
+                String(
+                    apiSportKey
+                )
+                .trim()
+            ];
+
+
+        if (
+            Array.isArray(
+                sportProps
+            )
+        ) {
+
+            result.propsMarketKeys =
+                sportProps
+                    .map(
+                        key =>
+                            String(
+                                key || ""
+                            )
+                            .trim()
+                            .toLowerCase()
+                    )
+                    .filter(Boolean);
+
+        }
+
+
+        /*
+        ====================================================
+            REMOVE DUPLICATES
+        ====================================================
+        */
+
+        result.oddsMarketKeys =
+            [
+                ...new Set(
+                    result.oddsMarketKeys
+                )
+            ];
+
+
+        result.propsMarketKeys =
+            [
+                ...new Set(
+                    result.propsMarketKeys
+                )
+            ];
+
+
+        console.log(
+            "✅ MARKET CATALOG DISCOVERED:",
+            {
+                sportKey:
+                    result.sportKey,
+
+                totalKeys:
+                    result.oddsMarketKeys.length +
+                    result.propsMarketKeys.length,
+
+                oddsMarketCount:
+                    result.oddsMarketKeys.length,
+
+                propsMarketCount:
+                    result.propsMarketKeys.length,
+
+                oddsMarketKeys:
+                    result.oddsMarketKeys,
+
+                propsMarketKeys:
+                    result.propsMarketKeys
+
+            }
+        );
+
 
     } catch (
         error
     ) {
 
-        console.warn(
-            "⚠️ MARKET CATALOG: /v1/markets request failed.",
+        console.error(
+            "❌ MARKET CATALOG ERROR:",
             error
         );
 
     }
+
+
+    return result;
+
+}
 
 
     /*
