@@ -4554,6 +4554,57 @@ async function addSportsApiGame(
 
         }
 
+        /*
+====================================================
+    TEMPORARY MARKET CATALOG DIAGNOSTIC
+====================================================
+*/
+
+console.log(
+    "🔎 ADD GAME - MARKET CATALOG DEBUG:",
+    {
+        fetchSportsMarketCatalogType:
+            typeof fetchSportsMarketCatalog,
+
+        apiSportKey:
+            apiSportKey,
+
+        marketCatalog:
+            marketCatalog,
+
+        marketCatalogType:
+            typeof marketCatalog,
+
+        oddsMarketKeys:
+            Array.isArray(
+                marketCatalog?.oddsMarketKeys
+            )
+                ? marketCatalog.oddsMarketKeys
+                : null,
+
+        oddsMarketKeysLength:
+            Array.isArray(
+                marketCatalog?.oddsMarketKeys
+            )
+                ? marketCatalog.oddsMarketKeys.length
+                : null,
+
+        propsMarketKeys:
+            Array.isArray(
+                marketCatalog?.propsMarketKeys
+            )
+                ? marketCatalog.propsMarketKeys
+                : null,
+
+        propsMarketKeysLength:
+            Array.isArray(
+                marketCatalog?.propsMarketKeys
+            )
+                ? marketCatalog.propsMarketKeys.length
+                : null
+    }
+);
+
 
         /*
         ====================================================
