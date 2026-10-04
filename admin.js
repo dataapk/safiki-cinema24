@@ -4338,7 +4338,6 @@ result.oddsMarketKeys =
         )
     ];
 
-
 result.propsMarketKeys =
     [
         ...new Set(
@@ -4378,11 +4377,26 @@ console.log(
 );
 
 
-return result;
+/*
+====================================================
+    RETURN MARKET CATALOG
+====================================================
+*/
+
+return {
+    sportKey:
+        result.sportKey,
+
+    oddsMarketKeys:
+        result.oddsMarketKeys,
+
+    propsMarketKeys:
+        result.propsMarketKeys
+};
 
 }
 
-
+    
 // ======================================================
 // ADD SPORTS API GAME
 // ======================================================
