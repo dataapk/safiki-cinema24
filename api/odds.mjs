@@ -1558,6 +1558,8 @@ async function fetchSportOdds(
 // ======================================================
 
 
+
+
 /*
 ============================================================
     POST
@@ -1574,223 +1576,376 @@ if (
         /*
         ====================================================
             STEP 1
-            VALIDATE TEMPORARY API KEY
+            USE PRODUCTION API KEY
         ====================================================
         */
 
-    const sportsResult =
-        await fetchSportsList(
-            temporaryApiKey
-        );
+        const apiKey =
+            process.env.ODDS_API_KEY;
 
 
-         /*
-----------------------------------------------------
-    PROVIDER RESPONSE DIAGNOSTIC
-----------------------------------------------------
-*/
+        /*
+        ----------------------------------------------------
+            API KEY MISSING
+        ----------------------------------------------------
+        */
 
-if (
-    !sportsResult.response.ok
-) {
+        if (!apiKey) {
 
-    console.error(
-        "❌ PARLAY PROVIDER RESPONSE:",
-        {
-            status:
-                sportsResult.response.status,
+            console.error(
+                "❌ ODDS_API_KEY is not configured."
+            );
 
-            statusText:
-                sportsResult.response.statusText,
+            return res
+                .status(500)
+                .json({
+                    success: false,
+                    code:
+                        "API_KEY_NOT_CONFIGURED",
+                    message:
+                        "Sports API key is not configured."
+                });
 
-            data:
-                sportsResult.data
         }
-    );
 
 
-    /*
-    ------------------------------------------------
-        INVALID API KEY / AUTH
-    ------------------------------------------------
-    */
+        /*
+        ====================================================
+            GET SELECTED SPORT FROM REQUEST
+        ====================================================
+        */
 
-    if (
-        sportsResult.response.status === 401 ||
-        sportsResult.response.status === 403
-    ) {
-
-        return res
-            .status(401)
-            .json({
-                success: false,
-                code: "WRONG_API",
-                message: "Wrong API"
-            });
-
-    }
+        const selectedSport =
+            String(
+                req.body?.sport ||
+                ""
+            ).trim();
 
 
-    /*
-    ------------------------------------------------
-        OTHER PROVIDER ERROR
-    ------------------------------------------------
-    */
+        /*
+        ----------------------------------------------------
+            SPORT KEY MISSING
+        ----------------------------------------------------
+        */
 
-    return res
-        .status(
-            sportsResult.response.status
-        )
-        .json({
-            success: false,
+        if (!selectedSport) {
 
-            code:
-                "PROVIDER_API_ERROR",
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    code:
+                        "SPORT_REQUIRED",
+                    message:
+                        "Sport key is required."
+                });
 
-            message:
-                "Provider API error.",
-
-            provider_status:
-                sportsResult.response.status,
-
-            provider_error:
-                sportsResult.data
-        });
-
-}
+        }
 
 
+        /*
+        ====================================================
+            STEP 2
+            VALIDATE PRODUCTION API KEY
+            THROUGH SPORTS LIST
+        ====================================================
+        */
+
+        const sportsResult =
+            await fetchSportsList(
+                apiKey
+            );
 
 
-            /*
-            ====================================================
-                STEP 2
-                MAKE SURE PROVIDER RETURNED SPORT DATA
-            ====================================================
-            */
+        /*
+        ====================================================
+            PROVIDER RESPONSE DIAGNOSTIC
+        ====================================================
+        */
 
-            const providerSports =
-                Array.isArray(
-                    sportsResult.data
-                )
-                    ? sportsResult.data
-                    : [];
+        if (
+            !sportsResult.response.ok
+        ) {
 
+            console.error(
+                "❌ PARLAY PROVIDER RESPONSE:",
+                {
+                    status:
+                        sportsResult.response.status,
 
-            /*
-            ====================================================
-                STEP 3
-                FIND ONLY CURRENT SPORT'S KEYS
-            ====================================================
-            */
+                    statusText:
+                        sportsResult.response.statusText,
 
-            const matchingSportKeys =
-                providerSports
-                    .filter(
-                        sportItem => {
-
-                            if (
-                                !sportItem
-                            ) {
-
-                                return false;
-
-                            }
-
-
-                            return isSportKeyMatch(
-                                sportItem.key,
-                                selectedSport
-                            );
-
-                        }
-                    )
-                    .map(
-                        sportItem =>
-                            String(
-                                sportItem.key || ""
-                            ).trim()
-                    )
-                    .filter(
-                        key =>
-                            Boolean(key)
-                    );
+                    data:
+                        sportsResult.data
+                }
+            );
 
 
             /*
-            ----------------------------------------------------
-                NO SPORT FOUND IN THIS API
-            ----------------------------------------------------
+            ------------------------------------------------
+                INVALID API KEY / AUTH
+            ------------------------------------------------
             */
 
             if (
-                matchingSportKeys.length === 0
+                sportsResult.response.status === 401 ||
+                sportsResult.response.status === 403
             ) {
 
                 return res
-                    .status(200)
+                    .status(401)
                     .json({
-                        success: true,
+                        success: false,
                         code:
-                            "NO_GAMES_AVAILABLE",
+                            "WRONG_API",
                         message:
-                            "No Games Available",
-                        sport:
-                            selectedSport,
-                        games: []
+                            "Wrong API"
                     });
 
             }
 
 
-         /*
-====================================================
-    STEP 4
-    GET REAL EVENTS
-====================================================
-*/
+            /*
+            ------------------------------------------------
+                OTHER PROVIDER ERROR
+            ------------------------------------------------
+            */
 
-const allGames = [];
+            return res
+                .status(
+                    sportsResult.response.status
+                )
+                .json({
+                    success: false,
 
+                    code:
+                        "PROVIDER_API_ERROR",
 
-/*
-----------------------------------------------------
-    QUERY EACH MATCHING PROVIDER SPORT KEY
-----------------------------------------------------
-*/
+                    message:
+                        "Provider API error.",
 
-for (
-    const sportKey
-    of matchingSportKeys
-) {
+                    provider_status:
+                        sportsResult.response.status,
 
-    try {
-
-        const eventsResult =
-            await fetchSportEvents(
-                temporaryApiKey,
-                sportKey
-            );
-
-
-        if (
-            !eventsResult.response.ok
-        ) {
-
-            continue;
+                    provider_error:
+                        sportsResult.data
+                });
 
         }
 
 
-        const games =
+        /*
+        ====================================================
+            STEP 3
+            MAKE SURE PROVIDER RETURNED SPORT DATA
+        ====================================================
+        */
+
+        const providerSports =
             Array.isArray(
-                eventsResult.data
+                sportsResult.data
             )
-                ? eventsResult.data
+                ? sportsResult.data
                 : [];
 
 
-        games.forEach(
+        /*
+        ====================================================
+            FIND ONLY CURRENT SPORT'S KEYS
+        ====================================================
+        */
+
+        const matchingSportKeys =
+            providerSports
+                .filter(
+                    sportItem => {
+
+                        if (
+                            !sportItem
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        return isSportKeyMatch(
+                            sportItem.key,
+                            selectedSport
+                        );
+
+                    }
+                )
+                .map(
+                    sportItem =>
+                        String(
+                            sportItem.key || ""
+                        ).trim()
+                )
+                .filter(
+                    key =>
+                        Boolean(key)
+                );
+
+
+        /*
+        ----------------------------------------------------
+            NO SPORT FOUND IN THIS API
+        ----------------------------------------------------
+        */
+
+        if (
+            matchingSportKeys.length === 0
+        ) {
+
+            return res
+                .status(200)
+                .json({
+                    success: true,
+
+                    code:
+                        "NO_GAMES_AVAILABLE",
+
+                    message:
+                        "No Games Available",
+
+                    sport:
+                        selectedSport,
+
+                    games: []
+                });
+
+        }
+
+
+        /*
+        ====================================================
+            STEP 4
+            GET REAL EVENTS
+        ====================================================
+        */
+
+        const allGames = [];
+
+
+        /*
+        ----------------------------------------------------
+            QUERY EACH MATCHING PROVIDER SPORT KEY
+        ----------------------------------------------------
+        */
+
+        for (
+            const sportKey
+            of matchingSportKeys
+        ) {
+
+            try {
+
+                const eventsResult =
+                    await fetchSportEvents(
+                        apiKey,
+                        sportKey
+                    );
+
+
+                if (
+                    !eventsResult.response.ok
+                ) {
+
+                    console.error(
+                        "❌ PARLAY EVENTS ERROR:",
+                        {
+                            sportKey:
+                                sportKey,
+
+                            status:
+                                eventsResult.response.status,
+
+                            data:
+                                eventsResult.data
+                        }
+                    );
+
+                    continue;
+
+                }
+
+
+                const games =
+                    Array.isArray(
+                        eventsResult.data
+                    )
+                        ? eventsResult.data
+                        : [];
+
+
+                games.forEach(
+                    game => {
+
+                        if (
+                            !game ||
+                            !game.id
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        allGames.push({
+
+                            ...game,
+
+                            api_sport_key:
+                                sportKey,
+
+                            api_sport_title:
+                                providerSports
+                                    .find(
+                                        item =>
+                                            item.key ===
+                                            sportKey
+                                    )
+                                    ?.title || ""
+
+                        });
+
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "❌ SPORT EVENTS ERROR:",
+                    {
+                        sportKey:
+                            sportKey,
+
+                        message:
+                            error?.message
+                    }
+                );
+
+                continue;
+
+            }
+
+        }
+
+
+        /*
+        ====================================================
+            STEP 5
+            REMOVE DUPLICATES
+        ====================================================
+        */
+
+        const uniqueGamesMap =
+            new Map();
+
+
+        allGames.forEach(
             game => {
 
                 if (
@@ -1803,382 +1958,367 @@ for (
                 }
 
 
-                allGames.push({
-
-                    ...game,
-
-                    api_sport_key:
-                        sportKey,
-
-                    api_sport_title:
-                        providerSports
-                            .find(
-                                item =>
-                                    item.key ===
-                                    sportKey
-                            )
-                            ?.title || ""
-
-                });
+                uniqueGamesMap.set(
+                    String(
+                        game.id
+                    ),
+                    game
+                );
 
             }
         );
 
-    } catch (error) {
 
-        continue;
-
-    }
-
-}
-            /*
-            ====================================================
-                STEP 5
-                REMOVE DUPLICATES
-            ====================================================
-            */
-
-            const uniqueGamesMap =
-                new Map();
-
-
-            allGames.forEach(
-                game => {
-
-                    if (
-                        !game ||
-                        !game.id
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    uniqueGamesMap.set(
-                        String(
-                            game.id
-                        ),
-                        game
-                    );
-
-                }
+        const uniqueGames =
+            Array.from(
+                uniqueGamesMap.values()
             );
 
 
-            const uniqueGames =
-                Array.from(
-                    uniqueGamesMap.values()
-                );
+        /*
+        ====================================================
+            STEP 6
+            GET SCORE DATA
+        ====================================================
+        */
+
+        const scoreMap = {};
 
 
-            /*
-            ====================================================
-                STEP 6
-                GET SCORE DATA
-            ====================================================
-            */
+        for (
+            const sportKey
+            of matchingSportKeys
+        ) {
 
-            const scoreMap = {};
+            try {
 
-
-            for (
-                const sportKey
-                of matchingSportKeys
-            ) {
-
-                try {
-
-                    const scoresResult =
-                        await fetchSportScores(
-                            temporaryApiKey,
-                            sportKey
-                        );
-
-
-                    if (
-                        !scoresResult.response.ok
-                    ) {
-
-                        continue;
-
-                    }
-
-
-                    const currentScoreMap =
-                        createScoreMap(
-                            scoresResult.data
-                        );
-
-
-                    Object.assign(
-                        scoreMap,
-                        currentScoreMap
+                const scoresResult =
+                    await fetchSportScores(
+                        apiKey,
+                        sportKey
                     );
 
-                } catch (error) {
+
+                if (
+                    !scoresResult.response.ok
+                ) {
+
+                    console.error(
+                        "❌ PARLAY SCORES ERROR:",
+                        {
+                            sportKey:
+                                sportKey,
+
+                            status:
+                                scoresResult.response.status,
+
+                            data:
+                                scoresResult.data
+                        }
+                    );
 
                     continue;
 
                 }
 
-            }
 
-
-            /*
-============================================================
-    TEMPORARY H2H RESPONSE CHECK
-    DO NOT CHANGE GAME LOGIC
-============================================================
-*/
-
-uniqueGames.forEach(
-    game => {
-
-        console.log(
-            "🔎 H2H RAW API GAME:",
-            {
-                gameId:
-                    game?.id,
-
-                homeTeam:
-                    game?.home_team,
-
-                awayTeam:
-                    game?.away_team,
-
-                bookmakers:
-                    game?.bookmakers,
-
-                markets:
-                    game?.markets
-            }
-        );
-
-    }
-);
-
-
-           /*
-============================================================
-    STEP 7
-    FILTER + FORMAT EVENTS
-============================================================
-*/
-
-const finalGames =
-    uniqueGames
-        .map(
-            game => {
-
-                const status =
-                    getEventStatus(
-                        game,
-                        scoreMap
+                const currentScoreMap =
+                    createScoreMap(
+                        scoresResult.data
                     );
 
 
-                /*
-                ------------------------------------------------
-                    PRESERVE FULL PROVIDER GAME RESPONSE
-                ------------------------------------------------
+                Object.assign(
+                    scoreMap,
+                    currentScoreMap
+                );
 
-                    Keep the complete original provider
-                    object so that bookmakers, markets,
-                    outcomes, prices, etc. are not removed.
-                ------------------------------------------------
-                */
+            } catch (error) {
 
-                return {
+                console.error(
+                    "❌ SPORT SCORES ERROR:",
+                    {
+                        sportKey:
+                            sportKey,
 
-                    ...game,
+                        message:
+                            error?.message
+                    }
+                );
 
-                    id:
-                        String(
-                            game.id || ""
-                        ),
-
-                    home_team:
-                        game.home_team ||
-                        "",
-
-                    away_team:
-                        game.away_team ||
-                        "",
-
-                    commence_time:
-                        game.commence_time ||
-                        null,
-
-                    api_sport_key:
-                        game.api_sport_key ||
-                        "",
-
-                    api_sport_title:
-                        game.api_sport_title ||
-                        "",
-
-                    status:
-                        status
-
-                };
+                continue;
 
             }
-        )
-        .filter(
-            game =>
-                game.status !==
-                "completed"
+
+        }
+
+
+        /*
+        ============================================================
+            PROVIDER GAME RESPONSE CHECK
+            DO NOT CHANGE GAME LOGIC
+        ============================================================
+        */
+
+        uniqueGames.forEach(
+            game => {
+
+                console.log(
+                    "🔎 H2H RAW API GAME:",
+                    {
+                        gameId:
+                            game?.id,
+
+                        homeTeam:
+                            game?.home_team,
+
+                        awayTeam:
+                            game?.away_team,
+
+                        bookmakers:
+                            game?.bookmakers,
+
+                        markets:
+                            game?.markets
+                    }
+                );
+
+            }
         );
 
-            /*
-            ====================================================
-                STEP 8
-                NO REAL EVENTS
-            ====================================================
-            */
 
-            if (
-                finalGames.length === 0
-            ) {
+        /*
+        ============================================================
+            STEP 7
+            FILTER + FORMAT EVENTS
+        ============================================================
+        */
 
-                return res
-                    .status(200)
-                    .json({
-                        success: true,
-                        code:
-                            "NO_GAMES_AVAILABLE",
-                        message:
-                            "No Games Available",
-                        sport:
-                            selectedSport,
-                        games: []
-                    });
+        const finalGames =
+            uniqueGames
+                .map(
+                    game => {
 
-            }
+                        const status =
+                            getEventStatus(
+                                game,
+                                scoreMap
+                            );
 
 
-            /*
-            ====================================================
-                STEP 9
-                SORT
-                    LIVE FIRST
-                    UPCOMING AFTER
-            ====================================================
-            */
+                        /*
+                        ------------------------------------------------
+                            PRESERVE FULL PROVIDER GAME RESPONSE
+                        ------------------------------------------------
 
-            finalGames.sort(
-                (
-                    a,
-                    b
-                ) => {
+                            Keep the complete original provider
+                            object so that bookmakers, markets,
+                            outcomes, prices, etc. are not removed.
+                        ------------------------------------------------
+                        */
 
-                    const statusOrder = {
-                        live: 0,
-                        upcoming: 1
-                    };
+                        return {
 
+                            ...game,
 
-                    const statusDifference =
-                        (
-                            statusOrder[
-                                a.status
-                            ] ?? 2
-                        ) -
-                        (
-                            statusOrder[
-                                b.status
-                            ] ?? 2
-                        );
+                            id:
+                                String(
+                                    game.id || ""
+                                ),
 
+                            home_team:
+                                game.home_team ||
+                                "",
 
-                    if (
-                        statusDifference !== 0
-                    ) {
+                            away_team:
+                                game.away_team ||
+                                "",
 
-                        return statusDifference;
+                            commence_time:
+                                game.commence_time ||
+                                null,
+
+                            api_sport_key:
+                                game.api_sport_key ||
+                                "",
+
+                            api_sport_title:
+                                game.api_sport_title ||
+                                "",
+
+                            status:
+                                status
+
+                        };
 
                     }
+                )
+                .filter(
+                    game =>
+                        game.status !==
+                        "completed"
+                );
 
 
-                    const timeA =
-                        a.commence_time
-                            ? new Date(
-                                a.commence_time
-                            ).getTime()
-                            : 0;
+        /*
+        ====================================================
+            STEP 8
+            NO REAL EVENTS
+        ====================================================
+        */
 
-
-                    const timeB =
-                        b.commence_time
-                            ? new Date(
-                                b.commence_time
-                            ).getTime()
-                            : 0;
-
-
-                    return timeA - timeB;
-
-                }
-            );
-
-
-            /*
-            ====================================================
-                SUCCESS
-            ====================================================
-            */
+        if (
+            finalGames.length === 0
+        ) {
 
             return res
                 .status(200)
                 .json({
-
                     success: true,
 
                     code:
-                        "GAMES_AVAILABLE",
+                        "NO_GAMES_AVAILABLE",
 
                     message:
-                        "Games Available",
+                        "No Games Available",
 
                     sport:
                         selectedSport,
 
-                    games:
-                        finalGames
-
+                    games: []
                 });
 
-
-} catch (error) {
-
-    /*
-    ----------------------------------------------------
-        NEVER RETURN API KEY
-    ----------------------------------------------------
-    */
-
-    console.error(
-        "❌ SPORTS API CHECK ERROR:",
-        {
-            message: error?.message,
-            stack: error?.stack,
-            name: error?.name
         }
-    );
 
 
-    return res
-        .status(500)
-        .json({
-            success: false,
-            code:
-                "API_CHECK_ERROR",
-            message:
-                "Wrong API"
-        });
+        /*
+        ====================================================
+            STEP 9
+            SORT
+                LIVE FIRST
+                UPCOMING AFTER
+        ====================================================
+        */
 
-}
+        finalGames.sort(
+            (
+                a,
+                b
+            ) => {
+
+                const statusOrder = {
+                    live: 0,
+                    upcoming: 1
+                };
+
+
+                const statusDifference =
+                    (
+                        statusOrder[
+                            a.status
+                        ] ?? 2
+                    ) -
+                    (
+                        statusOrder[
+                            b.status
+                        ] ?? 2
+                    );
+
+
+                if (
+                    statusDifference !== 0
+                ) {
+
+                    return statusDifference;
+
+                }
+
+
+                const timeA =
+                    a.commence_time
+                        ? new Date(
+                            a.commence_time
+                        ).getTime()
+                        : 0;
+
+
+                const timeB =
+                    b.commence_time
+                        ? new Date(
+                            b.commence_time
+                        ).getTime()
+                        : 0;
+
+
+                return timeA - timeB;
+
+            }
+        );
+
+
+        /*
+        ====================================================
+            SUCCESS
+        ====================================================
+        */
+
+        return res
+            .status(200)
+            .json({
+
+                success: true,
+
+                code:
+                    "GAMES_AVAILABLE",
+
+                message:
+                    "Games Available",
+
+                sport:
+                    selectedSport,
+
+                games:
+                    finalGames
+
+            });
+
+
+    } catch (error) {
+
+        /*
+        ----------------------------------------------------
+            NEVER RETURN API KEY
+        ----------------------------------------------------
+        */
+
+        console.error(
+            "❌ SPORTS API CHECK ERROR:",
+            {
+                message:
+                    error?.message,
+
+                stack:
+                    error?.stack,
+
+                name:
+                    error?.name
+            }
+        );
+
+
+        return res
+            .status(500)
+            .json({
+                success: false,
+
+                code:
+                    "API_CHECK_ERROR",
+
+                message:
+                    "Sports API Check failed."
+            });
+
+    }
 
 }
 
