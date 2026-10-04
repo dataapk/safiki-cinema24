@@ -4686,6 +4686,47 @@ async function addSportsApiGame(
             ];
 
 
+                /*
+        ====================================================
+            TEMPORARY MARKET CATALOG DIAGNOSTIC
+        ====================================================
+        */
+
+        console.log(
+            "🔎 ADD GAME - MARKET CATALOG DEBUG:",
+            {
+                apiSportKey:
+                    apiSportKey,
+
+                apiGameId:
+                    apiGameId,
+
+                catalogExists:
+                    !!marketCatalog,
+
+                catalogOddsMarketKeys:
+                    Array.isArray(
+                        marketCatalog?.oddsMarketKeys
+                    )
+                        ? marketCatalog.oddsMarketKeys
+                        : [],
+
+                catalogOddsMarketCount:
+                    Array.isArray(
+                        marketCatalog?.oddsMarketKeys
+                    )
+                        ? marketCatalog.oddsMarketKeys.length
+                        : 0,
+
+                oddsCandidateKeys:
+                    oddsCandidateKeys,
+
+                oddsCandidateCount:
+                    oddsCandidateKeys.length
+            }
+        );
+
+
         /*
         ====================================================
             FREE EVENT ODDS COVERAGE
