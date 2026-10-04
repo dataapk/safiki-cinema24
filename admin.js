@@ -5803,8 +5803,19 @@ async function addSportsApiGame(
 
         const newGame = {
 
-            game_id:
+                        game_id:
                 "api-" +
+                apiGameId,
+
+            /*
+            ------------------------------------------------
+                PROVIDER EVENT ID
+                Dynamic ID from API Check game.
+                Do NOT hardcode.
+            ------------------------------------------------
+            */
+
+            api_event_id:
                 apiGameId,
 
             sport:
