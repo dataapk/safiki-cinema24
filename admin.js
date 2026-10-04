@@ -4824,111 +4824,51 @@ async function fetchSportsMarketCatalog(
 }
 
 
-    /*
-    ====================================================
-        2. SPORT-SPECIFIC PROP MARKET REGISTRY
-    ====================================================
+/*
+====================================================
+    2. SPORT-SPECIFIC PROP MARKET REGISTRY
+====================================================
 
-        Documentation:
-        GET /v1/sports/{sport_key}/props/markets
+    Prop markets are already discovered from:
 
-        This gives the live prop market list for
-        the selected sport.
-    ====================================================
-    */
+    GET /v1/markets
 
-    try {
+    using:
 
-        const propsUrl =
-            "https://parlay-api.com/v1/sports/" +
-            encodeURIComponent(
-                apiSportKey
-            ) +
-            "/props/markets";
+    data.props_by_sport[apiSportKey]
 
+    No separate /props/markets request is needed here.
+====================================================
+*/
 
-        const response =
-            await fetch(
-                propsUrl,
-                {
-                    method:
-                        "GET",
-
-                    headers: {
-
-                        "Accept":
-                            "application/json",
-
-                        "X-API-Key":
-                            apiKey,
-
-                        "User-Agent":
-                            "SportsWebsite/1.0"
-
-                    }
-                }
-            );
+const sportProps =
+    data?.props_by_sport?.[
+        String(
+            apiSportKey
+        )
+        .trim()
+    ];
 
 
-        let data =
-            null;
+if (
+    Array.isArray(
+        sportProps
+    )
+) {
 
+    result.propsMarketKeys =
+        sportProps
+            .map(
+                key =>
+                    String(
+                        key || ""
+                    )
+                    .trim()
+                    .toLowerCase()
+            )
+            .filter(Boolean);
 
-        try {
-
-            data =
-                await response.json();
-
-        } catch (
-            error
-        ) {
-
-            data =
-                null;
-
-        }
-
-
-        console.log(
-            "🔎 MARKET CATALOG - /props/markets:",
-            {
-                apiSportKey:
-                    apiSportKey,
-
-                ok:
-                    response.ok,
-
-                status:
-                    response.status,
-
-                data:
-                    data
-
-            }
-        );
-
-
-        if (
-            response.ok
-        ) {
-
-            collectMarketKeys(
-                data
-            );
-
-        }
-
-    } catch (
-        error
-    ) {
-
-        console.warn(
-            "⚠️ MARKET CATALOG: /props/markets request failed.",
-            error
-        );
-
-    }
-
+}
 
     /*
     ====================================================
