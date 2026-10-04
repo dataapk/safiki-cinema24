@@ -4774,27 +4774,7 @@ async function fetchSportsMarketCatalog(
         }
 
 
-      
-        /*
-        ====================================================
-            3. REMOVE DUPLICATES
-        ====================================================
-        */
 
-        result.oddsMarketKeys =
-            [
-                ...new Set(
-                    result.oddsMarketKeys
-                )
-            ];
-
-
-        result.propsMarketKeys =
-            [
-                ...new Set(
-                    result.propsMarketKeys
-                )
-            ];
 
 
 
