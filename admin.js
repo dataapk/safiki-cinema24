@@ -4527,32 +4527,84 @@ async function addSportsApiGame(
         }
 
 
-        /*
-        ====================================================
-            STEP 1
-            DISCOVER PROVIDER MARKET CATALOG
-        ====================================================
+/*
+====================================================
+    STEP 1
+    DISCOVER PROVIDER MARKET CATALOG
+====================================================
 
-            This uses the catalog function already added.
-            Discovery itself is not an odds charge.
-        ====================================================
-        */
+    This uses the catalog function already added.
+    Discovery itself is not an odds charge.
+====================================================
+*/
 
-        let marketCatalog = null;
+let marketCatalog = null;
 
 
-        if (
-            typeof fetchSportsMarketCatalog ===
-            "function"
-        ) {
+if (
+    typeof fetchSportsMarketCatalog ===
+    "function"
+) {
 
-            marketCatalog =
-                await fetchSportsMarketCatalog(
-                    apiKey,
-                    apiSportKey
-                );
+    marketCatalog =
+        await fetchSportsMarketCatalog(
+            apiKey,
+            apiSportKey
+        );
 
-        }
+}
+
+
+/*
+====================================================
+    TEMPORARY MARKET CATALOG DIAGNOSTIC
+====================================================
+*/
+
+console.log(
+    "🔎 ADD GAME - MARKET CATALOG DEBUG:",
+    {
+        fetchSportsMarketCatalogType:
+            typeof fetchSportsMarketCatalog,
+
+        apiSportKey:
+            apiSportKey,
+
+        marketCatalog:
+            marketCatalog,
+
+        marketCatalogType:
+            typeof marketCatalog,
+
+        oddsMarketKeys:
+            Array.isArray(
+                marketCatalog?.oddsMarketKeys
+            )
+                ? marketCatalog.oddsMarketKeys
+                : null,
+
+        oddsMarketKeysLength:
+            Array.isArray(
+                marketCatalog?.oddsMarketKeys
+            )
+                ? marketCatalog.oddsMarketKeys.length
+                : null,
+
+        propsMarketKeys:
+            Array.isArray(
+                marketCatalog?.propsMarketKeys
+            )
+                ? marketCatalog.propsMarketKeys
+                : null,
+
+        propsMarketKeysLength:
+            Array.isArray(
+                marketCatalog?.propsMarketKeys
+            )
+                ? marketCatalog.propsMarketKeys.length
+                : null
+    }
+);
 
 /*
 ====================================================
@@ -5014,58 +5066,6 @@ if (
         
 
         /*
-====================================================
-    TEMPORARY MARKET CATALOG DIAGNOSTIC
-====================================================
-*/
-
-console.log(
-    "🔎 ADD GAME - MARKET CATALOG DEBUG:",
-    {
-        fetchSportsMarketCatalogType:
-            typeof fetchSportsMarketCatalog,
-
-        apiSportKey:
-            apiSportKey,
-
-        marketCatalog:
-            marketCatalog,
-
-        marketCatalogType:
-            typeof marketCatalog,
-
-        oddsMarketKeys:
-            Array.isArray(
-                marketCatalog?.oddsMarketKeys
-            )
-                ? marketCatalog.oddsMarketKeys
-                : null,
-
-        oddsMarketKeysLength:
-            Array.isArray(
-                marketCatalog?.oddsMarketKeys
-            )
-                ? marketCatalog.oddsMarketKeys.length
-                : null,
-
-        propsMarketKeys:
-            Array.isArray(
-                marketCatalog?.propsMarketKeys
-            )
-                ? marketCatalog.propsMarketKeys
-                : null,
-
-        propsMarketKeysLength:
-            Array.isArray(
-                marketCatalog?.propsMarketKeys
-            )
-                ? marketCatalog.propsMarketKeys.length
-                : null
-    }
-);
-
-
-        /*
         ====================================================
             BUILD ODDS MARKET CANDIDATES
         ====================================================
@@ -5194,47 +5194,6 @@ console.log(
                     oddsCandidateKeys
                 )
             ];
-
-
-                /*
-        ====================================================
-            TEMPORARY MARKET CATALOG DIAGNOSTIC
-        ====================================================
-        */
-
-        console.log(
-            "🔎 ADD GAME - MARKET CATALOG DEBUG:",
-            {
-                apiSportKey:
-                    apiSportKey,
-
-                apiGameId:
-                    apiGameId,
-
-                catalogExists:
-                    !!marketCatalog,
-
-                catalogOddsMarketKeys:
-                    Array.isArray(
-                        marketCatalog?.oddsMarketKeys
-                    )
-                        ? marketCatalog.oddsMarketKeys
-                        : [],
-
-                catalogOddsMarketCount:
-                    Array.isArray(
-                        marketCatalog?.oddsMarketKeys
-                    )
-                        ? marketCatalog.oddsMarketKeys.length
-                        : 0,
-
-                oddsCandidateKeys:
-                    oddsCandidateKeys,
-
-                oddsCandidateCount:
-                    oddsCandidateKeys.length
-            }
-        );
 
 
         /*
