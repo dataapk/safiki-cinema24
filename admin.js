@@ -4120,118 +4120,72 @@ const status =
     Sport-specific prop markets:
     data.props_by_sport[apiSportKey]
 
-    Futures / outrights are excluded because
-    they are not tied to the selected fixture.
+    Futures / outrights are excluded.
 
     No odds request is made here.
 ====================================================
 */
 
-async function fetchSportsMarketCatalog(
-    apiKey,
-    apiSportKey
-) {
+async function fetchSportsMarketCatalog(apiKey, apiSportKey) {
 
     const result = {
-
-        sportKey:
-            String(
-                apiSportKey || ""
-            )
-            .trim(),
-
-        oddsMarketKeys:
-            [],
-
-        propsMarketKeys:
-            []
-
+        sportKey: String(apiSportKey || "").trim(),
+        oddsMarketKeys: [],
+        propsMarketKeys: []
     };
 
-
-    if (
-        !apiKey ||
-        !apiSportKey
-    ) {
+    if (!apiKey || !apiSportKey) {
 
         console.warn(
             "⚠️ MARKET CATALOG: Missing API key or sport key.",
             {
-                apiSportKey:
-                    apiSportKey || ""
+                apiSportKey: apiSportKey || ""
             }
         );
 
         return result;
-
     }
-
 
     try {
 
-        const response =
-            await fetch(
-                "https://parlay-api.com/v1/markets",
-                {
-                    method:
-                        "GET",
+        const response = await fetch(
+            "https://parlay-api.com/v1/markets",
+            {
+                method: "GET",
 
-                    headers: {
-
-                        "Accept":
-                            "application/json",
-
-                        "X-API-Key":
-                            apiKey,
-
-                        "User-Agent":
-                            "SportsWebsite/1.0"
-
-                    }
+                headers: {
+                    "Accept": "application/json",
+                    "X-API-Key": apiKey,
+                    "User-Agent": "SportsWebsite/1.0"
                 }
-            );
+            }
+        );
 
-
-        let responseData =
-            null;
-
+        let responseData = null;
 
         try {
 
-            responseData =
-                await response.json();
+            responseData = await response.json();
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
-            responseData =
-                null;
+            responseData = null;
 
         }
-
 
         console.log(
             "🔎 MARKET CATALOG - /v1/markets:",
             {
-                ok:
-                    response.ok,
-
-                status:
-                    response.status,
-
-                data:
-                    responseData
-
+                ok: response.ok,
+                status: response.status,
+                data: responseData
             }
         );
-
 
         if (
             !response.ok ||
             !responseData ||
-            typeof responseData !==
-                "object"
+            typeof responseData !== "object"
         ) {
 
             console.warn(
@@ -4239,13 +4193,9 @@ async function fetchSportsMarketCatalog(
             );
 
             return result;
-
         }
 
-
-        const data =
-            responseData.data;
-
+        const data = responseData.data;
 
         /*
         ====================================================
@@ -4254,148 +4204,111 @@ async function fetchSportsMarketCatalog(
         */
 
         if (
-            Array.isArray(
-                data?.game_lines
-            )
+            Array.isArray(data?.game_lines)
         ) {
 
             result.oddsMarketKeys =
                 data.game_lines
                     .map(
                         key =>
-                            String(
-                                key || ""
-                            )
-                            .trim()
-                            .toLowerCase()
+                            String(key || "")
+                                .trim()
+                                .toLowerCase()
                     )
                     .filter(Boolean);
 
         }
 
+        /*
+        ====================================================
+            2. SPORT-SPECIFIC PROP MARKET REGISTRY
+        ====================================================
+        */
 
+        const sportKey =
+            String(apiSportKey || "")
+                .trim();
 
+        const sportProps =
+            data?.props_by_sport?.[sportKey];
 
+        if (
+            Array.isArray(sportProps)
+        ) {
 
-
-/*
-====================================================
-    2. SPORT-SPECIFIC PROP MARKET REGISTRY
-====================================================
-
-    Prop markets are already discovered from:
-
-    GET /v1/markets
-
-    using:
-
-    data.props_by_sport[apiSportKey]
-
-    No separate /props/markets request is needed here.
-====================================================
-*/
-
-const sportProps =
-    data?.props_by_sport?.[
-        String(
-            apiSportKey
-        )
-        .trim()
-    ];
-
-
-if (
-    Array.isArray(
-        sportProps
-    )
-) {
-
-    result.propsMarketKeys =
-        sportProps
-            .map(
-                key =>
-                    String(
-                        key || ""
+            result.propsMarketKeys =
+                sportProps
+                    .map(
+                        key =>
+                            String(key || "")
+                                .trim()
+                                .toLowerCase()
                     )
-                    .trim()
-                    .toLowerCase()
-            )
-            .filter(Boolean);
+                    .filter(Boolean);
 
-}
+        }
 
+        /*
+        ====================================================
+            3. REMOVE DUPLICATES
+        ====================================================
+        */
 
-/*
-====================================================
-    3. REMOVE DUPLICATES
-====================================================
-*/
+        result.oddsMarketKeys =
+            Array.from(
+                new Set(
+                    result.oddsMarketKeys
+                )
+            );
 
-result.oddsMarketKeys =
-    [
-        ...new Set(
-            result.oddsMarketKeys
-        )
-    ];
+        result.propsMarketKeys =
+            Array.from(
+                new Set(
+                    result.propsMarketKeys
+                )
+            );
 
-result.propsMarketKeys =
-    [
-        ...new Set(
-            result.propsMarketKeys
-        )
-    ];
+        /*
+        ====================================================
+            4. FINAL MARKET CATALOG DIAGNOSTIC
+        ====================================================
+        */
 
+        console.log(
+            "✅ MARKET CATALOG DISCOVERED:",
+            {
+                sportKey:
+                    result.sportKey,
 
-/*
-====================================================
-    4. FINAL MARKET CATALOG DIAGNOSTIC
-====================================================
-*/
+                totalKeys:
+                    result.oddsMarketKeys.length +
+                    result.propsMarketKeys.length,
 
-console.log(
-    "✅ MARKET CATALOG DISCOVERED:",
-    {
-        sportKey:
-            result.sportKey,
+                oddsMarketCount:
+                    result.oddsMarketKeys.length,
 
-        totalKeys:
-            result.oddsMarketKeys.length +
-            result.propsMarketKeys.length,
+                propsMarketCount:
+                    result.propsMarketKeys.length,
 
-        oddsMarketCount:
-            result.oddsMarketKeys.length,
+                oddsMarketKeys:
+                    result.oddsMarketKeys,
 
-        propsMarketCount:
-            result.propsMarketKeys.length,
+                propsMarketKeys:
+                    result.propsMarketKeys
+            }
+        );
 
-        oddsMarketKeys:
-            result.oddsMarketKeys,
+    } catch (error) {
 
-        propsMarketKeys:
-            result.propsMarketKeys
+        console.error(
+            "❌ MARKET CATALOG ERROR:",
+            error
+        );
+
     }
-);
 
-
-/*
-====================================================
-    RETURN MARKET CATALOG
-====================================================
-*/
-
-return {
-    sportKey:
-        result.sportKey,
-
-    oddsMarketKeys:
-        result.oddsMarketKeys,
-
-    propsMarketKeys:
-        result.propsMarketKeys
-};
-
+    return result;
 }
-
     
 // ======================================================
 // ADD SPORTS API GAME
