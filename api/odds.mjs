@@ -2150,32 +2150,37 @@ const finalGames =
                 });
 
 
-        } catch (error) {
+} catch (error) {
 
-            /*
-            ----------------------------------------------------
-                NEVER RETURN API KEY
-            ----------------------------------------------------
-            */
+    /*
+    ----------------------------------------------------
+        NEVER RETURN API KEY
+    ----------------------------------------------------
+    */
 
-            console.error(
-                "Sports API check error."
-            );
-
-
-            return res
-                .status(500)
-                .json({
-                    success: false,
-                    code:
-                        "API_CHECK_ERROR",
-                    message:
-                        "Wrong API"
-                });
-
+    console.error(
+        "❌ SPORTS API CHECK ERROR:",
+        {
+            message: error?.message,
+            stack: error?.stack,
+            name: error?.name
         }
+    );
 
-    }
+
+    return res
+        .status(500)
+        .json({
+            success: false,
+            code:
+                "API_CHECK_ERROR",
+            message:
+                "Wrong API"
+        });
+
+}
+
+}
 
 
     /*
