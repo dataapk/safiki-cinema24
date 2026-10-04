@@ -4892,35 +4892,63 @@ if (
 
 }
 
-    /*
-    ====================================================
-        3. NORMALIZE ALL DISCOVERED KEYS
-    ====================================================
-    */
 
-    const allKeys =
-        [
-            ...discoveredKeys
-        ]
-        .map(
-            key =>
-                String(
-                    key || ""
-                )
-                .trim()
-                .toLowerCase()
+/*
+====================================================
+    3. REMOVE DUPLICATES
+====================================================
+*/
+
+result.oddsMarketKeys =
+    [
+        ...new Set(
+            result.oddsMarketKeys
         )
-        .filter(
-            Boolean
-        );
+    ];
 
 
-    const uniqueKeys =
-        [
-            ...new Set(
-                allKeys
-            )
-        ];
+result.propsMarketKeys =
+    [
+        ...new Set(
+            result.propsMarketKeys
+        )
+    ];
+
+
+/*
+====================================================
+    4. FINAL MARKET CATALOG DIAGNOSTIC
+====================================================
+*/
+
+console.log(
+    "✅ MARKET CATALOG DISCOVERED:",
+    {
+        sportKey:
+            result.sportKey,
+
+        totalKeys:
+            result.oddsMarketKeys.length +
+            result.propsMarketKeys.length,
+
+        oddsMarketCount:
+            result.oddsMarketKeys.length,
+
+        propsMarketCount:
+            result.propsMarketKeys.length,
+
+        oddsMarketKeys:
+            result.oddsMarketKeys,
+
+        propsMarketKeys:
+            result.propsMarketKeys
+    }
+);
+
+
+return result;
+
+}
 
 
     /*
