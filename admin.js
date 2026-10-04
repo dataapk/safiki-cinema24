@@ -4774,42 +4774,7 @@ async function fetchSportsMarketCatalog(
         }
 
 
-        /*
-        ====================================================
-            2. SPORT-SPECIFIC PROP MARKET REGISTRY
-        ====================================================
-        */
-
-        const sportProps =
-            data?.props_by_sport?.[
-                String(
-                    apiSportKey
-                )
-                .trim()
-            ];
-
-
-        if (
-            Array.isArray(
-                sportProps
-            )
-        ) {
-
-            result.propsMarketKeys =
-                sportProps
-                    .map(
-                        key =>
-                            String(
-                                key || ""
-                            )
-                            .trim()
-                            .toLowerCase()
-                    )
-                    .filter(Boolean);
-
-        }
-
-
+      
         /*
         ====================================================
             3. REMOVE DUPLICATES
