@@ -4554,6 +4554,582 @@ async function addSportsApiGame(
 
         }
 
+/*
+====================================================
+    PARLAYAPI MARKET CATALOG DISCOVERY
+====================================================
+
+    Purpose:
+    - Discover ParlayAPI market keys dynamically.
+    - Do NOT hardcode market names.
+    - Keep game-line and prop markets available
+      to the existing Add Game filtering logic.
+    - Return the exact structure expected by
+      the existing Add Game flow.
+
+    No odds request is made here.
+====================================================
+*/
+
+async function fetchSportsMarketCatalog(
+    apiKey,
+    apiSportKey
+) {
+
+    const result = {
+
+        sportKey:
+            String(
+                apiSportKey || ""
+            ).trim(),
+
+        oddsMarketKeys:
+            [],
+
+        propsMarketKeys:
+            []
+
+    };
+
+
+    if (
+        !apiKey ||
+        !apiSportKey
+    ) {
+
+        console.warn(
+            "⚠️ MARKET CATALOG: Missing API key or sport key.",
+            {
+                apiSportKey:
+                    apiSportKey || ""
+            }
+        );
+
+        return result;
+
+    }
+
+
+    /*
+    ====================================================
+        HELPER
+        EXTRACT MARKET KEYS FROM UNKNOWN RESPONSE SHAPE
+    ====================================================
+    */
+
+    const discoveredKeys =
+        new Set();
+
+
+    const collectMarketKeys =
+        value => {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+            ------------------------------------------------
+                DIRECT STRING
+            ------------------------------------------------
+            */
+
+            if (
+                typeof value ===
+                "string"
+            ) {
+
+                const key =
+                    value.trim();
+
+                if (
+                    key
+                ) {
+
+                    discoveredKeys.add(
+                        key
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            /*
+            ------------------------------------------------
+                ARRAY
+            ------------------------------------------------
+            */
+
+            if (
+                Array.isArray(
+                    value
+                )
+            ) {
+
+                value.forEach(
+                    item =>
+                        collectMarketKeys(
+                            item
+                        )
+                );
+
+                return;
+
+            }
+
+
+            /*
+            ------------------------------------------------
+                OBJECT
+            ------------------------------------------------
+            */
+
+            if (
+                typeof value !==
+                "object"
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+            ------------------------------------------------
+                COMMON MARKET KEY FIELDS
+            ------------------------------------------------
+            */
+
+            const directFields = [
+                "market_key",
+                "marketKey",
+                "key",
+                "market",
+                "name"
+            ];
+
+
+            directFields.forEach(
+                field => {
+
+                    const valueForField =
+                        value?.[
+                            field
+                        ];
+
+
+                    if (
+                        typeof valueForField ===
+                        "string"
+                    ) {
+
+                        const key =
+                            valueForField.trim();
+
+                        if (
+                            key
+                        ) {
+
+                            discoveredKeys.add(
+                                key
+                            );
+
+                        }
+
+                    }
+
+                }
+            );
+
+
+            /*
+            ------------------------------------------------
+                COMMON CONTAINER FIELDS
+            ------------------------------------------------
+            */
+
+            const nestedFields = [
+                "markets",
+                "market_keys",
+                "marketKeys",
+                "results",
+                "data",
+                "items",
+                "catalog",
+                "coverage"
+            ];
+
+
+            nestedFields.forEach(
+                field => {
+
+                    if (
+                        value?.[
+                            field
+                        ] !== undefined
+                    ) {
+
+                        collectMarketKeys(
+                            value[
+                                field
+                            ]
+                        );
+
+                    }
+
+                }
+            );
+
+        };
+
+
+    /*
+    ====================================================
+        1. AUTHORITATIVE PARLAYAPI MARKET REGISTRY
+    ====================================================
+
+        Documentation:
+        GET /v1/markets
+
+        This is the authoritative market list.
+    ====================================================
+    */
+
+    try {
+
+        const response =
+            await fetch(
+                "https://parlay-api.com/v1/markets",
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+
+                        "Accept":
+                            "application/json",
+
+                        "X-API-Key":
+                            apiKey,
+
+                        "User-Agent":
+                            "SportsWebsite/1.0"
+
+                    }
+                }
+            );
+
+
+        let data =
+            null;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (
+            error
+        ) {
+
+            data =
+                null;
+
+        }
+
+
+        console.log(
+            "🔎 MARKET CATALOG - /v1/markets:",
+            {
+                ok:
+                    response.ok,
+
+                status:
+                    response.status,
+
+                data:
+                    data
+
+            }
+        );
+
+
+        if (
+            response.ok
+        ) {
+
+            collectMarketKeys(
+                data
+            );
+
+        }
+
+    } catch (
+        error
+    ) {
+
+        console.warn(
+            "⚠️ MARKET CATALOG: /v1/markets request failed.",
+            error
+        );
+
+    }
+
+
+    /*
+    ====================================================
+        2. SPORT-SPECIFIC PROP MARKET REGISTRY
+    ====================================================
+
+        Documentation:
+        GET /v1/sports/{sport_key}/props/markets
+
+        This gives the live prop market list for
+        the selected sport.
+    ====================================================
+    */
+
+    try {
+
+        const propsUrl =
+            "https://parlay-api.com/v1/sports/" +
+            encodeURIComponent(
+                apiSportKey
+            ) +
+            "/props/markets";
+
+
+        const response =
+            await fetch(
+                propsUrl,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+
+                        "Accept":
+                            "application/json",
+
+                        "X-API-Key":
+                            apiKey,
+
+                        "User-Agent":
+                            "SportsWebsite/1.0"
+
+                    }
+                }
+            );
+
+
+        let data =
+            null;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (
+            error
+        ) {
+
+            data =
+                null;
+
+        }
+
+
+        console.log(
+            "🔎 MARKET CATALOG - /props/markets:",
+            {
+                apiSportKey:
+                    apiSportKey,
+
+                ok:
+                    response.ok,
+
+                status:
+                    response.status,
+
+                data:
+                    data
+
+            }
+        );
+
+
+        if (
+            response.ok
+        ) {
+
+            collectMarketKeys(
+                data
+            );
+
+        }
+
+    } catch (
+        error
+    ) {
+
+        console.warn(
+            "⚠️ MARKET CATALOG: /props/markets request failed.",
+            error
+        );
+
+    }
+
+
+    /*
+    ====================================================
+        3. NORMALIZE ALL DISCOVERED KEYS
+    ====================================================
+    */
+
+    const allKeys =
+        [
+            ...discoveredKeys
+        ]
+        .map(
+            key =>
+                String(
+                    key || ""
+                )
+                .trim()
+                .toLowerCase()
+        )
+        .filter(
+            Boolean
+        );
+
+
+    const uniqueKeys =
+        [
+            ...new Set(
+                allKeys
+            )
+        ];
+
+
+    /*
+    ====================================================
+        4. SPLIT PROP MARKETS FROM GAME-LINE MARKETS
+    ====================================================
+
+        We do NOT hardcode individual market names.
+
+        Existing Add Game code already understands
+        provider market families.
+
+        Props are identified by provider naming
+        conventions; all remaining keys stay available
+        for the existing /odds candidate filtering.
+    ====================================================
+    */
+
+    const propKeys =
+        uniqueKeys.filter(
+            key => {
+
+                return (
+                    key.startsWith(
+                        "player_"
+                    ) ||
+                    key.startsWith(
+                        "batter_"
+                    ) ||
+                    key.startsWith(
+                        "pitcher_"
+                    ) ||
+                    key.startsWith(
+                        "anytime_"
+                    ) ||
+                    key.startsWith(
+                        "futures_"
+                    ) ||
+                    key ===
+                        "outrights"
+                );
+
+            }
+        );
+
+
+    const oddsKeys =
+        uniqueKeys.filter(
+            key =>
+                !propKeys.includes(
+                    key
+                )
+        );
+
+
+    result.propsMarketKeys =
+        [
+            ...new Set(
+                propKeys
+            )
+        ];
+
+
+    result.oddsMarketKeys =
+        [
+            ...new Set(
+                oddsKeys
+            )
+        ];
+
+
+    /*
+    ====================================================
+        FINAL DIAGNOSTIC
+    ====================================================
+    */
+
+    console.log(
+        "✅ MARKET CATALOG DISCOVERED:",
+        {
+            sportKey:
+                result.sportKey,
+
+            totalKeys:
+                uniqueKeys.length,
+
+            oddsMarketCount:
+                result.oddsMarketKeys.length,
+
+            propsMarketCount:
+                result.propsMarketKeys.length,
+
+            oddsMarketKeys:
+                result.oddsMarketKeys,
+
+            propsMarketKeys:
+                result.propsMarketKeys
+
+        }
+    );
+
+
+    return result;
+
+}
+        
+
+        
+
         /*
 ====================================================
     TEMPORARY MARKET CATALOG DIAGNOSTIC
