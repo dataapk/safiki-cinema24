@@ -4562,15 +4562,14 @@ async function addSportsApiGame(
     Source of truth:
     GET /v1/markets
 
-    Game-line markets come from:
+    Game-line markets:
     data.game_lines
 
-    Prop markets come from:
+    Sport-specific prop markets:
     data.props_by_sport[apiSportKey]
 
-    Futures / outrights are excluded from
-    event-level odds because they are not tied
-    to the selected fixture.
+    Futures / outrights are excluded because
+    they are not tied to the selected fixture.
 
     No odds request is made here.
 ====================================================
@@ -4698,7 +4697,7 @@ async function fetchSportsMarketCatalog(
 
         /*
         ====================================================
-            GAME-LINE MARKETS
+            1. GAME-LINE MARKET REGISTRY
         ====================================================
         */
 
@@ -4725,7 +4724,7 @@ async function fetchSportsMarketCatalog(
 
         /*
         ====================================================
-            SPORT-SPECIFIC PROP MARKETS
+            2. SPORT-SPECIFIC PROP MARKET REGISTRY
         ====================================================
         */
 
@@ -4761,7 +4760,7 @@ async function fetchSportsMarketCatalog(
 
         /*
         ====================================================
-            REMOVE DUPLICATES
+            3. REMOVE DUPLICATES
         ====================================================
         */
 
@@ -4780,6 +4779,12 @@ async function fetchSportsMarketCatalog(
                 )
             ];
 
+
+        /*
+        ====================================================
+            4. FINAL MARKET CATALOG DIAGNOSTIC
+        ====================================================
+        */
 
         console.log(
             "✅ MARKET CATALOG DISCOVERED:",
