@@ -5368,36 +5368,219 @@ console.log(
         );
 
 
-               /*
-        ====================================================
-            STEP 2
-            FETCH ACTUAL GAME-LINE ODDS
-        ====================================================
+ /*
+====================================================
+    STEP 2
+    FETCH ACTUAL GAME-LINE ODDS
+====================================================
 
-            This is the first charged call.
+    Browser admin.js সরাসরি server-side
+    fetchSportOdds() function call করবে না.
 
-            It requests only the market keys selected above,
-            for this one event.
-        ====================================================
+    Existing Vercel /api/odds relay ব্যবহার করা হবে.
+
+    Relay:
+    /api/odds
+
+    Provider:
+    ParlayAPI /v1/sports/{sportKey}/odds
+====================================================
+*/
+
+let oddsResult =
+    null;
+
+if (
+    coveredOddsMarkets.length > 0
+) {
+
+    try {
+
+        /*
+        ------------------------------------------------
+            BUILD RELAY QUERY
+        ------------------------------------------------
         */
 
-        let oddsResult =
+        const oddsParams =
+            new URLSearchParams({
+
+                sport:
+                    String(
+                        apiSportKey || ""
+                    ).trim(),
+
+                regions:
+                    "us",
+
+                markets:
+                    coveredOddsMarkets.join(","),
+
+                oddsFormat:
+                    "decimal",
+
+                eventIds:
+                    String(
+                        apiGameId || ""
+                    ).trim()
+
+            });
+
+
+        /*
+        ------------------------------------------------
+            CALL EXISTING VERCEL ODDS RELAY
+        ------------------------------------------------
+        */
+
+        const oddsRelayUrl =
+            "/api/odds?" +
+            oddsParams.toString();
+
+
+        console.log(
+            "🎯 ADD GAME - ODDS RELAY REQUEST:",
+            {
+                sport:
+                    apiSportKey,
+
+                eventIds:
+                    apiGameId,
+
+                markets:
+                    coveredOddsMarkets,
+
+                url:
+                    oddsRelayUrl
+            }
+        );
+
+
+        const oddsResponse =
+            await fetch(
+                oddsRelayUrl,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        /*
+        ------------------------------------------------
+            READ RELAY RESPONSE
+        ------------------------------------------------
+        */
+
+        let oddsRelayData =
             null;
 
 
-        if (
-            coveredOddsMarkets.length > 0
+        try {
+
+            oddsRelayData =
+                await oddsResponse.json();
+
+        } catch (
+            error
         ) {
 
-            oddsResult =
-                await fetchSportOdds(
-                    apiKey,
-                    apiSportKey,
-                    apiGameId,
-                    coveredOddsMarkets
-                );
+            oddsRelayData =
+                null;
 
         }
+
+
+        /*
+        ------------------------------------------------
+            NORMALIZE RESPONSE
+        ------------------------------------------------
+
+            /api/odds returns:
+
+            {
+                success: true,
+                sport: "...",
+                data: [...]
+            }
+        ------------------------------------------------
+        */
+
+        const providerOddsData =
+            Array.isArray(
+                oddsRelayData?.data
+            )
+                ? oddsRelayData.data
+                : [];
+
+
+        oddsResult = {
+
+            response:
+                oddsResponse,
+
+            data:
+                providerOddsData,
+
+            marketsRequested:
+                coveredOddsMarkets,
+
+            marketsServed:
+                [],
+
+            marketsUnservable:
+                [],
+
+            marketsServedElsewhere:
+                ""
+
+        };
+
+
+        console.log(
+            "🔎 ADD GAME - ODDS RELAY RESPONSE:",
+            {
+                ok:
+                    oddsResponse.ok,
+
+                status:
+                    oddsResponse.status,
+
+                success:
+                    oddsRelayData?.success,
+
+                sport:
+                    oddsRelayData?.sport,
+
+                dataLength:
+                    providerOddsData.length,
+
+                data:
+                    providerOddsData
+            }
+        );
+
+
+    } catch (
+        error
+    ) {
+
+        console.error(
+            "❌ ADD GAME - ODDS RELAY ERROR:",
+            error
+        );
+
+        oddsResult =
+            null;
+
+    }
+
+}
 
 
         /*
