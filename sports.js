@@ -2547,6 +2547,10 @@ games.forEach((game,index)=> {
 }
 
 
+// ==========================================
+// RENDER ALL SPORTS GAMES
+// ==========================================
+
 async function renderAllSportsGames() {
 
     for (
@@ -2566,15 +2570,12 @@ async function renderAllSportsGames() {
 
     }
 
-}
-
 
     console.log(
         "✅ ALL SPORTS RENDERING FINISHED"
     );
 
 }
-
 
 // ==========================================
 // BACKWARD COMPATIBILITY
