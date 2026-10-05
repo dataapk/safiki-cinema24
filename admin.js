@@ -6229,6 +6229,35 @@ console.log(
         );
 
 
+
+        /*
+====================================================
+    PRESERVE EXISTING ADMIN MARKET STATE
+====================================================
+
+    Existing game:
+    Keep its current market configuration.
+
+    New game:
+    Start with empty market configuration.
+====================================================
+*/
+
+const existingEnabledMarkets =
+    isExistingGame &&
+    existingGame &&
+    existingGame.enabled_markets
+        ? existingGame.enabled_markets
+        : {};
+
+const existingApiMarketSettings =
+    isExistingGame &&
+    existingGame &&
+    existingGame.api_market_settings
+        ? existingGame.api_market_settings
+        : {};
+
+
         /*
         ====================================================
             BUILD NEW SPORTS GAME
@@ -6301,34 +6330,33 @@ console.log(
                 false,
 
             /*
-            ------------------------------------------------
-                EXISTING MASTER MARKET STATE
-            ------------------------------------------------
-            */
+------------------------------------------------
+    EXISTING MASTER MARKET STATE
+------------------------------------------------
+*/
 
-            enabled_markets:
-                {},
+enabled_markets:
+    existingEnabledMarkets,
 
-            /*
-            ------------------------------------------------
-                PROVIDER MARKET DATA
-            ------------------------------------------------
-            */
+/*
+------------------------------------------------
+    PROVIDER MARKET DATA
+------------------------------------------------
+*/
 
-            api_bookmakers:
-                apiBookmakers,
+api_bookmakers:
+    apiBookmakers,
 
-            /*
-            ------------------------------------------------
-                API MARKET ADMIN STATE
-            ------------------------------------------------
-            */
+/*
+------------------------------------------------
+    API MARKET ADMIN STATE
+------------------------------------------------
+*/
 
-            api_market_settings:
-                {}
+api_market_settings:
+    existingApiMarketSettings
 
-        };
-
+};
 
         /*
         ====================================================
