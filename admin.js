@@ -4711,6 +4711,23 @@ async function addSportsApiGame(
             apiGameId
         ];
 
+    console.log(
+    "🔎 ADD GAME - PREVENT DOUBLE ADD DEBUG:",
+    {
+        apiGameId:
+            apiGameId,
+
+        cacheKey:
+            "api-" + apiGameId,
+
+        existingGame:
+            existingGame,
+
+        existingGameFound:
+            Boolean(existingGame)
+    }
+);
+
 
     if (
         existingGame
