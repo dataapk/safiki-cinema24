@@ -4197,6 +4197,35 @@ async function fetchSportsMarketCatalog(apiKey, apiSportKey) {
 
         const data = responseData.data;
 
+        console.log(
+    "🔎 MARKET CATALOG - PARSED DATA:",
+    {
+        responseData:
+            responseData,
+
+        data:
+            data,
+
+        gameLines:
+            data?.game_lines,
+
+        gameLinesIsArray:
+            Array.isArray(
+                data?.game_lines
+            ),
+
+        propsBySport:
+            data?.props_by_sport,
+
+        currentSportProps:
+            data?.props_by_sport?.[
+                String(
+                    apiSportKey || ""
+                ).trim()
+            ]
+    }
+);
+
         /*
         ====================================================
             1. GAME-LINE MARKET REGISTRY
