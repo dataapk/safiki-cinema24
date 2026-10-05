@@ -5434,8 +5434,8 @@ if (
         */
 
         const oddsRelayUrl =
-            "/api/odds?" +
-            oddsParams.toString();
+    "https://safiki-cinema24.vercel.app/api/odds?" +
+    oddsParams.toString();
 
 
         console.log(
