@@ -4768,17 +4768,6 @@ async function addSportsApiGame(
     STEP 1
     DISCOVER PROVIDER MARKET CATALOG
 ====================================================
-
-    This uses the catalog function already added.
-
-    Discovery itself is not an odds charge.
-
-    The catalog is provider-driven:
-    - Game-line markets
-    - Sport-specific prop markets
-
-    No event odds request is made here.
-====================================================
 */
 
 let marketCatalog =
@@ -4789,6 +4778,21 @@ if (
     typeof fetchSportsMarketCatalog ===
     "function"
 ) {
+
+    console.log(
+        "➡️ ADD GAME - BEFORE MARKET CATALOG CALL:",
+        {
+            apiSportKey:
+                apiSportKey,
+
+            apiGameId:
+                apiGameId,
+
+            apiKeyAvailable:
+                Boolean(apiKey)
+        }
+    );
+
 
     marketCatalog =
         await fetchSportsMarketCatalog(
