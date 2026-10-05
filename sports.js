@@ -2370,7 +2370,7 @@ async function loadMainSportsCardOdds(games) {
 // COMMON SPORTS RENDERER
 // ==========================================
 
-function renderSportsGames(
+async function renderSportsGames(
     sport,
     status
 ) {
