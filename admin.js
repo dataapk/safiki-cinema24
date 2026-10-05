@@ -6541,45 +6541,105 @@ api_market_settings:
 
 };
 
-        /*
-        ====================================================
-            INSERT INTO EXISTING sports_games
-        ====================================================
-        */
+       /*
+====================================================
+    SAVE INTO EXISTING sports_games
+    INSERT NEW / UPDATE EXISTING
+====================================================
+*/
 
-        const {
-            data,
-            error
-        } =
-            await window.supabaseClient
-                .from(
-                    "sports_games"
-                )
-                .insert(
-                    newGame
-                )
-                .select()
-                .single();
+let data = null;
+let error = null;
+
+if (
+    isExistingGame
+) {
+
+    /*
+    ------------------------------------------------
+        EXISTING GAME
+        UPDATE EXISTING ROW
+    ------------------------------------------------
+    */
+
+    console.log(
+        "♻️ ADMIN: Updating existing API game in sports_games:",
+        newGame.game_id
+    );
+
+    const updateResult =
+        await window.supabaseClient
+            .from(
+                "sports_games"
+            )
+            .update(
+                newGame
+            )
+            .eq(
+                "game_id",
+                newGame.game_id
+            )
+            .select()
+            .single();
+
+    data =
+        updateResult.data;
+
+    error =
+        updateResult.error;
+
+} else {
+
+    /*
+    ------------------------------------------------
+        NEW GAME
+        INSERT NEW ROW
+    ------------------------------------------------
+    */
+
+    console.log(
+        "➕ ADMIN: Inserting new API game into sports_games:",
+        newGame.game_id
+    );
+
+    const insertResult =
+        await window.supabaseClient
+            .from(
+                "sports_games"
+            )
+            .insert(
+                newGame
+            )
+            .select()
+            .single();
+
+    data =
+        insertResult.data;
+
+    error =
+        insertResult.error;
+
+}
 
 
-        /*
-        ====================================================
-            SUPABASE ERROR
-        ====================================================
-        */
+/*
+====================================================
+    SUPABASE ERROR
+====================================================
+*/
 
-        if (
-            error
-        ) {
+if (
+    error
+) {
 
-            console.error(
-                "❌ ADMIN: Failed to add API game:",
-                error
-            );
+    console.error(
+        "❌ ADMIN: Failed to save API game:",
+        error
+    );
 
-            throw error;
+    throw error;
 
-        }
+}
 
 
         /*
