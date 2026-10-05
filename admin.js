@@ -4729,25 +4729,47 @@ async function addSportsApiGame(
 );
 
 
-    if (
-        existingGame
-    ) {
+   /*
+========================================================
+    EXISTING GAME HANDLING
+========================================================
 
-        button.disabled =
-            true;
+    The game already exists in Admin/Supabase.
 
-        button.textContent =
-            "Added";
+    Do NOT create another game.
 
-        gameCard.classList.add(
-            "sports-api-game-added"
-        );
+    We still allow the current Add Game flow to continue
+    so provider market discovery can run for this existing
+    test fixture.
 
-        return;
+    The existing game will be updated later instead of
+    inserted again.
+========================================================
+*/
 
-    }
+const isExistingGame =
+    Boolean(existingGame);
 
 
+if (
+    isExistingGame
+) {
+
+    console.log(
+        "♻️ ADD GAME - EXISTING GAME FOUND. CONTINUING MARKET DISCOVERY:",
+        {
+            apiGameId:
+                apiGameId,
+
+            cacheKey:
+                "api-" + apiGameId,
+
+            existingGame:
+                existingGame
+        }
+    );
+
+}
     /*
     ========================================================
         DISABLE BUTTON DURING SAVE
