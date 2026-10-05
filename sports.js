@@ -760,8 +760,8 @@ async function loadOddsApiGames(
                     eventId
                 ) +
                 "&markets=" +
-                encodeURIComponent(
-                    "h2h,spreads,totals"
+           encodeURIComponent(
+                    "h2h"
                 ) +
                 "&oddsFormat=decimal"
             );
@@ -2287,6 +2287,86 @@ function findCricketApiMatchForSportsGame(
 
 
 // ==========================================
+// LOAD H2H ODDS FOR MAIN SPORTS CARDS
+// ==========================================
+
+async function loadMainSportsCardOdds(games) {
+
+    if (
+        !Array.isArray(games) ||
+        games.length === 0
+    ) {
+        return;
+    }
+
+    console.log(
+        "🎯 MAIN UI - Loading H2H odds for cards..."
+    );
+
+    for (
+        const game of games
+    ) {
+
+        const providerEventId =
+            String(
+                game.api_event_id ||
+                game.provider_event_id ||
+                game.providerEventId ||
+                game.game_id ||
+                ""
+            )
+            .replace(
+                /^api-/,
+                ""
+            )
+            .trim();
+
+        const providerSportKey =
+            String(
+                game.api_sport_key ||
+                game.provider_sport_key ||
+                game.providerSportKey ||
+                game.sport_key ||
+                game.sportKey ||
+                ""
+            )
+            .trim();
+
+        if (
+            !providerEventId ||
+            !providerSportKey
+        ) {
+            console.warn(
+                "⚠️ MAIN UI - Provider information missing:",
+                game
+            );
+
+            continue;
+        }
+
+        console.log(
+            "🎯 MAIN UI - H2H ODDS REQUEST:",
+            {
+                gameId: game.game_id,
+                providerEventId: providerEventId,
+                providerSportKey: providerSportKey
+            }
+        );
+
+        await loadOddsApiGames(
+            providerSportKey,
+            providerEventId
+        );
+
+    }
+
+    console.log(
+        "✅ MAIN UI - H2H odds loading completed."
+    );
+}
+
+
+// ==========================================
 // COMMON SPORTS RENDERER
 // ==========================================
 
@@ -2433,26 +2513,27 @@ function renderSportsGames(
     // CREATE GAME CARDS
     // ==========================================
 
-    games.forEach(
-        (game, index) => {
+    await loadMainSportsCardOdds(
+    games
+);
 
-            const card =
-                createSportsGameCard(
-                    game,
-                    index
-                );
+games.forEach((game,index)=> {
 
+    const card =
+        createSportsGameCard(
+            game,
+            index
+        );
 
-            if (card) {
+    if(card) {
 
-                container.appendChild(
-                    card
-                );
+        container.appendChild(
+            card
+        );
 
-            }
+    }
 
-        }
-    );
+});
 
 
     // ==========================================
@@ -2466,33 +2547,26 @@ function renderSportsGames(
 }
 
 
-// ==========================================
-// RENDER ALL SPORTS
-// ==========================================
+async function renderAllSportsGames() {
 
-function renderAllSportsGames() {
+    for (
+        const sport of SUPPORTED_SPORTS
+    ) {
 
-    console.log(
-        "🎨 Rendering ALL Sports Games..."
-    );
+        for (
+            const status of SPORTS_STATUSES
+        ) {
 
-
-    SUPPORTED_SPORTS.forEach(
-        sport => {
-
-            SPORTS_STATUSES.forEach(
-                status => {
-
-                    renderSportsGames(
-                        sport,
-                        status
-                    );
-
-                }
+            await renderSportsGames(
+                sport,
+                status
             );
 
         }
-    );
+
+    }
+
+}
 
 
     console.log(
@@ -2926,6 +3000,7 @@ window.openSportsGame =
 
 const providerEventId =
     String(
+        game.api_event_id ||
         game.provider_event_id ||
         game.providerEventId ||
         game.game_id ||
@@ -2996,14 +3071,6 @@ console.log(
     game
 );
 
-await loadSportsMasterMarketsForGame(
-    game
-);
-
-console.log(
-    "✅ Selected sports game:",
-    game
-);
 
         // ==========================================
         // GAME PAGE ELEMENTS
