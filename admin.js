@@ -4195,7 +4195,7 @@ async function fetchSportsMarketCatalog(apiKey, apiSportKey) {
             return result;
         }
 
-        const data = responseData.data;
+        const data = responseData;
 
         console.log(
     "🔎 MARKET CATALOG - PARSED DATA:",
