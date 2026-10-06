@@ -5397,36 +5397,67 @@ if (
     try {
 
         /*
-        ------------------------------------------------
-            BUILD RELAY QUERY
-        ------------------------------------------------
-        */
+------------------------------------------------
+    BUILD RELAY QUERY
+------------------------------------------------
+*/
 
-        const oddsParams =
-            new URLSearchParams({
+const oddsEventId =
+    String(
+        apiGame?.id ||
+        apiGameId ||
+        ""
+    ).trim();
 
-                sport:
-                    String(
-                        apiSportKey || ""
-                    ).trim(),
-
-                regions:
-                    "us",
-
-                markets:
-                    coveredOddsMarkets.join(","),
-
-                oddsFormat:
-                    "decimal",
-
-                eventIds:
-                    String(
-                        apiGameId || ""
-                    ).trim()
-
-            });
+const canonicalEventId =
+    String(
+        apiGame?.canonical_event_id ||
+        ""
+    ).trim();
 
 
+console.log(
+    "🔎 ADD GAME - EVENT ID MAPPING:",
+    {
+        apiGameId:
+            apiGameId,
+
+        providerEventId:
+            apiGame?.id,
+
+        canonicalEventId:
+            canonicalEventId,
+
+        selectedOddsEventId:
+            oddsEventId,
+
+        sport:
+            apiSportKey
+    }
+);
+
+
+const oddsParams =
+    new URLSearchParams({
+
+        sport:
+            String(
+                apiSportKey || ""
+            ).trim(),
+
+        regions:
+            "us",
+
+        markets:
+            coveredOddsMarkets.join(","),
+
+        oddsFormat:
+            "decimal",
+
+        eventIds:
+            oddsEventId
+
+    });
         /*
         ------------------------------------------------
             CALL EXISTING VERCEL ODDS RELAY
