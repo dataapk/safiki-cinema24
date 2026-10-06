@@ -5368,250 +5368,35 @@ console.log(
         );
 
 
- /*
+
+/*
 ====================================================
     STEP 2
     FETCH ACTUAL GAME-LINE ODDS
 ====================================================
 
-    Browser admin.js সরাসরি server-side
-    fetchSportOdds() function call করবে না.
+    IMPORTANT:
+    Add Game must NOT request game-line odds.
 
-    Existing Vercel /api/odds relay ব্যবহার করা হবে.
+    The game will only be saved here.
 
-    Relay:
-    /api/odds
+    Odds will be requested later by the Main UI
+    after the Admin enables the game.
 
-    Provider:
-    ParlayAPI /v1/sports/{sportKey}/odds
+    Therefore:
+    - No /api/odds request during Add Game
+    - No odds credit used during Add Game
+    - oddsResult remains null
 ====================================================
 */
 
 let oddsResult =
     null;
 
-if (
-    coveredOddsMarkets.length > 0
-) {
-
-    try {
-
-        /*
-------------------------------------------------
-    BUILD RELAY QUERY
-------------------------------------------------
-*/
-
-const oddsEventId =
-    String(
-        apiGame?.id ||
-        apiGameId ||
-        ""
-    ).trim();
-
-const canonicalEventId =
-    String(
-        apiGame?.canonical_event_id ||
-        ""
-    ).trim();
-
-
 console.log(
-    "🔎 ADD GAME - EVENT ID MAPPING:",
-    {
-        apiGameId:
-            apiGameId,
-
-        providerEventId:
-            apiGame?.id,
-
-        canonicalEventId:
-            canonicalEventId,
-
-        selectedOddsEventId:
-            oddsEventId,
-
-        sport:
-            apiSportKey
-    }
+    "⏭️ ADD GAME - ODDS REQUEST SKIPPED. GAME WILL BE SAVED WITHOUT ODDS."
 );
 
-
-const oddsParams =
-    new URLSearchParams({
-
-        sport:
-            String(
-                apiSportKey || ""
-            ).trim(),
-
-        regions:
-            "us",
-
-        markets:
-            coveredOddsMarkets.join(","),
-
-        oddsFormat:
-            "decimal",
-
-        eventIds:
-            oddsEventId
-
-    });
-        /*
-        ------------------------------------------------
-            CALL EXISTING VERCEL ODDS RELAY
-        ------------------------------------------------
-        */
-
-        const oddsRelayUrl =
-    "https://safiki-cinema24.vercel.app/api/odds?" +
-    oddsParams.toString();
-
-
-        console.log(
-            "🎯 ADD GAME - ODDS RELAY REQUEST:",
-            {
-                sport:
-                    apiSportKey,
-
-                eventIds:
-                    apiGameId,
-
-                markets:
-                    coveredOddsMarkets,
-
-                url:
-                    oddsRelayUrl
-            }
-        );
-
-
-        const oddsResponse =
-            await fetch(
-                oddsRelayUrl,
-                {
-                    method:
-                        "GET",
-
-                    headers: {
-                        "Accept":
-                            "application/json"
-                    }
-                }
-            );
-
-
-        /*
-        ------------------------------------------------
-            READ RELAY RESPONSE
-        ------------------------------------------------
-        */
-
-        let oddsRelayData =
-            null;
-
-
-        try {
-
-            oddsRelayData =
-                await oddsResponse.json();
-
-        } catch (
-            error
-        ) {
-
-            oddsRelayData =
-                null;
-
-        }
-
-
-        /*
-        ------------------------------------------------
-            NORMALIZE RESPONSE
-        ------------------------------------------------
-
-            /api/odds returns:
-
-            {
-                success: true,
-                sport: "...",
-                data: [...]
-            }
-        ------------------------------------------------
-        */
-
-        const providerOddsData =
-            Array.isArray(
-                oddsRelayData?.data
-            )
-                ? oddsRelayData.data
-                : [];
-
-
-        oddsResult = {
-
-            response:
-                oddsResponse,
-
-            data:
-                providerOddsData,
-
-            marketsRequested:
-                coveredOddsMarkets,
-
-            marketsServed:
-                [],
-
-            marketsUnservable:
-                [],
-
-            marketsServedElsewhere:
-                ""
-
-        };
-
-
-        console.log(
-            "🔎 ADD GAME - ODDS RELAY RESPONSE:",
-            {
-                ok:
-                    oddsResponse.ok,
-
-                status:
-                    oddsResponse.status,
-
-                success:
-                    oddsRelayData?.success,
-
-                sport:
-                    oddsRelayData?.sport,
-
-                dataLength:
-                    providerOddsData.length,
-
-                data:
-                    providerOddsData
-            }
-        );
-
-
-    } catch (
-        error
-    ) {
-
-        console.error(
-            "❌ ADD GAME - ODDS RELAY ERROR:",
-            error
-        );
-
-        oddsResult =
-            null;
-
-    }
-
-}
 
 
         /*
