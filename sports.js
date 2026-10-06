@@ -2461,11 +2461,15 @@ function findCricketApiMatchForSportsGame(
 }
 
 
+
+
 // ==========================================
-// LOAD H2H ODDS FOR MAIN SPORTS CARDS
+// LOAD H2H ODDS FOR MAIN SPORTS GAME CARDS
 // ==========================================
 
-async function loadMainSportsCardOdds(games) {
+async function loadMainSportsCardOdds(
+    games
+) {
 
     if (
         !Array.isArray(games) ||
@@ -2474,20 +2478,25 @@ async function loadMainSportsCardOdds(games) {
         return;
     }
 
+
     console.log(
-        "🎯 MAIN UI - Loading H2H odds for cards..."
+        "🎯 MAIN UI - Loading H2H odds for selected API games..."
     );
+
 
     for (
         const game of games
     ) {
 
+        /*
+        ========================================================
+            ONLY PROCESS ADMIN-SAVED API GAMES
+        ========================================================
+        */
+
         const providerEventId =
             String(
                 game.api_event_id ||
-                game.provider_event_id ||
-                game.providerEventId ||
-                game.game_id ||
                 ""
             )
             .replace(
@@ -2496,50 +2505,112 @@ async function loadMainSportsCardOdds(games) {
             )
             .trim();
 
+
         const providerSportKey =
             String(
                 game.api_sport_key ||
-                game.provider_sport_key ||
-                game.providerSportKey ||
-                game.sport_key ||
-                game.sportKey ||
                 ""
             )
             .trim();
 
-        if (
-            !providerEventId ||
-            !providerSportKey
-        ) {
-            console.warn(
-                "⚠️ MAIN UI - Provider information missing:",
-                game
-            );
 
-            continue;
-        }
+        /*
+        ========================================================
+            SKIP NON-API GAMES
+        ========================================================
+        */
+
+        if (
+    String(game?.match_status || "").trim().toLowerCase() !== "enable"
+) {
+
+    console.log(
+        "⏭️ MAIN UI - Skipping disabled API game:",
+        game?.game_id
+    );
+
+    continue;
+}
+
+
+if (
+    !providerEventId ||
+    !providerSportKey
+) {
+
+    console.log(
+        "⏭️ MAIN UI - Skipping game without API provider data:",
+        game?.game_id
+    );
+
+    continue;
+}
+
 
         console.log(
             "🎯 MAIN UI - H2H ODDS REQUEST:",
             {
-                gameId: game.game_id,
-                providerEventId: providerEventId,
-                providerSportKey: providerSportKey
+                gameId:
+                    game.game_id,
+
+                providerEventId:
+                    providerEventId,
+
+                providerSportKey:
+                    providerSportKey
             }
         );
 
-        await loadOddsApiGames(
-            providerSportKey,
-            providerEventId
+
+        /*
+        ========================================================
+            REQUEST ONLY THIS SELECTED API GAME
+        ========================================================
+        */
+
+        const loaded =
+            await loadOddsApiGames(
+                providerSportKey,
+                providerEventId
+            );
+
+
+        /*
+        ========================================================
+            SAVE ODDS DIRECTLY ON THIS GAME
+        ========================================================
+        */
+
+        game._mainCardOdds =
+            loaded &&
+            Array.isArray(
+                oddsApiGames
+            )
+                ? oddsApiGames.slice()
+                : [];
+
+
+        console.log(
+            "✅ MAIN UI - H2H ODDS SAVED:",
+            {
+                gameId:
+                    game.game_id,
+
+                oddsCount:
+                    game._mainCardOdds.length,
+
+                odds:
+                    game._mainCardOdds
+            }
         );
 
     }
+
 
     console.log(
         "✅ MAIN UI - H2H odds loading completed."
     );
 }
-
 
 // ==========================================
 // COMMON SPORTS RENDERER
