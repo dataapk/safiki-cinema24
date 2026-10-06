@@ -512,6 +512,84 @@ async function fetchSportsList(
 }
 
 
+
+    /*
+============================================================
+    FETCH SPORT SCORES
+============================================================
+*/
+
+async function fetchSportScores(
+    apiKey,
+    sportKey
+) {
+    const params =
+        new URLSearchParams({
+            daysFrom: "1",
+            dateFormat: "iso"
+        });
+
+    const apiUrl =
+        "https://parlay-api.com/v1/sports/" +
+        encodeURIComponent(
+            sportKey
+        ) +
+        "/scores?" +
+        params.toString();
+
+    console.log(
+        "🏀 PARLAY SPORT SCORES URL:",
+        apiUrl
+    );
+
+    const response =
+        await fetch(
+            apiUrl,
+            {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "X-API-Key": apiKey,
+                    "User-Agent": "SportsWebsite/1.0"
+                }
+            }
+        );
+
+    let data = [];
+
+    try {
+        data =
+            await response.json();
+    } catch (error) {
+        data = [];
+    }
+
+    console.log(
+        "🏀 PARLAY SPORT SCORES RESPONSE:",
+        {
+            sportKey:
+                sportKey,
+
+            status:
+                response.status,
+
+            ok:
+                response.ok,
+
+            count:
+                Array.isArray(data)
+                    ? data.length
+                    : 0
+        }
+    );
+
+    return {
+        response,
+        data
+    };
+}
+
+
     // ============================================================
 // FETCH SPORTS MARKET CATALOG
 // ============================================================
