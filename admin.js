@@ -5590,14 +5590,16 @@ console.log(
     IMPORTANT:
     Add Game must NOT request /props.
 
-    Player / prop markets will be requested later
-    only after the game is enabled, from the
-    appropriate Main UI odds/market flow.
+    Player / prop markets are NOT fetched during
+    Add Game.
+
+    They will be requested later only when the
+    enabled game requires them.
 
     Therefore:
     - No /props request during Add Game
     - No 3-credit props request during Add Game
-    - Existing prop grouping code below remains intact
+    - Existing prop grouping structure is preserved
 ====================================================
 */
 
@@ -5625,12 +5627,9 @@ const propsMarketKeys =
 
 /*
 ----------------------------------------------------
-    ADD GAME: SKIP PROVIDER /props REQUEST
+    ADD GAME: DO NOT CALL /props
 ----------------------------------------------------
 */
-
-let propsData =
-    null;
 
 const propsRows =
     [];
@@ -5654,462 +5653,462 @@ console.log(
 );
 
 
-                /*
-                ------------------------------------------------
-                    GROUP PROP ROWS
-                ------------------------------------------------
-                */
+/*
+------------------------------------------------
+    GROUP PROP ROWS
+------------------------------------------------
 
-                const propGroups =
-                    new Map();
+    propsRows is intentionally empty because
+    Add Game does not request /props.
+------------------------------------------------
+*/
 
-
-                propsRows.forEach(
-                    row => {
-
-                        if (
-                            !row ||
-                            typeof row !==
-                                "object"
-                        ) {
-
-                            return;
-
-                        }
+const propGroups =
+    new Map();
 
 
-                        const bookmakerKey =
+propsRows.forEach(
+    row => {
+
+        if (
+            !row ||
+            typeof row !==
+                "object"
+        ) {
+
+            return;
+
+        }
+
+
+        const bookmakerKey =
+            String(
+                row?.bookmaker ||
+                row?.bookmaker_key ||
+                row?.source ||
+                ""
+            )
+            .trim();
+
+
+        const bookmakerTitle =
+            String(
+                row?.bookmaker_title ||
+                row?.bookmaker ||
+                row?.bookmaker_key ||
+                row?.source ||
+                "Bookmaker"
+            )
+            .trim();
+
+
+        const marketKey =
+            String(
+                row?.market_key ||
+                ""
+            )
+            .trim();
+
+
+        if (
+            !bookmakerKey ||
+            !marketKey
+        ) {
+
+            return;
+
+        }
+
+
+        const groupKey =
+            bookmakerKey +
+            "::" +
+            marketKey;
+
+
+        if (
+            !propGroups.has(
+                groupKey
+            )
+        ) {
+
+            propGroups.set(
+                groupKey,
+                {
+                    bookmakerKey,
+                    bookmakerTitle,
+
+                    marketKey,
+
+                    marketTitle:
+                        String(
+                            row?.market ||
+                            row?.market_title ||
+                            row?.market_name ||
+                            marketKey
+                        )
+                        .trim(),
+
+                    outcomes:
+                        []
+                }
+            );
+
+        }
+
+
+        const group =
+            propGroups.get(
+                groupKey
+            );
+
+
+        const player =
+            String(
+                row?.player ||
+                row?.selection ||
+                row?.name ||
+                row?.team ||
+                row?.outcome ||
+                ""
+            )
+            .trim();
+
+
+        const line =
+            row?.line !==
+                undefined &&
+            row?.line !==
+                null
+                ? row.line
+                : null;
+
+
+        const addOutcome =
+            (
+                outcomeName,
+                price
+            ) => {
+
+                if (
+                    price ===
+                        undefined ||
+                    price ===
+                        null
+                ) {
+
+                    return;
+
+                }
+
+
+                const existing =
+                    group.outcomes.find(
+                        outcome =>
+                            outcome.name ===
+                                outcomeName &&
                             String(
-                                row?.bookmaker ||
-                                row?.bookmaker_key ||
-                                row?.source ||
-                                ""
-                            )
-                            .trim();
-
-
-                        const bookmakerTitle =
+                                outcome.price
+                            ) ===
+                                String(
+                                    price
+                                ) &&
                             String(
-                                row?.bookmaker_title ||
-                                row?.bookmaker ||
-                                row?.bookmaker_key ||
-                                row?.source ||
-                                "Bookmaker"
-                            )
-                            .trim();
+                                outcome.point
+                            ) ===
+                                String(
+                                    line
+                                )
+                    );
 
 
-                        const marketKey =
-                            String(
-                                row?.market_key ||
-                                ""
-                            )
-                            .trim();
+                if (
+                    existing
+                ) {
+
+                    return;
+
+                }
 
 
-                        if (
-                            !bookmakerKey ||
-                            !marketKey
-                        ) {
+                group.outcomes.push({
 
-                            return;
+                    name:
+                        outcomeName,
 
+                    price:
+                        price,
+
+                    ...(line !==
+                        null
+                        ? {
+                            point:
+                                line
                         }
+                        : {})
 
+                });
 
-                        const groupKey =
-                            bookmakerKey +
-                            "::" +
-                            marketKey;
+            };
 
 
-                        if (
-                            !propGroups.has(
-                                groupKey
-                            )
-                        ) {
+        const overPrice =
+            row?.over_price;
 
-                            propGroups.set(
-                                groupKey,
-                                {
-                                    bookmakerKey,
-                                    bookmakerTitle,
-                                    marketKey,
-                                    marketTitle:
-                                        String(
-                                            row?.market ||
-                                            row?.market_title ||
-                                            row?.market_name ||
-                                            marketKey
-                                        )
-                                        .trim(),
 
-                                    outcomes: []
-                                }
-                            );
+        const underPrice =
+            row?.under_price;
 
-                        }
 
+        if (
+            overPrice !==
+                undefined &&
+            overPrice !==
+                null
+        ) {
 
-                        const group =
-                            propGroups.get(
-                                groupKey
-                            );
+            addOutcome(
+                player
+                    ? player +
+                      " Over"
+                    : "Over",
 
+                overPrice
+            );
 
-                        const player =
-                            String(
-                                row?.player ||
-                                row?.selection ||
-                                row?.name ||
-                                row?.team ||
-                                row?.outcome ||
-                                ""
-                            )
-                            .trim();
+        }
 
 
-                        const line =
-                            row?.line !==
-                                undefined &&
-                            row?.line !==
-                                null
-                                ? row.line
-                                : null;
+        if (
+            underPrice !==
+                undefined &&
+            underPrice !==
+                null
+        ) {
 
+            addOutcome(
+                player
+                    ? player +
+                      " Under"
+                    : "Under",
 
-                        const addOutcome =
-                            (
-                                outcomeName,
-                                price
-                            ) => {
-
-                                if (
-                                    price ===
-                                        undefined ||
-                                    price ===
-                                        null
-                                ) {
-
-                                    return;
-
-                                }
-
-
-                                const existing =
-                                    group.outcomes.find(
-                                        outcome =>
-                                            outcome.name ===
-                                                outcomeName &&
-                                            String(
-                                                outcome.price
-                                            ) ===
-                                                String(
-                                                    price
-                                                ) &&
-                                            String(
-                                                outcome.point
-                                            ) ===
-                                                String(
-                                                    line
-                                                )
-                                    );
-
-
-                                if (
-                                    existing
-                                ) {
-
-                                    return;
-
-                                }
-
-
-                                group.outcomes.push({
-                                    name:
-                                        outcomeName,
-
-                                    price:
-                                        price,
-
-                                    ...(line !==
-                                        null
-                                        ? {
-                                            point:
-                                                line
-                                        }
-                                        : {})
-                                });
-
-                            };
-
-
-                        const overPrice =
-                            row?.over_price;
-
-
-                        const underPrice =
-                            row?.under_price;
-
-
-                        if (
-                            overPrice !==
-                                undefined &&
-                            overPrice !==
-                                null
-                        ) {
-
-                            addOutcome(
-                                player
-                                    ? player +
-                                      " Over"
-                                    : "Over",
-                                overPrice
-                            );
-
-                        }
-
-
-                        if (
-                            underPrice !==
-                                undefined &&
-                            underPrice !==
-                                null
-                        ) {
-
-                            addOutcome(
-                                player
-                                    ? player +
-                                      " Under"
-                                    : "Under",
-                                underPrice
-                            );
-
-                        }
-
-
-                        /*
-                        ----------------------------------------
-                            GENERIC SINGLE-PRICE PROP
-                        ----------------------------------------
-                        */
-
-                        if (
-                            (
-                                overPrice ===
-                                    undefined ||
-                                overPrice ===
-                                    null
-                            ) &&
-                            (
-                                underPrice ===
-                                    undefined ||
-                                underPrice ===
-                                    null
-                            ) &&
-                            row?.price !==
-                                undefined &&
-                            row?.price !==
-                                null
-                        ) {
-
-                            addOutcome(
-                                player ||
-                                "Selection",
-                                row.price
-                            );
-
-                        }
-
-                    }
-                );
-
-
-                /*
-                ------------------------------------------------
-                    MERGE NORMALIZED PROP MARKETS INTO
-                    API BOOKMAKERS
-                ------------------------------------------------
-                */
-
-                propGroups.forEach(
-                    group => {
-
-                        let bookmaker =
-                            apiBookmakers.find(
-                                item =>
-                                    String(
-                                        item?.key ||
-                                        ""
-                                    )
-                                    .trim() ===
-                                    group.bookmakerKey
-                            );
-
-
-                        if (
-                            !bookmaker
-                        ) {
-
-                            bookmaker = {
-
-                                key:
-                                    group.bookmakerKey,
-
-                                title:
-                                    group.bookmakerTitle,
-
-                                markets:
-                                    []
-
-                            };
-
-
-                            apiBookmakers.push(
-                                bookmaker
-                            );
-
-                        }
-
-
-                        if (
-                            !Array.isArray(
-                                bookmaker.markets
-                            )
-                        ) {
-
-                            bookmaker.markets =
-                                [];
-
-                        }
-
-
-                        let market =
-                            bookmaker.markets.find(
-                                item =>
-                                    String(
-                                        item?.key ||
-                                        ""
-                                    )
-                                    .trim() ===
-                                    group.marketKey
-                            );
-
-
-                        if (
-                            !market
-                        ) {
-
-                            market = {
-
-                                key:
-                                    group.marketKey,
-
-                                title:
-                                    group.marketTitle,
-
-                                outcomes:
-                                    []
-
-                            };
-
-
-                            bookmaker.markets.push(
-                                market
-                            );
-
-                        }
-
-
-                        if (
-                            !Array.isArray(
-                                market.outcomes
-                            )
-                        ) {
-
-                            market.outcomes =
-                                [];
-
-                        }
-
-
-                        group.outcomes.forEach(
-                            outcome => {
-
-                                const exists =
-                                    market.outcomes.find(
-                                        existing =>
-                                            existing?.name ===
-                                                outcome?.name &&
-                                            String(
-                                                existing?.price
-                                            ) ===
-                                                String(
-                                                    outcome?.price
-                                                ) &&
-                                            String(
-                                                existing?.point
-                                            ) ===
-                                                String(
-                                                    outcome?.point
-                                                )
-                                    );
-
-
-                                if (
-                                    !exists
-                                ) {
-
-                                    market.outcomes.push(
-                                        outcome
-                                    );
-
-                                }
-
-                            }
-                        );
-
-                    }
-                );
-
-
-                console.log(
-                    "📊 ADD GAME - PROP MARKETS:",
-                    {
-                        rows:
-                            propsRows.length,
-
-                        marketKeys:
-                            propsMarketKeys,
-
-                        groups:
-                            propGroups.size
-                    }
-                );
-
-
-            } catch (error) {
-
-                /*
-                ------------------------------------------------
-                    PROP FAILURE DOES NOT CANCEL GAME ADD
-                ------------------------------------------------
-                */
-
-                console.warn(
-                    "⚠️ API prop market fetch failed. Game will continue with game-line markets."
-                );
-
-            }
+                underPrice
+            );
 
         }
 
 
         /*
-        ====================================================
-            NORMALIZE FINAL BOOKMAKER DATA
-        ====================================================
+        ----------------------------------------
+            GENERIC SINGLE-PRICE PROP
+        ----------------------------------------
         */
+
+        if (
+            (
+                overPrice ===
+                    undefined ||
+                overPrice ===
+                    null
+            ) &&
+            (
+                underPrice ===
+                    undefined ||
+                underPrice ===
+                    null
+            ) &&
+            row?.price !==
+                undefined &&
+            row?.price !==
+                null
+        ) {
+
+            addOutcome(
+                player ||
+                "Selection",
+
+                row.price
+            );
+
+        }
+
+    }
+);
+
+
+/*
+------------------------------------------------
+    MERGE NORMALIZED PROP MARKETS INTO
+    API BOOKMAKERS
+------------------------------------------------
+
+    propGroups will normally be empty during
+    Add Game because propsRows is empty.
+------------------------------------------------
+*/
+
+propGroups.forEach(
+    group => {
+
+        let bookmaker =
+            apiBookmakers.find(
+                item =>
+                    String(
+                        item?.key ||
+                        ""
+                    )
+                    .trim() ===
+                    group.bookmakerKey
+            );
+
+
+        if (
+            !bookmaker
+        ) {
+
+            bookmaker = {
+
+                key:
+                    group.bookmakerKey,
+
+                title:
+                    group.bookmakerTitle,
+
+                markets:
+                    []
+
+            };
+
+
+            apiBookmakers.push(
+                bookmaker
+            );
+
+        }
+
+
+        if (
+            !Array.isArray(
+                bookmaker.markets
+            )
+        ) {
+
+            bookmaker.markets =
+                [];
+
+        }
+
+
+        let market =
+            bookmaker.markets.find(
+                item =>
+                    String(
+                        item?.key ||
+                        ""
+                    )
+                    .trim() ===
+                    group.marketKey
+            );
+
+
+        if (
+            !market
+        ) {
+
+            market = {
+
+                key:
+                    group.marketKey,
+
+                title:
+                    group.marketTitle,
+
+                outcomes:
+                    []
+
+            };
+
+
+            bookmaker.markets.push(
+                market
+            );
+
+        }
+
+
+        if (
+            !Array.isArray(
+                market.outcomes
+            )
+        ) {
+
+            market.outcomes =
+                [];
+
+        }
+
+
+        group.outcomes.forEach(
+            outcome => {
+
+                const exists =
+                    market.outcomes.find(
+                        existing =>
+                            existing?.name ===
+                                outcome?.name &&
+                            String(
+                                existing?.price
+                            ) ===
+                                String(
+                                    outcome?.price
+                                ) &&
+                            String(
+                                existing?.point
+                            ) ===
+                                String(
+                                    outcome?.point
+                                )
+                    );
+
+
+                if (
+                    !exists
+                ) {
+
+                    market.outcomes.push(
+                        outcome
+                    );
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+console.log(
+    "📊 ADD GAME - PROP MARKETS:",
+    {
+        rows:
+            propsRows.length,
+
+        marketKeys:
+            propsMarketKeys,
+
+        groups:
+            propGroups.size
+    }
+);
+
+        /*
+====================================================
+    NORMALIZE FINAL BOOKMAKER DATA
+====================================================
+*/
+
+        
 
         apiBookmakers =
             apiBookmakers
