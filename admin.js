@@ -5581,138 +5581,77 @@ console.log(
         }
 
        
-        /*
-        ====================================================
-            STEP 3
-            FETCH ACTUAL PLAYER / PROP MARKETS
-        ====================================================
+/*
+====================================================
+    STEP 3
+    FETCH ACTUAL PLAYER / PROP MARKETS
+====================================================
 
-            One /props call is 3 credits and returns all
-            books/markets for the requested sport board.
-            eventId narrows it to the selected game.
-        ====================================================
-        */
+    IMPORTANT:
+    Add Game must NOT request /props.
 
-        const propsMarketKeys =
-            marketCatalog &&
-            Array.isArray(
+    Player / prop markets will be requested later
+    only after the game is enabled, from the
+    appropriate Main UI odds/market flow.
+
+    Therefore:
+    - No /props request during Add Game
+    - No 3-credit props request during Add Game
+    - Existing prop grouping code below remains intact
+====================================================
+*/
+
+const propsMarketKeys =
+    marketCatalog &&
+    Array.isArray(
+        marketCatalog.propsMarketKeys
+    )
+        ? [
+            ...new Set(
                 marketCatalog.propsMarketKeys
+                    .map(
+                        key =>
+                            String(
+                                key || ""
+                            ).trim()
+                    )
+                    .filter(
+                        Boolean
+                    )
             )
-                ? [
-                    ...new Set(
-                        marketCatalog.propsMarketKeys
-                            .map(
-                                key =>
-                                    String(
-                                        key || ""
-                                    ).trim()
-                            )
-                            .filter(
-                                Boolean
-                            )
-                    )
-                ]
-                : [];
+        ]
+        : [];
 
 
-        if (
-            propsMarketKeys.length > 0
-        ) {
+/*
+----------------------------------------------------
+    ADD GAME: SKIP PROVIDER /props REQUEST
+----------------------------------------------------
+*/
 
-            try {
+let propsData =
+    null;
 
-                const propsParams =
-                    new URLSearchParams({
-
-                        eventId:
-                            apiGameId,
-
-                        markets:
-                            propsMarketKeys.join(","),
-
-                        limit:
-                            "10000",
-
-                        offset:
-                            "0",
-
-                        maxAgeSec:
-                            "600"
-
-                    });
+const propsRows =
+    [];
 
 
-                const propsUrl =
-                    "https://parlay-api.com/v1/sports/" +
-                    encodeURIComponent(
-                        apiSportKey
-                    ) +
-                    "/props?" +
-                    propsParams.toString();
+console.log(
+    "⏭️ ADD GAME - PROPS REQUEST SKIPPED:",
+    {
+        sport:
+            apiSportKey,
 
+        eventId:
+            apiGameId,
 
-                const propsResponse =
-                    await fetch(
-                        propsUrl,
-                        {
-                            method:
-                                "GET",
+        propsMarketKeys:
+            propsMarketKeys,
 
-                            headers: {
-                                "Accept":
-                                    "application/json",
-
-                                "X-API-Key":
-                                    apiKey,
-
-                                "User-Agent":
-                                    "SportsWebsite/1.0"
-                            }
-                        }
-                    );
-
-
-                let propsData =
-                    null;
-
-
-                try {
-
-                    propsData =
-                        await propsResponse.json();
-
-                } catch (error) {
-
-                    propsData =
-                        null;
-
-                }
-
-
-                const propsRows =
-                    Array.isArray(
-                        propsData
-                    )
-                        ? propsData
-                        : (
-                            Array.isArray(
-                                propsData?.data
-                            )
-                                ? propsData.data
-                                : (
-                                    Array.isArray(
-                                        propsData?.results
-                                    )
-                                        ? propsData.results
-                                        : (
-                                            Array.isArray(
-                                                propsData?.rows
-                                            )
-                                                ? propsData.rows
-                                                : []
-                                        )
-                                )
-                        );
+        reason:
+            "Props are not requested during Add Game."
+    }
+);
 
 
                 /*
