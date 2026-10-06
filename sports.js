@@ -1889,7 +1889,7 @@ renderAllSportsGames();
 // RENDER FOOTER SPORTS
 // ==========================================
 
-renderFooterSportsGames();
+// renderFooterSportsGames();
 
 
     return true;
