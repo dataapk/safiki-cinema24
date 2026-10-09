@@ -398,30 +398,15 @@ function toggleNotificationPanel(event) {
 
     event.stopPropagation();
 
-
     const panel = document.getElementById('notification-panel');
 
-
-    const profile = document.getElementById('profile-sidebar');
-
-
-    // Profile sidebar বন্ধ করবে
-    if(profile){
-
-        profile.classList.remove('active');
-
-    }
-
-
     // Notification toggle
-
-    if(panel){
-
+    if (panel) {
         panel.classList.toggle('active');
-
     }
 
 }
+
 // CLOSE BUTTON
 
 const closeNotification=document.getElementById('close-notification');
