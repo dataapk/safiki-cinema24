@@ -684,422 +684,757 @@ transform: translateX(-50%);
    TAB CONTENT LAYOUT
    ========================================================= */
 
-#personal-area-section .personal-tab-content {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 22px;
-}
-
-#personal-area-section #personaldetailsSection,
-#personal-area-section #idVerificationSection,
-#personal-area-section #proofDocumentsSection {
-    width: 100%;
-    min-width: 0;
-}
-
-#personal-area-section .personal-section-title {
-    margin: 0 0 7px;
-    color: var(--pa-text);
-    font-size: 19px;
-    font-weight: 700;
-}
-
-#personal-area-section .personal-section-description {
-    margin: 0 0 20px;
-    color: var(--pa-muted);
-    font-size: 13px;
-}
-
-/* Generic cards */
-
-#personal-area-section .personal-card,
-#personal-area-section .profile-card,
-#personal-area-section .personal-form-card,
-#personal-area-section .verification-card,
-#personal-area-section .document-card {
-    min-width: 0;
-    margin-bottom: 18px;
-    padding: 20px;
-    background: var(--pa-card);
-    border: 1px solid var(--pa-border);
-    border-radius: 8px;
-    box-shadow: 0 2px 7px rgba(24, 39, 52, 0.035);
-}
-
 /* =========================================================
-   PROFILE HEADER / AVATAR
+   PERSONAL DETAILS — COMPLETE CSS
+   Scoped only to #personaldetailsSection
    ========================================================= */
 
-#personal-area-section .profile-header,
-#personal-area-section .personal-profile-header {
-    display: flex;
-    align-items: center;
-    gap: 17px;
+#personaldetailsSection {
+    width: 100%;
     min-width: 0;
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #ffffff;
-    border: 1px solid var(--pa-border);
-    border-radius: 8px;
+    box-sizing: border-box;
+    color: #f1f3f5;
 }
 
-#personal-area-section .profile-avatar-wrap,
-#personal-area-section .avatar-wrapper {
+#personaldetailsSection *,
+#personaldetailsSection *::before,
+#personaldetailsSection *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   COMMON BOXES
+   ========================================================= */
+
+#personaldetailsSection .content-box {
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 16px;
+    padding: 18px;
+    background: #17191d;
+    border: 1px solid #2b2e34;
+    border-radius: 12px;
+}
+
+#personaldetailsSection .personal-information-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* =========================================================
+   PROFILE SUMMARY
+   ========================================================= */
+
+#personaldetailsSection .profile-summary {
+    padding: 18px;
+}
+
+#personaldetailsSection .profile-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+}
+
+#personaldetailsSection .profile-avatar-wrapper {
     position: relative;
     flex: 0 0 76px;
     width: 76px;
     height: 76px;
+    overflow: visible;
 }
 
-#personal-area-section #profileAvatar {
+#personaldetailsSection .profile-avatar {
     display: block;
     width: 76px;
     height: 76px;
     object-fit: cover;
-    background: #e9eef0;
-    border: 3px solid #e2eee6;
     border-radius: 50%;
+    border: 2px solid #3a3d44;
+    background: #24272d;
 }
 
-#personal-area-section #changeAvatarBtn {
+#personaldetailsSection .change-avatar-btn {
+    position: absolute;
+    right: -3px;
+    bottom: -2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    padding: 0;
+    border: 2px solid #17191d;
+    border-radius: 50%;
+    background: #343840;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#personaldetailsSection .change-avatar-btn:hover {
+    background: #4b505a;
+    transform: scale(1.05);
+}
+
+#personaldetailsSection .change-avatar-btn:focus-visible {
+    outline: 2px solid #aab4c4;
+    outline-offset: 2px;
+}
+
+#personaldetailsSection .profile-info {
+    flex: 1;
+    min-width: 0;
+}
+
+#personaldetailsSection .member-since-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+}
+
+#personaldetailsSection .label-small {
+    margin: 0;
+    color: #a4a9b3;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+#personaldetailsSection .member-text {
+    margin: 0;
+    color: #f4f5f7;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   PERSONAL INFORMATION HEADING + EDIT SWITCH
+   ========================================================= */
+
+#personaldetailsSection .personal-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+#personaldetailsSection .personal-section-heading h3 {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+#personaldetailsSection .edit-mode-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    gap: 9px;
+    margin-left: auto;
+    color: #c3c7cf;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+#personaldetailsSection .edit-toggle-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 30px;
-    margin-top: 8px;
-    padding: 5px 10px;
-    color: var(--pa-green);
+    width: 42px;
+    height: 26px;
+    flex: 0 0 42px;
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+}
+
+#personaldetailsSection .toggle-track {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 22px;
+    border-radius: 20px;
+    background: #444851;
+    transition: background 0.2s ease;
+}
+
+#personaldetailsSection .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
     background: #ffffff;
-    border: 1px solid #c8dfd0;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 600;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 25%);
+    transition: transform 0.2s ease;
 }
 
-#personal-area-section #changeAvatarBtn:hover {
-    background: var(--pa-green-light);
+#personaldetailsSection #toggleEditBtn[aria-pressed="true"] .toggle-track {
+    background: #7389a8;
 }
 
-#personal-area-section #memberSince {
-    color: var(--pa-muted);
-    font-size: 13px;
+#personaldetailsSection #toggleEditBtn[aria-pressed="true"] .toggle-thumb {
+    transform: translateX(18px);
 }
+
+#personaldetailsSection .edit-toggle-btn:focus-visible {
+    outline: 2px solid #aab4c4;
+    outline-offset: 3px;
+}
+
 
 /* =========================================================
-   FORM GRID AND LABELS
+   FORM ROWS — TWO COLUMNS
    ========================================================= */
 
-#personal-area-section .personal-form-grid,
-#personal-area-section .form-grid,
-#personal-area-section .personal-details-grid {
+#personaldetailsSection .form-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    align-items: start;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
 }
 
-#personal-area-section .form-group,
-#personal-area-section .form-field,
-#personal-area-section .personal-field {
+#personaldetailsSection .form-group {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    min-width: 0;
     gap: 7px;
-    margin-bottom: 17px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
 }
 
-#personal-area-section label {
+#personaldetailsSection .form-group label,
+#personaldetailsSection .change-dropdown label {
     display: block;
     margin: 0;
-    color: #36414b;
+    color: #c4c8d0;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
+    line-height: 1.45;
 }
 
-#personal-area-section input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
-#personal-area-section select,
-#personal-area-section textarea {
+#personaldetailsSection .form-input {
     display: block;
     width: 100%;
     min-width: 0;
     min-height: 43px;
     margin: 0;
     padding: 10px 12px;
-    color: var(--pa-text);
-    background: var(--pa-input);
-    border: 1px solid #d7dde2;
-    border-radius: 5px;
-    outline: none;
-    font-size: 14px;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-#personal-area-section textarea {
-    min-height: 95px;
-    resize: vertical;
-}
-
-#personal-area-section input::placeholder,
-#personal-area-section textarea::placeholder {
-    color: #9aa3ab;
-    opacity: 1;
-}
-
-#personal-area-section input:focus,
-#personal-area-section select:focus,
-#personal-area-section textarea:focus {
-    border-color: var(--pa-green);
-    box-shadow: 0 0 0 3px rgba(8, 122, 62, 0.1);
-}
-
-#personal-area-section input:disabled,
-#personal-area-section select:disabled,
-#personal-area-section textarea:disabled {
-    color: #59636c;
-    background: #f2f4f6;
-    border-color: #e2e6e9;
-    cursor: default;
-    opacity: 1;
-}
-
-/* =========================================================
-   EDIT MODE
-   ========================================================= */
-
-#personal-area-section .edit-mode-row,
-#personal-area-section .personal-edit-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-#personal-area-section #editLabel {
-    color: var(--pa-muted);
-    font-size: 12px;
-    font-weight: 600;
-}
-
-#personal-area-section #toggleEditBtn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    min-height: 36px;
-    padding: 7px 12px;
-    color: var(--pa-green);
-    background: #ffffff;
-    border: 1px solid #bcd8c7;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-#personal-area-section #toggleEditBtn:hover {
-    background: var(--pa-green-light);
-}
-
-#personal-area-section #toggleTrack {
-    display: inline-block;
-    position: relative;
-    width: 32px;
-    height: 18px;
-    background: #b9c0c6;
-    border-radius: 20px;
-    transition: background 0.2s ease;
-}
-
-#personal-area-section #toggleTrack::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 12px;
-    height: 12px;
-    background: #ffffff;
-    border-radius: 50%;
-    transition: transform 0.2s ease;
-}
-
-#personal-area-section #toggleTrack.active {
-    background: var(--pa-green);
-}
-
-#personal-area-section #toggleTrack.active::after {
-    transform: translateX(14px);
-}
-
-/* =========================================================
-   PRIMARY AND SECONDARY BUTTONS
-   ========================================================= */
-
-#personal-area-section .personal-btn,
-#personal-area-section .primary-btn,
-#personal-area-section .secondary-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 41px;
-    padding: 10px 17px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.2;
-    text-align: center;
-    transition:
-        background 0.18s ease,
-        border-color 0.18s ease,
-        color 0.18s ease;
-}
-
-#personal-area-section .primary-btn,
-#personal-area-section #saveChangesBtn,
-#personal-area-section #submitIdVerificationBtn,
-#personal-area-section #saveAddressDocumentsBtn {
-    color: #ffffff;
-    background: var(--pa-green);
-    border-color: var(--pa-green);
-}
-
-#personal-area-section .primary-btn:hover,
-#personal-area-section #saveChangesBtn:hover:not(:disabled),
-#personal-area-section #submitIdVerificationBtn:hover:not(:disabled),
-#personal-area-section #saveAddressDocumentsBtn:hover:not(:disabled) {
-    background: var(--pa-green-dark);
-    border-color: var(--pa-green-dark);
-}
-
-#personal-area-section .secondary-btn {
-    color: #35414a;
-    background: #ffffff;
-    border-color: #d6dde2;
-}
-
-#personal-area-section .secondary-btn:hover {
-    background: #f1f4f6;
-}
-
-#personal-area-section #saveChangesBtn,
-#personal-area-section #submitIdVerificationBtn,
-#personal-area-section #saveAddressDocumentsBtn {
-    width: auto;
-    min-width: 145px;
-    margin-top: 6px;
-}
-
-/* =========================================================
-   EMAIL AND MOBILE CHANGE PANELS
-   ========================================================= */
-
-#personal-area-section .email-row,
-#personal-area-section .mobile-row,
-#personal-area-section .contact-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-width: 0;
-    padding: 14px 0;
-    border-bottom: 1px solid #edf0f2;
-}
-
-#personal-area-section .email-row:last-child,
-#personal-area-section .mobile-row:last-child,
-#personal-area-section .contact-row:last-child {
-    border-bottom: 0;
-}
-
-#personal-area-section #emailChangeBtn,
-#personal-area-section #mobileEditBtn {
-    flex: 0 0 auto;
-    min-height: 34px;
-    padding: 6px 12px;
-    color: var(--pa-green);
-    background: #ffffff;
-    border: 1px solid #c7ddcf;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-#personal-area-section #emailChangeBtn:hover,
-#personal-area-section #mobileEditBtn:hover {
-    background: var(--pa-green-light);
-}
-
-#personal-area-section #emailChangeDropdown,
-#personal-area-section #mobileChangeDropdown {
-    margin-top: 13px;
-    padding: 17px;
-    background: #f8faf9;
-    border: 1px solid #dce8e0;
+    border: 1px solid #363a43;
     border-radius: 7px;
+    outline: none;
+    background: #101216;
+    color: #f4f5f7;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-#personal-area-section .email-change-actions,
-#personal-area-section .mobile-change-actions,
-#personal-area-section .verification-actions {
+#personaldetailsSection .form-input::placeholder {
+    color: #737985;
+    opacity: 1;
+}
+
+#personaldetailsSection .form-input:focus {
+    border-color: #7b8da9;
+}
+
+#personaldetailsSection .form-input:disabled {
+    background: #202329;
+    color: #b7bbc4;
+    border-color: #30343c;
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+#personaldetailsSection .form-input[readonly] {
+    background: #202329;
+    color: #c9cdd5;
+    cursor: default;
+}
+
+#personaldetailsSection .form-select {
+    appearance: auto;
+    -webkit-appearance: auto;
+    cursor: pointer;
+}
+
+#personaldetailsSection .form-select:disabled {
+    cursor: not-allowed;
+}
+
+#personaldetailsSection .date-picker {
+    color-scheme: dark;
+}
+
+
+/* =========================================================
+   FULL-WIDTH EMAIL AND MOBILE SECTIONS
+   ========================================================= */
+
+#personaldetailsSection .full-width {
+    width: 100%;
+    min-width: 0;
+}
+
+#personaldetailsSection .email-field,
+#personaldetailsSection .mobile-field {
     display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-top: 12px;
+    flex-direction: column;
+    gap: 10px;
 }
 
-#personal-area-section #emailVerifyRow,
-#personal-area-section #mobileVerifyRow {
+#personaldetailsSection .label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+#personaldetailsSection .label-row > label {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    color: #c4c8d0;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+#personaldetailsSection .input-with-btn-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+#personaldetailsSection .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 38px;
+    margin: 0;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+#personaldetailsSection .change-btn {
+    min-height: 32px;
+    padding: 6px 12px;
+    border-color: #3b414b;
+    background: #272b32;
+    color: #e3e6eb;
+}
+
+#personaldetailsSection .change-btn:hover {
+    background: #343943;
+}
+
+#personaldetailsSection .send-btn {
+    border-color: #424954;
+    background: #343943;
+    color: #ffffff;
+}
+
+#personaldetailsSection .send-btn:hover {
+    background: #454b57;
+}
+
+#personaldetailsSection .verify-btn {
+    border-color: #424954;
+    background: #343943;
+    color: #ffffff;
+}
+
+#personaldetailsSection .verify-btn:hover {
+    background: #454b57;
+}
+
+#personaldetailsSection .save-btn {
+    border-color: #687b98;
+    background: #536783;
+    color: #ffffff;
+}
+
+#personaldetailsSection .save-btn:hover:not(:disabled) {
+    background: #627a9c;
+}
+
+#personaldetailsSection .action-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+#personaldetailsSection .action-btn:focus-visible {
+    outline: 2px solid #aab4c4;
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   EMAIL CHANGE PANEL
+   ========================================================= */
+
+#personaldetailsSection .change-dropdown {
+    width: 100%;
+    min-width: 0;
+    margin: 2px 0 0;
+    padding: 14px;
+    border: 1px solid #343943;
+    border-radius: 9px;
+    background: #111318;
+}
+
+#personaldetailsSection .change-dropdown[hidden],
+#personaldetailsSection .otp-row[hidden] {
+    display: none !important;
+}
+
+#personaldetailsSection .email-new-address-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+}
+
+#personaldetailsSection .email-new-address-row > .form-group {
+    min-width: 0;
+}
+
+#personaldetailsSection #emailSendCodeBtn {
+    align-self: end;
+    min-height: 43px;
+}
+
+
+/* =========================================================
+   EMAIL AND MOBILE OTP ROWS
+   ========================================================= */
+
+#personaldetailsSection .otp-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
     margin-top: 14px;
 }
 
-#personal-area-section #emailChangeMessage,
-#personal-area-section #mobileChangeMessage {
-    margin-top: 10px;
-}
-
-#personal-area-section #mobileCountryCode {
-    flex: 0 0 120px;
-    width: 120px;
-}
-
-#personal-area-section .mobile-number-inputs {
-    display: flex;
-    gap: 10px;
+#personaldetailsSection .otp-row > .form-group {
     min-width: 0;
 }
 
-#personal-area-section .mobile-number-inputs > * {
+#personaldetailsSection .otp-input {
+    letter-spacing: 0.5px;
+}
+
+#personaldetailsSection #emailVerifyBtn,
+#personaldetailsSection #mobileVerifyBtn {
+    align-self: end;
+    min-height: 43px;
+}
+
+#personaldetailsSection #saveNewEmailBtn,
+#personaldetailsSection #saveMobileBtn {
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   MOBILE NUMBER ROW
+   Country code + phone number + Save button
+   ========================================================= */
+
+#personaldetailsSection .mobile-number-row {
+    display: grid;
+    grid-template-columns: minmax(112px, 0.85fr) minmax(0, 1.6fr) auto;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
     min-width: 0;
 }
+
+#personaldetailsSection .mobile-number-row .form-input {
+    min-width: 0;
+}
+
+#personaldetailsSection #mobileCountryCode {
+    padding-left: 8px;
+    padding-right: 5px;
+}
+
+#personaldetailsSection #mobileNumber {
+    width: 100%;
+}
+
+#personaldetailsSection #mobileEditBtn {
+    min-width: 64px;
+    min-height: 43px;
+    padding: 9px 12px;
+}
+
 
 /* =========================================================
    STATUS MESSAGES
    ========================================================= */
 
-#personal-area-section #personalDetailsMessage,
-#personal-area-section #emailChangeMessage,
-#personal-area-section #mobileChangeMessage,
-#personal-area-section #idVerificationMessage,
-#personal-area-section #addressVerificationStatusBox,
-#personal-area-section #addressDocumentFileStatus {
+#personaldetailsSection .field-status {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    color: #aeb4bf;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
     overflow-wrap: anywhere;
-    font-size: 13px;
 }
 
-#personal-area-section [data-state="success"] {
-    color: var(--pa-success);
+#personaldetailsSection .field-status:empty {
+    display: none;
 }
 
-#personal-area-section [data-state="error"] {
-    color: var(--pa-danger);
+#personaldetailsSection #emailStatus,
+#personaldetailsSection #mobileStatus {
+    margin-top: -2px;
 }
 
-#personal-area-section [data-state="info"] {
-    color: var(--pa-muted);
+#personaldetailsSection #emailChangeMessage,
+#personaldetailsSection #mobileChangeMessage {
+    margin-top: 10px;
 }
+
+
+/* =========================================================
+   SAVE PERSONAL INFORMATION — BOTTOM RIGHT
+   ========================================================= */
+
+#personaldetailsSection .personal-save-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+    margin-top: -2px;
+    padding-top: 14px;
+    border-top: 1px solid #2d3037;
+}
+
+#personaldetailsSection #saveChangesBtn {
+    align-self: flex-end;
+    min-width: 125px;
+    min-height: 41px;
+}
+
+#personaldetailsSection #personalDetailsMessage {
+    text-align: right;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+#personaldetailsSection .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+
+/* =========================================================
+   TABLET AND SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    #personaldetailsSection .content-box {
+        padding: 14px;
+        border-radius: 10px;
+    }
+
+    #personaldetailsSection .profile-summary {
+        padding: 14px;
+    }
+
+    #personaldetailsSection .profile-avatar-wrapper,
+    #personaldetailsSection .profile-avatar {
+        width: 66px;
+        height: 66px;
+    }
+
+    #personaldetailsSection .profile-avatar-wrapper {
+        flex-basis: 66px;
+    }
+
+    #personaldetailsSection .personal-information-box {
+        gap: 17px;
+    }
+
+    #personaldetailsSection .personal-section-heading {
+        gap: 8px;
+    }
+
+    #personaldetailsSection .personal-section-heading h3 {
+        font-size: 16px;
+    }
+
+    #personaldetailsSection .edit-mode-row {
+        gap: 7px;
+        font-size: 12px;
+    }
+
+    #personaldetailsSection .form-row {
+        gap: 12px;
+    }
+
+    #personaldetailsSection .form-input {
+        min-height: 41px;
+        padding: 9px 10px;
+        font-size: 13px;
+    }
+
+    #personaldetailsSection .action-btn {
+        font-size: 12px;
+        padding: 9px 11px;
+    }
+
+    #personaldetailsSection .email-new-address-row,
+    #personaldetailsSection .otp-row {
+        gap: 8px;
+    }
+
+    #personaldetailsSection .mobile-number-row {
+        grid-template-columns: minmax(94px, 0.9fr) minmax(0, 1.5fr) auto;
+        gap: 6px;
+    }
+
+    #personaldetailsSection #mobileCountryCode {
+        padding-left: 5px;
+        padding-right: 2px;
+        font-size: 12px;
+    }
+
+    #personaldetailsSection #mobileEditBtn {
+        min-width: 55px;
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+}
+
+
+/* =========================================================
+   NARROW MOBILE SCREENS
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    #personaldetailsSection .content-box {
+        padding: 12px;
+    }
+
+    #personaldetailsSection .form-row {
+        gap: 9px;
+    }
+
+    #personaldetailsSection .form-group label,
+    #personaldetailsSection .change-dropdown label {
+        font-size: 12px;
+    }
+
+    #personaldetailsSection .form-input {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    #personaldetailsSection .email-new-address-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 6px;
+    }
+
+    #personaldetailsSection .email-new-address-row .send-btn {
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 11px;
+    }
+
+    #personaldetailsSection .mobile-number-row {
+        grid-template-columns: 88px minmax(0, 1fr) auto;
+        gap: 5px;
+    }
+
+    #personaldetailsSection #mobileCountryCode {
+        font-size: 11px;
+    }
+
+    #personaldetailsSection #mobileEditBtn {
+        min-width: 49px;
+        padding: 8px;
+        font-size: 11px;
+    }
+}
+
+
 
 /* =========================================================
    ID VERIFICATION GUIDELINES
