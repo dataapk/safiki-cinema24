@@ -1150,40 +1150,45 @@
    PROFILE SIDEBAR — TOGGLE / CLOSE
 ===================================================== */
 
-window.openProfileSidebar = function() {
-    const sidebar = document.getElementById("profile-sidebar");
-    if (!sidebar) return;
+```javascript
+// ========================================
+// PROFILE SIDEBAR — OUTSIDE CLICK HANDLER
+// ========================================
 
-    sidebar.classList.add("active");
-};
+document.addEventListener("click", function (e) {
 
-/* =====================================================
-   CLOSE ON OUTSIDE CLICK
-===================================================== */
+    const profileSidebar = document.getElementById("profile-sidebar");
 
-window.closeProfileSidebar = function() {
-    const sidebar = document.getElementById("profile-sidebar");
-    if (!sidebar) return;
+    const profileBtn = document.querySelector(
+        '#user-actions-area .actions-box[onclick*="toggleProfileSidebar"]'
+    );
 
-    sidebar.classList.remove("active");
-};
+    // Sidebar বা Profile button না থাকলে থামবে
+    if (!profileSidebar || !profileBtn) return;
 
-/* =====================================================
-   CLOSE ON ESCAPE
-===================================================== */
+    // Sidebar বন্ধ থাকলে কিছু করার দরকার নেই
+    if (!profileSidebar.classList.contains("active")) return;
 
-window.toggleProfileSidebar = function(event) {
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-
-    const sidebar = document.getElementById("profile-sidebar");
-    if (!sidebar) return;
-
-    if (sidebar.classList.contains("active")) {
+    // Sidebar অথবা Profile button-এর বাইরে ক্লিক হলে বন্ধ হবে
+    if (
+        !profileSidebar.contains(e.target) &&
+        !profileBtn.contains(e.target)
+    ) {
         window.closeProfileSidebar();
-    } else {
-        window.openProfileSidebar();
     }
-};
+
+});
+
+
+// ========================================
+// PROFILE SIDEBAR — ESC KEY HANDLER
+// ========================================
+
+document.addEventListener("keydown", function (e) {
+
+    if (e.key === "Escape") {
+        window.closeProfileSidebar();
+    }
+
+});
+```
