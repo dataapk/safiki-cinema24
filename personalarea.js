@@ -1186,26 +1186,26 @@ window.closeProfileSidebar = function () {
 };
 
 
-// ========================================
 // PROFILE SIDEBAR — OUTSIDE CLICK
-// ========================================
 
-document.addEventListener("click", function (event) {
+document.addEventListener("click", function(e){
 
-    const profileSidebar = document.getElementById("profile-sidebar");
-    const profileButton = document.querySelector(
+    const sidebar = document.getElementById("profile-sidebar");
+    const profileBtn = document.querySelector(
         '#user-actions-area .actions-box[onclick*="toggleProfileSidebar"]'
     );
 
-    if (!profileSidebar) return;
+    if(
+        sidebar &&
+        sidebar.classList.contains("active") &&
+        !sidebar.contains(e.target) &&
+        profileBtn &&
+        !profileBtn.contains(e.target)
+    ){
 
-    if (!profileSidebar.classList.contains("active")) return;
+        window.closeProfileSidebar();
 
-    if (profileSidebar.contains(event.target)) return;
-
-    if (profileButton && profileButton.contains(event.target)) return;
-
-    window.closeProfileSidebar();
+    }
 
 });
 
