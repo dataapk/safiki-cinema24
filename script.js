@@ -439,30 +439,28 @@ if(closeNotification){
 }
 
 // --- Outside Click Handler ---
-window.addEventListener('click',(event)=>{
-    const notificationPanel=document.getElementById('notification-panel');
-    const profileSidebar=document.getElementById('profile-sidebar');
-    const logoutModal=document.getElementById('logout-confirm-popup');
+window.addEventListener('click', (event) => {
 
-    if(notificationPanel&&notificationPanel.classList.contains('active')&&!notificationPanel.
-       contains(event.target)&&!event.target.closest('.notification-btn')){
+    const notificationPanel = document.getElementById('notification-panel');
+    const logoutModal = document.getElementById('logout-confirm-popup');
+
+    // Notification Panel — Outside Click
+    if (
+        notificationPanel &&
+        notificationPanel.classList.contains('active') &&
+        !notificationPanel.contains(event.target) &&
+        !event.target.closest('.notification-btn')
+    ) {
         notificationPanel.classList.remove('active');
     }
 
-    if (
-    profileSidebar &&
-    !profileSidebar.contains(event.target) &&
-    !event.target.closest('.profile-btn')
-) {
-    profileSidebar.classList.remove('active');
-    profileSidebar.style.display = 'none';
-    profileSidebar.style.transform = 'translateX(100%)';
-}
-    if(logoutModal&&event.target===logoutModal){
+    // Logout Modal — Outside Click
+    if (logoutModal && event.target === logoutModal) {
         closeLogoutPopup();
     }
+
 });
-   
+
 // END Outside Click Handler ---
 
 // ======================================
