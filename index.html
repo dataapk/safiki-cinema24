@@ -1338,10 +1338,11 @@
 
     <div class="mobile-number-row">
 
-        <label
-            class="visually-hidden"
-            for="mobileCountryCode">
-            Country calling code
+    <!-- COUNTRY CODE -->
+    <div class="mobile-input-group country-code-group">
+
+        <label for="mobileCountryCode">
+            Country Code
         </label>
 
         <select
@@ -1362,10 +1363,13 @@
 
         </select>
 
-        <label
-            class="visually-hidden"
-            for="mobileNumber">
-            Mobile number
+    </div>
+
+    <!-- MOBILE NUMBER -->
+    <div class="mobile-input-group mobile-number-group">
+
+        <label for="mobileNumber">
+            Mobile Number
         </label>
 
         <input
@@ -1378,15 +1382,18 @@
             maxlength="20"
             placeholder="Enter mobile number">
 
-        <button
-            type="button"
-            id="mobileEditBtn"
-            class="action-btn save-btn"
-            onclick="toggleMobileChange()">
-            Save
-        </button>
-
     </div>
+
+    <!-- SAVE / EDIT BUTTON -->
+    <button
+        type="button"
+        id="mobileEditBtn"
+        class="action-btn save-btn"
+        onclick="toggleMobileChange()">
+        Save
+    </button>
+
+</div>
 
     <p
         id="mobileStatus"
