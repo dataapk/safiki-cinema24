@@ -28,7 +28,8 @@
     margin-left: auto;
     margin-right: auto;
 
-    transform: none;
+    left: 50%;
+transform: translateX(-50%);
 
     overflow-y: auto;
     overflow-x: hidden;
@@ -123,7 +124,8 @@
         width: auto;
         max-width: none;
         margin: 0;
-        transform: none;
+        left: 50%;
+transform: translateX(-50%);
         box-sizing: border-box;
     }
 }
