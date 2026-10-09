@@ -21,7 +21,7 @@
     left: 50%;
     transform: translateX(-50%);
 
-    width: 96%;
+    width: calc(100% - 24px);
     max-width: 760px;
     height: 80vh;
 
