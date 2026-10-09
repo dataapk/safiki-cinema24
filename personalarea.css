@@ -177,6 +177,47 @@
 
 }
 
+/* Profile Sidebar - User ID Header */
+.profile-sidebar-user {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    padding: 16px;
+    margin-bottom: 10px;
+
+    background: #f4f8f5;
+    border: 1px solid #dce9df;
+    border-radius: 10px;
+
+    color: #222;
+    font-size: 14px;
+}
+
+/* User verification status */
+.profile-sidebar-user .verification-status {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+
+    padding: 4px 9px;
+    border-radius: 20px;
+
+    background: #fff4d6;
+    color: #946200;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* User ID number */
+.profile-sidebar-user .user-id {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: #087a3e;
+}
+
 
 /* =====================================================
    MOBILE
