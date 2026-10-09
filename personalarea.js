@@ -1197,20 +1197,26 @@
     if (window.profileSidebarListenersInitialized) return;
     window.profileSidebarListenersInitialized = true;
 
-    document.addEventListener("click", function(event) {
-        if (!isOpen()) return;
+    // Profile Sidebar — Outside Click Fix
+document.addEventListener("click", function(event) {
+    const sidebar = document.getElementById("profile-sidebar");
+    const profileButton = document.querySelector(
+        "#user-actions-area .actions-box:last-child"
+    );
 
-        if (
-            !sidebar.contains(event.target) &&
-            !profileButton.contains(event.target)
-        ) {
-            closeProfileSidebar();
-        }
-    });
+    if (!sidebar || !profileButton) return;
 
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-            closeProfileSidebar();
-        }
-    });
-})();
+    // Sidebar already closed: do nothing.
+    if (!sidebar.classList.contains("active")) return;
+
+    // Keep it open when clicking inside the sidebar or profile button.
+    if (
+        sidebar.contains(event.target) ||
+        profileButton.contains(event.target)
+    ) {
+        return;
+    }
+
+    // Outside click: close the sidebar.
+    sidebar.classList.remove("active");
+});
