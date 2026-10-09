@@ -189,7 +189,7 @@
     #profile-sidebar {
         top: 60px;
         right: 0;
-        width: 280px;
+        width: 240px;
         max-width: 85vw;
         max-height: calc(100vh - 60px);
     }
