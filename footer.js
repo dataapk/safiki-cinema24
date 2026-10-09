@@ -2210,22 +2210,39 @@ window.footerOpenMyBets = footerOpenMyBets;
 
 
 
-// OUTSIDE CLICK
+// ===== OUTSIDE CLICK: FOOTER + PROFILE SIDEBAR =====
+
 document.addEventListener("click", function(e){
 
+    // ===== FOOTER SIDEBAR =====
     const sidebar = document.getElementById("sidebar");
     const menuBtn = document.getElementById("menuBtn");
-
 
     if(
         sidebar &&
         sidebar.classList.contains("active") &&
         !sidebar.contains(e.target) &&
+        menuBtn &&
         !menuBtn.contains(e.target)
     ){
-
         closeFooterSidebar();
+    }
 
+
+    // ===== PROFILE SIDEBAR =====
+    const profileSidebar = document.getElementById("profile-sidebar");
+    const profileBtn = document.querySelector(
+        '#user-actions-area .actions-box[onclick*="toggleProfileSidebar"]'
+    );
+
+    if(
+        profileSidebar &&
+        profileSidebar.classList.contains("active") &&
+        !profileSidebar.contains(e.target) &&
+        profileBtn &&
+        !profileBtn.contains(e.target)
+    ){
+        window.closeProfileSidebar();
     }
 
 });
