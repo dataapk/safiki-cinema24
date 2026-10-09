@@ -1145,59 +1145,45 @@
 })();
 
 
-/* =========================================================
-   PROFILE SIDEBAR — FIX REPEATED OPEN/CLOSE
-   ========================================================= */
 
-(() => {
-    "use strict";
+/* =====================================================
+   PROFILE SIDEBAR — TOGGLE / CLOSE
+===================================================== */
+
+window.toggleProfileSidebar = function(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
 
     const sidebar = document.getElementById("profile-sidebar");
-    const profileButton = document.querySelector(
-        "#user-actions-area .actions-box:last-child"
-    );
 
-    if (!sidebar || !profileButton) {
-        console.warn("Profile Sidebar or profile button not found.");
-        return;
-    }
+    if (!sidebar) return;
 
-    // Use the actual CSS class as the source of truth.
-    function isOpen() {
-        return sidebar.classList.contains("active");
-    }
+    const isOpen = sidebar.classList.contains("active");
 
-    function openProfileSidebar() {
+    if (isOpen) {
+        sidebar.classList.remove("active");
+    } else {
         sidebar.classList.add("active");
     }
+};
 
-    function closeProfileSidebar() {
-        sidebar.classList.remove("active");
-    }
+window.openProfileSidebar = function() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (sidebar) sidebar.classList.add("active");
+};
 
-    function toggleProfileSidebar(event) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
+window.closeProfileSidebar = function() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (sidebar) sidebar.classList.remove("active");
+};
 
-        if (isOpen()) {
-            closeProfileSidebar();
-        } else {
-            openProfileSidebar();
-        }
-    }
 
-    // Expose functions for existing HTML onclick handlers.
-    window.openProfileSidebar = openProfileSidebar;
-    window.closeProfileSidebar = closeProfileSidebar;
-    window.toggleProfileSidebar = toggleProfileSidebar;
+/* =====================================================
+   CLOSE ON OUTSIDE CLICK
+===================================================== */
 
-    // Prevent duplicate listeners if this initialization runs again.
-    if (window.profileSidebarListenersInitialized) return;
-    window.profileSidebarListenersInitialized = true;
-
-    // Profile Sidebar — Outside Click Fix
 document.addEventListener("click", function(event) {
     const sidebar = document.getElementById("profile-sidebar");
     const profileButton = document.querySelector(
@@ -1206,10 +1192,8 @@ document.addEventListener("click", function(event) {
 
     if (!sidebar || !profileButton) return;
 
-    // Sidebar already closed: do nothing.
     if (!sidebar.classList.contains("active")) return;
 
-    // Keep it open when clicking inside the sidebar or profile button.
     if (
         sidebar.contains(event.target) ||
         profileButton.contains(event.target)
@@ -1217,6 +1201,16 @@ document.addEventListener("click", function(event) {
         return;
     }
 
-    // Outside click: close the sidebar.
     sidebar.classList.remove("active");
+});
+
+
+/* =====================================================
+   CLOSE ON ESCAPE
+===================================================== */
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        window.closeProfileSidebar();
+    }
 });
