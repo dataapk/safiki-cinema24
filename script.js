@@ -510,90 +510,57 @@ function closeNotificationView(){
 let isProfileSidebarOpen = false;
 
 // Open
-function openProfileSidebar(){
-
-    const sidebar =
-        document.getElementById("profile-sidebar");
-
-    if(!sidebar) return;
-
-
-    // Sidebar আবার visible করা
-    sidebar.style.display = "block";
-    sidebar.style.transform = "translateX(0)";
-
+// Open Profile Sidebar
+function openProfileSidebar() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (!sidebar) return;
 
     sidebar.classList.add("active");
-
     isProfileSidebarOpen = true;
-
 }
 
-// Close
-function closeProfileSidebar(){
-
-    const sidebar =
-        document.getElementById("profile-sidebar");
-
-    if(!sidebar) return;
+// Close Profile Sidebar
+function closeProfileSidebar() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (!sidebar) return;
 
     sidebar.classList.remove("active");
-
-    sidebar.style.display = "none";
-    sidebar.style.transform = "translateX(100%)";
-
     isProfileSidebarOpen = false;
-
 }
-// Toggle
-function toggleProfileSidebar(event){
+// Toggle Profile Sidebar
+function toggleProfileSidebar(event) {
+    if (event) event.stopPropagation();
 
-    if(event) event.stopPropagation();
-
-    if(isProfileSidebarOpen){
-
+    if (isProfileSidebarOpen) {
         closeProfileSidebar();
-
-    }else{
-
+    } else {
         openProfileSidebar();
-
     }
-
 }
 
-// Outside Click
-document.addEventListener("click",function(e){
-
+// Outside Click - Close Profile Sidebar
+document.addEventListener("click", function (event) {
     const sidebar = document.getElementById("profile-sidebar");
-
     const button = document.querySelector(
         "#user-actions-area .actions-box:last-child"
     );
 
-    if(
+    if (
         isProfileSidebarOpen &&
         sidebar &&
-        !sidebar.contains(e.target) &&
+        !sidebar.contains(event.target) &&
         button &&
-        !button.contains(e.target)
-    ){
-
+        !button.contains(event.target)
+    ) {
         closeProfileSidebar();
-
     }
-
 });
 
-// ESC Key
-document.addEventListener("keydown",function(e){
-
-    if(e.key==="Escape" && isProfileSidebarOpen){
-
+// ESC Key - Close Profile Sidebar
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && isProfileSidebarOpen) {
         closeProfileSidebar();
-
     }
-
 });
 // ==============================
 // PERSONAL AREA
