@@ -16,6 +16,7 @@
 
 #personal-area-section {
     position: fixed;
+   display: none;
 
     top: 65px;
     left: 12px;
@@ -117,18 +118,25 @@ transform: translateX(-50%);
    MOBILE — PERSONAL AREA POPUP
 ========================================= */
 
+/* =========================================
+   MOBILE — PERSONAL AREA POPUP
+========================================= */
+
 @media (max-width: 480px) {
     #personal-area-section {
+        top: 12px;
         left: 10px;
         right: 10px;
+
         width: auto;
         max-width: none;
+        height: calc(100vh - 24px);
+
         margin: 0;
-        left: 50%;
-transform: translateX(-50%);
+        transform: none;
         box-sizing: border-box;
     }
-}
+
     #personal-area-section .personal-tabs {
         gap: 5px;
         margin: 10px;
@@ -139,7 +147,6 @@ transform: translateX(-50%);
         padding: 8px 3px;
     }
 }
-
 /* ========================================
    PROFILE SIDEBAR — SLIDE ANIMATION
 ======================================== */
