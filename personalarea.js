@@ -1158,27 +1158,17 @@ window.toggleProfileSidebar = function(event) {
 
     const sidebar = document.getElementById("profile-sidebar");
 
-    if (!sidebar) return;
+    if (!sidebar) {
+        console.error("Profile sidebar element not found.");
+        return;
+    }
 
-    const isOpen = sidebar.classList.contains("active");
-
-    if (isOpen) {
+    if (sidebar.classList.contains("active")) {
         sidebar.classList.remove("active");
     } else {
         sidebar.classList.add("active");
     }
 };
-
-window.openProfileSidebar = function() {
-    const sidebar = document.getElementById("profile-sidebar");
-    if (sidebar) sidebar.classList.add("active");
-};
-
-window.closeProfileSidebar = function() {
-    const sidebar = document.getElementById("profile-sidebar");
-    if (sidebar) sidebar.classList.remove("active");
-};
-
 
 /* =====================================================
    CLOSE ON OUTSIDE CLICK
