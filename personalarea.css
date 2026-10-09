@@ -14,13 +14,13 @@
 
 #profile-sidebar {
     position: fixed;
-    top: 75px;
+    top: 20px;
     right: 16px;
 
     width: 40vw;
-    max-width: 340px;
-    min-width: 260px;
-    max-height: calc(100vh - 95px);
+    max-width: 280px;
+    min-width: 0;
+    max-height: calc(100vh - 24px);
     overflow-y: auto;
     box-sizing: border-box;
 
@@ -35,7 +35,7 @@
 
     z-index: 9999;
 
-    /* Initially hidden */
+  #profile-sidebar {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -47,7 +47,6 @@
         visibility 0.25s ease;
 }
 
-/* Open state: compatible with an active class */
 #profile-sidebar.active {
     visibility: visible;
     opacity: 1;
