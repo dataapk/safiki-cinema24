@@ -177,45 +177,82 @@
 
 }
 
-/* Profile Sidebar - User ID Header */
-.profile-sidebar-user {
+/* Profile Header */
+.profile-user-text {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-    padding: 16px;
-    margin-bottom: 10px;
-
-    background: #f4f8f5;
-    border: 1px solid #dce9df;
-    border-radius: 10px;
-
-    color: #222;
-    font-size: 14px;
-}
-
-/* User verification status */
-.profile-sidebar-user .verification-status {
-    display: inline-flex;
+    justify-content: center;
     align-items: center;
-    align-self: flex-start;
-
-    padding: 4px 9px;
-    border-radius: 20px;
-
-    background: #fff4d6;
-    color: #946200;
-
-    font-size: 12px;
-    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
 }
 
-/* User ID number */
-.profile-sidebar-user .user-id {
-    font-size: 17px;
+/* User ID + Verification Status */
+.profile-user-id {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.profile-user-id-label {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* Verification status text */
+#profileUserVerificationStatus {
+    color: #facc15;
     font-weight: 700;
-    letter-spacing: 0.4px;
-    color: #087a3e;
+}
+
+/* User ID Value */
+.profile-user-id-value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 6px;
+
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffd54f;
+    text-align: center;
+}
+
+/* Keep the ID text prominent */
+#profileUserId {
+    color: #ffd54f;
+    overflow-wrap: anywhere;
+}
+
+/* Personal Area Close Button - Left Side */
+#closePersonalAreaBtn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    font-size: 24px;
+    line-height: 1;
 }
 
 
