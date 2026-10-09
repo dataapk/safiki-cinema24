@@ -1027,53 +1027,53 @@
     </nav>
 
 
-    <!-- =================================================
-         SECTION 1: PERSONAL DETAILS
-         ================================================= -->
-    <div
-        id="personaldetailsSection"
-        class="personal-tab-content active">
+   <!-- =================================================
+     SECTION 1: PERSONAL DETAILS
+     ================================================= -->
+<div
+    id="personaldetailsSection"
+    class="personal-tab-content active">
 
-        <!-- PROFILE -->
-        <div class="content-box profile-summary">
+    <!-- PROFILE SUMMARY -->
+    <div class="content-box profile-summary">
 
-            <div class="profile-row">
+        <div class="profile-row">
 
-                <div class="profile-avatar-wrapper">
+            <div class="profile-avatar-wrapper">
 
-                    <img
-                        id="profileAvatar"
-                        src="https://dataapk.github.io/safiki-cinema24/default-avatar.png"
-                        alt="Profile avatar"
-                        class="profile-avatar">
+                <img
+                    id="profileAvatar"
+                    src="https://dataapk.github.io/safiki-cinema24/default-avatar.png"
+                    alt="Profile avatar"
+                    class="profile-avatar">
 
-                    <button
-                        type="button"
-                        id="changeAvatarBtn"
-                        class="change-avatar-btn"
-                        onclick="changeAvatar()"
-                        aria-label="Change profile picture">
-                        <i class="fas fa-camera" aria-hidden="true"></i>
-                    </button>
+                <button
+                    type="button"
+                    id="changeAvatarBtn"
+                    class="change-avatar-btn"
+                    onclick="changeAvatar()"
+                    aria-label="Change profile picture">
+                    <i class="fas fa-camera" aria-hidden="true"></i>
+                </button>
 
-                    <input
-                        type="file"
-                        id="profileAvatarInput"
-                        accept="image/jpeg,image/png,image/webp"
-                        hidden>
+                <input
+                    type="file"
+                    id="profileAvatarInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden>
 
-                </div>
+            </div>
 
-                <div class="profile-info">
+            <div class="profile-info">
 
-                    <p class="label-small">Member Since</p>
+                <div class="member-since-row">
 
-                    <p
+                    <span class="label-small">Member Since</span>
+
+                    <span
                         id="memberSince"
                         class="member-text"
-                        aria-live="polite">
-                        —
-                    </p>
+                        aria-live="polite">—</span>
 
                 </div>
 
@@ -1081,15 +1081,17 @@
 
         </div>
 
+    </div>
 
-        <!-- PERSONAL INFORMATION -->
-        <div class="content-box personal-information-box">
 
-            <div class="personal-section-heading">
-                <h3>Personal Information</h3>
-            </div>
+    <!-- PERSONAL INFORMATION -->
+    <div class="content-box personal-information-box">
 
-            <!-- EDIT MODE -->
+        <!-- HEADING + EDIT TOGGLE -->
+        <div class="personal-section-heading">
+
+            <h3>Personal Information</h3>
+
             <div class="edit-mode-row">
 
                 <span id="editLabel">Edit</span>
@@ -1110,124 +1112,128 @@
 
             </div>
 
+        </div>
 
-            <!-- FIRST NAME / SURNAME -->
-            <div class="form-row">
 
-                <div class="form-group first-name">
+        <!-- FIRST NAME / SURNAME -->
+        <div class="form-row">
 
-                    <label for="firstName">First Name</label>
+            <div class="form-group first-name">
 
-                    <input
-                        type="text"
-                        id="firstName"
-                        name="first_name"
-                        class="form-input"
-                        autocomplete="given-name"
-                        maxlength="100"
-                        disabled>
+                <label for="firstName">First Name</label>
 
-                </div>
-
-                <div class="form-group surname">
-
-                    <label for="surname">Surname</label>
-
-                    <input
-                        type="text"
-                        id="surname"
-                        name="last_name"
-                        class="form-input"
-                        autocomplete="family-name"
-                        maxlength="100"
-                        disabled>
-
-                </div>
+                <input
+                    type="text"
+                    id="firstName"
+                    name="first_name"
+                    class="form-input"
+                    autocomplete="given-name"
+                    maxlength="100"
+                    disabled>
 
             </div>
 
+            <div class="form-group surname">
 
-            <!-- DATE OF BIRTH / GENDER -->
-            <div class="form-row">
+                <label for="surname">Surname</label>
 
-                <div class="form-group">
-
-                    <label for="dateOfBirth">Date of Birth</label>
-
-                    <input
-                        type="date"
-                        id="dateOfBirth"
-                        name="date_of_birth"
-                        class="form-input date-picker"
-                        disabled>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="gender">Gender</label>
-
-                    <select
-                        id="gender"
-                        name="gender"
-                        class="form-input form-select"
-                        disabled>
-
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                        <option value="prefer_not_to_say">Prefer not to say</option>
-
-                    </select>
-
-                </div>
+                <input
+                    type="text"
+                    id="surname"
+                    name="last_name"
+                    class="form-input"
+                    autocomplete="family-name"
+                    maxlength="100"
+                    disabled>
 
             </div>
 
-
-            <!-- EMAIL -->
-            <div class="form-group full-width email-field">
-
-                <div class="label-row">
-
-                    <label for="currentEmail">Email Address</label>
-
-                    <button
-                        type="button"
-                        id="emailChangeBtn"
-                        class="action-btn change-btn"
-                        onclick="toggleEmailChange()">
-                        Edit
-                    </button>
-
-                </div>
-
-                <div class="input-with-btn-wrapper">
-
-                    <input
-                        type="email"
-                        id="currentEmail"
-                        name="email"
-                        class="form-input"
-                        autocomplete="email"
-                        readonly
-                        aria-describedby="emailStatus">
-
-                </div>
-
-                <p
-                    id="emailStatus"
-                    class="field-status"
-                    aria-live="polite">
-                </p>
+        </div>
 
 
-                <!-- EMAIL CHANGE PANEL -->
-                <div
-                    id="emailChangeDropdown"
-                    class="change-dropdown"
-                    hidden>
+        <!-- DATE OF BIRTH / GENDER -->
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label for="dateOfBirth">Date of Birth</label>
+
+                <input
+                    type="date"
+                    id="dateOfBirth"
+                    name="date_of_birth"
+                    class="form-input date-picker"
+                    disabled>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="gender">Gender</label>
+
+                <select
+                    id="gender"
+                    name="gender"
+                    class="form-input form-select"
+                    disabled>
+
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMAIL ADDRESS -->
+        <div class="form-group full-width email-field">
+
+            <div class="label-row">
+
+                <label for="currentEmail">Email Address</label>
+
+                <button
+                    type="button"
+                    id="emailChangeBtn"
+                    class="action-btn change-btn"
+                    onclick="toggleEmailChange()">
+                    Edit
+                </button>
+
+            </div>
+
+            <div class="input-with-btn-wrapper">
+
+                <input
+                    type="email"
+                    id="currentEmail"
+                    name="email"
+                    class="form-input"
+                    autocomplete="email"
+                    readonly
+                    aria-describedby="emailStatus">
+
+            </div>
+
+            <p
+                id="emailStatus"
+                class="field-status"
+                aria-live="polite">
+            </p>
+
+
+            <!-- EMAIL CHANGE PANEL -->
+            <div
+                id="emailChangeDropdown"
+                class="change-dropdown"
+                hidden>
+
+                <div class="email-new-address-row">
 
                     <div class="form-group">
 
@@ -1247,207 +1253,54 @@
                         id="emailSendCodeBtn"
                         class="action-btn send-btn"
                         onclick="sendEmailOtp()">
-                        Send Confirmation Code
-                    </button>
-
-                    <div
-                        id="emailVerifyRow"
-                        class="otp-row"
-                        hidden>
-
-                        <div class="form-group">
-
-                            <label for="emailOtpInput">
-                                Confirmation Code
-                            </label>
-
-                            <input
-                                type="text"
-                                id="emailOtpInput"
-                                class="form-input otp-input"
-                                inputmode="numeric"
-                                autocomplete="one-time-code"
-                                maxlength="10"
-                                placeholder="Enter confirmation code">
-
-                        </div>
-
-                        <button
-                            type="button"
-                            id="emailVerifyBtn"
-                            class="action-btn verify-btn"
-                            onclick="verifyEmailOtp()">
-                            Verify Code
-                        </button>
-
-                    </div>
-
-                    <button
-                        type="button"
-                        id="saveNewEmailBtn"
-                        class="action-btn save-btn"
-                        onclick="saveNewEmail()"
-                        disabled>
-                        Confirm Email Change
-                    </button>
-
-                    <p
-                        id="emailChangeMessage"
-                        class="field-status"
-                        aria-live="polite">
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- MOBILE NUMBER -->
-            <div class="form-group full-width mobile-field">
-
-                <div class="label-row">
-
-                    <label for="mobileNumber">Mobile Number</label>
-
-                    <button
-                        type="button"
-                        id="mobileEditBtn"
-                        class="action-btn change-btn"
-                        onclick="toggleMobileChange()">
-                        Edit
+                        Send Code
                     </button>
 
                 </div>
 
-                <div class="mobile-number-row">
-
-                    <label class="visually-hidden" for="mobileCountryCode">
-                        Country calling code
-                    </label>
-
-                    <select
-                        id="mobileCountryCode"
-                        name="mobile_country_code"
-                        class="form-input form-select"
-                        disabled>
-
-                        <option value="+880" data-country="BD">🇧🇩 +880 (BD)</option>
-                        <option value="+91" data-country="IN">🇮🇳 +91 (IN)</option>
-                        <option value="+92" data-country="PK">🇵🇰 +92 (PK)</option>
-                        <option value="+94" data-country="LK">🇱🇰 +94 (LK)</option>
-                        <option value="+977" data-country="NP">🇳🇵 +977 (NP)</option>
-                        <option value="+60" data-country="MY">🇲🇾 +60 (MY)</option>
-                        <option value="+66" data-country="TH">🇹🇭 +66 (TH)</option>
-                        <option value="+971" data-country="AE">🇦🇪 +971 (AE)</option>
-                        <option value="+966" data-country="SA">🇸🇦 +966 (SA)</option>
-                        <option value="+44" data-country="GB">🇬🇧 +44 (UK)</option>
-
-                    </select>
-
-                    <label class="visually-hidden" for="mobileNumber">
-                        Mobile number
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="mobileNumber"
-                        name="mobile_number"
-                        class="form-input"
-                        autocomplete="tel-national"
-                        inputmode="tel"
-                        maxlength="20"
-                        placeholder="Enter mobile number"
-                        disabled>
-
-                </div>
-
-                <p
-                    id="mobileStatus"
-                    class="field-status"
-                    aria-live="polite">
-                </p>
-
-
-                <!-- MOBILE VERIFICATION PANEL -->
                 <div
-                    id="mobileChangeDropdown"
-                    class="change-dropdown"
+                    id="emailVerifyRow"
+                    class="otp-row"
                     hidden>
 
-                    <button
-                        type="button"
-                        id="mobileSendCodeBtn"
-                        class="action-btn send-btn"
-                        onclick="sendMobileOtp()">
-                        Send SMS Code
-                    </button>
+                    <div class="form-group">
 
-                    <div
-                        id="mobileVerifyRow"
-                        class="otp-row"
-                        hidden>
+                        <label for="emailOtpInput">
+                            Confirmation Code
+                        </label>
 
-                        <div class="form-group">
-
-                            <label for="mobileOtpInput">
-                                SMS Confirmation Code
-                            </label>
-
-                            <input
-                                type="text"
-                                id="mobileOtpInput"
-                                class="form-input otp-input"
-                                inputmode="numeric"
-                                autocomplete="one-time-code"
-                                maxlength="10"
-                                placeholder="Enter SMS code">
-
-                        </div>
-
-                        <button
-                            type="button"
-                            id="mobileVerifyBtn"
-                            class="action-btn verify-btn"
-                            onclick="verifyMobileOtp()">
-                            Verify Code
-                        </button>
+                        <input
+                            type="text"
+                            id="emailOtpInput"
+                            class="form-input otp-input"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            maxlength="10"
+                            placeholder="Enter confirmation code">
 
                     </div>
 
                     <button
                         type="button"
-                        id="saveMobileBtn"
-                        class="action-btn save-btn"
-                        onclick="saveMobileNumber()"
-                        disabled>
-                        Save Mobile Number
+                        id="emailVerifyBtn"
+                        class="action-btn verify-btn"
+                        onclick="verifyEmailOtp()">
+                        Verify Code
                     </button>
 
-                    <p
-                        id="mobileChangeMessage"
-                        class="field-status"
-                        aria-live="polite">
-                    </p>
-
                 </div>
-
-            </div>
-
-
-            <!-- SAVE PERSONAL INFORMATION -->
-            <div class="personal-save-row">
 
                 <button
                     type="button"
-                    id="saveChangesBtn"
+                    id="saveNewEmailBtn"
                     class="action-btn save-btn"
-                    onclick="saveAllChanges()"
+                    onclick="saveNewEmail()"
                     disabled>
-                    Save Changes
+                    Confirm Email Change
                 </button>
 
                 <p
-                    id="personalDetailsMessage"
+                    id="emailChangeMessage"
                     class="field-status"
                     aria-live="polite">
                 </p>
@@ -1456,7 +1309,166 @@
 
         </div>
 
+
+        <!-- MOBILE NUMBER -->
+        <div class="form-group full-width mobile-field">
+
+            <div class="label-row">
+
+                <label for="mobileNumber">Mobile Number</label>
+
+            </div>
+
+            <div class="mobile-number-row">
+
+                <label
+                    class="visually-hidden"
+                    for="mobileCountryCode">
+                    Country calling code
+                </label>
+
+                <select
+                    id="mobileCountryCode"
+                    name="mobile_country_code"
+                    class="form-input form-select"
+                    disabled>
+
+                    <option value="+880" data-country="BD">🇧🇩 +880 (BD)</option>
+                    <option value="+91" data-country="IN">🇮🇳 +91 (IN)</option>
+                    <option value="+92" data-country="PK">🇵🇰 +92 (PK)</option>
+                    <option value="+94" data-country="LK">🇱🇰 +94 (LK)</option>
+                    <option value="+977" data-country="NP">🇳🇵 +977 (NP)</option>
+                    <option value="+60" data-country="MY">🇲🇾 +60 (MY)</option>
+                    <option value="+66" data-country="TH">🇹🇭 +66 (TH)</option>
+                    <option value="+971" data-country="AE">🇦🇪 +971 (AE)</option>
+                    <option value="+966" data-country="SA">🇸🇦 +966 (SA)</option>
+                    <option value="+44" data-country="GB">🇬🇧 +44 (UK)</option>
+
+                </select>
+
+                <label
+                    class="visually-hidden"
+                    for="mobileNumber">
+                    Mobile number
+                </label>
+
+                <input
+                    type="tel"
+                    id="mobileNumber"
+                    name="mobile_number"
+                    class="form-input"
+                    autocomplete="tel-national"
+                    inputmode="tel"
+                    maxlength="20"
+                    placeholder="Enter mobile number"
+                    disabled>
+
+                <button
+                    type="button"
+                    id="mobileEditBtn"
+                    class="action-btn save-btn"
+                    onclick="toggleMobileChange()">
+                    Save
+                </button>
+
+            </div>
+
+            <p
+                id="mobileStatus"
+                class="field-status"
+                aria-live="polite">
+            </p>
+
+
+            <!-- MOBILE VERIFICATION PANEL -->
+            <div
+                id="mobileChangeDropdown"
+                class="change-dropdown"
+                hidden>
+
+                <button
+                    type="button"
+                    id="mobileSendCodeBtn"
+                    class="action-btn send-btn"
+                    onclick="sendMobileOtp()">
+                    Send SMS Code
+                </button>
+
+                <div
+                    id="mobileVerifyRow"
+                    class="otp-row"
+                    hidden>
+
+                    <div class="form-group">
+
+                        <label for="mobileOtpInput">
+                            SMS Confirmation Code
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mobileOtpInput"
+                            class="form-input otp-input"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            maxlength="10"
+                            placeholder="Enter SMS code">
+
+                    </div>
+
+                    <button
+                        type="button"
+                        id="mobileVerifyBtn"
+                        class="action-btn verify-btn"
+                        onclick="verifyMobileOtp()">
+                        Verify Code
+                    </button>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="saveMobileBtn"
+                    class="action-btn save-btn"
+                    onclick="saveMobileNumber()"
+                    disabled>
+                    Verify &amp; Save
+                </button>
+
+                <p
+                    id="mobileChangeMessage"
+                    class="field-status"
+                    aria-live="polite">
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SAVE PERSONAL INFORMATION -->
+        <div class="personal-save-row">
+
+            <button
+                type="button"
+                id="saveChangesBtn"
+                class="action-btn save-btn"
+                onclick="saveAllChanges()"
+                disabled>
+                Save Changes
+            </button>
+
+            <p
+                id="personalDetailsMessage"
+                class="field-status"
+                aria-live="polite">
+            </p>
+
+        </div>
+
     </div>
+
+</div>
 
 
     <!-- =================================================
