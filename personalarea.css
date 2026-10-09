@@ -77,41 +77,61 @@
     cursor: pointer;
 }
 
-/* ========================================= */
-/* PERSONAL AREA TABS */
-/* ========================================= */
+/* =========================================
+   PERSONAL AREA - NO TAB SCROLL
+========================================= */
 
 #personal-area-section .personal-tabs {
     display: flex;
-    gap: 10px;
-
-    margin: 14px;
-    flex-shrink: 0;
-}
-
-/* ========================================= */
-/* PERSONAL AREA CONTENT */
-/* ========================================= */
-
-#personal-area-section .personal-tab-content {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    width: auto;
+    max-width: 100%;
     box-sizing: border-box;
 }
 
-/* ========================================= */
-/* MOBILE */
-/* ========================================= */
+#personal-area-section .personal-tab-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: nowrap;
+}
 
-@media (max-width: 600px) {
-    #personal-area-section {
-        top: 12px;
-        width: 96%;
-        height: calc(100vh - 24px);
-        border-radius: 12px;
-    }
+/* =========================================
+   PERSONAL AREA - HEADER STAYS VISIBLE
+========================================= */
 
-    #personal-area-section .personal-tabs {
-        gap: 6px;
-        margin: 10px;
+#personal-area-section {
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header and tabs remain outside the scrolling area */
+#personal-area-section > .personal-area-header,
+#personal-area-section > .personal-tabs {
+    flex-shrink: 0;
+}
+
+/* =========================================
+   CONTENT AREA
+========================================= */
+
+#personal-area-section .personal-tab-content.active {
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 1 auto;
+}
+
+/* =========================================
+   MOBILE TAB TEXT
+========================================= */
+
+@media (max-width: 480px) {
+    #personal-area-section .personal-tab-btn {
+        font-size: 11px;
+        padding-left: 4px;
+        padding-right: 4px;
     }
 }
 
