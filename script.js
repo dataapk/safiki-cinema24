@@ -506,6 +506,7 @@ function closeNotificationView(){
 // ======================================
 // PROFILE SIDEBAR
 // ======================================
+let isProfileSidebarOpen = false;
 
 // Open
 // Open Profile Sidebar
