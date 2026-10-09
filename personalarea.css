@@ -16,6 +16,7 @@
 
 #personal-area-section {
     position: fixed;
+
     top: 65px;
     left: 50%;
     transform: translateX(-50%);
@@ -24,12 +25,12 @@
     max-width: 760px;
     height: 80vh;
 
-    display: none;
-    flex-direction: column;
+    overflow-y: auto;
 
-    overflow: hidden;
-    box-sizing: border-box;
+    display: none;
+
     border-radius: 16px;
+    box-sizing: border-box;
 
     z-index: 99999;
 }
@@ -41,7 +42,6 @@
 #personal-area-section .personal-area-header {
     position: relative;
 
-    flex: 0 0 54px;
     height: 54px;
     min-height: 54px;
 
@@ -50,7 +50,7 @@
     justify-content: center;
 
     margin: 0;
-    padding: 0 48px;
+    padding: 0 48px 0 16px;
 
     box-sizing: border-box;
 }
@@ -61,11 +61,10 @@
     text-align: center;
 }
 
-/* Close button on LEFT */
 #personal-area-section .personal-area-close-btn {
     position: absolute;
-    left: 12px;
-    right: auto;
+
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
 
@@ -80,35 +79,14 @@
     cursor: pointer;
 }
 
-/* =========================================
-   TABS - NO SCROLL
-========================================= */
 
-#personal-area-section .personal-tabs {
-    flex: 0 0 auto;
-
-    display: flex;
-    flex-wrap: nowrap;
-
-    overflow: hidden;
-    margin: 14px;
-    gap: 8px;
-
-    box-sizing: border-box;
-}
-
-#personal-area-section .personal-tab-btn {
-    flex: 1 1 0;
-    min-width: 0;
-    white-space: normal;
-}
 
 /* =========================================
    CONTENT - SCROLL AREA
 ========================================= */
 
 #personal-area-section .personal-tab-content {
-    display: none;
+    box-sizing: border-box;
 }
 
 #personal-area-section .personal-tab-content.active {
