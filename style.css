@@ -563,15 +563,69 @@ body.modal-open{
     cursor: pointer;
 }
 
+
+   /* Profile dropdown — hidden by default */
+.profile-dropdown,
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+
+    width: 260px;
+    max-width: calc(100vw - 24px);
+    height: auto;
+    max-height: min(70vh, 500px);
+    overflow-y: auto;
+
+    background: #ffffff;
+    color: #20272e;
+    border: 1px solid #e0e5e9;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    z-index: 9999;
+}
+
+/* Show only when JavaScript adds .active */
+.profile-dropdown.active,
+.profile-menu.active {
+    display: block;
+}
+
+/* Menu items */
+.profile-dropdown a,
+.profile-menu a,
+.profile-dropdown button,
+.profile-menu button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    text-decoration: none;
+}
+
+.profile-dropdown a:hover,
+.profile-menu a:hover,
+.profile-dropdown button:hover,
+.profile-menu button:hover {
+    background: #f0f7f2;
+}
+
+/* The profile button's wrapper must anchor the dropdown */
+.profile-container,
+.profile-wrapper {
+    position: relative;
+}
+
 /* =====================================================
    PROFILE MENU PANEL FINAL
 ===================================================== */
-/* ===========================
-   PROFILE MENU SIDEBAR
-=========================== */
-/* ==========================================
-   PROFILE SIDEBAR
-========================================== */
+
 
 
 /* ==========================================
