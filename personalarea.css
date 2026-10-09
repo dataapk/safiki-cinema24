@@ -1178,59 +1178,54 @@ transform: translateX(-50%);
     min-width: 0;
 }
 
-/* ========================================
-   MOBILE NUMBER — COMPACT HORIZONTAL LAYOUT
-======================================== */
+/* MOBILE NUMBER — LABELS ABOVE INPUTS */
 
 #personaldetailsSection .mobile-field {
     width: 100%;
     min-width: 0;
-    margin-bottom: 14px;
     box-sizing: border-box;
 }
 
 #personaldetailsSection .mobile-field .label-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 7px;
+    margin-bottom: 10px;
 }
 
-#personaldetailsSection .mobile-field .label-row label {
-    color: #30343b;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-/* Country code + mobile number + button */
+/* Country code + Mobile number + Save */
 
 #personaldetailsSection .mobile-number-row {
     display: flex;
-    align-items: stretch;
-    gap: 8px;
+    align-items: flex-end;
+    gap: 10px;
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
 }
 
-/* Country calling code */
+/* Each input has its own label above the box */
 
-#personaldetailsSection #mobileCountryCode {
-    flex: 0 0 128px;
-    width: 128px;
-    min-width: 0;
-    height: 40px;
-    padding: 0 8px;
-    border: 1px solid #d8dce2;
-    border-radius: 5px;
-    background-color: #ffffff;
-    color: #30343b;
-    font-size: 13px;
-    box-sizing: border-box;
-    cursor: pointer;
+#personaldetailsSection .mobile-number-row > .form-input,
+#personaldetailsSection .mobile-number-row > select,
+#personaldetailsSection .mobile-number-row > input {
+    margin-top: 0;
 }
 
-/* Mobile number input */
+/* Small country code box */
+
+#personaldetailsSection #mobileCountryCode {
+    flex: 0 0 125px;
+    width: 125px;
+    min-width: 0;
+    height: 40px;
+    padding: 0 7px;
+    border: 1px solid #d8dce2;
+    border-radius: 5px;
+    background: #fff;
+    color: #30343b;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+/* Larger mobile number box */
 
 #personaldetailsSection #mobileNumber {
     flex: 1 1 auto;
@@ -1240,195 +1235,54 @@ transform: translateX(-50%);
     padding: 0 11px;
     border: 1px solid #d8dce2;
     border-radius: 5px;
-    background-color: #ffffff;
+    background: #fff;
     color: #30343b;
     font-size: 13px;
     box-sizing: border-box;
-    outline: none;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
-}
-
-#personaldetailsSection #mobileNumber::placeholder {
-    color: #969da8;
-    opacity: 1;
 }
 
 #personaldetailsSection #mobileNumber:focus,
 #personaldetailsSection #mobileCountryCode:focus {
+    outline: none;
     border-color: #2878d0;
-    box-shadow: 0 0 0 2px rgba(40, 120, 208, 0.10);
+    box-shadow: 0 0 0 2px rgba(40, 120, 208, 0.1);
 }
 
-/* Save / Edit button */
+/* Save button on the right */
 
 #personaldetailsSection #mobileEditBtn {
     flex: 0 0 72px;
     width: 72px;
     min-width: 72px;
     height: 40px;
-    padding: 0 10px;
+    padding: 0 8px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #176b43;
     border-radius: 5px;
-    background-color: #176b43;
-    color: #ffffff;
+    background: #176b43;
+    color: #fff;
     font-size: 13px;
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
 }
 
-#personaldetailsSection #mobileEditBtn:hover {
-    background-color: #125536;
-    border-color: #125536;
-}
+/* Verified state */
 
-#personaldetailsSection #mobileEditBtn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
-/* General status message */
-
-#personaldetailsSection #mobileStatus,
-#personaldetailsSection #mobileChangeMessage {
-    margin-top: 6px;
-    font-size: 12px;
-    line-height: 1.45;
-    overflow-wrap: anywhere;
-}
-
-/* Verification dropdown */
-
-#personaldetailsSection #mobileChangeDropdown {
-    margin-top: 10px;
-    padding: 12px;
-    border: 1px solid #e0e4e9;
-    border-radius: 6px;
-    background-color: #fafbfc;
-    box-sizing: border-box;
-}
-
-#personaldetailsSection #mobileChangeDropdown[hidden],
-#personaldetailsSection #mobileVerifyRow[hidden] {
-    display: none !important;
-}
-
-/* Send SMS Code */
-
-#personaldetailsSection #mobileSendCodeBtn {
-    min-height: 36px;
-    padding: 0 12px;
-    border: 1px solid #d8dce2;
-    border-radius: 5px;
-    background-color: #ffffff;
-    color: #30343b;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-/* OTP input + Verify button */
-
-#personaldetailsSection #mobileVerifyRow {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-#personaldetailsSection #mobileVerifyRow .form-group {
-    flex: 1 1 auto;
-    min-width: 0;
-    margin-bottom: 0;
-}
-
-#personaldetailsSection #mobileOtpInput {
-    width: 100%;
-    min-width: 0;
-    height: 38px;
-    padding: 0 10px;
-    border: 1px solid #d8dce2;
-    border-radius: 5px;
-    background-color: #ffffff;
-    color: #30343b;
-    font-size: 13px;
-    box-sizing: border-box;
-}
-
-#personaldetailsSection #mobileVerifyBtn {
-    flex: 0 0 auto;
-    min-height: 38px;
-    padding: 0 12px;
-    border: 1px solid #2878d0;
-    border-radius: 5px;
-    background-color: #2878d0;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-/* Verify & Save */
-
-#personaldetailsSection #saveMobileBtn {
-    min-height: 36px;
-    margin-top: 10px;
-    padding: 0 14px;
-    border: 1px solid #176b43;
-    border-radius: 5px;
-    background-color: #176b43;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-#personaldetailsSection #saveMobileBtn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* ========================================
-   VERIFIED STATE — GREEN
-   Add class "is-verified" after real verification
-======================================== */
-
-#personaldetailsSection .mobile-field.is-verified #mobileNumber,
-#personaldetailsSection .mobile-field.is-verified #mobileCountryCode {
+#personaldetailsSection .mobile-field.is-verified #mobileCountryCode,
+#personaldetailsSection .mobile-field.is-verified #mobileNumber {
     border-color: #26945f;
-    background-color: #f1faf4;
-}
-
-#personaldetailsSection .mobile-field.is-verified #mobileNumber:focus {
-    box-shadow: 0 0 0 2px rgba(38, 148, 95, 0.12);
+    background: #f1faf4;
 }
 
 #personaldetailsSection .mobile-field.is-verified #mobileEditBtn {
     border-color: #26945f;
-    background-color: #26945f;
+    background: #26945f;
 }
 
-#personaldetailsSection .mobile-field.is-verified #mobileEditBtn:hover {
-    border-color: #197647;
-    background-color: #197647;
-}
-
-#personaldetailsSection .mobile-field.is-verified #mobileStatus {
-    color: #197647;
-}
-
-/* ========================================
-   SMALL SCREENS
-======================================== */
+/* Mobile screens */
 
 @media (max-width: 480px) {
     #personaldetailsSection .mobile-number-row {
@@ -1436,44 +1290,17 @@ transform: translateX(-50%);
     }
 
     #personaldetailsSection #mobileCountryCode {
-        flex-basis: 112px;
-        width: 112px;
-        padding: 0 5px;
-        font-size: 12px;
-    }
-
-    #personaldetailsSection #mobileNumber {
-        padding: 0 8px;
-        font-size: 12px;
-    }
-
-    #personaldetailsSection #mobileEditBtn {
-        flex-basis: 62px;
-        width: 62px;
-        min-width: 62px;
-        padding: 0 6px;
-        font-size: 12px;
-    }
-
-    #personaldetailsSection #mobileChangeDropdown {
-        padding: 9px;
-    }
-}
-
-@media (max-width: 340px) {
-    #personaldetailsSection #mobileCountryCode {
-        flex-basis: 96px;
-        width: 96px;
-    }
-
-    #personaldetailsSection #mobileEditBtn {
-        flex-basis: 54px;
-        width: 54px;
-        min-width: 54px;
+        flex-basis: 105px;
+        width: 105px;
         font-size: 11px;
     }
-}
 
+    #personaldetailsSection #mobileEditBtn {
+        flex-basis: 60px;
+        width: 60px;
+        min-width: 60px;
+    }
+}
 #
 /* =========================================================
    ID VERIFICATION GUIDELINES
