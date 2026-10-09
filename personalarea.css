@@ -1250,12 +1250,15 @@ transform: translateX(-50%);
 
 /* Save button on the right */
 
+/* Save button — aligned with input boxes */
+
 #personaldetailsSection #mobileEditBtn {
     flex: 0 0 72px;
     width: 72px;
     min-width: 72px;
     height: 40px;
     padding: 0 8px;
+    margin-top: 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
