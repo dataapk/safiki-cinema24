@@ -1,817 +1,1145 @@
+/* =========================================================
+   PERSONAL AREA — COMPLETE JAVASCRIPT
+   Requires: Existing HTML + initialized Supabase client
+   ========================================================= */
 
-/* ========================================= */
-/* ID VERIFICATION — FULL JAVASCRIPT         */
-/* ========================================= */
+(() => {
+    "use strict";
 
-/*
- * NOTE: Replace demo/simulation sections with your backend API calls.
- * All function names match the HTML onclick handlers exactly.
- */
+    const supabase = window.supabaseClient;
 
-/* ========================================= */
-/* GLOBAL STATE                              */
-/* ========================================= */
+    const CONFIG = {
+        table: "user_data",
 
-const KycState = {
-  country: '',
-  countryCode: '',
-  frontImage: null,
-  backImage: null,
-  selfieImage: null,
-  cameraStream: null,
-  isCameraActive: false,
-  verificationStatus: {
-    idUploaded: false,
-    faceMatched: false,
-    verified: false
-  }
-};
+        // Change these only if your Supabase names are different.
+        avatarBucket: "profile-avatars",
+        idDocumentBucket: "id-verification",
+        addressDocumentBucket: "proof-documents",
 
-/* ========================================= */
-/* UTILITY FUNCTIONS                         */
-/* ========================================= */
+        maxFileSize: 5 * 1024 * 1024,
+        allowedFileTypes: [
+            "image/jpeg",
+            "image/png",
+            "application/pdf"
+        ]
+    };
 
-function formatCurrency(amount) {
-  if (amount === undefined || amount === null) return '৳ 0.00';
-  return '৳ ' + Number(amount).toLocaleString('en-BD', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-}
+    let currentUser = null;
+    let profileData = null;
 
-function padZero(num) {
-  return num < 10 ? '0' + num : String(num);
-}
+    let profileEditMode = false;
+    let emailVerified = false;
+    let mobileVerified = false;
 
-function showToast(message, type = 'success') {
-  const existing = document.querySelector('.kyc-toast');
-  if (existing) existing.remove();
+    let pendingEmail = "";
+    let pendingMobile = "";
 
-  const toast = document.createElement('div');
-  toast.className = 'kyc-toast';
-  
-  const iconMap = {
-    success: 'fa-check-circle',
-    error: 'fa-times-circle',
-    info: 'fa-info-circle',
-    warning: 'fa-exclamation-triangle'
-  };
-  
-  const colorMap = {
-    success: 'linear-gradient(135deg, #14805e, #1a9e75)',
-    error: 'linear-gradient(135deg, #e74c3c, #ff5252)',
-    info: 'linear-gradient(135deg, #2979ff, #448aff)',
-    warning: 'linear-gradient(135deg, #f39c12, #ffcc00)'
-  };
+    let idFrontFile = null;
+    let idBackFile = null;
+    let facePhotoBlob = null;
+    let addressDocument = null;
 
-  toast.innerHTML = `<i class="fas ${iconMap[type] || iconMap.success}"></i> <span>${message}</span>`;
-  toast.style.cssText = `
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100px);
-    background: ${colorMap[type] || colorMap.success};
-    color: #fff;
-    padding: 14px 28px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 14px;
-    z-index: 9999;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  `;
+    let selectedAddressDocumentType = "";
+    let cameraStream = null;
 
-  document.body.appendChild(toast);
+    const $ = (id) => document.getElementById(id);
 
-  requestAnimationFrame(() => {
-    toast.style.transform = 'translateX(-50%) translateY(0)';
-  });
+    function setMessage(id, message, type = "info") {
+        const element = $(id);
+        if (!element) return;
 
-  setTimeout(() => {
-    toast.style.transform = 'translateX(-50%) translateY(-100px)';
-    toast.style.opacity = '0';
-    setTimeout(() => toast.remove(), 400);
-  }, 3000);
-}
-
-/* ========================================= */
-/* COUNTRY SELECTION                         */
-/* ========================================= */
-
-/**
- * Update KYC requirements based on selected country
- * Called when country dropdown changes
- */
-function updateKycRequirements() {
-  const select = document.getElementById('kycCountrySelect');
-  if (!select) return;
-
-  const selectedOption = select.options[select.selectedIndex];
-  const countryCode = selectedOption.value;
-  const dialCode = selectedOption.getAttribute('data-code') || '';
-
-  KycState.country = countryCode;
-  KycState.countryCode = dialCode;
-
-  if (!countryCode) {
-    showToast('Please select your country', 'warning');
-    return;
-  }
-
-  // Show selected country info
-  const countryName = selectedOption.text.split(' ').slice(1).join(' ').replace(/\(\+\d+\)/, '').trim();
-  showToast(`Country set: ${countryName}`, 'info');
-
-  // ===== BACKEND CALL (replace demo) =====
-  // fetch('/api/kyc/country-requirements', {
-  //   method: 'POST',
-  //   body: JSON.stringify({ country: countryCode })
-  // })
-  // .then(r => r.json())
-  // .then(data => {
-  //   // Update UI based on country-specific requirements
-  // });
-
-  console.log('Country selected:', countryCode, dialCode);
-}
-
-/* ========================================= */
-/* ID IMAGE UPLOAD & PREVIEW                 */
-/* ========================================= */
-
-/**
- * Preview uploaded ID image (front or back)
- * @param {HTMLInputElement} input - file input element
- * @param {string} side - 'front' or 'back'
- */
-function previewIdImage(input, side) {
-  if (!input.files || input.files.length === 0) return;
-
-  const file = input.files[0];
-  
-  // Validate file type
-  if (!file.type.startsWith('image/')) {
-    showToast('Please upload an image file (JPG, PNG)', 'error');
-    input.value = '';
-    return;
-  }
-
-  // Validate file size (max 5MB)
-  if (file.size > 5 * 1024 * 1024) {
-    showToast('File size must be less than 5MB', 'error');
-    input.value = '';
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const imgData = e.target.result;
-    
-    // Store in state
-    if (side === 'front') {
-      KycState.frontImage = imgData;
-    } else {
-      KycState.backImage = imgData;
+        element.textContent = message;
+        element.dataset.state = type;
+        element.setAttribute("role", "status");
     }
 
-    // Update preview
-    updateUploadPreview(side, imgData);
-    
-    // Update status
-    updateUploadStatus(side, 'completed');
-    
-    // Check if both uploaded
-    checkIdUploadComplete();
-    
-    showToast(`${capitalize(side)} side uploaded successfully!`, 'success');
-  };
-  
-  reader.onerror = function() {
-    showToast('Failed to read image. Please try again.', 'error');
-  };
-  
-  reader.readAsDataURL(file);
-}
-
-/**
- * Update the upload preview area
- */
-function updateUploadPreview(side, imgData) {
-  const previewImg = document.getElementById(side + 'PreviewImg');
-  const previewContainer = document.getElementById(side + 'Preview');
-  const placeholder = previewContainer ? previewContainer.querySelector('.upload-placeholder') : null;
-
-  if (previewImg) {
-    previewImg.src = imgData;
-    previewImg.style.display = 'block';
-  }
-
-  if (placeholder) {
-    placeholder.style.display = 'none';
-  }
-
-  // Add uploaded class to card
-  const card = document.getElementById(side + 'UploadCard');
-  if (card) card.classList.add('uploaded');
-}
-
-/**
- * Update upload status badge
- */
-function updateUploadStatus(side, status) {
-  const statusEl = document.getElementById(side + 'Status');
-  if (!statusEl) return;
-
-  if (status === 'completed') {
-    statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Uploaded';
-    statusEl.classList.add('completed');
-  } else if (status === 'pending') {
-    statusEl.innerHTML = '<i class="fas fa-clock"></i> Pending';
-    statusEl.classList.remove('completed');
-  }
-}
-
-/**
- * Check if both front and back are uploaded
- */
-function checkIdUploadComplete() {
-  const bothUploaded = KycState.frontImage && KycState.backImage;
-  
-  if (bothUploaded) {
-    KycState.verificationStatus.idUploaded = true;
-    updateStatusBar('idUpload', 'completed');
-    checkVerifyReady();
-    showToast('ID documents uploaded! Proceed to face verification.', 'success');
-  }
-}
-
-/* ========================================= */
-/* CAMERA / SELFIE FUNCTIONS                 */
-/* ========================================= */
-
-/**
- * Start the selfie camera
- */
-function startSelfieCamera() {
-  const video = document.getElementById('selfieVideo');
-  const placeholder = document.getElementById('cameraPlaceholder');
-  const ovalFrame = document.getElementById('cameraOvalFrame');
-  const overlay = document.getElementById('cameraOverlay');
-  const startBtn = document.getElementById('cameraStartBtn');
-  const actionBtns = document.getElementById('cameraActionBtns');
-
-  if (!video) {
-    showToast('Camera element not found', 'error');
-    return;
-  }
-
-  // Check for camera support
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    showToast('Camera not supported on this device/browser', 'error');
-    return;
-  }
-
-  // Show loading state
-  if (startBtn) {
-    startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Starting...</span>';
-    startBtn.disabled = true;
-  }
-
-  navigator.mediaDevices.getUserMedia({ 
-    video: { 
-      facingMode: 'user',
-      width: { ideal: 640 },
-      height: { ideal: 480 }
-    },
-    audio: false 
-  })
-  .then(function(stream) {
-    KycState.cameraStream = stream;
-    KycState.isCameraActive = true;
-
-    video.srcObject = stream;
-    video.style.display = 'block';
-    
-    if (placeholder) placeholder.style.display = 'none';
-    if (ovalFrame) ovalFrame.classList.add('active');
-    if (overlay) overlay.style.display = 'flex';
-
-    // Hide start button, show action buttons
-    if (startBtn) startBtn.style.display = 'none';
-    if (actionBtns) actionBtns.style.display = 'flex';
-
-    showToast('Camera started! Position your face in the oval', 'info');
-  })
-  .catch(function(err) {
-    console.error('Camera error:', err);
-    
-    if (startBtn) {
-      startBtn.innerHTML = '<i class="fas fa-camera"></i> <span>Start Camera</span>';
-      startBtn.disabled = false;
+    function setStatus(id, message, type = "info") {
+        setMessage(id, message, type);
     }
 
-    let errorMsg = 'Could not access camera';
-    if (err.name === 'NotAllowedError') {
-      errorMsg = 'Camera permission denied. Please allow camera access.';
-    } else if (err.name === 'NotFoundError') {
-      errorMsg = 'No camera found on this device.';
-    } else if (err.name === 'NotReadableError') {
-      errorMsg = 'Camera is being used by another application.';
-    }
-    
-    showToast(errorMsg, 'error');
-  });
-}
+    function setButtonLoading(button, loading, loadingText = "Please wait...") {
+        if (!button) return;
 
-/**
- * Capture selfie from camera
- */
-function captureSelfie() {
-  const video = document.getElementById('selfieVideo');
-  const canvas = document.getElementById('selfieCanvas');
-  const capturedImg = document.getElementById('capturedSelfie');
-  const overlay = document.getElementById('cameraOverlay');
-  const ovalFrame = document.getElementById('cameraOvalFrame');
-
-  if (!video || !canvas || !KycState.isCameraActive) {
-    showToast('Camera is not active', 'error');
-    return;
-  }
-
-  // Set canvas size to match video
-  canvas.width = video.videoWidth || 640;
-  canvas.height = video.videoHeight || 480;
-
-  const ctx = canvas.getContext('2d');
-  
-  // Flip horizontally (mirror effect)
-  ctx.translate(canvas.width, 0);
-  ctx.scale(-1, 1);
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-  // Get image data
-  const imageData = canvas.toDataURL('image/png');
-  KycState.selfieImage = imageData;
-
-  // Stop camera stream
-  stopCamera();
-
-  // Show captured image
-  if (capturedImg) {
-    capturedImg.src = imageData;
-    capturedImg.style.display = 'block';
-  }
-
-  if (video) video.style.display = 'none';
-  if (overlay) overlay.style.display = 'none';
-  if (ovalFrame) ovalFrame.classList.remove('active');
-
-  // Update action buttons
-  const actionBtns = document.getElementById('cameraActionBtns');
-  if (actionBtns) {
-    actionBtns.innerHTML = `
-      <button class="camera-capture-btn" onclick="retakeSelfie()">
-        <i class="fas fa-redo"></i> Retake
-      </button>
-      <button class="camera-capture-btn" style="background: linear-gradient(135deg, #14805e, #1a9e75);" onclick="confirmSelfie()">
-        <i class="fas fa-check"></i> Confirm
-      </button>
-    `;
-  }
-
-  showToast('Selfie captured! Click Confirm to proceed.', 'success');
-}
-
-/**
- * Retake selfie
- */
-function retakeSelfie() {
-  const capturedImg = document.getElementById('capturedSelfie');
-  const placeholder = document.getElementById('cameraPlaceholder');
-  const startBtn = document.getElementById('cameraStartBtn');
-  const actionBtns = document.getElementById('cameraActionBtns');
-
-  // Hide captured image
-  if (capturedImg) capturedImg.style.display = 'none';
-  
-  // Reset action buttons
-  if (actionBtns) {
-    actionBtns.innerHTML = `
-      <button class="camera-capture-btn" onclick="captureSelfie()">
-        <i class="fas fa-camera-retro"></i> Capture
-      </button>
-      <button class="camera-retake-btn" onclick="retakeSelfie()">
-        <i class="fas fa-redo"></i> Retake
-      </button>
-    `;
-    actionBtns.style.display = 'none';
-  }
-
-  // Show start button again
-  if (startBtn) {
-    startBtn.style.display = 'flex';
-    startBtn.innerHTML = '<i class="fas fa-camera"></i> <span>Start Camera</span>';
-    startBtn.disabled = false;
-  }
-
-  if (placeholder) placeholder.style.display = 'flex';
-
-  KycState.selfieImage = null;
-  KycState.verificationStatus.faceMatched = false;
-  updateStatusBar('faceVerify', 'pending');
-  checkVerifyReady();
-}
-
-/**
- * Confirm selfie and proceed
- */
-function confirmSelfie() {
-  // Simulate face matching
-  simulateFaceMatch();
-}
-
-/**
- * Stop camera stream
- */
-function stopCamera() {
-  if (KycState.cameraStream) {
-    KycState.cameraStream.getTracks().forEach(track => track.stop());
-    KycState.cameraStream = null;
-  }
-  KycState.isCameraActive = false;
-}
-
-/* ========================================= */
-/* FACE MATCHING / VERIFICATION              */
-/* ========================================= */
-
-/**
- * Simulate face matching process
- * REPLACE with actual face recognition API
- */
-function simulateFaceMatch() {
-  const actionBtns = document.getElementById('cameraActionBtns');
-  
-  if (actionBtns) {
-    actionBtns.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;color:#14805e;font-weight:700;">
-        <i class="fas fa-spinner fa-spin" style="font-size:18px;"></i>
-        <span>Matching face...</span>
-      </div>
-    `;
-  }
-
-  // Simulate processing delay
-  setTimeout(() => {
-    // Demo: always match successfully
-    KycState.verificationStatus.faceMatched = true;
-    updateStatusBar('faceVerify', 'completed');
-    checkVerifyReady();
-    
-    if (actionBtns) {
-      actionBtns.innerHTML = `
-        <div style="display:flex;align-items:center;gap:10px;color:#14805e;font-weight:700;">
-          <i class="fas fa-check-circle" style="font-size:18px;"></i>
-          <span>Face Matched!</span>
-        </div>
-      `;
+        if (loading) {
+            button.dataset.originalText = button.textContent;
+            button.textContent = loadingText;
+            button.disabled = true;
+        } else {
+            button.textContent =
+                button.dataset.originalText || button.textContent;
+            delete button.dataset.originalText;
+            button.disabled = false;
+        }
     }
 
-    showToast('Face verification successful! Ready to verify.', 'success');
-  }, 2500);
-
-  // ===== REAL IMPLEMENTATION =====
-  // fetch('/api/kyc/face-match', {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     idFront: KycState.frontImage,
-  //     selfie: KycState.selfieImage
-  //   })
-  // })
-  // .then(r => r.json())
-  // .then(data => {
-  //   if (data.matched) {
-  //     KycState.verificationStatus.faceMatched = true;
-  //     updateStatusBar('faceVerify', 'completed');
-  //     checkVerifyReady();
-  //     showToast('Face matched successfully!', 'success');
-  //   } else {
-  //     showToast('Face did not match. Please retake.', 'error');
-  //     retakeSelfie();
-  //   }
-  // });
-}
-
-/* ========================================= */
-/* VERIFICATION STATUS BAR                   */
-/* ========================================= */
-
-/**
- * Update status bar step
- * @param {string} step - 'idUpload' | 'faceVerify' | 'finalVerify'
- * @param {string} status - 'pending' | 'completed' | 'failed'
- */
-function updateStatusBar(step, status) {
-  const dotMap = {
-    idUpload: 'idStatusDot',
-    faceVerify: 'faceStatusDot',
-    finalVerify: 'finalStatusDot'
-  };
-
-  const itemMap = {
-    idUpload: 'idUploadStatus',
-    faceVerify: 'faceVerifyStatus',
-    finalVerify: 'finalVerifyStatus'
-  };
-
-  const dot = document.getElementById(dotMap[step]);
-  const item = document.getElementById(itemMap[step]);
-
-  if (dot) {
-    dot.className = 'status-dot ' + status;
-  }
-
-  if (item) {
-    item.classList.remove('active', 'completed');
-    if (status === 'completed') item.classList.add('completed');
-    else if (status === 'active') item.classList.add('active');
-  }
-
-  // Update connectors
-  const connectors = document.querySelectorAll('.status-connector');
-  
-  if (step === 'idUpload' && status === 'completed') {
-    if (connectors[0]) connectors[0].classList.add('active');
-  }
-  
-  if (step === 'faceVerify' && status === 'completed') {
-    if (connectors[1]) connectors[1].classList.add('active');
-  }
-}
-
-/**
- * Check if verify button should be enabled
- */
-function checkVerifyReady() {
-  const verifyBtn = document.getElementById('verifyNowBtn');
-  const note = document.getElementById('verifyNote');
-  
-  const ready = KycState.verificationStatus.idUploaded && 
-                KycState.verificationStatus.faceMatched;
-
-  if (verifyBtn) {
-    verifyBtn.disabled = !ready;
-    
-    if (ready) {
-      verifyBtn.innerHTML = `
-        <i class="fas fa-fingerprint"></i>
-        <span>Verify Now</span>
-        <div class="btn-shine"></div>
-      `;
-    } else {
-      verifyBtn.innerHTML = `
-        <i class="fas fa-lock"></i>
-        <span>Verify Now</span>
-        <div class="btn-shine"></div>
-      `;
+    function getSupabaseClient() {
+        return window.supabaseClient ||
+            (typeof supabaseClient !== "undefined" ? supabaseClient : null);
     }
-  }
 
-  if (note) {
-    if (ready) {
-      note.innerHTML = '<i class="fas fa-check-circle" style="color:#14805e;"></i> All requirements met. Click Verify Now!';
-      note.style.color = '#14805e';
-    } else {
-      note.innerHTML = '<i class="fas fa-lock"></i> Upload both ID sides and capture selfie to enable verification';
-      note.style.color = '';
+    async function getAuthenticatedUser() {
+        const client = getSupabaseClient();
+
+        if (!client) {
+            throw new Error("Supabase client is not initialized.");
+        }
+
+        const { data, error } = await client.auth.getUser();
+
+        if (error) throw error;
+        if (!data?.user) {
+            throw new Error("Please log in to access your Personal Area.");
+        }
+
+        return data.user;
     }
-  }
-}
 
-/* ========================================= */
-/* MAIN VERIFICATION                         */
-/* ========================================= */
+    async function getProfile() {
+        const client = getSupabaseClient();
+        const user = await getAuthenticatedUser();
 
-/**
- * Start the full verification process
- */
-function startVerification() {
-  if (!KycState.verificationStatus.idUploaded || !KycState.verificationStatus.faceMatched) {
-    showToast('Please complete all steps before verifying', 'warning');
-    return;
-  }
+        const { data, error } = await client
+            .from(CONFIG.table)
+            .select("*")
+            .eq("email", user.email)
+            .maybeSingle();
 
-  const verifyBtn = document.getElementById('verifyNowBtn');
-  
-  if (verifyBtn) {
-    verifyBtn.disabled = true;
-    verifyBtn.innerHTML = `
-      <i class="fas fa-spinner fa-spin"></i>
-      <span>Verifying...</span>
-    `;
-  }
+        if (error) throw error;
 
-  // Simulate verification process
-  setTimeout(() => {
-    // Demo: always approve
-    KycState.verificationStatus.verified = true;
-    updateStatusBar('finalVerify', 'completed');
-    showVerificationResult(true);
-    
-    // Simulate email notification
-    simulateEmailNotification();
-    
-    showToast('🎉 ID Verification Approved!', 'success');
-  }, 3000);
+        currentUser = user;
+        profileData = data || {};
 
-  // ===== REAL IMPLEMENTATION =====
-  // fetch('/api/kyc/verify', {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     country: KycState.country,
-  //     idFront: KycState.frontImage,
-  //     idBack: KycState.backImage,
-  //     selfie: KycState.selfieImage
-  //   })
-  // })
-  // .then(r => r.json())
-  // .then(data => {
-  //   if (data.approved) {
-  //     KycState.verificationStatus.verified = true;
-  //     updateStatusBar('finalVerify', 'completed');
-  //     showVerificationResult(true, data);
-  //     showToast('ID Verification Approved!', 'success');
-  //   } else {
-  //     showVerificationResult(false, data);
-  //     showToast(data.message || 'Verification failed', 'error');
-  //   }
-  // })
-  // .catch(err => {
-  //   showToast('Verification error. Please try again.', 'error');
-  //   if (verifyBtn) {
-  //     verifyBtn.disabled = false;
-  //     verifyBtn.innerHTML = '<i class="fas fa-fingerprint"></i><span>Verify Now</span>';
-  //   }
-  // });
-}
-
-/**
- * Show verification result
- * @param {boolean} approved - true for approved, false for rejected
- * @param {object} data - optional response data
- */
-function showVerificationResult(approved, data = {}) {
-  const resultBox = document.getElementById('kycResultBox');
-  const icon = document.getElementById('resultIcon');
-  const title = document.getElementById('resultTitle');
-  const desc = document.getElementById('resultDesc');
-  const timeEl = document.getElementById('verifyTime');
-  const refEl = document.getElementById('verifyRefId');
-
-  if (!resultBox) return;
-
-  resultBox.style.display = 'block';
-  resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-  const now = new Date();
-  const refId = data.refId || 'KYC-' + Math.random().toString(36).substr(2, 8).toUpperCase();
-
-  if (timeEl) timeEl.textContent = padZero(now.getHours()) + ':' + padZero(now.getMinutes());
-  if (refEl) refEl.textContent = refId;
-
-  if (approved) {
-    if (icon) {
-      icon.innerHTML = '<i class="fas fa-check-circle"></i>';
-      icon.className = 'result-icon';
+        return profileData;
     }
-    if (title) title.textContent = 'Verification Approved!';
-    if (desc) {
-      desc.innerHTML = 'Your identity has been successfully verified. ' +
-        'A confirmation email has been sent to your registered address. ' +
-        'You can now enjoy full access to all features.';
+
+    function formatMemberSince(value) {
+        if (!value) return "—";
+
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "—";
+
+        return date.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long"
+        });
     }
-    resultBox.style.borderColor = '#14805e';
-    resultBox.style.background = 'linear-gradient(135deg, rgba(20, 128, 94, 0.08), rgba(20, 128, 94, 0.03))';
-  } else {
-    if (icon) {
-      icon.innerHTML = '<i class="fas fa-times-circle"></i>';
-      icon.className = 'result-icon rejected';
+
+    function setInputValue(id, value) {
+        const element = $(id);
+        if (element) element.value = value ?? "";
     }
-    if (title) title.textContent = 'Verification Failed';
-    if (desc) {
-      desc.innerHTML = data.message || 
-        'We could not verify your identity. Please ensure your ID is clear ' +
-        'and your face matches the ID photo. You can retry the process.';
+
+    function setText(id, value) {
+        const element = $(id);
+        if (element) element.textContent = value ?? "";
     }
-    resultBox.style.borderColor = '#e74c3c';
-    resultBox.style.background = 'linear-gradient(135deg, rgba(231, 76, 60, 0.08), rgba(231, 76, 60, 0.03))';
-  }
-}
 
-/**
- * Close verification result
- */
-function closeKycResult() {
-  const resultBox = document.getElementById('kycResultBox');
-  if (resultBox) {
-    resultBox.style.opacity = '0';
-    resultBox.style.transform = 'translateY(10px)';
-    resultBox.style.transition = 'all 0.3s ease';
-    setTimeout(() => {
-      resultBox.style.display = 'none';
-      resultBox.style.opacity = '';
-      resultBox.style.transform = '';
-      resultBox.style.transition = '';
-    }, 300);
-  }
-}
+    function setHidden(id, hidden) {
+        const element = $(id);
+        if (element) element.hidden = hidden;
+    }
 
-/**
- * Simulate email notification
- * REPLACE with actual email API
- */
-function simulateEmailNotification() {
-  console.log('[EMAIL] Sending verification confirmation email...');
-  
-  // ===== BACKEND CALL =====
-  // fetch('/api/notifications/send-email', {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     type: 'kyc_verified',
-  //     userId: 'USER_ID',
-  //     timestamp: new Date().toISOString()
-  //   })
-  // });
-}
+    function showPersonalArea() {
+        const section = $("personal-area-section");
+        if (section) section.style.display = "block";
 
-/* ========================================= */
-/* COPY REFERRAL CODE                        */
-/* ========================================= */
+        openPersonalTab("details");
+    }
 
-function copyReferralCode() {
-  const codeEl = document.getElementById('referralCode');
-  const code = codeEl ? codeEl.textContent : 'ABC123';
-  
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(code).then(() => {
-      showToast('📋 Referral code copied: ' + code, 'success');
-    }).catch(() => {
-      fallbackCopyText(code);
+    function hidePersonalArea() {
+        const section = $("personal-area-section");
+        if (section) section.style.display = "none";
+
+        stopFaceCamera();
+    }
+
+    function populateProfile(profile) {
+        setInputValue("firstName", profile.first_name);
+        setInputValue("surname", profile.last_name);
+        setInputValue("dateOfBirth", profile.date_of_birth);
+        setInputValue("gender", profile.gender);
+
+        setText("currentEmail", currentUser?.email || profile.email || "");
+        setText("memberSince", formatMemberSince(
+            profile.created_at || currentUser?.created_at
+        ));
+
+        const avatar = $("profileAvatar");
+        if (avatar) {
+            avatar.src = profile.avatar_url || "";
+            avatar.onerror = () => {
+                avatar.removeAttribute("src");
+            };
+        }
+
+        const phone = profile.mobile_number || "";
+        setInputValue("mobileNumber", phone);
+
+        if (profile.mobile_country_code && $("mobileCountryCode")) {
+            $("mobileCountryCode").value = profile.mobile_country_code;
+        }
+
+        setText(
+            "mobileStatus",
+            profile.mobile_verified ? "Verified" : "Not verified"
+        );
+
+        setText(
+            "emailStatus",
+            profile.email_verified ? "Verified" : "Current account email"
+        );
+
+        setInputValue("addressLine", profile.address);
+        setInputValue("addressCity", profile.city);
+        setInputValue("addressPostalCode", profile.postal_code);
+
+        if (profile.country && $("addressCountry")) {
+            $("addressCountry").value = profile.country;
+        }
+
+        if (profile.id_country && $("idCountry")) {
+            $("idCountry").value = profile.id_country;
+        }
+
+        if (profile.id_document_type && $("idDocumentType")) {
+            $("idDocumentType").value = profile.id_document_type;
+        }
+
+        setText(
+            "idVerificationMessage",
+            profile.kyc_status
+                ? `Verification status: ${profile.kyc_status}`
+                : "Your identity documents have not been submitted."
+        );
+
+        setText(
+            "addressVerificationStatus",
+            profile.address_verification_status || "Not submitted"
+        );
+
+        setEditMode(false);
+    }
+
+    async function refreshPersonalArea() {
+        try {
+            await getProfile();
+            populateProfile(profileData);
+            return true;
+        } catch (error) {
+            console.error("Personal Area load error:", error);
+            setMessage(
+                "personalDetailsMessage",
+                error.message || "Could not load your profile.",
+                "error"
+            );
+            return false;
+        }
+    }
+
+    /* ---------------------------------------------------------
+       OPEN / CLOSE / TABS
+       --------------------------------------------------------- */
+
+    window.openPersonalArea = async function () {
+        showPersonalArea();
+
+        const loaded = await refreshPersonalArea();
+
+        if (!loaded) {
+            setMessage(
+                "personalDetailsMessage",
+                "Please log in again, then reopen Personal Area.",
+                "error"
+            );
+        }
+    };
+
+    window.closePersonalArea = function () {
+        hidePersonalArea();
+    };
+
+    window.openPersonalTab = function (tab) {
+        const sections = {
+            details: "personaldetailsSection",
+            verification: "idVerificationSection",
+            documents: "proofDocumentsSection"
+        };
+
+        Object.entries(sections).forEach(([key, id]) => {
+            const section = $(id);
+            if (section) section.hidden = key !== tab;
+        });
+
+        document.querySelectorAll(".personal-tab-btn").forEach((button) => {
+            const active = button.dataset.tab === tab;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-selected", String(active));
+        });
+    };
+
+    /* ---------------------------------------------------------
+       PERSONAL DETAILS — EDIT / SAVE
+       --------------------------------------------------------- */
+
+    function setEditMode(enabled) {
+        profileEditMode = enabled;
+
+        ["firstName", "surname", "dateOfBirth", "gender"].forEach((id) => {
+            const element = $(id);
+            if (element) element.disabled = !enabled;
+        });
+
+        setText("editLabel", enabled ? "Editing" : "Edit details");
+
+        const button = $("toggleEditBtn");
+        if (button) {
+            button.setAttribute("aria-pressed", String(enabled));
+        }
+
+        const track = $("toggleTrack");
+        if (track) {
+            track.classList.toggle("active", enabled);
+        }
+
+        const saveButton = $("saveChangesBtn");
+        if (saveButton) saveButton.disabled = !enabled;
+    }
+
+    window.toggleEditMode = function () {
+        if (!profileEditMode) {
+            setEditMode(true);
+            return;
+        }
+
+        if (profileData) populateProfile(profileData);
+        setEditMode(false);
+        setMessage("personalDetailsMessage", "Changes cancelled.");
+    };
+
+    window.saveAllChanges = async function () {
+        const client = getSupabaseClient();
+        const button = $("saveChangesBtn");
+
+        try {
+            if (!currentUser) await getProfile();
+
+            const firstName = $("firstName")?.value.trim() || "";
+            const surname = $("surname")?.value.trim() || "";
+            const dateOfBirth = $("dateOfBirth")?.value || null;
+            const gender = $("gender")?.value || null;
+
+            if (!firstName) {
+                throw new Error("Please enter your first name.");
+            }
+
+            if (dateOfBirth) {
+                const date = new Date(`${dateOfBirth}T00:00:00`);
+                if (Number.isNaN(date.getTime()) || date > new Date()) {
+                    throw new Error("Please enter a valid date of birth.");
+                }
+            }
+
+            setButtonLoading(button, true, "Saving...");
+
+            const updates = {
+                first_name: firstName,
+                last_name: surname,
+                date_of_birth: dateOfBirth,
+                gender,
+                updated_at: new Date().toISOString()
+            };
+
+            const { data, error } = await client
+                .from(CONFIG.table)
+                .update(updates)
+                .eq("email", currentUser.email)
+                .select()
+                .maybeSingle();
+
+            if (error) throw error;
+
+            profileData = { ...profileData, ...updates, ...(data || {}) };
+
+            populateProfile(profileData);
+
+            setMessage(
+                "personalDetailsMessage",
+                "Personal details saved successfully.",
+                "success"
+            );
+        } catch (error) {
+            console.error("Save profile error:", error);
+            setMessage(
+                "personalDetailsMessage",
+                error.message || "Could not save your details.",
+                "error"
+            );
+        } finally {
+            if (button) {
+                button.textContent = "Save Changes";
+                button.disabled = !profileEditMode;
+            }
+        }
+    };
+
+    /* ---------------------------------------------------------
+       AVATAR
+       --------------------------------------------------------- */
+
+    window.changeAvatar = function () {
+        $("profileAvatarInput")?.click();
+    };
+
+    $("profileAvatarInput")?.addEventListener("change", async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            setMessage(
+                "personalDetailsMessage",
+                "Choose a JPG, PNG, or WebP image.",
+                "error"
+            );
+            event.target.value = "";
+            return;
+        }
+
+        if (file.size > CONFIG.maxFileSize) {
+            setMessage(
+                "personalDetailsMessage",
+                "Avatar image must be 5 MB or smaller.",
+                "error"
+            );
+            event.target.value = "";
+            return;
+        }
+
+        try {
+            const client = getSupabaseClient();
+            if (!currentUser) await getProfile();
+
+            const path = `${currentUser.id}/${Date.now()}-${safeFileName(file.name)}`;
+            const { error: uploadError } = await client.storage
+                .from(CONFIG.avatarBucket)
+                .upload(path, file, { upsert: true });
+
+            if (uploadError) throw uploadError;
+
+            const { data: urlData } = client.storage
+                .from(CONFIG.avatarBucket)
+                .getPublicUrl(path);
+
+            const avatarUrl = urlData?.publicUrl;
+            if (!avatarUrl) {
+                throw new Error("Could not get the avatar URL.");
+            }
+
+            const { error } = await client
+                .from(CONFIG.table)
+                .update({
+                    avatar_url: avatarUrl,
+                    updated_at: new Date().toISOString()
+                })
+                .eq("email", currentUser.email);
+
+            if (error) throw error;
+
+            profileData.avatar_url = avatarUrl;
+            const avatar = $("profileAvatar");
+            if (avatar) avatar.src = avatarUrl;
+
+            setMessage(
+                "personalDetailsMessage",
+                "Profile photo updated.",
+                "success"
+            );
+        } catch (error) {
+            console.error("Avatar upload error:", error);
+            setMessage(
+                "personalDetailsMessage",
+                error.message || "Avatar upload failed.",
+                "error"
+            );
+        } finally {
+            event.target.value = "";
+        }
     });
-  } else {
-    fallbackCopyText(code);
-  }
-}
 
-function fallbackCopyText(text) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  
-  try {
-    document.execCommand('copy');
-    showToast('📋 Referral code copied: ' + text, 'success');
-  } catch (err) {
-    showToast('❌ Failed to copy. Code: ' + text, 'error');
-  }
-  
-  document.body.removeChild(textarea);
-}
+    /* ---------------------------------------------------------
+       EMAIL CHANGE
+       Email OTP must be verified by a secure backend.
+       --------------------------------------------------------- */
 
-/* ========================================= */
-/* HELPER                                    */
-/* ========================================= */
+    window.toggleEmailChange = function () {
+        const dropdown = $("emailChangeDropdown");
+        if (!dropdown) return;
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+        dropdown.hidden = !dropdown.hidden;
 
-/* ========================================= */
-/* INITIALIZATION                            */
-/* ========================================= */
+        if (!dropdown.hidden) {
+            setInputValue("newEmailInput", "");
+            setInputValue("emailOtpInput", "");
+            setHidden("emailVerifyRow", true);
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize status bar
-  updateStatusBar('idUpload', 'pending');
-  updateStatusBar('faceVerify', 'pending');
-  updateStatusBar('finalVerify', 'pending');
-  
-  // Ensure verify button is disabled initially
-  checkVerifyReady();
-  
-  console.log('ID Verification JS loaded successfully');
-});
+            emailVerified = false;
+            pendingEmail = "";
 
-// Cleanup on page unload
-window.addEventListener('beforeunload', function() {
-  stopCamera();
-});
+            const save = $("saveNewEmailBtn");
+            if (save) save.disabled = true;
 
+            setMessage("emailChangeMessage", "");
+        }
+    };
+
+    window.sendEmailOtp = async function () {
+        const newEmail = $("newEmailInput")?.value.trim().toLowerCase();
+
+        if (!newEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+            setMessage("emailChangeMessage", "Enter a valid new email.", "error");
+            return;
+        }
+
+        if (newEmail === currentUser?.email?.toLowerCase()) {
+            setMessage(
+                "emailChangeMessage",
+                "This is already your current email.",
+                "error"
+            );
+            return;
+        }
+
+        /*
+         * SECURITY REQUIREMENT:
+         * Connect this function to a server-side Supabase Edge Function
+         * that sends a one-time code to the CURRENT email and stores
+         * its hash, expiry, and attempt count securely.
+         *
+         * Do not generate or verify security codes in browser JavaScript.
+         */
+        setMessage(
+            "emailChangeMessage",
+            "Email verification backend is not configured yet. No code has been sent.",
+            "error"
+        );
+    };
+
+    window.verifyEmailOtp = async function () {
+        setMessage(
+            "emailChangeMessage",
+            "Email OTP verification requires the secure verification backend.",
+            "error"
+        );
+    };
+
+    window.saveNewEmail = async function () {
+        if (!emailVerified || !pendingEmail) {
+            setMessage(
+                "emailChangeMessage",
+                "Verify the new email before saving.",
+                "error"
+            );
+            return;
+        }
+
+        setMessage(
+            "emailChangeMessage",
+            "Connect the verified-email change flow to Supabase Auth before saving.",
+            "error"
+        );
+    };
+
+    /* ---------------------------------------------------------
+       MOBILE NUMBER — OTP PREPARATION
+       --------------------------------------------------------- */
+
+    window.toggleMobileChange = function () {
+        const dropdown = $("mobileChangeDropdown");
+        if (!dropdown) return;
+
+        dropdown.hidden = !dropdown.hidden;
+
+        if (!dropdown.hidden) {
+            setInputValue("mobileOtpInput", "");
+            setHidden("mobileVerifyRow", true);
+
+            mobileVerified = false;
+            pendingMobile = "";
+
+            const save = $("saveMobileBtn");
+            if (save) save.disabled = true;
+
+            setMessage("mobileChangeMessage", "");
+        }
+    };
+
+    window.sendMobileOtp = async function () {
+        const code = $("mobileCountryCode")?.value || "";
+        const number = $("mobileNumber")?.value.trim() || "";
+
+        if (!/^[0-9]{6,15}$/.test(number)) {
+            setMessage(
+                "mobileChangeMessage",
+                "Enter a valid phone number using digits only.",
+                "error"
+            );
+            return;
+        }
+
+        pendingMobile = `${code}${number}`;
+        mobileVerified = false;
+
+        /*
+         * Connect to Supabase Phone Auth or an SMS provider.
+         * Never claim an OTP was sent until the provider confirms it.
+         */
+        setMessage(
+            "mobileChangeMessage",
+            "SMS verification is not configured yet. No OTP has been sent.",
+            "error"
+        );
+    };
+
+    window.verifyMobileOtp = async function () {
+        setMessage(
+            "mobileChangeMessage",
+            "Mobile OTP verification requires the SMS authentication service.",
+            "error"
+        );
+    };
+
+    window.saveMobileNumber = async function () {
+        if (!mobileVerified || !pendingMobile) {
+            setMessage(
+                "mobileChangeMessage",
+                "Verify your phone number before saving.",
+                "error"
+            );
+            return;
+        }
+
+        setMessage(
+            "mobileChangeMessage",
+            "Connect the verified phone number to Supabase Auth before saving.",
+            "error"
+        );
+    };
+
+    /* ---------------------------------------------------------
+       FILE HELPERS
+       --------------------------------------------------------- */
+
+    function safeFileName(name) {
+        return String(name || "document")
+            .replace(/[^a-zA-Z0-9._-]/g, "_")
+            .slice(-120);
+    }
+
+    function validateDocument(file) {
+        if (!file) throw new Error("Please choose a file.");
+
+        if (!CONFIG.allowedFileTypes.includes(file.type)) {
+            throw new Error("Only JPG, PNG, and PDF files are allowed.");
+        }
+
+        if (file.size > CONFIG.maxFileSize) {
+            throw new Error("Each file must be 5 MB or smaller.");
+        }
+
+        return true;
+    }
+
+    async function uploadPrivateFile(bucket, folder, file) {
+        const client = getSupabaseClient();
+
+        validateDocument(file);
+
+        if (!currentUser) await getProfile();
+
+        const path =
+            `${currentUser.id}/${folder}/${Date.now()}-${safeFileName(file.name)}`;
+
+        const { error } = await client.storage
+            .from(bucket)
+            .upload(path, file, {
+                upsert: false,
+                contentType: file.type
+            });
+
+        if (error) throw error;
+
+        // Private bucket: store the object path, not a public URL.
+        return path;
+    }
+
+    function showFileName(inputId, labelId) {
+        $(inputId)?.addEventListener("change", (event) => {
+            const file = event.target.files?.[0];
+            if (labelId) {
+                setText(labelId, file ? file.name : "No file selected");
+            }
+        });
+    }
+
+    /* ---------------------------------------------------------
+       ID VERIFICATION — DOCUMENT SELECTION
+       --------------------------------------------------------- */
+
+    $("idFrontFile")?.addEventListener("change", (event) => {
+        idFrontFile = event.target.files?.[0] || null;
+        setText("idFrontFileName", idFrontFile?.name || "No file selected");
+        setStatus(
+            "idFrontStatus",
+            idFrontFile ? "Selected — ready to submit" : "Not uploaded"
+        );
+        updateIdSubmitState();
+    });
+
+    $("idBackFile")?.addEventListener("change", (event) => {
+        idBackFile = event.target.files?.[0] || null;
+        setText("idBackFileName", idBackFile?.name || "No file selected");
+        setStatus(
+            "idBackStatus",
+            idBackFile ? "Selected — ready to submit" : "Not uploaded"
+        );
+        updateIdSubmitState();
+    });
+
+    function updateIdSubmitState() {
+        const type = $("idDocumentType")?.value;
+        const frontRequired = Boolean(type);
+        const backRequired = type !== "passport";
+
+        const ready =
+            frontRequired &&
+            Boolean(idFrontFile) &&
+            (!backRequired || Boolean(idBackFile)) &&
+            Boolean($("idCountry")?.value);
+
+        const button = $("submitIdVerificationBtn");
+        if (button) button.disabled = !ready;
+    }
+
+    $("idDocumentType")?.addEventListener("change", () => {
+        const type = $("idDocumentType").value;
+        const backField = $("idBackFile")?.closest(".upload-field");
+
+        if (backField) {
+            backField.hidden = type === "passport";
+        }
+
+        if (type === "passport") {
+            idBackFile = null;
+            if ($("idBackFile")) $("idBackFile").value = "";
+            setText("idBackFileName", "Not required for passport");
+            setStatus("idBackStatus", "Not required");
+        }
+
+        updateIdSubmitState();
+    });
+
+    $("idCountry")?.addEventListener("change", updateIdSubmitState);
+
+    /* ---------------------------------------------------------
+       FACE CAMERA
+       --------------------------------------------------------- */
+
+    window.startFaceCamera = async function () {
+        try {
+            if (!navigator.mediaDevices?.getUserMedia) {
+                throw new Error("Camera access is not supported by this browser.");
+            }
+
+            stopFaceCamera();
+
+            cameraStream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: "user",
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                },
+                audio: false
+            });
+
+            const video = $("faceCameraVideo");
+            if (!video) throw new Error("Camera preview element not found.");
+
+            video.srcObject = cameraStream;
+            video.hidden = false;
+
+            await video.play();
+
+            setHidden("faceCameraPlaceholder", true);
+            setHidden("faceCameraGuide", false);
+            setHidden("stopFaceCameraBtn", false);
+
+            const captureButton = $("captureFaceBtn");
+            if (captureButton) captureButton.disabled = false;
+
+            setStatus(
+                "faceVerificationStatus",
+                "Camera ready. Position your face inside the guide."
+            );
+        } catch (error) {
+            console.error("Camera error:", error);
+            setStatus(
+                "faceVerificationStatus",
+                error.message || "Unable to access the camera.",
+                "error"
+            );
+        }
+    };
+
+    window.captureFacePhoto = function () {
+        const video = $("faceCameraVideo");
+        const canvas = $("faceCaptureCanvas");
+
+        if (!video || !canvas || !cameraStream) {
+            setStatus("faceVerificationStatus", "Start the camera first.", "error");
+            return;
+        }
+
+        if (!video.videoWidth || !video.videoHeight) {
+            setStatus(
+                "faceVerificationStatus",
+                "Wait for the camera preview, then try again.",
+                "error"
+            );
+            return;
+        }
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob((blob) => {
+            if (!blob) {
+                setStatus(
+                    "faceVerificationStatus",
+                    "Could not capture the photo.",
+                    "error"
+                );
+                return;
+            }
+
+            facePhotoBlob = blob;
+
+            const hiddenInput = $("faceCaptureReference");
+            if (hiddenInput) hiddenInput.value = "captured";
+
+            setStatus(
+                "faceVerificationStatus",
+                "Selfie captured. It will be submitted for manual Admin review.",
+                "success"
+            );
+
+            updateIdSubmitState();
+        }, "image/jpeg", 0.9);
+    };
+
+    window.stopFaceCamera = function () {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach((track) => track.stop());
+            cameraStream = null;
+        }
+
+        const video = $("faceCameraVideo");
+        if (video) {
+            video.pause();
+            video.srcObject = null;
+            video.hidden = true;
+        }
+
+        setHidden("stopFaceCameraBtn", true);
+
+        const captureButton = $("captureFaceBtn");
+        if (captureButton) captureButton.disabled = true;
+    };
+
+    /* ---------------------------------------------------------
+       SUBMIT ID VERIFICATION
+       --------------------------------------------------------- */
+
+    window.submitIdVerification = async function () {
+        const button = $("submitIdVerificationBtn");
+
+        try {
+            const client = getSupabaseClient();
+
+            if (!currentUser) await getProfile();
+
+            const country = $("idCountry")?.value;
+            const documentType = $("idDocumentType")?.value;
+
+            if (!country || !documentType || !idFrontFile) {
+                throw new Error("Choose a country, document type, and front file.");
+            }
+
+            if (documentType !== "passport" && !idBackFile) {
+                throw new Error("Upload the back side of your document.");
+            }
+
+            validateDocument(idFrontFile);
+            if (idBackFile) validateDocument(idBackFile);
+
+            setButtonLoading(button, true, "Uploading...");
+
+            const frontPath = await uploadPrivateFile(
+                CONFIG.idDocumentBucket,
+                "front",
+                idFrontFile
+            );
+
+            let backPath = null;
+            if (idBackFile) {
+                backPath = await uploadPrivateFile(
+                    CONFIG.idDocumentBucket,
+                    "back",
+                    idBackFile
+                );
+            }
+
+            let selfiePath = null;
+
+            if (facePhotoBlob) {
+                const selfieFile = new File(
+                    [facePhotoBlob],
+                    `selfie-${Date.now()}.jpg`,
+                    { type: "image/jpeg" }
+                );
+
+                selfiePath = await uploadPrivateFile(
+                    CONFIG.idDocumentBucket,
+                    "selfie",
+                    selfieFile
+                );
+            }
+
+            /*
+             * This assumes the listed columns exist in user_data.
+             * If ID documents are stored in a separate table, replace
+             * this update with the actual table/column names.
+             */
+            const updates = {
+                id_country: country,
+                id_document_type: documentType,
+                id_front_path: frontPath,
+                id_back_path: backPath,
+                face_photo_path: selfiePath,
+                kyc_status: "Pending",
+                updated_at: new Date().toISOString()
+            };
+
+            const { error } = await client
+                .from(CONFIG.table)
+                .update(updates)
+                .eq("email", currentUser.email);
+
+            if (error) throw error;
+
+            profileData = { ...profileData, ...updates };
+
+            setText(
+                "idVerificationMessage",
+                "Documents submitted successfully. Status: Pending Admin Review."
+            );
+
+            setStatus("idFrontStatus", "Uploaded securely", "success");
+            setStatus(
+                "idBackStatus",
+                backPath ? "Uploaded securely" : "Not required"
+            );
+
+            setText("idUploadStep", "Documents submitted");
+            setText(
+                "faceMatchStep",
+                selfiePath ? "Selfie submitted for manual review" : "Selfie not submitted"
+            );
+            setText("finalVerificationStep", "Pending Admin Review");
+
+            setMessage(
+                "personalDetailsMessage",
+                "Identity verification submitted for review.",
+                "success"
+            );
+        } catch (error) {
+            console.error("ID submission error:", error);
+            setMessage(
+                "idVerificationMessage",
+                error.message || "Could not submit identity documents.",
+                "error"
+            );
+        } finally {
+            if (button) {
+                button.textContent = "Submit for Verification";
+                button.disabled = false;
+                updateIdSubmitState();
+            }
+        }
+    };
+
+    /* ---------------------------------------------------------
+       PROOF DOCUMENTS — SELECT DOCUMENT TYPE
+       --------------------------------------------------------- */
+
+    window.selectAddressDocument = function (type) {
+        const types = {
+            utility_bill: {
+                title: "Upload Utility Bill",
+                description: "Choose a recent utility bill showing your address."
+            },
+            bank_statement: {
+                title: "Upload Bank Statement",
+                description: "Choose a bank statement showing your name and address."
+            },
+            official_document: {
+                title: "Upload Official Address Document",
+                description: "Choose an official document that confirms your address."
+            }
+        };
+
+        if (!types[type]) return;
+
+        selectedAddressDocumentType = type;
+        addressDocument = null;
+
+        document.querySelectorAll("[data-document-type]").forEach((card) => {
+            const active = card.dataset.documentType === type;
+            card.classList.toggle("selected", active);
+            card.setAttribute("aria-pressed", String(active));
+        });
+
+        setText("addressDocumentUploadTitle", types[type].title);
+        setText("addressDocumentUploadDescription", types[type].description);
+        setText("addressDocumentFileName", "No file selected");
+        setStatus("addressDocumentFileStatus", "Not uploaded");
+
+        const input = $("addressDocumentFile");
+        if (input) input.value = "";
+
+        setHidden("addressDocumentUploadBox", false);
+    };
+
+    $("addressDocumentFile")?.addEventListener("change", (event) => {
+        addressDocument = event.target.files?.[0] || null;
+
+        setText(
+            "addressDocumentFileName",
+            addressDocument?.name || "No file selected"
+        );
+
+        setStatus(
+            "addressDocumentFileStatus",
+            addressDocument ? "Selected — ready to submit" : "Not uploaded"
+        );
+    });
+
+    /* ---------------------------------------------------------
+       SAVE ADDRESS + PROOF DOCUMENT
+       --------------------------------------------------------- */
+
+    window.saveAddressDocuments = async function () {
+        const button = $("saveAddressDocumentsBtn");
+
+        try {
+            const client = getSupabaseClient();
+
+            if (!currentUser) await getProfile();
+
+            const address = $("addressLine")?.value.trim() || "";
+            const city = $("addressCity")?.value.trim() || "";
+            const postalCode = $("addressPostalCode")?.value.trim() || "";
+            const country = $("addressCountry")?.value || "";
+
+            if (!address || !city || !postalCode || !country) {
+                throw new Error("Complete your address, city, postal code, and country.");
+            }
+
+            if (!selectedAddressDocumentType || !addressDocument) {
+                throw new Error("Select a document type and choose a file.");
+            }
+
+            validateDocument(addressDocument);
+
+            setButtonLoading(button, true, "Submitting...");
+
+            const documentPath = await uploadPrivateFile(
+                CONFIG.addressDocumentBucket,
+                selectedAddressDocumentType,
+                addressDocument
+            );
+
+            const updates = {
+                address,
+                city,
+                postal_code: postalCode,
+                country,
+                address_document_type: selectedAddressDocumentType,
+                address_document_path: documentPath,
+                address_verification_status: "Pending Verification",
+                updated_at: new Date().toISOString()
+            };
+
+            const { error } = await client
+                .from(CONFIG.table)
+                .update(updates)
+                .eq("email", currentUser.email);
+
+            if (error) throw error;
+
+            profileData = { ...profileData, ...updates };
+
+            setText("addressVerificationStatus", "Pending Verification");
+            setStatus(
+                "addressDocumentFileStatus",
+                "Uploaded securely — Pending Verification",
+                "success"
+            );
+
+            setMessage(
+                "personalDetailsMessage",
+                "Proof document submitted for verification.",
+                "success"
+            );
+        } catch (error) {
+            console.error("Address document error:", error);
+            setMessage(
+                "addressVerificationStatus",
+                error.message || "Could not submit your proof document.",
+                "error"
+            );
+        } finally {
+            if (button) {
+                button.textContent = "Save Documents";
+                button.disabled = false;
+            }
+        }
+    };
+
+    /* ---------------------------------------------------------
+       INITIALIZE
+       --------------------------------------------------------- */
+
+    function initializePersonalArea() {
+        showFileName("idFrontFile", "idFrontFileName");
+        showFileName("idBackFile", "idBackFileName");
+        showFileName("addressDocumentFile", "addressDocumentFileName");
+
+        setEditMode(false);
+        setHidden("emailVerifyRow", true);
+        setHidden("mobileVerifyRow", true);
+
+        updateIdSubmitState();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializePersonalArea,
+            { once: true }
+        );
+    } else {
+        initializePersonalArea();
+    }
+})();
