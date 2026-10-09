@@ -1146,49 +1146,86 @@
 
 
 
-/* =====================================================
-   PROFILE SIDEBAR — TOGGLE / CLOSE
-===================================================== */
 
 
 // ========================================
-// PROFILE SIDEBAR — OUTSIDE CLICK HANDLER
+// PROFILE SIDEBAR — OPEN / TOGGLE
 // ========================================
 
-document.addEventListener("click", function (e) {
+window.toggleProfileSidebar = function (event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
 
     const profileSidebar = document.getElementById("profile-sidebar");
 
-    const profileBtn = document.querySelector(
+    if (!profileSidebar) return;
+
+    const isOpen = profileSidebar.classList.contains("active");
+
+    if (isOpen) {
+        window.closeProfileSidebar();
+    } else {
+        profileSidebar.classList.add("active");
+    }
+
+};
+
+
+// ========================================
+// PROFILE SIDEBAR — CLOSE
+// ========================================
+
+window.closeProfileSidebar = function () {
+
+    const profileSidebar = document.getElementById("profile-sidebar");
+
+    if (profileSidebar) {
+        profileSidebar.classList.remove("active");
+    }
+
+};
+
+
+// ========================================
+// PROFILE SIDEBAR — OUTSIDE CLICK
+// ========================================
+
+document.addEventListener("click", function (event) {
+
+    const profileSidebar = document.getElementById("profile-sidebar");
+
+    const profileButton = document.querySelector(
         '#user-actions-area .actions-box[onclick*="toggleProfileSidebar"]'
     );
 
-    // Sidebar বা Profile button না থাকলে থামবে
-    if (!profileSidebar || !profileBtn) return;
+    if (!profileSidebar) return;
 
-    // Sidebar বন্ধ থাকলে কিছু করার দরকার নেই
     if (!profileSidebar.classList.contains("active")) return;
 
-    // Sidebar অথবা Profile button-এর বাইরে ক্লিক হলে বন্ধ হবে
+    // Profile Sidebar অথবা Profile button-এর ভেতরে ক্লিক হলে বন্ধ হবে না
     if (
-        !profileSidebar.contains(e.target) &&
-        !profileBtn.contains(e.target)
+        profileSidebar.contains(event.target) ||
+        (profileButton && profileButton.contains(event.target))
     ) {
-        window.closeProfileSidebar();
+        return;
     }
+
+    // বাইরে ক্লিক হলে Sidebar বন্ধ হবে
+    window.closeProfileSidebar();
 
 });
 
 
 // ========================================
-// PROFILE SIDEBAR — ESC KEY HANDLER
+// PROFILE SIDEBAR — ESC KEY
 // ========================================
 
-document.addEventListener("keydown", function (e) {
+document.addEventListener("keydown", function (event) {
 
-    if (e.key === "Escape") {
+    if (event.key === "Escape") {
         window.closeProfileSidebar();
     }
 
 });
-
