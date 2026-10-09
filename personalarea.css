@@ -36,6 +36,14 @@
     z-index: 99999;
 }
 
+#personal-area-section .personal-tab-content.active {
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    overflow-y: visible;
+    overflow-x: hidden;
+}
+
 /* ========================================= */
 /* PERSONAL AREA HEADER */
 /* ========================================= */
