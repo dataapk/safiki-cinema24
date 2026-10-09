@@ -1203,132 +1203,170 @@
     font-size: 11px;
 }
 
-/* =========================================================
-   PROOF DOCUMENT TYPE CARDS
-   ========================================================= */
+/* =========================================
+   PROOF OF ADDRESS
+========================================= */
 
-#personal-area-section .address-document-options,
-#personal-area-section .document-type-grid,
-#personal-area-section .proof-document-options {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    margin: 18px 0;
-}
-
-#personal-area-section [data-document-type] {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+#proofDocumentsSection {
+    width: 100%;
     min-width: 0;
-    min-height: 115px;
+    box-sizing: border-box;
+}
+
+#proofDocumentsSection *,
+#proofDocumentsSection *::before,
+#proofDocumentsSection *::after {
+    box-sizing: border-box;
+}
+
+#proofDocumentsSection .content-box {
+    width: 100%;
+    min-width: 0;
     padding: 16px;
-    color: #36414b;
-    background: #ffffff;
-    border: 1px solid #dce2e6;
-    border-radius: 7px;
-    text-align: left;
-    cursor: pointer;
-    transition:
-        border-color 0.18s ease,
-        background 0.18s ease,
-        box-shadow 0.18s ease;
 }
 
-#personal-area-section [data-document-type]:hover {
-    border-color: #9dc8aa;
-    background: #f8fcf9;
+#proofDocumentsSection .personal-section-heading {
+    margin-bottom: 16px;
 }
 
-#personal-area-section [data-document-type].selected {
-    color: var(--pa-green-dark);
-    background: #eef8f1;
-    border-color: var(--pa-green);
-    box-shadow: inset 0 0 0 1px var(--pa-green);
+#proofDocumentsSection .personal-section-heading h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
 }
 
-#personal-area-section [data-document-type] strong,
-#personal-area-section [data-document-type] .document-title {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-#personal-area-section [data-document-type] small {
-    color: var(--pa-muted);
-    font-size: 11px;
+#proofDocumentsSection .personal-section-heading p {
+    margin: 0;
+    font-size: 12px;
     line-height: 1.5;
 }
 
-/* =========================================================
-   ADDRESS DOCUMENT UPLOAD PANEL
-   ========================================================= */
-
-#personal-area-section #addressDocumentUploadBox {
-    margin-top: 18px;
-    padding: 19px;
-    background: #ffffff;
-    border: 1px solid var(--pa-border);
-    border-radius: 7px;
+#proofDocumentsSection .form-group {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 14px;
 }
 
-#personal-area-section #addressDocumentUploadTitle {
-    margin: 0 0 7px;
-    color: var(--pa-text);
-    font-size: 16px;
-    font-weight: 700;
-}
-
-#personal-area-section #addressDocumentUploadDescription {
-    margin: 0 0 14px;
-    color: var(--pa-muted);
-    font-size: 12px;
-}
-
-/* =========================================================
-   VERIFICATION STATUS
-   ========================================================= */
-
-#personal-area-section #addressVerificationStatusBox {
-    margin-top: 17px;
-    padding: 13px 15px;
-    color: #795716;
-    background: #fff8e7;
-    border: 1px solid #f0dfad;
-    border-radius: 6px;
-}
-
-#personal-area-section #addressVerificationStatus {
-    margin: 0;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-/* =========================================================
-   DIVIDERS / HELPER TEXT
-   ========================================================= */
-
-#personal-area-section hr {
-    height: 1px;
-    margin: 20px 0;
-    background: var(--pa-border);
-    border: 0;
-}
-
-#personal-area-section .helper-text,
-#personal-area-section .field-hint,
-#personal-area-section .muted-text {
+#proofDocumentsSection .form-group label {
     display: block;
-    margin-top: 4px;
-    color: var(--pa-muted);
-    font-size: 11px;
-    line-height: 1.6;
+    margin-bottom: 6px;
+    font-size: 12px;
 }
 
-#personal-area-section .required-mark {
-    color: var(--pa-danger);
+#proofDocumentsSection .form-input {
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+#proofDocumentsSection .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+#proofDocumentsSection .form-row .form-group {
+    margin-bottom: 0;
+}
+
+/* ADDRESS DOCUMENT UPLOAD */
+
+#proofDocumentsSection .document-upload-card {
+    width: 100%;
+    min-width: 0;
+    margin: 16px 0;
+    padding: 14px;
+    border: 1px solid rgba(232, 197, 71, 0.28);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+#proofDocumentsSection .document-upload-card h4 {
+    margin: 0 0 6px;
+    font-size: 14px;
+}
+
+#proofDocumentsSection .document-upload-card > p:not(.document-status) {
+    margin: 0 0 12px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+#proofDocumentsSection .document-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 125px;
+    padding: 16px 10px;
+    border: 1px dashed rgba(232, 197, 71, 0.7);
+    border-radius: 9px;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(232, 197, 71, 0.045);
+}
+
+#proofDocumentsSection .document-upload-area > i {
+    color: #E8C547;
+    font-size: 30px;
+}
+
+#proofDocumentsSection .document-upload-area > span {
+    max-width: 100%;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+#proofDocumentsSection .document-upload-area .upload-file-name {
+    color: #E8C547;
+}
+
+#proofDocumentsSection .personal-save-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+#proofDocumentsSection .verification-status-box {
+    margin-top: 16px;
+    padding: 12px;
+    border: 1px solid rgba(232, 197, 71, 0.25);
+    border-radius: 9px;
+}
+
+#proofDocumentsSection .verification-status-box h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+#proofDocumentsSection .document-status,
+#proofDocumentsSection .field-status {
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    #proofDocumentsSection .content-box {
+        padding: 12px;
+    }
+
+    #proofDocumentsSection .form-row {
+        gap: 9px;
+    }
+
+    #proofDocumentsSection .form-row .form-input {
+        padding: 8px 7px;
+        font-size: 12px;
+    }
+
+    #proofDocumentsSection .document-upload-card {
+        padding: 10px;
+    }
 }
 
 /* =========================================================
