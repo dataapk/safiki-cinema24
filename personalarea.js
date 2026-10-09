@@ -1150,6 +1150,28 @@
    PROFILE SIDEBAR — TOGGLE / CLOSE
 ===================================================== */
 
+window.openProfileSidebar = function() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (!sidebar) return;
+
+    sidebar.classList.add("active");
+};
+
+/* =====================================================
+   CLOSE ON OUTSIDE CLICK
+===================================================== */
+
+window.closeProfileSidebar = function() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (!sidebar) return;
+
+    sidebar.classList.remove("active");
+};
+
+/* =====================================================
+   CLOSE ON ESCAPE
+===================================================== */
+
 window.toggleProfileSidebar = function(event) {
     if (event) {
         event.preventDefault();
@@ -1157,50 +1179,11 @@ window.toggleProfileSidebar = function(event) {
     }
 
     const sidebar = document.getElementById("profile-sidebar");
-
-    if (!sidebar) {
-        console.error("Profile sidebar element not found.");
-        return;
-    }
+    if (!sidebar) return;
 
     if (sidebar.classList.contains("active")) {
-        sidebar.classList.remove("active");
+        window.closeProfileSidebar();
     } else {
-        sidebar.classList.add("active");
+        window.openProfileSidebar();
     }
 };
-
-/* =====================================================
-   CLOSE ON OUTSIDE CLICK
-===================================================== */
-
-document.addEventListener("click", function(event) {
-    const sidebar = document.getElementById("profile-sidebar");
-    const profileButton = document.querySelector(
-        "#user-actions-area .actions-box:last-child"
-    );
-
-    if (!sidebar || !profileButton) return;
-
-    if (!sidebar.classList.contains("active")) return;
-
-    if (
-        sidebar.contains(event.target) ||
-        profileButton.contains(event.target)
-    ) {
-        return;
-    }
-
-    sidebar.classList.remove("active");
-});
-
-
-/* =====================================================
-   CLOSE ON ESCAPE
-===================================================== */
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        window.closeProfileSidebar();
-    }
-});
