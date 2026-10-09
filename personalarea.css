@@ -3,200 +3,190 @@
    Theme: Sportsbook Green / Clean Dark UI
    ========================================================= */
 
+:root {
+    --icon-green: #027B5B;
+    --icon-yellow: #E8C547;
+    --icon-cyan: #08A77A;
+}
 
 /* =====================================================
-   PROFILE MENU
-===================================================== */
-
-/* =====================================================
-   PROFILE SIDEBAR - COMPACT SLIDING POPUP
+   PROFILE SIDEBAR — RIGHT TO LEFT SLIDE
 ===================================================== */
 
 #profile-sidebar {
     position: fixed;
-    top: 20px;
-    right: 16px;
 
-    width: 40vw;
-    max-width: 280px;
-    min-width: 0;
-    max-height: calc(100vh - 24px);
+    /* Header-এর ঠিক নিচে, অতিরিক্ত gap ছাড়া */
+    top: 60px;
+    right: 0;
+
+    width: 280px;
+    max-width: 85vw;
+    max-height: calc(100vh - 60px);
+
     overflow-y: auto;
     box-sizing: border-box;
-
     padding: 14px;
 
-    background: #111a15;
-    color: #fff;
+    background: linear-gradient(
+        180deg,
+        #282828 0%,
+        #1f1f1f 55%,
+        #181818 100%
+    );
 
     border: 1px solid rgba(34, 197, 94, 0.25);
-    border-radius: 14px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
 
-    z-index: 9999;
+    /* Square corners — no rounding */
+    border-radius: 0;
 
+    box-shadow: -8px 8px 24px rgba(0, 0, 0, 0.3);
+    z-index: 99998;
 
+    /* Closed: move beyond the right edge */
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-12px);
+    transform: translateX(100%);
 
     transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0.25s ease;
+        transform 0.28s ease,
+        opacity 0.28s ease,
+        visibility 0s linear 0.28s;
 }
 
+/* Open: slide in from right to left */
 #profile-sidebar.active {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translateX(0);
+
+    transition:
+        transform 0.28s ease,
+        opacity 0.28s ease,
+        visibility 0s;
 }
 
-/* =====================================================
-   PROFILE HEADER
-===================================================== */
-
-.profile-sidebar-header {
+/* Header: compact spacing */
+#profile-sidebar .profile-sidebar-header {
     position: relative;
-    width: 100%;
-    padding: 30px 8px 16px;
-    box-sizing: border-box;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 12px;
+    padding: 4px 4px 12px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.18);
 }
 
-/* Close button on the left */
-.profile-close-btn {
+/* Close button — top left, square */
+#profile-sidebar .profile-close-btn {
     position: absolute;
     top: 0;
     left: 0;
-    right: auto;
+
+    width: 30px;
+    height: 30px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 30px;
-    height: 30px;
     padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0;
 
+    background: rgba(255, 255, 255, 0.06);
     color: #fff;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-
     cursor: pointer;
 }
 
-/* Avatar centered at the top */
-.profile-user-info {
+/* Center avatar and ID */
+#profile-sidebar .profile-user-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    text-align: center;
+    padding-top: 24px;
 }
 
-/* Avatar */
-.profile-avatar-upload {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    cursor: pointer;
-}
+#profile-sidebar .profile-avatar {
+    width: 50px;
+    height: 50px;
 
-.profile-avatar {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 64px;
-    height: 64px;
     overflow: hidden;
-
+    border: 1px solid var(--icon-green);
     border-radius: 50%;
-    border: 2px solid #22c55e;
-    background: rgba(34, 197, 94, 0.1);
 
-    font-size: 42px;
-    color: #22c55e;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--icon-yellow);
+    font-size: 32px;
 }
 
-.profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+#profile-sidebar .profile-user-id-value,
+#profile-sidebar #profileUserId {
+    color: var(--icon-yellow);
 }
 
-/* User ID and verification status */
-.profile-user-text {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 12px;
-    text-align: center;
+/* Footer palette for menu icons */
+#profile-sidebar .profile-sidebar-item i {
+    color: var(--icon-green);
 }
 
-.profile-user-id {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px;
-
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
+#profile-sidebar .profile-sidebar-item:hover i {
+    color: var(--icon-yellow);
 }
 
-#profileUserVerificationStatus {
-    color: #facc15;
-    font-weight: 700;
-}
-
-/* ID value in gold */
-.profile-user-id-value {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 5px;
-
-    color: #ffd54f;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    overflow-wrap: anywhere;
-}
-
-#profileUserId {
-    color: #ffd54f;
-}
-
-/* Menu stays inside the popup */
-.profile-sidebar-menu {
+/* Keep the menu visible inside the sliding parent */
+#profile-sidebar .profile-sidebar-menu {
     position: static;
     width: 100%;
-    max-width: none;
     min-width: 0;
+    max-width: none;
     max-height: none;
-    overflow: visible;
 
+    overflow: visible;
     padding: 0;
-    box-sizing: border-box;
+    margin: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+}
+
+/* Square menu rows */
+#profile-sidebar .profile-sidebar-item {
+    border-radius: 0;
+}
+
+#profile-sidebar .profile-sidebar-item.logout-item {
+    border-radius: 0;
+}
+
+/* Scrollbar */
+#profile-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+#profile-sidebar::-webkit-scrollbar-thumb {
+    background: var(--icon-green);
 }
 
 /* Mobile */
 @media (max-width: 480px) {
     #profile-sidebar {
-        top: 68px;
-        right: 10px;
-
-        width: 40vw;
-        min-width: 250px;
-        max-width: calc(100vw - 20px);
-        max-height: calc(100vh - 82px);
+        top: 60px;
+        right: 0;
+        width: 280px;
+        max-width: 85vw;
+        max-height: calc(100vh - 60px);
     }
 }
 
