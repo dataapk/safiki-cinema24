@@ -1,423 +1,1206 @@
-/* =====================================================
-   PROFILE SIDEBAR
-   DARK + GREEN + GOLD THEME
-===================================================== */
+/* =========================================================
+   PERSONAL AREA — COMPLETE CSS
+   Theme: Sportsbook Green / Clean Dark UI
+   ========================================================= */
 
-#profile-sidebar{
+#personal-area-section {
+    --pa-green: #087a3e;
+    --pa-green-dark: #056331;
+    --pa-green-light: #e7f5ec;
+    --pa-bg: #f4f6f8;
+    --pa-card: #ffffff;
+    --pa-text: #20272e;
+    --pa-muted: #707984;
+    --pa-border: #e0e5e9;
+    --pa-input: #ffffff;
+    --pa-danger: #c62828;
+    --pa-success: #168447;
+    --pa-warning: #b77912;
 
-    position:fixed;
+    display: none;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--pa-text);
+    background: var(--pa-bg);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
 
-    top:70px;
-    right:0;
+#personal-area-section *,
+#personal-area-section *::before,
+#personal-area-section *::after {
+    box-sizing: border-box;
+}
 
-    width:170px;
-    max-width:90vw;
+#personal-area-section [hidden] {
+    display: none !important;
+}
 
-    height:fit-content;
-    max-height:calc(100vh - 80px);
+#personal-area-section button,
+#personal-area-section input,
+#personal-area-section select,
+#personal-area-section textarea {
+    font: inherit;
+}
 
-    padding:0 10px 40px;
+#personal-area-section button {
+    cursor: pointer;
+}
 
-    box-sizing:border-box;
+#personal-area-section button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
 
-    overflow-y:auto;
-    overflow-x:hidden;
+/* =========================================================
+   TOP HEADER — GREEN BAR + LEFT CLOSE BUTTON
+   ========================================================= */
 
-    background:
-    linear-gradient(
-        180deg,
-        #2b2b2b 0%,
-        #222222 100%
-    );
+#personal-area-section .personal-area-header,
+#personal-area-section .personal-header,
+#personal-area-section .personal-topbar,
+#personal-area-section .personal-area-topbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    width: 100%;
+    min-height: 58px;
+    margin: 0;
+    padding: 10px 16px;
+    background: #087a3e;
+    color: #ffffff;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
 
-    border-left:
-    1px solid rgba(34,197,94,.25);
+/* Close button: left side */
 
-    box-shadow:
-    -8px 0 25px rgba(0,0,0,.30);
+#personal-area-section #closePersonalAreaBtn {
+    display: inline-flex;
+    flex: 0 0 38px;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 5px;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
 
-    transform:translateX(100%);
+#personal-area-section #closePersonalAreaBtn:hover {
+    background: rgba(0, 0, 0, 0.28);
+    border-color: rgba(255, 255, 255, 0.5);
+}
 
+#personal-area-section #closePersonalAreaBtn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* Header title */
+
+#personal-area-section .personal-area-header h1,
+#personal-area-section .personal-header h1,
+#personal-area-section .personal-topbar h1,
+#personal-area-section .personal-area-topbar h1,
+#personal-area-section .personal-area-title {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* =========================================================
+   TAB NAVIGATION
+   ========================================================= */
+
+#personal-area-section .personal-tabs,
+#personal-area-section .personal-area-tabs {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    margin: 0;
+    padding: 0 12px;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #ffffff;
+    border-bottom: 1px solid var(--pa-border);
+    scrollbar-width: thin;
+}
+
+#personal-area-section .personal-tab-btn {
+    position: relative;
+    display: inline-flex;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: center;
+    min-height: 49px;
+    margin: 0;
+    padding: 13px 17px;
+    color: #66717b;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+#personal-area-section .personal-tab-btn:hover {
+    color: var(--pa-green);
+    background: #f5faf7;
+}
+
+#personal-area-section .personal-tab-btn.active {
+    color: var(--pa-green);
+    border-bottom-color: var(--pa-green);
+    background: #ffffff;
+}
+
+#personal-area-section .personal-tab-btn:focus-visible {
+    outline: 2px solid var(--pa-green);
+    outline-offset: -3px;
+}
+
+/* =========================================================
+   TAB CONTENT LAYOUT
+   ========================================================= */
+
+#personal-area-section .personal-tab-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 22px;
+}
+
+#personal-area-section #personaldetailsSection,
+#personal-area-section #idVerificationSection,
+#personal-area-section #proofDocumentsSection {
+    width: 100%;
+    min-width: 0;
+}
+
+#personal-area-section .personal-section-title {
+    margin: 0 0 7px;
+    color: var(--pa-text);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+#personal-area-section .personal-section-description {
+    margin: 0 0 20px;
+    color: var(--pa-muted);
+    font-size: 13px;
+}
+
+/* Generic cards */
+
+#personal-area-section .personal-card,
+#personal-area-section .profile-card,
+#personal-area-section .personal-form-card,
+#personal-area-section .verification-card,
+#personal-area-section .document-card {
+    min-width: 0;
+    margin-bottom: 18px;
+    padding: 20px;
+    background: var(--pa-card);
+    border: 1px solid var(--pa-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 7px rgba(24, 39, 52, 0.035);
+}
+
+/* =========================================================
+   PROFILE HEADER / AVATAR
+   ========================================================= */
+
+#personal-area-section .profile-header,
+#personal-area-section .personal-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    min-width: 0;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid var(--pa-border);
+    border-radius: 8px;
+}
+
+#personal-area-section .profile-avatar-wrap,
+#personal-area-section .avatar-wrapper {
+    position: relative;
+    flex: 0 0 76px;
+    width: 76px;
+    height: 76px;
+}
+
+#personal-area-section #profileAvatar {
+    display: block;
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    background: #e9eef0;
+    border: 3px solid #e2eee6;
+    border-radius: 50%;
+}
+
+#personal-area-section #changeAvatarBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    margin-top: 8px;
+    padding: 5px 10px;
+    color: var(--pa-green);
+    background: #ffffff;
+    border: 1px solid #c8dfd0;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#personal-area-section #changeAvatarBtn:hover {
+    background: var(--pa-green-light);
+}
+
+#personal-area-section #memberSince {
+    color: var(--pa-muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   FORM GRID AND LABELS
+   ========================================================= */
+
+#personal-area-section .personal-form-grid,
+#personal-area-section .form-grid,
+#personal-area-section .personal-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+#personal-area-section .form-group,
+#personal-area-section .form-field,
+#personal-area-section .personal-field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+    gap: 7px;
+    margin-bottom: 17px;
+}
+
+#personal-area-section label {
+    display: block;
+    margin: 0;
+    color: #36414b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#personal-area-section input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+#personal-area-section select,
+#personal-area-section textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 43px;
+    margin: 0;
+    padding: 10px 12px;
+    color: var(--pa-text);
+    background: var(--pa-input);
+    border: 1px solid #d7dde2;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+#personal-area-section textarea {
+    min-height: 95px;
+    resize: vertical;
+}
+
+#personal-area-section input::placeholder,
+#personal-area-section textarea::placeholder {
+    color: #9aa3ab;
+    opacity: 1;
+}
+
+#personal-area-section input:focus,
+#personal-area-section select:focus,
+#personal-area-section textarea:focus {
+    border-color: var(--pa-green);
+    box-shadow: 0 0 0 3px rgba(8, 122, 62, 0.1);
+}
+
+#personal-area-section input:disabled,
+#personal-area-section select:disabled,
+#personal-area-section textarea:disabled {
+    color: #59636c;
+    background: #f2f4f6;
+    border-color: #e2e6e9;
+    cursor: default;
+    opacity: 1;
+}
+
+/* =========================================================
+   EDIT MODE
+   ========================================================= */
+
+#personal-area-section .edit-mode-row,
+#personal-area-section .personal-edit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+#personal-area-section #editLabel {
+    color: var(--pa-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#personal-area-section #toggleEditBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 36px;
+    padding: 7px 12px;
+    color: var(--pa-green);
+    background: #ffffff;
+    border: 1px solid #bcd8c7;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#personal-area-section #toggleEditBtn:hover {
+    background: var(--pa-green-light);
+}
+
+#personal-area-section #toggleTrack {
+    display: inline-block;
+    position: relative;
+    width: 32px;
+    height: 18px;
+    background: #b9c0c6;
+    border-radius: 20px;
+    transition: background 0.2s ease;
+}
+
+#personal-area-section #toggleTrack::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+}
+
+#personal-area-section #toggleTrack.active {
+    background: var(--pa-green);
+}
+
+#personal-area-section #toggleTrack.active::after {
+    transform: translateX(14px);
+}
+
+/* =========================================================
+   PRIMARY AND SECONDARY BUTTONS
+   ========================================================= */
+
+#personal-area-section .personal-btn,
+#personal-area-section .primary-btn,
+#personal-area-section .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 41px;
+    padding: 10px 17px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
     transition:
-    transform .35s cubic-bezier(.4,0,.2,1);
-
-    z-index:99999;
-
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease;
 }
 
-
-/* =====================================================
-   OPEN
-===================================================== */
-
-#profile-sidebar.active{
-
-    transform:translateX(0);
-
+#personal-area-section .primary-btn,
+#personal-area-section #saveChangesBtn,
+#personal-area-section #submitIdVerificationBtn,
+#personal-area-section #saveAddressDocumentsBtn {
+    color: #ffffff;
+    background: var(--pa-green);
+    border-color: var(--pa-green);
 }
 
-
-/* =====================================================
-   PROFILE HEADER
-===================================================== */
-
-.profile-sidebar-header{
-
-    position:relative;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:18px 10px 14px;
-
-    margin-bottom:8px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #333333 0%,
-        #1d8548 100%
-    );
-
-    border-radius:12px;
-
-    box-shadow:
-    0 6px 18px rgba(0,0,0,.25);
-
+#personal-area-section .primary-btn:hover,
+#personal-area-section #saveChangesBtn:hover:not(:disabled),
+#personal-area-section #submitIdVerificationBtn:hover:not(:disabled),
+#personal-area-section #saveAddressDocumentsBtn:hover:not(:disabled) {
+    background: var(--pa-green-dark);
+    border-color: var(--pa-green-dark);
 }
 
-
-/* =====================================================
-   CLOSE BUTTON
-===================================================== */
-
-.profile-close-btn{
-
-    position:absolute;
-
-    left:9px;
-    top:9px;
-
-    width:28px;
-    height:28px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    border:1px solid rgba(232,197,71,.65);
-
-    border-radius:50%;
-
-    background:
-    rgba(0,0,0,.22);
-
-    color:#E8C547;
-
-    font-size:13px;
-
-    cursor:pointer;
-
-    transition:.3s ease;
-
+#personal-area-section .secondary-btn {
+    color: #35414a;
+    background: #ffffff;
+    border-color: #d6dde2;
 }
 
-
-.profile-close-btn:hover{
-
-    background:#E8C547;
-
-    color:#111;
-
-    transform:rotate(90deg);
-
+#personal-area-section .secondary-btn:hover {
+    background: #f1f4f6;
 }
 
-
-/* =====================================================
-   PROFILE USER
-===================================================== */
-
-.profile-user-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    width:100%;
-
+#personal-area-section #saveChangesBtn,
+#personal-area-section #submitIdVerificationBtn,
+#personal-area-section #saveAddressDocumentsBtn {
+    width: auto;
+    min-width: 145px;
+    margin-top: 6px;
 }
 
+/* =========================================================
+   EMAIL AND MOBILE CHANGE PANELS
+   ========================================================= */
 
-.profile-avatar{
-
-    width:52px;
-    height:52px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:
-    rgba(255,255,255,.06);
-
-    border:2px solid #E8C547;
-
-    color:#E8C547;
-
-    font-size:30px;
-
-    box-shadow:
-    0 0 12px rgba(232,197,71,.18);
-
+#personal-area-section .email-row,
+#personal-area-section .mobile-row,
+#personal-area-section .contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px 0;
+    border-bottom: 1px solid #edf0f2;
 }
 
-
-.profile-user-text{
-
-    text-align:center;
-
-    margin-top:7px;
-
-    width:100%;
-
+#personal-area-section .email-row:last-child,
+#personal-area-section .mobile-row:last-child,
+#personal-area-section .contact-row:last-child {
+    border-bottom: 0;
 }
 
-
-.profile-user-text h3{
-
-    margin:0;
-
-    color:#fff;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
+#personal-area-section #emailChangeBtn,
+#personal-area-section #mobileEditBtn {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 6px 12px;
+    color: var(--pa-green);
+    background: #ffffff;
+    border: 1px solid #c7ddcf;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
 }
 
-
-.profile-user-text span{
-
-    display:block;
-
-    margin-top:4px;
-
-    color:#22c55e;
-
-    font-size:11px;
-
-    font-weight:600;
-
+#personal-area-section #emailChangeBtn:hover,
+#personal-area-section #mobileEditBtn:hover {
+    background: var(--pa-green-light);
 }
 
-
-/* =====================================================
-   PROFILE MENU
-===================================================== */
-
-.profile-sidebar-menu{
-
-    padding:5px 0;
-
+#personal-area-section #emailChangeDropdown,
+#personal-area-section #mobileChangeDropdown {
+    margin-top: 13px;
+    padding: 17px;
+    background: #f8faf9;
+    border: 1px solid #dce8e0;
+    border-radius: 7px;
 }
 
+#personal-area-section .email-change-actions,
+#personal-area-section .mobile-change-actions,
+#personal-area-section .verification-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 12px;
+}
 
-/* =====================================================
-   PROFILE MENU ITEM
-===================================================== */
+#personal-area-section #emailVerifyRow,
+#personal-area-section #mobileVerifyRow {
+    margin-top: 14px;
+}
 
-.profile-sidebar-item{
+#personal-area-section #emailChangeMessage,
+#personal-area-section #mobileChangeMessage {
+    margin-top: 10px;
+}
 
-    display:flex;
+#personal-area-section #mobileCountryCode {
+    flex: 0 0 120px;
+    width: 120px;
+}
 
-    align-items:center;
+#personal-area-section .mobile-number-inputs {
+    display: flex;
+    gap: 10px;
+    min-width: 0;
+}
 
-    gap:10px;
+#personal-area-section .mobile-number-inputs > * {
+    min-width: 0;
+}
 
-    width:100%;
+/* =========================================================
+   STATUS MESSAGES
+   ========================================================= */
 
-    min-height:42px;
+#personal-area-section #personalDetailsMessage,
+#personal-area-section #emailChangeMessage,
+#personal-area-section #mobileChangeMessage,
+#personal-area-section #idVerificationMessage,
+#personal-area-section #addressVerificationStatusBox,
+#personal-area-section #addressDocumentFileStatus {
+    overflow-wrap: anywhere;
+    font-size: 13px;
+}
 
-    padding:0 11px;
+#personal-area-section [data-state="success"] {
+    color: var(--pa-success);
+}
 
-    margin-bottom:5px;
+#personal-area-section [data-state="error"] {
+    color: var(--pa-danger);
+}
 
-    box-sizing:border-box;
+#personal-area-section [data-state="info"] {
+    color: var(--pa-muted);
+}
 
-    border:1px solid transparent;
+/* =========================================================
+   ID VERIFICATION GUIDELINES
+   ========================================================= */
 
-    border-radius:10px;
+#personal-area-section .photo-guidelines {
+    margin: 0 0 20px;
+    padding: 15px 17px;
+    color: #45534a;
+    background: #edf7f0;
+    border: 1px solid #cfe6d6;
+    border-left: 4px solid var(--pa-green);
+    border-radius: 6px;
+}
 
-    background:
-    rgba(255,255,255,.025);
+#personal-area-section .photo-guidelines h3 {
+    margin: 0 0 8px;
+    color: var(--pa-green-dark);
+    font-size: 14px;
+    font-weight: 700;
+}
 
-    color:#fff;
+#personal-area-section .photo-guidelines p {
+    margin: 5px 0;
+    font-size: 12px;
+    line-height: 1.6;
+}
 
-    cursor:pointer;
+#personal-area-section .photo-guidelines ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
 
+#personal-area-section .photo-guidelines li {
+    margin: 4px 0;
+    font-size: 12px;
+}
+
+/* =========================================================
+   DOCUMENT UPLOAD FIELDS
+   ========================================================= */
+
+#personal-area-section .upload-grid,
+#personal-area-section .document-upload-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+#personal-area-section .upload-field,
+#personal-area-section .document-upload-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 10px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px dashed #cbd4da;
+    border-radius: 7px;
+}
+
+#personal-area-section .upload-field:hover,
+#personal-area-section .document-upload-field:hover {
+    border-color: #92bca1;
+}
+
+#personal-area-section input[type="file"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 9px;
+    color: #4d5962;
+    background: #f8fafb;
+    border: 1px solid #e0e5e8;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+#personal-area-section input[type="file"]::file-selector-button {
+    margin-right: 9px;
+    padding: 7px 10px;
+    color: var(--pa-green-dark);
+    background: #e7f5ec;
+    border: 1px solid #cde5d5;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#personal-area-section input[type="file"]::file-selector-button:hover {
+    background: #d9efdf;
+}
+
+#personal-area-section #idFrontFileName,
+#personal-area-section #idBackFileName,
+#personal-area-section #addressDocumentFileName {
+    display: block;
+    overflow-wrap: anywhere;
+    color: var(--pa-muted);
+    font-size: 12px;
+}
+
+#personal-area-section #idFrontStatus,
+#personal-area-section #idBackStatus {
+    color: var(--pa-muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   FACE CAMERA / SELFIE CAPTURE
+   ========================================================= */
+
+#personal-area-section .face-verification,
+#personal-area-section .face-camera-section {
+    margin-top: 22px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid var(--pa-border);
+    border-radius: 8px;
+}
+
+#personal-area-section .face-verification h3,
+#personal-area-section .face-camera-section h3 {
+    margin: 0 0 8px;
+    color: var(--pa-text);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#personal-area-section #faceCameraPlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    margin: 15px 0;
+    padding: 25px;
+    color: #75818a;
+    background: #f2f5f6;
+    border: 1px dashed #cbd4da;
+    border-radius: 7px;
+    text-align: center;
+}
+
+#personal-area-section #faceCameraVideo {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    max-height: 440px;
+    margin: 16px auto;
+    object-fit: cover;
+    background: #17221b;
+    border-radius: 8px;
+}
+
+#personal-area-section #faceCaptureCanvas {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    margin: 16px auto;
+    border-radius: 8px;
+}
+
+#personal-area-section #faceCameraGuide {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    margin: 16px auto;
+    padding: 12px;
+    text-align: center;
+}
+
+#personal-area-section .face-camera-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#personal-area-section #startFaceCameraBtn,
+#personal-area-section #captureFaceBtn {
+    color: #ffffff;
+    background: var(--pa-green);
+    border: 1px solid var(--pa-green);
+}
+
+#personal-area-section #stopFaceCameraBtn {
+    color: #5b636a;
+    background: #ffffff;
+    border: 1px solid #d7dde2;
+}
+
+#personal-area-section #faceVerificationStatus {
+    margin-top: 12px;
+    color: var(--pa-muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* =========================================================
+   VERIFICATION PROGRESS STEPS
+   ========================================================= */
+
+#personal-area-section .verification-steps,
+#personal-area-section .verification-progress {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 22px 0;
+}
+
+#personal-area-section .verification-step,
+#personal-area-section .progress-step {
+    min-width: 0;
+    padding: 14px 12px;
+    background: #f8faf9;
+    border: 1px solid #e0e7e2;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#personal-area-section .verification-step strong,
+#personal-area-section .progress-step strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--pa-green-dark);
+    font-size: 12px;
+}
+
+#personal-area-section .verification-step span,
+#personal-area-section .progress-step span {
+    display: block;
+    overflow-wrap: anywhere;
+    color: var(--pa-muted);
+    font-size: 11px;
+}
+
+/* =========================================================
+   PROOF DOCUMENT TYPE CARDS
+   ========================================================= */
+
+#personal-area-section .address-document-options,
+#personal-area-section .document-type-grid,
+#personal-area-section .proof-document-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+}
+
+#personal-area-section [data-document-type] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+    min-height: 115px;
+    padding: 16px;
+    color: #36414b;
+    background: #ffffff;
+    border: 1px solid #dce2e6;
+    border-radius: 7px;
+    text-align: left;
+    cursor: pointer;
     transition:
-    background .25s ease,
-    border-color .25s ease,
-    transform .25s ease;
-
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
-
-.profile-sidebar-item:hover{
-
-    background:
-    rgba(34,197,94,.10);
-
-    border-color:
-    rgba(34,197,94,.18);
-
-    transform:translateX(3px);
-
+#personal-area-section [data-document-type]:hover {
+    border-color: #9dc8aa;
+    background: #f8fcf9;
 }
 
-
-/* =====================================================
-   MENU ICON
-===================================================== */
-
-.profile-sidebar-item i{
-
-    width:20px;
-
-    flex-shrink:0;
-
-    text-align:center;
-
-    font-size:15px;
-
-    color:#22c55e;
-
-    transition:.25s ease;
-
+#personal-area-section [data-document-type].selected {
+    color: var(--pa-green-dark);
+    background: #eef8f1;
+    border-color: var(--pa-green);
+    box-shadow: inset 0 0 0 1px var(--pa-green);
 }
 
-
-.profile-sidebar-item:hover i{
-
-    color:#E8C547;
-
+#personal-area-section [data-document-type] strong,
+#personal-area-section [data-document-type] .document-title {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
 }
 
-
-/* =====================================================
-   MENU TEXT
-===================================================== */
-
-.profile-sidebar-item span{
-
-    flex:1;
-
-    color:#fff;
-
-    font-size:12px;
-
-    font-weight:600;
-
+#personal-area-section [data-document-type] small {
+    color: var(--pa-muted);
+    font-size: 11px;
+    line-height: 1.5;
 }
 
+/* =========================================================
+   ADDRESS DOCUMENT UPLOAD PANEL
+   ========================================================= */
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-.profile-sidebar-item.logout-item{
-
-    margin-top:8px;
-
-    color:#ff6b6b;
-
-    background:rgba(255,107,107,.10);
-
-    border:1px solid rgba(255,107,107,.15);
-
-    border-radius:8px;
-
+#personal-area-section #addressDocumentUploadBox {
+    margin-top: 18px;
+    padding: 19px;
+    background: #ffffff;
+    border: 1px solid var(--pa-border);
+    border-radius: 7px;
 }
 
-
-.profile-sidebar-item.logout-item i{
-
-    color:#ff6b6b;
-
+#personal-area-section #addressDocumentUploadTitle {
+    margin: 0 0 7px;
+    color: var(--pa-text);
+    font-size: 16px;
+    font-weight: 700;
 }
 
-.profile-sidebar-item.logout-item:hover{
-
-    background:
-    rgba(255,107,107,.10);
-
-    border-color:
-    rgba(255,107,107,.18);
-
+#personal-area-section #addressDocumentUploadDescription {
+    margin: 0 0 14px;
+    color: var(--pa-muted);
+    font-size: 12px;
 }
 
+/* =========================================================
+   VERIFICATION STATUS
+   ========================================================= */
 
-/* =====================================================
-   SCROLLBAR
-===================================================== */
-
-#profile-sidebar::-webkit-scrollbar{
-
-    width:4px;
-
+#personal-area-section #addressVerificationStatusBox {
+    margin-top: 17px;
+    padding: 13px 15px;
+    color: #795716;
+    background: #fff8e7;
+    border: 1px solid #f0dfad;
+    border-radius: 6px;
 }
 
-
-#profile-sidebar::-webkit-scrollbar-track{
-
-    background:transparent;
-
+#personal-area-section #addressVerificationStatus {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
 }
 
+/* =========================================================
+   DIVIDERS / HELPER TEXT
+   ========================================================= */
 
-#profile-sidebar::-webkit-scrollbar-thumb{
-
-    background:
-    rgba(34,197,94,.35);
-
-    border-radius:10px;
-
+#personal-area-section hr {
+    height: 1px;
+    margin: 20px 0;
+    background: var(--pa-border);
+    border: 0;
 }
 
+#personal-area-section .helper-text,
+#personal-area-section .field-hint,
+#personal-area-section .muted-text {
+    display: block;
+    margin-top: 4px;
+    color: var(--pa-muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
 
-/* =====================================================
-   MOBILE
-===================================================== */
+#personal-area-section .required-mark {
+    color: var(--pa-danger);
+}
 
-@media(max-width:480px){
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
 
-    #profile-sidebar{
-
-        width:50%;
-
-        max-width:380px;
-
-        padding-left:12px;
-        padding-right:12px;
-
+@media (max-width: 900px) {
+    #personal-area-section .personal-tab-content {
+        padding: 18px;
     }
 
+    #personal-area-section .address-document-options,
+    #personal-area-section .document-type-grid,
+    #personal-area-section .proof-document-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #personal-area-section .verification-steps,
+    #personal-area-section .verification-progress {
+        gap: 8px;
+    }
+
+    #personal-area-section .personal-card,
+    #personal-area-section .profile-card,
+    #personal-area-section .personal-form-card,
+    #personal-area-section .verification-card,
+    #personal-area-section .document-card {
+        padding: 17px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    #personal-area-section {
+        font-size: 13px;
+    }
+
+    #personal-area-section .personal-area-header,
+    #personal-area-section .personal-header,
+    #personal-area-section .personal-topbar,
+    #personal-area-section .personal-area-topbar {
+        min-height: 52px;
+        gap: 11px;
+        padding: 7px 10px;
+    }
+
+    #personal-area-section #closePersonalAreaBtn {
+        flex-basis: 35px;
+        width: 35px;
+        min-width: 35px;
+        height: 35px;
+        font-size: 25px;
+    }
+
+    #personal-area-section .personal-area-header h1,
+    #personal-area-section .personal-header h1,
+    #personal-area-section .personal-topbar h1,
+    #personal-area-section .personal-area-topbar h1,
+    #personal-area-section .personal-area-title {
+        font-size: 17px;
+    }
+
+    #personal-area-section .personal-tabs,
+    #personal-area-section .personal-area-tabs {
+        padding: 0 5px;
+    }
+
+    #personal-area-section .personal-tab-btn {
+        min-height: 45px;
+        padding: 11px 12px;
+        font-size: 12px;
+    }
+
+    #personal-area-section .personal-tab-content {
+        padding: 12px;
+    }
+
+    #personal-area-section .personal-form-grid,
+    #personal-area-section .form-grid,
+    #personal-area-section .personal-details-grid,
+    #personal-area-section .upload-grid,
+    #personal-area-section .document-upload-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    #personal-area-section .profile-header,
+    #personal-area-section .personal-profile-header {
+        gap: 12px;
+        padding: 14px;
+    }
+
+    #personal-area-section .profile-avatar-wrap,
+    #personal-area-section .avatar-wrapper,
+    #personal-area-section #profileAvatar {
+        width: 62px;
+        height: 62px;
+    }
+
+    #personal-area-section .profile-avatar-wrap,
+    #personal-area-section .avatar-wrapper {
+        flex-basis: 62px;
+    }
+
+    #personal-area-section .personal-card,
+    #personal-area-section .profile-card,
+    #personal-area-section .personal-form-card,
+    #personal-area-section .verification-card,
+    #personal-area-section .document-card,
+    #personal-area-section .face-verification,
+    #personal-area-section .face-camera-section {
+        margin-bottom: 12px;
+        padding: 14px;
+        border-radius: 7px;
+    }
+
+    #personal-area-section .address-document-options,
+    #personal-area-section .document-type-grid,
+    #personal-area-section .proof-document-options {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    #personal-area-section [data-document-type] {
+        min-height: 80px;
+        padding: 13px;
+    }
+
+    #personal-area-section .verification-steps,
+    #personal-area-section .verification-progress {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 9px;
+    }
+
+    #personal-area-section .verification-step,
+    #personal-area-section .progress-step {
+        padding: 12px;
+        text-align: left;
+    }
+
+    #personal-area-section .email-row,
+    #personal-area-section .mobile-row,
+    #personal-area-section .contact-row {
+        align-items: flex-start;
+    }
+
+    #personal-area-section .mobile-number-inputs {
+        flex-wrap: wrap;
+    }
+
+    #personal-area-section #mobileCountryCode {
+        flex: 0 0 105px;
+        width: 105px;
+    }
+
+    #personal-area-section .mobile-number-inputs input {
+        flex: 1 1 150px;
+    }
+
+    #personal-area-section #saveChangesBtn,
+    #personal-area-section #submitIdVerificationBtn,
+    #personal-area-section #saveAddressDocumentsBtn {
+        width: 100%;
+    }
+
+    #personal-area-section .email-change-actions,
+    #personal-area-section .mobile-change-actions,
+    #personal-area-section .verification-actions,
+    #personal-area-section .face-camera-actions {
+        align-items: stretch;
+    }
+
+    #personal-area-section .email-change-actions button,
+    #personal-area-section .mobile-change-actions button,
+    #personal-area-section .verification-actions button,
+    #personal-area-section .face-camera-actions button {
+        flex: 1 1 auto;
+    }
+
+    #personal-area-section #faceCameraVideo,
+    #personal-area-section #faceCaptureCanvas {
+        max-width: 100%;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 360px) {
+    #personal-area-section .personal-tab-content {
+        padding: 9px;
+    }
+
+    #personal-area-section .personal-tab-btn {
+        padding: 10px 9px;
+        font-size: 11px;
+    }
+
+    #personal-area-section .profile-header,
+    #personal-area-section .personal-profile-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    #personal-area-section .email-row,
+    #personal-area-section .mobile-row,
+    #personal-area-section .contact-row {
+        flex-direction: column;
+    }
+
+    #personal-area-section #mobileCountryCode {
+        flex-basis: 100%;
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION / ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    #personal-area-section *,
+    #personal-area-section *::before,
+    #personal-area-section *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
