@@ -118,24 +118,15 @@
 
 @media (max-width: 480px) {
     #personal-area-section {
-        top: 12px;
-
         left: 10px;
         right: 10px;
-
         width: auto;
         max-width: none;
-
-        height: calc(100vh - 24px);
-
-        margin-left: auto;
-        margin-right: auto;
-
+        margin: 0;
         transform: none;
-
         box-sizing: border-box;
     }
-
+}
     #personal-area-section .personal-tabs {
         gap: 5px;
         margin: 10px;
