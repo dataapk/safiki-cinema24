@@ -1229,3 +1229,29 @@ document.addEventListener("keydown", function (event) {
     }
 
 });
+// ========================================
+// PROFILE SIDEBAR — OUTSIDE CLICK
+// ========================================
+
+document.addEventListener("click", function (event) {
+
+    const profileSidebar = document.getElementById("profile-sidebar");
+
+    if (!profileSidebar) return;
+
+    if (!profileSidebar.classList.contains("active")) return;
+
+    // Profile button-এর ক্লিক outside click হিসেবে গণ্য হবে না
+    const profileButton = event.target.closest(
+        '#user-actions-area .actions-box[onclick*="toggleProfileSidebar"]'
+    );
+
+    if (profileButton) return;
+
+    // Sidebar-এর ভেতরে ক্লিক করলে খোলা থাকবে
+    if (profileSidebar.contains(event.target)) return;
+
+    // অন্য কোথাও ক্লিক করলে বন্ধ হবে
+    window.closeProfileSidebar();
+
+});
