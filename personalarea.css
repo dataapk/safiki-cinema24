@@ -9,14 +9,13 @@
     --icon-cyan: #08A77A;
 }
 
-/* ===== PERSONAL AREA POPUP LAYOUT ===== */
-/* ========================================= */
-/* PERSONAL AREA POPUP */
-/* ========================================= */
+
+/* =========================================
+   PERSONAL AREA POPUP
+========================================= */
 
 #personal-area-section {
     position: fixed;
-
     top: 65px;
     left: 50%;
     transform: translateX(-50%);
@@ -25,32 +24,24 @@
     max-width: 760px;
     height: 80vh;
 
-    overflow-y: auto;
-   overflow-x: hidden;
-
     display: none;
+    flex-direction: column;
 
-    border-radius: 16px;
+    overflow: hidden;
     box-sizing: border-box;
+    border-radius: 16px;
 
     z-index: 99999;
 }
 
-#personal-area-section .personal-tab-content.active {
-    height: auto;
-    max-height: none;
-    min-height: 0;
-    overflow-y: visible;
-    overflow-x: hidden;
-}
-
-/* ========================================= */
-/* PERSONAL AREA HEADER */
-/* ========================================= */
+/* =========================================
+   HEADER
+========================================= */
 
 #personal-area-section .personal-area-header {
     position: relative;
 
+    flex: 0 0 54px;
     height: 54px;
     min-height: 54px;
 
@@ -59,19 +50,22 @@
     justify-content: center;
 
     margin: 0;
-    padding: 0 48px 0 16px;
+    padding: 0 48px;
 
     box-sizing: border-box;
 }
 
-/* ========================================= */
-/* CLOSE BUTTON */
-/* ========================================= */
+/* Center title */
+#personal-area-section .personal-area-header h2 {
+    margin: 0;
+    text-align: center;
+}
 
+/* Close button on LEFT */
 #personal-area-section .personal-area-close-btn {
     position: absolute;
-
-    right: 12px;
+    left: 12px;
+    right: auto;
     top: 50%;
     transform: translateY(-50%);
 
@@ -87,60 +81,69 @@
 }
 
 /* =========================================
-   PERSONAL AREA - NO TAB SCROLL
+   TABS - NO SCROLL
 ========================================= */
 
 #personal-area-section .personal-tabs {
+    flex: 0 0 auto;
+
     display: flex;
     flex-wrap: nowrap;
+
     overflow: hidden;
-    width: auto;
-    max-width: 100%;
+    margin: 14px;
+    gap: 8px;
+
     box-sizing: border-box;
 }
 
 #personal-area-section .personal-tab-btn {
     flex: 1 1 0;
     min-width: 0;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 /* =========================================
-   PERSONAL AREA - HEADER STAYS VISIBLE
+   CONTENT - SCROLL AREA
 ========================================= */
 
-#personal-area-section {
+#personal-area-section .personal-tab-content {
     display: none;
-    flex-direction: column;
-    overflow: hidden;
 }
-
-/* Header and tabs remain outside the scrolling area */
-#personal-area-section > .personal-area-header,
-#personal-area-section > .personal-tabs {
-    flex-shrink: 0;
-}
-
-/* =========================================
-   CONTENT AREA
-========================================= */
 
 #personal-area-section .personal-tab-content.active {
+    display: block;
+
+    flex: 1 1 0;
     min-height: 0;
+    height: 0;
+
     overflow-y: auto;
     overflow-x: hidden;
-    flex: 1 1 auto;
+
+    box-sizing: border-box;
+    padding: 14px;
 }
 
 /* =========================================
-   MOBILE TAB TEXT
+   MOBILE
 ========================================= */
 
 @media (max-width: 480px) {
+    #personal-area-section {
+        top: 12px;
+        height: calc(100vh - 24px);
+        width: 96%;
+    }
+
+    #personal-area-section .personal-tabs {
+        gap: 5px;
+        margin: 10px;
+    }
+
     #personal-area-section .personal-tab-btn {
         font-size: 11px;
-        padding-left: 4px;
-        padding-right: 4px;
+        padding: 8px 3px;
     }
 }
 
