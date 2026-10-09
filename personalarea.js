@@ -1149,74 +1149,54 @@
 
 
 // ========================================
-// PROFILE SIDEBAR — OPEN / TOGGLE
+// PROFILE SIDEBAR — TOGGLE / CLOSE
 // ========================================
 
 window.toggleProfileSidebar = function (event) {
-
-    if (event) {
-        event.stopPropagation();
-    }
-
-    const profileSidebar = document.getElementById("profile-sidebar");
-
-    if (!profileSidebar) return;
-
-    if (profileSidebar.classList.contains("active")) {
-        window.closeProfileSidebar();
-    } else {
-        profileSidebar.classList.add("active");
-    }
-
-};
-
-
-// ========================================
-// PROFILE SIDEBAR — CLOSE
-// ========================================
-
-window.closeProfileSidebar = function () {
-
-    const profileSidebar = document.getElementById("profile-sidebar");
-
-    if (profileSidebar) {
-        profileSidebar.classList.remove("active");
-    }
-
-};
-
-
-// PROFILE SIDEBAR — OUTSIDE CLICK
-
-document.addEventListener("click", function(e){
+    if (event) event.stopPropagation();
 
     const sidebar = document.getElementById("profile-sidebar");
-    const profileBtn = document.querySelector(
-        '#user-actions-area .actions-box[onclick*="toggleProfileSidebar"]'
+    if (!sidebar) return;
+
+    sidebar.classList.toggle("active");
+};
+
+window.closeProfileSidebar = function () {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (sidebar) sidebar.classList.remove("active");
+};
+
+
+// ========================================
+// PROFILE SIDEBAR — OUTSIDE CLICK
+// ========================================
+
+document.addEventListener("click", function (event) {
+    const sidebar = document.getElementById("profile-sidebar");
+    const button = event.target.closest(
+        '#user-actions-area [onclick*="toggleProfileSidebar"]'
     );
 
-    if(
+    if (
         sidebar &&
         sidebar.classList.contains("active") &&
-        !sidebar.contains(e.target) &&
-        profileBtn &&
-        !profileBtn.contains(e.target)
-    ){
-
+        !sidebar.contains(event.target) &&
+        !button
+    ) {
         window.closeProfileSidebar();
-
     }
-
 });
+
 
 // ========================================
 // PROFILE SIDEBAR — ESC KEY
 // ========================================
 
 document.addEventListener("keydown", function (event) {
-
-    if (event.key === "Escape") {
+    if (
+        event.key === "Escape" &&
+        document.getElementById("profile-sidebar")?.classList.contains("active")
+    ) {
         window.closeProfileSidebar();
     }
-
 });
