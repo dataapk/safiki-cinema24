@@ -1150,7 +1150,6 @@
 
         </div>
 
-
         <!-- DATE OF BIRTH / GENDER -->
         <div class="form-row">
 
@@ -1186,6 +1185,27 @@
                 </select>
 
             </div>
+
+        </div>
+
+
+        <!-- SAVE PERSONAL INFORMATION -->
+        <div class="personal-save-row">
+
+            <button
+                type="button"
+                id="saveChangesBtn"
+                class="action-btn save-btn"
+                onclick="saveAllChanges()"
+                disabled>
+                Save Changes
+            </button>
+
+            <p
+                id="personalDetailsMessage"
+                class="field-status"
+                aria-live="polite">
+            </p>
 
         </div>
 
