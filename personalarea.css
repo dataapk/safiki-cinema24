@@ -9,54 +9,196 @@
 ===================================================== */
 
 /* =====================================================
-   PROFILE MENU - SLIDING POPUP
+   PROFILE SIDEBAR - COMPACT SLIDING POPUP
 ===================================================== */
 
-.profile-sidebar-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
+#profile-sidebar {
+    position: fixed;
+    top: 75px;
+    right: 16px;
 
     width: 40vw;
     max-width: 340px;
     min-width: 260px;
-    max-height: 75vh;
+    max-height: calc(100vh - 95px);
     overflow-y: auto;
-
-    padding: 12px;
     box-sizing: border-box;
 
+    padding: 14px;
+
     background: #111a15;
+    color: #fff;
+
     border: 1px solid rgba(34, 197, 94, 0.25);
     border-radius: 14px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
 
     z-index: 9999;
 
+    /* Initially hidden */
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-
     transform: translateY(-12px);
+
     transition:
         opacity 0.25s ease,
         transform 0.25s ease,
         visibility 0.25s ease;
 }
 
-.profile-sidebar-menu.active {
+/* Open state: compatible with an active class */
+#profile-sidebar.active {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
 }
 
-/* Keep all menu items visible inside the popup */
-.profile-sidebar-menu .profile-sidebar-item {
+/* =====================================================
+   PROFILE HEADER
+===================================================== */
+
+.profile-sidebar-header {
+    position: relative;
+    width: 100%;
+    padding: 30px 8px 16px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px;
+}
+
+/* Close button on the left */
+.profile-close-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+    padding: 0;
+
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+/* Avatar centered at the top */
+.profile-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
+    text-align: center;
+}
+
+/* Avatar */
+.profile-avatar-upload {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+
+    border-radius: 50%;
+    border: 2px solid #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+
+    font-size: 42px;
+    color: #22c55e;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* User ID and verification status */
+.profile-user-text {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.profile-user-id {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#profileUserVerificationStatus {
+    color: #facc15;
+    font-weight: 700;
+}
+
+/* ID value in gold */
+.profile-user-id-value {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5px;
+
+    color: #ffd54f;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    overflow-wrap: anywhere;
+}
+
+#profileUserId {
+    color: #ffd54f;
+}
+
+/* Menu stays inside the popup */
+.profile-sidebar-menu {
+    position: static;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    max-height: none;
+    overflow: visible;
+
+    padding: 0;
     box-sizing: border-box;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    #profile-sidebar {
+        top: 68px;
+        right: 10px;
+
+        width: 40vw;
+        min-width: 250px;
+        max-width: calc(100vw - 20px);
+        max-height: calc(100vh - 82px);
+    }
 }
 
 
@@ -222,103 +364,8 @@
 
 }
 
-/* Profile Header */
-.profile-user-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-    margin-top: 10px;
-}
-
-/* User ID + Verification Status */
-.profile-user-id {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px;
-
-    font-size: 13px;
-    font-weight: 600;
-    color: #ffffff;
-}
-
-.profile-user-id-label {
-    color: #ffffff;
-    opacity: 0.9;
-}
-
-/* Verification status text */
-#profileUserVerificationStatus {
-    color: #facc15;
-    font-weight: 700;
-}
-
-/* User ID Value */
-.profile-user-id-value {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 6px;
-
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: #ffd54f;
-    text-align: center;
-}
-
-/* Keep the ID text prominent */
-#profileUserId {
-    color: #ffd54f;
-    overflow-wrap: anywhere;
-}
-
-/* Personal Area Close Button - Left Side */
-#closePersonalAreaBtn {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 36px;
-    height: 36px;
-    padding: 0;
-
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-
-    font-size: 24px;
-    line-height: 1;
-}
 
 
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:480px){
-
-    #profile-sidebar{
-
-        width:50%;
-
-        max-width:380px;
-
-        padding-left:12px;
-        padding-right:12px;
-
-    }
-
-}
 
 
 #personal-area-section {
