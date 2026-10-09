@@ -1143,3 +1143,65 @@
         initializePersonalArea();
     }
 })();
+
+// =========================================================
+// PROFILE SIDEBAR — OPEN / CLOSE / OUTSIDE CLICK
+// =========================================================
+
+let isProfileSidebarOpen = false;
+
+function openProfileSidebar() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (!sidebar) return;
+
+    sidebar.classList.add("active");
+    isProfileSidebarOpen = true;
+}
+
+function closeProfileSidebar() {
+    const sidebar = document.getElementById("profile-sidebar");
+    if (!sidebar) return;
+
+    sidebar.classList.remove("active");
+    isProfileSidebarOpen = false;
+}
+
+function toggleProfileSidebar(event) {
+    if (event) event.stopPropagation();
+
+    if (isProfileSidebarOpen) {
+        closeProfileSidebar();
+    } else {
+        openProfileSidebar();
+    }
+}
+
+// Make functions accessible to existing HTML onclick handlers.
+window.openProfileSidebar = openProfileSidebar;
+window.closeProfileSidebar = closeProfileSidebar;
+window.toggleProfileSidebar = toggleProfileSidebar;
+
+// Close when clicking outside the sidebar and profile button.
+document.addEventListener("click", function(event) {
+    const sidebar = document.getElementById("profile-sidebar");
+    const profileButton = document.querySelector(
+        "#user-actions-area .actions-box:last-child"
+    );
+
+    if (
+        isProfileSidebarOpen &&
+        sidebar &&
+        profileButton &&
+        !sidebar.contains(event.target) &&
+        !profileButton.contains(event.target)
+    ) {
+        closeProfileSidebar();
+    }
+});
+
+// Close when pressing Escape.
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" && isProfileSidebarOpen) {
+        closeProfileSidebar();
+    }
+});
