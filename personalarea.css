@@ -9,6 +9,82 @@
     --icon-cyan: #08A77A;
 }
 
+/* ===== PERSONAL AREA POPUP LAYOUT ===== */
+#personal-area-section {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: calc(100% - 32px);
+    max-width: 760px;
+    height: calc(100vh - 40px);
+    max-height: 820px;
+
+    display: none;
+    flex-direction: column;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background: #151515;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+
+    z-index: 99990;
+}
+
+/* ===== FIXED HEADER ===== */
+#personal-area-section > .personal-area-header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 18px;
+    background: #1c1c1c;
+    border-bottom: 1px solid #333;
+}
+
+/* ===== CLOSE BUTTON ===== */
+#personal-area-section .personal-area-close-btn {
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+    background: #e8c547;
+    color: #111;
+
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* ===== CONTENT AREA ===== */
+#personal-area-section > *:not(.personal-area-header) {
+    min-height: 0;
+}
+
+/* ===== SMALL SCREEN ===== */
+@media (max-width: 600px) {
+    #personal-area-section {
+        width: calc(100% - 20px);
+        height: calc(100vh - 24px);
+        max-height: none;
+        border-radius: 10px;
+    }
+
+    #personal-area-section > .personal-area-header {
+        padding: 12px 14px;
+    }
+}
+
 /* ========================================
    PROFILE SIDEBAR — SLIDE ANIMATION
 ======================================== */
