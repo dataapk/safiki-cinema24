@@ -1150,7 +1150,7 @@
    PROFILE SIDEBAR — TOGGLE / CLOSE
 ===================================================== */
 
-```javascript
+
 // ========================================
 // PROFILE SIDEBAR — OUTSIDE CLICK HANDLER
 // ========================================
@@ -1191,4 +1191,4 @@ document.addEventListener("keydown", function (e) {
     }
 
 });
-```
+
