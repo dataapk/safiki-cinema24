@@ -29,49 +29,34 @@
     background: #111a15;
     border: 1px solid rgba(34, 197, 94, 0.25);
     border-radius: 14px;
-
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+
     z-index: 9999;
 
-    /* Hidden by default */
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
 
-    transform: translateY(-12px) scale(0.98);
-    transform-origin: top right;
-
+    transform: translateY(-12px);
     transition:
         opacity 0.25s ease,
         transform 0.25s ease,
         visibility 0.25s ease;
 }
 
-/* Open popup */
 .profile-sidebar-menu.active {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
 }
 
-/* Keep popup positioned relative to the profile area */
-.actions-box {
-    position: relative;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .profile-sidebar-menu {
-        position: fixed;
-        top: 70px;
-        right: 12px;
-
-        width: 40vw;
-        min-width: 250px;
-        max-width: calc(100vw - 24px);
-        max-height: calc(100vh - 90px);
-    }
+/* Keep all menu items visible inside the popup */
+.profile-sidebar-menu .profile-sidebar-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 
