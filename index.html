@@ -1329,141 +1329,133 @@
 
         </div>
 
+<!-- MOBILE NUMBER -->
+<div class="form-group full-width mobile-field">
 
-        <!-- MOBILE NUMBER -->
-        <div class="form-group full-width mobile-field">
+    <div class="label-row">
+        <label for="mobileNumber">Mobile Number</label>
+    </div>
 
-            <div class="label-row">
+    <div class="mobile-number-row">
 
-                <label for="mobileNumber">Mobile Number</label>
+        <label
+            class="visually-hidden"
+            for="mobileCountryCode">
+            Country calling code
+        </label>
 
-            </div>
+        <select
+            id="mobileCountryCode"
+            name="mobile_country_code"
+            class="form-input form-select">
 
-            <div class="mobile-number-row">
+            <option value="+880" data-country="BD">🇧🇩 +880 (BD)</option>
+            <option value="+91" data-country="IN">🇮🇳 +91 (IN)</option>
+            <option value="+92" data-country="PK">🇵🇰 +92 (PK)</option>
+            <option value="+94" data-country="LK">🇱🇰 +94 (LK)</option>
+            <option value="+977" data-country="NP">🇳🇵 +977 (NP)</option>
+            <option value="+60" data-country="MY">🇲🇾 +60 (MY)</option>
+            <option value="+66" data-country="TH">🇹🇭 +66 (TH)</option>
+            <option value="+971" data-country="AE">🇦🇪 +971 (AE)</option>
+            <option value="+966" data-country="SA">🇸🇦 +966 (SA)</option>
+            <option value="+44" data-country="GB">🇬🇧 +44 (UK)</option>
 
-                <label
-                    class="visually-hidden"
-                    for="mobileCountryCode">
-                    Country calling code
-                </label>
+        </select>
 
-                <select
-                    id="mobileCountryCode"
-                    name="mobile_country_code"
-                    class="form-input form-select"
-                    disabled>
+        <label
+            class="visually-hidden"
+            for="mobileNumber">
+            Mobile number
+        </label>
 
-                    <option value="+880" data-country="BD">🇧🇩 +880 (BD)</option>
-                    <option value="+91" data-country="IN">🇮🇳 +91 (IN)</option>
-                    <option value="+92" data-country="PK">🇵🇰 +92 (PK)</option>
-                    <option value="+94" data-country="LK">🇱🇰 +94 (LK)</option>
-                    <option value="+977" data-country="NP">🇳🇵 +977 (NP)</option>
-                    <option value="+60" data-country="MY">🇲🇾 +60 (MY)</option>
-                    <option value="+66" data-country="TH">🇹🇭 +66 (TH)</option>
-                    <option value="+971" data-country="AE">🇦🇪 +971 (AE)</option>
-                    <option value="+966" data-country="SA">🇸🇦 +966 (SA)</option>
-                    <option value="+44" data-country="GB">🇬🇧 +44 (UK)</option>
+        <input
+            type="tel"
+            id="mobileNumber"
+            name="mobile_number"
+            class="form-input"
+            autocomplete="tel-national"
+            inputmode="tel"
+            maxlength="20"
+            placeholder="Enter mobile number">
 
-                </select>
+        <button
+            type="button"
+            id="mobileEditBtn"
+            class="action-btn save-btn"
+            onclick="toggleMobileChange()">
+            Save
+        </button>
 
-                <label
-                    class="visually-hidden"
-                    for="mobileNumber">
-                    Mobile number
+    </div>
+
+    <p
+        id="mobileStatus"
+        class="field-status"
+        aria-live="polite">
+    </p>
+
+    <!-- MOBILE VERIFICATION PANEL -->
+    <div
+        id="mobileChangeDropdown"
+        class="change-dropdown"
+        hidden>
+
+        <button
+            type="button"
+            id="mobileSendCodeBtn"
+            class="action-btn send-btn"
+            onclick="sendMobileOtp()">
+            Send SMS Code
+        </button>
+
+        <div
+            id="mobileVerifyRow"
+            class="otp-row"
+            hidden>
+
+            <div class="form-group">
+
+                <label for="mobileOtpInput">
+                    SMS Confirmation Code
                 </label>
 
                 <input
-                    type="tel"
-                    id="mobileNumber"
-                    name="mobile_number"
-                    class="form-input"
-                    autocomplete="tel-national"
-                    inputmode="tel"
-                    maxlength="20"
-                    placeholder="Enter mobile number"
-                    disabled>
-
-                <button
-                    type="button"
-                    id="mobileEditBtn"
-                    class="action-btn save-btn"
-                    onclick="toggleMobileChange()">
-                    Save
-                </button>
+                    type="text"
+                    id="mobileOtpInput"
+                    class="form-input otp-input"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    maxlength="10"
+                    placeholder="Enter SMS code">
 
             </div>
 
-            <p
-                id="mobileStatus"
-                class="field-status"
-                aria-live="polite">
-            </p>
-
-
-            <!-- MOBILE VERIFICATION PANEL -->
-            <div
-                id="mobileChangeDropdown"
-                class="change-dropdown"
-                hidden>
-
-                <button
-                    type="button"
-                    id="mobileSendCodeBtn"
-                    class="action-btn send-btn"
-                    onclick="sendMobileOtp()">
-                    Send SMS Code
-                </button>
-
-                <div
-                    id="mobileVerifyRow"
-                    class="otp-row"
-                    hidden>
-
-                    <div class="form-group">
-
-                        <label for="mobileOtpInput">
-                            SMS Confirmation Code
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mobileOtpInput"
-                            class="form-input otp-input"
-                            inputmode="numeric"
-                            autocomplete="one-time-code"
-                            maxlength="10"
-                            placeholder="Enter SMS code">
-
-                    </div>
-
-                    <button
-                        type="button"
-                        id="mobileVerifyBtn"
-                        class="action-btn verify-btn"
-                        onclick="verifyMobileOtp()">
-                        Verify Code
-                    </button>
-
-                </div>
-
-                <button
-                    type="button"
-                    id="saveMobileBtn"
-                    class="action-btn save-btn"
-                    onclick="saveMobileNumber()"
-                    disabled>
-                    Verify &amp; Save
-                </button>
-
-                <p
-                    id="mobileChangeMessage"
-                    class="field-status"
-                    aria-live="polite">
-                </p>
-
-            </div>
+            <button
+                type="button"
+                id="mobileVerifyBtn"
+                class="action-btn verify-btn"
+                onclick="verifyMobileOtp()">
+                Verify Code
+            </button>
 
         </div>
+
+        <button
+            type="button"
+            id="saveMobileBtn"
+            class="action-btn save-btn"
+            onclick="saveMobileNumber()"
+            disabled>
+            Verify &amp; Save
+        </button>
+
+        <p
+            id="mobileChangeMessage"
+            class="field-status"
+            aria-live="polite">
+        </p>
+
+    </div>
 
 </div>
 
