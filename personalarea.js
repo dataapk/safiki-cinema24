@@ -828,6 +828,120 @@ $("idDocumentType")?.addEventListener("change", () => {
     updateIdSubmitState();
 });
 
+
+// ========================================
+// ID FRONT / BACK PREVIEW
+// ========================================
+
+function setupIdDocumentPreview(inputId, previewId, retakeButtonId) {
+    const input = $(inputId);
+    const preview = $(previewId);
+    const retakeButton = $(retakeButtonId);
+
+    if (!input || !preview || !retakeButton) return;
+
+    input.addEventListener("change", () => {
+        const file = input.files?.[0];
+
+        if (preview.dataset.objectUrl) {
+            URL.revokeObjectURL(preview.dataset.objectUrl);
+            delete preview.dataset.objectUrl;
+        }
+
+        if (!file) {
+            preview.hidden = true;
+            preview.removeAttribute("src");
+            retakeButton.hidden = true;
+            updateIdSubmitState();
+            return;
+        }
+
+        if (!["image/jpeg", "image/png"].includes(file.type)) {
+            input.value = "";
+            preview.hidden = true;
+            retakeButton.hidden = true;
+
+            setMessage(
+                "idVerificationMessage",
+                "Please choose a JPEG or PNG image.",
+                "error"
+            );
+
+            updateIdSubmitState();
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+
+        preview.src = objectUrl;
+        preview.dataset.objectUrl = objectUrl;
+        preview.hidden = false;
+        retakeButton.hidden = false;
+
+        updateIdSubmitState();
+    });
+
+    retakeButton.addEventListener("click", () => {
+        input.click();
+    });
+}
+
+setupIdDocumentPreview(
+    "idFrontFile",
+    "idFrontPreview",
+    "retakeIdFrontBtn"
+);
+
+setupIdDocumentPreview(
+    "idBackFile",
+    "idBackPreview",
+    "retakeIdBackBtn"
+);
+
+
+// ========================================
+// RETAKE SELFIE
+// ========================================
+
+window.retakeFacePhoto = function () {
+    facePhotoBlob = null;
+    faceCaptureStarted = false;
+    faceStableFrames = 0;
+
+    const preview = $("faceCapturedPreview");
+
+    if (preview) {
+        if (preview.dataset.objectUrl) {
+            URL.revokeObjectURL(preview.dataset.objectUrl);
+            delete preview.dataset.objectUrl;
+        }
+
+        preview.removeAttribute("src");
+        preview.hidden = true;
+    }
+
+    const reference = $("faceCaptureReference");
+
+    if (reference) {
+        reference.value = "";
+    }
+
+    setHidden("faceCameraPlaceholder", false);
+    setHidden("faceCameraGuide", true);
+    setHidden("retakeFacePhotoBtn", true);
+
+    setStatus(
+        "faceVerificationStatus",
+        "Start verification to capture a new selfie."
+    );
+
+    updateIdSubmitState();
+
+    // Reopen camera for a new automatic capture.
+    window.startFaceCamera();
+};
+
+
    
 // ========================================
 // START CAMERA + AUTOMATIC FACE DETECTION
