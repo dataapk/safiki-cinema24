@@ -1296,6 +1296,8 @@ window.submitIdVerification = async function () {
 
         updateIdSubmitState();
     }
+    }
+    }
 };
 
     /* ---------------------------------------------------------
