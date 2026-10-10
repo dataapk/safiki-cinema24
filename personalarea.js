@@ -835,6 +835,7 @@ $("idDocumentType")?.addEventListener("change", () => {
 
 window.startFaceCamera = async function () {
     try {
+        // Stop any previous camera session.
         window.stopFaceCamera();
 
         faceCaptureStarted = false;
@@ -843,7 +844,7 @@ window.startFaceCamera = async function () {
 
         if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error(
-                "Camera access is unavailable. Open the website over HTTPS."
+                "Camera access is unavailable. Please use HTTPS."
             );
         }
 
@@ -852,8 +853,10 @@ window.startFaceCamera = async function () {
             "Loading face detection..."
         );
 
+        // Load MediaPipe.
         const FaceDetection = await loadFaceDetectionLibrary();
 
+        // Open camera.
         cameraStream = await navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
@@ -870,9 +873,9 @@ window.startFaceCamera = async function () {
         }
 
         video.srcObject = cameraStream;
-        video.hidden = false;
         video.muted = true;
         video.playsInline = true;
+        video.hidden = false;
 
         await video.play();
 
@@ -882,11 +885,11 @@ window.startFaceCamera = async function () {
 
         const captureButton = $("captureFaceBtn");
 
-        // Capture will happen automatically; disable manual capture.
         if (captureButton) {
             captureButton.disabled = true;
         }
 
+        // Initialize MediaPipe.
         faceDetectionInstance = new FaceDetection({
             locateFile: (file) =>
                 `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
@@ -894,38 +897,60 @@ window.startFaceCamera = async function () {
 
         faceDetectionInstance.setOptions({
             model: "short",
-            minDetectionConfidence: 0.7
+            minDetectionConfidence: 0.8
         });
 
+        // Process actual detection results.
         faceDetectionInstance.onResults((results) => {
-            if (faceCaptureStarted) return;
+            if (faceCaptureStarted || !cameraStream) {
+                return;
+            }
 
             const detections = results?.detections || [];
 
-            // Require exactly one detected face.
-            if (detections.length === 1) {
-                faceStableFrames += 1;
-
-                setStatus(
-                    "faceVerificationStatus",
-                    faceStableFrames >= 10
-                        ? "Face detected. Capturing selfie..."
-                        : "Face detected. Hold still inside the guide."
-                );
-
-                if (faceStableFrames >= 10) {
-                    faceCaptureStarted = true;
-                    window.captureFacePhoto();
-                }
-            } else {
+            // No face: do not capture.
+            if (detections.length === 0) {
                 faceStableFrames = 0;
 
                 setStatus(
                     "faceVerificationStatus",
-                    detections.length > 1
-                        ? "Only one person should be visible in the camera."
-                        : "Position your face inside the camera guide."
+                    "Camera ready. Position your face inside the guide."
                 );
+
+                return;
+            }
+
+            // Multiple faces: do not capture.
+            if (detections.length !== 1) {
+                faceStableFrames = 0;
+
+                setStatus(
+                    "faceVerificationStatus",
+                    "Please make sure only one face is visible."
+                );
+
+                return;
+            }
+
+            // Exactly one face detected.
+            faceStableFrames += 1;
+
+            setStatus(
+                "faceVerificationStatus",
+                "Face detected. Hold still..."
+            );
+
+            // Require several consecutive detections.
+            if (faceStableFrames >= 10) {
+                faceCaptureStarted = true;
+
+                // Stop further detection frames before capture.
+                if (faceDetectionTimer !== null) {
+                    clearInterval(faceDetectionTimer);
+                    faceDetectionTimer = null;
+                }
+
+                window.captureFacePhoto();
             }
         });
 
@@ -934,13 +959,16 @@ window.startFaceCamera = async function () {
             "Camera ready. Position your face inside the guide."
         );
 
-        // Send frames to MediaPipe one at a time.
+        // Wait until the video has a usable frame.
         faceDetectionTimer = window.setInterval(async () => {
             if (
                 faceDetectionBusy ||
                 faceCaptureStarted ||
                 !cameraStream ||
-                video.readyState < 2
+                !faceDetectionInstance ||
+                video.readyState < 2 ||
+                video.videoWidth === 0 ||
+                video.videoHeight === 0
             ) {
                 return;
             }
@@ -948,22 +976,33 @@ window.startFaceCamera = async function () {
             faceDetectionBusy = true;
 
             try {
-                await faceDetectionInstance.send({ image: video });
+                await faceDetectionInstance.send({
+                    image: video
+                });
             } catch (error) {
-                console.error("Face detection frame error:", error);
+                console.error("MediaPipe frame error:", error);
+
+                setStatus(
+                    "faceVerificationStatus",
+                    "Face detection encountered an error. Check the browser console.",
+                    "error"
+                );
             } finally {
                 faceDetectionBusy = false;
             }
-        }, 150);
+        }, 200);
 
     } catch (error) {
-        console.error("Camera / Face Detection error:", error);
+        console.error("Start camera error:", error);
 
         window.stopFaceCamera();
 
+        faceCaptureStarted = false;
+        faceStableFrames = 0;
+
         setStatus(
             "faceVerificationStatus",
-            error.message || "Could not start face detection.",
+            error.message || "Unable to start the camera.",
             "error"
         );
     }
