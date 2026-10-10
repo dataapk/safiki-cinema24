@@ -2193,6 +2193,14 @@ async function signupUser() {
     // REQUIRED FIELD VALIDATION
     // --------------------------------
 
+    console.log("SIGNUP FIELD CHECK:", {
+    firstName,
+    lastName,
+    email,
+    passwordPresent: Boolean(password),
+    confirmPasswordPresent: Boolean(confirmPassword)
+});
+
     if (
         !firstName ||
         !lastName ||
