@@ -1469,675 +1469,630 @@
 
 
 
-<!-- =================================================
-     SECTION 2: ID VERIFICATION
-================================================= -->
-<div
-    id="idVerificationSection"
-    class="personal-tab-content"
-    hidden>
 
-    <div class="content-box id-verification-box">
+<!-- ==========================================
+     ID VERIFICATION SECTION — START
+=========================================== -->
 
-        <!-- =========================================
-             HEADER & STATUS
-        ========================================== -->
-        <div class="personal-section-heading id-verification-header">
-            <div>
-                <h3>ID Verification</h3>
-                <p>
-                    Verify your identity using an accepted
-                    identification document.
-                </p>
-            </div>
+<section id="idVerificationSection" class="id-verification-section">
 
-            <span
-                id="idVerificationStatusBadge"
-                class="id-verification-status"
-                data-status="unverified">
-                Unverified
-            </span>
+    <!-- ID VERIFICATION HEADER -->
+    <div class="id-verification-header">
+        <div class="id-verification-heading">
+            <h2>ID Verification</h2>
+            <p id="idVerificationDescription">
+                Verify your identity using an accepted identification document.
+            </p>
+        </div>
+
+        <span
+            id="idVerificationStatusBadge"
+            class="verification-status-badge"
+            data-status="unverified"
+        >
+            Unverified
+        </span>
+    </div>
+
+
+    <!-- ======================================
+         UNVERIFIED: ID VERIFICATION FORM
+    ======================================= -->
+
+    <form id="idVerificationForm" class="id-verification-form">
+
+        <!-- DOCUMENT TYPE -->
+        <div class="verification-form-group">
+            <label for="idDocumentType">Select Document Type</label>
+
+            <select id="idDocumentType" name="idDocumentType" required>
+                <option value="">Select document type</option>
+                <option value="national_id">National ID</option>
+                <option value="passport">Passport</option>
+                <option value="driving_license">Driving Licence</option>
+            </select>
+
+            <p class="verification-field-hint">
+                Choose the identification document you want to submit.
+            </p>
         </div>
 
 
-        <!-- =========================================
-             VERIFICATION FORM
-             Hidden after submission or approval
-        ========================================== -->
-        <div id="idVerificationForm">
+        <!-- ID DOCUMENT UPLOADS -->
+        <div class="verification-form-group">
+            <h3>Identity Document</h3>
 
-            <!-- DOCUMENT TYPE -->
-            <div class="form-group full-width id-document-type-group">
-                <label for="idDocumentType">
-                    Select Document Type
+            <!-- FRONT SIDE -->
+            <div class="document-upload-field" id="idFrontUploadCard">
+
+                <label class="document-side-label" for="idFrontFile">
+                    Front Side
                 </label>
 
-                <select
-                    id="idDocumentType"
-                    name="id_document_type"
-                    class="form-input form-select"
-                    required>
-
-                    <option value="">Select Document Type</option>
-                    <option value="national_id">National ID Card</option>
-                    <option value="passport">Passport</option>
-                    <option value="driving_license">Driving Licence</option>
-                </select>
-            </div>
-
-
-            <!-- PHOTO GUIDELINES -->
-            <div class="photo-guidelines">
-                <h4>Photo Guidelines</h4>
-
-                <ul>
-                    <li>Make sure your document photo is clear and readable.</li>
-                    <li>Keep all four corners of the document visible.</li>
-                    <li>Do not crop the edges or cover any information.</li>
-                    <li>Upload an original document image.</li>
-                    <li>Maximum file size: 5 MB per photo.</li>
-                    <li>Accepted formats: JPEG and PNG.</li>
-                </ul>
-            </div>
-
-
-            <!-- =====================================
-                 FRONT SIDE UPLOAD
-            ====================================== -->
-            <div
-                class="document-upload-card"
-                id="idFrontUploadCard">
-
-                <h4>Front Side</h4>
-
-                <p>
-                    Upload the front of your identification document.
-                </p>
-
                 <label
-                    for="idFrontFile"
                     class="document-upload-area"
-                    id="idFrontUploadArea">
-
-                    <!-- Selected image appears inside this box -->
+                    id="idFrontUploadArea"
+                    for="idFrontFile"
+                >
                     <img
                         id="idFrontPreview"
-                        class="id-document-preview"
-                        alt="Front side document preview"
-                        hidden>
+                        class="document-upload-preview"
+                        alt="ID front side preview"
+                        hidden
+                    >
 
-                    <!-- Default upload icon -->
-                    <span class="document-upload-icon">
-                        <i
-                            class="fas fa-cloud-upload-alt"
-                            aria-hidden="true">
-                        </i>
-                    </span>
+                    <span class="document-upload-default">
+                        <span class="document-upload-icon" aria-hidden="true">
+                            ↑
+                        </span>
 
-                    <span class="document-upload-action">
-                        Choose Front Photo
-                    </span>
+                        <span class="document-upload-action">
+                            Choose Front Photo
+                        </span>
 
-                    <span
-                        class="upload-file-name"
-                        id="idFrontFileName">
-                        Not Selected
-                    </span>
-
-                    <span class="document-format-label">
-                        JPEG · PNG · Max 5 MB
+                        <span class="document-upload-meta">
+                            Not Selected · Max 5 MB
+                        </span>
                     </span>
                 </label>
 
                 <input
                     type="file"
                     id="idFrontFile"
-                    name="id_front"
-                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                    hidden>
+                    name="idFrontFile"
+                    accept="image/jpeg,image/png"
+                    hidden
+                >
 
-                <!-- Appears below the upload box -->
+                <div class="document-upload-file-info">
+                    <span id="idFrontFileName">Not Selected</span>
+
+                    <span
+                        id="idFrontStatus"
+                        class="document-upload-status"
+                        data-status="empty"
+                    >
+                        Not Selected
+                    </span>
+                </div>
+
                 <button
                     type="button"
                     id="retakeIdFrontBtn"
-                    class="id-retake-btn"
-                    hidden>
-
-                    <i class="fas fa-redo" aria-hidden="true"></i>
+                    class="document-retake-button"
+                    hidden
+                >
                     Choose Another Front Photo
                 </button>
-
-                <p
-                    id="idFrontStatus"
-                    class="document-status"
-                    aria-live="polite">
-                    Not Selected
-                </p>
             </div>
 
 
-            <!-- =====================================
-                 BACK SIDE UPLOAD
-            ====================================== -->
-            <div
-                class="document-upload-card"
-                id="idBackUploadCard">
+            <!-- BACK SIDE -->
+            <div class="document-upload-field" id="idBackUploadCard">
 
-                <h4>Back Side</h4>
-
-                <p>
-                    Upload the back of your identification document.
-                    Not required for passports.
-                </p>
+                <label class="document-side-label" for="idBackFile">
+                    Back Side
+                </label>
 
                 <label
-                    for="idBackFile"
                     class="document-upload-area"
-                    id="idBackUploadArea">
-
-                    <!-- Selected image appears inside this box -->
+                    id="idBackUploadArea"
+                    for="idBackFile"
+                >
                     <img
                         id="idBackPreview"
-                        class="id-document-preview"
-                        alt="Back side document preview"
-                        hidden>
+                        class="document-upload-preview"
+                        alt="ID back side preview"
+                        hidden
+                    >
 
-                    <span class="document-upload-icon">
-                        <i
-                            class="fas fa-cloud-upload-alt"
-                            aria-hidden="true">
-                        </i>
-                    </span>
+                    <span class="document-upload-default">
+                        <span class="document-upload-icon" aria-hidden="true">
+                            ↑
+                        </span>
 
-                    <span class="document-upload-action">
-                        Choose Back Photo
-                    </span>
+                        <span class="document-upload-action">
+                            Choose Back Photo
+                        </span>
 
-                    <span
-                        class="upload-file-name"
-                        id="idBackFileName">
-                        Not Selected
-                    </span>
-
-                    <span class="document-format-label">
-                        JPEG · PNG · Max 5 MB
+                        <span class="document-upload-meta">
+                            Not Selected · Max 5 MB
+                        </span>
                     </span>
                 </label>
 
                 <input
                     type="file"
                     id="idBackFile"
-                    name="id_back"
-                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                    hidden>
+                    name="idBackFile"
+                    accept="image/jpeg,image/png"
+                    hidden
+                >
+
+                <div class="document-upload-file-info">
+                    <span id="idBackFileName">Not Selected</span>
+
+                    <span
+                        id="idBackStatus"
+                        class="document-upload-status"
+                        data-status="empty"
+                    >
+                        Not Selected
+                    </span>
+                </div>
 
                 <button
                     type="button"
                     id="retakeIdBackBtn"
-                    class="id-retake-btn"
-                    hidden>
-
-                    <i class="fas fa-redo" aria-hidden="true"></i>
+                    class="document-retake-button"
+                    hidden
+                >
                     Choose Another Back Photo
                 </button>
-
-                <p
-                    id="idBackStatus"
-                    class="document-status"
-                    aria-live="polite">
-                    Not Selected
-                </p>
             </div>
 
-
-            <!-- =====================================
-                 FACE VERIFICATION
-            ====================================== -->
-            <div class="face-verification-section">
-
-                <div class="face-verification-heading">
-                    <h3>Face Verification</h3>
-
-                    <p>
-                        Start verification and position your face
-                        inside the camera guide. Your selfie will
-                        be captured automatically.
-                    </p>
-                </div>
+            <p class="verification-field-hint" id="idBackSideHint">
+                Passport হলে Back Side প্রয়োজন হবে না।
+            </p>
+        </div>
 
 
-                <!-- CAMERA / SELFIE PREVIEW BOX -->
-                <div class="face-camera-container">
+        <!-- ==================================
+             FACE VERIFICATION
+        =================================== -->
+
+        <div class="verification-form-group face-verification-group">
+
+            <h3>Face Verification</h3>
+
+            <p class="verification-field-hint">
+                Capture a clear selfie to complete your identity verification.
+            </p>
+
+            <!-- CAMERA PREVIEW -->
+            <div class="face-camera-container">
+
+                <div class="face-camera-preview" id="faceCameraPreview">
 
                     <video
                         id="faceCameraVideo"
-                        class="face-camera-video"
                         autoplay
                         muted
                         playsinline
-                        hidden>
-                    </video>
+                        hidden
+                    ></video>
 
-                    <!-- Captured selfie appears here -->
                     <img
                         id="faceCapturedPreview"
                         class="face-captured-preview"
                         alt="Captured selfie preview"
-                        hidden>
+                        hidden
+                    >
 
                     <canvas
                         id="faceCaptureCanvas"
-                        hidden>
-                    </canvas>
+                        hidden
+                    ></canvas>
 
-                    <!-- Initial camera placeholder -->
                     <div
                         id="faceCameraPlaceholder"
-                        class="face-camera-placeholder">
+                        class="face-camera-placeholder"
+                    >
+                        <span class="face-camera-icon" aria-hidden="true">
+                            ◎
+                        </span>
 
-                        <div class="face-camera-icon">
-                            <i
-                                class="fas fa-user-circle"
-                                aria-hidden="true">
-                            </i>
-
-                            <i
-                                class="fas fa-camera face-camera-small-icon"
-                                aria-hidden="true">
-                            </i>
-                        </div>
-
-                        <p>Your selfie will appear here.</p>
+                        <span>Camera / Selfie Preview</span>
                     </div>
 
-                    <!-- Face guide during camera capture -->
                     <div
                         id="faceCameraGuide"
                         class="face-camera-guide"
-                        aria-hidden="true">
+                        hidden
+                    >
+                        Position your face inside the guide.
                     </div>
-
-                    <!-- Decorative scan indicators -->
-                    <span
-                        class="face-scan-dot face-scan-dot-top"
-                        aria-hidden="true">
-                    </span>
-
-                    <span
-                        class="face-scan-dot face-scan-dot-right"
-                        aria-hidden="true">
-                    </span>
-
-                    <span
-                        class="face-scan-dot face-scan-dot-bottom"
-                        aria-hidden="true">
-                    </span>
-
-                    <span
-                        class="face-scan-dot face-scan-dot-left"
-                        aria-hidden="true">
-                    </span>
                 </div>
 
-
-                <!-- CAMERA INSTRUCTIONS -->
                 <p
                     id="faceCameraInstructions"
                     class="face-camera-instructions"
-                    aria-live="polite">
-                    Press Start Verification to begin.
+                >
+                    Make sure your face is clearly visible.
                 </p>
 
-
-                <!-- CAMERA CONTROLS -->
-                <div class="face-camera-controls">
+                <div class="face-camera-actions">
 
                     <button
                         type="button"
                         id="startFaceCameraBtn"
-                        class="action-btn face-start-btn">
-
-                        <i class="fas fa-camera" aria-hidden="true"></i>
+                        class="verification-secondary-button"
+                    >
                         Start Verification
                     </button>
 
-                    <!-- Automatic capture; hidden by default -->
                     <button
                         type="button"
                         id="captureFaceBtn"
-                        class="action-btn"
+                        class="verification-primary-button"
                         disabled
-                        hidden>
+                        hidden
+                    >
                         Capture Selfie
                     </button>
 
-                    <!-- Appears after successful capture -->
-                    <button
-                        type="button"
-                        id="retakeFacePhotoBtn"
-                        class="action-btn id-retake-btn"
-                        hidden>
-
-                        <i class="fas fa-redo" aria-hidden="true"></i>
-                        Retake Selfie
-                    </button>
-
-                    <!-- Visible only while camera is running -->
                     <button
                         type="button"
                         id="stopFaceCameraBtn"
-                        class="action-btn"
-                        hidden>
+                        class="verification-secondary-button"
+                        hidden
+                    >
                         Stop Camera
+                    </button>
+
+                    <button
+                        type="button"
+                        id="retakeFacePhotoBtn"
+                        class="verification-secondary-button"
+                        hidden
+                    >
+                        Retake Selfie
                     </button>
                 </div>
 
-
-                <!-- SELFIE STATUS -->
-                <input
-                    type="hidden"
-                    id="faceCaptureReference"
-                    value="">
-
                 <p
                     id="faceVerificationStatus"
-                    class="document-status"
-                    aria-live="polite">
-                    Selfie Not Captured
+                    class="face-verification-status"
+                    data-status="empty"
+                    aria-live="polite"
+                >
+                    Selfie not captured yet.
                 </p>
+
+                <p id="faceCaptureReference" hidden></p>
+
+            </div>
+        </div>
+
+
+        <!-- FORM ERROR / MESSAGE -->
+        <div
+            id="idVerificationFormMessage"
+            class="verification-form-message"
+            role="status"
+            aria-live="polite"
+            hidden
+        ></div>
+
+
+        <!-- MANUAL SUBMIT ONLY -->
+        <button
+            type="submit"
+            id="submitIdVerificationBtn"
+            class="verification-submit-button"
+            disabled
+        >
+            SUBMIT FOR VERIFICATION
+        </button>
+
+        <p class="verification-submit-note">
+            Please check your document photos and selfie before submitting.
+        </p>
+
+    </form>
+
+
+    <!-- ======================================
+         PENDING: SUBMITTED DOCUMENTS
+         Hidden until submission succeeds
+    ======================================= -->
+
+    <section
+        id="idVerificationPendingSection"
+        class="id-verification-pending-section"
+        hidden
+    >
+
+        <div class="verification-pending-intro">
+            <h3>Your uploaded documents</h3>
+
+            <p>
+                Your documents have been submitted for review.
+            </p>
+        </div>
+
+        <div class="submitted-document-list">
+
+            <div class="submitted-document-item">
+                <div class="submitted-document-icon" aria-hidden="true">
+                    ✓
+                </div>
+
+                <div class="submitted-document-info">
+                    <h4>ID Document</h4>
+                    <p id="submittedIdDocumentStatus">
+                        Submitted successfully
+                    </p>
+                </div>
+
+                <span class="submitted-document-check" aria-hidden="true">
+                    ✓
+                </span>
             </div>
 
+            <div class="submitted-document-item">
+                <div class="submitted-document-icon" aria-hidden="true">
+                    ✓
+                </div>
 
-            <!-- =====================================
-                 SUBMISSION MESSAGE
-            ====================================== -->
-            <p
-                id="idVerificationMessage"
-                class="id-verification-message"
-                role="status"
-                aria-live="polite">
-            </p>
+                <div class="submitted-document-info">
+                    <h4>Selfie</h4>
+                    <p id="submittedSelfieStatus">
+                        Submitted successfully
+                    </p>
+                </div>
 
-
-            <!-- =====================================
-                 SUBMIT APPLICATION
-            ====================================== -->
-            <button
-                type="button"
-                id="submitIdVerificationBtn"
-                class="action-btn verify-btn"
-                disabled>
-
-                Submit for Verification
-            </button>
+                <span class="submitted-document-check" aria-hidden="true">
+                    ✓
+                </span>
+            </div>
 
         </div>
-        <!-- END VERIFICATION FORM -->
 
 
-        <!-- =========================================
-             VERIFICATION PROCESS
-             Hidden until submission succeeds
-        ========================================== -->
+        <!-- VERIFICATION PROCESS -->
         <section
             id="verificationProcessSection"
             class="verification-process-section"
-            aria-labelledby="verificationProcessHeading"
-            hidden>
+            hidden
+        >
 
             <div class="verification-process-heading">
-                <h3 id="verificationProcessHeading">
-                    Verification Process
-                </h3>
+                <div>
+                    <h3>Verification Process</h3>
+                    <p>Track the progress of your identity verification.</p>
+                </div>
 
-                <p>
-                    Track the progress of your submitted documents.
-                </p>
+                <span class="verification-process-indicator">
+                    In Progress
+                </span>
             </div>
 
 
-            <ol class="verification-process-list">
+            <div class="verification-process-list">
 
-                <!-- ID DOCUMENT -->
-                <li
-                    id="processIdDocument"
+                <!-- STEP 1 -->
+                <div
                     class="verification-process-item"
-                    data-state="pending">
+                    id="processIdDocument"
+                    data-state="pending"
+                >
+                    <div class="verification-step-number">1</div>
 
-                    <span class="progress-step-dot"></span>
-
-                    <div class="verification-process-content">
+                    <div class="verification-step-content">
                         <h4>ID Document</h4>
-
                         <p id="processIdDocumentStatus">
-                            Submitted — Pending Review
+                            Submitted · Awaiting review
                         </p>
                     </div>
 
                     <span
                         id="processIdDocumentBadge"
-                        class="verification-process-badge">
-                        Pending
+                        class="verification-step-badge"
+                    >
+                        Submitted
                     </span>
-                </li>
+                </div>
 
 
-                <!-- SELFIE REVIEW -->
-                <li
-                    id="processSelfie"
+                <!-- STEP 2 -->
+                <div
                     class="verification-process-item"
-                    data-state="pending">
+                    id="processSelfie"
+                    data-state="pending"
+                >
+                    <div class="verification-step-number">2</div>
 
-                    <span class="progress-step-dot"></span>
-
-                    <div class="verification-process-content">
-                        <h4>Selfie Review</h4>
-
+                    <div class="verification-step-content">
+                        <h4>Selfie</h4>
                         <p id="processSelfieStatus">
-                            Submitted — Pending Review
+                            Submitted · Awaiting review
                         </p>
                     </div>
 
                     <span
                         id="processSelfieBadge"
-                        class="verification-process-badge">
-                        Pending
+                        class="verification-step-badge"
+                    >
+                        Submitted
                     </span>
-                </li>
+                </div>
 
 
-                <!-- ADDRESS PROOF -->
-                <li
-                    id="processAddressProof"
+                <!-- STEP 3 -->
+                <div
                     class="verification-process-item"
-                    data-state="pending">
-
-                    <span class="progress-step-dot"></span>
-
-                    <div class="verification-process-content">
-                        <h4>Address Proof</h4>
-
-                        <p id="processAddressProofStatus">
-                            Awaiting Admin Review
-                        </p>
-                    </div>
-
-                    <span
-                        id="processAddressProofBadge"
-                        class="verification-process-badge">
-                        Pending
-                    </span>
-                </li>
-
-
-                <!-- ADMIN REVIEW -->
-                <li
                     id="processAdminReview"
-                    class="verification-process-item"
-                    data-state="pending">
+                    data-state="pending"
+                >
+                    <div class="verification-step-number">3</div>
 
-                    <span class="progress-step-dot"></span>
-
-                    <div class="verification-process-content">
+                    <div class="verification-step-content">
                         <h4>Admin Review</h4>
-
                         <p id="processAdminReviewStatus">
-                            Waiting for administrator approval.
+                            Admin-এর সিদ্ধান্তের অপেক্ষায়।
                         </p>
                     </div>
 
                     <span
                         id="processAdminReviewBadge"
-                        class="verification-process-badge">
+                        class="verification-step-badge"
+                    >
                         Pending
                     </span>
-                </li>
+                </div>
 
-            </ol>
+            </div>
 
-            <p
-                id="verificationProcessMessage"
-                class="verification-process-message"
-                role="status"
-                aria-live="polite">
-                Your verification is pending review.
+            <p class="verification-process-note">
+                Your verification is being reviewed by the administrator.
             </p>
 
         </section>
-        <!-- END VERIFICATION PROCESS -->
+
+    </section>
 
 
-        <!-- =========================================
-             VERIFIED SUCCESS VIEW
-             Hidden until administrator approval
-        ========================================== -->
-        <section
-            id="idVerificationApprovedSection"
-            class="id-verification-approved-section"
-            aria-labelledby="idVerificationApprovedHeading"
-            hidden>
+    <!-- ======================================
+         VERIFIED: APPROVED IDENTITY
+         Hidden until Admin approves
+    ======================================= -->
 
-            <div class="verification-approved-header">
+    <section
+        id="idVerificationApprovedSection"
+        class="id-verification-approved-section"
+        hidden
+    >
 
-                <div class="verification-approved-icon">
-                    <i
-                        class="fas fa-shield-alt"
-                        aria-hidden="true">
-                    </i>
+        <div class="identity-verified-banner">
+
+            <div class="identity-verified-icon" aria-hidden="true">
+                ✓
+            </div>
+
+            <div class="identity-verified-content">
+                <h3>Identity Verified</h3>
+
+                <p id="identityVerifiedDescription">
+                    Your submitted documents have been approved by the administrator.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="approved-verification-list">
+
+            <!-- APPROVED ID DOCUMENT -->
+            <div
+                class="approved-verification-item"
+                id="approvedIdDocument"
+                data-state="approved"
+            >
+                <div class="approved-verification-icon" aria-hidden="true">
+                    ✓
                 </div>
 
-                <div>
-                    <h3 id="idVerificationApprovedHeading">
-                        Identity Verified
-                    </h3>
-
-                    <p>
-                        Your identity verification has been approved.
-                    </p>
+                <div class="approved-verification-info">
+                    <h4>ID Document</h4>
+                    <p id="approvedIdDocumentStatus">Approved</p>
                 </div>
 
+                <span class="approved-status-label">
+                    Approved
+                </span>
             </div>
 
 
-            <!-- APPROVED CHECKLIST -->
-            <div class="verification-approved-list">
-
-                <div
-                    id="approvedIdDocument"
-                    class="verification-approved-item">
-
-                    <i class="fas fa-check-circle" aria-hidden="true"></i>
-
-                    <div>
-                        <h4>ID Document</h4>
-                        <p>Approved</p>
-                    </div>
-
-                    <span class="verification-approved-badge">
-                        Approved
-                    </span>
+            <!-- REVIEWED SELFIE -->
+            <div
+                class="approved-verification-item"
+                id="approvedSelfie"
+                data-state="approved"
+            >
+                <div class="approved-verification-icon" aria-hidden="true">
+                    ✓
                 </div>
 
-
-                <div
-                    id="approvedSelfie"
-                    class="verification-approved-item">
-
-                    <i class="fas fa-check-circle" aria-hidden="true"></i>
-
-                    <div>
-                        <h4>Selfie Review</h4>
-                        <p>Approved</p>
-                    </div>
-
-                    <span class="verification-approved-badge">
-                        Approved
-                    </span>
+                <div class="approved-verification-info">
+                    <h4>Selfie</h4>
+                    <p id="approvedSelfieStatus">Reviewed</p>
                 </div>
 
-
-                <div
-                    id="approvedAddressProof"
-                    class="verification-approved-item">
-
-                    <i class="fas fa-check-circle" aria-hidden="true"></i>
-
-                    <div>
-                        <h4>Address Proof</h4>
-                        <p>Approved</p>
-                    </div>
-
-                    <span class="verification-approved-badge">
-                        Approved
-                    </span>
-                </div>
-
-
-                <div
-                    id="approvedAdminReview"
-                    class="verification-approved-item">
-
-                    <i class="fas fa-check-circle" aria-hidden="true"></i>
-
-                    <div>
-                        <h4>Admin Review</h4>
-                        <p>Approved</p>
-                    </div>
-
-                    <span class="verification-approved-badge">
-                        Approved
-                    </span>
-                </div>
-
+                <span class="approved-status-label">
+                    Reviewed
+                </span>
             </div>
 
 
-            <!-- VERIFY AGAIN -->
-            <div class="verify-again-section">
+            <!-- ADMIN REVIEW -->
+            <div
+                class="approved-verification-item"
+                id="approvedAdminReview"
+                data-state="approved"
+            >
+                <div class="approved-verification-icon" aria-hidden="true">
+                    ✓
+                </div>
 
-                <h4>Need to verify your identity again?</h4>
+                <div class="approved-verification-info">
+                    <h4>Admin Review</h4>
+                    <p id="approvedAdminReviewStatus">Approved</p>
+                </div>
+
+                <span class="approved-status-label">
+                    Approved
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- ==================================
+             VERIFY AGAIN — BOTTOM SECTION
+        =================================== -->
+
+        <div
+            id="verifyAgainSection"
+            class="verify-again-section"
+        >
+
+            <div class="verify-again-content">
+                <h3>Need to verify again?</h3>
 
                 <p>
-                    If your document expires or re-verification is
-                    requested, you can submit updated documents.
+                    If you need to update your identity documents,
+                    you can complete verification again.
                 </p>
-
-                <button
-                    type="button"
-                    id="verifyAgainBtn"
-                    class="action-btn verify-again-btn">
-
-                    <i class="fas fa-redo" aria-hidden="true"></i>
-                    Verify Again
-                </button>
-
             </div>
 
-        </section>
-        <!-- END VERIFIED SUCCESS VIEW -->
+            <button
+                type="button"
+                id="verifyAgainBtn"
+                class="verify-again-button"
+            >
+                Verify Again
+            </button>
 
-    </div>
-</div>
+        </div>
+
+    </section>
+
+</section>
+
+<!-- ==========================================
+     ID VERIFICATION SECTION — END
+=========================================== -->
 
 
 
