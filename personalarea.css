@@ -126,7 +126,7 @@
         transform: translateX(-50%);
       
 
-        width: calc(100% - 40px)!important;
+        width: calc(100% - 12px)!important;
         max-width: 720px;
         height: 80vh;
 
