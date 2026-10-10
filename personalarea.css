@@ -16,18 +16,18 @@
 
 #personal-area-section {
     position: fixed;
-   display: none;
+    display: none;
 
-   padding: 20px 20px 45px 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 20px 20px 45px 20px;
     width: 96%;
     max-width: 720px;
     height: 80vh;
 
-    margin-left: auto;
-    margin-right: auto;
-
-    
-transform: translateX(-50%);
+    margin: 0;
 
     overflow-y: auto;
     overflow-x: hidden;
@@ -36,7 +36,7 @@ transform: translateX(-50%);
     box-sizing: border-box;
 
     z-index: 99999;
-   -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* =========================================
@@ -118,17 +118,29 @@ transform: translateX(-50%);
    MOBILE — PERSONAL AREA POPUP
 ========================================= */
 
-@media(max-width:600px){
+@media (max-width: 600px) {
     #personal-area-section {
         top: 12px;
-        left: 10px;
-        right: 10px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
 
-        width:95%;
-        margin:auto;
-       padding: 20px 20px 45px 20px;
-        
-        
+        width: calc(100% - 20px);
+        max-width: 720px;
+        height: 80vh;
+
+        margin: 0;
+        padding: 20px 20px 45px 20px;
+    }
+
+    #personal-area-section .personal-tabs {
+        gap: 5px;
+        margin: 10px;
+    }
+
+    #personal-area-section .personal-tab-btn {
+        font-size: 11px;
+        padding: 8px 3px;
     }
 
     #personal-area-section .personal-tabs {
