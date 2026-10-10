@@ -1588,6 +1588,120 @@
     overflow-wrap: anywhere;
 }
 
+
+
+
+/* ========================================
+   ID DOCUMENT PREVIEWS
+======================================== */
+
+.id-image-preview-wrap {
+    margin-top: 12px;
+}
+
+.id-document-preview {
+    width: 100%;
+    max-width: 420px;
+    max-height: 240px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px;
+    border-radius: 8px;
+    background: #f3f5f7;
+    border: 1px solid #dce2e8;
+}
+
+.id-document-preview[hidden],
+.face-captured-preview[hidden],
+.face-camera-video[hidden],
+.id-retake-btn[hidden] {
+    display: none;
+}
+
+
+/* ========================================
+   SELFIE PREVIEW
+======================================== */
+
+.face-camera-container {
+    overflow: hidden;
+}
+
+.face-camera-video,
+.face-captured-preview {
+    width: 100%;
+    max-width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+}
+
+.face-captured-preview {
+    display: block;
+    margin: auto;
+    border-radius: 8px;
+}
+
+
+/* ========================================
+   RETAKE BUTTONS
+======================================== */
+
+.id-retake-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #344054;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.id-retake-btn:hover {
+    background: #f2f4f7;
+}
+
+
+/* ========================================
+   GREEN SUBMIT BUTTON
+======================================== */
+
+#submitIdVerificationBtn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 13px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #16a34a;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#submitIdVerificationBtn:hover:not(:disabled) {
+    background: #15803d;
+}
+
+#submitIdVerificationBtn:disabled {
+    background: #aab4ad;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.face-camera-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 14px 0;
+}
+
+
+
 /* =====================================================
    FACE VERIFICATION SECTION
 ===================================================== */
