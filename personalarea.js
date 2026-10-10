@@ -282,69 +282,68 @@
         });
     };
 
-    // =====================================================
-    // 09. PROFILE POPULATION — Personal Area-তে তথ্য দেখানো
-    // =====================================================
+   // =====================================================
+// 09. PROFILE POPULATION — Personal Area-তে তথ্য দেখানো
+// =====================================================
 
-    function populateProfile(profile) {
+function populateProfile(profile) {
+    if (!profile) return;
+
     setInputValue("profileFirstName", profile.first_name);
     setInputValue("profileLastName", profile.last_name);
     setInputValue("dateOfBirth", profile.date_of_birth);
     setInputValue("gender", profile.gender);
-}
 
-        setText("currentEmail", currentUser?.email || profile.email || "");
+    setText("currentEmail", currentUser?.email || profile.email || "");
 
-        setText(
-            "memberSince",
-            formatMemberSince(profile.created_at || currentUser?.created_at)
-        );
+    setText(
+        "memberSince",
+        formatMemberSince(profile.created_at || currentUser?.created_at)
+    );
 
-        const avatar = $("profileAvatar");
+    const avatar = $("profileAvatar");
 
-        if (avatar) {
-            avatar.onerror = () => avatar.removeAttribute("src");
-            avatar.src = profile.avatar_url || "";
-        }
-
-        setInputValue("mobileNumber", profile.mobile_number || "");
-
-        if (profile.mobile_country_code && $("mobileCountryCode")) {
-            $("mobileCountryCode").value = profile.mobile_country_code;
-        }
-
-        setText(
-            "mobileStatus",
-            profile.mobile_verified ? "Verified" : "Not verified"
-        );
-
-        setText(
-            "emailStatus",
-            profile.email_verified ? "Verified" : "Current account email"
-        );
-
-        setInputValue("addressLine", profile.address);
-        setInputValue("addressCity", profile.city);
-        setInputValue("addressPostalCode", profile.postal_code);
-
-        if (profile.country && $("addressCountry")) {
-            $("addressCountry").value = profile.country;
-        }
-
-        if (profile.id_country && $("idCountry")) {
-            $("idCountry").value = profile.id_country;
-        }
-
-        setText(
-            "addressVerificationStatus",
-            profile.address_verification_status || "Not submitted"
-        );
-
-        setEditMode(false);
-
-        renderIdVerificationState(profile);
+    if (avatar) {
+        avatar.onerror = () => avatar.removeAttribute("src");
+        avatar.src = profile.avatar_url || "";
     }
 
+    setInputValue("mobileNumber", profile.mobile_number || "");
+
+    if (profile.mobile_country_code && $("mobileCountryCode")) {
+        $("mobileCountryCode").value = profile.mobile_country_code;
+    }
+
+    setText(
+        "mobileStatus",
+        profile.mobile_verified ? "Verified" : "Not verified"
+    );
+
+    setText(
+        "emailStatus",
+        profile.email_verified ? "Verified" : "Current account email"
+    );
+
+    setInputValue("addressLine", profile.address);
+    setInputValue("addressCity", profile.city);
+    setInputValue("addressPostalCode", profile.postal_code);
+
+    if (profile.country && $("addressCountry")) {
+        $("addressCountry").value = profile.country;
+    }
+
+    if (profile.id_country && $("idCountry")) {
+        $("idCountry").value = profile.id_country;
+    }
+
+    setText(
+        "addressVerificationStatus",
+        profile.address_verification_status || "Not submitted"
+    );
+
+    setEditMode(false);
+    renderIdVerificationState(profile);
+}
     // =====================================================
     // 10. PROFILE REFRESH — Supabase থেকে সর্বশেষ তথ্য আনা
     // =====================================================
