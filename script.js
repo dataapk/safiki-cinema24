@@ -2163,6 +2163,12 @@ async function signupUser() {
     // --------------------------------
     // GET VALUES
     // --------------------------------
+    console.log("FIRST NAME DEBUG:", {
+    inputExists: Boolean(firstNameInput),
+    inputId: firstNameInput?.id,
+    inputValue: JSON.stringify(firstNameInput?.value),
+    activeElementId: document.activeElement?.id
+});
 
     const firstName =
         firstNameInput.value.trim();
