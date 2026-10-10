@@ -1468,313 +1468,284 @@
     </div>
 
 
-
-    <!-- =================================================
-         SECTION 2: ID VERIFICATION
-         ================================================= -->
-    <div
-        id="idVerificationSection"
-        class="personal-tab-content"
-        hidden>
-
-        <div class="content-box">
-
-            <div class="personal-section-heading">
-                <h3>ID Verification</h3>
-                <p>Verify your identity using an accepted identification document.</p>
-            </div>
-
-            <!-- COUNTRY -->
-            <div class="form-group full-width">
-
-                <label for="idCountry">Select Country</label>
-
-                <select
-                    id="idCountry"
-                    name="id_country"
-                    class="form-input form-select">
-
-                    <option value="">-- Select Country --</option>
-                    <option value="BD">🇧🇩 Bangladesh (+880)</option>
-                    <option value="IN">🇮🇳 India (+91)</option>
-                    <option value="PK">🇵🇰 Pakistan (+92)</option>
-                    <option value="NP">🇳🇵 Nepal (+977)</option>
-                    <option value="LK">🇱🇰 Sri Lanka (+94)</option>
-                    <option value="AF">🇦🇫 Afghanistan (+93)</option>
-                    <option value="BT">🇧🇹 Bhutan (+975)</option>
-                    <option value="MV">🇲🇻 Maldives (+960)</option>
-                    <option value="MM">🇲🇲 Myanmar (+95)</option>
-                    <option value="TH">🇹🇭 Thailand (+66)</option>
-                    <option value="VN">🇻🇳 Vietnam (+84)</option>
-                    <option value="PH">🇵🇭 Philippines (+63)</option>
-                    <option value="ID">🇮🇩 Indonesia (+62)</option>
-                    <option value="MY">🇲🇾 Malaysia (+60)</option>
-                    <option value="SG">🇸🇬 Singapore (+65)</option>
-                    <option value="KH">🇰🇭 Cambodia (+855)</option>
-                    <option value="LA">🇱🇦 Laos (+856)</option>
-                    <option value="BN">🇧🇳 Brunei (+673)</option>
-                    <option value="CN">🇨🇳 China (+86)</option>
-                    <option value="JP">🇯🇵 Japan (+81)</option>
-                    <option value="KR">🇰🇷 South Korea (+82)</option>
-                    <option value="AE">🇦🇪 UAE (+971)</option>
-                    <option value="SA">🇸🇦 Saudi Arabia (+966)</option>
-                    <option value="QA">🇶🇦 Qatar (+974)</option>
-                    <option value="KW">🇰🇼 Kuwait (+965)</option>
-                    <option value="OM">🇴🇲 Oman (+968)</option>
-                    <option value="BH">🇧🇭 Bahrain (+973)</option>
-                    <option value="TR">🇹🇷 Turkey (+90)</option>
-                    <option value="IR">🇮🇷 Iran (+98)</option>
-                    <option value="IQ">🇮🇶 Iraq (+964)</option>
-                    <option value="JO">🇯🇴 Jordan (+962)</option>
-                    <option value="LB">🇱🇧 Lebanon (+961)</option>
-                    <option value="EG">🇪🇬 Egypt (+20)</option>
-                    <option value="NG">🇳🇬 Nigeria (+234)</option>
-                    <option value="ZA">🇿🇦 South Africa (+27)</option>
-                    <option value="KE">🇰🇪 Kenya (+254)</option>
-                    <option value="GH">🇬🇭 Ghana (+233)</option>
-                    <option value="TZ">🇹🇿 Tanzania (+255)</option>
-                    <option value="GB">🇬🇧 United Kingdom (+44)</option>
-                    <option value="DE">🇩🇪 Germany (+49)</option>
-                    <option value="FR">🇫🇷 France (+33)</option>
-                    <option value="IT">🇮🇹 Italy (+39)</option>
-                    <option value="ES">🇪🇸 Spain (+34)</option>
-                    <option value="NL">🇳🇱 Netherlands (+31)</option>
-                    <option value="AU">🇦🇺 Australia (+61)</option>
-                    <option value="CA">🇨🇦 Canada (+1)</option>
-                    <option value="BR">🇧🇷 Brazil (+55)</option>
-                    <option value="AR">🇦🇷 Argentina (+54)</option>
-                    <option value="MX">🇲🇽 Mexico (+52)</option>
-                    <option value="RU">🇷🇺 Russia (+7)</option>
-
-                </select>
-
-            </div>
-
-
-            <!-- ID DOCUMENT TYPE -->
-            <div class="form-group full-width">
-
-                <label for="idDocumentType">Identification Document</label>
-
-                <select
-                    id="idDocumentType"
-                    name="id_document_type"
-                    class="form-input form-select">
-
-                    <option value="">Select Document Type</option>
-                    <option value="national_id">National ID Card</option>
-                    <option value="passport">Passport</option>
-                    <option value="driving_license">Driving Licence</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="photo-guidelines">
-
-                <h4>Photo Guidelines</h4>
-
-                <ul>
-                    <li>Photo must be clear and not blurry.</li>
-                    <li>All four corners of the ID must be visible.</li>
-                    <li>Do not crop edges or cut off corners.</li>
-                    <li>Upload an original document image.</li>
-                    <li>Maximum file size: 5 MB per file.</li>
-                    <li>Accepted formats: JPG, PNG and PDF.</li>
-                </ul>
-
-            </div>
-
-
-            <!-- FRONT SIDE -->
-            <div class="document-upload-card">
-
-                <h4>Upload Front Side</h4>
-                <p>Upload the front of your identification document.</p>
-
-                <label
-                    for="idFrontFile"
-                    class="document-upload-area">
-
-                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
-
-                    <span>Click to upload or choose a file</span>
-
-                    <span class="upload-file-name" id="idFrontFileName">
-                        No file selected
-                    </span>
-
-                </label>
-
-                <input
-                    type="file"
-                    id="idFrontFile"
-                    name="id_front"
-                    accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
-                    hidden>
-
-                <p id="idFrontStatus" class="document-status">
-                    Pending
-                </p>
-
-            </div>
-
-
-            <!-- BACK SIDE -->
-            <div class="document-upload-card">
-
-                <h4>Upload Back Side</h4>
-                <p>Upload the back of your identification document.</p>
-
-                <label
-                    for="idBackFile"
-                    class="document-upload-area">
-
-                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
-
-                    <span>Click to upload or choose a file</span>
-
-                    <span class="upload-file-name" id="idBackFileName">
-                        No file selected
-                    </span>
-
-                </label>
-
-                <input
-                    type="file"
-                    id="idBackFile"
-                    name="id_back"
-                    accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
-                    hidden>
-
-                <p id="idBackStatus" class="document-status">
-                    Pending
-                </p>
-
-            </div>
-
-
-            <!-- FACE VERIFICATION -->
-            <div class="face-verification-section">
-
-                <h3>Face Verification</h3>
-
-                <p>
-                    Capture a live selfie for identity verification.
-                    Your identity must be checked using a genuine verification process.
-                </p>
-
-                <div class="face-camera-container">
-
-                    <video
-                        id="faceCameraVideo"
-                        class="face-camera-video"
-                        autoplay
-                        muted
-                        playsinline
-                        hidden>
-                    </video>
-
-                    <canvas
-                        id="faceCaptureCanvas"
-                        hidden>
-                    </canvas>
-
-                    <div
-                        id="faceCameraPlaceholder"
-                        class="face-camera-placeholder">
-
-                        <i class="fas fa-user-circle" aria-hidden="true"></i>
-
-                        <p>Position your face inside the guide.</p>
-
-                    </div>
-
-                    <div
-                        id="faceCameraGuide"
-                        class="face-camera-guide"
-                        aria-hidden="true">
-                    </div>
-
-                </div>
-
-                <p id="faceCameraInstructions">
-                    Allow camera access when prompted.
-                </p>
-
-                <button
-                    type="button"
-                    id="startFaceCameraBtn"
-                    class="action-btn"
-                    onclick="startFaceCamera()">
-                    Start Camera
-                </button>
-
-                <button
-                    type="button"
-                    id="captureFaceBtn"
-                    class="action-btn"
-                    onclick="captureFacePhoto()"
-                    disabled>
-                    Capture Selfie
-                </button>
-
-                <button
-                    type="button"
-                    id="stopFaceCameraBtn"
-                    class="action-btn"
-                    onclick="stopFaceCamera()"
-                    hidden>
-                    Stop Camera
-                </button>
-
-                <input
-                    type="hidden"
-                    id="faceCaptureReference">
-
-                <p
-                    id="faceVerificationStatus"
-                    class="document-status"
-                    aria-live="polite">
-                    Pending
-                </p>
-
-            </div>
-
-
-            <!-- VERIFICATION CHECKLIST -->
-            <div class="verification-progress">
-
-                <h4>Verification Progress</h4>
-
-                <ol>
-                    <li id="idUploadStep">ID Upload — Pending</li>
-                    <li id="faceMatchStep">Face Verification — Pending</li>
-                    <li id="finalVerificationStep">Final Review — Pending</li>
-                </ol>
-
-            </div>
-
-
-            <button
-                type="button"
-                id="submitIdVerificationBtn"
-                class="action-btn verify-btn"
-                onclick="submitIdVerification()"
-                disabled>
-                Submit for Verification
-            </button>
-
-            <p
-                id="idVerificationMessage"
-                class="field-status"
-                aria-live="polite">
+<!-- =================================================
+     SECTION 2: ID VERIFICATION
+================================================= -->
+<div
+    id="idVerificationSection"
+    class="personal-tab-content"
+    hidden>
+
+    <div class="content-box id-verification-box">
+
+        <!-- HEADER -->
+        <div class="personal-section-heading">
+            <h3>ID Verification</h3>
+            <p>
+                Verify your identity using an accepted identification document.
             </p>
-
         </div>
 
+        <!-- DOCUMENT TYPE -->
+        <div class="form-group full-width id-document-type-group">
+            <label for="idDocumentType">Select Document Type</label>
+
+            <select
+                id="idDocumentType"
+                name="id_document_type"
+                class="form-input form-select">
+
+                <option value="">Select Document Type</option>
+                <option value="national_id">National ID Card</option>
+                <option value="passport">Passport</option>
+                <option value="driving_license">Driving Licence</option>
+            </select>
+        </div>
+
+        <!-- PHOTO GUIDELINES -->
+        <div class="photo-guidelines">
+            <h4>Photo Guidelines</h4>
+
+            <ul>
+                <li>Make sure the document photo is clear and readable.</li>
+                <li>Keep all four corners of the document visible.</li>
+                <li>Do not crop the edges or cover any information.</li>
+                <li>Upload an original document image.</li>
+                <li>Maximum file size: 5 MB per file.</li>
+                <li>Accepted image formats: JPEG and PNG.</li>
+            </ul>
+        </div>
+
+        <!-- FRONT SIDE -->
+        <div class="document-upload-card">
+
+            <h4>Front Side</h4>
+            <p>Upload the front of your identification document.</p>
+
+            <label
+                for="idFrontFile"
+                class="document-upload-area">
+
+                <span class="document-upload-icon">
+                    <i class="fas fa-cloud-upload-alt"
+                       aria-hidden="true"></i>
+                </span>
+
+                <span class="document-upload-action">
+                    Choose Front Photo
+                </span>
+
+                <span class="upload-file-name" id="idFrontFileName">
+                    No file selected
+                </span>
+
+                <span class="document-format-label">
+                    JPEG · PNG
+                </span>
+            </label>
+
+            <input
+                type="file"
+                id="idFrontFile"
+                name="id_front"
+                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                hidden>
+
+            <p id="idFrontStatus" class="document-status" aria-live="polite">
+                Pending
+            </p>
+        </div>
+
+        <!-- BACK SIDE -->
+        <div class="document-upload-card">
+
+            <h4>Back Side</h4>
+            <p>Upload the back of your identification document.</p>
+
+            <label
+                for="idBackFile"
+                class="document-upload-area">
+
+                <span class="document-upload-icon">
+                    <i class="fas fa-cloud-upload-alt"
+                       aria-hidden="true"></i>
+                </span>
+
+                <span class="document-upload-action">
+                    Choose Back Photo
+                </span>
+
+                <span class="upload-file-name" id="idBackFileName">
+                    No file selected
+                </span>
+
+                <span class="document-format-label">
+                    JPEG · PNG
+                </span>
+            </label>
+
+            <input
+                type="file"
+                id="idBackFile"
+                name="id_back"
+                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                hidden>
+
+            <p id="idBackStatus" class="document-status" aria-live="polite">
+                Pending
+            </p>
+        </div>
+
+        <!-- FACE VERIFICATION -->
+        <div class="face-verification-section">
+
+            <div class="face-verification-heading">
+                <h3>Face Verification</h3>
+                <p>
+                    Follow the on-screen instructions to capture a live selfie.
+                </p>
+            </div>
+
+            <!-- CAMERA FRAME -->
+            <div class="face-camera-container">
+
+                <video
+                    id="faceCameraVideo"
+                    class="face-camera-video"
+                    autoplay
+                    muted
+                    playsinline
+                    hidden>
+                </video>
+
+                <canvas
+                    id="faceCaptureCanvas"
+                    hidden>
+                </canvas>
+
+                <div
+                    id="faceCameraPlaceholder"
+                    class="face-camera-placeholder">
+
+                    <div class="face-camera-icon">
+                        <i class="fas fa-user-circle"
+                           aria-hidden="true"></i>
+                        <i class="fas fa-camera face-camera-small-icon"
+                           aria-hidden="true"></i>
+                    </div>
+
+                    <p>Position your face inside the guide.</p>
+                </div>
+
+                <div
+                    id="faceCameraGuide"
+                    class="face-camera-guide"
+                    aria-hidden="true">
+                </div>
+
+                <!-- Decorative scan indicators -->
+                <span class="face-scan-dot face-scan-dot-top"
+                      aria-hidden="true"></span>
+                <span class="face-scan-dot face-scan-dot-right"
+                      aria-hidden="true"></span>
+                <span class="face-scan-dot face-scan-dot-bottom"
+                      aria-hidden="true"></span>
+                <span class="face-scan-dot face-scan-dot-left"
+                      aria-hidden="true"></span>
+            </div>
+
+            <p
+                id="faceCameraInstructions"
+                class="face-camera-instructions"
+                aria-live="polite">
+                Press Start Verification to begin.
+            </p>
+
+            <!-- START -->
+            <button
+                type="button"
+                id="startFaceCameraBtn"
+                class="action-btn face-start-btn"
+                onclick="startFaceCamera()">
+                <i class="fas fa-camera" aria-hidden="true"></i>
+                Start Verification
+            </button>
+
+            <!-- CAPTURE -->
+            <button
+                type="button"
+                id="captureFaceBtn"
+                class="action-btn"
+                onclick="captureFacePhoto()"
+                disabled
+                hidden>
+                Capture Selfie
+            </button>
+
+            <!-- STOP -->
+            <button
+                type="button"
+                id="stopFaceCameraBtn"
+                class="action-btn"
+                onclick="stopFaceCamera()"
+                hidden>
+                Stop Camera
+            </button>
+
+            <input
+                type="hidden"
+                id="faceCaptureReference">
+
+            <p
+                id="faceVerificationStatus"
+                class="document-status"
+                aria-live="polite">
+                Pending
+            </p>
+        </div>
+
+        <!-- VERIFICATION PROGRESS -->
+        <div class="verification-progress">
+
+            <h4>Verification Progress</h4>
+
+            <ol>
+                <li id="idUploadStep">
+                    <span class="progress-step-dot"></span>
+                    <span>ID Upload — Pending</span>
+                </li>
+
+                <li id="faceMatchStep">
+                    <span class="progress-step-dot"></span>
+                    <span>Face Verification — Pending</span>
+                </li>
+
+                <li id="finalVerificationStep">
+                    <span class="progress-step-dot"></span>
+                    <span>Manual Review — Pending</span>
+                </li>
+            </ol>
+        </div>
+
+        <!-- SUBMIT -->
+        <button
+            type="button"
+            id="submitIdVerificationBtn"
+            class="action-btn verify-btn"
+            onclick="submitIdVerification()"
+            disabled>
+            Submit for Verification
+        </button>
+
+        <p
+            id="idVerificationMessage"
+            class="field-status"
+            aria-live="polite">
+        </p>
+
     </div>
+</div>
+
 
 
     <!-- =================================================
