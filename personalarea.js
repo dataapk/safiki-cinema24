@@ -287,10 +287,11 @@
     // =====================================================
 
     function populateProfile(profile) {
-        setInputValue("firstName", profile.first_name);
-        setInputValue("surname", profile.last_name);
-        setInputValue("dateOfBirth", profile.date_of_birth);
-        setInputValue("gender", profile.gender);
+    setInputValue("profileFirstName", profile.first_name);
+    setInputValue("profileLastName", profile.last_name);
+    setInputValue("dateOfBirth", profile.date_of_birth);
+    setInputValue("gender", profile.gender);
+}
 
         setText("currentEmail", currentUser?.email || profile.email || "");
 
@@ -371,10 +372,10 @@
     // =====================================================
 
     function setEditMode(enabled) {
-        profileEditMode = enabled;
+    profileEditMode = enabled;
 
-        ["firstName", "surname", "dateOfBirth", "gender"].forEach((id) => {
-            const element = $(id);
+    ["profileFirstName", "profileLastName", "dateOfBirth", "gender"].forEach((id) => {
+        const element = $(id);
 
             if (element) element.disabled = !enabled;
         });
@@ -417,12 +418,12 @@
         try {
             if (!currentUser) await getProfile();
 
-            const firstName = $("firstName")?.value.trim() || "";
-            const surname = $("surname")?.value.trim() || "";
-            const dateOfBirth = $("dateOfBirth")?.value || null;
-            const gender = $("gender")?.value || null;
+            const firstName = $("profileFirstName")?.value.trim() || "";
+const surname = $("profileLastName")?.value.trim() || "";
+const dateOfBirth = $("dateOfBirth")?.value || null;
+const gender = $("gender")?.value || null;
 
-            if (!firstName) {
+if (!firstName) {
                 throw new Error("Please enter your first name.");
             }
 
