@@ -870,133 +870,125 @@
         updateIdSubmitState();
     }
 
-    // =====================================================
-    // 21. RENDER VERIFICATION — Supabase status অনুযায়ী UI
-    // =====================================================
+   // =====================================================
+// 21. RENDER VERIFICATION — প্রকৃত submission অনুযায়ী UI
+// =====================================================
 
-    function renderIdVerificationState(profile) {
-        const state = normalizeStatus(profile.kyc_status);
+// বাংলায়: শুধু status নয়, ID document-এর path-ও পরীক্ষা করা।
+function getEffectiveIdVerificationState(profile) {
+    const status = normalizeStatus(profile?.kyc_status);
 
-        updateIdStatusBadge(profile.kyc_status);
+    if (status === "approved" || status === "rejected") {
+        return status;
+    }
 
-        const form = $("idVerificationForm");
-        const process = $("verificationProcessSection");
-        const approved = $("idVerificationApprovedSection");
+    if (status !== "pending") {
+        return "unverified";
+    }
 
-        if (state === "approved") {
-            setHidden("idVerificationForm", true);
-            setHidden("verificationProcessSection", true);
-            setHidden("idVerificationApprovedSection", false);
+    const documentType = String(
+        profile?.id_document_type || ""
+    ).trim().toLowerCase();
 
-            lockIdVerificationForm(true);
+    const hasFront = Boolean(profile?.id_front_path);
+    const hasSelfie = Boolean(profile?.face_photo_path);
 
-            // Address Proof-এর সত্যিকারের status না থাকলে
-            // Approved দেখানো হবে না।
-            const addressState = normalizeStatus(
-                profile.address_verification_status
-            );
+    const hasBack =
+        documentType === "passport" ||
+        Boolean(profile?.id_back_path);
 
-            const addressApproved = addressState === "approved";
+    // Pending status একা থাকলে submitted হিসেবে গণ্য হবে না।
+    if (hasFront && hasBack && hasSelfie) {
+        return "pending";
+    }
 
-            const addressItem = $("approvedAddressProof");
+    return "unverified";
+}
 
-            if (addressItem) {
-                addressItem.hidden = !addressApproved;
-            }
 
-            return;
-        }
+// বাংলায়: কার্যকর status অনুযায়ী সঠিক verification UI দেখানো।
+function renderIdVerificationState(profile) {
+    const state = getEffectiveIdVerificationState(profile);
 
-        if (state === "pending") {
-            setHidden("idVerificationForm", true);
-            setHidden("verificationProcessSection", false);
-            setHidden("idVerificationApprovedSection", true);
+    updateIdStatusBadge(state);
 
-            // Approved section pending অবস্থায় দেখানো যাবে না।
-            setHidden("idVerificationApprovedSection", true);
-
-            lockIdVerificationForm(true);
-
-            updateProcessItem(
-                "idDocument",
-                "pending",
-                "Submitted — Pending Review"
-            );
-
-            updateProcessItem(
-                "selfie",
-                "pending",
-                "Submitted — Pending Review"
-            );
-
-            const addressState = normalizeStatus(
-                profile.address_verification_status
-            );
-
-            if (addressState === "approved") {
-                updateProcessItem(
-                    "addressProof",
-                    "approved",
-                    "Address proof approved"
-                );
-            } else {
-                updateProcessItem(
-                    "addressProof",
-                    "pending",
-                    profile.address_document_path
-                        ? "Address proof submitted — Pending Review"
-                        : "Address proof has not been submitted"
-                );
-            }
-
-            updateProcessItem(
-                "adminReview",
-                "pending",
-                "Waiting for administrator approval."
-            );
-
-            setText(
-                "verificationProcessMessage",
-                "Your verification is pending review."
-            );
-
-            setText(
-                "idVerificationMessage",
-                "Your verification has been submitted and is awaiting review."
-            );
-
-            return;
-        }
-
-        if (state === "rejected") {
-            setHidden("idVerificationForm", false);
-            setHidden("verificationProcessSection", false);
-            setHidden("idVerificationApprovedSection", true);
-
-            lockIdVerificationForm(false);
-
-            setText(
-                "verificationProcessMessage",
-                "Your verification was rejected. Review the administrator's feedback before submitting again."
-            );
-
-            setText(
-                "idVerificationMessage",
-                "Your verification was rejected. Please review your documents and try again."
-            );
-
-            return;
-        }
-
-        // Unverified
-        setHidden("idVerificationForm", false);
+    if (state === "approved") {
+        setHidden("idVerificationForm", true);
         setHidden("verificationProcessSection", true);
+        setHidden("idVerificationApprovedSection", false);
+
+        lockIdVerificationForm(true);
+
+        return;
+    }
+
+    if (state === "pending") {
+        setHidden("idVerificationForm", true);
+        setHidden("verificationProcessSection", false);
+        setHidden("idVerificationApprovedSection", true);
+
+        lockIdVerificationForm(true);
+
+        updateProcessItem(
+            "idDocument",
+            "pending",
+            "ID document submitted — Pending Review"
+        );
+
+        updateProcessItem(
+            "selfie",
+            "pending",
+            "Selfie submitted — Pending Review"
+        );
+
+        updateProcessItem(
+            "adminReview",
+            "pending",
+            "Waiting for administrator approval."
+        );
+
+        setText(
+            "verificationProcessMessage",
+            "Your ID verification is pending review."
+        );
+
+        setText(
+            "idVerificationMessage",
+            "Your verification has been submitted and is awaiting review."
+        );
+
+        return;
+    }
+
+    if (state === "rejected") {
+        setHidden("idVerificationForm", false);
+        setHidden("verificationProcessSection", false);
         setHidden("idVerificationApprovedSection", true);
 
         lockIdVerificationForm(false);
 
-        updateIdSubmitState();
+        setText(
+            "verificationProcessMessage",
+            "Your verification was rejected. Review the administrator's feedback before submitting again."
+        );
+
+        setText(
+            "idVerificationMessage",
+            "Your verification was rejected. Please review your documents and try again."
+        );
+
+        return;
     }
+
+    // Unverified: ফর্ম ও Front/Back upload অপশন দেখানো।
+    setHidden("idVerificationForm", false);
+    setHidden("verificationProcessSection", true);
+    setHidden("idVerificationApprovedSection", true);
+
+    lockIdVerificationForm(false);
+
+    updateIdSubmitState();
+}
 
     // =====================================================
     // 22. SUBMIT BUTTON STATE — Required files অনুযায়ী চালু
@@ -1014,7 +1006,7 @@
         const selfieReady = Boolean(facePhotoBlob);
 
         const button = $("submitIdVerificationBtn");
-        const status = normalizeStatus(profileData?.kyc_status);
+        const status = getEffectiveIdVerificationState(profileData);
 
         const canSubmit =
             documentsReady &&
@@ -1792,13 +1784,15 @@
             // Re-check status to prevent duplicate pending submissions.
             const { data: latestProfile, error: profileError } = await client
                 .from(CONFIG.table)
-                .select("kyc_status")
+                .select(
+    "kyc_status, id_document_type, id_front_path, id_back_path, face_photo_path"
+)
                 .eq("email", currentUser.email)
                 .maybeSingle();
 
             if (profileError) throw profileError;
 
-            const latestStatus = normalizeStatus(latestProfile?.kyc_status);
+            const latestStatus = getEffectiveIdVerificationState(latestProfile);
 
             if (["pending", "approved"].includes(latestStatus)) {
                 profileData = { ...profileData, ...latestProfile };
