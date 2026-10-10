@@ -1135,12 +1135,18 @@ window.stopFaceCamera = function () {
         captureButton.disabled = true;
     }
 };
-    /* ---------------------------------------------------------
+
+/* ---------------------------------------------------------
    SUBMIT ID VERIFICATION
    --------------------------------------------------------- */
 
 window.submitIdVerification = async function () {
     const button = $("submitIdVerificationBtn");
+
+    // Prevent duplicate submissions.
+    if (idVerificationSubmitting) return;
+
+    idVerificationSubmitting = true;
 
     try {
         const client = getSupabaseClient();
@@ -1149,9 +1155,13 @@ window.submitIdVerification = async function () {
             await getProfile();
         }
 
+        if (!currentUser?.email) {
+            throw new Error("Please log in before submitting verification.");
+        }
+
         const documentType = $("idDocumentType")?.value;
 
-        // Country selection is no longer required.
+        // Country selection is not required.
         if (!documentType || !idFrontFile) {
             throw new Error(
                 "Please select a document type and upload the front side."
@@ -1166,30 +1176,30 @@ window.submitIdVerification = async function () {
             );
         }
 
-        // Selfie must be captured before submission.
+        // Selfie is required.
         if (!facePhotoBlob) {
             throw new Error(
-                "Please complete the live selfie capture first."
+                "Please complete the selfie capture first."
             );
         }
 
-        // Validate document files.
+        // Validate files.
         validateDocument(idFrontFile);
 
-        if (backRequired && idBackFile) {
+        if (backRequired) {
             validateDocument(idBackFile);
         }
 
         setButtonLoading(button, true, "Uploading...");
 
-        // Upload document front.
+        // Upload front document.
         const frontPath = await uploadPrivateFile(
             CONFIG.idDocumentBucket,
             "front",
             idFrontFile
         );
 
-        // Upload document back when required.
+        // Upload back document unless this is a passport.
         let backPath = null;
 
         if (backRequired) {
@@ -1213,7 +1223,7 @@ window.submitIdVerification = async function () {
             selfieFile
         );
 
-        // Save submission and keep verification pending.
+        // Save paths and keep verification pending.
         const updates = {
             id_document_type: documentType,
             id_front_path: frontPath,
@@ -1237,7 +1247,7 @@ window.submitIdVerification = async function () {
             ...updates
         };
 
-        // Update document statuses.
+        // Update upload statuses.
         setStatus(
             "idFrontStatus",
             "Uploaded securely",
@@ -1246,7 +1256,9 @@ window.submitIdVerification = async function () {
 
         setStatus(
             "idBackStatus",
-            backPath ? "Uploaded securely" : "Not required for passport",
+            backPath
+                ? "Uploaded securely"
+                : "Not required for passport",
             "success"
         );
 
@@ -1273,11 +1285,6 @@ window.submitIdVerification = async function () {
             "success"
         );
 
-        // Prevent accidental duplicate submission.
-        if (button) {
-            button.disabled = true;
-        }
-
     } catch (error) {
         console.error("ID submission error:", error);
 
@@ -1287,7 +1294,7 @@ window.submitIdVerification = async function () {
             "error"
         );
 
-       } finally {
+    } finally {
         idVerificationSubmitting = false;
 
         if (button) {
@@ -1296,13 +1303,12 @@ window.submitIdVerification = async function () {
 
         updateIdSubmitState();
     }
-    }
-    }
 };
 
-    /* ---------------------------------------------------------
-       PROOF DOCUMENTS — SELECT DOCUMENT TYPE
-       --------------------------------------------------------- */
+/* ---------------------------------------------------------
+   PROOF DOCUMENTS — SELECT DOCUMENT TYPE
+   --------------------------------------------------------- */
+
 
     window.selectAddressDocument = function (type) {
         const types = {
