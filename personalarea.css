@@ -18,12 +18,9 @@
     position: fixed;
    display: none;
 
-    top: 65px;
-    left: 12px;
-    right: 12px;
-
-    width: auto;
-    max-width: 760px;
+   padding: 20px 20px 45px 20px;
+    width: 96%;
+    max-width: 720px;
     height: 80vh;
 
     margin-left: auto;
@@ -35,12 +32,11 @@ transform: translateX(-50%);
     overflow-y: auto;
     overflow-x: hidden;
 
-    display: none;
-
     border-radius: 16px;
     box-sizing: border-box;
 
     z-index: 99999;
+   -webkit-overflow-scrolling: touch;
 }
 
 /* =========================================
