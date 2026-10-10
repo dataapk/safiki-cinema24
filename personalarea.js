@@ -828,12 +828,10 @@ $("idDocumentType")?.addEventListener("change", () => {
     updateIdSubmitState();
 });
 
-    /* ---------------------------------------------------------
-   FACE CAMERA — START
-   Requires MediaPipe Face Detection to be loaded.
-   --------------------------------------------------------- */
+   // ========================================
+// FACE DETECTION STATE
+// ========================================
 
-let faceDetectionRunning = false;
 let faceDetectionBusy = false;
 let faceDetectionTimer = null;
 let faceStableFrames = 0;
