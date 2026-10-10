@@ -118,19 +118,17 @@ transform: translateX(-50%);
    MOBILE — PERSONAL AREA POPUP
 ========================================= */
 
-@media (max-width: 480px) {
+@media(max-width:600px){
     #personal-area-section {
         top: 12px;
         left: 10px;
         right: 10px;
 
-        width: auto;
-        max-width: none;
-        height: calc(100vh - 24px);
-
-        margin: 0;
-        transform: none;
-        box-sizing: border-box;
+        width:95%;
+        margin:auto;
+       padding: 20px 20px 45px 20px;
+        
+        
     }
 
     #personal-area-section .personal-tabs {
