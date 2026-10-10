@@ -124,8 +124,9 @@
         left: 50%;
         right: auto;
         transform: translateX(-50%);
+      
 
-        width: calc(100% - 40px);
+        width: calc(100% - 40px)!important;
         max-width: 720px;
         height: 80vh;
 
