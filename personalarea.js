@@ -23,6 +23,7 @@
             "application/pdf"
         ]
     };
+   
 
     let currentUser = null;
     let profileData = null;
@@ -41,6 +42,17 @@
 
     let selectedAddressDocumentType = "";
     let cameraStream = null;
+   // ========================================
+// FACE DETECTION STATE
+// ========================================
+
+let faceDetectionInstance = null;
+let faceDetectionTimer = null;
+let faceDetectionBusy = false;
+let faceStableFrames = 0;
+let faceCaptureStarted = false;
+let faceDetectionScriptPromise = null;
+let idVerificationSubmitting = false;
 
     const $ = (id) => document.getElementById(id);
 
@@ -704,16 +716,59 @@
         updateIdSubmitState();
     });
 
-    /* ---------------------------------------------------------
-   ID VERIFICATION — SUBMIT BUTTON STATE
-   --------------------------------------------------------- */
+   // ========================================
+// LOAD MEDIAPIPE FACE DETECTION
+// ========================================
+
+function loadFaceDetectionLibrary() {
+    if (window.FaceDetection) {
+        return Promise.resolve(window.FaceDetection);
+    }
+
+    if (faceDetectionScriptPromise) {
+        return faceDetectionScriptPromise;
+    }
+
+    faceDetectionScriptPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+
+        script.src =
+            "https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js";
+
+        script.async = true;
+
+        script.onload = () => {
+            if (window.FaceDetection) {
+                resolve(window.FaceDetection);
+            } else {
+                reject(
+                    new Error("MediaPipe Face Detection could not initialize.")
+                );
+            }
+        };
+
+        script.onerror = () => {
+            faceDetectionScriptPromise = null;
+
+            reject(
+                new Error(
+                    "Could not load MediaPipe. Check your internet connection and try again."
+                )
+            );
+        };
+
+        document.head.appendChild(script);
+    });
+
+    return faceDetectionScriptPromise;
+}
+
+   // ========================================
+// UPDATE ID SUBMIT STATE
+// ========================================
 
 function updateIdSubmitState() {
     const type = $("idDocumentType")?.value;
-    const button = $("submitIdVerificationBtn");
-
-    if (!button) return;
-
     const backRequired = type !== "passport";
 
     const documentsReady =
@@ -722,30 +777,56 @@ function updateIdSubmitState() {
         (!backRequired || Boolean(idBackFile));
 
     const selfieReady = Boolean(facePhotoBlob);
+    const button = $("submitIdVerificationBtn");
 
-    // Automatic submission is handled separately.
-    button.disabled = !(documentsReady && selfieReady);
+    if (button) {
+        const alreadyPending =
+            String(profileData?.kyc_status || "").toLowerCase() === "pending";
+
+        button.disabled =
+            !documentsReady ||
+            !selfieReady ||
+            alreadyPending ||
+            idVerificationSubmitting;
+    }
+
+   // Selfie আগে তোলা হলে, পরে প্রয়োজনীয় documents প্রস্তুত হলেই submit করবে।
+if (
+    documentsReady &&
+    selfieReady &&
+    !idVerificationSubmitting &&
+    String(profileData?.kyc_status || "").toLowerCase() !== "pending"
+) {
+    if (typeof window.submitIdVerification === "function") {
+        window.submitIdVerification();
+    }
 }
+}
+// ========================================
+// DOCUMENT TYPE CHANGE HANDLER
+// ========================================
 
-    $("idDocumentType")?.addEventListener("change", () => {
-        const type = $("idDocumentType").value;
-        const backField = $("idBackFile")?.closest(".upload-field");
+$("idDocumentType")?.addEventListener("change", () => {
+    const type = $("idDocumentType").value;
+    const backField = $("idBackFile")?.closest(".upload-field");
 
-        if (backField) {
-            backField.hidden = type === "passport";
+    if (backField) {
+        backField.hidden = type === "passport";
+    }
+
+    if (type === "passport") {
+        idBackFile = null;
+
+        if ($("idBackFile")) {
+            $("idBackFile").value = "";
         }
 
-        if (type === "passport") {
-            idBackFile = null;
-            if ($("idBackFile")) $("idBackFile").value = "";
-            setText("idBackFileName", "Not required for passport");
-            setStatus("idBackStatus", "Not required");
-        }
+        setText("idBackFileName", "Not required for passport");
+        setStatus("idBackStatus", "Not required");
+    }
 
-        updateIdSubmitState();
-    });
-
-    $("idCountry")?.addEventListener("change", updateIdSubmitState);
+    updateIdSubmitState();
+});
 
     /* ---------------------------------------------------------
    FACE CAMERA — START
@@ -758,148 +839,143 @@ let faceDetectionTimer = null;
 let faceStableFrames = 0;
 let faceCaptureStarted = false;
 
+// ========================================
+// START CAMERA + AUTOMATIC FACE DETECTION
+// ========================================
+
 window.startFaceCamera = async function () {
     try {
-        if (!navigator.mediaDevices?.getUserMedia) {
-            throw new Error("Camera access is not supported by this browser.");
-        }
+        window.stopFaceCamera();
 
-        if (!window.FaceDetection) {
+        faceCaptureStarted = false;
+        faceStableFrames = 0;
+        faceDetectionBusy = false;
+
+        if (!navigator.mediaDevices?.getUserMedia) {
             throw new Error(
-                "Face Detection is not loaded. Please load MediaPipe first."
+                "Camera access is unavailable. Open the website over HTTPS."
             );
         }
 
-        window.stopFaceCamera();
-
-        facePhotoBlob = null;
-        faceStableFrames = 0;
-        faceCaptureStarted = false;
-
-        const container = document.querySelector(
-            "#idVerificationSection .face-camera-container"
+        setStatus(
+            "faceVerificationStatus",
+            "Loading face detection..."
         );
 
-        container?.classList.add("is-scanning");
+        const FaceDetection = await loadFaceDetectionLibrary();
 
         cameraStream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
             video: {
                 facingMode: "user",
                 width: { ideal: 1280 },
                 height: { ideal: 720 }
-            },
-            audio: false
+            }
         });
 
         const video = $("faceCameraVideo");
+
         if (!video) {
             throw new Error("Camera preview element not found.");
         }
 
         video.srcObject = cameraStream;
         video.hidden = false;
+        video.muted = true;
+        video.playsInline = true;
 
         await video.play();
 
         setHidden("faceCameraPlaceholder", true);
         setHidden("faceCameraGuide", false);
         setHidden("stopFaceCameraBtn", false);
-        setHidden("captureFaceBtn", true);
 
-        setStatus(
-            "faceVerificationStatus",
-            "Detecting your face. Please look at the camera."
-        );
+        const captureButton = $("captureFaceBtn");
 
-        faceDetectionRunning = true;
+        // Capture will happen automatically; disable manual capture.
+        if (captureButton) {
+            captureButton.disabled = true;
+        }
 
-        const detector = new FaceDetection({
+        faceDetectionInstance = new FaceDetection({
             locateFile: (file) =>
                 `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
         });
 
-        detector.setOptions({
+        faceDetectionInstance.setOptions({
             model: "short",
             minDetectionConfidence: 0.7
         });
 
-        detector.onResults((results) => {
-            if (!faceDetectionRunning || faceCaptureStarted) return;
+        faceDetectionInstance.onResults((results) => {
+            if (faceCaptureStarted) return;
 
-            const detections = results.detections || [];
+            const detections = results?.detections || [];
 
-            // Require exactly one clearly detected face.
-            if (detections.length !== 1) {
-                faceStableFrames = 0;
+            // Require exactly one detected face.
+            if (detections.length === 1) {
+                faceStableFrames += 1;
+
                 setStatus(
                     "faceVerificationStatus",
-                    "Keep one face centered and clearly visible."
+                    faceStableFrames >= 10
+                        ? "Face detected. Capturing selfie..."
+                        : "Face detected. Hold still inside the guide."
                 );
-                return;
-            }
 
-            const score = detections[0].score?.[0] ?? 0;
-
-            if (score < 0.85) {
+                if (faceStableFrames >= 10) {
+                    faceCaptureStarted = true;
+                    window.captureFacePhoto();
+                }
+            } else {
                 faceStableFrames = 0;
+
                 setStatus(
                     "faceVerificationStatus",
-                    "Hold still while the camera checks image clarity."
+                    detections.length > 1
+                        ? "Only one person should be visible in the camera."
+                        : "Position your face inside the camera guide."
                 );
-                return;
-            }
-
-            faceStableFrames++;
-
-            setStatus(
-                "faceVerificationStatus",
-                "Face detected. Hold still..."
-            );
-
-            // Require several consecutive successful detections.
-            if (faceStableFrames >= 10 && !faceCaptureStarted) {
-                faceCaptureStarted = true;
-
-                window.captureFacePhoto()
-                    .catch((error) => {
-                        console.error("Automatic selfie capture failed:", error);
-                        faceCaptureStarted = false;
-                    });
             }
         });
 
-        const detectFrame = async () => {
-            if (!faceDetectionRunning || !cameraStream) return;
+        setStatus(
+            "faceVerificationStatus",
+            "Camera ready. Position your face inside the guide."
+        );
 
-            if (!faceDetectionBusy && video.readyState >= 2) {
-                faceDetectionBusy = true;
-
-                try {
-                    await detector.send({ image: video });
-                } catch (error) {
-                    console.error("Face detection error:", error);
-                } finally {
-                    faceDetectionBusy = false;
-                }
+        // Send frames to MediaPipe one at a time.
+        faceDetectionTimer = window.setInterval(async () => {
+            if (
+                faceDetectionBusy ||
+                faceCaptureStarted ||
+                !cameraStream ||
+                video.readyState < 2
+            ) {
+                return;
             }
 
-            if (faceDetectionRunning) {
-                faceDetectionTimer = setTimeout(detectFrame, 150);
-            }
-        };
+            faceDetectionBusy = true;
 
-        await detectFrame();
+            try {
+                await faceDetectionInstance.send({ image: video });
+            } catch (error) {
+                console.error("Face detection frame error:", error);
+            } finally {
+                faceDetectionBusy = false;
+            }
+        }, 150);
 
     } catch (error) {
-        console.error("Camera error:", error);
+        console.error("Camera / Face Detection error:", error);
+
+        window.stopFaceCamera();
 
         setStatus(
             "faceVerificationStatus",
-            error.message || "Unable to start face detection.",
+            error.message || "Could not start face detection.",
             "error"
         );
-
-        window.stopFaceCamera();
     }
 };
 
@@ -907,91 +983,124 @@ window.startFaceCamera = async function () {
    FACE CAMERA — CAPTURE SELFIE
    --------------------------------------------------------- */
 
+// ========================================
+// CAPTURE SELFIE AUTOMATICALLY
+// ========================================
+
 window.captureFacePhoto = async function () {
     const video = $("faceCameraVideo");
     const canvas = $("faceCaptureCanvas");
 
-    if (!video || !canvas || !cameraStream) {
-        throw new Error("Camera is not ready.");
-    }
+    if (
+        !video ||
+        !canvas ||
+        !cameraStream ||
+        !video.videoWidth ||
+        !video.videoHeight
+    ) {
+        faceCaptureStarted = false;
 
-    if (!video.videoWidth || !video.videoHeight) {
-        throw new Error("Camera preview is not ready.");
-    }
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    const context = canvas.getContext("2d");
-
-    if (!context) {
-        throw new Error("Unable to process the selfie.");
-    }
-
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    const blob = await new Promise((resolve) => {
-        canvas.toBlob(resolve, "image/jpeg", 0.92);
-    });
-
-    if (!blob) {
-        throw new Error("Could not capture the selfie.");
-    }
-
-    facePhotoBlob = blob;
-
-    const hiddenInput = $("faceCaptureReference");
-    if (hiddenInput) hiddenInput.value = "captured";
-
-    setStatus(
-        "faceVerificationStatus",
-        "Selfie captured successfully.",
-        "success"
-    );
-
-    updateIdSubmitState();
-
-    window.stopFaceCamera();
-
-    const type = $("idDocumentType")?.value;
-    const backRequired = type !== "passport";
-
-    const documentsReady =
-        Boolean(type) &&
-        Boolean(idFrontFile) &&
-        (!backRequired || Boolean(idBackFile));
-
-    if (!documentsReady) {
         setStatus(
             "faceVerificationStatus",
-            "Selfie captured. Upload the required document photos to continue."
+            "Camera is not ready. Please try again.",
+            "error"
         );
+
         return;
     }
 
-    const submitButton = $("submitIdVerificationBtn");
+    try {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-    if (submitButton) {
-        submitButton.disabled = true;
+        const context = canvas.getContext("2d");
+
+        if (!context) {
+            throw new Error("Could not prepare the selfie canvas.");
+        }
+
+        context.drawImage(
+            video,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        const blob = await new Promise((resolve, reject) => {
+            canvas.toBlob(
+                (result) => {
+                    if (result) {
+                        resolve(result);
+                    } else {
+                        reject(new Error("Could not capture the selfie."));
+                    }
+                },
+                "image/jpeg",
+                0.92
+            );
+        });
+
+        facePhotoBlob = blob;
+
+        const hiddenInput = $("faceCaptureReference");
+
+        if (hiddenInput) {
+            hiddenInput.value = "captured";
+        }
+
+        setStatus(
+            "faceVerificationStatus",
+            "Selfie captured successfully.",
+            "success"
+        );
+
+        window.stopFaceCamera();
+
+        updateIdSubmitState();
+
+        const type = $("idDocumentType")?.value;
+        const backRequired = type !== "passport";
+
+        const documentsReady =
+            Boolean(type) &&
+            Boolean(idFrontFile) &&
+            (!backRequired || Boolean(idBackFile));
+
+        if (!documentsReady) {
+            setStatus(
+                "faceVerificationStatus",
+                "Selfie captured. Upload the required ID documents to continue.",
+                "success"
+            );
+
+            return;
+        }
+
+        await window.submitIdVerification();
+
+    } catch (error) {
+        console.error("Selfie capture error:", error);
+
+        faceCaptureStarted = false;
+
+        setStatus(
+            "faceVerificationStatus",
+            error.message || "Could not capture the selfie.",
+            "error"
+        );
     }
-
-    // Automatically submit once documents and selfie are ready.
-    await window.submitIdVerification();
 };
 
-   /* ---------------------------------------------------------
-   FACE CAMERA — STOP
-   --------------------------------------------------------- */
+   // ========================================
+// STOP CAMERA + FACE DETECTION
+// ========================================
 
 window.stopFaceCamera = function () {
-    faceDetectionRunning = false;
-
-    if (faceDetectionTimer) {
-        clearTimeout(faceDetectionTimer);
+    if (faceDetectionTimer !== null) {
+        clearInterval(faceDetectionTimer);
         faceDetectionTimer = null;
     }
-
-    faceDetectionBusy = false;
 
     if (cameraStream) {
         cameraStream.getTracks().forEach((track) => track.stop());
@@ -1006,20 +1115,26 @@ window.stopFaceCamera = function () {
         video.hidden = true;
     }
 
+    if (faceDetectionInstance) {
+        try {
+            faceDetectionInstance.close();
+        } catch (error) {
+            console.warn("Could not close Face Detection cleanly:", error);
+        }
+
+        faceDetectionInstance = null;
+    }
+
+    faceDetectionBusy = false;
+
     setHidden("stopFaceCameraBtn", true);
 
     const captureButton = $("captureFaceBtn");
 
     if (captureButton) {
         captureButton.disabled = true;
-        captureButton.hidden = true;
     }
-
-    document
-        .querySelector("#idVerificationSection .face-camera-container")
-        ?.classList.remove("is-scanning");
 };
-
     /* ---------------------------------------------------------
    SUBMIT ID VERIFICATION
    --------------------------------------------------------- */
@@ -1172,16 +1287,14 @@ window.submitIdVerification = async function () {
             "error"
         );
 
-    } finally {
+       } finally {
+        idVerificationSubmitting = false;
+
         if (button) {
             button.textContent = "Submit for Verification";
-
-            // Recalculate whether another submission is possible.
-            if (!profileData?.kyc_status ||
-                profileData.kyc_status.toLowerCase() !== "pending") {
-                updateIdSubmitState();
-            }
         }
+
+        updateIdSubmitState();
     }
 };
 
