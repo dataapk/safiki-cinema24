@@ -828,15 +828,7 @@ $("idDocumentType")?.addEventListener("change", () => {
     updateIdSubmitState();
 });
 
-   // ========================================
-// FACE DETECTION STATE
-// ========================================
-
-let faceDetectionBusy = false;
-let faceDetectionTimer = null;
-let faceStableFrames = 0;
-let faceCaptureStarted = false;
-
+   
 // ========================================
 // START CAMERA + AUTOMATIC FACE DETECTION
 // ========================================
