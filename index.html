@@ -1468,6 +1468,7 @@
     </div>
 
 
+
 <!-- =================================================
      SECTION 2: ID VERIFICATION
 ================================================= -->
@@ -1481,9 +1482,7 @@
         <!-- HEADER -->
         <div class="personal-section-heading">
             <h3>ID Verification</h3>
-            <p>
-                Verify your identity using an accepted identification document.
-            </p>
+            <p>Verify your identity using an accepted identification document.</p>
         </div>
 
         <!-- DOCUMENT TYPE -->
@@ -1505,7 +1504,6 @@
         <!-- PHOTO GUIDELINES -->
         <div class="photo-guidelines">
             <h4>Photo Guidelines</h4>
-
             <ul>
                 <li>Make sure the document photo is clear and readable.</li>
                 <li>Keep all four corners of the document visible.</li>
@@ -1518,30 +1516,21 @@
 
         <!-- FRONT SIDE -->
         <div class="document-upload-card">
-
             <h4>Front Side</h4>
             <p>Upload the front of your identification document.</p>
 
-            <label
-                for="idFrontFile"
-                class="document-upload-area">
-
+            <label for="idFrontFile" class="document-upload-area">
                 <span class="document-upload-icon">
-                    <i class="fas fa-cloud-upload-alt"
-                       aria-hidden="true"></i>
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
                 </span>
 
-                <span class="document-upload-action">
-                    Choose Front Photo
-                </span>
+                <span class="document-upload-action">Choose Front Photo</span>
 
                 <span class="upload-file-name" id="idFrontFileName">
                     No file selected
                 </span>
 
-                <span class="document-format-label">
-                    JPEG · PNG
-                </span>
+                <span class="document-format-label">JPEG · PNG</span>
             </label>
 
             <input
@@ -1551,37 +1540,45 @@
                 accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                 hidden>
 
+            <div class="id-image-preview-wrap">
+                <img
+                    id="idFrontPreview"
+                    class="id-document-preview"
+                    alt="Selected ID front preview"
+                    hidden>
+
+                <button
+                    type="button"
+                    id="retakeIdFrontBtn"
+                    class="id-retake-btn"
+                    hidden>
+                    <i class="fas fa-redo" aria-hidden="true"></i>
+                    Choose Another Front Photo
+                </button>
+            </div>
+
             <p id="idFrontStatus" class="document-status" aria-live="polite">
                 Pending
             </p>
         </div>
 
         <!-- BACK SIDE -->
-        <div class="document-upload-card">
-
+        <div class="document-upload-card" id="idBackUploadCard">
             <h4>Back Side</h4>
             <p>Upload the back of your identification document.</p>
 
-            <label
-                for="idBackFile"
-                class="document-upload-area">
-
+            <label for="idBackFile" class="document-upload-area">
                 <span class="document-upload-icon">
-                    <i class="fas fa-cloud-upload-alt"
-                       aria-hidden="true"></i>
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
                 </span>
 
-                <span class="document-upload-action">
-                    Choose Back Photo
-                </span>
+                <span class="document-upload-action">Choose Back Photo</span>
 
                 <span class="upload-file-name" id="idBackFileName">
                     No file selected
                 </span>
 
-                <span class="document-format-label">
-                    JPEG · PNG
-                </span>
+                <span class="document-format-label">JPEG · PNG</span>
             </label>
 
             <input
@@ -1590,6 +1587,23 @@
                 name="id_back"
                 accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                 hidden>
+
+            <div class="id-image-preview-wrap">
+                <img
+                    id="idBackPreview"
+                    class="id-document-preview"
+                    alt="Selected ID back preview"
+                    hidden>
+
+                <button
+                    type="button"
+                    id="retakeIdBackBtn"
+                    class="id-retake-btn"
+                    hidden>
+                    <i class="fas fa-redo" aria-hidden="true"></i>
+                    Choose Another Back Photo
+                </button>
+            </div>
 
             <p id="idBackStatus" class="document-status" aria-live="polite">
                 Pending
@@ -1601,9 +1615,7 @@
 
             <div class="face-verification-heading">
                 <h3>Face Verification</h3>
-                <p>
-                    Follow the on-screen instructions to capture a live selfie.
-                </p>
+                <p>Position your face inside the guide. Your selfie will be captured automatically.</p>
             </div>
 
             <!-- CAMERA FRAME -->
@@ -1618,6 +1630,12 @@
                     hidden>
                 </video>
 
+                <img
+                    id="faceCapturedPreview"
+                    class="face-captured-preview"
+                    alt="Captured selfie preview"
+                    hidden>
+
                 <canvas
                     id="faceCaptureCanvas"
                     hidden>
@@ -1628,13 +1646,12 @@
                     class="face-camera-placeholder">
 
                     <div class="face-camera-icon">
-                        <i class="fas fa-user-circle"
-                           aria-hidden="true"></i>
+                        <i class="fas fa-user-circle" aria-hidden="true"></i>
                         <i class="fas fa-camera face-camera-small-icon"
                            aria-hidden="true"></i>
                     </div>
 
-                    <p>Position your face inside the guide.</p>
+                    <p>Your selfie will appear here.</p>
                 </div>
 
                 <div
@@ -1643,7 +1660,6 @@
                     aria-hidden="true">
                 </div>
 
-                <!-- Decorative scan indicators -->
                 <span class="face-scan-dot face-scan-dot-top"
                       aria-hidden="true"></span>
                 <span class="face-scan-dot face-scan-dot-right"
@@ -1661,40 +1677,52 @@
                 Press Start Verification to begin.
             </p>
 
-            <!-- START -->
-            <button
-                type="button"
-                id="startFaceCameraBtn"
-                class="action-btn face-start-btn"
-                onclick="startFaceCamera()">
-                <i class="fas fa-camera" aria-hidden="true"></i>
-                Start Verification
-            </button>
+            <!-- CAMERA CONTROLS -->
+            <div class="face-camera-controls">
 
-            <!-- CAPTURE -->
-            <button
-                type="button"
-                id="captureFaceBtn"
-                class="action-btn"
-                onclick="captureFacePhoto()"
-                disabled
-                hidden>
-                Capture Selfie
-            </button>
+                <button
+                    type="button"
+                    id="startFaceCameraBtn"
+                    class="action-btn face-start-btn"
+                    onclick="startFaceCamera()">
+                    <i class="fas fa-camera" aria-hidden="true"></i>
+                    Start Verification
+                </button>
 
-            <!-- STOP -->
-            <button
-                type="button"
-                id="stopFaceCameraBtn"
-                class="action-btn"
-                onclick="stopFaceCamera()"
-                hidden>
-                Stop Camera
-            </button>
+                <button
+                    type="button"
+                    id="captureFaceBtn"
+                    class="action-btn"
+                    onclick="captureFacePhoto()"
+                    disabled
+                    hidden>
+                    Capture Selfie
+                </button>
+
+                <button
+                    type="button"
+                    id="retakeFacePhotoBtn"
+                    class="action-btn id-retake-btn"
+                    onclick="retakeFacePhoto()"
+                    hidden>
+                    <i class="fas fa-redo" aria-hidden="true"></i>
+                    Retake Selfie
+                </button>
+
+                <button
+                    type="button"
+                    id="stopFaceCameraBtn"
+                    class="action-btn"
+                    onclick="stopFaceCamera()"
+                    hidden>
+                    Stop Camera
+                </button>
+            </div>
 
             <input
                 type="hidden"
-                id="faceCaptureReference">
+                id="faceCaptureReference"
+                value="">
 
             <p
                 id="faceVerificationStatus"
@@ -1706,7 +1734,6 @@
 
         <!-- VERIFICATION PROGRESS -->
         <div class="verification-progress">
-
             <h4>Verification Progress</h4>
 
             <ol>
@@ -1727,6 +1754,9 @@
             </ol>
         </div>
 
+        <!-- SUBMISSION MESSAGE -->
+        <p id="idVerificationMessage" role="status" aria-live="polite"></p>
+
         <!-- SUBMIT -->
         <button
             type="button"
@@ -1737,14 +1767,9 @@
             Submit for Verification
         </button>
 
-        <p
-            id="idVerificationMessage"
-            class="field-status"
-            aria-live="polite">
-        </p>
-
     </div>
 </div>
+
 
 
 
