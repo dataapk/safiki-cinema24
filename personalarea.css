@@ -1311,974 +1311,1296 @@
         min-width: 60px;
     }
 }
-#
+
 /* =====================================================
-   ID VERIFICATION — COMPLETE CSS
-   Clean White • Soft Green • Responsive
+   ID VERIFICATION — BET365 INSPIRED DESIGN
+   White Background | Green Accent | Soft Yellow Icons
 ===================================================== */
 
-#idVerificationSection {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    color: #252b32;
-}
 
-#idVerificationSection *,
-#idVerificationSection *::before,
-#idVerificationSection *::after {
-    box-sizing: border-box;
-}
+/* =====================================================
+   1. MAIN CONTAINER
+===================================================== */
 
-#idVerificationSection .content-box {
+.id-verification-box {
+    --idv-green: #16853d;
+    --idv-green-dark: #106b30;
+    --idv-green-light: #eaf6ed;
+
+    --idv-yellow: #f4c542;
+    --idv-yellow-light: #fff7dc;
+    --idv-yellow-border: #f0dfa0;
+
+    --idv-text: #202923;
+    --idv-muted: #6b756e;
+    --idv-border: #e2e8e3;
+    --idv-surface: #ffffff;
+    --idv-soft-surface: #f8faf8;
+
     width: 100%;
-    min-width: 0;
-    padding: 20px;
+    box-sizing: border-box;
+    padding: 24px;
     background: #ffffff;
-    border-radius: 14px;
+    color: var(--idv-text);
+    border: 1px solid #e5eae6;
+    border-top: 4px solid var(--idv-green);
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(24, 55, 32, 0.045);
 }
+
+.id-verification-box *,
+.id-verification-box *::before,
+.id-verification-box *::after {
+    box-sizing: border-box;
+}
+
+.id-verification-box [hidden] {
+    display: none !important;
+}
+
 
 /* =====================================================
-   SECTION HEADING
+   2. HEADER
 ===================================================== */
 
-#idVerificationSection .personal-section-heading {
+.id-verification-box .id-verification-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
     margin: 0 0 24px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid #edf0ed;
+    padding: 0 0 20px;
+    border-bottom: 1px solid var(--idv-border);
 }
 
-#idVerificationSection .personal-section-heading h3 {
-    margin: 0 0 8px;
-    color: #202721;
-    font-size: 21px;
+.id-verification-box .id-verification-header h3 {
+    margin: 0 0 7px;
+    color: #1b3523;
+    font-size: 22px;
     font-weight: 700;
     line-height: 1.35;
 }
 
-#idVerificationSection .personal-section-heading p {
+.id-verification-box .id-verification-header p {
     margin: 0;
-    color: #778079;
+    max-width: 520px;
+    color: var(--idv-muted);
     font-size: 13px;
-    line-height: 1.65;
+    line-height: 1.7;
 }
+
 
 /* =====================================================
-   DOCUMENT TYPE
+   3. STATUS BADGE
 ===================================================== */
 
-#idVerificationSection .id-document-type-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 0 0 24px;
+.id-verification-box .id-verification-status {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 30px;
+    padding: 6px 12px;
+    border: 1px solid var(--idv-yellow-border);
+    border-radius: 6px;
+    background: var(--idv-yellow-light);
+    color: #84620b;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
 }
 
-#idVerificationSection .id-document-type-group label {
-    color: #303832;
+.id-verification-box .id-verification-status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-radius: 50%;
+    background: var(--idv-yellow);
+}
+
+/* Pending */
+
+.id-verification-box .id-verification-status[data-status="pending"] {
+    background: var(--idv-yellow-light);
+    border-color: var(--idv-yellow-border);
+    color: #84620b;
+}
+
+/* Approved / Verified */
+
+.id-verification-box .id-verification-status[data-status="approved"],
+.id-verification-box .id-verification-status[data-status="verified"] {
+    background: var(--idv-green-light);
+    border-color: #b9dfc2;
+    color: var(--idv-green-dark);
+}
+
+.id-verification-box .id-verification-status[data-status="approved"]::before,
+.id-verification-box .id-verification-status[data-status="verified"]::before {
+    background: var(--idv-green);
+}
+
+
+/* =====================================================
+   4. DOCUMENT TYPE
+===================================================== */
+
+.id-verification-box .id-document-type-group {
+    width: 100%;
+    margin: 0 0 22px;
+}
+
+.id-verification-box .id-document-type-group label {
+    display: block;
+    margin: 0 0 9px;
+    color: #27352b;
     font-size: 13px;
     font-weight: 600;
 }
 
-#idVerificationSection .id-document-type-group .form-input {
+.id-verification-box #idDocumentType {
     display: block;
     width: 100%;
-    min-width: 0;
     min-height: 46px;
     padding: 11px 13px;
-    border: 1px solid #dce3dd;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #303832;
-    font-size: 13px;
+    border: 1px solid #d6ded7;
+    border-radius: 7px;
     outline: none;
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    background-color: #ffffff;
+    color: #26352a;
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-#idVerificationSection .id-document-type-group .form-input:focus {
-    border-color: #23965a;
-    box-shadow: 0 0 0 3px rgba(35, 150, 90, 0.10);
+.id-verification-box #idDocumentType:focus {
+    border-color: var(--idv-green);
+    box-shadow: 0 0 0 3px rgba(22, 133, 61, 0.10);
 }
+
 
 /* =====================================================
-   PHOTO GUIDELINES
+   5. PHOTO GUIDELINES
 ===================================================== */
 
-#idVerificationSection .photo-guidelines {
-    position: relative;
-    width: 100%;
+.id-verification-box .photo-guidelines {
     margin: 0 0 24px;
-    padding: 17px 17px 17px 21px;
-    overflow: hidden;
-    border: 1px solid #e0eee4;
-    border-radius: 10px;
-    background: #f6faf7;
+    padding: 16px 18px;
+    border: 1px solid #eee3b8;
+    border-left: 3px solid var(--idv-yellow);
+    border-radius: 7px;
+    background: #fffdf5;
 }
 
-#idVerificationSection .photo-guidelines::before {
-    content: "";
-    position: absolute;
-    top: 13px;
-    bottom: 13px;
-    left: 0;
-    width: 4px;
-    border-radius: 0 5px 5px 0;
-    background: #198754;
-}
-
-#idVerificationSection .photo-guidelines h4 {
-    margin: 0 0 13px;
-    color: #176b43;
+.id-verification-box .photo-guidelines h4 {
+    margin: 0 0 10px;
+    color: #4b4224;
     font-size: 14px;
     font-weight: 700;
 }
 
-#idVerificationSection .photo-guidelines ul {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
+.id-verification-box .photo-guidelines ul {
     margin: 0;
-    padding: 0;
-    list-style: none;
+    padding-left: 19px;
 }
 
-#idVerificationSection .photo-guidelines li {
-    position: relative;
-    margin: 0;
-    padding-left: 17px;
-    color: #5c665f;
+.id-verification-box .photo-guidelines li {
+    margin: 6px 0;
+    padding-left: 2px;
+    color: #6e6853;
     font-size: 12px;
     line-height: 1.65;
-    overflow-wrap: anywhere;
 }
 
-#idVerificationSection .photo-guidelines li::before {
-    content: "";
-    position: absolute;
-    top: 7px;
-    left: 1px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #23965a;
+.id-verification-box .photo-guidelines li::marker {
+    color: #c69c24;
 }
+
 
 /* =====================================================
-   DOCUMENT UPLOAD CARDS
-   FRONT TOP — BACK BELOW
+   6. DOCUMENT UPLOAD CARDS
 ===================================================== */
 
-#idVerificationSection .document-upload-card {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+.id-verification-box .document-upload-card {
     width: 100%;
-    min-width: 0;
-    margin: 0 0 18px;
-    padding: 19px;
-    border: 1px solid #e3e9e4;
-    border-radius: 12px;
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(30, 60, 40, 0.035);
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    margin: 0 0 22px;
+    padding: 18px;
+    border: 1px solid var(--idv-border);
+    border-radius: 9px;
+    background: var(--idv-surface);
+    transition: border-color 0.2s ease;
 }
 
-#idVerificationSection .document-upload-card:hover {
-    border-color: #c9e4d1;
-    box-shadow: 0 4px 13px rgba(30, 60, 40, 0.055);
+.id-verification-box .document-upload-card:hover {
+    border-color: #cbdacf;
 }
 
-#idVerificationSection .document-upload-card h4 {
+.id-verification-box .document-upload-card > h4 {
     margin: 0 0 6px;
-    color: #252d27;
+    color: #26372a;
     font-size: 15px;
     font-weight: 700;
-    text-align: center;
 }
 
-#idVerificationSection .document-upload-card > p:not(.document-status) {
-    margin: 0 0 16px;
-    color: #818981;
+.id-verification-box .document-upload-card > p {
+    margin: 0 0 14px;
+    color: var(--idv-muted);
     font-size: 12px;
-    line-height: 1.6;
-    text-align: center;
+    line-height: 1.65;
 }
 
-/* Upload area */
 
-#idVerificationSection .document-upload-area {
+/* =====================================================
+   7. FIXED UPLOAD BOX
+   Preview stays inside the same box
+===================================================== */
+
+.id-verification-box .document-upload-area {
+    position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 9px;
+    gap: 6px;
+
     width: 100%;
-    min-width: 0;
-    min-height: 160px;
-    padding: 20px 12px;
-    border: 1.5px dashed #8ccba2;
-    border-radius: 10px;
-    background: #f8fcf9;
+    height: 170px;
+    min-height: 170px;
+    max-height: 170px;
+
+    padding: 12px;
+    overflow: hidden;
+
+    border: 1px dashed #b9c9bc;
+    border-radius: 8px;
+    background: #f8fbf8;
+
     text-align: center;
     cursor: pointer;
-    transition: background 0.2s ease,
-                border-color 0.2s ease;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
 }
 
-#idVerificationSection .document-upload-area:hover {
-    border-color: #198754;
-    background: #eff8f1;
+.id-verification-box .document-upload-area:hover {
+    border-color: var(--idv-green);
+    background: #f3faf4;
 }
 
-#idVerificationSection .document-upload-area:focus-visible {
-    outline: 2px solid #198754;
-    outline-offset: 3px;
+.id-verification-box .document-upload-area:focus-within {
+    outline: 2px solid rgba(22, 133, 61, 0.25);
+    outline-offset: 2px;
 }
 
-/* Centered upload icon */
 
-#idVerificationSection .document-upload-icon {
+/* Upload icon */
+
+.id-verification-box .document-upload-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 48px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #e4f4e9;
-    color: #198754;
-    font-size: 21px;
+
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+
+    border-radius: 12px;
+    background: var(--idv-yellow-light);
+    color: #a37a0d;
+
+    font-size: 20px;
+    transition: transform 0.2s ease;
 }
 
-#idVerificationSection .document-upload-action {
-    color: #176b43;
+.id-verification-box .document-upload-area:hover
+.document-upload-icon {
+    transform: translateY(-2px);
+}
+
+
+/* Upload text */
+
+.id-verification-box .document-upload-action {
+    color: var(--idv-green-dark);
     font-size: 13px;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
-#idVerificationSection .upload-file-name {
+.id-verification-box .upload-file-name {
     display: block;
     max-width: 100%;
-    color: #7b847d;
-    font-size: 12px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
+    overflow: hidden;
+    color: #727d74;
+    font-size: 11px;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-#idVerificationSection .document-format-label {
-    display: block;
-    color: #929a93;
+.id-verification-box .document-format-label {
+    color: #89928b;
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-}
-
-/* Document status */
-
-#idVerificationSection .document-status {
-    min-height: 16px;
-    margin: 11px 0 0;
-    color: #8a938c;
-    font-size: 12px;
-    line-height: 1.5;
-    text-align: center;
-    overflow-wrap: anywhere;
+    line-height: 1.4;
 }
 
 
+/* =====================================================
+   8. DOCUMENT IMAGE PREVIEW
+   Absolutely positioned inside the original upload box
+===================================================== */
 
+.id-verification-box .id-document-preview {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
 
-/* ========================================
-   ID DOCUMENT PREVIEWS
-======================================== */
-
-.id-image-preview-wrap {
-    margin-top: 12px;
-}
-
-.id-document-preview {
-    width: 100%;
-    max-width: 420px;
-    max-height: 240px;
-    object-fit: contain;
     display: block;
-    margin: 0 auto 10px;
-    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+
+    margin: 0;
+    padding: 6px;
+
+    border: 0;
+    border-radius: inherit;
     background: #f3f5f7;
-    border: 1px solid #dce2e8;
+
+    object-fit: contain;
+    object-position: center;
 }
 
-.id-document-preview[hidden],
-.face-captured-preview[hidden],
-.face-camera-video[hidden],
-.id-retake-btn[hidden] {
+/* Hide default upload content while preview is visible */
+
+.id-verification-box .document-upload-area.has-preview
+.document-upload-icon,
+.id-verification-box .document-upload-area.has-preview
+.document-upload-action,
+.id-verification-box .document-upload-area.has-preview
+.upload-file-name,
+.id-verification-box .document-upload-area.has-preview
+.document-format-label {
     display: none;
 }
 
 
-/* ========================================
-   SELFIE PREVIEW
-======================================== */
+/* =====================================================
+   9. CHOOSE ANOTHER PHOTO BUTTON
+===================================================== */
 
-.face-camera-container {
-    overflow: hidden;
-}
-
-.face-camera-video,
-.face-captured-preview {
-    width: 100%;
-    max-width: 100%;
-    max-height: 420px;
-    object-fit: contain;
-}
-
-.face-captured-preview {
-    display: block;
-    margin: auto;
-    border-radius: 8px;
-}
-
-
-/* ========================================
-   RETAKE BUTTONS
-======================================== */
-
-.id-retake-btn {
+.id-verification-box .id-retake-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border: 1px solid #d0d5dd;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #344054;
+    gap: 7px;
+
+    min-height: 36px;
+    margin-top: 9px;
+    padding: 8px 12px;
+
+    border: 1px solid #d8e6da;
+    border-radius: 6px;
+    background: #f5faf5;
+    color: var(--idv-green-dark);
+
+    font-family: inherit;
+    font-size: 12px;
     font-weight: 600;
+
     cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.id-retake-btn:hover {
-    background: #f2f4f7;
+.id-verification-box .id-retake-btn:hover {
+    border-color: #a8cfb0;
+    background: var(--idv-green-light);
 }
 
 
-/* ========================================
-   GREEN SUBMIT BUTTON
-======================================== */
+/* Document status */
 
-#submitIdVerificationBtn {
-    width: 100%;
-    margin-top: 18px;
-    padding: 13px 18px;
-    border: none;
-    border-radius: 8px;
-    background: #16a34a;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+.id-verification-box .document-status {
+    margin: 10px 0 0;
+    color: var(--idv-muted);
+    font-size: 12px;
+    line-height: 1.5;
 }
-
-#submitIdVerificationBtn:hover:not(:disabled) {
-    background: #15803d;
-}
-
-#submitIdVerificationBtn:disabled {
-    background: #aab4ad;
-    cursor: not-allowed;
-    opacity: 0.8;
-}
-
-.face-camera-controls {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 14px 0;
-}
-
 
 
 /* =====================================================
-   FACE VERIFICATION SECTION
+   10. FACE VERIFICATION
 ===================================================== */
 
-#idVerificationSection .face-verification-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.id-verification-box .face-verification-section {
     width: 100%;
-    min-width: 0;
     margin: 26px 0 22px;
-    padding: 24px 18px;
-    border: 1px solid #e0eae2;
-    border-radius: 14px;
-    background: #f8fbf9;
-    text-align: center;
+    padding: 20px;
+    border: 1px solid var(--idv-border);
+    border-radius: 9px;
+    background: #ffffff;
 }
 
-#idVerificationSection .face-verification-heading {
-    width: 100%;
-    margin-bottom: 20px;
+.id-verification-box .face-verification-heading {
+    margin: 0 0 17px;
 }
 
-#idVerificationSection .face-verification-heading h3 {
-    margin: 0 0 8px;
-    color: #252d27;
-    font-size: 18px;
+.id-verification-box .face-verification-heading h3 {
+    margin: 0 0 7px;
+    color: #26372a;
+    font-size: 17px;
     font-weight: 700;
 }
 
-#idVerificationSection .face-verification-heading p {
-    max-width: 360px;
-    margin: 0 auto;
-    color: #778079;
+.id-verification-box .face-verification-heading p {
+    margin: 0;
+    color: var(--idv-muted);
     font-size: 12px;
     line-height: 1.7;
 }
 
+
 /* =====================================================
-   ROUND CAMERA FRAME
+   11. CAMERA / SELFIE BOX
 ===================================================== */
 
-#idVerificationSection .face-camera-container {
+.id-verification-box .face-camera-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 auto;
-    width: 220px;
-    max-width: 100%;
-    aspect-ratio: 1 / 1;
+
+    width: 100%;
+    max-width: 360px;
+    height: 300px;
+
+    margin: 0 auto;
     overflow: hidden;
-    border: 3px dotted #29985b;
-    border-radius: 50%;
-    background: #edf7f0;
-    isolation: isolate;
-    transition: border-color 0.2s ease;
+
+    border: 1px solid #dfe7e0;
+    border-radius: 10px;
+    background: #f6f9f6;
 }
 
 /* Live camera */
 
-#idVerificationSection .face-camera-video {
+.id-verification-box .face-camera-video {
     position: absolute;
     inset: 0;
     z-index: 1;
+
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    background: #111111;
+
     object-fit: cover;
+    background: #151915;
 }
+
+/* Captured selfie */
+
+.id-verification-box .face-captured-preview {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    background: #f3f5f7;
+}
+
 
 /* Camera placeholder */
 
-#idVerificationSection .face-camera-placeholder {
-    position: relative;
-    z-index: 2;
+.id-verification-box .face-camera-placeholder {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    width: 100%;
-    padding: 16px;
+    gap: 13px;
+
+    padding: 20px;
+    background: #f6f9f6;
+    text-align: center;
 }
 
-#idVerificationSection .face-camera-icon {
+.id-verification-box .face-camera-icon {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 108px;
-    height: 108px;
-    border: 2px solid #b8dec4;
-    border-radius: 50%;
-    background: #ffffff;
-    color: #21834c;
+
+    width: 75px;
+    height: 75px;
+
+    border-radius: 22px;
+    background: var(--idv-yellow-light);
+    color: #a37a0d;
+
+    font-size: 38px;
 }
 
-#idVerificationSection .face-camera-icon > .fa-user-circle {
-    font-size: 64px;
-}
-
-#idVerificationSection .face-camera-small-icon {
+.id-verification-box .face-camera-small-icon {
     position: absolute;
-    right: -4px;
-    bottom: 1px;
+    right: -5px;
+    bottom: -4px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 2px solid #ffffff;
+
+    width: 29px;
+    height: 29px;
+
+    border: 3px solid #f6f9f6;
     border-radius: 50%;
-    background: #198754;
+    background: var(--idv-green);
     color: #ffffff;
-    font-size: 13px;
+
+    font-size: 12px;
 }
 
-#idVerificationSection .face-camera-placeholder p {
+.id-verification-box .face-camera-placeholder p {
     margin: 0;
-    color: #66736b;
-    font-size: 11px;
-    line-height: 1.5;
+    color: #7a857c;
+    font-size: 12px;
 }
 
-/* Inner face guide */
 
-#idVerificationSection .face-camera-guide {
+/* Face guide */
+
+.id-verification-box .face-camera-guide {
     position: absolute;
-    inset: 14%;
+    inset: 12% 20%;
     z-index: 3;
-    border: 2px dashed rgba(22, 131, 74, 0.75);
-    border-radius: 50%;
+
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 48% 48% 44% 44%;
+
+    box-shadow: 0 0 0 999px rgba(12, 20, 14, 0.10);
+
     pointer-events: none;
 }
 
-/* =====================================================
-   MOVING DOTS AROUND THE CAMERA
-===================================================== */
 
-#idVerificationSection .face-scan-dot {
+/* Face scan markers */
+
+.id-verification-box .face-scan-dot {
     position: absolute;
     z-index: 4;
+
     width: 8px;
     height: 8px;
+
+    border: 2px solid #ffffff;
     border-radius: 50%;
-    background: #16834a;
-    box-shadow: 0 0 0 3px rgba(22, 131, 74, 0.12);
+    background: var(--idv-green);
+
     pointer-events: none;
 }
 
-/* Initial dot positions */
-
-#idVerificationSection .face-scan-dot-top {
-    top: 5%;
-    left: calc(50% - 4px);
+.id-verification-box .face-scan-dot-top {
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-#idVerificationSection .face-scan-dot-right {
-    top: calc(50% - 4px);
-    right: 5%;
+.id-verification-box .face-scan-dot-right {
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
 }
 
-#idVerificationSection .face-scan-dot-bottom {
-    bottom: 5%;
-    left: calc(50% - 4px);
+.id-verification-box .face-scan-dot-bottom {
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-#idVerificationSection .face-scan-dot-left {
-    top: calc(50% - 4px);
-    left: 5%;
+.id-verification-box .face-scan-dot-left {
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
 }
 
-/* Activate with .is-scanning on face-camera-container */
 
-#idVerificationSection .face-camera-container.is-scanning {
-    border-color: #16834a;
-    animation: faceFramePulse 1.3s ease-in-out infinite;
-}
+/* Camera instructions */
 
-#idVerificationSection .face-camera-container.is-scanning
-.face-camera-guide {
-    animation: faceGuidePulse 1.3s ease-in-out infinite;
-}
-
-#idVerificationSection .face-camera-container.is-scanning
-.face-scan-dot-top {
-    animation: faceDotTop 1.8s linear infinite;
-}
-
-#idVerificationSection .face-camera-container.is-scanning
-.face-scan-dot-right {
-    animation: faceDotRight 1.8s linear infinite;
-}
-
-#idVerificationSection .face-camera-container.is-scanning
-.face-scan-dot-bottom {
-    animation: faceDotBottom 1.8s linear infinite;
-}
-
-#idVerificationSection .face-camera-container.is-scanning
-.face-scan-dot-left {
-    animation: faceDotLeft 1.8s linear infinite;
-}
-
-/* Frame breathing effect */
-
-@keyframes faceFramePulse {
-    0%, 100% {
-        border-color: #16834a;
-        box-shadow: 0 0 0 0 rgba(22, 131, 74, 0.12);
-    }
-
-    50% {
-        border-color: #77c795;
-        box-shadow: 0 0 0 5px rgba(22, 131, 74, 0.08);
-    }
-}
-
-/* Guide pulse */
-
-@keyframes faceGuidePulse {
-    0%, 100% {
-        border-color: rgba(22, 131, 74, 0.6);
-    }
-
-    50% {
-        border-color: rgba(22, 131, 74, 1);
-    }
-}
-
-/* Dots travel around all four sides */
-
-@keyframes faceDotTop {
-    0% {
-        top: 5%;
-        left: 5%;
-    }
-
-    25% {
-        top: 5%;
-        left: 95%;
-    }
-
-    50% {
-        top: 95%;
-        left: 95%;
-    }
-
-    75% {
-        top: 95%;
-        left: 5%;
-    }
-
-    100% {
-        top: 5%;
-        left: 5%;
-    }
-}
-
-@keyframes faceDotRight {
-    0% {
-        top: 5%;
-        right: 5%;
-    }
-
-    25% {
-        top: 95%;
-        right: 5%;
-    }
-
-    50% {
-        top: 95%;
-        right: 95%;
-    }
-
-    75% {
-        top: 5%;
-        right: 95%;
-    }
-
-    100% {
-        top: 5%;
-        right: 5%;
-    }
-}
-
-@keyframes faceDotBottom {
-    0% {
-        bottom: 5%;
-        left: 95%;
-    }
-
-    25% {
-        bottom: 95%;
-        left: 95%;
-    }
-
-    50% {
-        bottom: 95%;
-        left: 5%;
-    }
-
-    75% {
-        bottom: 5%;
-        left: 5%;
-    }
-
-    100% {
-        bottom: 5%;
-        left: 95%;
-    }
-}
-
-@keyframes faceDotLeft {
-    0% {
-        top: 95%;
-        left: 5%;
-    }
-
-    25% {
-        top: 95%;
-        left: 95%;
-    }
-
-    50% {
-        top: 5%;
-        left: 95%;
-    }
-
-    75% {
-        top: 5%;
-        left: 5%;
-    }
-
-    100% {
-        top: 95%;
-        left: 5%;
-    }
-}
-
-/* =====================================================
-   CAMERA INSTRUCTIONS
-===================================================== */
-
-#idVerificationSection .face-camera-instructions {
-    max-width: 340px;
-    margin: 17px 0;
-    color: #626d66;
+.id-verification-box .face-camera-instructions {
+    margin: 13px 0 0;
+    color: var(--idv-muted);
     font-size: 12px;
-    line-height: 1.7;
+    line-height: 1.65;
     text-align: center;
 }
 
+
+/* Camera controls */
+
+.id-verification-box .face-camera-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+
 /* =====================================================
-   FACE VERIFICATION BUTTONS
+   12. GENERAL BUTTONS
 ===================================================== */
 
-#idVerificationSection .face-start-btn,
-#idVerificationSection #captureFaceBtn,
-#idVerificationSection #stopFaceCameraBtn {
+.id-verification-box .action-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: 44px;
-    padding: 11px 20px;
-    border: 0;
-    border-radius: 8px;
-    background: #176b43;
+
+    min-height: 42px;
+    padding: 11px 17px;
+
+    border: 1px solid var(--idv-green);
+    border-radius: 7px;
+
+    background: var(--idv-green);
     color: #ffffff;
+
+    font-family: inherit;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+
     cursor: pointer;
-    transition: background 0.2s ease,
-                transform 0.2s ease;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.2s ease;
 }
 
-#idVerificationSection .face-start-btn {
-    width: 100%;
-    max-width: 280px;
+.id-verification-box .action-btn:hover:not(:disabled) {
+    border-color: var(--idv-green-dark);
+    background: var(--idv-green-dark);
 }
 
-#idVerificationSection #captureFaceBtn,
-#idVerificationSection #stopFaceCameraBtn {
-    margin-top: 10px;
-}
-
-#idVerificationSection .face-start-btn:hover,
-#idVerificationSection #captureFaceBtn:hover,
-#idVerificationSection #stopFaceCameraBtn:hover {
-    background: #125735;
-}
-
-#idVerificationSection .face-start-btn:active,
-#idVerificationSection #captureFaceBtn:active,
-#idVerificationSection #stopFaceCameraBtn:active {
-    transform: scale(0.98);
-}
-
-#idVerificationSection button:disabled {
-    opacity: 0.55;
+.id-verification-box .action-btn:disabled {
+    border-color: #d8dfd9;
+    background: #e8ece9;
+    color: #89928b;
     cursor: not-allowed;
-    transform: none;
+    opacity: 1;
 }
+
+.id-verification-box .action-btn:focus-visible,
+.id-verification-box .id-retake-btn:focus-visible {
+    outline: 3px solid rgba(22, 133, 61, 0.22);
+    outline-offset: 3px;
+}
+
+
+/* Start camera button */
+
+.id-verification-box .face-start-btn {
+    min-width: 185px;
+}
+
 
 /* =====================================================
-   VERIFICATION PROGRESS
+   13. SUBMIT FOR VERIFICATION
 ===================================================== */
 
-#idVerificationSection .verification-progress {
+.id-verification-box #submitIdVerificationBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
     width: 100%;
-    min-width: 0;
-    margin: 24px 0;
-    padding: 17px;
-    border: 1px solid #e5e9e6;
-    border-radius: 10px;
-    background: #ffffff;
+    min-height: 48px;
+
+    margin-top: 18px;
+    padding: 13px 18px;
+
+    border: 1px solid var(--idv-green);
+    border-radius: 7px;
+
+    background: var(--idv-green);
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-#idVerificationSection .verification-progress h4 {
-    margin: 0 0 14px;
-    color: #20252d;
-    font-size: 14px;
+.id-verification-box #submitIdVerificationBtn:hover:not(:disabled) {
+    border-color: var(--idv-green-dark);
+    background: var(--idv-green-dark);
+}
+
+.id-verification-box #submitIdVerificationBtn:disabled {
+    border-color: #dce2dd;
+    background: #e8ece9;
+    color: #89928b;
+    cursor: not-allowed;
+}
+
+
+/* Submission messages */
+
+.id-verification-box .id-verification-message {
+    margin: 15px 0 0;
+    padding: 0;
+    color: var(--idv-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.id-verification-box .id-verification-message:empty {
+    display: none;
+}
+
+.id-verification-box .id-verification-message[data-state="error"] {
+    padding: 11px 13px;
+    border: 1px solid #f0c9c6;
+    border-radius: 6px;
+    background: #fff3f2;
+    color: #a32d25;
+}
+
+.id-verification-box .id-verification-message[data-state="success"] {
+    padding: 11px 13px;
+    border: 1px solid #b9dfc2;
+    border-radius: 6px;
+    background: var(--idv-green-light);
+    color: var(--idv-green-dark);
+}
+
+
+/* =====================================================
+   14. VERIFICATION PROCESS — PENDING
+===================================================== */
+
+.id-verification-box .verification-process-section {
+    width: 100%;
+    margin-top: 24px;
+    padding: 22px;
+
+    border: 1px solid var(--idv-yellow-border);
+    border-top: 4px solid var(--idv-yellow);
+    border-radius: 9px;
+
+    background: #fffdf5;
+
+    box-shadow: 0 4px 14px rgba(145, 112, 15, 0.055);
+}
+
+.id-verification-box .verification-process-heading {
+    margin-bottom: 20px;
+}
+
+.id-verification-box .verification-process-heading h3 {
+    margin: 0 0 7px;
+    color: #554719;
+    font-size: 18px;
     font-weight: 700;
 }
 
-#idVerificationSection .verification-progress ol {
+.id-verification-box .verification-process-heading p {
+    margin: 0;
+    color: #827653;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* Process list */
+
+.id-verification-box .verification-process-list {
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: 0;
+
     margin: 0;
     padding: 0;
+
     list-style: none;
 }
 
-#idVerificationSection .verification-progress li {
+.id-verification-box .verification-process-item {
+    position: relative;
+
     display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #737b84;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 16px 0;
+    border-bottom: 1px solid #f0e8cc;
+}
+
+.id-verification-box .verification-process-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+
+/* Step dot */
+
+.id-verification-box .verification-process-item .progress-step-dot {
+    position: relative;
+    display: block;
+
+    width: 11px;
+    height: 11px;
+    flex: 0 0 11px;
+
+    margin-top: 4px;
+
+    border: 2px solid #d8b957;
+    border-radius: 50%;
+    background: #fff1bd;
+}
+
+
+/* Process text */
+
+.id-verification-box .verification-process-content {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.id-verification-box .verification-process-content h4 {
+    margin: 0 0 5px;
+    color: #473e24;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.id-verification-box .verification-process-content p {
+    margin: 0;
+    color: #827653;
     font-size: 12px;
     line-height: 1.6;
 }
 
-#idVerificationSection .progress-step-dot {
-    flex: 0 0 9px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #cbd5ce;
+
+/* Pending badge */
+
+.id-verification-box .verification-process-badge {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 25px;
+    padding: 4px 9px;
+
+    border: 1px solid var(--idv-yellow-border);
+    border-radius: 5px;
+
+    background: #fff4ca;
+    color: #85640d;
+
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-/* Completed step styling */
 
-#idVerificationSection .verification-progress li.completed {
-    color: #176b43;
-}
+/* Approved step inside process */
 
-#idVerificationSection .verification-progress li.completed
+.id-verification-box .verification-process-item[data-state="approved"]
 .progress-step-dot {
-    background: #16a34a;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+    border-color: var(--idv-green);
+    background: var(--idv-green);
 }
+
+.id-verification-box .verification-process-item[data-state="approved"]
+.verification-process-badge {
+    border-color: #b9dfc2;
+    background: var(--idv-green-light);
+    color: var(--idv-green-dark);
+}
+
+
+/* Rejected step */
+
+.id-verification-box .verification-process-item[data-state="rejected"]
+.progress-step-dot {
+    border-color: #d65b51;
+    background: #d65b51;
+}
+
+.id-verification-box .verification-process-item[data-state="rejected"]
+.verification-process-badge {
+    border-color: #f0c9c6;
+    background: #fff3f2;
+    color: #a32d25;
+}
+
+
+/* Pending note */
+
+.id-verification-box .verification-process-message {
+    margin: 20px 0 0;
+    padding: 12px 14px;
+
+    border: 1px solid #f0e3b8;
+    border-radius: 6px;
+
+    background: #fff8e3;
+    color: #766021;
+
+    font-size: 12px;
+    line-height: 1.7;
+}
+
 
 /* =====================================================
-   SUBMIT BUTTON AND MESSAGE
+   15. APPROVED / VERIFIED VIEW
 ===================================================== */
 
-#idVerificationSection #submitIdVerificationBtn {
+.id-verification-box .id-verification-approved-section {
+    width: 100%;
+    margin-top: 4px;
+}
+
+
+/* Approved header */
+
+.id-verification-box .verification-approved-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-bottom: 22px;
+    padding: 20px;
+
+    border: 1px solid #c8e5ce;
+    border-radius: 9px;
+
+    background: #f2faf3;
+}
+
+.id-verification-box .verification-approved-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    min-height: 46px;
-    padding: 12px 18px;
-    border: 0;
-    border-radius: 8px;
-    background: #176b43;
-    color: #ffffff;
-    font-size: 14px;
+
+    width: 53px;
+    height: 53px;
+    flex: 0 0 53px;
+
+    border-radius: 15px;
+    background: #dff2e3;
+    color: var(--idv-green);
+
+    font-size: 24px;
+}
+
+.id-verification-box .verification-approved-header h3 {
+    margin: 0 0 6px;
+    color: var(--idv-green-dark);
+    font-size: 18px;
     font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s ease;
 }
 
-#idVerificationSection #submitIdVerificationBtn:not(:disabled):hover {
-    background: #125735;
-}
-
-#idVerificationSection #submitIdVerificationBtn:disabled {
-    background: #a8b8ad;
-    color: #ffffff;
-    opacity: 1;
-    cursor: not-allowed;
-}
-
-#idVerificationSection #idVerificationMessage {
-    margin: 12px 0 0;
-    color: #626d66;
+.id-verification-box .verification-approved-header p {
+    margin: 0;
+    color: #53765b;
     font-size: 12px;
-    line-height: 1.7;
-    text-align: center;
-    overflow-wrap: anywhere;
+    line-height: 1.65;
 }
+
+
+/* Approved checklist */
+
+.id-verification-box .verification-approved-list {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border: 1px solid var(--idv-border);
+    border-radius: 8px;
+
+    background: #ffffff;
+}
+
+.id-verification-box .verification-approved-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+    padding: 16px;
+
+    border-bottom: 1px solid #edf1ed;
+}
+
+.id-verification-box .verification-approved-item:last-child {
+    border-bottom: 0;
+}
+
+.id-verification-box .verification-approved-item > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+
+    border-radius: 10px;
+    background: var(--idv-green-light);
+    color: var(--idv-green);
+
+    font-size: 17px;
+}
+
+.id-verification-box .verification-approved-item > div {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.id-verification-box .verification-approved-item h4 {
+    margin: 0 0 4px;
+    color: #26372a;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.id-verification-box .verification-approved-item p {
+    margin: 0;
+    color: #66756a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.id-verification-box .verification-approved-badge {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 26px;
+    padding: 5px 9px;
+
+    border: 1px solid #b9dfc2;
+    border-radius: 5px;
+
+    background: var(--idv-green-light);
+    color: var(--idv-green-dark);
+
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
 
 /* =====================================================
-   MOBILE RESPONSIVE
+   16. VERIFY AGAIN
+===================================================== */
+
+.id-verification-box .verify-again-section {
+    margin-top: 22px;
+    padding: 20px;
+
+    border: 1px solid #e5eae6;
+    border-radius: 8px;
+
+    background: #fafcfa;
+    text-align: center;
+}
+
+.id-verification-box .verify-again-section h4 {
+    margin: 0 0 7px;
+    color: #29382c;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.id-verification-box .verify-again-section p {
+    max-width: 480px;
+    margin: 0 auto 17px;
+
+    color: var(--idv-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.id-verification-box .verify-again-btn {
+    min-width: 180px;
+}
+
+
+/* =====================================================
+   17. MOBILE RESPONSIVE
 ===================================================== */
 
 @media (max-width: 600px) {
-    #idVerificationSection .content-box {
+
+    .id-verification-box {
         padding: 16px;
+        border-radius: 8px;
+    }
+
+    .id-verification-box .id-verification-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 17px;
+    }
+
+    .id-verification-box .id-verification-header h3 {
+        font-size: 20px;
+    }
+
+    .id-verification-box .document-upload-card {
+        padding: 13px;
+        margin-bottom: 18px;
+    }
+
+    .id-verification-box .document-upload-area {
+        height: 160px;
+        min-height: 160px;
+        max-height: 160px;
+    }
+
+    .id-verification-box .face-verification-section {
+        padding: 14px;
+        margin-top: 22px;
+    }
+
+    .id-verification-box .face-camera-container {
+        height: 270px;
+        max-width: 100%;
+    }
+
+    .id-verification-box .face-camera-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .id-verification-box .face-camera-controls .action-btn {
+        width: 100%;
+    }
+
+    .id-verification-box .verification-process-section {
+        padding: 16px;
+    }
+
+    .id-verification-box .verification-process-item {
+        gap: 9px;
+    }
+
+    .id-verification-box .verification-process-badge {
+        padding: 4px 6px;
+        font-size: 9px;
+    }
+
+    .id-verification-box .verification-approved-header {
+        align-items: flex-start;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .id-verification-box .verification-approved-icon {
+        width: 43px;
+        height: 43px;
+        flex-basis: 43px;
         border-radius: 12px;
+        font-size: 20px;
     }
 
-    #idVerificationSection .personal-section-heading h3 {
-        font-size: 19px;
+    .id-verification-box .verification-approved-item {
+        gap: 9px;
+        padding: 13px 10px;
     }
 
-    #idVerificationSection .document-upload-card {
-        padding: 15px;
+    .id-verification-box .verification-approved-item > i {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+        font-size: 15px;
     }
 
-    #idVerificationSection .face-verification-section {
-        padding: 21px 12px;
+    .id-verification-box .verification-approved-badge {
+        padding: 4px 6px;
+        font-size: 9px;
     }
 
-    #idVerificationSection .face-camera-container {
-        width: 210px;
+    .id-verification-box .verify-again-section {
+        padding: 16px 12px;
     }
 
-    #idVerificationSection .verification-progress {
-        padding: 15px;
-    }
 }
 
-@media (max-width: 380px) {
-    #idVerificationSection .content-box {
-        padding: 12px;
-    }
-
-    #idVerificationSection .face-camera-container {
-        width: 190px;
-    }
-
-    #idVerificationSection .document-upload-card {
-        padding: 12px;
-    }
-
-    #idVerificationSection .photo-guidelines {
-        padding: 15px 12px 15px 18px;
-    }
-}
 
 /* =====================================================
-   REDUCED MOTION ACCESSIBILITY
+   18. EXTRA SMALL MOBILE
 ===================================================== */
 
-@media (prefers-reduced-motion: reduce) {
-    #idVerificationSection *,
-    #idVerificationSection *::before,
-    #idVerificationSection *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+@media (max-width: 380px) {
+
+    .id-verification-box {
+        padding: 12px;
     }
 
-    #idVerificationSection .face-camera-container.is-scanning,
-    #idVerificationSection .face-camera-container.is-scanning
-    .face-camera-guide,
-    #idVerificationSection .face-camera-container.is-scanning
-    .face-scan-dot {
-        animation: none !important;
+    .id-verification-box .verification-process-item {
+        flex-wrap: wrap;
     }
+
+    .id-verification-box .verification-process-content {
+        flex-basis: calc(100% - 30px);
+    }
+
+    .id-verification-box .verification-process-badge {
+        margin-left: 20px;
+    }
+
+    .id-verification-box .verification-approved-item {
+        flex-wrap: wrap;
+    }
+
+    .id-verification-box .verification-approved-item > div {
+        flex-basis: calc(100% - 55px);
+    }
+
+    .id-verification-box .verification-approved-badge {
+        margin-left: 41px;
+    }
+
 }
+
 
 /* =========================================
    PROOF OF ADDRESS
