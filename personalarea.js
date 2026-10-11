@@ -749,8 +749,9 @@ if (!firstName) {
         return true;
     }
 
+    
     // =====================================================
-    // 17. PRIVATE STORAGE UPLOAD — File path Supabase-এ রাখা
+    // 17. PRIVATE STORAGE UPLOAD — DG User ID অনুযায়ী
     // =====================================================
 
     async function uploadPrivateFile(bucket, folder, file) {
@@ -762,10 +763,24 @@ if (!firstName) {
 
         validateDocument(file);
 
-        if (!currentUser) await getProfile();
+        // Load the current user's profile
+        const profile = await getProfile();
 
+        // Use the DG-prefixed ID from user_data
+        const appUserId = profile.user_id;
+
+        if (
+            typeof appUserId !== "string" ||
+            !/^DG\d+$/.test(appUserId)
+        ) {
+            throw new Error(
+                "Your valid DG User ID could not be found."
+            );
+        }
+
+        // Build a separate storage path for each user and document
         const path =
-            `${currentUser.id}/${folder}/${Date.now()}-${safeFileName(file.name)}`;
+            `${appUserId}/${folder}/${Date.now()}-${safeFileName(file.name)}`;
 
         const { error } = await client.storage
             .from(bucket)
@@ -774,10 +789,13 @@ if (!firstName) {
                 contentType: file.type
             });
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
 
         return path;
     }
+
 
     // =====================================================
     // 18. ID STATUS BADGE — Unverified/Pending/Verified
@@ -2206,8 +2224,8 @@ setStatus(
             }
 
             if (facePhotoBlob.size > CONFIG.maxFileSize) {
-                throw new Error("Selfie must be 5 MB or smaller.");
-            }
+    throw new Error("Selfie must be 2 MB or smaller.");
+}
 
         } catch (error) {
             setMessage("idVerificationMessage", error.message, "error");
