@@ -1686,6 +1686,11 @@ async function updateHeaderAuth() {
         // Approved → Verified
         // =========================
 
+        
+        // =========================
+        // KYC STATUS
+        // =========================
+
         const verificationStatus =
             document.getElementById(
                 "profileUserVerificationStatus"
@@ -1695,24 +1700,36 @@ async function updateHeaderAuth() {
 
             const kycStatus =
                 String(
-                    userData?.kyc_status || ""
+                    userData?.kyc_status || "Not Verified"
                 )
                 .trim()
                 .toLowerCase();
 
-            if (kycStatus === "approved") {
+            if (kycStatus === "approved" ||
+                kycStatus === "verified") {
 
                 verificationStatus.textContent =
                     "Verified";
 
+            } else if (kycStatus === "pending") {
+
+                verificationStatus.textContent =
+                    "Pending Approval";
+
+            } else if (kycStatus === "rejected") {
+
+                verificationStatus.textContent =
+                    "Rejected";
+
             } else {
 
                 verificationStatus.textContent =
-                    "Unverified";
+                    "Not Verified";
 
             }
 
         }
+
 
 
         // =========================
