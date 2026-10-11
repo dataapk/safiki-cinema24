@@ -913,13 +913,13 @@ function getEffectiveIdVerificationState(profile) {
     profile?.kyc_document_type || ""
 ).trim().toLowerCase();
 
-    const hasFront = Boolean(profile?.id_front_path);
-    const hasSelfie = Boolean(profile?.face_photo_path);
+    const hasFront = Boolean(profile?.id_front_part);
+const hasSelfie = Boolean(profile?.live_selfie);
 
-    const hasBack =
-        documentType === "passport" ||
-        Boolean(profile?.id_back_path);
-
+const hasBack =
+    documentType === "passport" ||
+    Boolean(profile?.id_back_part);
+   
     // Pending status একা থাকলে submitted হিসেবে গণ্য হবে না।
     if (hasFront && hasBack && hasSelfie) {
         return "pending";
@@ -2273,7 +2273,7 @@ window.submitIdVerification = async function () {
             await client
                 .from(CONFIG.table)
                 .select(
-    "user_id, auth_user_id, kyc_status, kyc_document_type, id_front_path, id_back_path, face_photo_path"
+   "user_id, auth_user_id, kyc_status, kyc_document_type, id_front_part, id_back_part, live_selfie"
 )
                 .eq("auth_user_id", currentUser.id)
                 .maybeSingle();
