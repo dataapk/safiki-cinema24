@@ -1372,12 +1372,12 @@ function isFaceInsideRoundGuide(video, guide, box) {
         [right, bottom]
     ];
 
-    return corners.every(([x, y]) => {
-        const dx = (x - cx) / rx;
-        const dy = (y - cy) / ry;
+   return corners.every(([x, y]) => {
+    const dx = (x - cx) / rx;
+    const dy = (y - cy) / ry;
 
-        return dx * dx + dy * dy <= 0.80;
-    });
+    return dx * dx + dy * dy <= 1.00;
+});
 }
 
 
@@ -1461,7 +1461,7 @@ function isFaceFrameSharp(video, box) {
         - Math.pow(sum / count, 2);
 
     // Initial threshold; tune with real camera tests.
-    return variance >= 45;
+    return variance >= 15;
 }
 
     // =====================================================
