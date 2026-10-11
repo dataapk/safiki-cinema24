@@ -1704,30 +1704,21 @@
 
             <!-- FACE SCANNER OVERLAY -->
             <div
-                class="face-scanner-overlay"
-                id="faceScannerOverlay"
-                hidden
-                aria-hidden="true"
-            >
+    class="face-scanner-overlay"
+    id="faceScannerOverlay"
+    aria-hidden="true"
+>
+    <div class="face-scanner-ring"></div>
 
-                <!-- ROTATING SEGMENTED RING -->
-                <div class="face-scanner-ring">
+    <div class="face-detection-frame">
+        <span class="face-frame-corner top-left"></span>
+        <span class="face-frame-corner top-right"></span>
+        <span class="face-frame-corner bottom-left"></span>
+        <span class="face-frame-corner bottom-right"></span>
 
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-                    <span class="face-ring-segment"></span>
-
-                </div>
-
+        <div class="scan-bar" id="scanBar"></div>
+    </div>
+</div>
                 <!-- FACE DETECTION FRAME -->
                 <div class="face-detection-frame">
 
