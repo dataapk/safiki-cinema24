@@ -1703,6 +1703,15 @@
     border-bottom-right-radius: 8px;
 }
 
+
+/* Stop scanning animation after selfie capture */
+.face-camera-preview[data-scan-state="success"] #scanBar {
+    animation: none;
+    top: 50%;
+    opacity: 1;
+}
+
+
 /* ========================================
    ANIMATED SCANNING BAR
    Continues moving after selfie capture
