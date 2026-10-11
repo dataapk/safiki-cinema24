@@ -1516,6 +1516,7 @@
   color: var(--green-dark);
 }
 
+
 /* ========================================
    FACE VERIFICATION — CAMERA SCANNER
 ======================================== */
@@ -1534,11 +1535,13 @@
     overflow: hidden;
     border: 1px solid #dce3e9;
     border-radius: 18px;
-    background: #ffffff;
+    background: #f8fafc;
     isolation: isolate;
 }
 
-/* LIVE CAMERA & CAPTURED SELFIE */
+/* ========================================
+   LIVE CAMERA & CAPTURED SELFIE
+======================================== */
 
 #faceCameraVideo,
 #faceCapturedPreview {
@@ -1553,10 +1556,18 @@
 
 #faceCameraVideo[hidden],
 #faceCapturedPreview[hidden] {
-    display: none;
+    display: none !important;
 }
 
-/* CAMERA PLACEHOLDER */
+/* Vertical oval crop for the actual camera/selfie */
+#faceCameraVideo:not([hidden]),
+#faceCapturedPreview:not([hidden]) {
+    clip-path: ellipse(50% 50% at 50% 50%);
+}
+
+/* ========================================
+   CAMERA PLACEHOLDER
+======================================== */
 
 .face-camera-placeholder {
     position: absolute;
@@ -1572,6 +1583,10 @@
     z-index: 2;
 }
 
+.face-camera-placeholder[hidden] {
+    display: none !important;
+}
+
 .face-camera-icon {
     font-size: 42px;
     color: #16a34a;
@@ -1579,6 +1594,10 @@
 
 /* ========================================
    FACE SCANNER OVERLAY
+   Keep this overlay visible using HTML:
+   <div class="face-scanner-overlay"
+        id="faceScannerOverlay"
+        aria-hidden="true">
 ======================================== */
 
 .face-scanner-overlay {
@@ -1588,49 +1607,68 @@
     align-items: center;
     justify-content: center;
     background: transparent;
-    z-index: 3;
+    z-index: 5;
     pointer-events: none;
 }
 
+/* If HTML retains hidden, it will hide the entire scanner */
 .face-scanner-overlay[hidden] {
-    display: none;
+    display: none !important;
 }
 
-/* VERTICAL OVAL SEGMENTED RING */
+/* ========================================
+   VERTICAL OVAL GREEN RING
+======================================== */
 
 .face-scanner-ring {
     position: absolute;
     width: 58%;
     height: 86%;
+    border: 3px dotted #16a34a;
     border-radius: 50%;
-    border: 2px dotted #16a34a;
-    box-shadow: 0 0 12px rgb(22 163 74 / 12%);
+    box-shadow:
+        0 0 8px rgb(22 163 74 / 20%),
+        inset 0 0 8px rgb(22 163 74 / 8%);
     animation: faceRingPulse 1.8s ease-in-out infinite;
 }
 
-/* ROTATING RING ACCENT */
-
+/* Outer red-and-green dotted ring */
 .face-scanner-ring::before {
     content: "";
     position: absolute;
-    inset: -5px;
-    border-radius: 50%;
+    inset: -8px;
     border: 2px dotted #ef4444;
     border-top-color: #16a34a;
     border-bottom-color: #16a34a;
-    animation: faceRingRotate 5s linear infinite;
+    border-radius: 50%;
+    animation: faceRingRotate 6s linear infinite;
 }
 
-/* FACE DETECTION FRAME */
+/* Additional inner accent */
+.face-scanner-ring::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px dashed rgb(34 197 94 / 65%);
+    border-radius: 50%;
+}
+
+/* ========================================
+   FACE DETECTION FRAME
+======================================== */
 
 .face-detection-frame {
-    position: relative;
+    position: absolute;
     width: 48%;
     height: 72%;
+    border: 1px solid rgb(34 197 94 / 30%);
     border-radius: 48%;
+    overflow: hidden;
 }
 
-/* CORNER MARKERS */
+/* ========================================
+   CORNER MARKERS
+======================================== */
 
 .face-frame-corner {
     position: absolute;
@@ -1639,7 +1677,8 @@
     border-color: #16a34a;
     border-style: solid;
     border-width: 0;
-    filter: drop-shadow(0 0 3px rgb(22 163 74 / 35%));
+    filter: drop-shadow(0 0 4px rgb(22 163 74 / 55%));
+    z-index: 2;
 }
 
 .face-frame-corner.top-left {
@@ -1676,6 +1715,7 @@
 
 /* ========================================
    ANIMATED SCANNING BAR
+   Continues moving after selfie capture
 ======================================== */
 
 .scan-bar {
@@ -1688,18 +1728,21 @@
     background: #22c55e;
     box-shadow:
         0 0 6px #22c55e,
-        0 0 14px rgb(34 197 94 / 65%);
+        0 0 14px rgb(34 197 94 / 75%);
     animation: faceScanMove 2.4s ease-in-out infinite alternate;
+    will-change: top, opacity;
+    z-index: 4;
 }
 
 .scan-bar[hidden] {
-    display: none;
+    display: none !important;
 }
 
 /* ========================================
    SCANNER STATES
 ======================================== */
 
+/* Scanning state */
 .face-camera-preview[data-scan-state="scanning"]
 .face-scanner-overlay {
     display: flex;
@@ -1710,28 +1753,29 @@
     animation: faceCornerPulse 1.2s ease-in-out infinite;
 }
 
+/* Success state: green indicators,
+   but DO NOT stop the scanning bar */
 .face-camera-preview[data-scan-state="success"]
 .face-scanner-ring {
     border-color: #16a34a;
-    box-shadow: 0 0 18px rgb(22 163 74 / 25%);
-    animation: none;
+    box-shadow:
+        0 0 18px rgb(22 163 74 / 35%),
+        inset 0 0 8px rgb(22 163 74 / 10%);
 }
 
 .face-camera-preview[data-scan-state="success"]
 .face-scanner-ring::before {
     border-color: #16a34a;
-    animation: none;
 }
 
 .face-camera-preview[data-scan-state="success"]
 .face-frame-corner {
     border-color: #16a34a;
-    animation: none;
 }
 
-.face-camera-preview[data-scan-state="success"] #scanBar {
-    display: none;
-}
+/* IMPORTANT:
+   Do not add a success-state rule that hides #scanBar.
+   The bar must continue moving after capture. */
 
 /* ========================================
    ANIMATIONS
@@ -1750,6 +1794,10 @@
 }
 
 @keyframes faceRingRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
     to {
         transform: rotate(360deg);
     }
@@ -1776,6 +1824,17 @@
         opacity: 1;
     }
 }
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .face-scanner-ring,
+    .face-scanner-ring::before,
+    .face-frame-corner,
+    .scan-bar {
+        animation-duration: 8s;
+    }
+}
+
 
 /* CAMERA INSTRUCTIONS & STATUS */
 
