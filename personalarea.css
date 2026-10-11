@@ -1516,246 +1516,298 @@
   color: var(--green-dark);
 }
 
-/* ============================================================
-   🎥 FACE CAMERA — THE STAR OF THE SHOW
-============================================================ */
+/* ========================================
+   FACE VERIFICATION — CAMERA SCANNER
+======================================== */
+
 .face-camera-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
+    width: 100%;
+    text-align: center;
 }
 
 .face-camera-preview {
-  position: relative;
-  width: 260px;
-  height: 330px;
-  border-radius: 26px;              /* soft rounded screen box */
-  overflow: hidden;
-  background: #0d1117;
-  border: 3px solid transparent;
-  background:
-    linear-gradient(#0d1117, #0d1117) padding-box,
-    linear-gradient(135deg, var(--green), #00d4a6, #7ef0c8, var(--green))
-    border-box;
-  background-size: 100% 100%, 300% 300%;
-  animation: frameFlow 5s linear infinite;
-  box-shadow:
-    0 10px 30px rgba(0,181,120,.25),
-    inset 0 0 0 1px rgba(255,255,255,.05);
-}
-@keyframes frameFlow {
-  0%   { background-position: 0 0, 0% 50%; }
-  100% { background-position: 0 0, 300% 50%; }
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 1 / 1;
+    margin: 16px auto;
+    overflow: hidden;
+    border: 1px solid #dce3e9;
+    border-radius: 18px;
+    background: #ffffff;
+    isolation: isolate;
 }
 
-.face-camera-preview video,
-.face-captured-preview {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* LIVE CAMERA & CAPTURED SELFIE */
+
+#faceCameraVideo,
+#faceCapturedPreview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    z-index: 1;
 }
 
-/* Dim overlay so the oval guide pops */
-.face-camera-preview::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 20, 14, .35);
-  z-index: 1;
-  pointer-events: none;
+#faceCameraVideo[hidden],
+#faceCapturedPreview[hidden] {
+    display: none;
 }
 
-/* ⬤ The DIMB (oval) face guide */
-.face-camera-guide {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 180px;
-  height: 235px;
-  transform: translate(-50%, -50%);
-  border: 2px solid rgba(0, 229, 160, .9);
-  border-radius: 50% / 45%;          /* dimbakriti / egg shape */
-  box-shadow:
-    0 0 20px rgba(0,229,160,.45),
-    inset 0 0 30px rgba(0,229,160,.12);
-  z-index: 2;
-  pointer-events: none;
-  animation: guideBreath 2.4s ease-in-out infinite;
-}
-@keyframes guideBreath {
-  0%, 100% { box-shadow: 0 0 14px rgba(0,229,160,.35), inset 0 0 22px rgba(0,229,160,.10); }
-  50%      { box-shadow: 0 0 30px rgba(0,229,160,.65), inset 0 0 40px rgba(0,229,160,.20); }
-}
+/* CAMERA PLACEHOLDER */
 
-/* 📡 THE SCANNING LINE — moves smoothly up & down forever */
-.scan-line {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  height: 3px;
-  top: 8%;
-  z-index: 3;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #00ffb0 20%, #aaffe3 50%, #00ffb0 80%,
-    transparent
-  );
-  box-shadow:
-    0 0 12px 2px rgba(0,255,176,.8),
-    0 0 34px 6px rgba(0,255,176,.35);
-  animation: scanMove 2.8s ease-in-out infinite;
-  pointer-events: none;
-}
-/* soft glow band trailing the line */
-.scan-line::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; top: 3px;
-  height: 44px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,255,176,.22),
-    transparent
-  );
-}
-@keyframes scanMove {
-  0%   { top: 8%;  opacity: 0; }
-  8%   { opacity: 1; }
-  50%  { top: 90%; opacity: 1; }
-  92%  { opacity: 1; }
-  100% { top: 8%;  opacity: 0; }
-}
-
-/* Placeholder state */
 .face-camera-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #8b98a5;
-  font-size: 13px;
-  z-index: 1;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #64748b;
+    background: #ffffff;
+    font-size: 14px;
+    z-index: 2;
 }
+
 .face-camera-icon {
-  font-size: 46px;
-  color: #3a4754;
-  animation: iconFloat 3s ease-in-out infinite;
-}
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
+    font-size: 42px;
+    color: #16a34a;
 }
 
-.face-camera-instructions {
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-soft);
-  text-align: center;
+/* ========================================
+   FACE SCANNER OVERLAY
+======================================== */
+
+.face-scanner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    z-index: 3;
+    pointer-events: none;
 }
 
-/* ---------- CAMERA BUTTONS ---------- */
-.face-camera-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-.verification-primary-button,
-.verification-secondary-button {
-  padding: 12px 22px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: all .25s ease;
-}
-.verification-primary-button {
-  background: linear-gradient(135deg, var(--green), var(--green-dark));
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(0,181,120,.4);
-}
-.verification-primary-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(0,181,120,.5);
-}
-.verification-primary-button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.verification-secondary-button {
-  background: #fff;
-  color: var(--text);
-  border: 1.5px solid var(--border);
-}
-.verification-secondary-button:hover {
-  border-color: var(--green);
-  color: var(--green-dark);
+.face-scanner-overlay[hidden] {
+    display: none;
 }
 
+/* VERTICAL OVAL SEGMENTED RING */
+
+.face-scanner-ring {
+    position: absolute;
+    width: 58%;
+    height: 86%;
+    border-radius: 50%;
+    border: 2px dotted #16a34a;
+    box-shadow: 0 0 12px rgb(22 163 74 / 12%);
+    animation: faceRingPulse 1.8s ease-in-out infinite;
+}
+
+/* ROTATING RING ACCENT */
+
+.face-scanner-ring::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px dotted #ef4444;
+    border-top-color: #16a34a;
+    border-bottom-color: #16a34a;
+    animation: faceRingRotate 5s linear infinite;
+}
+
+/* FACE DETECTION FRAME */
+
+.face-detection-frame {
+    position: relative;
+    width: 48%;
+    height: 72%;
+    border-radius: 48%;
+}
+
+/* CORNER MARKERS */
+
+.face-frame-corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: #16a34a;
+    border-style: solid;
+    border-width: 0;
+    filter: drop-shadow(0 0 3px rgb(22 163 74 / 35%));
+}
+
+.face-frame-corner.top-left {
+    top: 0;
+    left: 0;
+    border-top-width: 3px;
+    border-left-width: 3px;
+    border-top-left-radius: 8px;
+}
+
+.face-frame-corner.top-right {
+    top: 0;
+    right: 0;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-top-right-radius: 8px;
+}
+
+.face-frame-corner.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-bottom-left-radius: 8px;
+}
+
+.face-frame-corner.bottom-right {
+    right: 0;
+    bottom: 0;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-bottom-right-radius: 8px;
+}
+
+/* ========================================
+   ANIMATED SCANNING BAR
+======================================== */
+
+.scan-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow:
+        0 0 6px #22c55e,
+        0 0 14px rgb(34 197 94 / 65%);
+    animation: faceScanMove 2.4s ease-in-out infinite alternate;
+}
+
+.scan-bar[hidden] {
+    display: none;
+}
+
+/* ========================================
+   SCANNER STATES
+======================================== */
+
+.face-camera-preview[data-scan-state="scanning"]
+.face-scanner-overlay {
+    display: flex;
+}
+
+.face-camera-preview[data-scan-state="scanning"]
+.face-frame-corner {
+    animation: faceCornerPulse 1.2s ease-in-out infinite;
+}
+
+.face-camera-preview[data-scan-state="success"]
+.face-scanner-ring {
+    border-color: #16a34a;
+    box-shadow: 0 0 18px rgb(22 163 74 / 25%);
+    animation: none;
+}
+
+.face-camera-preview[data-scan-state="success"]
+.face-scanner-ring::before {
+    border-color: #16a34a;
+    animation: none;
+}
+
+.face-camera-preview[data-scan-state="success"]
+.face-frame-corner {
+    border-color: #16a34a;
+    animation: none;
+}
+
+.face-camera-preview[data-scan-state="success"] #scanBar {
+    display: none;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes faceScanMove {
+    from {
+        top: 0;
+        opacity: 0.65;
+    }
+
+    to {
+        top: calc(100% - 3px);
+        opacity: 1;
+    }
+}
+
+@keyframes faceRingRotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes faceRingPulse {
+    0%, 100% {
+        transform: scale(0.98);
+        opacity: 0.75;
+    }
+
+    50% {
+        transform: scale(1.02);
+        opacity: 1;
+    }
+}
+
+@keyframes faceCornerPulse {
+    0%, 100% {
+        opacity: 0.65;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* CAMERA INSTRUCTIONS & STATUS */
+
+.face-camera-instructions,
 .face-verification-status {
-  margin: 0;
-  font-size: 13.5px;
-  font-weight: 600;
-}
-.face-verification-status[data-status="empty"]   { color: var(--text-soft); }
-.face-verification-status[data-status="success"] { color: var(--green-dark); }
-.face-verification-status[data-status="error"]   { color: var(--red); }
-
-/* ---------- FORM MESSAGE + SUBMIT ---------- */
-.verification-form-message {
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-bottom: 16px;
-  background: var(--amber-light);
-  color: #8a5a00;
-  border: 1px solid #f8dfae;
-}
-.verification-form-message.error {
-  background: #fdecec;
-  color: var(--red);
-  border-color: #f5c1c3;
+    margin: 10px auto;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
 }
 
-.verification-submit-button {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: .5px;
-  color: #fff;
-  background: linear-gradient(135deg, var(--green), var(--green-dark));
-  box-shadow: 0 8px 22px rgba(0,181,120,.4);
-  cursor: pointer;
-  transition: all .25s;
+.face-verification-status[data-status="success"] {
+    color: #15803d;
+    font-weight: 600;
 }
-.verification-submit-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0,181,120,.5);
+
+.face-verification-status[data-status="error"] {
+    color: #dc2626;
+    font-weight: 600;
 }
-.verification-submit-button:disabled {
-  background: #d5dbe3;
-  color: #8b95a3;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-.verification-submit-note {
-  text-align: center;
-  font-size: 12.5px;
-  color: var(--text-soft);
-  margin-top: 10px;
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    .face-scanner-ring,
+    .face-scanner-ring::before,
+    .scan-bar,
+    .face-frame-corner {
+        animation-duration: 0.01ms;
+        animation-iteration-count: 1;
+    }
 }
 
 /* ============================================================
