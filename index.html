@@ -1657,152 +1657,210 @@
         </div>
 
 
-        <!-- ==================================
-             FACE VERIFICATION
-        =================================== -->
+  
+<!-- ==================================
+     FACE VERIFICATION
+=================================== -->
 
-        <div class="verification-form-group face-verification-group">
+<div class="verification-form-group face-verification-group">
 
-<div class="scan-bar" id="scanBar" hidden></div>
-<div class="scan-bar" id="scanBar" hidden></div>
+    <h3>Face Verification</h3>
 
-            <h3>Face Verification</h3>
+    <p class="verification-field-hint">
+        Capture a clear selfie to complete your identity verification.
+    </p>
 
-            <p class="verification-field-hint">
-                Capture a clear selfie to complete your identity verification.
-            </p>
+    <!-- CAMERA PREVIEW -->
+    <div class="face-camera-container">
 
-            <!-- CAMERA PREVIEW -->
-            <div class="face-camera-container">
+        <div
+            class="face-camera-preview"
+            id="faceCameraPreview"
+            data-scan-state="idle"
+        >
 
-                <div class="face-camera-preview" id="faceCameraPreview">
+            <!-- LIVE CAMERA VIDEO -->
+            <video
+                id="faceCameraVideo"
+                autoplay
+                muted
+                playsinline
+                hidden
+            ></video>
 
-                    <video
-                        id="faceCameraVideo"
-                        autoplay
-                        muted
-                        playsinline
-                        hidden
-                    ></video>
+            <!-- CAPTURED SELFIE -->
+            <img
+                id="faceCapturedPreview"
+                class="face-captured-preview"
+                alt="Captured selfie preview"
+                hidden
+            >
 
-                    <img
-                        id="faceCapturedPreview"
-                        class="face-captured-preview"
-                        alt="Captured selfie preview"
-                        hidden
-                    >
+            <!-- CAPTURE CANVAS -->
+            <canvas
+                id="faceCaptureCanvas"
+                hidden
+            ></canvas>
 
-                    <canvas
-                        id="faceCaptureCanvas"
-                        hidden
-                    ></canvas>
+            <!-- FACE SCANNER OVERLAY -->
+            <div
+                class="face-scanner-overlay"
+                id="faceScannerOverlay"
+                hidden
+                aria-hidden="true"
+            >
 
-                    <div
-                        id="faceCameraPlaceholder"
-                        class="face-camera-placeholder"
-                    >
-                        <span class="face-camera-icon" aria-hidden="true">
-                            ◎
-                        </span>
+                <!-- ROTATING SEGMENTED RING -->
+                <div class="face-scanner-ring">
 
-                        <span>Camera / Selfie Preview</span>
-                    </div>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
+                    <span class="face-ring-segment"></span>
 
-                    <div
-                        id="faceCameraGuide"
-                        class="face-camera-guide"
-                        hidden
-                    >
-                        Position your face inside the guide.
-                    </div>
                 </div>
 
-                <p
-                    id="faceCameraInstructions"
-                    class="face-camera-instructions"
-                >
-                    Make sure your face is clearly visible.
-                </p>
+                <!-- FACE DETECTION FRAME -->
+                <div class="face-detection-frame">
 
-                <div class="face-camera-actions">
+                    <span class="face-frame-corner top-left"></span>
+                    <span class="face-frame-corner top-right"></span>
+                    <span class="face-frame-corner bottom-left"></span>
+                    <span class="face-frame-corner bottom-right"></span>
 
-                    <button
-                        type="button"
-                        id="startFaceCameraBtn"
-                        class="verification-secondary-button"
-                    >
-                        Start Verification
-                    </button>
+                    <!-- ANIMATED SCAN LINE -->
+                    <div
+                        class="scan-bar"
+                        id="scanBar"
+                    ></div>
 
-                    <button
-                        type="button"
-                        id="captureFaceBtn"
-                        class="verification-primary-button"
-                        disabled
-                        hidden
-                    >
-                        Capture Selfie
-                    </button>
-
-                    <button
-                        type="button"
-                        id="stopFaceCameraBtn"
-                        class="verification-secondary-button"
-                        hidden
-                    >
-                        Stop Camera
-                    </button>
-
-                    <button
-                        type="button"
-                        id="retakeFacePhotoBtn"
-                        class="verification-secondary-button"
-                        hidden
-                    >
-                        Retake Selfie
-                    </button>
                 </div>
-
-                <p
-                    id="faceVerificationStatus"
-                    class="face-verification-status"
-                    data-status="empty"
-                    aria-live="polite"
-                >
-                    Selfie not captured yet.
-                </p>
-
-                <p id="faceCaptureReference" hidden></p>
 
             </div>
+
+            <!-- CAMERA PLACEHOLDER -->
+            <div
+                id="faceCameraPlaceholder"
+                class="face-camera-placeholder"
+            >
+                <span class="face-camera-icon" aria-hidden="true">
+                    ◎
+                </span>
+
+                <span>Camera / Selfie Preview</span>
+            </div>
+
+            <!-- FACE GUIDE MESSAGE -->
+            <div
+                id="faceCameraGuide"
+                class="face-camera-guide"
+                hidden
+            >
+                Position your face inside the guide.
+            </div>
+
         </div>
 
-
-        <!-- FORM ERROR / MESSAGE -->
-        <div
-            id="idVerificationFormMessage"
-            class="verification-form-message"
-            role="status"
-            aria-live="polite"
-            hidden
-        ></div>
-
-
-        <!-- MANUAL SUBMIT ONLY -->
-        <button
-            type="submit"
-            id="submitIdVerificationBtn"
-            class="verification-submit-button"
-            disabled
+        <!-- CAMERA INSTRUCTIONS -->
+        <p
+            id="faceCameraInstructions"
+            class="face-camera-instructions"
         >
-            SUBMIT FOR VERIFICATION
-        </button>
-
-        <p class="verification-submit-note">
-            Please check your document photos and selfie before submitting.
+            Make sure your face is clearly visible.
         </p>
 
-    </form>
+        <!-- CAMERA CONTROLS -->
+        <div class="face-camera-actions">
+
+            <button
+                type="button"
+                id="startFaceCameraBtn"
+                class="verification-secondary-button"
+            >
+                Start Verification
+            </button>
+
+            <button
+                type="button"
+                id="captureFaceBtn"
+                class="verification-primary-button"
+                disabled
+                hidden
+            >
+                Capture Selfie
+            </button>
+
+            <button
+                type="button"
+                id="stopFaceCameraBtn"
+                class="verification-secondary-button"
+                hidden
+            >
+                Stop Camera
+            </button>
+
+            <button
+                type="button"
+                id="retakeFacePhotoBtn"
+                class="verification-secondary-button"
+                hidden
+            >
+                Retake Selfie
+            </button>
+
+        </div>
+
+        <!-- FACE VERIFICATION STATUS -->
+        <p
+            id="faceVerificationStatus"
+            class="face-verification-status"
+            data-status="empty"
+            aria-live="polite"
+        >
+            Selfie not captured yet.
+        </p>
+
+        <p id="faceCaptureReference" hidden></p>
+
+    </div>
+
+</div>
+
+
+<!-- FORM ERROR / MESSAGE -->
+<div
+    id="idVerificationFormMessage"
+    class="verification-form-message"
+    role="status"
+    aria-live="polite"
+    hidden
+></div>
+
+
+<!-- MANUAL SUBMIT ONLY -->
+<button
+    type="submit"
+    id="submitIdVerificationBtn"
+    class="verification-submit-button"
+    disabled
+>
+    SUBMIT FOR VERIFICATION
+</button>
+
+<p class="verification-submit-note">
+    Please check your document photos and selfie before submitting.
+</p>
+
+</form>
+
 
 
     <!-- ======================================
