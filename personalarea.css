@@ -1914,10 +1914,11 @@
 }
 
 
-/* Stop scanning animation after selfie capture */
+/* Stop scan bar after photo capture */
 .face-camera-preview[data-scan-state="success"] #scanBar {
-    animation: none;
-    top: 50%;
+    animation: none !important;
+    top: calc(100% - 4px) !important;
+    transform: translateY(-50%);
     opacity: 1;
 }
 
