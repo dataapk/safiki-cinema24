@@ -2348,13 +2348,12 @@ window.submitIdVerification = async function () {
         // Save uploaded file paths and KYC status
 const updates = {
     kyc_document_type: type,
-    id_front_path: frontPath,
-    id_back_path: backPath,
-    face_photo_path: selfiePath,
+    id_front_part: frontPath,
+    id_back_part: backPath,
+    live_selfie: selfiePath,
     kyc_status: "Pending",
     updated_at: new Date().toISOString()
 };
-
         const { data, error } = await client
             .from(CONFIG.table)
             .update(updates)
