@@ -1321,6 +1321,45 @@
    White BG · Light Green Accent · Amber Pending
 ============================================================ */
 
+
+/* ---------- DOCUMENT TYPE DROPDOWN ---------- */
+
+#idDocumentType {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 40px 12px 14px;
+
+    font-size: 14px;
+    color: var(--text);
+    background-color: #fff;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    cursor: pointer;
+    outline: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px;
+}
+
+#idDocumentType:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(0, 181, 120, 0.12);
+}
+
+#idDocumentType option {
+    color: var(--text);
+    background: #fff;
+}
+/* ----------END  DOCUMENT TYPE DROPDOWN ---------- */
+
 .id-verification-section {
   --green: #00b578;
   --green-dark: #00935f;
