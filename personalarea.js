@@ -4,7 +4,7 @@
    কাজ: Profile, Avatar, ID Verification, Face Detection,
    Address Documents এবং Profile Sidebar পরিচালনা করা।
    প্রয়োজন: Existing HTML + Initialized Supabase client.
-   ========================================================= */
+   ======================================================== */
 
 (() => {
     "use strict";
