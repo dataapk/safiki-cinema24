@@ -1369,66 +1369,93 @@ function renderIdVerificationState(profile) {
                 minDetectionConfidence: 0.8
             });
 
-            faceDetectionInstance.onResults((results) => {
-                if (faceCaptureStarted || !cameraStream) return;
+faceDetectionInstance.onResults((results) => {
+    if (faceCaptureStarted || !cameraStream) return;
 
-                const detections = results?.detections || [];
+    const detections = results?.detections || [];
+    const video = $("faceCameraVideo");
+    const guide = document.querySelector(".face-scanner-ring");
 
-                if (detections.length === 0) {
-                    faceStableFrames = 0;
+    if (!video || !guide) return;
 
-                    setStatus(
-                        "faceCameraInstructions",
-                        "Position your face inside the guide."
-                    );
+    if (detections.length !== 1) {
+        faceStableFrames = 0;
 
-                    setStatus(
-                        "faceVerificationStatus",
-                        "Camera ready. Position your face inside the guide."
-                    );
+        const message = detections.length === 0
+            ? "Please position your full face inside the round box."
+            : "Please make sure only one face is visible.";
 
-                    return;
-                }
+        setStatus("faceCameraInstructions", message);
+        setStatus("faceVerificationStatus", message);
+        return;
+    }
 
-                if (detections.length !== 1) {
-                    faceStableFrames = 0;
+    const box = detections[0].boundingBox;
 
-                    setStatus(
-                        "faceCameraInstructions",
-                        "Please make sure only one face is visible."
-                    );
+    if (!box) {
+        faceStableFrames = 0;
+        return;
+    }
 
-                    setStatus(
-                        "faceVerificationStatus",
-                        "Please make sure only one face is visible."
-                    );
+    /*
+     * MediaPipe boundingBox coordinates are normalized (0–1).
+     * Convert them to pixels in the displayed video.
+     */
+    const videoRect = video.getBoundingClientRect();
+    const guideRect = guide.getBoundingClientRect();
 
-                    return;
-                }
+    const scaleX = videoRect.width;
+    const scaleY = videoRect.height;
 
-                faceStableFrames += 1;
+    const faceLeft =
+        videoRect.left + (box.xCenter - box.width / 2) * scaleX;
+    const faceRight =
+        videoRect.left + (box.xCenter + box.width / 2) * scaleX;
+    const faceTop =
+        videoRect.top + (box.yCenter - box.height / 2) * scaleY;
+    const faceBottom =
+        videoRect.top + (box.yCenter + box.height / 2) * scaleY;
 
-                setStatus(
-                    "faceCameraInstructions",
-                    "Face detected. Hold still..."
-                );
+    // Keep the complete detected face inside the round guide.
+    const faceFitsGuide =
+        faceLeft >= guideRect.left &&
+        faceRight <= guideRect.right &&
+        faceTop >= guideRect.top &&
+        faceBottom <= guideRect.bottom;
 
-                setStatus(
-                    "faceVerificationStatus",
-                    "Face detected. Hold still..."
-                );
+    if (!faceFitsGuide) {
+        faceStableFrames = 0;
 
-                if (faceStableFrames >= 10) {
-                    faceCaptureStarted = true;
+        const message =
+            "Please move your full face inside the round box.";
 
-                    if (faceDetectionTimer !== null) {
-                        clearInterval(faceDetectionTimer);
-                        faceDetectionTimer = null;
-                    }
+        setStatus("faceCameraInstructions", message);
+        setStatus("faceVerificationStatus", message);
+        return;
+    }
 
-                    window.captureFacePhoto();
-                }
-            });
+    setStatus(
+        "faceCameraInstructions",
+        "Full face inside the guide. Capturing photo..."
+    );
+
+    setStatus(
+        "faceVerificationStatus",
+        "Face position accepted. Capturing photo..."
+    );
+
+    // Capture one photo only.
+    if (faceCaptureStarted) return;
+
+    faceCaptureStarted = true;
+
+    if (faceDetectionTimer !== null) {
+        clearInterval(faceDetectionTimer);
+        faceDetectionTimer = null;
+    }
+
+    window.captureFacePhoto();
+});
 
             setStatus(
                 "faceCameraInstructions",
