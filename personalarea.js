@@ -1300,6 +1300,170 @@ function renderIdVerificationState(profile) {
         return faceDetectionScriptPromise;
     }
 
+   // ========================================
+// FACE POSITION + SHARPNESS VALIDATION
+// ========================================
+
+function isFaceInsideRoundGuide(video, guide, box) {
+    const videoRect = video.getBoundingClientRect();
+    const guideRect = guide.getBoundingClientRect();
+
+    if (
+        !video.videoWidth ||
+        !video.videoHeight ||
+        !videoRect.width ||
+        !videoRect.height
+    ) {
+        return false;
+    }
+
+    // Match normalized MediaPipe coordinates to the
+    // visible video, including object-fit: cover.
+    const style = window.getComputedStyle(video);
+    const scale = style.objectFit === "cover"
+        ? Math.max(
+            videoRect.width / video.videoWidth,
+            videoRect.height / video.videoHeight
+        )
+        : Math.min(
+            videoRect.width / video.videoWidth,
+            videoRect.height / video.videoHeight
+        );
+
+    const renderedWidth = video.videoWidth * scale;
+    const renderedHeight = video.videoHeight * scale;
+
+    const offsetX = (renderedWidth - videoRect.width) / 2;
+    const offsetY = (renderedHeight - videoRect.height) / 2;
+
+    let centerX = box.xCenter;
+
+    // Account for a mirrored selfie preview.
+    if (style.transform === "matrix(-1, 0, 0, 1, 0, 0)") {
+        centerX = 1 - centerX;
+    }
+
+    const left = videoRect.left
+        + centerX * video.videoWidth * scale
+        - offsetX
+        - (box.width * video.videoWidth * scale) / 2;
+
+    const right = left + box.width * video.videoWidth * scale;
+
+    const top = videoRect.top
+        + box.yCenter * video.videoHeight * scale
+        - offsetY
+        - (box.height * video.videoHeight * scale) / 2;
+
+    const bottom = top + box.height * video.videoHeight * scale;
+
+    // Use the actual circular/elliptical guide boundary.
+    const cx = (guideRect.left + guideRect.right) / 2;
+    const cy = (guideRect.top + guideRect.bottom) / 2;
+    const rx = guideRect.width / 2;
+    const ry = guideRect.height / 2;
+
+    if (!rx || !ry) return false;
+
+    const corners = [
+        [left, top],
+        [right, top],
+        [left, bottom],
+        [right, bottom]
+    ];
+
+    return corners.every(([x, y]) => {
+        const dx = (x - cx) / rx;
+        const dy = (y - cy) / ry;
+
+        return dx * dx + dy * dy <= 0.80;
+    });
+}
+
+
+// Check sharpness inside the detected face region.
+function isFaceFrameSharp(video, box) {
+    if (!box || !video.videoWidth || !video.videoHeight) {
+        return false;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 96;
+    canvas.height = 96;
+
+    const ctx = canvas.getContext("2d", {
+        willReadFrequently: true
+    });
+
+    if (!ctx) return false;
+
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+
+    const sx = Math.max(
+        0,
+        (box.xCenter - box.width / 2) * vw
+    );
+
+    const sy = Math.max(
+        0,
+        (box.yCenter - box.height / 2) * vh
+    );
+
+    const sw = Math.min(
+        box.width * vw,
+        vw - sx
+    );
+
+    const sh = Math.min(
+        box.height * vh,
+        vh - sy
+    );
+
+    if (sw <= 0 || sh <= 0) return false;
+
+    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, 96, 96);
+
+    const { data } = ctx.getImageData(0, 0, 96, 96);
+    const gray = new Float32Array(96 * 96);
+
+    for (let i = 0; i < gray.length; i++) {
+        const p = i * 4;
+
+        gray[i] =
+            0.299 * data[p] +
+            0.587 * data[p + 1] +
+            0.114 * data[p + 2];
+    }
+
+    let sum = 0;
+    let sumSquares = 0;
+    let count = 0;
+
+    for (let y = 1; y < 95; y++) {
+        for (let x = 1; x < 95; x++) {
+            const i = y * 96 + x;
+
+            const laplacian =
+                gray[i - 96] +
+                gray[i + 96] +
+                gray[i - 1] +
+                gray[i + 1] -
+                4 * gray[i];
+
+            sum += laplacian;
+            sumSquares += laplacian * laplacian;
+            count++;
+        }
+    }
+
+    const variance = sumSquares / count
+        - Math.pow(sum / count, 2);
+
+    // Initial threshold; tune with real camera tests.
+    return variance >= 45;
+}
+
     // =====================================================
     // 28. START FACE CAMERA — Camera ও face detection চালু
     // =====================================================
@@ -1332,6 +1496,7 @@ function renderIdVerificationState(profile) {
     faceCaptureStarted = false;
     faceStableFrames = 0;
     faceDetectionBusy = false;
+   window.lastFaceBoundingBox = null;
 
      if (!navigator.mediaDevices?.getUserMedia) {
                 throw new Error("Camera access is unavailable. Please use HTTPS.");
@@ -1401,8 +1566,8 @@ faceDetectionInstance.onResults((results) => {
         faceStableFrames = 0;
 
         const message = detections.length === 0
-            ? "Please position your full face inside the round box."
-            : "Please make sure only one face is visible.";
+            ? "Position your full face inside the round guide."
+            : "Only one face is allowed.";
 
         setStatus("faceCameraInstructions", message);
         setStatus("faceVerificationStatus", message);
@@ -1411,70 +1576,82 @@ faceDetectionInstance.onResults((results) => {
 
     const box = detections[0].boundingBox;
 
+if (!box) {
+    faceStableFrames = 0;
+    return;
+}
+
+window.lastFaceBoundingBox = box;
+
     if (!box) {
         faceStableFrames = 0;
         return;
     }
 
-    /*
-     * MediaPipe boundingBox coordinates are normalized (0–1).
-     * Convert them to pixels in the displayed video.
-     */
-    const videoRect = video.getBoundingClientRect();
-    const guideRect = guide.getBoundingClientRect();
-
-    const scaleX = videoRect.width;
-    const scaleY = videoRect.height;
-
-    const faceLeft =
-        videoRect.left + (box.xCenter - box.width / 2) * scaleX;
-    const faceRight =
-        videoRect.left + (box.xCenter + box.width / 2) * scaleX;
-    const faceTop =
-        videoRect.top + (box.yCenter - box.height / 2) * scaleY;
-    const faceBottom =
-        videoRect.top + (box.yCenter + box.height / 2) * scaleY;
-
-    // Keep the complete detected face inside the round guide.
-    const faceFitsGuide =
-        faceLeft >= guideRect.left &&
-        faceRight <= guideRect.right &&
-        faceTop >= guideRect.top &&
-        faceBottom <= guideRect.bottom;
-
-    if (!faceFitsGuide) {
+    // 1. Reject faces outside the circular guide.
+    if (!isFaceInsideRoundGuide(video, guide, box)) {
         faceStableFrames = 0;
 
-        const message =
-            "Please move your full face inside the round box.";
+        setStatus(
+            "faceCameraInstructions",
+            "Move your full face inside the round guide."
+        );
 
-        setStatus("faceCameraInstructions", message);
-        setStatus("faceVerificationStatus", message);
+        setStatus(
+            "faceVerificationStatus",
+            "Face is outside the guide. No photo taken."
+        );
+
         return;
     }
 
+    // 2. Reject blurry face frames.
+    if (!isFaceFrameSharp(video, box)) {
+        faceStableFrames = 0;
+
+        setStatus(
+            "faceCameraInstructions",
+            "Hold still. Make sure your face is clear and well lit."
+        );
+
+        setStatus(
+            "faceVerificationStatus",
+            "Waiting for a clear, sharp face..."
+        );
+
+        return;
+    }
+
+    // 3. Require consecutive valid frames.
+    faceStableFrames++;
+
     setStatus(
         "faceCameraInstructions",
-        "Full face inside the guide. Capturing photo..."
+        faceStableFrames < 8
+            ? "Face aligned. Hold still..."
+            : "Face accepted. Capturing photo..."
     );
 
     setStatus(
         "faceVerificationStatus",
-        "Face position accepted. Capturing photo..."
+        faceStableFrames < 8
+            ? "Checking face position and clarity..."
+            : "Face position accepted."
     );
 
-    // Capture one photo only.
-    if (faceCaptureStarted) return;
+    // Eight valid frames at a 200 ms interval
+    // gives approximately 1.6 seconds of validation.
+    if (faceStableFrames < 8 || faceCaptureStarted) {
+        return;
+    }
 
     faceCaptureStarted = true;
 
-    if (faceDetectionTimer !== null) {
-        clearInterval(faceDetectionTimer);
-        faceDetectionTimer = null;
-    }
-
+    // Keep the detection timer running until the
+    // capture succeeds; a rejected frame can retry.
     window.captureFacePhoto();
 });
+
 
             setStatus(
                 "faceCameraInstructions",
@@ -1572,6 +1749,32 @@ window.captureFacePhoto = async function () {
         if (!context) {
             throw new Error("Could not prepare the selfie canvas.");
         }
+
+       // Revalidate the latest detected face before capture.
+const guide = document.querySelector(".face-scanner-ring");
+const lastDetectionsBox = window.lastFaceBoundingBox;
+
+if (
+    !guide ||
+    !lastDetectionsBox ||
+    !isFaceInsideRoundGuide(video, guide, lastDetectionsBox) ||
+    !isFaceFrameSharp(video, lastDetectionsBox)
+) {
+    faceCaptureStarted = false;
+    faceStableFrames = 0;
+
+    setStatus(
+        "faceCameraInstructions",
+        "Keep your full face inside the round guide and hold still."
+    );
+
+    setStatus(
+        "faceVerificationStatus",
+        "Photo not captured. Please align your face again."
+    );
+
+    return;
+}
 
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
