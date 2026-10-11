@@ -1526,29 +1526,90 @@
   gap: 14px;
 }
 
+/* ============================================================
+   🎥 CAMERA — 3 STATES
+   State 0: frosted white placeholder (no feed, pulsing dots)
+   State 1: live camera + dotted oval + rotating dots
+   State 2: scanning bar up-down
+============================================================ */
+
 .face-camera-preview {
   position: relative;
-  width: 260px;
-  height: 330px;
-  border-radius: 26px;              /* soft rounded screen box */
+  width: 280px;
+  height: 340px;
+  border-radius: 24px;
   overflow: hidden;
   background: #0d1117;
   border: 3px solid transparent;
   background:
     linear-gradient(#0d1117, #0d1117) padding-box,
-    linear-gradient(135deg, var(--green), #00d4a6, #7ef0c8, var(--green))
-    border-box;
+    linear-gradient(135deg, #00b578, #00d4a6, #7ef0c8, #00b578) border-box;
   background-size: 100% 100%, 300% 300%;
   animation: frameFlow 5s linear infinite;
-  box-shadow:
-    0 10px 30px rgba(0,181,120,.25),
-    inset 0 0 0 1px rgba(255,255,255,.05);
+  box-shadow: 0 10px 30px rgba(0,181,120,.25);
 }
 @keyframes frameFlow {
   0%   { background-position: 0 0, 0% 50%; }
   100% { background-position: 0 0, 300% 50%; }
 }
 
+/* ---------- STATE 0: সাদা ট্রান্সপারেন্ট প্লেসহোল্ডার ---------- */
+.face-camera-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, .85);   /* হোয়াইট ট্রান্সপারেন্ট */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #5b6470;
+  font-size: 13px;
+  transition: opacity .5s ease;
+}
+.face-camera-placeholder.active {
+  opacity: 0;
+  pointer-events: none;
+}
+.face-camera-icon {
+  font-size: 44px;
+  color: #00b578;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* 🔵 ৫টা পাল্স ডট — উপর-নিচ আপডাউন */
+.pulse-dots {
+  display: flex;
+  gap: 10px;
+}
+.pulse-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00b578;
+  animation: pulseUp 1.4s ease-in-out infinite;
+}
+/* একটার পর একটা delay — তরঙ্গের মতো আপডাউন */
+.pulse-dots span:nth-child(1) { animation-delay: 0s; }
+.pulse-dots span:nth-child(2) { animation-delay: .15s; }
+.pulse-dots span:nth-child(3) { animation-delay: .3s; }
+.pulse-dots span:nth-child(4) { animation-delay: .45s; }
+.pulse-dots span:nth-child(5) { animation-delay: .6s; }
+
+@keyframes pulseUp {
+  0%, 100% { transform: translateY(0)     scale(1);    opacity: .45; }
+  50%      { transform: translateY(-12px) scale(1.25); opacity: 1;
+             box-shadow: 0 6px 14px rgba(0,181,120,.45); }
+}
+
+/* ---------- STATE 1: লাইভ ক্যামেরা + ডটেড ওভাল ---------- */
 .face-camera-preview video,
 .face-captured-preview {
   position: absolute;
@@ -1558,107 +1619,76 @@
   object-fit: cover;
 }
 
-/* Dim overlay so the oval guide pops */
-.face-camera-preview::before {
+/* হালকা ডিম ভাইগনেট (কোণা গুলো সামান্য ডার্ক) — ওভাল যাতে স্পষ্ট দেখায় */
+.face-camera-preview::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 20, 14, .35);
   z-index: 1;
   pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 15, 10, .35) 100%
+  );
 }
 
-/* ⬤ The DIMB (oval) face guide */
+/* ⬤ ডিম্বাকৃতি গাইড — ফাঁকা ভেতর, ঘুরতে থাকা ডট বর্ডার */
 .face-camera-guide {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 180px;
-  height: 235px;
+  width: 190px;
+  height: 240px;
   transform: translate(-50%, -50%);
-  border: 2px solid rgba(0, 229, 160, .9);
-  border-radius: 50% / 45%;          /* dimbakriti / egg shape */
-  box-shadow:
-    0 0 20px rgba(0,229,160,.45),
-    inset 0 0 30px rgba(0,229,160,.12);
+  border: 3px dotted rgba(0, 229, 160, .95);   /* ডট-ডট বর্ডার */
+  border-radius: 50% / 45%;                     /* ডিম্বাকৃতি */
   z-index: 2;
   pointer-events: none;
-  animation: guideBreath 2.4s ease-in-out infinite;
+  animation: dotSpin 6s linear infinite;        /* ডট বর্ডার ঘুরবে */
+  filter: drop-shadow(0 0 8px rgba(0,229,160,.5));
 }
-@keyframes guideBreath {
-  0%, 100% { box-shadow: 0 0 14px rgba(0,229,160,.35), inset 0 0 22px rgba(0,229,160,.10); }
-  50%      { box-shadow: 0 0 30px rgba(0,229,160,.65), inset 0 0 40px rgba(0,229,160,.20); }
+@keyframes dotSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
-
-/* 📡 THE SCANNING LINE — moves smoothly up & down forever */
-.scan-line {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  height: 3px;
-  top: 8%;
-  z-index: 3;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #00ffb0 20%, #aaffe3 50%, #00ffb0 80%,
-    transparent
-  );
-  box-shadow:
-    0 0 12px 2px rgba(0,255,176,.8),
-    0 0 34px 6px rgba(0,255,176,.35);
-  animation: scanMove 2.8s ease-in-out infinite;
-  pointer-events: none;
-}
-/* soft glow band trailing the line */
-.scan-line::after {
+/* ভেতরের ফাঁকা অংশ একদম ক্লিয়ার রাখতে */
+.face-camera-guide::before {
   content: "";
   position: absolute;
-  left: 0; right: 0; top: 3px;
-  height: 44px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,255,176,.22),
-    transparent
-  );
-}
-@keyframes scanMove {
-  0%   { top: 8%;  opacity: 0; }
-  8%   { opacity: 1; }
-  50%  { top: 90%; opacity: 1; }
-  92%  { opacity: 1; }
-  100% { top: 8%;  opacity: 0; }
+  inset: -3px;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 200px transparent; /* নো ডার্কেনিং ইনসাইড */
 }
 
-/* Placeholder state */
-.face-camera-placeholder {
+/* ---------- STATE 2: স্ক্যান বার (আপলোড/চেকের সময়) ---------- */
+.scan-bar {
   position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #8b98a5;
-  font-size: 13px;
-  z-index: 1;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  top: 6%;
+  z-index: 3;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    transparent, #00ffb0 20%, #ccfff0 50%, #00ffb0 80%, transparent);
+  box-shadow:
+    0 0 12px 2px rgba(0,255,176,.8),
+    0 0 34px 6px rgba(0,255,176,.3);
+  animation: scanUpDown 2.2s ease-in-out infinite;
+  pointer-events: none;
 }
-.face-camera-icon {
-  font-size: 46px;
-  color: #3a4754;
-  animation: iconFloat 3s ease-in-out infinite;
+.scan-bar::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 4px;
+  height: 50px;
+  background: linear-gradient(to bottom, rgba(0,255,176,.25), transparent);
 }
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
-}
-
-.face-camera-instructions {
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-soft);
-  text-align: center;
+@keyframes scanUpDown {
+  0%   { top: 6%; }
+  50%  { top: 92%; }
+  100% { top: 6%; }
 }
 
 /* ---------- CAMERA BUTTONS ---------- */
