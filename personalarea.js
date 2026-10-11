@@ -910,8 +910,8 @@ function getEffectiveIdVerificationState(profile) {
     }
 
     const documentType = String(
-        profile?.id_document_type || ""
-    ).trim().toLowerCase();
+    profile?.kyc_document_type || ""
+).trim().toLowerCase();
 
     const hasFront = Boolean(profile?.id_front_path);
     const hasSelfie = Boolean(profile?.face_photo_path);
