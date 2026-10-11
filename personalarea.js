@@ -1511,7 +1511,7 @@ function areBothEyesOpen(landmarks) {
     );
 
     // Initial threshold; calibrate using real camera tests.
-    return leftEAR > 0.20 && rightEAR > 0.20;
+    return leftEAR > 0.14 && rightEAR > 0.14;
 }
 
    // ========================================
