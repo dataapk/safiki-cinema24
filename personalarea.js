@@ -2273,8 +2273,8 @@ window.submitIdVerification = async function () {
             await client
                 .from(CONFIG.table)
                 .select(
-                    "user_id, auth_user_id, kyc_status, id_document_type, id_front_path, id_back_path, face_photo_path"
-                )
+    "user_id, auth_user_id, kyc_status, kyc_document_type, id_front_path, id_back_path, face_photo_path"
+)
                 .eq("auth_user_id", currentUser.id)
                 .maybeSingle();
 
@@ -2346,14 +2346,14 @@ window.submitIdVerification = async function () {
         );
 
         // Save uploaded file paths and KYC status
-        const updates = {
-            id_document_type: type,
-            id_front_path: frontPath,
-            id_back_path: backPath,
-            face_photo_path: selfiePath,
-            kyc_status: "Pending",
-            updated_at: new Date().toISOString()
-        };
+const updates = {
+    kyc_document_type: type,
+    id_front_path: frontPath,
+    id_back_path: backPath,
+    face_photo_path: selfiePath,
+    kyc_status: "Pending",
+    updated_at: new Date().toISOString()
+};
 
         const { data, error } = await client
             .from(CONFIG.table)
