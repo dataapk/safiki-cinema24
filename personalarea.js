@@ -1518,138 +1518,148 @@ faceDetectionInstance.onResults((results) => {
         }
     };
 
-    // =====================================================
-    // 29. CAPTURE SELFIE — 10 stable frames পরে ছবি তোলা
-    // =====================================================
+   // =====================================================
+// 29. CAPTURE SELFIE — Capture once and stop scan bar
+// =====================================================
 
-    window.captureFacePhoto = async function () {
-        const video = $("faceCameraVideo");
-        const canvas = $("faceCaptureCanvas");
+window.captureFacePhoto = async function () {
+    const video = $("faceCameraVideo");
+    const canvas = $("faceCaptureCanvas");
 
-        if (
-            !video ||
-            !canvas ||
-            !cameraStream ||
-            !video.videoWidth ||
-            !video.videoHeight
-        ) {
-            faceCaptureStarted = false;
+    if (
+        !video ||
+        !canvas ||
+        !cameraStream ||
+        !video.videoWidth ||
+        !video.videoHeight
+    ) {
+        faceCaptureStarted = false;
 
-            setStatus(
-                "faceVerificationStatus",
-                "Camera is not ready. Please try again.",
-                "error"
-            );
+        setStatus(
+            "faceVerificationStatus",
+            "Camera is not ready. Please try again.",
+            "error"
+        );
 
-            return;
+        return;
+    }
+
+    try {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const context = canvas.getContext("2d");
+
+        if (!context) {
+            throw new Error("Could not prepare the selfie canvas.");
         }
 
-        try {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            const context = canvas.getContext("2d");
-
-            if (!context) {
-                throw new Error("Could not prepare the selfie canvas.");
-            }
-
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            const blob = await new Promise((resolve, reject) => {
-                canvas.toBlob(
-                    (result) => result
-                        ? resolve(result)
-                        : reject(new Error("Could not capture the selfie.")),
-                    "image/jpeg",
-                    0.92
-                );
-            });
-
-            facePhotoBlob = blob;
-
-            revokeObjectUrl(selfieObjectUrl);
-            selfieObjectUrl = URL.createObjectURL(blob);
-
-            const preview = $("faceCapturedPreview");
-
-            if (preview) {
-                preview.src = selfieObjectUrl;
-                preview.hidden = false;
-            }
-
-            const reference = $("faceCaptureReference");
-
-            if (reference) reference.value = "captured";
-
-            window.stopFaceCamera();
-
-            setHidden("faceCameraVideo", true);
-            setHidden("faceCameraPlaceholder", true);
-            setHidden("faceCameraGuide", true);
-            setHidden("startFaceCameraBtn", true);
-            setHidden("stopFaceCameraBtn", true);
-            setHidden("captureFaceBtn", true);
-            setHidden("retakeFacePhotoBtn", false);
-
-            setStatus(
-                "faceCameraInstructions",
-                "Selfie captured successfully.",
-                "success"
+        const blob = await new Promise((resolve, reject) => {
+            canvas.toBlob(
+                (result) => result
+                    ? resolve(result)
+                    : reject(new Error("Could not capture the selfie.")),
+                "image/jpeg",
+                0.92
             );
+        });
 
-            setStatus(
-                "faceVerificationStatus",
-                "Selfie Captured Successfully",
-                "success"
-            );
+        facePhotoBlob = blob;
 
-            updateIdSubmitState();
+        revokeObjectUrl(selfieObjectUrl);
+        selfieObjectUrl = URL.createObjectURL(blob);
 
-            // IMPORTANT:
-            // Selfie capture কখনোই স্বয়ংক্রিয়ভাবে Submit করবে না।
-            // Submit button ব্যবহারকারী নিজে ক্লিক করবেন।
+        const preview = $("faceCapturedPreview");
 
-            if (!requireDocumentType()) return;
-
-            const type = $("idDocumentType")?.value;
-            const backRequired = type !== "passport";
-
-            if (!idFrontFile || (backRequired && !idBackFile)) {
-                setMessage(
-                    "idVerificationMessage",
-                    "Selfie captured. Upload the required ID documents to continue.",
-                    "info"
-                );
-            } else {
-                setMessage(
-                    "idVerificationMessage",
-                    "All required photos are ready. Click Submit for Verification.",
-                    "success"
-                );
-            }
-
-        } catch (error) {
-            console.error("Selfie capture error:", error);
-
-            faceCaptureStarted = false;
-
-            setStatus(
-                "faceVerificationStatus",
-                error.message || "Could not capture the selfie.",
-                "error"
-            );
-
-            setStatus(
-                "faceCameraInstructions",
-                error.message || "Could not capture the selfie.",
-                "error"
-            );
-
-            setHidden("startFaceCameraBtn", false);
+        if (preview) {
+            preview.src = selfieObjectUrl;
+            preview.hidden = false;
         }
-    };
 
+        const reference = $("faceCaptureReference");
+
+        if (reference) reference.value = "captured";
+
+        // Stop the scan bar at the bottom after successful capture.
+        const scanner = document.querySelector(".face-camera-preview");
+
+        if (scanner) {
+            scanner.dataset.scanState = "success";
+        }
+
+        const scanBar = $("scanBar");
+
+        if (scanBar) {
+            scanBar.style.animation = "none";
+            scanBar.style.top = "calc(100% - 4px)";
+            scanBar.style.transform = "translateY(-50%)";
+        }
+
+        window.stopFaceCamera();
+
+        setHidden("faceCameraVideo", true);
+        setHidden("faceCameraPlaceholder", true);
+        setHidden("faceCameraGuide", true);
+        setHidden("startFaceCameraBtn", true);
+        setHidden("stopFaceCameraBtn", true);
+        setHidden("captureFaceBtn", true);
+        setHidden("retakeFacePhotoBtn", false);
+
+        setStatus(
+            "faceCameraInstructions",
+            "Selfie captured successfully.",
+            "success"
+        );
+
+        setStatus(
+            "faceVerificationStatus",
+            "Selfie Captured Successfully",
+            "success"
+        );
+
+        updateIdSubmitState();
+
+        if (!requireDocumentType()) return;
+
+        const type = $("idDocumentType")?.value;
+        const backRequired = type !== "passport";
+
+        if (!idFrontFile || (backRequired && !idBackFile)) {
+            setMessage(
+                "idVerificationMessage",
+                "Selfie captured. Upload the required ID documents to continue.",
+                "info"
+            );
+        } else {
+            setMessage(
+                "idVerificationMessage",
+                "All required photos are ready. Click Submit for Verification.",
+                "success"
+            );
+        }
+
+    } catch (error) {
+        console.error("Selfie capture error:", error);
+
+        faceCaptureStarted = false;
+
+        setStatus(
+            "faceVerificationStatus",
+            error.message || "Could not capture the selfie.",
+            "error"
+        );
+
+        setStatus(
+            "faceCameraInstructions",
+            error.message || "Could not capture the selfie.",
+            "error"
+        );
+
+        setHidden("startFaceCameraBtn", false);
+    }
+};
     // =====================================================
     // 30. STOP CAMERA — Camera stream ও MediaPipe বন্ধ
     // =====================================================
