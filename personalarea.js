@@ -2176,209 +2176,266 @@ setStatus(
     };
 
     // =====================================================
-    // 32. SUBMIT ID VERIFICATION — নিজে ক্লিক করলে upload
-    // =====================================================
+// 32. SUBMIT ID VERIFICATION — Supabase Private Storage
+// =====================================================
 
-    window.submitIdVerification = async function () {
-        const button = $("submitIdVerificationBtn");
+window.submitIdVerification = async function () {
+    const button = $("submitIdVerificationBtn");
 
-        if (idVerificationSubmitting || idVerificationLocked) return;
+    if (idVerificationSubmitting || idVerificationLocked) return;
 
-        if (!requireDocumentType()) return;
+    if (!requireDocumentType()) return;
 
-        const type = $("idDocumentType")?.value || "";
-        const backRequired = type !== "passport";
+    const type = $("idDocumentType")?.value || "";
+    const backRequired = type !== "passport";
 
-        if (!idFrontFile) {
-            setMessage(
-                "idVerificationMessage",
-                "Please upload the front side of your document.",
-                "error"
-            );
-            return;
+    // Validate required documents
+    if (!idFrontFile) {
+        setMessage(
+            "idVerificationMessage",
+            "Please upload the front side of your document.",
+            "error"
+        );
+        return;
+    }
+
+    if (backRequired && !idBackFile) {
+        setMessage(
+            "idVerificationMessage",
+            "Please upload the back side of your document.",
+            "error"
+        );
+        return;
+    }
+
+    if (!facePhotoBlob) {
+        setMessage(
+            "idVerificationMessage",
+            "Please complete the selfie capture first.",
+            "error"
+        );
+        return;
+    }
+
+    // Validate file types and sizes
+    try {
+        validateDocument(idFrontFile, CONFIG.imageTypes);
+
+        if (backRequired) {
+            validateDocument(idBackFile, CONFIG.imageTypes);
         }
 
-        if (backRequired && !idBackFile) {
-            setMessage(
-                "idVerificationMessage",
-                "Please upload the back side of your document.",
-                "error"
-            );
-            return;
+        if (facePhotoBlob.size > CONFIG.maxFileSize) {
+            throw new Error("Selfie must be 2 MB or smaller.");
         }
+    } catch (error) {
+        setMessage(
+            "idVerificationMessage",
+            error.message || "Please check your document files.",
+            "error"
+        );
+        return;
+    }
 
-        if (!facePhotoBlob) {
-            setMessage(
-                "idVerificationMessage",
-                "Please complete the selfie capture first.",
-                "error"
-            );
-            return;
-        }
+    idVerificationSubmitting = true;
+    updateIdSubmitState();
 
-        try {
-            validateDocument(idFrontFile, CONFIG.imageTypes);
-
-            if (backRequired) {
-                validateDocument(idBackFile, CONFIG.imageTypes);
-            }
-
-            if (facePhotoBlob.size > CONFIG.maxFileSize) {
-    throw new Error("Selfie must be 2 MB or smaller.");
-}
-
-        } catch (error) {
-            setMessage("idVerificationMessage", error.message, "error");
-            return;
-        }
-
-        idVerificationSubmitting = true;
-        updateIdSubmitState();
+    if (button) {
         setButtonLoading(button, true, "Uploading...");
+    }
 
-        let frontPath = null;
-        let backPath = null;
-        let selfiePath = null;
+    let frontPath = null;
+    let backPath = null;
+    let selfiePath = null;
 
-        try {
-            const client = getSupabaseClient();
+    try {
+        const client = getSupabaseClient();
 
-            if (!currentUser) await getProfile();
+        if (!client) {
+            throw new Error("Supabase client is not initialized.");
+        }
 
-            if (!currentUser?.email) {
-                throw new Error("Please log in before submitting verification.");
-            }
+        // Load the logged-in user's profile
+        const profile = await getProfile();
 
-            // Re-check status to prevent duplicate pending submissions.
-            const { data: latestProfile, error: profileError } = await client
+        if (!currentUser?.id || !currentUser?.email) {
+            throw new Error(
+                "Please log in before submitting verification."
+            );
+        }
+
+        if (!profile?.user_id) {
+            throw new Error("Your DG User ID could not be found.");
+        }
+
+        // Check existing verification status
+        const { data: latestProfile, error: profileError } =
+            await client
                 .from(CONFIG.table)
                 .select(
-    "kyc_status, id_document_type, id_front_path, id_back_path, face_photo_path"
-)
-                .eq("email", currentUser.email)
+                    "user_id, auth_user_id, kyc_status, id_document_type, id_front_path, id_back_path, face_photo_path"
+                )
+                .eq("auth_user_id", currentUser.id)
                 .maybeSingle();
 
-            if (profileError) throw profileError;
+        if (profileError) {
+            throw profileError;
+        }
 
-            const latestStatus = getEffectiveIdVerificationState(latestProfile);
-
-            if (["pending", "approved"].includes(latestStatus)) {
-                profileData = { ...profileData, ...latestProfile };
-
-                renderIdVerificationState(profileData);
-
-                throw new Error(
-                    latestStatus === "pending"
-                        ? "Your verification is already pending review."
-                        : "Your identity is already verified."
-                );
-            }
-
-            frontPath = await uploadPrivateFile(
-                CONFIG.idDocumentBucket,
-                "front",
-                idFrontFile
+        if (!latestProfile) {
+            throw new Error(
+                "Your user profile could not be found."
             );
+        }
 
-            if (backRequired) {
-                backPath = await uploadPrivateFile(
-                    CONFIG.idDocumentBucket,
-                    "back",
-                    idBackFile
-                );
-            }
+        const latestStatus =
+            getEffectiveIdVerificationState(latestProfile);
 
-            const selfieFile = new File(
-                [facePhotoBlob],
-                `selfie-${Date.now()}.jpg`,
-                { type: "image/jpeg" }
-            );
-
-            selfiePath = await uploadPrivateFile(
-                CONFIG.idDocumentBucket,
-                "selfie",
-                selfieFile
-            );
-
-            const updates = {
-                id_document_type: type,
-                id_front_path: frontPath,
-                id_back_path: backPath,
-                face_photo_path: selfiePath,
-                kyc_status: "Pending",
-                updated_at: new Date().toISOString()
+        if (["pending", "approved"].includes(latestStatus)) {
+            profileData = {
+                ...profileData,
+                ...latestProfile
             };
-
-            const { data, error } = await client
-                .from(CONFIG.table)
-                .update(updates)
-                .eq("email", currentUser.email)
-                .select()
-                .maybeSingle();
-
-            if (error) throw error;
-
-            if (!data) {
-                throw new Error(
-                    "No profile row was updated. Check your user_data row and Supabase permissions."
-                );
-            }
-
-            profileData = { ...profileData, ...data, ...updates };
-
-            setStatus("idFrontStatus", "Uploaded securely", "success");
-
-            setStatus(
-                "idBackStatus",
-                backPath ? "Uploaded securely" : "Not required for passport",
-                "success"
-            );
-
-            setStatus(
-                "faceVerificationStatus",
-                "Selfie uploaded successfully",
-                "success"
-            );
-
-            setMessage(
-                "idVerificationMessage",
-                "Verification submitted successfully — Pending Review.",
-                "success"
-            );
-
-            setMessage(
-                "personalDetailsMessage",
-                "Identity verification submitted for review.",
-                "success"
-            );
 
             renderIdVerificationState(profileData);
 
-        } catch (error) {
-            console.error("ID submission error:", error);
-
-            setMessage(
-                "idVerificationMessage",
-                error.message || "Could not submit identity documents.",
-                "error"
+            throw new Error(
+                latestStatus === "pending"
+                    ? "Your verification is already pending review."
+                    : "Your identity is already verified."
             );
-
-            // Failed uploads may leave unused objects in private storage.
-            // They are not automatically deleted to avoid deleting files
-            // that may already be referenced by another operation.
-
-        } finally {
-            idVerificationSubmitting = false;
-
-            if (button) {
-                delete button.dataset.originalText;
-                button.textContent = "Submit for Verification";
-            }
-
-            updateIdSubmitState();
         }
-    };
 
+        // All ID verification files belong in this private bucket.
+        const bucket = CONFIG.idDocumentBucket;
+
+        if (bucket !== "id-verification") {
+            throw new Error(
+                "The ID verification bucket configuration is incorrect."
+            );
+        }
+
+        // Upload front ID
+        frontPath = await uploadPrivateFile(
+            bucket,
+            "front",
+            idFrontFile
+        );
+
+        // Upload back ID when required
+        if (backRequired) {
+            backPath = await uploadPrivateFile(
+                bucket,
+                "back",
+                idBackFile
+            );
+        }
+
+        // Convert selfie Blob to an image file
+        const selfieFile = new File(
+            [facePhotoBlob],
+            `selfie-${Date.now()}.jpg`,
+            { type: "image/jpeg" }
+        );
+
+        // Upload selfie
+        selfiePath = await uploadPrivateFile(
+            bucket,
+            "selfie",
+            selfieFile
+        );
+
+        // Save uploaded file paths and KYC status
+        const updates = {
+            id_document_type: type,
+            id_front_path: frontPath,
+            id_back_path: backPath,
+            face_photo_path: selfiePath,
+            kyc_status: "Pending",
+            updated_at: new Date().toISOString()
+        };
+
+        const { data, error } = await client
+            .from(CONFIG.table)
+            .update(updates)
+            .eq("auth_user_id", currentUser.id)
+            .select()
+            .maybeSingle();
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data) {
+            throw new Error(
+                "The files were uploaded, but your verification record was not updated. Check your user_data UPDATE policy."
+            );
+        }
+
+        // Update local profile state
+        profileData = {
+            ...profileData,
+            ...data,
+            ...updates
+        };
+
+        // Update document statuses
+        setStatus(
+            "idFrontStatus",
+            "Uploaded securely",
+            "success"
+        );
+
+        setStatus(
+            "idBackStatus",
+            backPath
+                ? "Uploaded securely"
+                : "Not required for passport",
+            "success"
+        );
+
+        setStatus(
+            "faceVerificationStatus",
+            "Selfie uploaded successfully",
+            "success"
+        );
+
+        // Show success messages
+        setMessage(
+            "idVerificationMessage",
+            "Verification submitted successfully — Pending Review.",
+            "success"
+        );
+
+        setMessage(
+            "personalDetailsMessage",
+            "Identity verification submitted for review.",
+            "success"
+        );
+
+        renderIdVerificationState(profileData);
+
+    } catch (error) {
+        console.error("ID submission error:", error);
+
+        setMessage(
+            "idVerificationMessage",
+            error.message ||
+                "Could not submit identity documents. Please try again.",
+            "error"
+        );
+
+    } finally {
+        idVerificationSubmitting = false;
+
+        if (button) {
+            delete button.dataset.originalText;
+            button.textContent = "SUBMIT FOR VERIFICATION";
+        }
+
+        updateIdSubmitState();
+    }
+};
     // =====================================================
     // 33. VERIFY AGAIN — Approved হলে নতুন application শুরু
     // =====================================================
