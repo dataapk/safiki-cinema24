@@ -1632,17 +1632,7 @@
     animation: faceRingPulse 1.8s ease-in-out infinite;
 }
 
-/* Outer red-and-green dotted ring */
-.face-scanner-ring::before {
-    content: "";
-    position: absolute;
-    inset: -8px;
-    border: 2px dotted #ef4444;
-    border-top-color: #16a34a;
-    border-bottom-color: #16a34a;
-    border-radius: 50%;
-    animation: faceRingRotate 6s linear infinite;
-}
+
 
 /* Additional inner accent */
 .face-scanner-ring::after {
@@ -1793,15 +1783,6 @@
     }
 }
 
-@keyframes faceRingRotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
 
 @keyframes faceRingPulse {
     0%, 100% {
