@@ -10,23 +10,28 @@
     "use strict";
 
     // =====================================================
-    // 01. CONFIGURATION — প্রয়োজনীয় Supabase সেটিংস
-    // =====================================================
+// 01. CONFIGURATION — প্রয়োজনীয় Supabase সেটিংস
+// =====================================================
 
-    const CONFIG = {
-        table: "user_data",
-        avatarBucket: "profile-avatars",
-        idDocumentBucket: "id-verification",
-        addressDocumentBucket: "proof-documents",
-        maxFileSize: 5 * 1024 * 1024,
-        imageTypes: ["image/jpeg", "image/png"],
-        documentTypes: [
-            "image/jpeg",
-            "image/png",
-            "application/pdf"
-        ]
-    };
+const CONFIG = {
+    table: "user_data",
+    avatarBucket: "profile-avatars",
+    idDocumentBucket: "id-verification",
+    addressDocumentBucket: "proof-documents",
 
+    maxFileSize: 2 * 1024 * 1024, // Maximum 2 MB
+
+    fileSizeErrorMessage:
+        "File size limit exceeded! Please upload a file smaller than 2 MB.",
+
+    imageTypes: ["image/jpeg", "image/png"],
+
+    documentTypes: [
+        "image/jpeg",
+        "image/png",
+        "application/pdf"
+    ]
+};
     // =====================================================
     // 02. GLOBAL STATE — বর্তমান ইউজার ও ফাইলের অবস্থা
     // =====================================================
@@ -1202,6 +1207,36 @@ function renderIdVerificationState(profile) {
 
             if (!requireDocumentType()) {
                 input.value = "";
+                updateIdSubmitState();
+                return;
+            }
+
+     
+            // ==========================================
+            // FILE SIZE VALIDATION — MAXIMUM 2 MB
+            // ==========================================
+            if (file.size > CONFIG.maxFileSize) {
+                input.value = "";
+
+                preview.hidden = true;
+                preview.removeAttribute("src");
+                area.classList.remove("has-preview");
+
+                setText(fileNameId, "Not Selected");
+                setStatus(
+                    statusId,
+                    CONFIG.fileSizeErrorMessage,
+                    "error"
+                );
+
+                if (retakeButton) retakeButton.hidden = true;
+
+                setMessage(
+                    "idVerificationMessage",
+                    CONFIG.fileSizeErrorMessage,
+                    "error"
+                );
+
                 updateIdSubmitState();
                 return;
             }
