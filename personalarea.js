@@ -1308,13 +1308,32 @@ function renderIdVerificationState(profile) {
         if (idVerificationLocked) return;
 
         try {
-            window.stopFaceCamera();
+    window.stopFaceCamera();
 
-            faceCaptureStarted = false;
-            faceStableFrames = 0;
-            faceDetectionBusy = false;
+    // ========================================
+    // RESET SCAN BAR WHEN CAMERA STARTS
+    // ========================================
 
-            if (!navigator.mediaDevices?.getUserMedia) {
+    const scanner = document.querySelector(".face-camera-preview");
+    const scanBar = $("scanBar");
+
+    if (scanner) {
+        scanner.dataset.scanState = "scanning";
+    }
+
+    if (scanBar) {
+        scanBar.style.animation = "";
+        scanBar.style.top = "";
+        scanBar.style.transform = "";
+        scanBar.style.opacity = "";
+    }
+
+    // Continue existing camera reset logic
+    faceCaptureStarted = false;
+    faceStableFrames = 0;
+    faceDetectionBusy = false;
+
+     if (!navigator.mediaDevices?.getUserMedia) {
                 throw new Error("Camera access is unavailable. Please use HTTPS.");
             }
 
@@ -1582,42 +1601,50 @@ window.captureFacePhoto = async function () {
 
         if (reference) reference.value = "captured";
 
-        // Stop the scan bar at the bottom after successful capture.
-        const scanner = document.querySelector(".face-camera-preview");
+// ========================================
+// STOP SCAN BAR AFTER SUCCESSFUL CAPTURE
+// ========================================
 
-        if (scanner) {
-            scanner.dataset.scanState = "success";
-        }
+const scanner = document.querySelector(".face-camera-preview");
+const scanBar = $("scanBar");
 
-        const scanBar = $("scanBar");
+// Set scanner state to success
+if (scanner) {
+    scanner.dataset.scanState = "success";
+}
 
-        if (scanBar) {
-            scanBar.style.animation = "none";
-            scanBar.style.top = "calc(100% - 4px)";
-            scanBar.style.transform = "translateY(-50%)";
-        }
+// Stop the scan bar at the bottom
+if (scanBar) {
+    scanBar.style.animation = "none";
+    scanBar.style.top = "calc(100% - 4px)";
+    scanBar.style.transform = "translateY(-50%)";
+    scanBar.style.opacity = "1";
+}
 
-        window.stopFaceCamera();
+// Stop camera after capturing the photo
+window.stopFaceCamera();
 
-        setHidden("faceCameraVideo", true);
-        setHidden("faceCameraPlaceholder", true);
-        setHidden("faceCameraGuide", true);
-        setHidden("startFaceCameraBtn", true);
-        setHidden("stopFaceCameraBtn", true);
-        setHidden("captureFaceBtn", true);
-        setHidden("retakeFacePhotoBtn", false);
+// Update camera and button visibility
+setHidden("faceCameraVideo", true);
+setHidden("faceCameraPlaceholder", true);
+setHidden("faceCameraGuide", true);
+setHidden("startFaceCameraBtn", true);
+setHidden("stopFaceCameraBtn", true);
+setHidden("captureFaceBtn", true);
+setHidden("retakeFacePhotoBtn", false);
 
-        setStatus(
-            "faceCameraInstructions",
-            "Selfie captured successfully.",
-            "success"
-        );
+// Update capture status
+setStatus(
+    "faceCameraInstructions",
+    "Selfie captured successfully.",
+    "success"
+);
 
-        setStatus(
-            "faceVerificationStatus",
-            "Selfie Captured Successfully",
-            "success"
-        );
+setStatus(
+    "faceVerificationStatus",
+    "Selfie Captured Successfully",
+    "success"
+);
 
         updateIdSubmitState();
 
