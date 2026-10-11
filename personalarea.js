@@ -1464,6 +1464,130 @@ function isFaceFrameSharp(video, box) {
     return variance >= 15;
 }
 
+   // ========================================
+// CHECK BOTH EYES ARE OPEN — Face Mesh
+// ========================================
+
+function areBothEyesOpen(landmarks) {
+    if (!landmarks || landmarks.length < 478) {
+        return false;
+    }
+
+    function distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function eyeAspectRatio(top1, top2, bottom1, bottom2, left, right) {
+        const vertical1 = distance(
+            landmarks[top1],
+            landmarks[bottom1]
+        );
+
+        const vertical2 = distance(
+            landmarks[top2],
+            landmarks[bottom2]
+        );
+
+        const horizontal = distance(
+            landmarks[left],
+            landmarks[right]
+        );
+
+        if (!horizontal) return 0;
+
+        return (vertical1 + vertical2) / (2 * horizontal);
+    }
+
+    // Left eye
+    const leftEAR = eyeAspectRatio(
+        159, 158, 145, 153, 33, 133
+    );
+
+    // Right eye
+    const rightEAR = eyeAspectRatio(
+        386, 385, 374, 380, 362, 263
+    );
+
+    // Initial threshold; calibrate using real camera tests.
+    return leftEAR > 0.20 && rightEAR > 0.20;
+}
+
+   // ========================================
+// LOAD MEDIAPIPE FACE MESH
+// ========================================
+
+window.loadFaceMeshLibrary = async function () {
+    if (window.FaceMesh) {
+        return window.FaceMesh;
+    }
+
+    if (window.faceMeshLibraryPromise) {
+        return window.faceMeshLibraryPromise;
+    }
+
+    window.faceMeshLibraryPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+
+        script.src =
+            "https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js";
+
+        script.onload = () => {
+            if (window.FaceMesh) {
+                resolve(window.FaceMesh);
+            } else {
+                reject(new Error("Face Mesh library failed to load."));
+            }
+        };
+
+        script.onerror = () => {
+            window.faceMeshLibraryPromise = null;
+            reject(new Error("Could not load Face Mesh library."));
+        };
+
+        document.head.appendChild(script);
+    });
+
+    return window.faceMeshLibraryPromise;
+};
+
+   // ========================================
+// INITIALIZE FACE MESH EYE DETECTION
+// ========================================
+
+window.initFaceMesh = async function () {
+    const FaceMesh = await window.loadFaceMeshLibrary();
+
+    const mesh = new FaceMesh({
+        locateFile: (file) =>
+            `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+    });
+
+    mesh.setOptions({
+        maxNumFaces: 1,
+        refineLandmarks: true,
+        minDetectionConfidence: 0.7,
+        minTrackingConfidence: 0.7
+    });
+
+    mesh.onResults((results) => {
+        const faces = results?.multiFaceLandmarks || [];
+
+        if (faces.length !== 1) {
+            window.faceEyesOpen = false;
+            return;
+        }
+
+        window.faceEyesOpen = areBothEyesOpen(faces[0]);
+    });
+
+    window.faceMeshInstance = mesh;
+    window.faceEyesOpen = false;
+
+    return mesh;
+};
+
     // =====================================================
     // 28. START FACE CAMERA — Camera ও face detection চালু
     // =====================================================
@@ -1513,6 +1637,10 @@ function isFaceFrameSharp(video, box) {
             );
 
             const FaceDetection = await loadFaceDetectionLibrary();
+
+           // Initialize eye detection before allowing capture.
+window.faceEyesOpen = false;
+await window.initFaceMesh();
 
             cameraStream = await navigator.mediaDevices.getUserMedia({
                 audio: false,
@@ -1622,6 +1750,23 @@ window.lastFaceBoundingBox = box;
         return;
     }
 
+   if (!window.faceEyesOpen) {
+    faceStableFrames = 0;
+
+    setStatus(
+        "faceCameraInstructions",
+        "Please open both eyes and look at the camera."
+    );
+
+    setStatus(
+        "faceVerificationStatus",
+        "Waiting for both eyes to be open..."
+    );
+
+    return;
+}
+
+
     // 3. Require consecutive valid frames.
     faceStableFrames++;
 
@@ -1675,6 +1820,9 @@ window.lastFaceBoundingBox = box;
 
                 try {
                     await faceDetectionInstance.send({ image: video });
+                   if (window.faceMeshInstance) {
+    await window.faceMeshInstance.send({ image: video });
+}
                 } catch (error) {
                     console.error("MediaPipe frame error:", error);
 
