@@ -2437,9 +2437,10 @@ const updates = {
 };
 
 
-   // =====================================================
-// 36. ADDRESS VERIFICATION STATUS — Proof of Address
-// =====================================================
+
+/* =====================================================
+   36. ADDRESS VERIFICATION STATUS — Proof of Address
+===================================================== */
 
 window.renderAddressVerificationStatus = function (status) {
     const section = document.getElementById("proofDocumentsSection");
@@ -2449,22 +2450,9 @@ window.renderAddressVerificationStatus = function (status) {
     const description = document.getElementById("addressVerificationDescription");
     const verifyAgainSection = document.getElementById("addressVerifyAgainSection");
 
-    const normalized = String(status || "").trim().toLowerCase();
-
-   const statusLabels = {
-    "not verified": "Not Verified",
-    "pending": "Pending",
-    "pending verification": "Pending",
-    "approved": "Verified",
-    "verified": "Verified",
-    "rejected": "Rejected"
-};
-
-const displayStatus = statusLabels[normalized] || "Not Verified";
-
-if (badge) {
-    badge.textContent = displayStatus;
-}
+    const normalized = String(status || "Not Verified")
+        .trim()
+        .toLowerCase();
 
     const isPending =
         normalized === "pending" ||
@@ -2478,6 +2466,7 @@ if (badge) {
 
     const editing = window.addressVerificationEditing === true;
 
+    // Verify Again clicked হলে নতুন submission-এর জন্য unlock
     const isLocked =
         isPending ||
         isVerified ||
@@ -2513,24 +2502,26 @@ if (badge) {
         } else if (isVerified) {
             description.textContent =
                 "Your address verification has been successfully verified.";
-        } else if (isRejected) {
-            description.textContent = editing
-                ? "Please update your address information and submit a new document."
-                : "Your address verification was rejected. Please verify again.";
+        } else if (isRejected && !editing) {
+            description.textContent =
+                "Your address verification was rejected. Please verify again.";
+        } else if (isRejected && editing) {
+            description.textContent =
+                "Please update your address information and submit a new document.";
         } else {
             description.textContent =
                 "Enter your residential address and upload one accepted document as proof of address.";
         }
     }
 
-    // LOCK ADDRESS AND COUNTRY
+    // ADDRESS AND COUNTRY LOCK / UNLOCK
     const addressField = document.getElementById("addressLine");
     const countryField = document.getElementById("addressCountry");
 
     if (addressField) addressField.disabled = isLocked;
     if (countryField) countryField.disabled = isLocked;
 
-    // HIDE OR SHOW DOCUMENT FORM
+    // DOCUMENT FORM SHOW / HIDE
     const documentCards = section.querySelector(".address-document-cards");
     const uploadBox = document.getElementById("addressDocumentUploadBox");
     const submitButton = document.getElementById("saveAddressDocumentsBtn");
@@ -2541,28 +2532,31 @@ if (badge) {
     if (uploadBox) uploadBox.hidden = !showForm;
     if (submitButton) submitButton.hidden = !showForm;
 
-    // VERIFY AGAIN
+    // VERIFY AGAIN BUTTON
     if (verifyAgainSection) {
         verifyAgainSection.hidden = !(isRejected && !editing);
     }
 };
 
 
-// =====================================================
-// VERIFY AGAIN — Unlock rejected address submission
-// =====================================================
+/* =====================================================
+   VERIFY AGAIN — Reset to Not Verified and unlock form
+===================================================== */
 
 window.verifyAddressAgain = function () {
+    // Unlock the address verification form
     window.addressVerificationEditing = true;
 
+    // Clear the previously selected document
     const fileInput = document.getElementById("addressDocumentFile");
-
     if (fileInput) {
         fileInput.value = "";
     }
 
-    window.renderAddressVerificationStatus("rejected");
+    // Display Not Verified and unlock the form
+    window.renderAddressVerificationStatus("Not Verified");
 };
+
 
    
     // =====================================================
