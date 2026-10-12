@@ -2830,15 +2830,17 @@ window.selectAddressDocument = function (type) {
 
     // Address is required before selecting a document
     if (!address && addressField) {
-        addressField.style.borderColor = "#e53935";
-        addressField.style.outline = "1px solid #e53935";
+        addressField.style.borderColor = "#e6c84f";
+addressField.style.outline = "1px solid #e6c84f";
+addressField.style.backgroundColor = "#fffbea";
         firstInvalidField = addressField;
     }
 
     // Country is required before selecting a document
     if (!country && countryField) {
-        countryField.style.borderColor = "#e53935";
-        countryField.style.outline = "1px solid #e53935";
+        ccountryField.style.borderColor = "#e6c84f";
+countryField.style.outline = "1px solid #e6c84f";
+countryField.style.backgroundColor = "#fffbea";
 
         if (!firstInvalidField) {
             firstInvalidField = countryField;
@@ -2884,6 +2886,28 @@ window.selectAddressDocument = function (type) {
 
     setMessage("personalDetailsMessage", "", "");
 };
+
+
+  //  টাইপ বা সিলেক্ট করলেই হাইলাইট সরাত
+// Clear address validation highlight when corrected
+["addressLine", "addressCountry"].forEach((id) => {
+    const field = $(id);
+    if (!field) return;
+
+    const clearHighlight = () => {
+        const hasValue = field.value.trim() !== "";
+
+        if (hasValue) {
+            field.style.borderColor = "";
+            field.style.outline = "";
+            field.style.backgroundColor = "";
+        }
+    };
+
+    field.addEventListener("input", clearHighlight);
+    field.addEventListener("change", clearHighlight);
+});
+   
 
 
     // =====================================================
