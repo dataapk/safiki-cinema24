@@ -2451,6 +2451,21 @@ window.renderAddressVerificationStatus = function (status) {
 
     const normalized = String(status || "").trim().toLowerCase();
 
+   const statusLabels = {
+    "not verified": "Not Verified",
+    "pending": "Pending",
+    "pending verification": "Pending",
+    "approved": "Verified",
+    "verified": "Verified",
+    "rejected": "Rejected"
+};
+
+const displayStatus = statusLabels[normalized] || "Not Verified";
+
+if (badge) {
+    badge.textContent = displayStatus;
+}
+
     const isPending =
         normalized === "pending" ||
         normalized === "pending verification";
