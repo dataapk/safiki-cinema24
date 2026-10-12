@@ -2745,8 +2745,9 @@ document.addEventListener("visibilitychange", function () {
         );
     });
 
+    
     // =====================================================
-    // 37. SAVE ADDRESS DOCUMENT — Address ও proof সংরক্ষণ
+    // 37. SAVE ADDRESS DOCUMENT — Proof of Address
     // =====================================================
 
     window.saveAddressDocuments = async function () {
@@ -2756,17 +2757,6 @@ document.addEventListener("visibilitychange", function () {
             const client = getSupabaseClient();
 
             if (!currentUser) await getProfile();
-
-            const address = $("addressLine")?.value.trim() || "";
-            const city = $("addressCity")?.value.trim() || "";
-            const postalCode = $("addressPostalCode")?.value.trim() || "";
-            const country = $("addressCountry")?.value || "";
-
-            if (!address || !city || !postalCode || !country) {
-                throw new Error(
-                    "Complete your address, city, postal code, and country."
-                );
-            }
 
             if (!selectedAddressDocumentType || !addressDocument) {
                 throw new Error("Select a document type and choose a file.");
@@ -2783,10 +2773,6 @@ document.addEventListener("visibilitychange", function () {
             );
 
             const updates = {
-                address,
-                city,
-                postal_code: postalCode,
-                country,
                 address_document_type: selectedAddressDocumentType,
                 address_document_path: documentPath,
                 address_verification_status: "Pending Verification",
@@ -2803,12 +2789,19 @@ document.addEventListener("visibilitychange", function () {
             if (error) throw error;
 
             if (!data) {
-                throw new Error("Your address information could not be saved.");
+                throw new Error("Your address document could not be saved.");
             }
 
-            profileData = { ...profileData, ...data, ...updates };
+            profileData = {
+                ...profileData,
+                ...data,
+                ...updates
+            };
 
-            setText("addressVerificationStatus", "Pending Verification");
+            setText(
+                "addressVerificationStatus",
+                "Pending Verification"
+            );
 
             setStatus(
                 "addressDocumentFileStatus",
@@ -2821,6 +2814,7 @@ document.addEventListener("visibilitychange", function () {
                 "Proof document submitted for verification.",
                 "success"
             );
+
         } catch (error) {
             console.error("Address document error:", error);
 
@@ -2829,6 +2823,7 @@ document.addEventListener("visibilitychange", function () {
                 error.message || "Could not submit your proof document.",
                 "error"
             );
+
         } finally {
             if (button) {
                 delete button.dataset.originalText;
