@@ -2463,6 +2463,18 @@ const isVerified =
 
 const isRejected = normalized === "rejected";
 
+   
+    // ADDRESS VERIFIED MESSAGE
+    const addressVerifiedMessage = document.getElementById(
+        "addressVerifiedMessage"
+    );
+
+    if (addressVerifiedMessage) {
+        addressVerifiedMessage.hidden =
+            normalized !== "approved" &&
+            normalized !== "verified";
+    }
+
 const editing = window.addressVerificationEditing === true;
 
 // Lock / Unlock logic
