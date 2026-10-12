@@ -1275,6 +1275,127 @@ function resetDepositHistory() {
 }
 
 
+
+/* =========================================
+   SAVE PLAYER ADDRESS VERIFICATION STATUS
+========================================= */
+
+async function savePlayerAddressVerificationStatus() {
+    const user = window.currentKycEditUser;
+
+    const select = document.getElementById(
+        "playerAddressVerificationStatusSelect"
+    );
+
+    const saveButton = document.getElementById(
+        "saveAddressVerificationStatusBtn"
+    );
+
+    if (!user || !user.user_id) {
+        alert("Unable to identify the selected user.");
+        return;
+    }
+
+    if (!select) {
+        alert("Address Verification status selector was not found.");
+        return;
+    }
+
+    const allowedStatuses = [
+        "Not Verified",
+        "Pending Verification",
+        "Approved",
+        "Rejected"
+    ];
+
+    const newStatus = select.value;
+
+    if (!allowedStatuses.includes(newStatus)) {
+        alert("Invalid Address Verification status.");
+        return;
+    }
+
+    if (typeof supabaseClient === "undefined" || !supabaseClient) {
+        alert("Supabase is not initialized.");
+        return;
+    }
+
+    if (saveButton) {
+        saveButton.disabled = true;
+    }
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("user_data")
+            .update({
+                address_verification_status: newStatus,
+                updated_at: new Date().toISOString()
+            })
+            .eq("user_id", user.user_id)
+            .select("user_id, address_verification_status")
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+            alert(
+                "No row was updated. Check the selected user's ID " +
+                "and Supabase RLS policies."
+            );
+            return;
+        }
+
+        // Update the selected user's in-memory record.
+        user.address_verification_status =
+            data.address_verification_status;
+
+        // Refresh the displayed Address Verification status
+        // if this element exists in the admin profile.
+        const statusElement = document.getElementById(
+            "profileAddressVerificationStatus"
+        );
+
+        if (statusElement) {
+            const labels = {
+                "Not Verified": "Not Verified",
+                "Pending Verification": "Pending",
+                "Approved": "Verified",
+                "Rejected": "Rejected"
+            };
+
+            statusElement.textContent =
+                labels[data.address_verification_status] || "Not Verified";
+        }
+
+        const panel = document.getElementById(
+            "editAddressVerificationStatusPanel"
+        );
+
+        if (panel) {
+            panel.style.display = "none";
+        }
+
+        alert("Address Verification status updated successfully.");
+
+    } catch (error) {
+        console.error(
+            "Address Verification status update error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "An error occurred while updating Address Verification status."
+        );
+    } finally {
+        if (saveButton) {
+            saveButton.disabled = false;
+        }
+    }
+}
+
+
+
 // ------------------------------------------------------
 // RESET WITHDRAW HISTORY
 // ------------------------------------------------------
