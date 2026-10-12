@@ -931,6 +931,8 @@ const hasBack =
 // বাংলায়: কার্যকর status অনুযায়ী সঠিক verification UI দেখানো।
 function renderIdVerificationState(profile) {
     const state = getEffectiveIdVerificationState(profile);
+   // Hide Photo Guidelines only when ID verification is approved
+setHidden("idVerificationPhotoGuideline", state === "approved");
 
     updateIdStatusBadge(state);
 
