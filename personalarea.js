@@ -2902,11 +2902,13 @@ document.addEventListener("visibilitychange", function () {
             );
 
             const updates = {
-                address_document_type: selectedAddressDocumentType,
-                address_document_path: documentPath,
-                address_verification_status: "Pending Verification",
-                updated_at: new Date().toISOString()
-            };
+    address: address,
+    country: country,
+    address_document_type: selectedAddressDocumentType,
+    address_document_path: documentPath,
+    address_verification_status: "Pending Verification",
+    updated_at: new Date().toISOString()
+};
 
             const { data, error } = await client
                 .from(CONFIG.table)
