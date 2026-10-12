@@ -1176,16 +1176,18 @@ async function savePlayerKycStatus() {
             .select("user_id, kyc_status")
             .maybeSingle();
 
-        if (error) {
-            console.error("KYC status update failed:", error);
-            alert("Could not update KYC status. Check the console and Supabase permissions.");
-            return;
-        }
-
         if (!data) {
-            alert("No user record was updated. Check the selected user's ID and update permissions.");
-            return;
-        }
+    console.log("KYC update returned no row.");
+    console.log("Selected user ID:", user.user_id);
+    console.log("Requested status:", newStatus);
+    console.log("Update error:", error);
+
+    alert(
+        "No row was returned by the update. " +
+        "Check the browser Console and Supabase RLS policies."
+    );
+    return;
+}
 
         // Update the currently selected user's in-memory record.
         user.kyc_status = data.kyc_status;
