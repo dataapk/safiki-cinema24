@@ -2503,30 +2503,66 @@ const updates = {
                 return;
             }
 
-            // Update the existing profile without removing other fields
+            
+            // Update the latest profile data from Supabase
             profileData = {
                 ...(profileData || {}),
                 ...latestProfile
             };
 
-            // Refresh the ID Verification page and its status badge
+            // Update ID verification UI
             renderIdVerificationState(profileData);
 
-            // Refresh the Personal Menu status, if present
+            // Update approved verification details dynamically
+            const kycStatus = normalizeStatus(
+                latestProfile.kyc_status
+            );
+
+            const isApproved = kycStatus === "approved";
+
+            const hasSelfie = Boolean(
+                latestProfile.live_selfie
+            );
+
+            const selfieStatus = document.getElementById(
+                "approvedSelfieStatus"
+            );
+
+            const selfieItem = document.getElementById(
+                "approvedSelfie"
+            );
+
+            const selfieLabel = selfieItem?.querySelector(
+                ".approved-status-label"
+            );
+
+            if (selfieStatus && selfieItem && selfieLabel) {
+                if (isApproved && hasSelfie) {
+                    selfieStatus.textContent = "Approved";
+                    selfieLabel.textContent = "Approved";
+                    selfieItem.dataset.state = "approved";
+                } else if (hasSelfie) {
+                    selfieStatus.textContent = "Pending Review";
+                    selfieLabel.textContent = "Pending Review";
+                    selfieItem.dataset.state = "pending";
+                } else {
+                    selfieStatus.textContent = "Not Submitted";
+                    selfieLabel.textContent = "Not Submitted";
+                    selfieItem.dataset.state = "unverified";
+                }
+            }
+
+            // Update Personal Menu status
             const menuStatus = document.getElementById(
                 "profileUserVerificationStatus"
             );
 
             if (menuStatus) {
-                const status = normalizeStatus(
-                    latestProfile.kyc_status
-                );
-
-                menuStatus.textContent =
-                    status === "approved"
-                        ? "Verified"
-                        : "Not Verified";
+                menuStatus.textContent = isApproved
+                    ? "Verified"
+                    : "Not Verified";
             }
+
 
             console.log(
                 "ID verification status refreshed:",
