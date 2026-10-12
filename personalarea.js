@@ -2454,29 +2454,31 @@ window.renderAddressVerificationStatus = function (status) {
         .trim()
         .toLowerCase();
 
-    const isPending =
-        normalized === "pending" ||
-        normalized === "pending verification";
+const isPending =
+    normalized === "pending" ||
+    normalized === "pending verification";
 
-    const isVerified =
-        normalized === "approved" ||
-        normalized === "verified";
+const isVerified =
+    normalized === "approved" ||
+    normalized === "verified";
 
-    const isRejected = normalized === "rejected";
+const isRejected = normalized === "rejected";
 
-    const editing = window.addressVerificationEditing === true;
+const editing = window.addressVerificationEditing === true;
 
-    // Verify Again clicked হলে নতুন submission-এর জন্য unlock
-    const isLocked =
-       console.log("Address Verification Debug:", {
+// Lock / Unlock logic
+const isLocked =
+    isPending ||
+    isVerified ||
+    (isRejected && !editing);
+
+// DEBUG — must be AFTER isLocked is calculated
+console.log("Address Verification Debug:", {
     status: status,
     normalized: normalized,
     editing: editing,
     isLocked: isLocked
 });
-        isPending ||
-        isVerified ||
-        (isRejected && !editing);
 
     // STATUS BADGE
     if (badge) {
