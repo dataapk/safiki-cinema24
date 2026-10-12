@@ -2488,6 +2488,26 @@
    ADDRESS DOCUMENT UPLOAD
    Keep the existing upload-box design unchanged
    ========================================================= */
+/* Address Verification — Pending */
+#proofDocumentsSection .address-verification-badge.status-pending {
+    background: #fff7e8;
+    border: 1px solid #f5d38a;
+    color: #a16207;
+}
+
+/* Address Verification — Verified */
+#proofDocumentsSection .address-verification-badge.status-verified {
+    background: #e6faf2;
+    border: 1px solid #a7f3d0;
+    color: #00935f;
+}
+
+/* Address Verification — Rejected */
+#proofDocumentsSection .address-verification-badge.status-rejected {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+}
 
 #proofDocumentsSection .document-upload-card {
     width: 100%;
