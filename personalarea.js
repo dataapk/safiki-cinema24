@@ -2461,6 +2461,15 @@ const isVerified =
     normalized === "approved" ||
     normalized === "verified";
 
+   // Hide accepted document examples when verified
+const acceptedDocumentNote = document.getElementById(
+    "addressAcceptedDocumentNote"
+);
+
+if (acceptedDocumentNote) {
+    acceptedDocumentNote.hidden = isVerified;
+}
+
 const isRejected = normalized === "rejected";
 
    
