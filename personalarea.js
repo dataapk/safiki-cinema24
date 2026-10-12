@@ -2789,49 +2789,102 @@ document.addEventListener("visibilitychange", function () {
         window.verifyAgain();
     });
 
-    // =====================================================
-    // 35. ADDRESS DOCUMENT TYPE — Proof document নির্বাচন
-    // =====================================================
+ 
+ // =====================================================
+ // 35. ADDRESS DOCUMENT TYPE — Proof document নির্বাচন
+ // =====================================================
 
-    window.selectAddressDocument = function (type) {
-        const types = {
-            utility_bill: {
-                title: "Upload Utility Bill",
-                description: "Choose a recent utility bill showing your address."
-            },
-            bank_statement: {
-                title: "Upload Bank Statement",
-                description: "Choose a bank statement showing your name and address."
-            },
-            official_document: {
-                title: "Upload Official Address Document",
-                description: "Choose an official document that confirms your address."
-            }
-        };
-
-        if (!types[type]) return;
-
-        selectedAddressDocumentType = type;
-        addressDocument = null;
-
-        document.querySelectorAll("[data-document-type]").forEach((card) => {
-            const active = card.dataset.documentType === type;
-
-            card.classList.toggle("selected", active);
-            card.setAttribute("aria-pressed", String(active));
-        });
-
-        setText("addressDocumentUploadTitle", types[type].title);
-        setText("addressDocumentUploadDescription", types[type].description);
-        setText("addressDocumentFileName", "No file selected");
-        setStatus("addressDocumentFileStatus", "Not uploaded");
-
-        const input = $("addressDocumentFile");
-
-        if (input) input.value = "";
-
-        setHidden("addressDocumentUploadBox", false);
+window.selectAddressDocument = function (type) {
+    const types = {
+        utility_bill: {
+            title: "Upload Utility Bill",
+            description: "Choose a recent utility bill showing your address."
+        },
+        bank_statement: {
+            title: "Upload Bank Statement",
+            description: "Choose a bank statement showing your name and address."
+        },
+        official_document: {
+            title: "Upload Official Address Document",
+            description: "Choose an official document that confirms your address."
+        }
     };
+
+    if (!types[type]) return;
+
+    const addressField = $("addressLine");
+    const countryField = $("addressCountry");
+
+    const address = addressField?.value?.trim() || "";
+    const country = countryField?.value?.trim() || "";
+
+    // Clear previous validation highlights
+    [addressField, countryField].forEach((field) => {
+        if (field) {
+            field.style.borderColor = "";
+            field.style.outline = "";
+        }
+    });
+
+    let firstInvalidField = null;
+
+    // Address is required before selecting a document
+    if (!address && addressField) {
+        addressField.style.borderColor = "#e53935";
+        addressField.style.outline = "1px solid #e53935";
+        firstInvalidField = addressField;
+    }
+
+    // Country is required before selecting a document
+    if (!country && countryField) {
+        countryField.style.borderColor = "#e53935";
+        countryField.style.outline = "1px solid #e53935";
+
+        if (!firstInvalidField) {
+            firstInvalidField = countryField;
+        }
+    }
+
+    // Stop document selection if either field is empty
+    if (!address || !country) {
+        firstInvalidField?.focus();
+
+        setMessage(
+            "personalDetailsMessage",
+            "Please enter your address and select your country before choosing a document.",
+            "error"
+        );
+
+        return;
+    }
+
+    // Both required fields are valid
+    if (!types[type]) return;
+
+    selectedAddressDocumentType = type;
+    addressDocument = null;
+
+    document.querySelectorAll("[data-document-type]").forEach((card) => {
+        const active = card.dataset.documentType === type;
+
+        card.classList.toggle("selected", active);
+        card.setAttribute("aria-pressed", String(active));
+    });
+
+    setText("addressDocumentUploadTitle", types[type].title);
+    setText("addressDocumentUploadDescription", types[type].description);
+    setText("addressDocumentFileName", "No file selected");
+    setStatus("addressDocumentFileStatus", "Not uploaded");
+
+    const input = $("addressDocumentFile");
+
+    if (input) input.value = "";
+
+    setHidden("addressDocumentUploadBox", false);
+
+    setMessage("personalDetailsMessage", "", "");
+};
+
 
     // =====================================================
     // 36. ADDRESS FILE SELECTION — File type ও size যাচাই
