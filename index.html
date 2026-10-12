@@ -2187,21 +2187,23 @@
             </p>
         </div>
 
-        <!-- ADDRESS -->
-        <div class="form-group full-width">
+        
+<!-- FULL ADDRESS -->
+<div class="form-group full-width">
 
-            <label for="addressLine">Address</label>
+    <label for="addressLine">Address</label>
 
-            <input
-                type="text"
-                id="addressLine"
-                name="address"
-                class="form-input"
-                autocomplete="street-address"
-                maxlength="250"
-                placeholder="Enter your residential address">
+    <textarea
+        id="addressLine"
+        name="address"
+        class="form-input address-textarea"
+        autocomplete="street-address"
+        maxlength="500"
+        rows="3"
+        placeholder="Enter your full address including city and postcode"></textarea>
 
-        </div>
+</div>
+
 
         <!-- COUNTRY -->
         <div class="form-group full-width">
@@ -2244,56 +2246,63 @@
 
                 <p>Select one document type to upload.</p>
 
-                <div class="address-document-cards">
+              
+<div class="address-document-cards">
 
-                    <button
-                        type="button"
-                        class="address-document-card"
-                        data-document-type="utility_bill"
-                        onclick="selectAddressDocument('utility_bill')"
-                        aria-pressed="false">
+    <button
+        type="button"
+        class="address-document-card"
+        data-document-type="utility_bill"
+        onclick="selectAddressDocument('utility_bill')"
+        aria-pressed="false">
 
-                        <i class="fas fa-file-invoice" aria-hidden="true"></i>
+        <i class="fas fa-file-invoice" aria-hidden="true"></i>
+        <span>Utility Bill</span>
 
-                        <span>Utility Bill</span>
+    </button>
 
-                        <small>Electricity, gas or water bill</small>
+    <button
+        type="button"
+        class="address-document-card"
+        data-document-type="bank_statement"
+        onclick="selectAddressDocument('bank_statement')"
+        aria-pressed="false">
 
-                    </button>
+        <i class="fas fa-university" aria-hidden="true"></i>
+        <span>Bank Statement</span>
 
-                    <button
-                        type="button"
-                        class="address-document-card"
-                        data-document-type="bank_statement"
-                        onclick="selectAddressDocument('bank_statement')"
-                        aria-pressed="false">
+    </button>
 
-                        <i class="fas fa-university" aria-hidden="true"></i>
+    <button
+        type="button"
+        class="address-document-card"
+        data-document-type="official_document"
+        onclick="selectAddressDocument('official_document')"
+        aria-pressed="false">
 
-                        <span>Bank Statement</span>
+        <i class="fas fa-file-alt" aria-hidden="true"></i>
+        <span>Official Document</span>
 
-                        <small>Statement showing your address</small>
+    </button>
 
-                    </button>
+</div>
 
-                    <button
-                        type="button"
-                        class="address-document-card"
-                        data-document-type="official_document"
-                        onclick="selectAddressDocument('official_document')"
-                        aria-pressed="false">
+<!-- ACCEPTED DOCUMENT EXAMPLES -->
+<div class="address-document-note">
 
-                        <i class="fas fa-file-alt" aria-hidden="true"></i>
+    <p class="address-document-note-title">
+        <span class="note-green-dot"></span>
+        Note: Accepted document examples
+    </p>
 
-                        <span>Official Document</span>
+    <ul>
+        <li>Utility Bill — Electricity, gas or water bill</li>
+        <li>Bank Statement — Bank statement showing your address</li>
+        <li>Official Document — Government-issued address proof</li>
+    </ul>
 
-                        <small>Accepted government address document</small>
+</div>
 
-                    </button>
-
-                </div>
-
-            </div>
 
             <!-- DOCUMENT UPLOAD -->
             <div
