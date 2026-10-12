@@ -2435,6 +2435,123 @@ const updates = {
         updateIdSubmitState();
     }
 };
+
+   
+    // =====================================================
+    // REFRESH ID VERIFICATION STATUS — Latest Supabase Data
+    // =====================================================
+
+    async function refreshIdVerificationStatus() {
+        try {
+            const supabase = getSupabaseClient();
+
+            if (!supabase) {
+                console.error("Supabase client is not available.");
+                return;
+            }
+
+            // Get the currently logged-in user
+            let authUserId = currentUser?.id;
+
+            if (!authUserId) {
+                const {
+                    data: authData,
+                    error: authError
+                } = await supabase.auth.getUser();
+
+                if (authError || !authData?.user) {
+                    console.error(
+                        "Unable to get logged-in user:",
+                        authError
+                    );
+                    return;
+                }
+
+                authUserId = authData.user.id;
+            }
+
+            // Fetch the latest ID verification data from Supabase
+            const {
+                data: latestProfile,
+                error: profileError
+            } = await supabase
+                .from(CONFIG.table)
+                .select(`
+                    user_id,
+                    auth_user_id,
+                    kyc_status,
+                    kyc_document_type,
+                    id_front_part,
+                    id_back_part,
+                    live_selfie
+                `)
+                .eq("auth_user_id", authUserId)
+                .maybeSingle();
+
+            if (profileError) {
+                console.error(
+                    "Unable to refresh ID verification status:",
+                    profileError
+                );
+                return;
+            }
+
+            if (!latestProfile) {
+                console.error(
+                    "ID verification profile was not found."
+                );
+                return;
+            }
+
+            // Update the existing profile without removing other fields
+            profileData = {
+                ...(profileData || {}),
+                ...latestProfile
+            };
+
+            // Refresh the ID Verification page and its status badge
+            renderIdVerificationState(profileData);
+
+            // Refresh the Personal Menu status, if present
+            const menuStatus = document.getElementById(
+                "profileUserVerificationStatus"
+            );
+
+            if (menuStatus) {
+                const status = normalizeStatus(
+                    latestProfile.kyc_status
+                );
+
+                menuStatus.textContent =
+                    status === "approved"
+                        ? "Verified"
+                        : "Not Verified";
+            }
+
+            console.log(
+                "ID verification status refreshed:",
+                latestProfile.kyc_status
+            );
+
+        } catch (error) {
+            console.error(
+                "Unexpected ID verification refresh error:",
+                error
+            );
+        }
+    }
+
+   // Refresh status when the user returns to the page
+window.addEventListener("focus", function () {
+    refreshIdVerificationStatus();
+});
+
+document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+        refreshIdVerificationStatus();
+    }
+});
+
     // =====================================================
     // 33. VERIFY AGAIN — Approved হলে নতুন application শুরু
     // =====================================================
