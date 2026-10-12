@@ -2249,152 +2249,176 @@
 
         </div>
 
-        <!-- DOCUMENT TYPE -->
+       <!-- DOCUMENT TYPE -->
 <div
     id="addressDocumentForm"
     class="address-document-form">
 
-    <div class="address-document-section">
+    <!-- PROOF DOCUMENT SELECTION -->
+    <div id="addressProofSelection">
 
-        <h4 id="addressProofDocumentTitle">Select Proof Document</h4>
+        <div class="address-document-section">
 
-        <p id="addressProofDocumentDescription">
-            Select one document type to upload.
-        </p>
+            <h4 id="addressProofDocumentTitle">
+                Select Proof Document
+            </h4>
 
-              
-<div class="address-document-cards">
+            <p id="addressProofDocumentDescription">
+                Select one document type to upload.
+            </p>
 
-    <button
-        type="button"
-        class="address-document-card"
-        data-document-type="utility_bill"
-        onclick="selectAddressDocument('utility_bill')"
-        aria-pressed="false">
-
-        <i class="fas fa-file-invoice" aria-hidden="true"></i>
-        <span>Utility Bill</span>
-
-    </button>
-
-    <button
-        type="button"
-        class="address-document-card"
-        data-document-type="bank_statement"
-        onclick="selectAddressDocument('bank_statement')"
-        aria-pressed="false">
-
-        <i class="fas fa-university" aria-hidden="true"></i>
-        <span>Bank Statement</span>
-
-    </button>
-
-    <button
-        type="button"
-        class="address-document-card"
-        data-document-type="official_document"
-        onclick="selectAddressDocument('official_document')"
-        aria-pressed="false">
-
-        <i class="fas fa-file-alt" aria-hidden="true"></i>
-        <span>Official Document</span>
-
-    </button>
-
-</div>
-
-<!-- ACCEPTED DOCUMENT EXAMPLES -->
-<div id="addressAcceptedDocumentNote" class="address-document-note">
-<div class="address-document-note">
-
-    <p class="address-document-note-title">
-        <span class="note-green-dot"></span>
-        Note: Accepted document examples
-    </p>
-
-    <ul>
-        <li>Utility Bill — Electricity, gas or water bill</li>
-        <li>Bank Statement — Bank statement showing your address</li>
-        <li>Official Document — Government-issued address proof</li>
-    </ul>
-
-</div>
-
-                <!-- ADDRESS VERIFICATION SUCCESS -->
-<div id="addressVerifiedMessage" class="address-verified-message" hidden>
-    <span class="address-verified-title">Address Verified</span>
-    <span class="address-verified-badge">Verified</span>
-</div>
-
-
-            <!-- DOCUMENT UPLOAD -->
-            <div
-                id="addressDocumentUploadBox"
-                class="document-upload-card"
-                hidden>
-
-                <h4 id="addressDocumentUploadTitle">
-                    Upload Document
-                </h4>
-
-                <p id="addressDocumentUploadDescription">
-                    Select a file from your device.
-                </p>
-
-                <label
-                    for="addressDocumentFile"
-                    class="document-upload-area">
-
-                    <i
-                        class="fas fa-cloud-upload-alt"
-                        aria-hidden="true">
-                    </i>
-
-                    <span>Click to upload or choose a file</span>
-
-                    <span
-                        id="addressDocumentFileName"
-                        class="upload-file-name">
-                        No file selected
-                    </span>
-
-                </label>
-
-                <input
-                    type="file"
-                    id="addressDocumentFile"
-                    name="address_document"
-                    accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
-                    hidden>
-
-                <p
-                    id="addressDocumentFileStatus"
-                    class="document-status">
-                    No file selected
-                </p>
-
-            </div>
-
-            <!-- SUBMIT -->
-            <div class="personal-save-row">
+            <!-- DOCUMENT CARDS -->
+            <div class="address-document-cards">
 
                 <button
                     type="button"
-                    id="saveAddressDocumentsBtn"
-                    class="action-btn save-btn"
-                    onclick="saveAddressDocuments()">
-                    Submit Document
+                    class="address-document-card"
+                    data-document-type="utility_bill"
+                    onclick="selectAddressDocument('utility_bill')"
+                    aria-pressed="false">
+
+                    <i class="fas fa-file-invoice" aria-hidden="true"></i>
+                    <span>Utility Bill</span>
+
                 </button>
 
-                <p
-                    id="addressDocumentsMessage"
-                    class="field-status"
-                    aria-live="polite">
+                <button
+                    type="button"
+                    class="address-document-card"
+                    data-document-type="bank_statement"
+                    onclick="selectAddressDocument('bank_statement')"
+                    aria-pressed="false">
+
+                    <i class="fas fa-university" aria-hidden="true"></i>
+                    <span>Bank Statement</span>
+
+                </button>
+
+                <button
+                    type="button"
+                    class="address-document-card"
+                    data-document-type="official_document"
+                    onclick="selectAddressDocument('official_document')"
+                    aria-pressed="false">
+
+                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                    <span>Official Document</span>
+
+                </button>
+
+            </div>
+
+            <!-- ACCEPTED DOCUMENT EXAMPLES -->
+            <div
+                id="addressAcceptedDocumentNote"
+                class="address-document-note">
+
+                <p class="address-document-note-title">
+                    <span class="note-green-dot"></span>
+                    Note: Accepted document examples
                 </p>
+
+                <ul>
+                    <li>Utility Bill — Electricity, gas or water bill</li>
+                    <li>Bank Statement — Bank statement showing your address</li>
+                    <li>Official Document — Government-issued address proof</li>
+                </ul>
 
             </div>
 
         </div>
+
+    </div>
+    <!-- END PROOF DOCUMENT SELECTION -->
+
+
+    <!-- ADDRESS VERIFICATION SUCCESS -->
+    <div
+        id="addressVerifiedMessage"
+        class="address-verified-message"
+        hidden>
+
+        <span class="address-verified-title">
+            Address Verified
+        </span>
+
+        <span class="address-verified-badge">
+            Verified
+        </span>
+
+    </div>
+
+
+    <!-- DOCUMENT UPLOAD -->
+    <div
+        id="addressDocumentUploadBox"
+        class="document-upload-card"
+        hidden>
+
+        <h4 id="addressDocumentUploadTitle">
+            Upload Document
+        </h4>
+
+        <p id="addressDocumentUploadDescription">
+            Select a file from your device.
+        </p>
+
+        <label
+            for="addressDocumentFile"
+            class="document-upload-area">
+
+            <i
+                class="fas fa-cloud-upload-alt"
+                aria-hidden="true">
+            </i>
+
+            <span>Click to upload or choose a file</span>
+
+            <span
+                id="addressDocumentFileName"
+                class="upload-file-name">
+                No file selected
+            </span>
+
+        </label>
+
+        <input
+            type="file"
+            id="addressDocumentFile"
+            name="address_document"
+            accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+            hidden>
+
+        <p
+            id="addressDocumentFileStatus"
+            class="document-status">
+            No file selected
+        </p>
+
+    </div>
+
+
+    <!-- SUBMIT -->
+    <div class="personal-save-row">
+
+        <button
+            type="button"
+            id="saveAddressDocumentsBtn"
+            class="action-btn save-btn"
+            onclick="saveAddressDocuments()">
+            Submit Document
+        </button>
+
+        <p
+            id="addressDocumentsMessage"
+            class="field-status"
+            aria-live="polite">
+        </p>
+
+    </div>
+
+</div>
+<!-- END DOCUMENT TYPE -->
 
         
 
