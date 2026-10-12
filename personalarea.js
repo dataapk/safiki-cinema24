@@ -2911,16 +2911,16 @@ document.addEventListener("visibilitychange", function () {
                 ...updates
             };
 
-            setText(
-                "addressVerificationStatus",
-                "Pending Verification"
-            );
+            // Lock the address verification form after successful submission
+window.addressVerificationEditing = false;
 
-            setStatus(
-                "addressDocumentFileStatus",
-                "Uploaded securely — Pending Verification",
-                "success"
-            );
+window.renderAddressVerificationStatus("Pending Verification");
+
+setMessage(
+    "personalDetailsMessage",
+    "Proof document submitted for verification.",
+    "success"
+);
 
             setMessage(
                 "personalDetailsMessage",
