@@ -2436,6 +2436,131 @@ const updates = {
     }
 };
 
+
+   // =====================================================
+// 36. ADDRESS VERIFICATION STATUS — Proof of Address
+// =====================================================
+
+window.addressVerificationEditing = false;
+
+window.renderAddressVerificationStatus = function (status) {
+    const section = document.getElementById("proofDocumentsSection");
+    if (!section) return;
+
+    const badge = document.getElementById("addressVerificationStatus");
+    const description = document.getElementById("addressVerificationDescription");
+    const verifyAgainSection = document.getElementById("addressVerifyAgainSection");
+
+    const normalized = String(status || "").trim().toLowerCase();
+
+    const isPending =
+        normalized === "pending" ||
+        normalized === "pending verification";
+
+    const isVerified =
+        normalized === "approved" ||
+        normalized === "verified";
+
+    const isRejected = normalized === "rejected";
+
+    const isLocked =
+        isPending ||
+        isVerified ||
+        (isRejected && !window.addressVerificationEditing);
+
+    if (badge) {
+        badge.classList.remove(
+            "status-pending",
+            "status-verified",
+            "status-rejected"
+        );
+
+        if (isPending) {
+            badge.textContent = "Pending";
+            badge.classList.add("status-pending");
+        } else if (isVerified) {
+            badge.textContent = "Verified";
+            badge.classList.add("status-verified");
+        } else if (isRejected) {
+            badge.textContent = "Rejected";
+            badge.classList.add("status-rejected");
+        } else {
+            badge.textContent = "Not Verified";
+        }
+    }
+
+    if (description) {
+        if (isPending) {
+            description.textContent =
+                "Your address verification is under review.";
+        } else if (isVerified) {
+            description.textContent =
+                "Your address verification has been successfully verified.";
+        } else if (isRejected) {
+            description.textContent =
+                window.addressVerificationEditing
+                    ? "Please update your address information and submit a new document."
+                    : "Your address verification was rejected. Please verify again.";
+        } else {
+            description.textContent =
+                "Enter your residential address and upload one accepted document as proof of address.";
+        }
+    }
+
+    // Lock or unlock Address and Country
+    const addressField = section.querySelector(".address-textarea");
+    const countryField = document.getElementById("addressCountry");
+
+    if (addressField) {
+        addressField.disabled = isLocked;
+    }
+
+    if (countryField) {
+        countryField.disabled = isLocked;
+    }
+
+    // Hide or show document selection, upload and submission
+    const documentCards = section.querySelector(".address-document-cards");
+    const uploadBox = document.getElementById("addressDocumentUploadBox");
+    const submitButton = document.getElementById("saveAddressDocumentsBtn");
+
+    const showUploadForm = !isLocked;
+
+    if (documentCards) {
+        documentCards.hidden = !showUploadForm;
+    }
+
+    if (uploadBox) {
+        uploadBox.hidden = !showUploadForm;
+    }
+
+    if (submitButton) {
+        submitButton.hidden = !showUploadForm;
+    }
+
+    // Show Verify Again only for a rejected submission
+    if (verifyAgainSection) {
+        verifyAgainSection.hidden = !isRejected || window.addressVerificationEditing;
+    }
+};
+
+
+// =====================================================
+// VERIFY AGAIN — Unlock rejected address submission
+// =====================================================
+
+window.verifyAddressAgain = function () {
+    window.addressVerificationEditing = true;
+
+    const fileInput = document.getElementById("addressDocumentFile");
+
+    if (fileInput) {
+        fileInput.value = "";
+    }
+
+    window.renderAddressVerificationStatus("rejected");
+};
+
    
     // =====================================================
     // REFRESH ID VERIFICATION STATUS — Latest Supabase Data
