@@ -931,6 +931,7 @@ function loadPersonalInformation(
     if (!user) {
         return;
     }
+    window.currentKycEditUser = user;
 
 
     const fullName =
@@ -1060,6 +1061,161 @@ if (kycStatus) {
     }
 
 }
+
+
+
+
+/* =========================================
+   EDIT PLAYER KYC STATUS
+========================================= */
+
+function editPlayerKycStatus() {
+    const user = window.currentKycEditUser;
+
+    if (!user || !user.user_id) {
+        alert("Unable to identify the selected user.");
+        return;
+    }
+
+    const panel = document.getElementById("editKycStatusPanel");
+    const select = document.getElementById("playerKycStatusSelect");
+
+    if (!panel || !select) {
+        console.error("KYC edit panel or status selector not found.");
+        return;
+    }
+
+    const currentStatus = String(user.kyc_status || "Not Verified")
+        .trim()
+        .toLowerCase();
+
+    const statusValues = {
+        "not verified": "Not Verified",
+        unverified: "Not Verified",
+        pending: "Pending",
+        approved: "Approved",
+        verified: "Approved",
+        rejected: "Rejected"
+    };
+
+    select.value = statusValues[currentStatus] || "Not Verified";
+    panel.style.display = "block";
+}
+
+
+/* =========================================
+   CANCEL KYC STATUS EDIT
+========================================= */
+
+function cancelPlayerKycStatusEdit() {
+    const panel = document.getElementById("editKycStatusPanel");
+
+    if (panel) {
+        panel.style.display = "none";
+    }
+}
+
+
+/* =========================================
+   SAVE PLAYER KYC STATUS
+========================================= */
+
+async function savePlayerKycStatus() {
+    const user = window.currentKycEditUser;
+    const select = document.getElementById("playerKycStatusSelect");
+    const saveButton = document.getElementById("saveKycStatusBtn");
+
+    if (!user || !user.user_id) {
+        alert("Unable to identify the selected user.");
+        return;
+    }
+
+    if (!select) {
+        alert("KYC status selector was not found.");
+        return;
+    }
+
+    const allowedStatuses = [
+        "Not Verified",
+        "Pending",
+        "Approved",
+        "Rejected"
+    ];
+
+    const newStatus = select.value;
+
+    if (!allowedStatuses.includes(newStatus)) {
+        alert("Invalid KYC status.");
+        return;
+    }
+
+    if (typeof supabaseClient === "undefined" || !supabaseClient) {
+        alert("Supabase is not initialized.");
+        return;
+    }
+
+    if (saveButton) {
+        saveButton.disabled = true;
+    }
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("user_data")
+            .update({
+                kyc_status: newStatus,
+                updated_at: new Date().toISOString()
+            })
+            .eq("user_id", user.user_id)
+            .select("user_id, kyc_status")
+            .maybeSingle();
+
+        if (error) {
+            console.error("KYC status update failed:", error);
+            alert("Could not update KYC status. Check the console and Supabase permissions.");
+            return;
+        }
+
+        if (!data) {
+            alert("No user record was updated. Check the selected user's ID and update permissions.");
+            return;
+        }
+
+        // Update the currently selected user's in-memory record.
+        user.kyc_status = data.kyc_status;
+
+        // Refresh the displayed KYC status.
+        const statusElement = document.getElementById("profileKycStatus");
+
+        if (statusElement) {
+            const labels = {
+                "Not Verified": "Not Verified",
+                "Pending": "Pending",
+                "Approved": "Verified",
+                "Rejected": "Rejected"
+            };
+
+            statusElement.textContent =
+                labels[data.kyc_status] || "Not Verified";
+        }
+
+        const panel = document.getElementById("editKycStatusPanel");
+
+        if (panel) {
+            panel.style.display = "none";
+        }
+
+        alert("KYC status updated successfully.");
+
+    } catch (error) {
+        console.error("Unexpected KYC update error:", error);
+        alert("An unexpected error occurred while updating KYC status.");
+    } finally {
+        if (saveButton) {
+            saveButton.disabled = false;
+        }
+    }
+}
+
 
 
 // ------------------------------------------------------
