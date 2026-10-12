@@ -920,154 +920,164 @@ function selectUser(
 }
 
 
-// ------------------------------------------------------
-// LOAD PERSONAL INFORMATION
-// ------------------------------------------------------
 
-function loadPersonalInformation(
-    user
-) {
+/* ------------------------------------------------------
+   LOAD PERSONAL INFORMATION
+------------------------------------------------------ */
 
-    if (!user) {
-        return;
-    }
+async function loadPersonalInformation(user) {
+    if (!user) return;
+
     window.currentKycEditUser = user;
 
-    console.log("Selected KYC user:", {
-    user_id: user.user_id,
-    auth_user_id: user.auth_user_id,
-    email: user.email,
-    kyc_status: user.kyc_status
-});
+    const fullName = document.getElementById("profileFullName");
+    const kycStatus = document.getElementById("profileKycStatus");
+    const email = document.getElementById("profileEmail");
+    const country = document.getElementById("profileCountry");
+    const address = document.getElementById("profileAddress");
+    const accountLevel = document.getElementById("profileAccountLevel");
+    const registrationDate = document.getElementById("profileRegistrationDate");
+    const lastLogin = document.getElementById("profileLastLogin");
+    const addressStatus = document.getElementById(
+        "profileAddressVerificationStatus"
+    );
 
-
-    const fullName =
-        document.getElementById(
-            "profileFullName"
-        );
-
-    const kycStatus =
-    document.getElementById("profileKycStatus");
-
-if (kycStatus) {
-    const status = String(user.kyc_status || "Not Verified")
-        .trim()
-        .toLowerCase();
-
-    const labels = {
-        "not verified": "Not Verified",
-        unverified: "Not Verified",
-        pending: "Pending",
-        approved: "Verified",
-        verified: "Verified",
-        rejected: "Rejected"
-    };
-
-    kycStatus.textContent =
-        labels[status] || "Not Verified";
-}
-
-    const email =
-        document.getElementById(
-            "profileEmail"
-        );
-
-    const country =
-        document.getElementById(
-            "profileCountry"
-        );
-
-    const address =
-        document.getElementById(
-            "profileAddress"
-        );
-
-    const accountLevel =
-        document.getElementById(
-            "profileAccountLevel"
-        );
-
-    const registrationDate =
-        document.getElementById(
-            "profileRegistrationDate"
-        );
-
-    const lastLogin =
-        document.getElementById(
-            "profileLastLogin"
-        );
-
-
+    // Display the existing profile information.
     if (fullName) {
-
-        fullName.textContent =
-            getUserDataValue(
-                user.full_name
-            );
-
+        fullName.textContent = getUserDataValue(user.full_name);
     }
-
 
     if (email) {
-
-        email.textContent =
-            getUserDataValue(
-                user.email
-            );
-
+        email.textContent = getUserDataValue(user.email);
     }
-
 
     if (country) {
-
-        country.textContent =
-            getUserDataValue(
-                user.country
-            );
-
+        country.textContent = getUserDataValue(user.country);
     }
-
 
     if (address) {
-
-        address.textContent =
-            getUserDataValue(
-                user.address
-            );
-
+        address.textContent = getUserDataValue(user.address);
     }
-
 
     if (accountLevel) {
-
-        accountLevel.textContent =
-            getUserDataValue(
-                user.account_level
-            );
-
+        accountLevel.textContent = getUserDataValue(user.account_level);
     }
-
 
     if (registrationDate) {
-
-        registrationDate.textContent =
-            formatUserDate(
-                user.created_at
-            );
-
+        registrationDate.textContent = formatUserDate(user.created_at);
     }
-
 
     if (lastLogin) {
-
-        lastLogin.textContent =
-            formatUserDate(
-                user.last_login_at
-            );
-
+        lastLogin.textContent = formatUserDate(user.last_login_at);
     }
 
+    // Use the currently available status while fetching fresh data.
+    const renderKycStatus = (value) => {
+        const status = String(value || "Not Verified")
+            .trim()
+            .toLowerCase();
+
+        const labels = {
+            "not verified": "Not Verified",
+            unverified: "Not Verified",
+            pending: "Pending",
+            approved: "Verified",
+            verified: "Verified",
+            rejected: "Rejected"
+        };
+
+        if (kycStatus) {
+            kycStatus.textContent = labels[status] || "Not Verified";
+        }
+    };
+
+    renderKycStatus(user.kyc_status);
+
+    if (addressStatus) {
+        const addressLabels = {
+            "not verified": "Not Verified",
+            unverified: "Not Verified",
+            pending: "Pending",
+            "pending verification": "Pending",
+            approved: "Verified",
+            verified: "Verified",
+            rejected: "Rejected"
+        };
+
+        const addressValue = String(
+            user.address_verification_status || "Not Verified"
+        ).trim().toLowerCase();
+
+        addressStatus.textContent =
+            addressLabels[addressValue] || "Not Verified";
+    }
+
+    // Fetch the latest status for this selected user.
+    if (
+        typeof supabaseClient === "undefined" ||
+        !supabaseClient ||
+        !user.user_id
+    ) {
+        console.warn("Cannot refresh KYC status: Supabase or user ID missing.");
+        return;
+    }
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("user_data")
+            .select("user_id, kyc_status, address_verification_status")
+            .eq("user_id", user.user_id)
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+            console.warn("No user_data row found for:", user.user_id);
+            return;
+        }
+
+        // Ignore the result if another profile was selected during the fetch.
+        if (
+            window.currentKycEditUser?.user_id !== data.user_id
+        ) {
+            return;
+        }
+
+        // Refresh the in-memory profile record.
+        Object.assign(window.currentKycEditUser, data);
+
+        renderKycStatus(data.kyc_status);
+
+        if (addressStatus) {
+            const addressLabels = {
+                "not verified": "Not Verified",
+                unverified: "Not Verified",
+                pending: "Pending",
+                "pending verification": "Pending",
+                approved: "Verified",
+                verified: "Verified",
+                rejected: "Rejected"
+            };
+
+            const addressValue = String(
+                data.address_verification_status || "Not Verified"
+            ).trim().toLowerCase();
+
+            addressStatus.textContent =
+                addressLabels[addressValue] || "Not Verified";
+        }
+
+        console.log("Refreshed selected player statuses:", {
+            user_id: data.user_id,
+            kyc_status: data.kyc_status,
+            address_verification_status: data.address_verification_status
+        });
+
+    } catch (error) {
+        console.error("Could not refresh player verification statuses:", error);
+    }
 }
+
 
 
 
