@@ -364,6 +364,45 @@
         <span id="profileFullName"></span>
     </p>
 
+    
+    <p>
+        <b>KYC Status:</b>
+        <span id="profileKycStatus">Not Verified</span>
+        <button
+            type="button"
+            id="editKycStatusBtn"
+            onclick="editPlayerKycStatus()">
+            Edit
+        </button>
+    </p>
+
+    <div id="editKycStatusPanel" style="display:none;">
+        <label for="playerKycStatusSelect">
+            Select KYC Status:
+        </label>
+
+        <select id="playerKycStatusSelect">
+            <option value="Not Verified">Not Verified</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+
+        <button
+            type="button"
+            id="saveKycStatusBtn"
+            onclick="savePlayerKycStatus()">
+            Save Changes
+        </button>
+
+        <button
+            type="button"
+            onclick="cancelPlayerKycStatusEdit()">
+            Cancel
+        </button>
+    </div>
+
+
     <p>
         <b>Email:</b>
         <span id="profileEmail"></span>
