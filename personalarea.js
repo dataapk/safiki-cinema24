@@ -2441,8 +2441,6 @@ const updates = {
 // 36. ADDRESS VERIFICATION STATUS — Proof of Address
 // =====================================================
 
-window.addressVerificationEditing = false;
-
 window.renderAddressVerificationStatus = function (status) {
     const section = document.getElementById("proofDocumentsSection");
     if (!section) return;
@@ -2463,11 +2461,14 @@ window.renderAddressVerificationStatus = function (status) {
 
     const isRejected = normalized === "rejected";
 
+    const editing = window.addressVerificationEditing === true;
+
     const isLocked =
         isPending ||
         isVerified ||
-        (isRejected && !window.addressVerificationEditing);
+        (isRejected && !editing);
 
+    // STATUS BADGE
     if (badge) {
         badge.classList.remove(
             "status-pending",
@@ -2489,6 +2490,7 @@ window.renderAddressVerificationStatus = function (status) {
         }
     }
 
+    // DESCRIPTION
     if (description) {
         if (isPending) {
             description.textContent =
@@ -2497,50 +2499,36 @@ window.renderAddressVerificationStatus = function (status) {
             description.textContent =
                 "Your address verification has been successfully verified.";
         } else if (isRejected) {
-            description.textContent =
-                window.addressVerificationEditing
-                    ? "Please update your address information and submit a new document."
-                    : "Your address verification was rejected. Please verify again.";
+            description.textContent = editing
+                ? "Please update your address information and submit a new document."
+                : "Your address verification was rejected. Please verify again.";
         } else {
             description.textContent =
                 "Enter your residential address and upload one accepted document as proof of address.";
         }
     }
 
-    // Lock or unlock Address and Country
-    const addressField = section.querySelector(".address-textarea");
+    // LOCK ADDRESS AND COUNTRY
+    const addressField = document.getElementById("addressLine");
     const countryField = document.getElementById("addressCountry");
 
-    if (addressField) {
-        addressField.disabled = isLocked;
-    }
+    if (addressField) addressField.disabled = isLocked;
+    if (countryField) countryField.disabled = isLocked;
 
-    if (countryField) {
-        countryField.disabled = isLocked;
-    }
-
-    // Hide or show document selection, upload and submission
+    // HIDE OR SHOW DOCUMENT FORM
     const documentCards = section.querySelector(".address-document-cards");
     const uploadBox = document.getElementById("addressDocumentUploadBox");
     const submitButton = document.getElementById("saveAddressDocumentsBtn");
 
-    const showUploadForm = !isLocked;
+    const showForm = !isLocked;
 
-    if (documentCards) {
-        documentCards.hidden = !showUploadForm;
-    }
+    if (documentCards) documentCards.hidden = !showForm;
+    if (uploadBox) uploadBox.hidden = !showForm;
+    if (submitButton) submitButton.hidden = !showForm;
 
-    if (uploadBox) {
-        uploadBox.hidden = !showUploadForm;
-    }
-
-    if (submitButton) {
-        submitButton.hidden = !showUploadForm;
-    }
-
-    // Show Verify Again only for a rejected submission
+    // VERIFY AGAIN
     if (verifyAgainSection) {
-        verifyAgainSection.hidden = !isRejected || window.addressVerificationEditing;
+        verifyAgainSection.hidden = !(isRejected && !editing);
     }
 };
 
