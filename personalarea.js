@@ -2461,6 +2461,15 @@ const isVerified =
     normalized === "approved" ||
     normalized === "verified";
 
+   // Hide proof document cards and accepted examples when verified
+const proofOptions = document.querySelectorAll(
+    ".address-document-cards, .address-document-note"
+);
+
+proofOptions.forEach((element) => {
+    element.hidden = isVerified;
+});
+
    // Hide accepted document examples when verified
 const acceptedDocumentNote = document.getElementById(
     "addressAcceptedDocumentNote"
@@ -2469,6 +2478,7 @@ const acceptedDocumentNote = document.getElementById(
 if (acceptedDocumentNote) {
     acceptedDocumentNote.hidden = isVerified;
 }
+   
 
 const isRejected = normalized === "rejected";
 
