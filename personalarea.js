@@ -2471,13 +2471,7 @@ const isLocked =
     isVerified ||
     (isRejected && !editing);
 
-// DEBUG — must be AFTER isLocked is calculated
-console.log("Address Verification Debug:", {
-    status: status,
-    normalized: normalized,
-    editing: editing,
-    isLocked: isLocked
-});
+
 
     // STATUS BADGE
     if (badge) {
