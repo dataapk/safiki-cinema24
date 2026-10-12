@@ -2468,6 +2468,12 @@ window.renderAddressVerificationStatus = function (status) {
 
     // Verify Again clicked হলে নতুন submission-এর জন্য unlock
     const isLocked =
+       console.log("Address Verification Debug:", {
+    status: status,
+    normalized: normalized,
+    editing: editing,
+    isLocked: isLocked
+});
         isPending ||
         isVerified ||
         (isRejected && !editing);
