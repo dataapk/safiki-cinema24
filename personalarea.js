@@ -2815,8 +2815,8 @@ window.selectAddressDocument = function (type) {
     const addressField = $("addressLine");
     const countryField = $("addressCountry");
 
-    const address = addressField?.value?.trim() || "";
-    const country = countryField?.value?.trim() || "";
+    const address = String(addressField?.value || "").trim();
+    const country = String(countryField?.value || "").trim();
 
     // Clear previous validation highlights
     [addressField, countryField].forEach((field) => {
