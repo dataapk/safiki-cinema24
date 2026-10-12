@@ -365,7 +365,7 @@
     </p>
 
     
-    <p>
+        <p>
         <b>KYC Status:</b>
         <span id="profileKycStatus">Not Verified</span>
         <button
@@ -402,6 +402,48 @@
         </button>
     </div>
 
+    <!-- ADDRESS VERIFICATION STATUS -->
+    <p>
+        <b>Address Verification Status:</b>
+        <span id="profileAddressVerificationStatus">
+            Not Verified
+        </span>
+        <button
+            type="button"
+            id="editAddressVerificationStatusBtn"
+            onclick="editPlayerAddressVerificationStatus()">
+            Edit
+        </button>
+    </p>
+
+    <div
+        id="editAddressVerificationStatusPanel"
+        style="display:none;">
+
+        <label for="playerAddressVerificationStatusSelect">
+            Select Address Verification Status:
+        </label>
+
+        <select id="playerAddressVerificationStatusSelect">
+            <option value="Not Verified">Not Verified</option>
+            <option value="Pending Verification">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+
+        <button
+            type="button"
+            id="saveAddressVerificationStatusBtn"
+            onclick="savePlayerAddressVerificationStatus()">
+            Save Changes
+        </button>
+
+        <button
+            type="button"
+            onclick="cancelPlayerAddressVerificationStatusEdit()">
+            Cancel
+        </button>
+    </div>
 
     <p>
         <b>Email:</b>
