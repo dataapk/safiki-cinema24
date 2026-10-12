@@ -933,6 +933,13 @@ function loadPersonalInformation(
     }
     window.currentKycEditUser = user;
 
+    console.log("Selected KYC user:", {
+    user_id: user.user_id,
+    auth_user_id: user.auth_user_id,
+    email: user.email,
+    kyc_status: user.kyc_status
+});
+
 
     const fullName =
         document.getElementById(
