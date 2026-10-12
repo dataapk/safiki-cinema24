@@ -1226,55 +1226,61 @@ async function savePlayerKycStatus() {
 }
 
 
+/* =========================================
+   EDIT PLAYER ADDRESS VERIFICATION STATUS
+========================================= */
 
-// ------------------------------------------------------
-// RESET DEPOSIT HISTORY
-// ------------------------------------------------------
+function editPlayerAddressVerificationStatus() {
+    const user = window.currentKycEditUser;
 
-function resetDepositHistory() {
+    const panel = document.getElementById(
+        "editAddressVerificationStatusPanel"
+    );
 
-    const totalDeposit =
-        document.getElementById(
-            "totalDeposit"
-        );
+    const select = document.getElementById(
+        "playerAddressVerificationStatusSelect"
+    );
 
-    const todayDeposit =
-        document.getElementById(
-            "todayDeposit"
-        );
-
-    const depositHistoryList =
-        document.getElementById(
-            "depositHistoryList"
-        );
-
-
-    if (totalDeposit) {
-
-        totalDeposit.textContent =
-            "—";
-
+    if (!user || !user.user_id) {
+        alert("Unable to identify the selected user.");
+        return;
     }
 
-
-    if (todayDeposit) {
-
-        todayDeposit.textContent =
-            "—";
-
+    if (!panel || !select) {
+        alert("Address Verification editor was not found.");
+        return;
     }
 
+    const currentStatus =
+        user.address_verification_status || "Not Verified";
 
-    if (depositHistoryList) {
+    const allowedStatuses = [
+        "Not Verified",
+        "Pending Verification",
+        "Approved",
+        "Rejected"
+    ];
 
-        depositHistoryList.innerHTML =
-            "";
+    select.value = allowedStatuses.includes(currentStatus)
+        ? currentStatus
+        : "Not Verified";
 
-    }
-
+    panel.style.display = "block";
 }
 
+/* =========================================
+   CANCEL PLAYER ADDRESS VERIFICATION EDIT
+========================================= */
 
+function cancelPlayerAddressVerificationStatusEdit() {
+    const panel = document.getElementById(
+        "editAddressVerificationStatusPanel"
+    );
+
+    if (panel) {
+        panel.style.display = "none";
+    }
+}
 
 /* =========================================
    SAVE PLAYER ADDRESS VERIFICATION STATUS
@@ -1335,13 +1341,22 @@ async function savePlayerAddressVerificationStatus() {
             .select("user_id, address_verification_status")
             .maybeSingle();
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
 
         if (!data) {
+            console.error(
+                "Address Verification update returned no row.",
+                "Selected user ID:",
+                user.user_id
+            );
+
             alert(
                 "No row was updated. Check the selected user's ID " +
                 "and Supabase RLS policies."
             );
+
             return;
         }
 
@@ -1349,8 +1364,7 @@ async function savePlayerAddressVerificationStatus() {
         user.address_verification_status =
             data.address_verification_status;
 
-        // Refresh the displayed Address Verification status
-        // if this element exists in the admin profile.
+        // Refresh the displayed status.
         const statusElement = document.getElementById(
             "profileAddressVerificationStatus"
         );
@@ -1364,9 +1378,11 @@ async function savePlayerAddressVerificationStatus() {
             };
 
             statusElement.textContent =
-                labels[data.address_verification_status] || "Not Verified";
+                labels[data.address_verification_status] ||
+                "Not Verified";
         }
 
+        // Close the editor after successful save.
         const panel = document.getElementById(
             "editAddressVerificationStatusPanel"
         );
@@ -1387,12 +1403,66 @@ async function savePlayerAddressVerificationStatus() {
             error.message ||
             "An error occurred while updating Address Verification status."
         );
+
     } finally {
         if (saveButton) {
             saveButton.disabled = false;
         }
     }
 }
+
+
+
+
+
+// ------------------------------------------------------
+// RESET DEPOSIT HISTORY
+// ------------------------------------------------------
+
+function resetDepositHistory() {
+
+    const totalDeposit =
+        document.getElementById(
+            "totalDeposit"
+        );
+
+    const todayDeposit =
+        document.getElementById(
+            "todayDeposit"
+        );
+
+    const depositHistoryList =
+        document.getElementById(
+            "depositHistoryList"
+        );
+
+
+    if (totalDeposit) {
+
+        totalDeposit.textContent =
+            "—";
+
+    }
+
+
+    if (todayDeposit) {
+
+        todayDeposit.textContent =
+            "—";
+
+    }
+
+
+    if (depositHistoryList) {
+
+        depositHistoryList.innerHTML =
+            "";
+
+    }
+
+}
+
+
 
 
 
