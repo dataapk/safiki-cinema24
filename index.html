@@ -2179,13 +2179,24 @@
 
     <div class="content-box">
 
-        <div class="personal-section-heading">
+        
+<div class="personal-section-heading">
+    <div class="address-verification-heading-row">
+        <div>
             <h3>Address Verification</h3>
             <p>
                 Enter your residential address and upload one accepted
                 document as proof of address.
             </p>
         </div>
+
+        <span
+            id="addressVerificationStatus"
+            class="address-verification-badge">
+            Not Verified
+        </span>
+    </div>
+</div>
 
         
 <!-- FULL ADDRESS -->
@@ -2360,7 +2371,7 @@
                     id="saveAddressDocumentsBtn"
                     class="action-btn save-btn"
                     onclick="saveAddressDocuments()">
-                    Save Address &amp; Submit Document
+                    Submit Document
                 </button>
 
                 <p
@@ -2373,40 +2384,25 @@
 
         </div>
 
-        <!-- VERIFICATION STATUS -->
-        <div
-            id="addressVerificationStatusBox"
-            class="verification-status-box">
+        
 
-            <h4>Address Verification Status</h4>
+               <!-- REJECTED: VERIFY AGAIN -->
+<div id="addressVerifyAgainSection" hidden>
 
-            <p
-                id="addressVerificationStatus"
-                class="document-status"
-                aria-live="polite">
-                Not Submitted
-            </p>
+    <p>
+        Your address document was rejected.
+        Please review your information and submit a new document.
+    </p>
 
-            <!-- REJECTED: VERIFY AGAIN -->
-            <div
-                id="addressVerifyAgainSection"
-                hidden>
+    <button
+        type="button"
+        id="addressVerifyAgainBtn"
+        class="action-btn save-btn"
+        onclick="window.verifyAddressAgain()">
+        Verify Again
+    </button>
 
-                <p>
-                    Your address document was rejected.
-                    Please review your information and submit a new document.
-                </p>
-
-                <button
-                    type="button"
-                    id="addressVerifyAgainBtn"
-                    class="action-btn save-btn"
-                    onclick="window.verifyAddressAgain()">
-                    Verify Again
-                </button>
-
-            </div>
-
+</div>
         </div>
 
     </div>
