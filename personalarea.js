@@ -2478,6 +2478,18 @@ const acceptedDocumentNote = document.getElementById(
 if (acceptedDocumentNote) {
     acceptedDocumentNote.hidden = isVerified;
 }
+
+   // Hide proof document heading and description when verified
+const proofTitle = document.getElementById("addressProofDocumentTitle");
+const proofDescription = document.getElementById("addressProofDocumentDescription");
+
+if (proofTitle) {
+    proofTitle.hidden = isVerified;
+}
+
+if (proofDescription) {
+    proofDescription.hidden = isVerified;
+}
    
 
 const isRejected = normalized === "rejected";
