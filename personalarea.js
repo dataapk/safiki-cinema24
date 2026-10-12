@@ -2448,7 +2448,7 @@ window.renderAddressVerificationStatus = function (status) {
 
     const badge = document.getElementById("addressVerificationStatus");
     const description = document.getElementById("addressVerificationDescription");
-    const verifyAgainSection = document.getElementById("addressVerifyAgainSection");
+    const verifyAgainSection = document.getElementById("verifyAgainSection");
 
     const normalized = String(status || "Not Verified")
         .trim()
