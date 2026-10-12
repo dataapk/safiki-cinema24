@@ -2461,58 +2461,30 @@ const isVerified =
     normalized === "approved" ||
     normalized === "verified";
 
-   // Hide proof document cards and accepted examples when verified
-const proofOptions = document.querySelectorAll(
-    ".address-document-cards, .address-document-note"
+// Hide proof document selection when verified
+const addressProofSelection = document.getElementById(
+    "addressProofSelection"
 );
 
-proofOptions.forEach((element) => {
-    element.hidden = isVerified;
-});
+if (addressProofSelection) {
+    addressProofSelection.hidden = isVerified;
+}
 
-   // Hide accepted document examples when verified
-const acceptedDocumentNote = document.getElementById(
-    "addressAcceptedDocumentNote"
+// ADDRESS VERIFIED MESSAGE
+const addressVerifiedMessage = document.getElementById(
+    "addressVerifiedMessage"
 );
 
-if (acceptedDocumentNote) {
-    acceptedDocumentNote.hidden = isVerified;
+if (addressVerifiedMessage) {
+    addressVerifiedMessage.hidden = !isVerified;
 }
-
-   // Hide proof document heading and description when verified
-const proofTitle = document.getElementById("addressProofDocumentTitle");
-const proofDescription = document.getElementById("addressProofDocumentDescription");
-
-if (proofTitle) {
-    proofTitle.hidden = isVerified;
-}
-
-if (proofDescription) {
-    proofDescription.hidden = isVerified;
-}
-   
 
 const isRejected = normalized === "rejected";
-
-   
-    // ADDRESS VERIFIED MESSAGE
-    const addressVerifiedMessage = document.getElementById(
-        "addressVerifiedMessage"
-    );
-
-    if (addressVerifiedMessage) {
-        addressVerifiedMessage.hidden =
-            normalized !== "approved" &&
-            normalized !== "verified";
-    }
 
 const editing = window.addressVerificationEditing === true;
 
 // Lock / Unlock logic
-const isLocked =
-    isPending ||
-    isVerified ||
-    (isRejected && !editing);
+const isLocked = isPending || isVerified || (isRejected && !editing);
 
 
 
