@@ -2953,33 +2953,62 @@ countryField.style.backgroundColor = "#fffbea";
     window.saveAddressDocuments = async function () {
         const button = $("saveAddressDocumentsBtn");
 
-        try {
-            const client = getSupabaseClient();
+        
+try {
+    const client = getSupabaseClient();
 
-            if (!currentUser) await getProfile();
+    if (!currentUser) await getProfile();
 
-            if (!selectedAddressDocumentType || !addressDocument) {
-                throw new Error("Select a document type and choose a file.");
+    // Validate Address and Country BEFORE uploading
+    const address = String($("addressLine")?.value || "").trim();
+    const country = String($("addressCountry")?.value || "").trim();
+
+    if (!address || !country) {
+        if (!address) {
+            const field = $("addressLine");
+            if (field) {
+                field.style.borderColor = "#e6c84f";
+                field.style.backgroundColor = "#fffbea";
+                field.focus();
             }
+        }
 
-            validateDocument(addressDocument, CONFIG.documentTypes);
+        if (!country) {
+            const field = $("addressCountry");
+            if (field) {
+                field.style.borderColor = "#e6c84f";
+                field.style.backgroundColor = "#fffbea";
 
-            setButtonLoading(button, true, "Submitting...");
+                if (address) field.focus();
+            }
+        }
 
-            const documentPath = await uploadPrivateFile(
-                CONFIG.addressDocumentBucket,
-                selectedAddressDocumentType,
-                addressDocument
-            );
+        throw new Error("Please enter your address and select your country.");
+    }
 
-            const updates = {
-    address: address,
-    country: country,
-    address_document_type: selectedAddressDocumentType,
-    address_document_path: documentPath,
-    address_verification_status: "Pending Verification",
-    updated_at: new Date().toISOString()
-};
+    if (!selectedAddressDocumentType || !addressDocument) {
+        throw new Error("Select a document type and choose a file.");
+    }
+
+    validateDocument(addressDocument, CONFIG.documentTypes);
+
+    setButtonLoading(button, true, "Submitting...");
+
+    const documentPath = await uploadPrivateFile(
+        CONFIG.addressDocumentBucket,
+        selectedAddressDocumentType,
+        addressDocument
+    );
+
+    const updates = {
+        address: address,
+        country: country,
+        address_document_type: selectedAddressDocumentType,
+        address_document_path: documentPath,
+        address_verification_status: "Pending Verification",
+        updated_at: new Date().toISOString()
+    };
+
 
             const { data, error } = await client
                 .from(CONFIG.table)
