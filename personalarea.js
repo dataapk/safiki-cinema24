@@ -341,10 +341,9 @@ function populateProfile(profile) {
         $("idCountry").value = profile.id_country;
     }
 
-    setText(
-        "addressVerificationStatus",
-        profile.address_verification_status || "Not submitted"
-    );
+    window.renderAddressVerificationStatus(
+    profile.address_verification_status || "Not Verified"
+);
 
     setEditMode(false);
     renderIdVerificationState(profile);
