@@ -1687,8 +1687,10 @@ async function updateHeaderAuth() {
         // =========================
 
         
+
         // =========================
         // KYC STATUS
+        // Main UI: Not Verified / Verified only
         // =========================
 
         const verificationStatus =
@@ -1705,21 +1707,13 @@ async function updateHeaderAuth() {
                 .trim()
                 .toLowerCase();
 
-            if (kycStatus === "approved" ||
-                kycStatus === "verified") {
+            if (
+                kycStatus === "approved" ||
+                kycStatus === "verified"
+            ) {
 
                 verificationStatus.textContent =
                     "Verified";
-
-            } else if (kycStatus === "pending") {
-
-                verificationStatus.textContent =
-                    "Pending Approval";
-
-            } else if (kycStatus === "rejected") {
-
-                verificationStatus.textContent =
-                    "Rejected";
 
             } else {
 
@@ -1729,6 +1723,7 @@ async function updateHeaderAuth() {
             }
 
         }
+
 
 
 
