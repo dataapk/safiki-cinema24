@@ -2168,108 +2168,76 @@
 
 
 
-    <!-- =================================================
-         SECTION 3: PROOF DOCUMENTS
-         ================================================= -->
-    <div
-        id="proofDocumentsSection"
-        class="personal-tab-content"
-        hidden>
+    
+<!-- =================================================
+     SECTION 3: PROOF OF ADDRESS
+     ================================================= -->
+<div
+    id="proofDocumentsSection"
+    class="personal-tab-content"
+    hidden>
 
-        <div class="content-box">
+    <div class="content-box">
 
-            <div class="personal-section-heading">
-                <h3>Address</h3>
-                <p>
-                    Enter your residential address and upload one accepted
-                    document as proof of address.
-                </p>
-            </div>
+        <div class="personal-section-heading">
+            <h3>Address Verification</h3>
+            <p>
+                Enter your residential address and upload one accepted
+                document as proof of address.
+            </p>
+        </div>
 
+        <!-- ADDRESS -->
+        <div class="form-group full-width">
 
-            <!-- ADDRESS -->
-            <div class="form-group full-width">
+            <label for="addressLine">Address</label>
 
-                <label for="addressLine">Address</label>
+            <input
+                type="text"
+                id="addressLine"
+                name="address"
+                class="form-input"
+                autocomplete="street-address"
+                maxlength="250"
+                placeholder="Enter your residential address">
 
-                <input
-                    type="text"
-                    id="addressLine"
-                    name="address"
-                    class="form-input"
-                    autocomplete="street-address"
-                    maxlength="250"
-                    placeholder="Enter your residential address">
+        </div>
 
-            </div>
+        <!-- COUNTRY -->
+        <div class="form-group full-width">
 
+            <label for="addressCountry">Country</label>
 
-            <div class="form-row">
+            <select
+                id="addressCountry"
+                name="address_country"
+                class="form-input form-select"
+                autocomplete="country">
 
-                <div class="form-group">
+                <option value="">Select Country</option>
+                <option value="BD">Bangladesh</option>
+                <option value="IN">India</option>
+                <option value="PK">Pakistan</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="NP">Nepal</option>
+                <option value="MY">Malaysia</option>
+                <option value="TH">Thailand</option>
+                <option value="AE">United Arab Emirates</option>
+                <option value="SA">Saudi Arabia</option>
+                <option value="GB">United Kingdom</option>
+                <option value="NL">Netherlands</option>
+                <option value="US">United States</option>
+                <option value="OTHER">Other</option>
 
-                    <label for="addressCity">City</label>
+            </select>
 
-                    <input
-                        type="text"
-                        id="addressCity"
-                        name="city"
-                        class="form-input"
-                        autocomplete="address-level2"
-                        maxlength="100"
-                        placeholder="Enter city">
+        </div>
 
-                </div>
+        <!-- DOCUMENT TYPE -->
+        <div
+            id="addressDocumentForm"
+            class="address-document-form">
 
-                <div class="form-group">
-
-                    <label for="addressPostalCode">Postal Code</label>
-
-                    <input
-                        type="text"
-                        id="addressPostalCode"
-                        name="postal_code"
-                        class="form-input"
-                        autocomplete="postal-code"
-                        maxlength="20"
-                        placeholder="Enter postal code">
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group full-width">
-
-                <label for="addressCountry">Country</label>
-
-                <select
-                    id="addressCountry"
-                    name="address_country"
-                    class="form-input form-select"
-                    autocomplete="country">
-
-                    <option value="">Select Country</option>
-                    <option value="BD">Bangladesh</option>
-                    <option value="IN">India</option>
-                    <option value="PK">Pakistan</option>
-                    <option value="LK">Sri Lanka</option>
-                    <option value="NP">Nepal</option>
-                    <option value="MY">Malaysia</option>
-                    <option value="TH">Thailand</option>
-                    <option value="AE">United Arab Emirates</option>
-                    <option value="SA">Saudi Arabia</option>
-                    <option value="GB">United Kingdom</option>
-                    <option value="NL">Netherlands</option>
-                    <option value="US">United States</option>
-                    <option value="OTHER">Other</option>
-
-                </select>
-
-            </div>
-
-
-            <!-- DOCUMENT TYPE CARDS -->
             <div class="address-document-section">
 
                 <h4>Select Proof Document</h4>
@@ -2293,7 +2261,6 @@
 
                     </button>
 
-
                     <button
                         type="button"
                         class="address-document-card"
@@ -2308,7 +2275,6 @@
                         <small>Statement showing your address</small>
 
                     </button>
-
 
                     <button
                         type="button"
@@ -2329,8 +2295,7 @@
 
             </div>
 
-
-            <!-- SELECTED DOCUMENT UPLOAD -->
+            <!-- DOCUMENT UPLOAD -->
             <div
                 id="addressDocumentUploadBox"
                 class="document-upload-card"
@@ -2348,7 +2313,10 @@
                     for="addressDocumentFile"
                     class="document-upload-area">
 
-                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                    <i
+                        class="fas fa-cloud-upload-alt"
+                        aria-hidden="true">
+                    </i>
 
                     <span>Click to upload or choose a file</span>
 
@@ -2367,14 +2335,15 @@
                     accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
                     hidden>
 
-                <p id="addressDocumentFileStatus" class="document-status">
-                    Pending
+                <p
+                    id="addressDocumentFileStatus"
+                    class="document-status">
+                    No file selected
                 </p>
 
             </div>
 
-
-            <!-- SAVE ADDRESS -->
+            <!-- SUBMIT -->
             <div class="personal-save-row">
 
                 <button
@@ -2393,20 +2362,39 @@
 
             </div>
 
+        </div>
 
-            <!-- ADDRESS REVIEW STATUS -->
+        <!-- VERIFICATION STATUS -->
+        <div
+            id="addressVerificationStatusBox"
+            class="verification-status-box">
+
+            <h4>Address Verification Status</h4>
+
+            <p
+                id="addressVerificationStatus"
+                class="document-status"
+                aria-live="polite">
+                Not Submitted
+            </p>
+
+            <!-- REJECTED: VERIFY AGAIN -->
             <div
-                id="addressVerificationStatusBox"
-                class="verification-status-box">
+                id="addressVerifyAgainSection"
+                hidden>
 
-                <h4>Address Verification Status</h4>
-
-                <p
-                    id="addressVerificationStatus"
-                    class="document-status"
-                    aria-live="polite">
-                    Not Submitted
+                <p>
+                    Your address document was rejected.
+                    Please review your information and submit a new document.
                 </p>
+
+                <button
+                    type="button"
+                    id="addressVerifyAgainBtn"
+                    class="action-btn save-btn"
+                    onclick="window.verifyAddressAgain()">
+                    Verify Again
+                </button>
 
             </div>
 
@@ -2414,6 +2402,7 @@
 
     </div>
 
+</div>
 </section>
 
 
