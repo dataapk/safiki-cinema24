@@ -938,6 +938,27 @@ function loadPersonalInformation(
             "profileFullName"
         );
 
+    const kycStatus =
+    document.getElementById("profileKycStatus");
+
+if (kycStatus) {
+    const status = String(user.kyc_status || "Not Verified")
+        .trim()
+        .toLowerCase();
+
+    const labels = {
+        "not verified": "Not Verified",
+        unverified: "Not Verified",
+        pending: "Pending",
+        approved: "Verified",
+        verified: "Verified",
+        rejected: "Rejected"
+    };
+
+    kycStatus.textContent =
+        labels[status] || "Not Verified";
+}
+
     const email =
         document.getElementById(
             "profileEmail"
