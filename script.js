@@ -293,7 +293,7 @@ const depositAddresses = {
 };
 
 
-let selectedDepositCoin = null;
+
 
 let selectedDepositCoin = null;
 
