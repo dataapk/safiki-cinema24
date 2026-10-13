@@ -311,41 +311,36 @@
     </div>
 
 
-    <!-- NETWORK -->
-    <div class="wallet-network-row">
+
+<!-- NETWORK SELECT — HORIZONTAL ROW -->
+<div class="wallet-network-row">
 
     <p class="wallet-field-label">
         Select Network
+        <i class="fas fa-chevron-right network-label-icon"></i>
     </p>
 
-    <select id="network-select"
-            onchange="updateAddress()">
+    <div class="wallet-network-select-wrap">
 
-        <option value="ERC20">
-            Ethereum (ERC-20)
-        </option>
+        <select id="network-select"
+                onchange="updateAddress()">
 
-        <option value="TRC20">
-            Tron (TRC-20)
-        </option>
+            <option value="ERC20">
+                Ethereum (ERC-20)
+            </option>
 
-        <option value="BEP20">
-            BNB Smart Chain (BEP-20)
-        </option>
+            <option value="TRC20">
+                Tron (TRC-20)
+            </option>
 
-        <option value="POLYGON">
-            Polygon
-        </option>
+        </select>
 
-        <option value="ARBITRUM">
-            Arbitrum
-        </option>
+        <i class="fas fa-chevron-down network-select-icon"></i>
 
-        <option value="OPTIMISM">
-            Optimism
-        </option>
+    </div>
 
-    </select>
+</div>
+
 
 
     <!-- QR CODE -->
