@@ -2355,54 +2355,82 @@
     </div>
 
 
-    <!-- DOCUMENT UPLOAD -->
-    <div
-        id="addressDocumentUploadBox"
-        class="document-upload-card"
+    
+<!-- DOCUMENT UPLOAD -->
+<div
+    id="addressDocumentUploadBox"
+    class="document-upload-card"
+    hidden>
+
+    <h4 id="addressDocumentUploadTitle">
+        Upload Document
+    </h4>
+
+    <p id="addressDocumentUploadDescription">
+        Select a file from your device.
+    </p>
+
+    <label
+        for="addressDocumentFile"
+        class="document-upload-area">
+
+        <i
+            class="fas fa-cloud-upload-alt"
+            aria-hidden="true">
+        </i>
+
+        <span>Click to upload or choose a file</span>
+
+        <span
+            id="addressDocumentFileName"
+            class="upload-file-name">
+            No file selected
+        </span>
+
+    </label>
+
+    <input
+        type="file"
+        id="addressDocumentFile"
+        name="address_document"
+        accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
         hidden>
 
-        <h4 id="addressDocumentUploadTitle">
-            Upload Document
-        </h4>
+    <p
+        id="addressDocumentFileStatus"
+        class="document-status">
+        No file selected
+    </p>
 
-        <p id="addressDocumentUploadDescription">
-            Select a file from your device.
-        </p>
+    <!-- ADDRESS DOCUMENT PREVIEW -->
+    <div
+        id="addressDocumentPreview"
+        class="address-document-preview"
+        hidden>
 
-        <label
-            for="addressDocumentFile"
-            class="document-upload-area">
-
-            <i
-                class="fas fa-cloud-upload-alt"
-                aria-hidden="true">
-            </i>
-
-            <span>Click to upload or choose a file</span>
-
-            <span
-                id="addressDocumentFileName"
-                class="upload-file-name">
-                No file selected
-            </span>
-
-        </label>
-
-        <input
-            type="file"
-            id="addressDocumentFile"
-            name="address_document"
-            accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+        <img
+            id="addressDocumentPreviewImage"
+            src=""
+            alt="Address verification document preview"
             hidden>
 
-        <p
-            id="addressDocumentFileStatus"
-            class="document-status">
-            No file selected
-        </p>
+        <div
+            id="addressDocumentPreviewPdf"
+            hidden>
+
+            <span>PDF document selected</span>
+
+            <a
+                id="addressDocumentPreviewPdfLink"
+                href=""
+                target="_blank"
+                rel="noopener noreferrer">
+                View PDF
+            </a>
+
+        </div>
 
     </div>
-
 
     <!-- SUBMIT -->
     <div class="personal-save-row">
@@ -2424,6 +2452,8 @@
     </div>
 
 </div>
+<!-- END DOCUMENT TYPE -->
+
 <!-- END DOCUMENT TYPE -->
 
         
