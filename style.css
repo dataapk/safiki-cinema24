@@ -1849,14 +1849,14 @@ body.modal-open{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #F5F8F5;
+    background: #067806;
     border: 1px solid #E0E9E0;
     border-radius: 12px 12px 0 0;
 }
 
 .wallet-header-title {
     margin: 0;
-    color: #28382D;
+    color: #e30b4c;
     font-size: 15px;
     font-weight: 700;
 }
