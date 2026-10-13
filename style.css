@@ -2391,6 +2391,199 @@ body.modal-open{
     box-shadow: 0 4px 12px rgba(33, 135, 71, .18);
 }
 
+   
+/* ==========================================
+   WITHDRAW CONFIRMATION POPUP
+   ========================================== */
+
+.withdraw-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.withdraw-confirm-card {
+    width: 100%;
+    max-width: 400px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #ffffff;
+    color: #202522;
+    border: 1px solid #e5e9e6;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.withdraw-confirm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.withdraw-confirm-header h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    color: #202522;
+}
+
+.withdraw-confirm-header .wallet-close-btn {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: #f1f3f1;
+    color: #333333;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.withdraw-confirm-description {
+    margin: 14px 0 18px;
+    color: #6b746e;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.withdraw-review-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.withdraw-review-row span,
+.withdraw-review-address > span {
+    color: #707873;
+    font-size: 13px;
+}
+
+.withdraw-review-row strong {
+    max-width: 65%;
+    color: #252b27;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.withdraw-review-address {
+    padding: 14px 0;
+}
+
+.withdraw-review-address > span {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#confirm-withdraw-address {
+    padding: 11px;
+    background: #f6f8f6;
+    border: 1px solid #e7ece8;
+    border-radius: 8px;
+    color: #303831;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    user-select: text;
+}
+
+.withdraw-confirm-warning {
+    margin-top: 4px;
+    padding: 12px;
+    background: #fff8e8;
+    border: 1px solid #f2dfb4;
+    border-radius: 10px;
+}
+
+.withdraw-confirm-warning strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #8a5a00;
+    font-size: 13px;
+}
+
+.withdraw-confirm-warning p {
+    margin: 0;
+    color: #735c30;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.withdraw-confirm-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.withdraw-confirm-actions button {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.withdraw-cancel-btn {
+    background: #f2f4f2;
+    border: 1px solid #dfe5e0;
+    color: #343a35;
+}
+
+.withdraw-cancel-btn:hover {
+    background: #e8ece9;
+}
+
+.withdraw-final-confirm-btn {
+    background: #218b46;
+    border: 1px solid #218b46;
+    color: #ffffff;
+}
+
+.withdraw-final-confirm-btn:hover {
+    background: #176f37;
+    border-color: #176f37;
+}
+
+@media (max-width: 420px) {
+    .withdraw-confirm-overlay {
+        padding: 12px;
+    }
+
+    .withdraw-confirm-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .withdraw-confirm-header h3 {
+        font-size: 17px;
+    }
+}
+
+
 /* ======================================================
    MOBILE ADJUSTMENTS
 ====================================================== */
