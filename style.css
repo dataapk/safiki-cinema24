@@ -2028,36 +2028,91 @@ body.modal-open{
     line-height: 1.7;
 }
 
+
+/* LOCAL CURRENCY - SMALL EXCHANGE CARDS */
+
 #wallet-menu .local-currency-links {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+    margin-top: 10px;
 }
 
 #wallet-menu .local-currency-links a {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex: 1;
+    justify-content: center;
+    gap: 8px;
     min-width: 0;
-    gap: 6px;
-    padding: 10px 12px;
+    min-height: 76px;
+    padding: 12px 8px;
     box-sizing: border-box;
-    border: 1px solid #cfe4d4;
-    border-radius: 8px;
+
     background: #ffffff;
+    border: 1px solid #dcebe0;
+    border-radius: 10px;
+
     color: #218b46;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: background 0.2s ease,
+                border-color 0.2s ease;
+}
+   #wallet-menu .local-currency-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 0;
+    min-height: 100px;
+    padding: 12px 8px;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border: 1px solid #dcebe0;
+    border-radius: 10px;
+
+    color: #218b46;
+    text-align: center;
     text-decoration: none;
     font-size: 12px;
     font-weight: 700;
 }
 
-#wallet-menu .local-currency-links a span {
-    font-size: 15px;
+#wallet-menu .local-currency-card:hover {
+    background: #f0f8f2;
+    border-color: #218b46;
+}
+
+#wallet-menu .local-currency-logo {
+    display: block;
+    width: 42px;
+    height: 42px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+#wallet-menu .local-currency-card span {
+    font-size: 12px;
+    line-height: 1.4;
 }
 
 #wallet-menu .local-currency-links a:hover {
-    background: #edf8f0;
+    background: #f0f8f2;
+    border-color: #218b46;
 }
+
+#wallet-menu .local-currency-links a span {
+    font-size: 16px;
+    line-height: 1;
+}
+
 
 #wallet-menu .local-currency-note {
     margin: 12px 0 0;
