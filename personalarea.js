@@ -2927,14 +2927,42 @@ countryField.style.backgroundColor = "#fffbea";
    
 
 
+
     // =====================================================
-    // 36. ADDRESS FILE SELECTION — File type ও size যাচাই
+    // 36. ADDRESS FILE SELECTION — Validate + Preview
     // =====================================================
+
+    let addressDocumentPreviewUrl = null;
 
     $("addressDocumentFile")?.addEventListener("change", (event) => {
-        const file = event.target.files?.[0] || null;
+        const input = event.target;
+        const file = input.files?.[0] || null;
 
         addressDocument = null;
+
+        const previewBox = $("addressDocumentPreview");
+        const previewImage = $("addressDocumentPreviewImage");
+        const previewPdf = $("addressDocumentPreviewPdf");
+        const previewPdfLink = $("addressDocumentPreviewPdfLink");
+
+        // Clear previous preview
+        if (addressDocumentPreviewUrl) {
+            URL.revokeObjectURL(addressDocumentPreviewUrl);
+            addressDocumentPreviewUrl = null;
+        }
+
+        if (previewBox) previewBox.hidden = true;
+
+        if (previewImage) {
+            previewImage.hidden = true;
+            previewImage.removeAttribute("src");
+        }
+
+        if (previewPdf) previewPdf.hidden = true;
+
+        if (previewPdfLink) {
+            previewPdfLink.removeAttribute("href");
+        }
 
         if (!file) {
             setText("addressDocumentFileName", "No file selected");
@@ -2942,10 +2970,11 @@ countryField.style.backgroundColor = "#fffbea";
             return;
         }
 
+        // Keep existing file validation
         try {
             validateDocument(file, CONFIG.documentTypes);
         } catch (error) {
-            event.target.value = "";
+            input.value = "";
             setText("addressDocumentFileName", "No file selected");
             setStatus("addressDocumentFileStatus", error.message, "error");
             return;
@@ -2955,12 +2984,39 @@ countryField.style.backgroundColor = "#fffbea";
 
         setText("addressDocumentFileName", file.name);
 
+        // Create a local preview URL
+        addressDocumentPreviewUrl = URL.createObjectURL(file);
+
+        if (file.type.startsWith("image/")) {
+            if (previewImage) {
+                previewImage.onload = () => {
+                    if (previewBox) previewBox.hidden = false;
+                };
+
+                previewImage.onerror = () => {
+                    previewImage.hidden = true;
+                    if (previewBox) previewBox.hidden = true;
+                };
+
+                previewImage.src = addressDocumentPreviewUrl;
+                previewImage.hidden = false;
+            }
+        } else if (file.type === "application/pdf") {
+            if (previewPdf && previewPdfLink) {
+                previewPdfLink.href = addressDocumentPreviewUrl;
+                previewPdf.hidden = false;
+
+                if (previewBox) previewBox.hidden = false;
+            }
+        }
+
         setStatus(
             "addressDocumentFileStatus",
             "Selected — Ready to submit",
             "success"
         );
     });
+
 
     
     // =====================================================
