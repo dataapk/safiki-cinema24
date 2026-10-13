@@ -2075,7 +2075,7 @@ body.modal-open{
    WALLET INFO BOX — SOFT GREEN TIPS
 ========================================== */
 
-.info-box {
+#wallet-menu .address-container .info-box {
     margin-top: 12px;
     padding: 12px 14px;
     background: #F1F7F2 !important;
@@ -2329,10 +2329,38 @@ body.modal-open{
         height: 25px;
     }
 
-    .qr-code-box img {
-        width: 140px;
-        height: 140px;
-    }
+    
+/* ==========================================
+   QR CODE — SQUARE WITH SOFT ROUNDED CORNERS
+========================================== */
+
+.qr-code-box {
+    width: 220px;
+    height: 220px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #FFFFFF;
+    border: 1px solid #E0E9E0;
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+/* QR Image */
+.qr-code-box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
 
     .addr-header {
         gap: 7px;
