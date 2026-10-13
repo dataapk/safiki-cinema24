@@ -283,9 +283,12 @@ function showTab(tabId) {
 
 const depositAddresses = {
     USDT: {
-        BEP20: "তোমার_আসল_BEP20_ADDRESS",
-        ERC20: "তোমার_আসল_ERC20_ADDRESS",
-        TRC20: "তোমার_আসল_TRC20_ADDRESS"
+        BEP20: "YOUR_REAL_BEP20_ADDRESS",
+        ERC20: "YOUR_REAL_ERC20_ADDRESS",
+        TRC20: "YOUR_REAL_TRC20_ADDRESS"
+    },
+    BTC: {
+        BTC: "YOUR_REAL_BITCOIN_ADDRESS"
     }
 };
 
