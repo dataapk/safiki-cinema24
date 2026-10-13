@@ -2338,21 +2338,37 @@
     <!-- END PROOF DOCUMENT SELECTION -->
 
 
-    <!-- ADDRESS VERIFICATION SUCCESS -->
-    <div
-        id="addressVerifiedMessage"
-        class="address-verified-message"
-        hidden>
 
+<!-- ADDRESS VERIFICATION SUCCESS -->
+<div
+    id="addressVerifiedMessage"
+    class="address-verified-message"
+    hidden>
+
+    <span class="address-verified-icon">
+        <i class="fas fa-check" aria-hidden="true"></i>
+    </span>
+
+    <div class="address-verified-content">
         <span class="address-verified-title">
-            Address Verified
+            Address Verification Successful
         </span>
 
-        <span class="address-verified-badge">
-            Verified
+        <span class="address-verified-description">
+            Your submitted documents have been approved.
         </span>
-
     </div>
+
+    <button
+        type="button"
+        id="closeAddressVerifiedMessage"
+        class="address-verified-close"
+        aria-label="Close address verification message">
+        &times;
+    </button>
+
+</div>
+
 
 
     
