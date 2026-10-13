@@ -1867,11 +1867,11 @@ body.modal-open{
     height: 32px;
     flex: 0 0 32px;
     display: flex;
-    align-items:left;
+    align-items:center;
     justify-content: center;
     border: 1px solid #f0dc91;
     border-radius: 50%;
-    background: #fff7d6;
+    background: #FFBF00;
     color: #856404;
     font-size: 18px;
     cursor: pointer;
