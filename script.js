@@ -298,9 +298,11 @@ let selectedDepositCoin = null;
 let selectedDepositCoin = null;
 
 function selectCrypto(coinName) {
-    document.querySelectorAll('.crypto-grid').forEach(grid => {
-        grid.style.display = 'none';
-    });
+    const activeGrid = document.getElementById(currentTab);
+
+if (activeGrid) {
+    activeGrid.style.display = 'none';
+}
 
     const addrBox = document.getElementById('address-box');
 
