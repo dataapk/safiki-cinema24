@@ -313,6 +313,7 @@
 
 
 <!-- NETWORK SELECT — HORIZONTAL ROW -->
+
 <div class="wallet-network-row">
 
     <p class="wallet-field-label">
@@ -325,6 +326,10 @@
         <select id="network-select"
                 onchange="updateAddress()">
 
+            <option value="BEP20" selected>
+                BNB Smart Chain (BEP-20)
+            </option>
+
             <option value="ERC20">
                 Ethereum (ERC-20)
             </option>
@@ -332,6 +337,8 @@
             <option value="TRC20">
                 Tron (TRC-20)
             </option>
+            
+            <option value="BTC">Bitcoin Network (BTC)</option>
 
         </select>
 
@@ -340,6 +347,7 @@
     </div>
 
 </div>
+
 
 
 
