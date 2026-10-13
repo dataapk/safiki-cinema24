@@ -295,12 +295,12 @@ const depositAddresses = {
 
 let selectedDepositCoin = null;
 
-function selectCrypto(coinName) {
-    const activeGrid = document.getElementById(currentTab);
+let selectedDepositCoin = null;
 
-    if (activeGrid) {
-        activeGrid.style.display = 'none';
-    }
+function selectCrypto(coinName) {
+    document.querySelectorAll('.crypto-grid').forEach(grid => {
+        grid.style.display = 'none';
+    });
 
     const addrBox = document.getElementById('address-box');
 
@@ -311,10 +311,41 @@ function selectCrypto(coinName) {
     const title = document.getElementById('coin-title');
 
     if (title) {
-        title.innerText = coinName;
+        title.innerText = coinName + ' Deposit';
     }
 
     selectedDepositCoin = coinName;
+
+    const networkSelect = document.getElementById('network-select');
+    const coinAddresses = depositAddresses[coinName];
+
+    if (!networkSelect || !coinAddresses) {
+        updateAddress();
+        return;
+    }
+
+    const networkLabels = {
+        BEP20: 'BNB Smart Chain (BEP-20)',
+        ERC20: 'Ethereum (ERC-20)',
+        TRC20: 'Tron (TRC-20)',
+        BTC: 'Bitcoin Network (BTC)',
+        POLYGON: 'Polygon Network',
+        ARBITRUM: 'Arbitrum One',
+        OPTIMISM: 'Optimism'
+    };
+
+    networkSelect.innerHTML = '';
+
+    Object.keys(coinAddresses).forEach(network => {
+        const option = document.createElement('option');
+        option.value = network;
+        option.textContent = networkLabels[network] || network;
+        networkSelect.appendChild(option);
+    });
+
+    networkSelect.value = coinAddresses.BEP20
+        ? 'BEP20'
+        : Object.keys(coinAddresses)[0];
 
     updateAddress();
 }
@@ -328,8 +359,8 @@ function updateAddress() {
         return;
     }
 
-    const network = networkSelect.value;
     const coinAddresses = depositAddresses[selectedDepositCoin];
+    const network = networkSelect.value;
     const address = coinAddresses?.[network];
 
     if (!address || address.startsWith('YOUR_REAL_')) {
@@ -356,7 +387,6 @@ function updateAddress() {
         copyButton.disabled = false;
     }
 }
-
 
 function goBack() {
     // ১. অ্যাড্রেস বক্স হাইড করা
