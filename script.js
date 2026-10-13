@@ -413,48 +413,257 @@ function copyAddress() {
 
 
 
-// উইথড্র সেকশন সিলেক্ট করার ফাংশন
+
+/* ==========================================
+   WITHDRAW NETWORK CONFIGURATION
+   ========================================== */
+
+const withdrawNetworkOptions = [
+    { value: 'ERC20', label: 'Ethereum (ERC-20)' },
+    { value: 'TRC20', label: 'Tron (TRC-20)' },
+    { value: 'BEP20', label: 'BNB Smart Chain (BEP-20)' },
+    { value: 'POLYGON', label: 'Polygon' },
+    { value: 'ARBITRUM', label: 'Arbitrum' },
+    { value: 'OPTIMISM', label: 'Optimism' }
+];
+
+let selectedWithdrawCoin = null;
+
+
+/* ==========================================
+   SELECT WITHDRAW COIN
+   ========================================== */
+
 function selectWithdraw(coinName) {
-    // ১. উইথড্র মেইন গ্রিড লুকানো
-    document.getElementById('withdraw').style.display = 'none';
-    
-    // ২. উইথড্র ইনপুট বক্স দেখানো
-    document.getElementById('withdraw-input-box').style.display = 'block';
-    
-    // ৩. টাইটেল আপডেট
-    document.getElementById('withdraw-coin-title').innerText = coinName + " Withdraw";
+    selectedWithdrawCoin = coinName;
+
+    const withdrawGrid = document.getElementById('withdraw');
+    const withdrawBox = document.getElementById('withdraw-input-box');
+    const title = document.getElementById('withdraw-coin-title');
+    const networkSelect = document.getElementById('network-select-withdraw');
+
+    if (withdrawGrid) withdrawGrid.style.display = 'none';
+    if (withdrawBox) withdrawBox.style.display = 'block';
+
+    if (title) {
+        title.innerText = coinName + ' Withdraw';
+    }
+
+    if (networkSelect) {
+        networkSelect.innerHTML = '';
+
+        const isBTC = coinName.toUpperCase() === 'BTC';
+
+        const options = isBTC
+            ? [{ value: 'BTC', label: 'Bitcoin Network (BTC)' }]
+            : withdrawNetworkOptions;
+
+        options.forEach(network => {
+            const option = document.createElement('option');
+            option.value = network.value;
+            option.textContent = network.label;
+            networkSelect.appendChild(option);
+        });
+
+        networkSelect.value = isBTC ? 'BTC' : 'ERC20';
+    }
+
+    // আগের input data নতুন selection-এ ধরে রাখবে না
+    const address = document.getElementById('withdraw-address');
+    const password = document.getElementById('withdraw-password');
+
+    if (address) address.value = '';
+    if (password) password.value = '';
 }
 
-// উইথড্র থেকে ব্যাক করার ফাংশন
+
+/* ==========================================
+   BACK FROM WITHDRAW
+   ========================================== */
+
 function goBackFromWithdraw() {
-    document.getElementById('withdraw-input-box').style.display = 'none';
-    document.getElementById('withdraw').style.display = 'grid';
+    closeWithdrawConfirmation();
+
+    const withdrawBox = document.getElementById('withdraw-input-box');
+    const withdrawGrid = document.getElementById('withdraw');
+
+    if (withdrawBox) withdrawBox.style.display = 'none';
+    if (withdrawGrid) withdrawGrid.style.display = 'grid';
+
+    selectedWithdrawCoin = null;
 }
 
-// উইথড্র কনফার্ম বাটন ফাংশন
-function processWithdraw() {
-    const address = document.getElementById('withdraw-address').value;
-    const password = document.getElementById('withdraw-password').value;
-    
-    if (address === "" || password === "") {
-        alert("দয়া করে অ্যাড্রেস এবং পাসওয়ার্ড পূরণ করুন!");
+
+/* ==========================================
+   OPEN CONFIRMATION POPUP
+   ========================================== */
+
+function openWithdrawConfirmation() {
+    const coin = selectedWithdrawCoin;
+    const networkSelect = document.getElementById('network-select-withdraw');
+    const addressInput = document.getElementById('withdraw-address');
+    const passwordInput = document.getElementById('withdraw-password');
+
+    if (!coin || !networkSelect || !addressInput || !passwordInput) {
+        alert('Withdraw form পাওয়া যায়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।');
         return;
     }
-    
-    // এখানে তোমার উইথড্র রিকোয়েস্ট পাঠানোর এপিআই কল বা লজিক বসাবে
-    console.log("Withdraw Request:", { address, password });
-    alert("আপনার উইথড্র রিকোয়েস্টটি সফলভাবে পাঠানো হয়েছে!");
+
+    const address = addressInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!address || !password) {
+        alert('দয়া করে Withdrawal Address এবং Account Password পূরণ করুন!');
+        return;
+    }
+
+    const network = networkSelect.value;
+
+    if (coin.toUpperCase() === 'BTC' && network !== 'BTC') {
+        alert('BTC Withdraw-এর জন্য শুধু Bitcoin Network নির্বাচন করুন।');
+        return;
+    }
+
+    const coinDisplay = document.getElementById('confirm-withdraw-coin');
+    const networkDisplay = document.getElementById('confirm-withdraw-network');
+    const addressDisplay = document.getElementById('confirm-withdraw-address');
+    const popup = document.getElementById('withdraw-confirm-popup');
+
+    if (!coinDisplay || !networkDisplay || !addressDisplay || !popup) {
+        alert('Confirmation Popup HTML পাওয়া যায়নি।');
+        return;
+    }
+
+    const selectedOption = networkSelect.options[networkSelect.selectedIndex];
+
+    coinDisplay.textContent = coin;
+    networkDisplay.textContent = selectedOption
+        ? selectedOption.textContent
+        : network;
+
+    // Address-কে text হিসেবে দেখানো হচ্ছে, HTML হিসেবে নয়
+    addressDisplay.textContent = address;
+
+    popup.style.display = 'flex';
 }
-// CLOSE ALL PAGE
+
+
+/* ==========================================
+   CLOSE CONFIRMATION POPUP
+   ========================================== */
+
+function closeWithdrawConfirmation() {
+    const popup = document.getElementById('withdraw-confirm-popup');
+
+    if (popup) {
+        popup.style.display = 'none';
+    }
+}
+
+
+/* ==========================================
+   SECOND CONFIRMATION
+   ========================================== */
+
+function confirmWithdraw() {
+    const popup = document.getElementById('withdraw-confirm-popup');
+    const confirmButton = document.getElementById('withdraw-final-confirm-btn');
+
+    if (!selectedWithdrawCoin) {
+        closeWithdrawConfirmation();
+        alert('দয়া করে আবার Coin নির্বাচন করুন।');
+        return;
+    }
+
+    const networkSelect = document.getElementById('network-select-withdraw');
+    const addressInput = document.getElementById('withdraw-address');
+    const passwordInput = document.getElementById('withdraw-password');
+
+    if (!networkSelect || !addressInput || !passwordInput) {
+        alert('Withdraw form পাওয়া যায়নি।');
+        return;
+    }
+
+    const address = addressInput.value.trim();
+    const password = passwordInput.value;
+    const network = networkSelect.value;
+
+    if (!address || !password) {
+        closeWithdrawConfirmation();
+        alert('দয়া করে Withdrawal Address এবং Account Password পূরণ করুন!');
+        return;
+    }
+
+    if (
+        selectedWithdrawCoin.toUpperCase() === 'BTC' &&
+        network !== 'BTC'
+    ) {
+        closeWithdrawConfirmation();
+        alert('BTC Withdraw-এর জন্য শুধু Bitcoin Network নির্বাচন করুন।');
+        return;
+    }
+
+    // এখানে কোনো বাস্তব API/backend request এখনো যুক্ত করা হয়নি।
+    // নিরাপদ server-side processing যুক্ত না হওয়া পর্যন্ত
+    // success alert দেখানো হবে না.
+
+    closeWithdrawConfirmation();
+
+    processWithdrawRequest({
+        coin: selectedWithdrawCoin,
+        network: network,
+        address: address,
+        password: password
+    });
+}
+
+
+/* ==========================================
+   PROCESS WITHDRAW REQUEST
+   ========================================== */
+
+function processWithdrawRequest(withdrawData) {
+    console.log('Withdrawal form ready for server processing:', {
+        coin: withdrawData.coin,
+        network: withdrawData.network,
+        address: withdrawData.address
+    });
+
+    /*
+      এখানে তোমার বিদ্যমান secure backend/API request
+      যুক্ত করতে হবে।
+
+      Password console-এ লগ করবে না।
+      Server-এ password যাচাই, balance check, limits,
+      duplicate-request prevention এবং withdrawal approval
+      সম্পন্ন না হওয়া পর্যন্ত request সফল বলে দেখাবে না।
+    */
+
+    alert(
+        'তোমার Withdrawal details যাচাইয়ের জন্য প্রস্তুত। ' +
+        'বাস্তব Withdrawal Request পাঠাতে Backend/API সংযুক্ত করতে হবে।'
+    );
+}
+
+
+/* ==========================================
+   CLOSE ALL WALLET PANELS
+   ========================================== */
 
 function closeAll() {
-    // সব গ্রিড এবং বক্স হাইড করে দেওয়া
-    document.querySelectorAll('.crypto-grid').forEach(el => el.style.display = 'none');
-    document.getElementById('address-box').style.display = 'none';
-    document.getElementById('withdraw-input-box').style.display = 'none';
-    
-    // অথবা যদি তোমার পুরো ওয়ালেট সেকশনটা একটা মেইন ডিভ-এ থাকে, সেটা হাইড করতে পারো
-    // document.getElementById('main-wallet-container').style.display = 'none';
+    document.querySelectorAll('.crypto-grid').forEach(element => {
+        element.style.display = 'none';
+    });
+
+    const addressBox = document.getElementById('address-box');
+    const withdrawBox = document.getElementById('withdraw-input-box');
+
+    if (addressBox) addressBox.style.display = 'none';
+    if (withdrawBox) withdrawBox.style.display = 'none';
+
+    closeWithdrawConfirmation();
+
+    selectedWithdrawCoin = null;
 }
 
 // ২. NOTIFICATIONA  profile menu START
