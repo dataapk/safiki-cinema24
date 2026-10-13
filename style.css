@@ -2095,8 +2095,8 @@ body.modal-open{
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
-    margin: 10px 0 8px;
-    padding: 8px 10px 1px;
+    margin: 10px 0 4px;
+    padding: 4px 10px 0;
     background: #ffffff;
     border: 1px solid #e4eee6;
     border-radius: 12px;
