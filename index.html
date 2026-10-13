@@ -518,28 +518,25 @@
 
 
 
+
 <!-- ==========================================
-     WITHDRAW INPUT BOX
+     WITHDRAW SECTION
      ========================================== -->
 
 <div id="withdraw-input-box"
      class="address-container"
      style="display:none;">
 
+    <!-- HEADER -->
     <div class="addr-header">
 
         <div class="back-box"
              onclick="goBackFromWithdraw()">
-
             <button type="button">←</button>
-
             <span>Back</span>
-
         </div>
 
-        <h4 id="withdraw-coin-title">
-            Withdraw
-        </h4>
+        <h4 id="withdraw-coin-title">Withdraw</h4>
 
         <button type="button"
                 class="wallet-close-btn"
@@ -549,78 +546,132 @@
 
     </div>
 
-
     <!-- NETWORK -->
-
-    <p class="wallet-field-label">
-        Select Network
-    </p>
+    <p class="wallet-field-label">Select Network</p>
 
     <select id="network-select-withdraw">
-
-        <option value="ERC20">
-            Ethereum (ERC-20)
-        </option>
-
-        <option value="TRC20">
-            Tron (TRC-20)
-        </option>
-
-        <option value="BEP20">
-            BNB Smart Chain (BEP-20)
-        </option>
-
-        <option value="POLYGON">
-            Polygon
-        </option>
-
-        <option value="ARBITRUM">
-            Arbitrum
-        </option>
-
-        <option value="OPTIMISM">
-            Optimism
-        </option>
-
+        <option value="BTC">Bitcoin Network (BTC)</option>
+        <option value="ERC20">Ethereum (ERC-20)</option>
+        <option value="TRC20">Tron (TRC-20)</option>
+        <option value="BEP20">BNB Smart Chain (BEP-20)</option>
+        <option value="POLYGON">Polygon</option>
+        <option value="ARBITRUM">Arbitrum</option>
+        <option value="OPTIMISM">Optimism</option>
     </select>
 
-
-    <!-- ADDRESS -->
-
-    <p class="wallet-field-label">
-        Withdrawal Address
-    </p>
+    <!-- WITHDRAWAL ADDRESS -->
+    <p class="wallet-field-label">Withdrawal Address</p>
 
     <input type="text"
            id="withdraw-address"
-           placeholder="Enter your selected currency address">
+           placeholder="Enter your destination wallet address"
+           autocomplete="off">
 
-
-    <!-- PASSWORD -->
-
-    <p class="wallet-field-label">
-        Account Password
-    </p>
+    <!-- ACCOUNT PASSWORD -->
+    <p class="wallet-field-label">Account Password</p>
 
     <input type="password"
            id="withdraw-password"
-           placeholder="Enter your account password">
+           placeholder="Enter your account password"
+           autocomplete="current-password">
 
-
-    <!-- CONFIRM -->
-
+    <!-- OPEN REVIEW POPUP -->
     <button type="button"
             class="withdraw-btn"
-            onclick="processWithdraw()">
-
+            onclick="openWithdrawConfirmation()">
         Confirm Withdraw
-
     </button>
 
 </div>
-            </div>
+
+
+<!-- ==========================================
+     WITHDRAW CONFIRMATION POPUP
+     ========================================== -->
+
+<div id="withdraw-confirm-popup"
+     class="withdraw-confirm-overlay"
+     style="display:none;"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="withdraw-confirm-title">
+
+    <div class="withdraw-confirm-card">
+
+        <!-- POPUP HEADER -->
+        <div class="withdraw-confirm-header">
+
+            <h3 id="withdraw-confirm-title">
+                Confirm Withdrawal
+            </h3>
+
+            <button type="button"
+                    class="wallet-close-btn"
+                    aria-label="Close"
+                    onclick="closeWithdrawConfirmation()">
+                ×
+            </button>
+
+        </div>
+
+        <p class="withdraw-confirm-description">
+            Please review your withdrawal details carefully.
+        </p>
+
+        <!-- COIN -->
+        <div class="withdraw-review-row">
+            <span>Coin</span>
+            <strong id="confirm-withdraw-coin">—</strong>
+        </div>
+
+        <!-- NETWORK -->
+        <div class="withdraw-review-row">
+            <span>Network</span>
+            <strong id="confirm-withdraw-network">—</strong>
+        </div>
+
+        <!-- DESTINATION ADDRESS -->
+        <div class="withdraw-review-address">
+            <span>Withdrawal Address</span>
+
+            <div id="confirm-withdraw-address">
+                —
             </div>
         </div>
+
+        <!-- WARNING -->
+        <div class="withdraw-confirm-warning">
+            <strong>⚠ Check before confirming</strong>
+
+            <p>
+                Make sure the selected network matches your destination
+                wallet. Transfers sent to an incompatible network may
+                be lost.
+            </p>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="withdraw-confirm-actions">
+
+            <button type="button"
+                    class="withdraw-cancel-btn"
+                    onclick="closeWithdrawConfirmation()">
+                Cancel
+            </button>
+
+            <button type="button"
+                    id="withdraw-final-confirm-btn"
+                    class="withdraw-final-confirm-btn"
+                    onclick="confirmWithdraw()">
+                Confirm
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <!-- END deposit witgdraw section -->
             
  
