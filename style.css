@@ -461,11 +461,12 @@ body.modal-open{
     transform: translateY(-2px);
 }
 
-.crypto-item img {
-    width: 35px;
-    height: 35px;
-    margin-bottom: 8px;
+/* CRYPTO ICON — LARGER SIZE */
+#wallet-menu .crypto-item img {
+    width: 36px;
+    height: 36px;
     object-fit: contain;
+    flex-shrink: 0;
 }
 
 /* ================= Back Button ================= */
