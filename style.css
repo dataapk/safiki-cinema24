@@ -1838,242 +1838,487 @@ body.modal-open{
    WALLET HEADER
 ====================================================== */
 
-.wallet-header{
+/* ======================================================
+   WALLET HEADER — PRESERVE EXISTING HEADER DESIGN
+====================================================== */
 
-    height:52px;
-
-    padding:0 14px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    background:#24221F;
-
-    border:1px solid #4A4640;
-
-    border-radius:12px 12px 0 0;
-
+.wallet-header {
+    box-sizing: border-box;
+    height: 52px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #24221f;
+    border: 1px solid #4a4640;
+    border-radius: 12px 12px 0 0;
 }
 
-
-/* ----- TRANSACTIONS TITLE ----- */
-
-.wallet-header-title{
-
-    margin:0;
-
-    color:#fff;
-
-    font-size:15px;
-
-    font-weight:700;
-
+.wallet-header-title {
+    margin: 0;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
 }
 
-
-/* ----- CLOSE BUTTON ----- */
-
-.wallet-close-btn{
-
-    width:32px;
-
-    height:32px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border:1px solid #B89445;
-
-    border-radius:50%;
-
-    background:transparent;
-
-    color:#D6B35A;
-
-    font-size:14px;
-
-    cursor:pointer;
-
-    transition:.25s ease;
-
+.wallet-close-btn {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f0dc91;
+    border-radius: 50%;
+    background: #fff7d6;
+    color: #856404;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background .25s ease, transform .25s ease;
 }
 
-
-.wallet-close-btn:hover{
-
-    background:#D6B35A;
-
-    color:#24221F;
-
+.wallet-close-btn:hover {
+    background: #ffedaa;
+    transform: rotate(90deg);
 }
+
+/* ======================================================
+   DEPOSIT ADDRESS PANEL
+====================================================== */
 
 .address-container {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+    max-width: 420px;
+    margin: 16px auto;
+    padding: 18px;
+    color: #26372b;
+    text-align: left;
+    background: #ffffff;
+    border: 1px solid #e0ece3;
     border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
-    margin: 20px auto;
-    color: var(--text);
-    text-align: center;
-    box-shadow: 0 10px 30px var(--shadow);
+    box-shadow: 0 5px 20px rgba(34, 139, 70, .06);
 }
 
-/* Header */
+.address-container[hidden] {
+    display: none !important;
+}
+
+/* Address header */
 
 .addr-header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
 }
 
-.addr-header button {
-    background: none;
-    border: none;
-    color: var(--text);
-    font-size: 20px;
+.addr-header #coin-title {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    color: #26372b;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Green Back control */
+
+.addr-header .back-box {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 10px;
+    color: #21813d;
+    background: #eaf7ed;
+    border: 1px solid #c4e5cc;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    margin-right: 15px;
+    transition: background .2s ease, box-shadow .2s ease;
 }
 
-/* Network */
+.addr-header .back-box:hover {
+    background: #ddf2e2;
+    box-shadow: 0 3px 10px rgba(34, 139, 70, .10);
+}
+
+.addr-header .back-box button {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Close button in address panel */
+
+.addr-header .wallet-close-btn {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+}
+
+/* Network selector */
 
 #network-select {
+    box-sizing: border-box;
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    background: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    margin-bottom: 20px;
+    min-height: 42px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    color: #26372b;
+    background: #ffffff;
+    border: 1px solid #dfe9e1;
+    border-radius: 9px;
+    font-size: 13px;
 }
 
-/* QR */
+#network-select:focus {
+    outline: none;
+    border-color: #65b77b;
+    box-shadow: 0 0 0 3px rgba(55, 160, 80, .09);
+}
+
+/* QR box */
 
 .qr-code-box {
-    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 12px 0 16px;
     padding: 15px;
+    background: #ffffff;
+    border: 1px solid #e4eee6;
     border-radius: 12px;
-    display: inline-block;
-    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(34, 139, 70, .045);
 }
 
 .qr-code-box img {
-    width: 180px;
-    height: 180px;
     display: block;
+    width: 160px;
+    height: 160px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 6px;
 }
 
-/* Address */
+/* Deposit address */
 
 .address-input-box {
-    background: var(--surface-2);
-    padding: 12px;
-    border-radius: 8px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    border: 1px solid var(--border);
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 10px 11px;
+    background: #ffffff;
+    border: 1px solid #dfe9e1;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px rgba(34, 139, 70, .04);
 }
 
 #wallet-address {
-    font-size: 14px;
-    word-break: break-all;
-    margin-right: 10px;
-    color: var(--text);
+    flex: 1;
+    min-width: 0;
+    margin-right: 0;
+    color: #37443b;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
 }
 
-/* Info */
+.address-input-box button {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: #258747;
+    background: #f3faf4;
+    border: 1px solid #d7e9dc;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Hint */
+
+.wallet-address-hint {
+    margin-top: 8px;
+    color: #68766c;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* Deposit information */
 
 .info-box {
-    margin-top: 20px;
+    margin-top: 15px;
+    padding: 12px;
+    color: #59665c;
+    background: #f8fbf8;
+    border: 1px solid #e4ede5;
+    border-radius: 10px;
     font-size: 12px;
-    color: var(--text-muted);
     text-align: left;
 }
 
-/* =========================================
-   END DEPOSIT SECTION
-========================================= */
+.info-box p {
+    margin: 0;
+    color: inherit;
+    font-size: inherit;
+    line-height: 1.7;
+}
 
+.info-box p + p {
+    margin-top: 6px;
+}
 
-/* =========================================
-   START WITHDRAW SECTION
-========================================= */
+/* ======================================================
+   CRYPTO OPTIONS — FOUR PER ROW
+====================================================== */
+
+#deposit.crypto-grid,
+#withdraw.crypto-grid,
+#deposit .crypto-grid,
+#withdraw .crypto-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    align-items: stretch;
+}
+
+/* Individual coin card */
+
+.crypto-item {
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 82px;
+    padding: 10px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #344339;
+    background: #ffffff;
+    border: 1px solid #e0ece3;
+    border-radius: 11px;
+    box-shadow: 0 2px 8px rgba(34, 139, 70, .055);
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        transform .28s ease,
+        opacity .28s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.crypto-item img {
+    display: block;
+    width: 29px;
+    height: 29px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.crypto-item:hover {
+    background: #fbfffc;
+    border-color: #9ed5ae;
+    box-shadow: 0 4px 13px rgba(34, 139, 70, .12);
+    transform: translateY(-2px);
+}
+
+.crypto-item.active,
+.crypto-item.selected,
+.crypto-item[aria-pressed="true"] {
+    background: #f2fbf4;
+    border-color: #35a85a;
+    box-shadow: 0 0 0 2px rgba(53, 168, 90, .09);
+}
+
+/* ======================================================
+   CURRENCY LIST SCROLL WRAPPERS
+   Applies if one of these wrappers exists in your HTML.
+====================================================== */
+
+.crypto-list,
+.crypto-grid-scroll {
+    max-height: 340px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 3px;
+    scrollbar-width: thin;
+    scrollbar-color: #b9d9c1 #f5f8f5;
+}
+
+.crypto-list::-webkit-scrollbar,
+.crypto-grid-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.crypto-list::-webkit-scrollbar-thumb,
+.crypto-grid-scroll::-webkit-scrollbar-thumb {
+    background: #b9d9c1;
+    border-radius: 10px;
+}
+
+/* ======================================================
+   SLIDE ANIMATION FOR DEPOSIT / WITHDRAW CONTENT
+====================================================== */
+
+/* Add .wallet-slide-in to the panel that should animate. */
+
+@keyframes walletContentSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wallet-slide-in {
+    animation: walletContentSlideIn .35s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wallet-slide-in,
+    .crypto-item {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ======================================================
+   WITHDRAW INPUT PANEL
+====================================================== */
 
 #withdraw-input-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 25px;
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+    max-width: 420px;
+    margin: 16px auto;
+    padding: 18px;
+    color: #26372b;
+    background: #ffffff;
+    border: 1px solid #e0ece3;
     border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
-    margin: 20px auto;
-    color: var(--text);
     text-align: left;
-    box-shadow: 0 10px 30px var(--shadow);
+    box-shadow: 0 5px 20px rgba(34, 139, 70, .06);
 }
 
 #withdraw-input-box input,
 #withdraw-input-box select {
-
-    width:100%;
-    padding:12px;
-    margin-bottom:20px;
-    border-radius:8px;
-    background:var(--surface-2);
-    color:var(--text);
-    border:1px solid var(--border);
-    box-sizing:border-box;
-
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 43px;
+    margin-bottom: 16px;
+    padding: 11px 12px;
+    color: #26372b;
+    background: #ffffff;
+    border: 1px solid #dfe8e1;
+    border-radius: 9px;
+    font-size: 13px;
 }
 
 #withdraw-input-box input:focus,
-#withdraw-input-box select:focus{
-
-    outline:none;
-    border-color:var(--primary);
-
+#withdraw-input-box select:focus {
+    outline: none;
+    border-color: #65b77b;
+    box-shadow: 0 0 0 3px rgba(55, 160, 80, .09);
 }
 
-#withdraw-input-box p{
-
-    margin-bottom:8px;
-    font-size:14px;
-    color:var(--text-muted);
-
+#withdraw-input-box p {
+    margin: 0 0 8px;
+    color: #68766c;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
-/* Withdraw Button */
+/* Withdraw submit button */
 
-.withdraw-btn{
-
-    width:100%;
-    padding:14px;
-    background:var(--primary);
-    border:none;
-    border-radius:8px;
-    color:#fff;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.3s;
-
+.withdraw-btn {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 45px;
+    padding: 12px 15px;
+    color: #ffffff;
+    background: #218747;
+    border: 1px solid #218747;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease, box-shadow .2s ease;
 }
 
-.withdraw-btn:hover{
-
-    background:var(--primary-hover);
-
+.withdraw-btn:hover {
+    background: #176c37;
+    box-shadow: 0 4px 12px rgba(33, 135, 71, .18);
 }
+
+/* ======================================================
+   MOBILE ADJUSTMENTS
+====================================================== */
+
+@media (max-width: 480px) {
+    .address-container,
+    #withdraw-input-box {
+        padding: 14px;
+    }
+
+    #deposit.crypto-grid,
+    #withdraw.crypto-grid,
+    #deposit .crypto-grid,
+    #withdraw .crypto-grid {
+        gap: 7px;
+    }
+
+    .crypto-item {
+        min-height: 73px;
+        padding: 8px 3px;
+        font-size: 10px;
+    }
+
+    .crypto-item img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .qr-code-box img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .addr-header {
+        gap: 7px;
+    }
+
+    .addr-header .back-box {
+        padding: 7px 8px;
+    }
+
+    .addr-header #coin-title {
+        font-size: 14px;
+    }
+}
+
 
 /* =========================================
    END WITHDRAW SECTION
