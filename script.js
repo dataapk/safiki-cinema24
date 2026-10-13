@@ -279,26 +279,81 @@ function showTab(tabId) {
     }
 }
 
+ //এখান থেকে শুরু । নেটওয়ার্ক সিলেকশন করা অ্যাড্রেস সহ ।
 
-function selectCrypto(coinName, address) {
-    // ১. বর্তমান ট্যাব (deposit/withdraw/exchange) লুকিয়ে ফেলা
+const depositAddresses = {
+    USDT: {
+        BEP20: "তোমার_আসল_BEP20_ADDRESS",
+        ERC20: "তোমার_আসল_ERC20_ADDRESS",
+        TRC20: "তোমার_আসল_TRC20_ADDRESS"
+    }
+};
+
+
+let selectedDepositCoin = null;
+
+function selectCrypto(coinName) {
     const activeGrid = document.getElementById(currentTab);
+
     if (activeGrid) {
         activeGrid.style.display = 'none';
     }
-    
-    // ২. অ্যাড্রেস বক্স দেখানো
+
     const addrBox = document.getElementById('address-box');
+
     if (addrBox) {
         addrBox.style.display = 'grid';
     }
-    
-    // ৩. ডাটা আপডেট করা
+
     const title = document.getElementById('coin-title');
-    const addr = document.getElementById('wallet-address');
-    if (title) title.innerText = coinName;
-    if (addr) addr.innerText = address;
+
+    if (title) {
+        title.innerText = coinName;
+    }
+
+    selectedDepositCoin = coinName;
+
+    updateAddress();
 }
+
+
+function updateAddress() {
+    const networkSelect = document.getElementById('network-select');
+    const addressElement = document.getElementById('wallet-address');
+
+    if (!networkSelect || !addressElement || !selectedDepositCoin) {
+        return;
+    }
+
+    const network = networkSelect.value;
+    const coinAddresses = depositAddresses[selectedDepositCoin];
+    const address = coinAddresses?.[network];
+
+    if (!address || address.startsWith('YOUR_REAL_')) {
+        addressElement.innerText = 'Address unavailable for this network';
+
+        const copyButton = document.querySelector(
+            '#address-box button[onclick="copyAddress()"]'
+        );
+
+        if (copyButton) {
+            copyButton.disabled = true;
+        }
+
+        return;
+    }
+
+    addressElement.innerText = address;
+
+    const copyButton = document.querySelector(
+        '#address-box button[onclick="copyAddress()"]'
+    );
+
+    if (copyButton) {
+        copyButton.disabled = false;
+    }
+}
+
 
 function goBack() {
     // ১. অ্যাড্রেস বক্স হাইড করা
@@ -313,24 +368,7 @@ function goBack() {
         activeGrid.style.display = 'grid';
     }
 }
-// ১. অ্যাড্রেস বক্স হাইড করা
-// নেটওয়ার্ক অনুযায়ী অ্যাড্রেস ডাটাবেস (সহজ ভার্সন)
-const cryptoData = {
-    'USDT': {
-        'ERC20': '0x4FB74...0450252',
-        'TRC20': 'TX12345...67890',
-        'BEP20': '0xB1234...99999'
-    }
-    // অন্য কারেন্সিগুলো এখানে এভাবে যোগ করবে
-};
 
-function updateAddress() {
-    const network = document.getElementById('network-select').value;
-    const addressSpan = document.getElementById('wallet-address');
-    
-    // এখানে নেটওয়ার্ক অনুযায়ী অ্যাড্রেস আপডেট হবে
-    addressSpan.innerText = cryptoData['USDT'][network]; 
-}
 
 function copyAddress() {
     const address = document.getElementById('wallet-address').innerText;
@@ -338,14 +376,7 @@ function copyAddress() {
     alert("Address Copied!");
 }
 
-function selectCrypto(coinName, address) {
-    document.querySelectorAll('.crypto-grid').forEach(g => g.style.display = 'none');
-    const addrBox = document.getElementById('address-box');
-    addrBox.style.display = 'block';
-    
-    document.getElementById('coin-title').innerText = coinName + " Deposit";
-    document.getElementById('wallet-address').innerText = address;
-}
+
 
 // উইথড্র সেকশন সিলেক্ট করার ফাংশন
 function selectWithdraw(coinName) {
