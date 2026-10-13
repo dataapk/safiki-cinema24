@@ -596,17 +596,17 @@ async function loadUserData(
     try {
 
         let query =
-            supabaseClient
-                .from("user_data")
-                .select(
-                    "user_id, email, full_name, country, address, account_level, status, created_at, last_login_at"
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                );
+    supabaseClient
+        .from("user_data")
+        .select(
+            "user_id, email, first_name, last_name, mobile_country_code, mobile_number, mobile_verified, country, address, account_level, status, created_at, last_login_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
 
         // ----------------------------------------------
