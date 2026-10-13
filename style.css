@@ -1837,6 +1837,12 @@ body.modal-open{
    /* ======================================================
    WALLET HEADER
 ====================================================== */
+   /* WALLET POPUP — FULL SOFT WHITE BACKGROUND */
+#wallet-menu.wallet-dropdown {
+    background: #F7F9F7;
+    color: #29372E;
+    border: 1px solid #E1E9E1;
+}
 
 /* ======================================================
    WALLET HEADER — PRESERVE EXISTING HEADER DESIGN
