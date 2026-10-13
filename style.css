@@ -1890,6 +1890,96 @@ body.modal-open{
     transform: rotate(90deg);
 }
 
+  
+/* ==========================================
+   NETWORK SELECT — HORIZONTAL LAYOUT
+========================================== */
+
+.wallet-network-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    margin: 0 0 14px;
+}
+
+.wallet-network-row .wallet-field-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    margin: 0;
+    color: #4F6553;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.network-label-icon {
+    color: #599366;
+    font-size: 11px;
+}
+
+.wallet-network-select-wrap {
+    position: relative;
+    flex: 0 1 220px;
+    min-width: 0;
+}
+
+#wallet-menu #network-select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 10px 34px 10px 12px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: rgba(255, 255, 255, 0.65);
+    color: #344A38;
+    border: 1px solid #CFE2D2;
+    border-radius: 9px;
+
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.network-select-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    color: #599366;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+#wallet-menu #network-select:focus {
+    outline: none;
+    border-color: #83B991;
+    box-shadow: 0 0 0 3px rgba(105, 170, 119, 0.12);
+}
+
+@media (max-width: 380px) {
+    .wallet-network-row {
+        gap: 8px;
+    }
+
+    .wallet-network-row .wallet-field-label {
+        font-size: 12px;
+    }
+
+    .wallet-network-select-wrap {
+        flex-basis: 185px;
+    }
+}
+ /* ==========================================
+   NETWORK SELECT — HORIZONTAL LAYOUT
+========================================== */
+
+
 /* ======================================================
    DEPOSIT ADDRESS PANEL
 ====================================================== */
