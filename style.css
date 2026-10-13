@@ -2093,7 +2093,7 @@ body.modal-open{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 80%;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
     margin: 10px 0 4px;
@@ -2106,8 +2106,8 @@ body.modal-open{
 
 .qr-code-box img {
     display: block;
-    width: 90px;
-    height: 90px;
+    width: 108px;
+    height: 108px;
     max-width: 100%;
     object-fit: contain;
     border-radius: 6px;
