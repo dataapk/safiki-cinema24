@@ -2096,7 +2096,7 @@ body.modal-open{
     width: 100%;
     box-sizing: border-box;
     margin: 10px 0 8px;
-    padding: 8px 10px 5px;
+    padding: 8px 10px 1px;
     background: #ffffff;
     border: 1px solid #e4eee6;
     border-radius: 12px;
