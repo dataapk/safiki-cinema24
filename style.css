@@ -2069,26 +2069,46 @@ body.modal-open{
 
 /* Deposit information */
 
+
+/* ==========================================
+   WALLET INFO BOX — SOFT GREEN TIPS
+========================================== */
+
 .info-box {
-    margin-top: 15px;
-    padding: 12px;
-    color: #59665c;
-    background: #f8fbf8;
-    border: 1px solid #e4ede5;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: #F1F7F2;
+    border: 1px solid #DCEBDD;
     border-radius: 10px;
+    color: #4F6553;
     font-size: 12px;
+    line-height: 1.5;
     text-align: left;
 }
 
 .info-box p {
+    position: relative;
     margin: 0;
-    color: inherit;
-    font-size: inherit;
-    line-height: 1.7;
+    padding-left: 14px;
+    color: #4F6553;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .info-box p + p {
     margin-top: 6px;
+}
+
+.info-box p::before {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #55A66A;
+    box-shadow: 0 0 5px rgba(85, 166, 106, 0.2);
 }
 
 /* ======================================================
