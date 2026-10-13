@@ -1849,16 +1849,17 @@ body.modal-open{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #067806;
-    border: 1px solid #E0E9E0;
+    background: #11784b;
+    border: 1px solid #416e5a;
     border-radius: 12px 12px 0 0;
 }
 
 .wallet-header-title {
     margin: 0;
-    color: #e30b4c;
+    color: #FFFFFF;
     font-size: 15px;
     font-weight: 700;
+   align-items: center;
 }
 
 .wallet-close-btn {
@@ -1866,7 +1867,7 @@ body.modal-open{
     height: 32px;
     flex: 0 0 32px;
     display: flex;
-    align-items: center;
+    align-items:left;
     justify-content: center;
     border: 1px solid #f0dc91;
     border-radius: 50%;
