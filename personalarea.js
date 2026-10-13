@@ -299,7 +299,7 @@ function populateProfile(profile) {
     setInputValue("dateOfBirth", profile.date_of_birth);
     setInputValue("gender", profile.gender);
 
-    setText("currentEmail", profile.email || currentUser?.email || "");
+    setInputValue("currentEmail", currentUser?.email || profile.email || "");
 
     setText(
         "memberSince",
