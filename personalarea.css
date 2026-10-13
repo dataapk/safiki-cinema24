@@ -2488,6 +2488,7 @@
    ADDRESS DOCUMENT UPLOAD
    Keep the existing upload-box design unchanged
    ========================================================= */
+
 #proofDocumentsSection .address-verification-heading-row {
     display: flex;
     align-items: flex-start;
@@ -2583,6 +2584,47 @@
 #proofDocumentsSection .document-upload-area .upload-file-name {
     color: #E8C547;
 }
+
+
+/* Address Verification Document Preview */
+.address-document-preview {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid #d9dee7;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.address-document-preview[hidden],
+.address-document-preview img[hidden],
+.address-document-preview div[hidden] {
+    display: none !important;
+}
+
+#addressDocumentPreviewImage {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    max-height: 280px;
+    margin: 0 auto;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+#addressDocumentPreviewPdf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+#addressDocumentPreviewPdf a {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
 
 /* =========================================================
    SUBMIT DOCUMENT BUTTON — GREEN
