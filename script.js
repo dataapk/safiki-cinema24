@@ -288,16 +288,37 @@ if (localCurrencyBox) {
 
  //এখান থেকে শুরু । নেটওয়ার্ক সিলেকশন করা অ্যাড্রেস সহ ।
 
+
 const depositAddresses = {
+    // USDT — BEP20, ERC20, TRC20
     USDT: {
-    BEP20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b",
+        BEP20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b",
         ERC20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b",
         TRC20: "TWGAqXX12AhGNapSdfAe8fQnNb4BDvaHeT"
     },
+
+    // BTC — Bitcoin Network and BEP20
     BTC: {
-        BTC: "14nJnYWYGJvXU5uauHETmeitwE1DfbJLdm"
+        BTC: "14nJnYWYGJvXU5uauHETmeitwE1DfbJLdm",
+        BTC_BEP20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b"
+    },
+
+    // LTC — Litecoin Network only
+    LTC: {
+        LTC: "YOUR_REAL_LTC_ADDRESS"
+    },
+
+    // TRX — Tron Network only
+    TRX: {
+        TRX_TRC20: "YOUR_REAL_TRX_ADDRESS"
+    },
+
+    // SOL — Solana Network only
+    SOL: {
+        SOL: "YOUR_REAL_SOL_ADDRESS"
     }
 };
+
 
 
 
