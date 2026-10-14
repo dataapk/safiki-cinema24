@@ -197,17 +197,20 @@ function updateBalanceUI(){
     }
 
 
-    // ======================================
-    // HEADER BALANCE
-    // ======================================
 
-    const header =
-        document.getElementById("selected-balance");
+// ======================================
+// HEADER BALANCE
+// ======================================
 
-    if(header){
+const header =
+    document.getElementById("selected-balance");
+
+if (header) {
 
     const displayBalance =
-        Number(balance).toFixed(8);
+        walletManager.currentCurrency === "USDT"
+            ? Number(balance).toFixed(2)
+            : Number(balance).toFixed(8);
 
     console.log(
         "displayBalance =",
@@ -215,8 +218,8 @@ function updateBalanceUI(){
     );
 
     header.textContent = displayBalance;
-
 }
+
 
 
     // ============================
