@@ -317,6 +317,13 @@ if (activeGrid) {
         addrBox.style.display = 'grid';
     }
 
+    // Coin Deposit page খুললে Local Currency লুকাবে
+const localCurrencyBox = document.getElementById('local-currency-info');
+
+if (localCurrencyBox) {
+    localCurrencyBox.style.display = 'none';
+}
+
     const title = document.getElementById('coin-title');
 
     if (title) {
