@@ -2157,6 +2157,7 @@ body.modal-open{
     display: none !important;
 }
 
+
 /* Address header */
 
 .addr-header {
@@ -2165,9 +2166,11 @@ body.modal-open{
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 18px;
+    position: relative;
 }
 
-.addr-header #coin-title {
+.addr-header #coin-title,
+.addr-header #withdraw-coin-title {
     flex: 1;
     min-width: 0;
     margin: 0;
