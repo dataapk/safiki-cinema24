@@ -260,6 +260,13 @@ function showTab(tabId) {
     // সব বক্স হাইড করা
     document.getElementById('address-box').style.display = 'none';
     document.getElementById('withdraw-input-box').style.display = 'none';
+    // Local Currency শুধু Deposit ট্যাবে দেখাবে
+const localCurrencyBox = document.getElementById('local-currency-info');
+
+if (localCurrencyBox) {
+    localCurrencyBox.style.display =
+        tabId === 'deposit' ? 'block' : 'none';
+}
 
     // সব বাটন থেকে active ক্লাস সরানো
     document.querySelectorAll('.tab-btn').forEach(button => {
