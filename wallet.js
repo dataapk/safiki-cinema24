@@ -185,8 +185,13 @@ async function loadWalletManager() {
             return;
         }
 
-        console.log("WALLET USER ID:", userId);
-console.log("SUPABASE CLIENT:", !!window.supabaseClient);
+                console.log("WALLET USER ID:", userId);
+        console.log("SUPABASE CLIENT:", !!window.supabaseClient);
+
+        console.log("WALLET QUERY START", {
+            userId,
+            supabaseReady: !!window.supabaseClient
+        });
 
         const {
             data,
@@ -197,24 +202,10 @@ console.log("SUPABASE CLIENT:", !!window.supabaseClient);
             .eq("user_id", userId)
             .maybeSingle();
 
-        console.log("WALLET QUERY START", {
-    userId,
-    supabaseReady: !!window.supabaseClient
-});
-
-const {
-    data,
-    error
-} = await window.supabaseClient
-    .from("wallet_balances")
-    .select("*")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-console.log("WALLET QUERY RESULT", {
-    data,
-    error
-});
+        console.log("WALLET QUERY RESULT", {
+            data,
+            error
+        });
 
         if (error) {
             console.error("Wallet Load Error:", error);
