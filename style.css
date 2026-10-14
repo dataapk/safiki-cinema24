@@ -1962,6 +1962,28 @@ body.modal-open{
    NETWORK SELECT — HORIZONTAL LAYOUT
 ========================================== */
 
+   .wallet-close-btn {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    border: 1px solid #f0dc91;
+    border-radius: 50%;
+    background: #FFBF00;
+    color: #856404;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background .25s ease, transform .25s ease;
+}
+
+.wallet-close-btn:hover {
+    background: #ffedaa;
+    transform: rotate(90deg);
+}
+
+
 /* ==========================================
    LOCAL CURRENCY INFORMATION - DEPOSIT ONLY
    ========================================== */
