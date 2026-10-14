@@ -948,7 +948,7 @@ a:focus-visible {
         width: min(480px, 100%);
         max-width: 100%;
         min-width: 0;
-        min-height: 0;
+        min-height: 180px;
         padding: 7px 16px;
         border-radius: 14px;
     }
