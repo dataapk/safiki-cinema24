@@ -1044,4 +1044,65 @@ a:focus-visible {
         animation: none;
     }
 }
+/* ===== Compact Affiliate Commission Badge ===== */
+
+.commission-badge {
+    box-sizing: border-box;
+    width: 294px;
+    min-width: 294px;
+    padding: 7px 24px;
+    gap: 0;
+    border-radius: 14px;
+}
+
+/* UP TO */
+.commission-up-to {
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 4px;
+    margin-bottom: -3px;
+}
+
+/* 60% */
+.commission-percent {
+    font-size: 62px;
+    line-height: 0.88;
+    letter-spacing: -3px;
+}
+
+/* % symbol */
+.commission-symbol {
+    font-size: 0.55em;
+    margin-left: 1px;
+}
+
+/* COMMISSION */
+.commission-label {
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 3px;
+    margin-top: 4px;
+}
+
+/* Keep the badge compact on mobile */
+@media (max-width: 600px) {
+    .commission-badge {
+        width: 294px;
+        max-width: 100%;
+        min-width: 0;
+        padding: 7px 20px;
+    }
+
+    .commission-percent {
+        font-size: 60px;
+    }
+
+    .commission-up-to {
+        font-size: 11px;
+    }
+
+    .commission-label {
+        font-size: 13px;
+    }
+}
 
