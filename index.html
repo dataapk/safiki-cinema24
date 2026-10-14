@@ -369,6 +369,7 @@
 
 
 
+
 <!-- NETWORK SELECT — HORIZONTAL ROW -->
 
 <div class="wallet-network-row">
@@ -383,6 +384,7 @@
         <select id="network-select"
                 onchange="updateAddress()">
 
+            <!-- USDT NETWORKS -->
             <option value="BEP20" selected>
                 BNB Smart Chain (BEP-20)
             </option>
@@ -394,8 +396,34 @@
             <option value="TRC20">
                 Tron (TRC-20)
             </option>
+
             
-            <option value="BTC">Bitcoin Network (BTC)</option>
+<!-- BTC NETWORKS -->
+
+<option value="BTC">
+    Bitcoin Network (BTC)
+</option>
+
+<option value="BTC_BEP20">
+    BNB Smart Chain (BEP-20)
+</option>
+
+            <!-- SOL NETWORK -->
+
+<option value="SOL">
+    Solana Network (SOL)
+</option>
+
+
+            <!-- LTC NETWORK -->
+            <option value="LTC">
+                Litecoin Network (LTC)
+            </option>
+
+            <!-- TRX NETWORK -->
+            <option value="TRX_TRC20">
+                Tron Network (TRC-20) — TRX
+            </option>
 
         </select>
 
@@ -404,6 +432,7 @@
     </div>
 
 </div>
+
 
 
 
