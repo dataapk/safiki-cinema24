@@ -531,7 +531,8 @@ a {
 
 .commission-badge {
     min-height: 280px;
-    padding: 30px;
+    padding-left: 24px;
+    padding-right: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -659,13 +660,16 @@ a:focus-visible {
 
 /* RESPONSIVE */
 
-@media (max-width: 900px) {
-    .hero-section {
-        grid-template-columns: 1fr 0.8fr;
-        padding: 60px 5%;
-        gap: 20px;
+  @media (max-width: 600px) {
+    .commission-badge {
+        width: 100%;
+        max-width: 320px;
+        min-width: 0;
+        padding-left: 24px;
+        padding-right: 24px;
     }
-
+}
+   
     .hero-content h1 {
         font-size: clamp(34px, 5vw, 48px);
     }
