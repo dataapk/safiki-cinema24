@@ -1840,6 +1840,7 @@ body.modal-open{
 ====================================================== */
    /* WALLET POPUP — FULL SOFT WHITE BACKGROUND */
 #wallet-menu.wallet-dropdown {
+   background: #F7F9F7;
     max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
