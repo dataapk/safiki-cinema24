@@ -290,7 +290,7 @@ if (localCurrencyBox) {
 
 const depositAddresses = {
     USDT: {
-        BEP20: "YOUR_REAL_BEP20_ADDRESS",
+    BEP20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b",
         ERC20: "YOUR_REAL_ERC20_ADDRESS",
         TRC20: "YOUR_REAL_TRC20_ADDRESS"
     },
