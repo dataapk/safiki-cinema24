@@ -291,11 +291,11 @@ if (localCurrencyBox) {
 const depositAddresses = {
     USDT: {
     BEP20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b",
-        ERC20: "YOUR_REAL_ERC20_ADDRESS",
-        TRC20: "YOUR_REAL_TRC20_ADDRESS"
+        ERC20: "0xDe97C7C32751DC8dBCed4b3A28DA28A1b371606b",
+        TRC20: "TWGAqXX12AhGNapSdfAe8fQnNb4BDvaHeT"
     },
     BTC: {
-        BTC: "YOUR_REAL_BITCOIN_ADDRESS"
+        BTC: "14nJnYWYGJvXU5uauHETmeitwE1DfbJLdm"
     }
 };
 
