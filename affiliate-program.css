@@ -37,6 +37,8 @@ a {
     -webkit-tap-highlight-color: transparent;
 }
 
+/* HEADER */
+
 .affiliate-header {
     min-height: 76px;
     padding: 14px 6%;
@@ -184,6 +186,184 @@ a {
     font-size: 16px;
     line-height: 1.9;
 }
+
+/* HERO COMMISSION HIGHLIGHT */
+
+.hero-commission {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 24px 0;
+    isolation: isolate;
+}
+
+.commission-badge {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: 320px;
+    max-width: 100%;
+    min-width: 0;
+    padding: 7px 24px;
+    gap: 0;
+
+    overflow: hidden;
+    border: 1px solid rgba(255, 215, 0, 0.8);
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #124b32 0%,
+        #087443 50%,
+        #103d2a 100%
+    );
+
+    box-shadow:
+        0 0 18px rgba(255, 215, 0, 0.18),
+        inset 0 0 20px rgba(255, 215, 0, 0.06);
+
+    animation: commissionGlow 3s ease-in-out infinite;
+}
+
+/* Animated golden shine */
+
+.commission-badge::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -80%;
+    width: 45%;
+    height: 200%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.24),
+        transparent
+    );
+
+    transform: rotate(25deg);
+    animation: commissionShine 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.commission-up-to {
+    position: relative;
+    z-index: 1;
+
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 4px;
+    margin-bottom: -3px;
+}
+
+.commission-percent {
+    position: relative;
+    z-index: 1;
+
+    color: #ffdf35;
+    font-size: 54px;
+    font-weight: 950;
+    line-height: 0.88;
+    letter-spacing: -3px;
+
+    text-shadow:
+        0 0 12px rgba(255, 215, 0, 0.4),
+        0 0 28px rgba(255, 215, 0, 0.16);
+
+    animation: commissionFloat 3s ease-in-out infinite;
+}
+
+.commission-symbol {
+    font-size: 0.55em;
+    vertical-align: top;
+    margin-left: 1px;
+}
+
+.commission-label {
+    position: relative;
+    z-index: 1;
+
+    margin-top: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 3px;
+}
+
+.commission-glow {
+    position: absolute;
+    z-index: -1;
+    width: 190px;
+    height: 130px;
+    left: 25px;
+
+    background: rgba(255, 215, 0, 0.16);
+    filter: blur(45px);
+    border-radius: 50%;
+
+    animation: commissionAura 4s ease-in-out infinite;
+}
+
+/* COMMISSION ANIMATIONS */
+
+@keyframes commissionGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 18px rgba(255, 215, 0, 0.18),
+            inset 0 0 20px rgba(255, 215, 0, 0.06);
+    }
+
+    50% {
+        box-shadow:
+            0 0 30px rgba(255, 215, 0, 0.32),
+            inset 0 0 26px rgba(255, 215, 0, 0.1);
+    }
+}
+
+@keyframes commissionShine {
+    0%, 15% {
+        left: -80%;
+    }
+
+    55%, 100% {
+        left: 150%;
+    }
+}
+
+@keyframes commissionFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes commissionAura {
+    0%, 100% {
+        opacity: 0.45;
+        transform: scale(0.9);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: scale(1.1);
+    }
+}
+
+/* HERO BUTTONS */
 
 .hero-actions {
     display: flex;
@@ -491,7 +671,7 @@ a {
     font-weight: 700;
 }
 
-/* COMMISSION */
+/* COMMISSION INFORMATION SECTION */
 
 .commission-section {
     padding: 70px 8%;
@@ -529,14 +709,16 @@ a {
     font-size: 13px;
 }
 
-.commission-badge {
+/* The commission information card uses the same class name.
+   Keep this selector separate from the hero badge. */
+
+.commission-section .commission-badge {
+    width: auto;
+    max-width: none;
+    min-width: 0;
     min-height: 280px;
-    padding-left: 24px;
-    padding-right: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding: 24px;
+    gap: normal;
     border: 1px solid rgba(247, 212, 71, 0.35);
     border-radius: 15px;
     background: linear-gradient(
@@ -544,7 +726,13 @@ a {
         rgba(255, 255, 255, 0.07),
         rgba(0, 0, 0, 0.09)
     );
-    text-align: center;
+    box-shadow: none;
+    animation: none;
+    overflow: visible;
+}
+
+.commission-section .commission-badge::before {
+    display: none;
 }
 
 .badge-star {
@@ -560,13 +748,13 @@ a {
     letter-spacing: 2px;
 }
 
-.commission-badge strong {
+.commission-section .commission-badge strong {
     margin-top: 7px;
     font-size: 28px;
     line-height: 1.2;
 }
 
-.commission-badge .badge-highlight {
+.commission-section .commission-badge .badge-highlight {
     color: var(--affiliate-yellow);
 }
 
@@ -658,18 +846,16 @@ a:focus-visible {
     outline-offset: 4px;
 }
 
-/* RESPONSIVE */
+/* TABLET RESPONSIVE */
 
-  @media (max-width: 600px) {
-    .commission-badge {
-        width: 100%;
-        max-width: 320px;
-        min-width: 0;
-        padding-left: 24px;
-        padding-right: 24px;
+@media (max-width: 900px) {
+    .hero-section {
+        grid-template-columns: 1fr 0.8fr;
+        padding-left: 6%;
+        padding-right: 6%;
+        gap: 25px;
     }
-}
-   
+
     .hero-content h1 {
         font-size: clamp(34px, 5vw, 48px);
     }
@@ -695,10 +881,16 @@ a:focus-visible {
     }
 }
 
+/* MOBILE RESPONSIVE */
+
 @media (max-width: 650px) {
     .affiliate-header {
         min-height: 66px;
         padding: 12px 5%;
+    }
+
+    .brand {
+        gap: 8px;
     }
 
     .brand-mark {
@@ -725,9 +917,14 @@ a:focus-visible {
     }
 
     .hero-section {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         padding: 52px 6% 35px;
         gap: 15px;
+    }
+
+    .hero-content {
+        min-width: 0;
+        width: 100%;
     }
 
     .hero-content h1 {
@@ -738,6 +935,47 @@ a:focus-visible {
     .hero-description {
         margin: 17px 0;
         font-size: 14px;
+    }
+
+    .hero-commission {
+        width: 100%;
+        max-width: 100%;
+        margin: 20px 0;
+        justify-content: flex-start;
+    }
+
+    .hero-commission .commission-badge {
+        width: min(320px, 100%);
+        max-width: 100%;
+        min-width: 0;
+        min-height: 0;
+        padding: 7px 16px;
+        border-radius: 14px;
+    }
+
+    .hero-commission .commission-up-to {
+        font-size: 11px;
+        letter-spacing: 4px;
+        line-height: 1;
+    }
+
+    .hero-commission .commission-percent {
+        font-size: clamp(48px, 14vw, 54px);
+        line-height: 0.88;
+        letter-spacing: -3px;
+    }
+
+    .hero-commission .commission-label {
+        font-size: 13px;
+        letter-spacing: 3px;
+        line-height: 1;
+        margin-top: 4px;
+    }
+
+    .hero-commission .commission-glow {
+        width: 70%;
+        max-width: 190px;
+        left: 10px;
     }
 
     .hero-actions {
@@ -760,16 +998,17 @@ a:focus-visible {
     }
 
     .orbit {
-        width: 260px;
-        height: 260px;
+        width: min(260px, 85vw);
+        height: min(260px, 85vw);
     }
 
     .orbit-two {
-        width: 310px;
-        height: 310px;
+        width: min(310px, 95vw);
+        height: min(310px, 95vw);
     }
 
     .visual-card {
+        width: 100%;
         max-width: 280px;
     }
 
@@ -790,7 +1029,7 @@ a:focus-visible {
 
     .benefits-grid,
     .steps-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 13px;
     }
 
@@ -806,12 +1045,16 @@ a:focus-visible {
     }
 
     .commission-section {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         padding: 55px 6%;
     }
 
-    .commission-badge {
+    .commission-section .commission-badge {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         min-height: 235px;
+        padding: 24px;
     }
 
     .final-cta {
@@ -831,256 +1074,62 @@ a:focus-visible {
     }
 }
 
+/* SMALL MOBILE */
+
+@media (max-width: 380px) {
+    .affiliate-header {
+        gap: 8px;
+    }
+
+    .brand-name {
+        font-size: 13px;
+    }
+
+    .header-actions {
+        gap: 9px;
+    }
+
+    .header-cta {
+        padding: 8px 9px;
+        font-size: 10px;
+    }
+
+    .hero-content h1 {
+        font-size: 34px;
+    }
+
+    .hero-commission .commission-badge {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .hero-commission .commission-percent {
+        font-size: 48px;
+    }
+
+    .hero-commission .commission-label {
+        font-size: 12px;
+        letter-spacing: 2.5px;
+    }
+}
+
+/* RESPECT REDUCED MOTION */
+
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
         transition: none !important;
     }
-}
 
-/* ===== Affiliate Hero Commission Highlight ===== */
-
-.hero-commission {
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 28px 0;
-    isolation: isolate;
-}
-
-.commission-badge {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 294px;
-    padding: 10px 24px;
-    overflow: hidden;
-
-    background: linear-gradient(
-        135deg,
-        #124b32 0%,
-        #087443 50%,
-        #103d2a 100%
-    );
-
-    border: 1px solid rgba(255, 215, 0, 0.8);
-    border-radius: 18px;
-
-    box-shadow:
-        0 0 18px rgba(255, 215, 0, 0.18),
-        inset 0 0 20px rgba(255, 215, 0, 0.06);
-
-    animation: commissionGlow 3s ease-in-out infinite;
-}
-
-/* Animated golden shine */
-.commission-badge::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -80%;
-    width: 45%;
-    height: 200%;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.24),
-        transparent
-    );
-
-    transform: rotate(25deg);
-    animation: commissionShine 4s ease-in-out infinite;
-    pointer-events: none;
-}
-
-.commission-up-to {
-    position: relative;
-    z-index: 1;
-
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 5px;
-    margin-bottom: -4px;
-}
-
-.commission-percent {
-    position: relative;
-    z-index: 1;
-
-    color: #ffdf35;
-    font-size: clamp(64px, 8vw, 92px);
-    font-weight: 950;
-    line-height: 1.05;
-    letter-spacing: -4px;
-
-    text-shadow:
-        0 0 12px rgba(255, 215, 0, 0.4),
-        0 0 28px rgba(255, 215, 0, 0.16);
-
-    animation: commissionFloat 3s ease-in-out infinite;
-}
-
-.commission-symbol {
-    font-size: 0.58em;
-    vertical-align: top;
-    margin-left: 2px;
-}
-
-.commission-label {
-    position: relative;
-    z-index: 1;
-
-    margin-top: 8px;
-    color: #ffffff;
-    font-size: 17px;
-    font-weight: 900;
-    letter-spacing: 4px;
-}
-
-.commission-glow {
-    position: absolute;
-    z-index: -1;
-    width: 190px;
-    height: 130px;
-    left: 25px;
-
-    background: rgba(255, 215, 0, 0.16);
-    filter: blur(45px);
-    border-radius: 50%;
-
-    animation: commissionAura 4s ease-in-out infinite;
-}
-
-/* Gentle glow */
-@keyframes commissionGlow {
-    0%, 100% {
-        box-shadow:
-            0 0 18px rgba(255, 215, 0, 0.18),
-            inset 0 0 20px rgba(255, 215, 0, 0.06);
-    }
-
-    50% {
-        box-shadow:
-            0 0 30px rgba(255, 215, 0, 0.32),
-            inset 0 0 26px rgba(255, 215, 0, 0.1);
+    .hero-commission .commission-badge,
+    .hero-commission .commission-badge::before,
+    .hero-commission .commission-percent,
+    .hero-commission .commission-glow {
+        animation: none !important;
     }
 }
-
-/* Golden shine sweep */
-@keyframes commissionShine {
-    0%, 15% {
-        left: -80%;
-    }
-
-    55%, 100% {
-        left: 150%;
-    }
-}
-
-/* Subtle floating motion */
-@keyframes commissionFloat {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-3px);
-    }
-}
-
-/* Soft background aura */
-@keyframes commissionAura {
-    0%, 100% {
-        opacity: 0.45;
-        transform: scale(0.9);
-    }
-
-    50% {
-        opacity: 0.9;
-        transform: scale(1.1);
-    }
-}
-
-/* Mobile responsive */
-@media (max-width: 600px) {
-    .hero-commission {
-        margin: 22px 0;
-    }
-
-    .commission-badge {
-        min-width: 210px;
-        padding: 17px 27px;
-        border-radius: 15px;
-    }
-
-    .commission-up-to {
-        font-size: 12px;
-        letter-spacing: 4px;
-    }
-
-    .commission-percent {
-        font-size: 68px;
-    }
-
-    .commission-label {
-        font-size: 14px;
-        letter-spacing: 3px;
-    }
-}
-
-/* Respect reduced-motion preferences */
-@media (prefers-reduced-motion: reduce) {
-    .commission-badge,
-    .commission-badge::before,
-    .commission-percent,
-    .commission-glow {
-        animation: none;
-    }
-}
-/* ===== Compact Affiliate Commission Badge ===== */
-
-.commission-badge {
-    box-sizing: border-box;
-    width: 294px;
-    min-width: 294px;
-    padding: 7px 24px;
-    gap: 0;
-    border-radius: 14px;
-}
-
-/* UP TO */
-.commission-up-to {
-    font-size: 11px;
-    line-height: 1;
-    letter-spacing: 4px;
-    margin-bottom: -3px;
-}
-
-/* 60% */
-.commission-percent {
-    font-size: 54px;
-    line-height: 0.88;
-    letter-spacing: -3px;
-}
-
-/* % symbol */
-.commission-symbol {
-    font-size: 0.55em;
-    margin-left: 1px;
-}
-
-/* COMMISSION */
-.commission-label {
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: 3px;
-    margin-top: 4px;
-}
-
