@@ -143,6 +143,7 @@ function loadWalletPreferences() {
         if (!Array.isArray(walletManager.betHistory)) {
             walletManager.betHistory = [];
         }
+
     } catch (error) {
         walletManager.activeBets = [];
         walletManager.betHistory = [];
@@ -154,6 +155,7 @@ function loadWalletPreferences() {
 // ==========================================
 
 async function loadWalletManager() {
+    console.log("WALLET LOAD STARTED");
     if (walletManager.loading) return;
 
     walletManager.loading = true;
@@ -183,6 +185,9 @@ async function loadWalletManager() {
             return;
         }
 
+        console.log("WALLET USER ID:", userId);
+console.log("SUPABASE CLIENT:", !!window.supabaseClient);
+
         const {
             data,
             error
@@ -192,8 +197,7 @@ async function loadWalletManager() {
             .eq("user_id", userId)
             .maybeSingle();
 
-        console.log("Wallet Supabase response:", {
-    userId,
+        console.log("WALLET QUERY FINISHED", {
     data,
     error
 });
