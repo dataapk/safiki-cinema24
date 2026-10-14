@@ -318,6 +318,14 @@ function startWalletRealtime() {
 function updateBalanceUI() {
     const balance = getCurrentBalance();
 
+    console.log("WALLET FORMAT CHECK:", {
+        currency: walletManager.currentCurrency,
+        balance: balance,
+        formatted: walletManager.currentCurrency === "USDT"
+            ? balance.toFixed(2)
+            : balance.toFixed(8)
+    });
+
     const balanceText =
         walletManager.currentCurrency === "USDT"
             ? balance.toFixed(2)
