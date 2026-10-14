@@ -197,7 +197,21 @@ console.log("SUPABASE CLIENT:", !!window.supabaseClient);
             .eq("user_id", userId)
             .maybeSingle();
 
-        console.log("WALLET QUERY FINISHED", {
+        console.log("WALLET QUERY START", {
+    userId,
+    supabaseReady: !!window.supabaseClient
+});
+
+const {
+    data,
+    error
+} = await window.supabaseClient
+    .from("wallet_balances")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+console.log("WALLET QUERY RESULT", {
     data,
     error
 });
