@@ -367,9 +367,14 @@ if (localCurrencyBox) {
 }
 
 
+
 function updateAddress() {
     const networkSelect = document.getElementById('network-select');
     const addressElement = document.getElementById('wallet-address');
+
+    const copyButton = document.querySelector(
+        '#address-box button[onclick="copyAddress()"]'
+    );
 
     if (!networkSelect || !addressElement || !selectedDepositCoin) {
         return;
@@ -382,10 +387,6 @@ function updateAddress() {
     if (!address || address.startsWith('YOUR_REAL_')) {
         addressElement.innerText = 'Address unavailable for this network';
 
-        const copyButton = document.querySelector(
-            '#address-box button[onclick="copyAddress()"]'
-        );
-
         if (copyButton) {
             copyButton.disabled = true;
         }
@@ -394,10 +395,6 @@ function updateAddress() {
     }
 
     addressElement.innerText = address;
-
-    const copyButton = document.querySelector(
-        '#address-box button[onclick="copyAddress()"]'
-    );
 
     if (copyButton) {
         copyButton.disabled = false;
