@@ -192,6 +192,12 @@ async function loadWalletManager() {
             .eq("user_id", userId)
             .maybeSingle();
 
+        console.log("Wallet Supabase response:", {
+    userId,
+    data,
+    error
+});
+
         if (error) {
             console.error("Wallet Load Error:", error);
             return;
