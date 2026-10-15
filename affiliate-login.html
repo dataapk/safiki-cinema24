@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Login | SPORTS BET</title>
+
+    <style>
+        :root {
+            --green: #00C853;
+            --green-dark: #008F3A;
+            --yellow: #FFDF00;
+            --white: #FFFFFF;
+            --bg: #FFFFFF;
+            --text: #183524;
+            --muted: #66756B;
+            --border: #DCE9DF;
+            --light-green: #F2FBF5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 25px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .affiliate-login-container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .login-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .brand span {
+            color: var(--green);
+        }
+
+        .brand strong {
+            color: var(--yellow);
+        }
+
+        .login-header h1 {
+            margin: 22px 0 8px;
+            font-size: 27px;
+        }
+
+        .login-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .login-card {
+            padding: 28px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(20, 80, 40, 0.09);
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            min-height: 47px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: var(--white);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.10);
+        }
+
+        .form-group input::placeholder {
+            color: #89978D;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 70px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .forgot-row {
+            margin-top: -8px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .forgot-row a,
+        .signup-link a {
+            color: var(--green-dark);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 21px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .terms-row input {
+            width: 16px;
+            height: 16px;
+            margin: 2px 0 0;
+            flex-shrink: 0;
+            accent-color: var(--green);
+            cursor: pointer;
+        }
+
+        .terms-row a {
+            color: var(--green-dark);
+            text-decoration: underline;
+        }
+
+        .login-button {
+            width: 100%;
+            min-height: 48px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--green);
+            color: var(--white);
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .login-button:hover {
+            background: var(--green-dark);
+        }
+
+        .login-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .login-message {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .login-message.error {
+            display: block;
+            background: #FFF1F1;
+            border: 1px solid #F0CACA;
+            color: #A52222;
+        }
+
+        .login-message.success {
+            display: block;
+            background: var(--light-green);
+            border: 1px solid var(--green);
+            color: var(--green-dark);
+        }
+
+        .signup-link {
+            margin: 23px 0 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--green-dark);
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 23px 18px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="affiliate-login-container">
+
+        <header class="login-header">
+            <div class="brand">
+                SPORTS <span>BET</span><strong>.</strong>
+            </div>
+
+            <h1>Affiliate Login</h1>
+
+            <p>
+                Welcome back! Sign in to your affiliate account.
+            </p>
+        </header>
+
+        <form class="login-card" id="affiliateLoginForm">
+
+            <div class="form-group">
+                <label for="loginIdentifier">
+                    Affiliate ID or Email
+                </label>
+
+                <input
+                    type="text"
+                    id="loginIdentifier"
+                    name="loginIdentifier"
+                    placeholder="Enter Affiliate ID or email"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="loginPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                    >
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <div class="forgot-row">
+                <a href="affiliate-forgot-password.html">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <label class="terms-row">
+                <input
+                    type="checkbox"
+                    id="agreeTerms"
+                    name="agreeTerms"
+                    required
+                >
+
+                <span>
+                    I agree to the
+                    <a href="affiliate-terms.html">
+                        Terms and Conditions
+                    </a>
+                    and
+                    <a href="affiliate-privacy.html">
+                        Privacy Policy
+                    </a>.
+                </span>
+            </label>
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton"
+            >
+                Login
+            </button>
+
+            <div
+                class="login-message"
+                id="loginMessage"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+            <p class="signup-link">
+                Don't have an affiliate account?
+                <a href="affiliate-signup.html">Sign Up</a>
+            </p>
+
+            <a
+                href="affiliate-program.html"
+                class="back-link"
+            >
+                ← Back to Affiliate Program
+            </a>
+
+        </form>
+    </main>
+
+    <script>
+        const loginForm =
+            document.getElementById("affiliateLoginForm");
+
+        const loginIdentifier =
+            document.getElementById("loginIdentifier");
+
+        const loginPassword =
+            document.getElementById("loginPassword");
+
+        const passwordToggle =
+            document.getElementById("passwordToggle");
+
+        const agreeTerms =
+            document.getElementById("agreeTerms");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const loginMessage =
+            document.getElementById("loginMessage");
+
+        passwordToggle.addEventListener("click", function () {
+            const isPassword =
+                loginPassword.type === "password";
+
+            loginPassword.type = isPassword
+                ? "text"
+                : "password";
+
+            passwordToggle.textContent = isPassword
+                ? "Hide"
+                : "Show";
+        });
+
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            loginMessage.className = "login-message";
+            loginMessage.textContent = "";
+
+            if (!agreeTerms.checked) {
+                loginMessage.className = "login-message error";
+                loginMessage.textContent =
+                    "Please agree to the Terms and Conditions and Privacy Policy.";
+                return;
+            }
+
+            loginMessage.className = "login-message error";
+            loginMessage.textContent =
+                "Login is not connected yet. Affiliate authentication " +
+                "and approval verification must be connected to the " +
+                "Affiliate Supabase backend.";
+        });
+    </script>
+</body>
+</html>
