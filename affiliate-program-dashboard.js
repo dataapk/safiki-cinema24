@@ -1,1658 +1,1984 @@
 /* =========================================================
-   AFFILIATE PROGRAM DASHBOARD
-   File: affiliate-program-dashboard.js
+   AFFILIATE DASHBOARD - affiliate.js
+   THEME: DEEP GREEN + YELLOW + WHITE
 
-   Responsibilities:
-   - Three-dot dropdown menu
-   - Section navigation
-   - Current-user affiliate application loading
-   - Application status and profile display
-   - Referral link/code copy actions
-   - Table search, filters and pagination UI
-   - Notifications and safe payout handling
+   FEATURES:
+   1. Navigation Menu
+   2. Earnings Summary
+   3. Refresh Statistics
+   4. Date Range & Currency Filters
+   5. Conversion Statistics
+   6. Registration Statistics
+   7. State Summary
+   8. Supabase Integration Adapter
+   9. Native Canvas Charts
+========================================================= */
 
-   IMPORTANT:
-   This file does not invent commission, referral or payout data.
-   ========================================================= */
+"use strict";
 
-(() => {
-    "use strict";
+/* =========================================================
+   1. CONFIGURATION
+========================================================= */
 
-    /* =====================================================
-       1. CONFIGURATION
-       ===================================================== */
+const AFFILIATE_CONFIG = {
+    // Use your existing Supabase client.
+    // Set window.supabaseClient or window.supabase to your
+    // initialized Supabase client before this file loads.
 
-    const CONFIG = {
-        schema: "affiliate_program",
-        applicationsTable: "applications",
+    getSupabaseClient() {
+        const client = window.supabaseClient || window.supabase;
 
-        // Number of rows shown per page.
-        pageSize: 10,
-
-        // Do not enable payout submission until a real,
-        // authenticated backend/RPC has been configured.
-        payoutSubmissionEnabled: false
-    };
-
-
-    /* =====================================================
-       2. DOM HELPERS
-       ===================================================== */
-
-    const $ = (selector, root = document) =>
-        root.querySelector(selector);
-
-    const $$ = (selector, root = document) =>
-        Array.from(root.querySelectorAll(selector));
-
-    const byId = (id) => document.getElementById(id);
-
-    function setText(id, value, fallback = "—") {
-        const element = byId(id);
-
-        if (!element) {
-            return;
-        }
-
-        element.textContent =
-            value === null || value === undefined || value === ""
-                ? fallback
-                : String(value);
-    }
-
-    function setInputValue(id, value) {
-        const element = byId(id);
-
-        if (!element) {
-            return;
-        }
-
-        element.value =
-            value === null || value === undefined
-                ? ""
-                : String(value);
-    }
-
-    function setHidden(element, hidden) {
-        if (!element) {
-            return;
-        }
-
-        element.hidden = Boolean(hidden);
-    }
-
-    function normalizeStatus(value) {
-        return String(value || "")
-            .trim()
-            .toLowerCase();
-    }
-
-    function humanize(value) {
-        if (!value) {
-            return "—";
-        }
-
-        return String(value)
-            .replace(/[_-]+/g, " ")
-            .replace(/\s+/g, " ")
-            .replace(/\b\w/g, character => character.toUpperCase());
-    }
-
-    function formatDate(value) {
-        if (!value) {
-            return "—";
-        }
-
-        const date = new Date(value);
-
-        if (Number.isNaN(date.getTime())) {
-            return String(value);
-        }
-
-        return new Intl.DateTimeFormat(undefined, {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
-        }).format(date);
-    }
-
-    function safeEmail(value) {
-        return typeof value === "string" ? value.trim() : "";
-    }
-
-
-    /* =====================================================
-       3. SUPABASE CLIENT
-       ===================================================== */
-
-    function getSupabaseClient() {
-        const candidates = [
-            window.supabaseClient,
-            window.sbClient,
-            window.supabase
-        ];
-
-        for (const candidate of candidates) {
-            if (
-                candidate &&
-                typeof candidate.auth?.getUser === "function" &&
-                typeof candidate.from === "function"
-            ) {
-                return candidate;
-            }
+        if (
+            client &&
+            typeof client.from === "function" &&
+            client.auth
+        ) {
+            return client;
         }
 
         return null;
+    },
+
+    tables: {
+        affiliates: "affiliates",
+        commissions: "affiliate_commissions",
+        payouts: "affiliate_payouts",
+        referrals: "affiliate_referrals"
+    },
+
+    // Your affiliate commission data is expected to be
+    // stored in BDT unless your database specifies otherwise.
+    baseCurrency: "BDT",
+
+    /*
+       Configure these exchange rates using trusted,
+       current rates before enabling currency conversion.
+
+       Example structure:
+       exchangeRates: {
+           BDT: 1,
+           USD: YOUR_CURRENT_BDT_TO_USD_RATE,
+           EUR: YOUR_CURRENT_BDT_TO_EUR_RATE
+       }
+
+       Null means conversion is not configured.
+    */
+
+    exchangeRates: {
+        BDT: 1,
+        USD: null,
+        EUR: null
+    },
+
+    currencySymbols: {
+        BDT: "৳",
+        USD: "$",
+        EUR: "€"
+    },
+
+    currencyLocales: {
+        BDT: "en-BD",
+        USD: "en-US",
+        EUR: "de-DE"
+    },
+
+    refreshInterval: 60000,
+
+    // Optional: change this if your application stores
+    // the affiliate ID under another property.
+    affiliateIdColumn: "affiliate_id",
+
+    // Commission amounts are counted only when their
+    // status is approved/paid, unless you change this.
+    eligibleCommissionStatuses: [
+        "approved",
+        "paid"
+    ]
+};
+
+
+/* =========================================================
+   2. DASHBOARD STATE
+========================================================= */
+
+const AffiliateDashboard = {
+    initialized: false,
+    loading: false,
+    refreshTimer: null,
+
+    user: null,
+    affiliate: null,
+
+    commissions: [],
+    payouts: [],
+    referrals: [],
+
+    // Optional supplemental statistics from your backend.
+    // These are not automatically assumed to exist in
+    // affiliate_referrals.
+    trackingStatistics: null,
+
+    currency: "BDT",
+    timeInterval: "1month",
+
+    customStartDate: null,
+    customEndDate: null,
+
+    conversionPeriod: "month",
+    registrationPeriod: "month",
+    summaryPeriod: "currentMonth",
+
+    filters: {
+        viewClicks: true,
+        directClicks: true,
+        registrations: true,
+        newDeposits: true,
+        commissionAmount: true
+    },
+
+    lastUpdated: null,
+    error: null
+};
+
+
+/* =========================================================
+   3. DOM HELPERS
+========================================================= */
+
+function affiliateElement(id) {
+    return document.getElementById(id);
+}
+
+function affiliateSetText(id, text) {
+    const element = affiliateElement(id);
+
+    if (element) {
+        element.textContent = String(text);
+    }
+}
+
+function affiliateSetStatus(message, type = "info") {
+    const element = affiliateElement("refreshStatus");
+
+    if (!element) {
+        return;
     }
 
-    let supabaseClient = null;
-    let currentUser = null;
-    let currentApplication = null;
+    element.textContent = message;
+    element.dataset.status = type;
 
-    let applicationLoadAttempted = false;
-    let applicationLoadPromise = null;
+    element.style.color =
+        type === "error"
+            ? "#d93636"
+            : type === "success"
+                ? "#12834a"
+                : "";
+}
+
+function affiliateEscapeText(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function affiliateNormalizeStatus(value) {
+    return String(value ?? "")
+        .trim()
+        .toLowerCase();
+}
+
+function affiliateNumber(value) {
+    const number = Number(value);
+
+    return Number.isFinite(number) ? number : 0;
+}
+
+function affiliateDate(value) {
+    if (!value) {
+        return null;
+    }
+
+    const date = new Date(value);
+
+    return Number.isNaN(date.getTime())
+        ? null
+        : date;
+}
+
+function affiliateStartOfDay(date = new Date()) {
+    const result = new Date(date);
+
+    result.setHours(0, 0, 0, 0);
+
+    return result;
+}
+
+function affiliateStartOfMonth(date = new Date()) {
+    return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        1
+    );
+}
+
+function affiliateAddDays(date, days) {
+    const result = new Date(date);
+
+    result.setDate(result.getDate() + days);
+
+    return result;
+}
+
+function affiliateFormatDate(date) {
+    if (!date) {
+        return "—";
+    }
+
+    return new Intl.DateTimeFormat("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    }).format(date);
+}
 
 
-    /* =====================================================
-       4. NOTIFICATIONS
-       ===================================================== */
+/* =========================================================
+   4. CURRENCY FORMATTING
+========================================================= */
 
-    let noticeTimer = null;
+function affiliateGetExchangeRate(currency) {
+    return AFFILIATE_CONFIG.exchangeRates[currency] ?? null;
+}
 
-    function showNotice(message, type = "info", title = "") {
-        const notice = byId("affiliateNotice");
+function affiliateConvertAmount(amount, currency) {
+    const rate = affiliateGetExchangeRate(currency);
 
-        if (!notice) {
-            return;
-        }
+    if (rate === null || !Number.isFinite(Number(rate))) {
+        return null;
+    }
 
-        const titleElement = byId("affiliateNoticeTitle");
-        const messageElement = byId("affiliateNoticeMessage");
-        const iconElement = byId("affiliateNoticeIcon");
+    return affiliateNumber(amount) * Number(rate);
+}
 
-        const types = {
-            success: {
-                title: "Success",
-                icon: "✓"
-            },
+function affiliateFormatMoney(amount, currency = AffiliateDashboard.currency) {
+    const convertedAmount = affiliateConvertAmount(
+        amount,
+        currency
+    );
 
-            error: {
-                title: "Something went wrong",
-                icon: "!"
-            },
+    if (convertedAmount === null) {
+        return "Rate unavailable";
+    }
 
-            warning: {
-                title: "Notice",
-                icon: "!"
-            },
-
-            info: {
-                title: "Information",
-                icon: "i"
+    try {
+        return new Intl.NumberFormat(
+            AFFILIATE_CONFIG.currencyLocales[currency] || "en",
+            {
+                style: "currency",
+                currency,
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }
-        };
+        ).format(convertedAmount);
+    } catch (error) {
+        const symbol =
+            AFFILIATE_CONFIG.currencySymbols[currency] || "";
 
-        const config = types[type] || types.info;
+        return symbol + convertedAmount.toFixed(2);
+    }
+}
 
-        if (titleElement) {
-            titleElement.textContent = title || config.title;
-        }
 
-        if (messageElement) {
-            messageElement.textContent = String(message || "");
-        }
+/* =========================================================
+   5. NAVIGATION MENU
+========================================================= */
 
-        if (iconElement) {
-            iconElement.textContent = config.icon;
-        }
+function affiliateInitializeMenu() {
+    const menuButton = affiliateElement("menuToggle");
+    const menu = affiliateElement("navigationMenu");
 
-        notice.dataset.type = type;
-
-        setHidden(notice, false);
-
-        if (noticeTimer) {
-            window.clearTimeout(noticeTimer);
-        }
-
-        noticeTimer = window.setTimeout(() => {
-            setHidden(notice, true);
-        }, 7000);
+    if (!menuButton || !menu) {
+        return;
     }
 
-    function closeNotice() {
-        if (noticeTimer) {
-            window.clearTimeout(noticeTimer);
-            noticeTimer = null;
-        }
+    function setMenuOpen(open) {
+        menu.hidden = !open;
 
-        setHidden(byId("affiliateNotice"), true);
-    }
-
-
-    /* =====================================================
-       5. LOADING AND EMPTY STATES
-       ===================================================== */
-
-    function setLoading(isLoading) {
-        setHidden(byId("affiliateLoading"), !isLoading);
-    }
-
-    function showEmptyState(title, message) {
-        setText(
-            "affiliateEmptyTitle",
-            title,
-            "Information not available"
+        menuButton.setAttribute(
+            "aria-expanded",
+            String(open)
         );
 
-        setText(
-            "affiliateEmptyMessage",
-            message,
-            "Affiliate account information is not available."
-        );
-
-        setHidden(byId("affiliateEmptyState"), false);
-    }
-
-    function hideEmptyState() {
-        setHidden(byId("affiliateEmptyState"), true);
-    }
-
-
-    /* =====================================================
-       6. ACCOUNT STATUS
-       ===================================================== */
-
-    function getStatusPresentation(status) {
-        const normalized = normalizeStatus(status);
-
-        switch (normalized) {
-            case "approved":
-            case "active":
-                return {
-                    label: "Approved",
-                    description:
-                        "Your affiliate application has been approved.",
-                    className: "approved",
-                    stepClass: "is-complete"
-                };
-
-            case "pending":
-            case "under_review":
-            case "under review":
-                return {
-                    label: "Pending Review",
-                    description:
-                        "Your affiliate application is waiting for review.",
-                    className: "pending",
-                    stepClass: ""
-                };
-
-            case "rejected":
-            case "declined":
-                return {
-                    label: "Rejected",
-                    description:
-                        "Your affiliate application was not approved.",
-                    className: "rejected",
-                    stepClass: "is-error"
-                };
-
-            default:
-                return {
-                    label: status ? humanize(status) : "Not Available",
-                    description:
-                        "Your affiliate account status could not be confirmed.",
-                    className: "",
-                    stepClass: ""
-                };
-        }
-    }
-
-    function updateAccountStatus(status) {
-        const presentation = getStatusPresentation(status);
-
-        const accountStatus = byId("affiliateAccountStatus");
-        const profileStatusBadge = byId("affiliateProfileStatusBadge");
-
-        setText("affiliateStatusText", presentation.label);
-        setText("profileAffiliateStatus", presentation.label);
-        setText("affiliateStatusDescription", presentation.description);
-
-        if (accountStatus) {
-            accountStatus.classList.remove(
-                "approved",
-                "pending",
-                "rejected",
-                "is-approved",
-                "is-pending",
-                "is-rejected"
-            );
-
-            if (presentation.className) {
-                accountStatus.classList.add(presentation.className);
-            }
-        }
-
-        if (profileStatusBadge) {
-            profileStatusBadge.classList.remove(
-                "approved",
-                "pending",
-                "rejected",
-                "is-approved",
-                "is-pending",
-                "is-rejected"
-            );
-
-            if (presentation.className) {
-                profileStatusBadge.classList.add(
-                    presentation.className
-                );
-            }
-
-            profileStatusBadge.textContent = presentation.label;
-        }
-
-        const applicationStep = byId("overviewApplicationStatus");
-
-        if (applicationStep) {
-            applicationStep.textContent = presentation.label;
-
-            applicationStep.classList.remove(
-                "is-complete",
-                "completed",
-                "approved",
-                "is-error",
-                "rejected"
-            );
-
-            if (presentation.stepClass) {
-                applicationStep.classList.add(
-                    presentation.stepClass
-                );
-            }
-        }
-
-        const referralStep = byId("overviewReferralStatus");
-
-        if (referralStep) {
-            if (normalizeStatus(status) === "approved") {
-                referralStep.textContent =
-                    "Affiliate approval confirmed";
-
-                referralStep.classList.add("is-complete");
-            } else {
-                referralStep.textContent =
-                    "Available after account approval";
-
-                referralStep.classList.remove("is-complete");
-            }
-        }
-
-        const referralLink = byId("affiliateReferralLink");
-        const referralCode = byId("affiliateReferralCode");
-
-        const isApproved = normalizeStatus(status) === "approved";
-
-        if (referralLink) {
-            referralLink.disabled = !isApproved;
-        }
-
-        if (referralCode) {
-            referralCode.disabled = !isApproved;
-        }
-    }
-
-
-    /* =====================================================
-       7. THREE-DOT DROPDOWN
-       ===================================================== */
-
-    const menuToggle = byId("affiliateMenuToggle");
-    const dropdownMenu = byId("affiliateDropdownMenu");
-
-    function isMenuOpen() {
-        return Boolean(
-            menuToggle &&
-            menuToggle.getAttribute("aria-expanded") === "true"
+        menuButton.setAttribute(
+            "aria-label",
+            open ? "Close menu" : "Open menu"
         );
     }
 
-    function openMenu() {
-        if (!menuToggle || !dropdownMenu) {
-            return;
+    menuButton.addEventListener("click", () => {
+        const isOpen =
+            menuButton.getAttribute("aria-expanded") === "true";
+
+        setMenuOpen(!isOpen);
+    });
+
+    menu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            setMenuOpen(false);
+        });
+    });
+
+    document.addEventListener("click", event => {
+        if (
+            !menu.hidden &&
+            !menu.contains(event.target) &&
+            !menuButton.contains(event.target)
+        ) {
+            setMenuOpen(false);
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            setMenuOpen(false);
+            menuButton.focus();
+        }
+    });
+
+    setMenuOpen(false);
+}
+
+
+/* =========================================================
+   6. PERIOD HELPERS
+========================================================= */
+
+function affiliateGetPeriodRange(period) {
+    const now = new Date();
+    const today = affiliateStartOfDay(now);
+
+    switch (period) {
+        case "week":
+        case "7days":
+            return {
+                start: affiliateAddDays(today, -6),
+                end: now
+            };
+
+        case "month":
+        case "1month":
+            return {
+                start: affiliateStartOfMonth(now),
+                end: now
+            };
+
+        case "6months":
+            return {
+                start: new Date(
+                    now.getFullYear(),
+                    now.getMonth() - 5,
+                    1
+                ),
+                end: now
+            };
+
+        case "yesterday": {
+            const yesterday = affiliateAddDays(today, -1);
+
+            return {
+                start: yesterday,
+                end: today
+            };
         }
 
-        setHidden(dropdownMenu, false);
-        menuToggle.setAttribute("aria-expanded", "true");
-        menuToggle.setAttribute("aria-label", "Close account menu");
+        case "today":
+            return {
+                start: today,
+                end: now
+            };
+
+        case "last7days":
+            return {
+                start: affiliateAddDays(today, -6),
+                end: now
+            };
+
+        case "currentMonth":
+            return {
+                start: affiliateStartOfMonth(now),
+                end: now
+            };
+
+        case "previousMonth":
+            return {
+                start: new Date(
+                    now.getFullYear(),
+                    now.getMonth() - 1,
+                    1
+                ),
+                end: affiliateStartOfMonth(now)
+            };
+
+        case "all":
+            return {
+                start: null,
+                end: now
+            };
+
+        default:
+            return {
+                start: affiliateStartOfMonth(now),
+                end: now
+            };
+    }
+}
+
+function affiliateIsInRange(value, range) {
+    const date = affiliateDate(value);
+
+    if (!date) {
+        return false;
     }
 
-    function closeMenu() {
-        if (!menuToggle || !dropdownMenu) {
-            return;
-        }
-
-        setHidden(dropdownMenu, true);
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open account menu");
+    if (range.start && date < range.start) {
+        return false;
     }
 
-    function toggleMenu() {
-        if (isMenuOpen()) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
+    if (range.end && date > range.end) {
+        return false;
     }
 
+    return true;
+}
 
-    /* =====================================================
-       8. SECTION NAVIGATION
-       ===================================================== */
+function affiliateGetCommissionDate(record) {
+    return (
+        record.period_end ||
+        record.created_at ||
+        record.period_start ||
+        record.updated_at ||
+        null
+    );
+}
 
-    const SECTION_TITLES = {
-        overview: "Account Overview",
-        referrals: "My Referrals",
-        commissions: "Commission History",
-        settlements: "Settlements",
-        payouts: "Payout Requests",
-        profile: "Affiliate Profile"
+function affiliateGetReferralDate(record) {
+    return (
+        record.created_at ||
+        record.registered_at ||
+        record.created_on ||
+        null
+    );
+}
+
+
+/* =========================================================
+   7. COMMISSION CALCULATIONS
+========================================================= */
+
+function affiliateIsEligibleCommission(record) {
+    const status = affiliateNormalizeStatus(record.status);
+
+    return AFFILIATE_CONFIG.eligibleCommissionStatuses
+        .includes(status);
+}
+
+function affiliateGetCommissionAmount(record) {
+    return affiliateNumber(record.commission_amount);
+}
+
+function affiliateSumCommissions(records) {
+    return records
+        .filter(affiliateIsEligibleCommission)
+        .reduce((total, record) => {
+            return total + affiliateGetCommissionAmount(record);
+        }, 0);
+}
+
+function affiliateGetCommissionsInRange(range) {
+    return AffiliateDashboard.commissions.filter(record => {
+        return affiliateIsInRange(
+            affiliateGetCommissionDate(record),
+            range
+        );
+    });
+}
+
+function affiliateGetTodayCommission() {
+    const range = affiliateGetPeriodRange("today");
+
+    return affiliateSumCommissions(
+        affiliateGetCommissionsInRange(range)
+    );
+}
+
+function affiliateGetYesterdayCommission() {
+    const range = affiliateGetPeriodRange("yesterday");
+
+    return affiliateSumCommissions(
+        affiliateGetCommissionsInRange(range)
+    );
+}
+
+function affiliateGetCurrentMonthCommission() {
+    const range = affiliateGetPeriodRange("currentMonth");
+
+    return affiliateSumCommissions(
+        affiliateGetCommissionsInRange(range)
+    );
+}
+
+function affiliateGetThirtyDaysCommission() {
+    const range = {
+        start: affiliateAddDays(
+            affiliateStartOfDay(new Date()),
+            -29
+        ),
+        end: new Date()
     };
 
-    let activeSection = "overview";
+    return affiliateSumCommissions(
+        affiliateGetCommissionsInRange(range)
+    );
+}
 
-    function navigateToSection(sectionName, options = {}) {
-        const section = String(sectionName || "").trim();
 
-        if (!Object.prototype.hasOwnProperty.call(
-            SECTION_TITLES,
-            section
-        )) {
-            return false;
-        }
+/* =========================================================
+   8. AVAILABLE BALANCE CALCULATION
+========================================================= */
 
-        const targetSection = byId(`section-${section}`);
+/*
+   Available to Withdraw is calculated from approved
+   commissions minus completed payouts.
 
-        if (!targetSection) {
-            return false;
-        }
+   IMPORTANT:
+   Your payout schema must use compatible status and amount
+   fields for this calculation to match your real wallet.
+*/
 
-        activeSection = section;
+function affiliateGetCompletedPayoutAmount() {
+    return AffiliateDashboard.payouts
+        .filter(record => {
+            const status = affiliateNormalizeStatus(record.status);
 
-        $$(".affiliate-section[data-page]").forEach(element => {
-            const isActive = element.dataset.page === section;
+            return [
+                "paid",
+                "completed",
+                "success"
+            ].includes(status);
+        })
+        .reduce((total, record) => {
+            return total + affiliateNumber(record.amount);
+        }, 0);
+}
 
-            setHidden(element, !isActive);
+function affiliateGetAvailableBalance() {
+    const lifetimeCommission = affiliateSumCommissions(
+        AffiliateDashboard.commissions
+    );
 
-            element.classList.toggle("active", isActive);
-        });
+    const completedPayouts =
+        affiliateGetCompletedPayoutAmount();
 
-        $$(".affiliate-dropdown-item[data-section]").forEach(button => {
-            const isActive = button.dataset.section === section;
+    return Math.max(
+        0,
+        lifetimeCommission - completedPayouts
+    );
+}
 
-            button.classList.toggle("active", isActive);
+function affiliateRenderEarnings() {
+    const available = affiliateGetAvailableBalance();
 
-            if (isActive) {
-                button.setAttribute("aria-current", "page");
-            } else {
-                button.removeAttribute("aria-current");
-            }
-        });
+    const yesterday = affiliateGetYesterdayCommission();
 
-        setText(
-            "affiliateWelcomeTitle",
-            SECTION_TITLES[section],
-            "Account Overview"
+    const currentMonth =
+        affiliateGetCurrentMonthCommission();
+
+    const thirtyDays =
+        affiliateGetThirtyDaysCommission();
+
+    const total = affiliateSumCommissions(
+        AffiliateDashboard.commissions
+    );
+
+    affiliateSetText(
+        "availableToWithdraw",
+        affiliateFormatMoney(available)
+    );
+
+    affiliateSetText(
+        "yesterdayCommission",
+        affiliateFormatMoney(yesterday)
+    );
+
+    affiliateSetText(
+        "currentMonthCommission",
+        affiliateFormatMoney(currentMonth)
+    );
+
+    affiliateSetText(
+        "thirtyDaysCommission",
+        affiliateFormatMoney(thirtyDays)
+    );
+
+    affiliateSetText(
+        "totalCommission",
+        affiliateFormatMoney(total)
+    );
+}
+
+
+/* =========================================================
+   9. SUPABASE DATA LOADING
+========================================================= */
+
+/*
+   Expected existing tables:
+       affiliates
+       affiliate_commissions
+       affiliate_payouts
+       affiliate_referrals
+
+   Expected relationship:
+       affiliates.user_id = authenticated user ID
+
+   Expected commission fields include:
+       affiliate_id
+       commission_amount
+       status
+       period_start
+       period_end
+       created_at
+
+   Expected payout fields include:
+       affiliate_id
+       amount
+       status
+       created_at
+
+   Adapt the column names below if your actual schema
+   differs. RLS policies must permit the authenticated
+   affiliate to read only their own records.
+*/
+
+async function affiliateFetchRows(
+    client,
+    tableName,
+    affiliateId
+) {
+    const column = AFFILIATE_CONFIG.affiliateIdColumn;
+
+    const result = await client
+        .from(tableName)
+        .select("*")
+        .eq(column, affiliateId);
+
+    if (result.error) {
+        throw result.error;
+    }
+
+    return Array.isArray(result.data)
+        ? result.data
+        : [];
+}
+
+async function affiliateLoadSupabaseData() {
+    const client = AFFILIATE_CONFIG.getSupabaseClient();
+
+    if (!client) {
+        throw new Error(
+            "Supabase client not found. Configure your existing client before loading affiliate data."
         );
+    }
 
-        closeMenu();
+    const authResult = await client.auth.getUser();
 
-        if (options.scroll !== false) {
-            window.scrollTo({
-                top: 0,
-                behavior: window.matchMedia(
-                    "(prefers-reduced-motion: reduce)"
-                ).matches
-                    ? "auto"
-                    : "smooth"
-            });
-        }
+    if (authResult.error) {
+        throw authResult.error;
+    }
 
+    const user = authResult.data?.user;
+
+    if (!user) {
+        throw new Error(
+            "Please sign in to view your affiliate dashboard."
+        );
+    }
+
+    AffiliateDashboard.user = user;
+
+    const affiliateResult = await client
+        .from(AFFILIATE_CONFIG.tables.affiliates)
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (affiliateResult.error) {
+        throw affiliateResult.error;
+    }
+
+    const affiliate = affiliateResult.data;
+
+    if (!affiliate) {
+        throw new Error(
+            "No affiliate account was found for this user."
+        );
+    }
+
+    AffiliateDashboard.affiliate = affiliate;
+
+    const affiliateId = affiliate.affiliate_id;
+
+    if (!affiliateId) {
+        throw new Error(
+            "The affiliate account is missing its affiliate_id."
+        );
+    }
+
+    const results = await Promise.all([
+        affiliateFetchRows(
+            client,
+            AFFILIATE_CONFIG.tables.commissions,
+            affiliateId
+        ),
+
+        affiliateFetchRows(
+            client,
+            AFFILIATE_CONFIG.tables.payouts,
+            affiliateId
+        ),
+
+        affiliateFetchRows(
+            client,
+            AFFILIATE_CONFIG.tables.referrals,
+            affiliateId
+        )
+    ]);
+
+    AffiliateDashboard.commissions = results[0];
+    AffiliateDashboard.payouts = results[1];
+    AffiliateDashboard.referrals = results[2];
+
+    AffiliateDashboard.error = null;
+
+    return {
+        affiliate,
+        commissions: results[0],
+        payouts: results[1],
+        referrals: results[2]
+    };
+}
+
+
+/* =========================================================
+   10. DATE FILTER VALIDATION
+========================================================= */
+
+function affiliateValidateDateRange() {
+    const interval = affiliateElement("timeInterval");
+
+    if (!interval || interval.value !== "custom") {
         return true;
     }
 
-    function initializeNavigation() {
-        if (menuToggle) {
-            menuToggle.addEventListener("click", event => {
-                event.preventDefault();
-                event.stopPropagation();
-                toggleMenu();
-            });
-        }
+    const startInput = affiliateElement("startDate");
+    const endInput = affiliateElement("endDate");
 
-        if (dropdownMenu) {
-            dropdownMenu.addEventListener("click", event => {
-                const button = event.target.closest(
-                    ".affiliate-dropdown-item[data-section]"
-                );
+    const startValue = startInput?.value;
+    const endValue = endInput?.value;
 
-                if (!button) {
-                    return;
-                }
+    if (!startValue || !endValue) {
+        affiliateSetStatus(
+            "Please select both a start date and an end date.",
+            "error"
+        );
 
-                navigateToSection(button.dataset.section);
-            });
-        }
-
-        document.addEventListener("click", event => {
-            if (!isMenuOpen()) {
-                return;
-            }
-
-            const menuContainer = $(".affiliate-menu-container");
-
-            if (
-                menuContainer &&
-                !menuContainer.contains(event.target)
-            ) {
-                closeMenu();
-            }
-        });
-
-        document.addEventListener("keydown", event => {
-            if (event.key === "Escape") {
-                closeMenu();
-            }
-        });
-
-        $$("[data-open-section]").forEach(button => {
-            button.addEventListener("click", () => {
-                navigateToSection(button.dataset.openSection);
-            });
-        });
-
-        const backButton = byId("backToAccountBtn");
-
-        if (backButton) {
-            backButton.addEventListener("click", () => {
-                if (window.history.length > 1) {
-                    window.history.back();
-                } else {
-                    showNotice(
-                        "There is no previous page in this browsing session.",
-                        "info"
-                    );
-                }
-            });
-        }
-
-        navigateToSection("overview", {
-            scroll: false
-        });
+        return false;
     }
 
+    if (startValue > endValue) {
+        affiliateSetStatus(
+            "Start Date cannot be later than End Date.",
+            "error"
+        );
 
-    /* =====================================================
-       9. APPLICATION DATA HELPERS
-       ===================================================== */
-
-    function getApplicationName(application) {
-        const firstName = String(
-            application.first_name || ""
-        ).trim();
-
-        const lastName = String(
-            application.last_name || ""
-        ).trim();
-
-        return [firstName, lastName]
-            .filter(Boolean)
-            .join(" ");
+        return false;
     }
 
-    function getApplicationContact(application) {
-        const platform = normalizeStatus(
-            application.contact_platform
-        );
-
-        if (platform === "telegram") {
-            return application.telegram_username || "";
-        }
-
-        if (platform === "whatsapp") {
-            return application.whatsapp_number || "";
-        }
-
-        return (
-            application.telegram_username ||
-            application.whatsapp_number ||
-            ""
-        );
-    }
-
-    function getPromotionType(application) {
-        return (
-            application.link_category ||
-            application.promotion_type ||
-            ""
-        );
-    }
-
-
-    /* =====================================================
-       10. PROFILE RENDERING
-       ===================================================== */
-
-    function renderApplicationProfile(application, user) {
-        if (!application) {
-            return;
-        }
-
-        const fullName = getApplicationName(application);
-
-        setText(
-            "profileAffiliateId",
-            application.affiliate_id ||
-            application.id ||
-            ""
-        );
-
-        setText(
-            "profileUserId",
-            application.player_id ||
-            ""
-        );
-
-        setText(
-            "profileFirstName",
-            application.first_name ||
-            ""
-        );
-
-        setText(
-            "profileLastName",
-            application.last_name ||
-            ""
-        );
-
-        setText(
-            "profileFullName",
-            fullName
-        );
-
-        setText(
-            "profileEmail",
-            application.email ||
-            user?.email ||
-            ""
-        );
-
-        setText(
-            "profileAffiliateCode",
-            application.affiliate_code ||
-            application.referral_code ||
-            ""
-        );
-
-        setText(
-            "profileCommissionRate",
-            application.commission_rate !== null &&
-            application.commission_rate !== undefined
-                ? `${application.commission_rate}%`
-                : ""
-        );
-
-        setText(
-            "profileApplicationDate",
-            formatDate(
-                application.created_at ||
-                application.application_date
-            )
-        );
-
-        setText(
-            "profileApprovalDate",
-            formatDate(
-                application.approved_at ||
-                application.approval_date
-            )
-        );
-
-        setText(
-            "profilePromotionType",
-            humanize(getPromotionType(application))
-        );
-
-        setText(
-            "profileContactPlatform",
-            humanize(application.contact_platform)
-        );
-
-        setText(
-            "profileContactInformation",
-            getApplicationContact(application)
-        );
-
-        setText(
-            "profilePromotionLink",
-            application.promotion_link ||
-            ""
-        );
-
-        /*
-         * Use only an explicit referral URL stored by the backend.
-         * Do not construct a tracking URL without knowing the
-         * actual referral route and parameter format.
-         */
-        const referralURL =
-            application.referral_url ||
-            application.affiliate_link ||
-            "";
-
-        const referralCode =
-            application.referral_code ||
-            application.affiliate_code ||
-            "";
-
-        setInputValue(
-            "affiliateReferralLink",
-            referralURL
-        );
-
-        setInputValue(
-            "affiliateReferralCode",
-            referralCode
-        );
-
-        const copyLinkButton = byId("copyReferralLinkBtn");
-        const copyCodeButton = byId("copyAffiliateCodeBtn");
-
-        const approved =
-            normalizeStatus(application.status) === "approved";
-
-        if (copyLinkButton) {
-            copyLinkButton.disabled =
-                !approved || !referralURL;
-        }
-
-        if (copyCodeButton) {
-            copyCodeButton.disabled =
-                !approved || !referralCode;
-        }
-
-        updateAccountStatus(application.status);
-        updateOverviewSteps(application);
-    }
-
-
-    /* =====================================================
-       11. OVERVIEW STEP STATUSES
-       ===================================================== */
-
-    function updateOverviewSteps(application) {
-        const status = normalizeStatus(application.status);
-        const approved = status === "approved";
-
-        const referralStatus = byId(
-            "overviewReferralStatus"
-        );
-
-        const activityStatus = byId(
-            "overviewReferralActivityStatus"
-        );
-
-        const commissionStatus = byId(
-            "overviewCommissionStatus"
-        );
-
-        const payoutStatus = byId(
-            "overviewPayoutStatus"
-        );
-
-        if (referralStatus) {
-            referralStatus.textContent = approved
-                ? "Affiliate approval confirmed"
-                : "Available after approval";
-
-            referralStatus.classList.toggle(
-                "is-complete",
-                approved
-            );
-        }
-
-        if (activityStatus) {
-            activityStatus.textContent =
-                "Awaiting verified referral records";
-        }
-
-        if (commissionStatus) {
-            commissionStatus.textContent =
-                "Awaiting commission records";
-        }
-
-        if (payoutStatus) {
-            payoutStatus.textContent =
-                "Awaiting settlement and payout records";
-        }
-    }
-
-
-    /* =====================================================
-       12. CLEAR UNAVAILABLE DATA
-       ===================================================== */
-
-    function clearUnavailableAccountData() {
-        const numericFields = [
-            "totalReferralsValue",
-            "qualifiedPlayersValue",
-            "totalCommissionValue",
-            "availableBalanceValue",
-
-            "commissionTotalEarned",
-            "commissionPending",
-            "commissionApproved",
-            "commissionPaid",
-
-            "historyTotalEarned",
-            "historyPending",
-            "historyApproved",
-            "historyPaid",
-
-            "payoutAvailableBalance",
-            "payoutPendingAmount",
-            "payoutTotalPaid"
-        ];
-
-        numericFields.forEach(id => {
-            setText(id, "—");
-        });
-
-        const referralURL = byId("affiliateReferralLink");
-        const referralCode = byId("affiliateReferralCode");
-
-        if (referralURL) {
-            referralURL.value = "";
-        }
-
-        if (referralCode) {
-            referralCode.value = "";
-        }
-
-        const copyLinkButton = byId("copyReferralLinkBtn");
-        const copyCodeButton = byId("copyAffiliateCodeBtn");
-
-        if (copyLinkButton) {
-            copyLinkButton.disabled = true;
-        }
-
-        if (copyCodeButton) {
-            copyCodeButton.disabled = true;
-        }
-
-        setText(
-            "overviewReferralsTableBody",
-            ""
-        );
-
-        renderEmptyTable(
-            "overviewReferralsTableBody",
-            4,
-            "Referral information is not available."
-        );
-
-        renderEmptyTable(
-            "referralsTableBody",
-            5,
-            "Referral records are not available."
-        );
-
-        renderEmptyTable(
-            "commissionsTableBody",
-            5,
-            "Commission records are not available."
-        );
-
-        renderEmptyTable(
-            "settlementsTableBody",
-            5,
-            "Settlement records are not available."
-        );
-
-        renderEmptyTable(
-            "payoutsTableBody",
-            5,
-            "Payout records are not available."
-        );
-    }
-
-
-    /* =====================================================
-       13. TABLE HELPERS
-       ===================================================== */
-
-    function renderEmptyTable(bodyId, columnCount, message) {
-        const body = byId(bodyId);
-
-        if (!body) {
-            return;
-        }
-
-        const row = document.createElement("tr");
-        const cell = document.createElement("td");
-
-        cell.colSpan = columnCount;
-        cell.className = "table-empty";
-        cell.textContent = message;
-
-        row.appendChild(cell);
-
-        body.replaceChildren(row);
-    }
-
-    function getRowSearchText(row) {
-        return row.textContent
-            .trim()
-            .toLowerCase();
-    }
-
-    function initializeTableFilter({
-        searchId,
-        statusId,
-        bodyId,
-        columnCount,
-        statusColumnIndex = -1,
-        emptyMessage
-    }) {
-        const searchInput = byId(searchId);
-        const statusSelect = byId(statusId);
-        const tableBody = byId(bodyId);
-
-        if (!tableBody) {
-            return;
-        }
-
-        function applyFilters() {
-            const searchTerm = String(
-                searchInput?.value || ""
-            ).trim().toLowerCase();
-
-            const statusTerm = normalizeStatus(
-                statusSelect?.value || ""
-            );
-
-            const rows = Array.from(
-                tableBody.querySelectorAll("tr")
-            );
-
-            let visibleRows = 0;
-
-            rows.forEach(row => {
-                if (row.querySelector(".table-empty")) {
-                    return;
-                }
-
-                const textMatches =
-                    !searchTerm ||
-                    getRowSearchText(row).includes(searchTerm);
-
-                let statusMatches = true;
-
-                if (
-                    statusTerm &&
-                    statusColumnIndex >= 0 &&
-                    row.cells[statusColumnIndex]
-                ) {
-                    statusMatches = normalizeStatus(
-                        row.cells[statusColumnIndex].textContent
-                    ).includes(statusTerm);
-                }
-
-                const isVisible =
-                    textMatches && statusMatches;
-
-                row.hidden = !isVisible;
-
-                if (isVisible) {
-                    visibleRows += 1;
-                }
-            });
-
-            const hasDataRows = rows.some(row =>
-                !row.querySelector(".table-empty")
-            );
-
-            if (hasDataRows && visibleRows === 0) {
-                let emptyRow = tableBody.querySelector(
-                    "[data-filter-empty='true']"
-                );
-
-                if (!emptyRow) {
-                    emptyRow = document.createElement("tr");
-                    emptyRow.dataset.filterEmpty = "true";
-
-                    const cell = document.createElement("td");
-                    cell.colSpan = columnCount;
-                    cell.className = "table-empty";
-
-                    emptyRow.appendChild(cell);
-                    tableBody.appendChild(emptyRow);
-                }
-
-                emptyRow.cells[0].textContent =
-                    "No records match your filters.";
-
-                emptyRow.hidden = false;
-            } else {
-                const filterEmpty = tableBody.querySelector(
-                    "[data-filter-empty='true']"
-                );
-
-                if (filterEmpty) {
-                    filterEmpty.hidden = true;
-                }
-            }
-
-            if (!hasDataRows && emptyMessage) {
-                renderEmptyTable(
-                    bodyId,
-                    columnCount,
-                    emptyMessage
-                );
-            }
-        }
-
-        searchInput?.addEventListener(
-            "input",
-            applyFilters
-        );
-
-        statusSelect?.addEventListener(
-            "change",
-            applyFilters
-        );
-    }
-
-
-    /* =====================================================
-       14. PAGINATION UI
-       ===================================================== */
-
-    function initializePagination({
-        bodyId,
-        previousButtonId,
-        nextButtonId,
-        infoId,
-        pageSize = CONFIG.pageSize
-    }) {
-        const body = byId(bodyId);
-        const previousButton = byId(previousButtonId);
-        const nextButton = byId(nextButtonId);
-        const info = byId(infoId);
-
-        if (!body) {
-            return;
-        }
-
-        let currentPage = 0;
-
-        function getDataRows() {
-            return Array.from(body.querySelectorAll("tr"))
-                .filter(row =>
-                    !row.querySelector(".table-empty") &&
-                    row.dataset.filterEmpty !== "true"
-                );
-        }
-
-        function renderPage() {
-            const rows = getDataRows();
-            const totalRows = rows.length;
-
-            const totalPages = Math.max(
-                1,
-                Math.ceil(totalRows / pageSize)
-            );
-
-            currentPage = Math.min(
-                currentPage,
-                totalPages - 1
-            );
-
-            rows.forEach((row, index) => {
-                const start = currentPage * pageSize;
-                const end = start + pageSize;
-
-                row.hidden = index < start || index >= end;
-            });
-
-            if (info) {
-                if (totalRows === 0) {
-                    info.textContent = "No records available";
-                } else {
-                    const start =
-                        currentPage * pageSize + 1;
-
-                    const end = Math.min(
-                        (currentPage + 1) * pageSize,
-                        totalRows
-                    );
-
-                    info.textContent =
-                        `${start}–${end} of ${totalRows}`;
-                }
-            }
-
-            if (previousButton) {
-                previousButton.disabled = currentPage <= 0;
-            }
-
-            if (nextButton) {
-                nextButton.disabled =
-                    currentPage >= totalPages - 1 ||
-                    totalRows === 0;
-            }
-        }
-
-        previousButton?.addEventListener("click", () => {
-            if (currentPage > 0) {
-                currentPage -= 1;
-                renderPage();
-            }
-        });
-
-        nextButton?.addEventListener("click", () => {
-            const totalPages = Math.ceil(
-                getDataRows().length / pageSize
-            );
-
-            if (currentPage < totalPages - 1) {
-                currentPage += 1;
-                renderPage();
-            }
-        });
-
-        renderPage();
-
+    AffiliateDashboard.customStartDate =
+        new Date(`${startValue}T00:00:00`);
+
+    AffiliateDashboard.customEndDate =
+        new Date(`${endValue}T23:59:59.999`);
+
+    return true;
+}
+
+function affiliateGetDashboardDateRange() {
+    if (
+        AffiliateDashboard.timeInterval === "custom" &&
+        AffiliateDashboard.customStartDate &&
+        AffiliateDashboard.customEndDate
+    ) {
         return {
-            refresh: renderPage
+            start: AffiliateDashboard.customStartDate,
+            end: AffiliateDashboard.customEndDate
         };
     }
 
+    return affiliateGetPeriodRange(
+        AffiliateDashboard.timeInterval
+    );
+}
 
-    /* =====================================================
-       15. COPY REFERRAL LINK / CODE
-       ===================================================== */
 
-    async function copyText(value, successMessage) {
-        const text = String(value || "").trim();
+/* =========================================================
+   11. CURRENCY AND INTERVAL CONTROLS
+========================================================= */
 
-        if (!text) {
-            showNotice(
-                "There is no referral information available to copy.",
-                "warning"
-            );
+function affiliateInitializeFilters() {
+    const interval = affiliateElement("timeInterval");
+    const currency = affiliateElement("currencySelect");
 
-            return;
-        }
+    const customRange = affiliateElement("customDateRange");
 
-        try {
-            if (navigator.clipboard?.writeText) {
-                await navigator.clipboard.writeText(text);
-            } else {
-                const temporaryInput =
-                    document.createElement("textarea");
+    const startDate = affiliateElement("startDate");
+    const endDate = affiliateElement("endDate");
 
-                temporaryInput.value = text;
-                temporaryInput.setAttribute("readonly", "");
-                temporaryInput.style.position = "fixed";
-                temporaryInput.style.opacity = "0";
+    const applyButton = affiliateElement("applyStatistics");
 
-                document.body.appendChild(temporaryInput);
-                temporaryInput.select();
+    if (interval && customRange) {
+        interval.addEventListener("change", () => {
+            customRange.hidden = interval.value !== "custom";
 
-                const copied = document.execCommand("copy");
+            AffiliateDashboard.timeInterval = interval.value;
 
-                temporaryInput.remove();
+            if (interval.value === "custom") {
+                const today = new Date();
+                const todayString = [
+                    today.getFullYear(),
+                    String(today.getMonth() + 1).padStart(2, "0"),
+                    String(today.getDate()).padStart(2, "0")
+                ].join("-");
 
-                if (!copied) {
-                    throw new Error("Copy command failed.");
+                if (startDate) {
+                    startDate.max = todayString;
+                }
+
+                if (endDate) {
+                    endDate.max = todayString;
                 }
             }
-
-            showNotice(
-                successMessage,
-                "success"
-            );
-        } catch (error) {
-            console.error(
-                "[Affiliate Dashboard] Copy failed:",
-                error
-            );
-
-            showNotice(
-                "Unable to copy automatically. Please select and copy the text manually.",
-                "error"
-            );
-        }
+        });
     }
 
-    function initializeCopyActions() {
-        byId("copyReferralLinkBtn")?.addEventListener(
-            "click",
-            () => {
-                copyText(
-                    byId("affiliateReferralLink")?.value,
-                    "Referral link copied."
-                );
-            }
-        );
+    if (startDate && endDate) {
+        startDate.addEventListener("change", () => {
+            endDate.min = startDate.value || "";
+        });
 
-        byId("copyAffiliateCodeBtn")?.addEventListener(
-            "click",
-            () => {
-                copyText(
-                    byId("affiliateReferralCode")?.value,
-                    "Affiliate code copied."
-                );
-            }
-        );
+        endDate.addEventListener("change", () => {
+            startDate.max = endDate.value || "";
+        });
     }
 
+    if (currency) {
+        currency.addEventListener("change", () => {
+            const selectedCurrency = currency.value;
 
-    /* =====================================================
-       16. LOAD CURRENT USER'S APPLICATION
-       ===================================================== */
-
-    async function getAuthenticatedUser() {
-        if (!supabaseClient) {
-            throw new Error(
-                "Supabase client not found. Initialize the existing Supabase client before loading this dashboard."
-            );
-        }
-
-        const { data, error } =
-            await supabaseClient.auth.getUser();
-
-        if (error) {
-            throw error;
-        }
-
-        if (!data?.user) {
-            return null;
-        }
-
-        return data.user;
-    }
-
-    async function fetchCurrentApplication(user) {
-        /*
-         * This query is scoped to the currently authenticated user.
-         * Row Level Security should also restrict access on Supabase.
-         *
-         * The browser must use only the existing publishable/anon key.
-         * Never put a service-role key in this file.
-         */
-
-        const query = supabaseClient
-            .schema(CONFIG.schema)
-            .from(CONFIG.applicationsTable)
-            .select("*")
-            .eq("auth_user_id", user.id)
-            .limit(1);
-
-        const { data, error } = await query;
-
-        if (error) {
-            throw error;
-        }
-
-        if (!Array.isArray(data) || data.length === 0) {
-            return null;
-        }
-
-        return data[0];
-    }
-
-    async function loadAffiliateApplication() {
-        if (applicationLoadPromise) {
-            return applicationLoadPromise;
-        }
-
-        applicationLoadPromise = (async () => {
-            setLoading(true);
-            hideEmptyState();
-
-            try {
-                currentUser = await getAuthenticatedUser();
-
-                if (!currentUser) {
-                    currentApplication = null;
-
-                    clearUnavailableAccountData();
-
-                    updateAccountStatus("");
-
-                    setText(
-                        "affiliateStatusText",
-                        "Not Signed In"
-                    );
-
-                    showEmptyState(
-                        "Sign in required",
-                        "Please sign in to the customer account associated with your affiliate application."
-                    );
-
-                    return;
-                }
-
-                currentApplication =
-                    await fetchCurrentApplication(currentUser);
-
-                if (!currentApplication) {
-                    clearUnavailableAccountData();
-
-                    updateAccountStatus("");
-
-                    showEmptyState(
-                        "Affiliate application not found",
-                        "No affiliate application was found for the current signed-in account. If you have already submitted one, confirm that you are using the same account."
-                    );
-
-                    return;
-                }
-
-                renderApplicationProfile(
-                    currentApplication,
-                    currentUser
-                );
-
-                hideEmptyState();
-
-                const status = normalizeStatus(
-                    currentApplication.status
-                );
-
-                if (status === "approved") {
-                    setText(
-                        "overviewApplicationStatus",
-                        "Application approved"
-                    );
-                } else if (status === "pending") {
-                    setText(
-                        "overviewApplicationStatus",
-                        "Application pending review"
-                    );
-                }
-
-            } catch (error) {
-                console.error(
-                    "[Affiliate Dashboard] Application load failed:",
-                    error
-                );
-
-                clearUnavailableAccountData();
-
-                showEmptyState(
-                    "Unable to load account information",
-                    "The affiliate account could not be loaded. Check the Supabase connection, schema permissions and Row Level Security policies."
-                );
-
-                showNotice(
-                    "Affiliate account information could not be loaded. Please try again later.",
+            if (
+                !Object.prototype.hasOwnProperty.call(
+                    AFFILIATE_CONFIG.exchangeRates,
+                    selectedCurrency
+                )
+            ) {
+                affiliateSetStatus(
+                    "This currency is not configured.",
                     "error"
                 );
 
-            } finally {
-                applicationLoadAttempted = true;
-                setLoading(false);
-                applicationLoadPromise = null;
-            }
-        })();
-
-        return applicationLoadPromise;
-    }
-
-
-    /* =====================================================
-       17. AUTH STATE CHANGES
-       ===================================================== */
-
-    function initializeAuthListener() {
-        if (!supabaseClient?.auth?.onAuthStateChange) {
-            return;
-        }
-
-        supabaseClient.auth.onAuthStateChange(
-            (event, session) => {
-                if (
-                    event === "SIGNED_OUT" ||
-                    !session?.user
-                ) {
-                    currentUser = null;
-                    currentApplication = null;
-
-                    clearUnavailableAccountData();
-
-                    updateAccountStatus("");
-
-                    setText(
-                        "affiliateStatusText",
-                        "Not Signed In"
-                    );
-
-                    showEmptyState(
-                        "Sign in required",
-                        "Sign in to view your affiliate account information."
-                    );
-
-                    return;
-                }
-
-                if (
-                    event === "SIGNED_IN" ||
-                    event === "USER_UPDATED" ||
-                    event === "TOKEN_REFRESHED"
-                ) {
-                    /*
-                     * Do not query Supabase inside the auth callback.
-                     * Schedule the data load after the callback returns.
-                     */
-                    window.setTimeout(() => {
-                        loadAffiliateApplication();
-                    }, 0);
-                }
-            }
-        );
-    }
-
-
-    /* =====================================================
-       18. PAYOUT FORM SAFETY
-       ===================================================== */
-
-    function initializePayoutForm() {
-        const form = byId("affiliatePayoutForm");
-        const submitButton = byId("submitPayoutRequestBtn");
-
-        if (!form || !submitButton) {
-            return;
-        }
-
-        /*
-         * This dashboard does not yet have a verified payout RPC.
-         * Keep payout submission disabled rather than pretending
-         * that a request was submitted.
-         */
-
-        submitButton.disabled =
-            !CONFIG.payoutSubmissionEnabled;
-
-        form.addEventListener("submit", event => {
-            event.preventDefault();
-
-            if (!CONFIG.payoutSubmissionEnabled) {
-                setText(
-                    "payoutFormMessage",
-                    "Payout requests are not enabled yet. A secure backend submission process must be configured first."
-                );
-
-                showNotice(
-                    "Payout submission is not available yet.",
-                    "warning"
-                );
+                currency.value = AffiliateDashboard.currency;
 
                 return;
             }
 
-            /*
-             * Do not enable this option alone.
-             * Implement and verify the authenticated backend/RPC
-             * request before setting payoutSubmissionEnabled=true.
-             */
-            showNotice(
-                "Payout submission requires the configured backend.",
-                "warning"
+            const rate = affiliateGetExchangeRate(
+                selectedCurrency
+            );
+
+            if (rate === null) {
+                affiliateSetStatus(
+                    `Configure a current ${selectedCurrency} exchange rate before using this currency.`,
+                    "error"
+                );
+
+                currency.value = AffiliateDashboard.currency;
+
+                return;
+            }
+
+            AffiliateDashboard.currency = selectedCurrency;
+
+            affiliateRenderAll();
+        });
+    }
+
+    if (applyButton) {
+        applyButton.addEventListener("click", () => {
+            if (!affiliateValidateDateRange()) {
+                return;
+            }
+
+            if (interval) {
+                AffiliateDashboard.timeInterval = interval.value;
+            }
+
+            affiliateRenderAll();
+
+            affiliateSetStatus(
+                "Statistics filters applied.",
+                "success"
             );
         });
     }
+}
 
 
-    /* =====================================================
-       19. SEARCH AND FILTER INITIALIZATION
-       ===================================================== */
+/* =========================================================
+   12. PERIOD SELECTORS
+========================================================= */
 
-    function initializeFilters() {
-        initializeTableFilter({
-            searchId: "referralSearchInput",
-            statusId: "referralStatusFilter",
-            bodyId: "referralsTableBody",
-            columnCount: 5,
-            statusColumnIndex: 2,
-            emptyMessage: "Referral records are not available."
-        });
+function affiliateInitializePeriodSelectors() {
+    const conversionPeriod =
+        affiliateElement("conversionPeriod");
 
-        initializeTableFilter({
-            searchId: "commissionSearchInput",
-            statusId: "commissionStatusFilter",
-            bodyId: "commissionsTableBody",
-            columnCount: 5,
-            statusColumnIndex: 3,
-            emptyMessage: "Commission records are not available."
-        });
-    }
+    const registrationPeriod =
+        affiliateElement("registrationPeriod");
 
-    function initializePaginationControls() {
-        initializePagination({
-            bodyId: "referralsTableBody",
-            previousButtonId: "referralsPrevPageBtn",
-            nextButtonId: "referralsNextPageBtn",
-            infoId: "referralsPaginationInfo"
-        });
+    const summaryPeriod =
+        affiliateElement("summaryPeriod");
 
-        initializePagination({
-            bodyId: "commissionsTableBody",
-            previousButtonId: "commissionsPrevPageBtn",
-            nextButtonId: "commissionsNextPageBtn",
-            infoId: "commissionsPaginationInfo"
+    if (conversionPeriod) {
+        conversionPeriod.addEventListener("change", () => {
+            AffiliateDashboard.conversionPeriod =
+                conversionPeriod.value;
+
+            affiliateRenderConversionChart();
         });
     }
 
+    if (registrationPeriod) {
+        registrationPeriod.addEventListener("change", () => {
+            AffiliateDashboard.registrationPeriod =
+                registrationPeriod.value;
 
-    /* =====================================================
-       20. INITIALIZE DASHBOARD
-       ===================================================== */
+            affiliateRenderRegistrationChart();
+        });
+    }
 
-    async function initializeDashboard() {
-        initializeNavigation();
+    if (summaryPeriod) {
+        summaryPeriod.addEventListener("change", () => {
+            AffiliateDashboard.summaryPeriod =
+                summaryPeriod.value;
 
-        initializeCopyActions();
+            affiliateRenderStateSummary();
+        });
+    }
+}
 
-        initializePayoutForm();
 
-        initializeFilters();
+/* =========================================================
+   13. CHECKBOX CONTROLS
+========================================================= */
 
-        initializePaginationControls();
+function affiliateInitializeChartToggles() {
+    const toggleMap = {
+        viewClicksToggle: "viewClicks",
+        directClicksToggle: "directClicks",
+        registrationsToggle: "registrations",
+        newDepositsToggle: "newDeposits",
+        commissionAmountToggle: "commissionAmount"
+    };
 
-        byId("closeAffiliateNoticeBtn")?.addEventListener(
-            "click",
-            closeNotice
+    Object.entries(toggleMap).forEach(([id, key]) => {
+        const input = affiliateElement(id);
+
+        if (!input) {
+            return;
+        }
+
+        AffiliateDashboard.filters[key] = input.checked;
+
+        input.addEventListener("change", () => {
+            AffiliateDashboard.filters[key] = input.checked;
+
+            if (
+                key === "viewClicks" ||
+                key === "directClicks"
+            ) {
+                affiliateRenderConversionChart();
+            } else {
+                affiliateRenderRegistrationChart();
+            }
+        });
+    });
+}
+
+
+/* =========================================================
+   14. CHART DATA HELPERS
+========================================================= */
+
+function affiliateGetChartRange(period) {
+    return affiliateGetPeriodRange(period);
+}
+
+function affiliateGetDailyLabels(range) {
+    if (!range.start || !range.end) {
+        return [];
+    }
+
+    const labels = [];
+
+    const current = affiliateStartOfDay(range.start);
+    const end = affiliateStartOfDay(range.end);
+
+    while (current <= end && labels.length < 370) {
+        labels.push({
+            date: new Date(current),
+            label: new Intl.DateTimeFormat("en", {
+                day: "2-digit",
+                month: "short"
+            }).format(current)
+        });
+
+        current.setDate(current.getDate() + 1);
+    }
+
+    return labels;
+}
+
+function affiliateGetRecordDay(record, dateGetter) {
+    const date = affiliateDate(dateGetter(record));
+
+    if (!date) {
+        return null;
+    }
+
+    const day = affiliateStartOfDay(date);
+
+    return [
+        day.getFullYear(),
+        String(day.getMonth() + 1).padStart(2, "0"),
+        String(day.getDate()).padStart(2, "0")
+    ].join("-");
+}
+
+function affiliateDayKey(date) {
+    return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+    ].join("-");
+}
+
+function affiliateGroupByDay(records, dateGetter, valueGetter) {
+    const result = {};
+
+    records.forEach(record => {
+        const day = affiliateGetRecordDay(record, dateGetter);
+
+        if (!day) {
+            return;
+        }
+
+        result[day] =
+            (result[day] || 0) + valueGetter(record);
+    });
+
+    return result;
+}
+
+function affiliateGetFilteredCommissions(period) {
+    const range = affiliateGetChartRange(period);
+
+    return affiliateGetCommissionsInRange(range);
+}
+
+
+/* =========================================================
+   15. NATIVE CANVAS CHART RENDERER
+========================================================= */
+
+function affiliateDrawLineChart(containerId, series, labels) {
+    const container = affiliateElement(containerId);
+
+    if (!container) {
+        return;
+    }
+
+    container.replaceChildren();
+
+    if (!labels.length || !series.length) {
+        const placeholder = document.createElement("p");
+
+        placeholder.className = "chart-placeholder";
+        placeholder.textContent =
+            "No statistics available for this period.";
+
+        container.appendChild(placeholder);
+
+        return;
+    }
+
+    const canvas = document.createElement("canvas");
+
+    canvas.setAttribute("role", "img");
+    canvas.setAttribute(
+        "aria-label",
+        "Affiliate statistics line chart"
+    );
+
+    canvas.style.width = "100%";
+    canvas.style.height = "260px";
+    canvas.style.display = "block";
+
+    container.appendChild(canvas);
+
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+        container.textContent = "Chart could not be displayed.";
+        return;
+    }
+
+    const cssWidth = Math.max(
+        280,
+        container.clientWidth - 36
+    );
+
+    const cssHeight = 260;
+
+    const pixelRatio = Math.max(
+        1,
+        window.devicePixelRatio || 1
+    );
+
+    canvas.width = Math.round(cssWidth * pixelRatio);
+    canvas.height = Math.round(cssHeight * pixelRatio);
+
+    context.scale(pixelRatio, pixelRatio);
+
+    const width = cssWidth;
+    const height = cssHeight;
+
+    const padding = {
+        top: 22,
+        right: 16,
+        bottom: 38,
+        left: 42
+    };
+
+    const plotWidth =
+        width - padding.left - padding.right;
+
+    const plotHeight =
+        height - padding.top - padding.bottom;
+
+    const allValues = series.flatMap(item => item.values);
+
+    const maximum = Math.max(1, ...allValues);
+
+    const colors = [
+        "#07543b",
+        "#d4b600",
+        "#4e9b70"
+    ];
+
+    // Background
+    context.fillStyle = "#ffffff";
+
+    context.fillRect(0, 0, width, height);
+
+    // Horizontal grid and Y-axis labels
+    context.font = "11px Arial";
+    context.textAlign = "right";
+    context.textBaseline = "middle";
+
+    for (let i = 0; i <= 4; i++) {
+        const y =
+            padding.top + (plotHeight / 4) * i;
+
+        const value = maximum * (1 - i / 4);
+
+        context.beginPath();
+        context.strokeStyle = "#e7eee8";
+        context.lineWidth = 1;
+
+        context.moveTo(padding.left, y);
+        context.lineTo(width - padding.right, y);
+
+        context.stroke();
+
+        context.fillStyle = "#75847b";
+
+        context.fillText(
+            Number(value.toFixed(2)).toString(),
+            padding.left - 8,
+            y
+        );
+    }
+
+    // X-axis labels
+    const labelStep = Math.max(
+        1,
+        Math.ceil(labels.length / 7)
+    );
+
+    context.textAlign = "center";
+    context.textBaseline = "top";
+    context.fillStyle = "#75847b";
+
+    labels.forEach((label, index) => {
+        if (
+            index % labelStep !== 0 &&
+            index !== labels.length - 1
+        ) {
+            return;
+        }
+
+        const x =
+            padding.left +
+            (labels.length <= 1
+                ? plotWidth / 2
+                : (index / (labels.length - 1)) * plotWidth);
+
+        context.fillText(
+            label,
+            x,
+            height - padding.bottom + 12
+        );
+    });
+
+    // Data lines
+    series.forEach((item, seriesIndex) => {
+        const color = colors[seriesIndex % colors.length];
+
+        const values = item.values;
+
+        context.beginPath();
+        context.strokeStyle = color;
+        context.lineWidth = 2.5;
+        context.lineJoin = "round";
+        context.lineCap = "round";
+
+        values.forEach((value, index) => {
+            const x =
+                padding.left +
+                (values.length <= 1
+                    ? plotWidth / 2
+                    : (index / (values.length - 1)) * plotWidth);
+
+            const y =
+                padding.top +
+                plotHeight -
+                (Math.max(0, value) / maximum) * plotHeight;
+
+            if (index === 0) {
+                context.moveTo(x, y);
+            } else {
+                context.lineTo(x, y);
+            }
+        });
+
+        context.stroke();
+
+        // Point markers
+        values.forEach((value, index) => {
+            const x =
+                padding.left +
+                (values.length <= 1
+                    ? plotWidth / 2
+                    : (index / (values.length - 1)) * plotWidth);
+
+            const y =
+                padding.top +
+                plotHeight -
+                (Math.max(0, value) / maximum) * plotHeight;
+
+            context.beginPath();
+
+            context.fillStyle = "#ffffff";
+            context.strokeStyle = color;
+            context.lineWidth = 2;
+
+            context.arc(x, y, 3, 0, Math.PI * 2);
+
+            context.fill();
+            context.stroke();
+        });
+    });
+
+    // Legend
+    let legendX = padding.left;
+    const legendY = 10;
+
+    context.font = "11px Arial";
+    context.textAlign = "left";
+    context.textBaseline = "middle";
+
+    series.forEach((item, index) => {
+        const color = colors[index % colors.length];
+
+        context.fillStyle = color;
+
+        context.fillRect(
+            legendX,
+            legendY - 4,
+            9,
+            9
         );
 
-        clearUnavailableAccountData();
+        context.fillStyle = "#18372b";
 
-        setLoading(true);
+        context.fillText(
+            item.name,
+            legendX + 14,
+            legendY
+        );
 
-        supabaseClient = getSupabaseClient();
+        legendX +=
+            context.measureText(item.name).width + 35;
+    });
+}
 
-        if (!supabaseClient) {
-            setLoading(false);
 
-            updateAccountStatus("");
+/* =========================================================
+   16. CONVERSION STATISTICS
+========================================================= */
 
-            setText(
-                "affiliateStatusText",
-                "Connection Required"
+/*
+   Conversion tracking requires actual tracking data.
+
+   This adapter expects optional records with fields such as:
+       date / created_at
+       clicks
+       direct_clicks
+
+   These values are not fabricated when no tracking source
+   is configured.
+*/
+
+function affiliateGetTrackingRecords() {
+    const source = AffiliateDashboard.trackingStatistics;
+
+    if (Array.isArray(source)) {
+        return source;
+    }
+
+    if (source && Array.isArray(source.daily)) {
+        return source.daily;
+    }
+
+    return [];
+}
+
+function affiliateRenderConversionChart() {
+    const period = AffiliateDashboard.conversionPeriod;
+
+    const range = affiliateGetChartRange(period);
+
+    const labels = affiliateGetDailyLabels(range);
+
+    const trackingRecords = affiliateGetTrackingRecords();
+
+    const hasTrackingData = trackingRecords.length > 0;
+
+    if (!hasTrackingData) {
+        const container = affiliateElement("conversionChart");
+
+        if (container) {
+            container.replaceChildren();
+
+            const message = document.createElement("p");
+
+            message.className = "chart-placeholder";
+            message.textContent =
+                "Conversion statistics require connected click-tracking data.";
+
+            container.appendChild(message);
+        }
+
+        return;
+    }
+
+    const filteredRecords = trackingRecords.filter(record => {
+        return affiliateIsInRange(
+            record.date || record.created_at,
+            range
+        );
+    });
+
+    const clicksByDay = affiliateGroupByDay(
+        filteredRecords,
+        record => record.date || record.created_at,
+        record => affiliateNumber(record.clicks)
+    );
+
+    const directClicksByDay = affiliateGroupByDay(
+        filteredRecords,
+        record => record.date || record.created_at,
+        record => affiliateNumber(record.direct_clicks)
+    );
+
+    const series = [];
+
+    if (AffiliateDashboard.filters.viewClicks) {
+        series.push({
+            name: "View Clicks",
+            values: labels.map(item => {
+                return clicksByDay[affiliateDayKey(item.date)] || 0;
+            })
+        });
+    }
+
+    if (AffiliateDashboard.filters.directClicks) {
+        series.push({
+            name: "Direct Links",
+            values: labels.map(item => {
+                return directClicksByDay[affiliateDayKey(item.date)] || 0;
+            })
+        });
+    }
+
+    affiliateDrawLineChart(
+        "conversionChart",
+        series,
+        labels.map(item => item.label)
+    );
+}
+
+
+/* =========================================================
+   17. REGISTRATION STATISTICS
+========================================================= */
+
+function affiliateGetRegistrationRecords(range) {
+    return AffiliateDashboard.referrals.filter(record => {
+        return affiliateIsInRange(
+            affiliateGetReferralDate(record),
+            range
+        );
+    });
+}
+
+function affiliateGetReferralDepositAmount(record) {
+    return affiliateNumber(
+        record.new_deposit_amount ??
+        record.deposit_amount ??
+        0
+    );
+}
+
+function affiliateRenderRegistrationChart() {
+    const period = AffiliateDashboard.registrationPeriod;
+
+    const range = affiliateGetChartRange(period);
+
+    const labels = affiliateGetDailyLabels(range);
+
+    const referrals = affiliateGetRegistrationRecords(range);
+
+    const registrationsByDay = affiliateGroupByDay(
+        referrals,
+        affiliateGetReferralDate,
+        () => 1
+    );
+
+    const depositsByDay = affiliateGroupByDay(
+        referrals.filter(record => {
+            return affiliateGetReferralDepositAmount(record) > 0;
+        }),
+        affiliateGetReferralDate,
+        () => 1
+    );
+
+    const commissionsByDay = affiliateGroupByDay(
+        affiliateGetFilteredCommissions(period),
+        affiliateGetCommissionDate,
+        affiliateGetCommissionAmount
+    );
+
+    const series = [];
+
+    if (AffiliateDashboard.filters.registrations) {
+        series.push({
+            name: "Registrations",
+            values: labels.map(item => {
+                return registrationsByDay[
+                    affiliateDayKey(item.date)
+                ] || 0;
+            })
+        });
+    }
+
+    if (AffiliateDashboard.filters.newDeposits) {
+        series.push({
+            name: "New Deposits",
+            values: labels.map(item => {
+                return depositsByDay[
+                    affiliateDayKey(item.date)
+                ] || 0;
+            })
+        });
+    }
+
+    if (AffiliateDashboard.filters.commissionAmount) {
+        series.push({
+            name: "Commission Amount",
+            values: labels.map(item => {
+                return commissionsByDay[
+                    affiliateDayKey(item.date)
+                ] || 0;
+            })
+        });
+    }
+
+    affiliateDrawLineChart(
+        "registrationChart",
+        series,
+        labels.map(item => item.label)
+    );
+}
+
+
+/* =========================================================
+   18. STATE SUMMARY
+========================================================= */
+
+function affiliateGetSummaryRecords(period) {
+    const range = affiliateGetPeriodRange(period);
+
+    return AffiliateDashboard.commissions.filter(record => {
+        return affiliateIsInRange(
+            affiliateGetCommissionDate(record),
+            range
+        );
+    });
+}
+
+function affiliateBuildSummaryRow(label, value) {
+    const row = document.createElement("div");
+
+    row.style.display = "flex";
+    row.style.alignItems = "center";
+    row.style.justifyContent = "space-between";
+    row.style.flexWrap = "wrap";
+    row.style.gap = "12px";
+    row.style.padding = "13px 5px";
+    row.style.borderBottom = "1px solid #e1e9e2";
+
+    const title = document.createElement("span");
+
+    title.textContent = label;
+    title.style.color = "#75847b";
+    title.style.fontSize = "12px";
+    title.style.fontWeight = "650";
+
+    const amount = document.createElement("strong");
+
+    amount.textContent = value;
+    amount.style.color = "#063b2b";
+    amount.style.fontSize = "14px";
+    amount.style.fontWeight = "850";
+    amount.style.overflowWrap = "anywhere";
+
+    row.append(title, amount);
+
+    return row;
+}
+
+function affiliateRenderStateSummary() {
+    const container = affiliateElement("stateSummaryContent");
+
+    if (!container) {
+        return;
+    }
+
+    container.replaceChildren();
+
+    const period = AffiliateDashboard.summaryPeriod;
+
+    const records = affiliateGetSummaryRecords(period);
+
+    const eligibleRecords = records.filter(
+        affiliateIsEligibleCommission
+    );
+
+    const commissionTotal =
+        affiliateSumCommissions(records);
+
+    const pendingTotal = records
+        .filter(record => {
+            return affiliateNormalizeStatus(record.status) === "pending";
+        })
+        .reduce((total, record) => {
+            return total + affiliateGetCommissionAmount(record);
+        }, 0);
+
+    const rejectedTotal = records
+        .filter(record => {
+            return affiliateNormalizeStatus(record.status) === "rejected";
+        })
+        .reduce((total, record) => {
+            return total + affiliateGetCommissionAmount(record);
+        }, 0);
+
+    const periodRange = affiliateGetPeriodRange(period);
+
+    const header = document.createElement("div");
+
+    header.style.marginBottom = "12px";
+    header.style.color = "#75847b";
+    header.style.fontSize = "12px";
+
+    header.textContent =
+        `${affiliateFormatDate(periodRange.start)} – ` +
+        `${affiliateFormatDate(periodRange.end)}`;
+
+    container.appendChild(header);
+
+    const summaryRows = [
+        [
+            "Approved Commission",
+            affiliateFormatMoney(commissionTotal)
+        ],
+        [
+            "Pending Commission",
+            affiliateFormatMoney(pendingTotal)
+        ],
+        [
+            "Rejected Commission",
+            affiliateFormatMoney(rejectedTotal)
+        ],
+        [
+            "Approved Commission Records",
+            String(eligibleRecords.length)
+        ],
+        [
+            "Total Commission Records",
+            String(records.length)
+        ]
+    ];
+
+    summaryRows.forEach(([label, value]) => {
+        container.appendChild(
+            affiliateBuildSummaryRow(label, value)
+        );
+    });
+
+    if (records.length === 0) {
+        const emptyMessage = document.createElement("p");
+
+        emptyMessage.className = "summary-placeholder";
+        emptyMessage.style.marginTop = "18px";
+
+        emptyMessage.textContent =
+            "No commission records were found for this period.";
+
+        container.appendChild(emptyMessage);
+    }
+}
+
+
+/* =========================================================
+   19. RENDER ALL DASHBOARD SECTIONS
+========================================================= */
+
+function affiliateRenderAll() {
+    affiliateRenderEarnings();
+
+    affiliateRenderConversionChart();
+
+    affiliateRenderRegistrationChart();
+
+    affiliateRenderStateSummary();
+}
+
+
+/* =========================================================
+   20. REFRESH BUTTON
+========================================================= */
+
+async function affiliateRefreshDashboard(
+    showStatus = true
+) {
+    if (AffiliateDashboard.loading) {
+        return;
+    }
+
+    const refreshButton =
+        affiliateElement("refreshStatistics");
+
+    AffiliateDashboard.loading = true;
+
+    if (refreshButton) {
+        refreshButton.disabled = true;
+        refreshButton.textContent = "Refreshing...";
+    }
+
+    if (showStatus) {
+        affiliateSetStatus(
+            "Loading affiliate statistics..."
+        );
+    }
+
+    try {
+        await affiliateLoadSupabaseData();
+
+        AffiliateDashboard.lastUpdated = new Date();
+
+        affiliateRenderAll();
+
+        if (showStatus) {
+            affiliateSetStatus(
+                "Statistics refreshed successfully at " +
+                AffiliateDashboard.lastUpdated.toLocaleTimeString(),
+                "success"
             );
+        }
+    } catch (error) {
+        AffiliateDashboard.error = error;
 
-            showEmptyState(
-                "Supabase connection not found",
-                "The dashboard could not find the existing initialized Supabase client. Make sure your main application initializes it before this script runs."
-            );
+        console.error(
+            "Affiliate Dashboard Error:",
+            error
+        );
 
-            console.error(
-                "[Affiliate Dashboard] No initialized Supabase client was found. Expected window.supabaseClient, window.sbClient or window.supabase."
+        if (showStatus) {
+            affiliateSetStatus(
+                error?.message ||
+                "Unable to load affiliate statistics.",
+                "error"
             );
+        }
+
+        /*
+           Do not generate fake earnings if Supabase
+           is unavailable. Keep existing data visible.
+        */
+    } finally {
+        AffiliateDashboard.loading = false;
+
+        if (refreshButton) {
+            refreshButton.disabled = false;
+            refreshButton.textContent = "Refresh Statistics";
+        }
+    }
+}
+
+function affiliateInitializeRefreshButton() {
+    const button = affiliateElement("refreshStatistics");
+
+    if (!button) {
+        return;
+    }
+
+    button.addEventListener("click", () => {
+        affiliateRefreshDashboard(true);
+    });
+}
+
+
+/* =========================================================
+   21. ACCOUNT BUTTON
+========================================================= */
+
+function affiliateInitializeAccountButton() {
+    const button = document.querySelector(".profile-button");
+
+    if (!button) {
+        return;
+    }
+
+    button.addEventListener("click", () => {
+        const accountLink = document.querySelector(
+            '.navigation-menu a[href="#account"]'
+        );
+
+        if (accountLink) {
+            accountLink.click();
+            return;
+        }
+
+        const accountSection = affiliateElement("account");
+
+        if (accountSection) {
+            accountSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
 
             return;
         }
 
-        initializeAuthListener();
-
-        await loadAffiliateApplication();
-
-        console.info(
-            "[Affiliate Dashboard] Initialized.",
-            {
-                authenticated: Boolean(currentUser),
-                applicationFound: Boolean(currentApplication),
-                applicationLoadAttempted
-            }
+        affiliateSetStatus(
+            "The Account section has not been added to this HTML yet.",
+            "info"
         );
-    }
+    });
+}
 
 
-    /* =====================================================
-       21. STARTUP
-       ===================================================== */
+/* =========================================================
+   22. RESPONSIVE CHART RESIZING
+========================================================= */
 
-    if (document.readyState === "loading") {
-        document.addEventListener(
-            "DOMContentLoaded",
-            initializeDashboard,
-            { once: true }
-        );
+let affiliateResizeTimeout = null;
+
+window.addEventListener("resize", () => {
+    clearTimeout(affiliateResizeTimeout);
+
+    affiliateResizeTimeout = setTimeout(() => {
+        affiliateRenderConversionChart();
+
+        affiliateRenderRegistrationChart();
+    }, 180);
+});
+
+
+/* =========================================================
+   23. OPTIONAL BACKEND TRACKING ADAPTER
+========================================================= */
+
+/*
+   If your backend provides actual click statistics,
+   populate the adapter before refreshing.
+
+   Example:
+
+   window.affiliateDashboardTracking = {
+       daily: [
+           {
+               date: "2026-10-14",
+               clicks: 120,
+               direct_clicks: 45
+           }
+       ]
+   };
+
+   These records must come from your actual tracking system.
+*/
+
+function affiliateLoadOptionalTrackingData() {
+    const tracking = window.affiliateDashboardTracking;
+
+    if (
+        tracking &&
+        (
+            Array.isArray(tracking) ||
+            Array.isArray(tracking.daily)
+        )
+    ) {
+        AffiliateDashboard.trackingStatistics = tracking;
     } else {
-        initializeDashboard();
+        AffiliateDashboard.trackingStatistics = null;
+    }
+}
+
+
+/* =========================================================
+   24. INITIALIZE DASHBOARD
+========================================================= */
+
+function initializeAffiliateDashboard() {
+    if (AffiliateDashboard.initialized) {
+        return;
     }
 
+    AffiliateDashboard.initialized = true;
 
-    /* =====================================================
-       22. OPTIONAL PUBLIC METHODS
-       ===================================================== */
+    affiliateInitializeMenu();
 
-    window.affiliateProgramDashboard = {
-        navigateToSection,
+    affiliateInitializeFilters();
 
-        reload: loadAffiliateApplication,
+    affiliateInitializePeriodSelectors();
 
-        getCurrentApplication() {
-            return currentApplication
-                ? { ...currentApplication }
-                : null;
-        },
+    affiliateInitializeChartToggles();
 
-        getActiveSection() {
-            return activeSection;
-        }
-    };
+    affiliateInitializeRefreshButton();
 
-})();
+    affiliateInitializeAccountButton();
+
+    affiliateLoadOptionalTrackingData();
+
+    // Set initial date range.
+    const interval = affiliateElement("timeInterval");
+
+    if (interval) {
+        AffiliateDashboard.timeInterval = interval.value;
+    }
+
+    const currency = affiliateElement("currencySelect");
+
+    if (currency) {
+        AffiliateDashboard.currency = currency.value;
+    }
+
+    const conversionPeriod =
+        affiliateElement("conversionPeriod");
+
+    if (conversionPeriod) {
+        AffiliateDashboard.conversionPeriod =
+            conversionPeriod.value;
+    }
+
+    const registrationPeriod =
+        affiliateElement("registrationPeriod");
+
+    if (registrationPeriod) {
+        AffiliateDashboard.registrationPeriod =
+            registrationPeriod.value;
+    }
+
+    const summaryPeriod =
+        affiliateElement("summaryPeriod");
+
+    if (summaryPeriod) {
+        AffiliateDashboard.summaryPeriod =
+            summaryPeriod.value;
+    }
+
+    const customRange = affiliateElement("customDateRange");
+
+    if (customRange && interval) {
+        customRange.hidden = interval.value !== "custom";
+    }
+
+    // Load actual data; no fake earnings are generated.
+    affiliateRefreshDashboard(true);
+
+    // Optional periodic refresh.
+    if (AFFILIATE_CONFIG.refreshInterval > 0) {
+        AffiliateDashboard.refreshTimer = setInterval(() => {
+            affiliateRefreshDashboard(false);
+        }, AFFILIATE_CONFIG.refreshInterval);
+    }
+}
+
+
+/* =========================================================
+   25. START
+========================================================= */
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeAffiliateDashboard,
+        { once: true }
+    );
+} else {
+    initializeAffiliateDashboard();
+}
