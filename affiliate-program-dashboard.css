@@ -949,6 +949,15 @@ input:disabled {
     .dashboard-header {
         width: calc(100% - 22px);
     }
+       .navigation-menu {
+        top: 70px;
+        right: 11px;
+        left: auto;
+
+        width: 220px;
+        max-width: calc(100vw - 22px);
+        box-sizing: border-box;
+    }
 
     .brand-name {
         max-width: 145px;
