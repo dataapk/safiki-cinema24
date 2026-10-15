@@ -1002,3 +1002,489 @@ input:disabled {
     }
 }
 
+
+
+
+/* =====================================================
+   STATE SUMMARY - ONLY
+===================================================== */
+
+.state-summary {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    margin: 24px 0;
+    padding: 22px;
+    box-sizing: border-box;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius, 14px);
+
+    background: var(--card-bg, #ffffff);
+    box-shadow: var(--shadow, 0 8px 24px rgba(0, 0, 0, 0.06));
+    color: var(--green-main, #063B2B);
+}
+
+.state-summary [hidden] {
+    display: none !important;
+}
+
+.state-summary-heading {
+    margin-bottom: 22px;
+}
+
+.state-summary-heading h2 {
+    margin: 0;
+    color: var(--green-main, #063B2B);
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+/* Item Selected + Period */
+
+.state-summary-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.state-summary .summary-control-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.state-summary .summary-control-field > label {
+    color: var(--text-muted, #68756f);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+.state-summary .summary-select-button,
+.state-summary .summary-period-field select,
+.state-summary .summary-add-field select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 13px;
+    box-sizing: border-box;
+
+    border: 1px solid #dce5df;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: var(--green-main, #063B2B);
+
+    font: inherit;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.state-summary .summary-select-button:hover,
+.state-summary .summary-period-field select:hover,
+.state-summary .summary-add-field select:hover {
+    border-color: var(--green-light, #27845d);
+}
+
+.state-summary .summary-select-button:focus-visible,
+.state-summary select:focus-visible,
+.state-summary button:focus-visible {
+    outline: 2px solid var(--yellow, #FFD43B);
+    outline-offset: 2px;
+}
+
+.state-summary .select-chevron {
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+}
+
+/* Item Selection Dropdown */
+
+.state-summary .summary-item-options {
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+    z-index: 50;
+
+    width: 100%;
+    max-height: 340px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 10px;
+
+    border: 1px solid rgba(255, 212, 59, 0.55);
+    border-radius: 12px;
+
+    background: var(--green-dark, #042b20);
+    color: #ffffff;
+
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+}
+
+.state-summary .summary-options-heading,
+.state-summary .summary-add-options-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 7px 5px 12px;
+    margin-bottom: 5px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.state-summary .summary-options-close {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 7px;
+
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+
+    font-size: 21px;
+    cursor: pointer;
+}
+
+.state-summary .summary-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-height: 38px;
+    padding: 6px 5px;
+    box-sizing: border-box;
+
+    border-radius: 7px;
+    color: #ffffff;
+
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.state-summary .summary-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.state-summary .summary-option input {
+    flex: 0 0 auto;
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    accent-color: var(--yellow, #FFD43B);
+}
+
+.state-summary .summary-options-actions {
+    padding-top: 10px;
+}
+
+.state-summary .summary-options-apply {
+    width: 100%;
+    min-height: 38px;
+    padding: 9px 12px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: var(--yellow, #FFD43B);
+    color: var(--green-dark, #042b20);
+
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* Currency / View Table */
+
+.state-summary .state-summary-table {
+    width: 100%;
+    overflow: hidden;
+
+    border: 1px solid #e0e8e2;
+    border-radius: 11px;
+    background: #ffffff;
+}
+
+.state-summary .state-summary-table-header,
+.state-summary .summary-data-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+}
+
+.state-summary .state-summary-table-header {
+    min-height: 45px;
+    padding: 0 16px;
+
+    background: var(--green-dark, #042b20);
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.state-summary .summary-view-heading,
+.state-summary .summary-row-view {
+    text-align: right;
+}
+
+.state-summary .state-summary-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.state-summary .summary-data-row {
+    min-height: 60px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+
+    border-top: 1px solid #edf1ee;
+    color: var(--green-main, #063B2B);
+}
+
+.state-summary .summary-row-currency {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 0;
+}
+
+.state-summary .currency-code {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.state-summary .summary-row-item {
+    color: var(--text-muted, #68756f);
+    font-size: 11px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.state-summary .summary-value {
+    font-size: 17px;
+    font-weight: 900;
+    overflow-wrap: anywhere;
+}
+
+.state-summary .summary-row-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+    margin-left: 7px;
+
+    border: 1px solid #e4d2d2;
+    border-radius: 7px;
+
+    background: #fff7f7;
+    color: #a33a3a;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.state-summary .summary-empty {
+    padding: 18px 14px;
+    color: var(--text-muted, #68756f);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Add Summary Row */
+
+.state-summary .summary-add-section {
+    position: relative;
+    margin-top: 13px;
+}
+
+.state-summary .summary-add-button {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    width: 100%;
+    min-height: 54px;
+    padding: 10px 13px;
+
+    border: 1px solid #dce5df;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: var(--green-main, #063B2B);
+
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.state-summary .summary-add-button:hover {
+    border-color: var(--green-light, #27845d);
+    background: #f8fbf8;
+}
+
+.state-summary .summary-plus-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 32px;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 8px;
+    background: var(--yellow, #FFD43B);
+    color: var(--green-dark, #042b20);
+
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.state-summary .summary-add-options {
+    margin-top: 10px;
+    padding: 15px;
+
+    border: 1px solid #dce5df;
+    border-radius: 11px;
+
+    background: #f8fbf8;
+}
+
+.state-summary .summary-add-options-heading {
+    margin-bottom: 14px;
+    padding: 0 0 11px;
+
+    border-bottom-color: #e0e8e2;
+    color: var(--green-main, #063B2B);
+}
+
+.state-summary .summary-add-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 13px;
+}
+
+.state-summary .summary-add-field label {
+    color: var(--text-muted, #68756f);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.state-summary .summary-add-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.state-summary .summary-add-confirm,
+.state-summary .summary-add-cancel {
+    flex: 1;
+    min-height: 40px;
+    padding: 10px 14px;
+
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.state-summary .summary-add-confirm {
+    border: 0;
+    background: var(--yellow, #FFD43B);
+    color: var(--green-dark, #042b20);
+}
+
+.state-summary .summary-add-cancel {
+    border: 1px solid #dce5df;
+    background: #ffffff;
+    color: var(--green-main, #063B2B);
+}
+
+.state-summary .summary-feedback {
+    margin: 10px 0 0;
+    color: var(--text-muted, #68756f);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .state-summary {
+        padding: 15px;
+        margin: 18px 0;
+    }
+
+    .state-summary-heading {
+        margin-bottom: 17px;
+    }
+
+    .state-summary-heading h2 {
+        font-size: 19px;
+    }
+
+    .state-summary-controls {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .state-summary .summary-control-field > label {
+        font-size: 11px;
+    }
+
+    .state-summary .summary-select-button,
+    .state-summary .summary-period-field select {
+        min-height: 42px;
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .state-summary .summary-item-options {
+        max-height: 300px;
+    }
+
+    .state-summary .state-summary-table-header {
+        padding: 0 12px;
+    }
+
+    .state-summary .summary-data-row {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .state-summary .summary-value {
+        font-size: 15px;
+    }
+
+    .state-summary .summary-add-options {
+        padding: 12px;
+    }
+}
+
