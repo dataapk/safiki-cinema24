@@ -505,12 +505,13 @@ console.log(
             .rpc("submit_application", {
                 p_first_name: application.first_name,
                 p_last_name: application.last_name,
-                p_promotion_link: application.promotion_link,
-                p_link_category: application.promotion_category,
-                p_contact_platform: application.contact_platform,
-                p_telegram_username: application.telegram_username,
-                p_whatsapp_number: application.whatsapp_number,
-                p_player_id: application.player_id
+               p_promotion_link: application.promotion_link,
+              p_link_category: application.promotion_category,
+              p_contact_platform: String(application.contact_platform || "").trim().toLowerCase(),
+               p_telegram_username: application.telegram_username,
+              p_whatsapp_number: application.whatsapp_number,
+              p_player_id: application.player_id
+                
             });
 
         if (error) {
