@@ -366,8 +366,8 @@
     // Replace these two values with your Affiliate Supabase project values.
     // Never put a service_role or secret key in this file.
     
-   const SUPABASE_URL = "https://dijuduhvleunvwmnncue.supabase.co";
-const SUPABASE_KEY = "তোমার Affiliate Publishable Key";
+const SUPABASE_URL = "https://dijuduhvleunvwmnncue.supabase.co";
+const SUPABASE_KEY = "sb_publishable_dw-uENrowls3CoIxyJamJg_vtpR7wR3";
 
 const SCHEMA = "affiliate_program";
 
@@ -408,13 +408,13 @@ console.log(
 );
 
 console.log(
-    "Key character codes:",
+    "Key characters outside ISO-8859-1:",
     Array.from(SUPABASE_KEY)
         .map((char, index) => ({
             index,
             code: char.codePointAt(0)
         }))
-        .filter(item => item.code > 127)
+        .filter(item => item.code > 255)
 );
 
 console.log(
