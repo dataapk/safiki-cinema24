@@ -1177,60 +1177,72 @@ tbody tr:hover {
         updateOverview();
     }
 
-    function renderAffiliates() {
-        const query = $("affiliateSearch").value.trim().toLowerCase();
 
-        const rows = state.affiliates.filter(function (item) {
-            return [
-                item.name,
-                item.email,
-                item.userId
-            ].join(" ").toLowerCase().includes(query);
-        });
+function renderAffiliates() {
+    const query = $("affiliateSearch").value.trim().toLowerCase();
 
-        $("affiliateTable").innerHTML = rows.map(function (item) {
-            return `
-                <tr>
-                    <td>
-                        <div class="user-cell">
-                            <div class="avatar">
-                                ${escapeHTML(
-                                    (item.name || "A").charAt(0).toUpperCase()
-                                )}
+    const rows = state.affiliates.filter(function (item) {
+        return [
+            item.name,
+            item.email,
+            item.userId
+        ].join(" ").toLowerCase().includes(query);
+    });
+
+    $("affiliateTable").innerHTML = rows.map(function (item) {
+        return `
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="avatar">
+                            ${escapeHTML(
+                                (item.name || "A").charAt(0).toUpperCase()
+                            )}
+                        </div>
+                        <div>
+                            <div class="user-name">
+                                ${escapeHTML(item.name)}
                             </div>
-                            <div>
-                                <div class="user-name">
-                                    ${escapeHTML(item.name)}
-                                </div>
-                                <div class="user-email">
-                                    ${escapeHTML(item.email)}
-                                </div>
+                            <div class="user-email">
+                                ${escapeHTML(item.email)}
                             </div>
                         </div>
-                    </td>
-                    <td>${escapeHTML(item.userId)}</td>
-                    <td>${escapeHTML(item.referralRate)}%</td>
-                    <td>${escapeHTML(item.revenueRate)}%</td>
-                    <td>${item.referrals == null
+                    </div>
+                </td>
+
+                <td>${escapeHTML(item.userId)}</td>
+
+                <td>${escapeHTML(item.referralRate ?? "—")}%</td>
+
+                <td>${escapeHTML(item.revenueRate ?? "—")}%</td>
+
+                <td>
+                    ${item.referrals == null
                         ? "—"
-                        : escapeHTML(item.referrals)}</td>
-                    <td>${showStatus(item.status)}</td>
-                    <td>
-                        <button class="btn btn-yellow"
-                            data-action="edit"
-                            data-id="${escapeHTML(item.id)}">
-                            Edit Rates
-                        </button>
-                    </td>
-                </tr>
-            `;
-        }).join("");
+                        : escapeHTML(item.referrals)}
+                </td>
 
-        $("affiliateEmpty").style.display =
-            rows.length ? "none" : "block";
+                <td>${showStatus(item.status)}</td>
 
-        updateOverview();
-    }
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-yellow"
+                        data-action="edit"
+                        data-id="${escapeHTML(item.id)}">
+                        Edit Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join("");
+
+    $("affiliateEmpty").style.display =
+        rows.length ? "none" : "block";
+
+    updateOverview();
+}
+
 
     // Navigation between control panel sections.
     document.querySelectorAll(".tab").forEach(function (tab) {
