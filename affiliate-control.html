@@ -1074,6 +1074,26 @@ tbody tr:hover {
         $(id).classList.remove("open");
     }
 
+    function updateCustomCommissionFields() {
+    const customEnabled = $("editCustomCommission").checked;
+
+    [
+        "editReferralRate",
+        "editSubRate",
+        "editRevenueRate"
+    ].forEach(function (id) {
+        const field = $(id);
+
+        field.disabled = !customEnabled;
+        field.required = customEnabled;
+    });
+}
+
+$("editCustomCommission").addEventListener(
+    "change",
+    updateCustomCommissionFields
+);
+
     function showStatus(status) {
         const normalized = String(status || "unknown").toLowerCase();
 
