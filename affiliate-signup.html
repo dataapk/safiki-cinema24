@@ -403,8 +403,18 @@ console.log(
 );
 
 console.log(
-    "Key has non-ASCII characters:",
+    "Key contains non-ASCII characters:",
     /[^\x00-\x7F]/.test(SUPABASE_KEY)
+);
+
+console.log(
+    "Key character codes:",
+    Array.from(SUPABASE_KEY)
+        .map((char, index) => ({
+            index,
+            code: char.codePointAt(0)
+        }))
+        .filter(item => item.code > 127)
 );
 
 console.log(
