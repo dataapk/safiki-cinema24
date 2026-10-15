@@ -391,21 +391,26 @@ const supabaseReady =
 
     if (supabaseReady && window.supabase?.createClient) {
 
-    console.log(
-        "Supabase URL valid:",
-        /^https:\/\/[^/\s]+\.supabase\.co$/.test(SUPABASE_URL)
-    );
+console.log(
+    "Supabase URL valid:",
+    /^https:\/\/[^/\s]+\.supabase\.co$/.test(SUPABASE_URL)
+);
 
-    console.log(
-        "Key exists:",
-        typeof SUPABASE_KEY === "string" &&
-        SUPABASE_KEY.length > 0
-    );
+console.log(
+    "Key exists:",
+    typeof SUPABASE_KEY === "string" &&
+    SUPABASE_KEY.length > 0
+);
 
-    console.log(
-        "Key has non-ASCII characters:",
-        /[^\x00-\xFF]/.test(SUPABASE_KEY)
-    );
+console.log(
+    "Key has non-ASCII characters:",
+    /[^\x00-\x7F]/.test(SUPABASE_KEY)
+);
+
+console.log(
+    "Key has surrounding whitespace:",
+    SUPABASE_KEY !== SUPABASE_KEY.trim()
+);
 
     supabase = window.supabase.createClient(
         SUPABASE_URL,
