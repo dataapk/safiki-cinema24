@@ -1368,6 +1368,38 @@ function renderAffiliates() {
     });
 
     // Open individual commission editor.
+
+    // Update individual commission fields based on custom setting.
+    function updateCustomCommissionFields() {
+        const customEnabled = $("editCustomCommission").checked;
+
+        const fields = [
+            ["editReferralRate", "defaultReferral"],
+            ["editSubRate", "defaultSubAffiliate"],
+            ["editRevenueRate", "defaultRevenueShare"]
+        ];
+
+        fields.forEach(function (pair) {
+            const field = $(pair[0]);
+            const defaultField = $(pair[1]);
+
+            if (!customEnabled) {
+                field.value = defaultField.value || (
+                    pair[0] === "editSubRate" ? "3" : "25"
+                );
+            }
+
+            field.disabled = !customEnabled;
+            field.required = customEnabled;
+        });
+    }
+
+    $("editCustomCommission").addEventListener(
+        "change",
+        updateCustomCommissionFields
+    );
+
+    // Open individual commission editor.
     $("affiliateTable").addEventListener("click", function (event) {
         const button = event.target.closest('[data-action="edit"]');
         if (!button) return;
@@ -1379,10 +1411,15 @@ function renderAffiliates() {
         if (!item) return;
 
         $("editAffiliateId").value = item.id;
+
+        $("editCustomCommission").checked =
+            item.customCommissionEnabled === true;
+
         $("editReferralRate").value = item.referralRate ?? 25;
         $("editSubRate").value = item.subRate ?? 3;
         $("editRevenueRate").value = item.revenueRate ?? 35;
 
+        updateCustomCommissionFields();
         openModal("editModal");
     });
 
@@ -1392,6 +1429,7 @@ function renderAffiliates() {
 
     $("closeEdit").addEventListener("click", closeEditModal);
     $("cancelEdit").addEventListener("click", closeEditModal);
+
 
     $("editCommissionForm").addEventListener("submit", async function (event) {
         event.preventDefault();
