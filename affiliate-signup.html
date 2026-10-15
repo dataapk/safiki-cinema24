@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Sign Up | SPORTS BET</title>
+
+    <style>
+        :root {
+            --green: #00c853;
+            --green-dark: #008f3a;
+            --yellow: #ffdf00;
+            --bg: #07110d;
+            --card: #101c16;
+            --input: #0a140f;
+            --text: #ffffff;
+            --muted: #a6b5ac;
+            --border: #263a2e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .affiliate-signup-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .signup-logo {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .signup-logo span {
+            color: var(--yellow);
+        }
+
+        .signup-header h1 {
+            margin: 18px 0 8px;
+            font-size: 26px;
+        }
+
+        .signup-header p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .signup-card {
+            padding: 28px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .section-title {
+            margin: 0 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--yellow);
+            font-size: 16px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .required {
+            color: var(--yellow);
+        }
+
+        .form-group input,
+        .form-group select {
+            display: block;
+            width: 100%;
+            min-height: 45px;
+            padding: 11px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: var(--input);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.12);
+        }
+
+        .form-group input::placeholder {
+            color: #718078;
+        }
+
+        .field-help {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 4px 0 20px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .terms-row input {
+            margin-top: 4px;
+            accent-color: var(--green);
+        }
+
+        .terms-row a {
+            color: var(--yellow);
+            text-decoration: none;
+        }
+
+        .signup-button {
+            width: 100%;
+            min-height: 48px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--green);
+            color: #061009;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .signup-button:hover {
+            background: #20e66e;
+        }
+
+        .signup-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .form-message.error {
+            display: block;
+            border: 1px solid #a33a3a;
+            background: #351515;
+            color: #ffb7b7;
+        }
+
+        .form-message.pending {
+            display: block;
+            border: 1px solid var(--green);
+            background: #0b2a18;
+            color: #9affbd;
+        }
+
+        .login-note {
+            margin: 20px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .login-note a {
+            color: var(--yellow);
+            text-decoration: none;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .signup-card {
+                padding: 20px 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .signup-header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="affiliate-signup-container">
+
+        <header class="signup-header">
+            <div class="signup-logo">
+                SPORTS <span>BET</span>
+            </div>
+
+            <h1>Affiliate Sign Up</h1>
+
+            <p>
+                Join our affiliate program and promote SPORTS BET
+                through your social media or website.
+            </p>
+        </header>
+
+        <form class="signup-card" id="affiliateSignupForm">
+
+            <h2 class="section-title">Account Information</h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="firstName">
+                        First Name <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        autocomplete="given-name"
+                        placeholder="Enter first name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">
+                        Last Name <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        autocomplete="family-name"
+                        placeholder="Enter last name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="email">
+                        Email Address <span class="required">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autocomplete="email"
+                        placeholder="Enter your email address"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        Password <span class="required">*</span>
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        placeholder="Minimum 8 characters"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        Confirm Password <span class="required">*</span>
+                    </label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        autocomplete="new-password"
+                        minlength="8"
+                        placeholder="Re-enter password"
+                        required
+                    >
+                </div>
+            </div>
+
+            <h2 class="section-title">Promotion Details</h2>
+
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="promotionLink">
+                        Promotion Link <span class="required">*</span>
+                    </label>
+                    <input
+                        type="url"
+                        id="promotionLink"
+                        name="promotionLink"
+                        placeholder="https://your-website.com or social profile"
+                        required
+                    >
+                    <small class="field-help">
+                        Enter the website or social profile you will use
+                        to promote SPORTS BET.
+                    </small>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="linkCategory">
+                        Link Category <span class="required">*</span>
+                    </label>
+                    <select
+                        id="linkCategory"
+                        name="linkCategory"
+                        required
+                    >
+                        <option value="">Select a category</option>
+                        <option value="YouTube">YouTube</option>
+                        <option value="Telegram Channel">Telegram Channel</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Website / Blog">Website / Blog</option>
+                        <option value="Sports Predictions">Sports Predictions</option>
+                        <option value="WhatsApp Community">WhatsApp Community</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="socialPlatform">
+                        Contact Platform <span class="required">*</span>
+                    </label>
+                    <select
+                        id="socialPlatform"
+                        name="socialPlatform"
+                        required
+                    >
+                        <option value="">Select contact platform</option>
+                        <option value="Telegram">Telegram</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                    </select>
+                </div>
+
+                <div
+                    class="form-group full-width"
+                    id="telegramGroup"
+                    hidden
+                >
+                    <label for="telegramUsername">
+                        Telegram Username <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="telegramUsername"
+                        name="telegramUsername"
+                        placeholder="@yourusername"
+                    >
+                </div>
+
+                <div
+                    class="form-group full-width"
+                    id="whatsappGroup"
+                    hidden
+                >
+                    <label for="whatsappNumber">
+                        WhatsApp Number <span class="required">*</span>
+                    </label>
+                    <input
+                        type="tel"
+                        id="whatsappNumber"
+                        name="whatsappNumber"
+                        placeholder="+8801XXXXXXXXX"
+                    >
+                </div>
+            </div>
+
+            <h2 class="section-title">Player Account Details</h2>
+
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="playerId">
+                        SPORTS BET Player ID <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="playerId"
+                        name="playerId"
+                        placeholder="Enter your existing Player ID"
+                        required
+                    >
+                    <small class="field-help">
+                        Your Player ID must be verified before your
+                        affiliate application can be approved.
+                    </small>
+                </div>
+            </div>
+
+            <label class="terms-row">
+                <input
+                    type="checkbox"
+                    id="acceptTerms"
+                    name="acceptTerms"
+                    required
+                >
+                <span>
+                    I confirm that the information provided is correct
+                    and agree to the Affiliate Program Terms and
+                    Privacy Policy.
+                </span>
+            </label>
+
+            <button
+                type="submit"
+                class="signup-button"
+                id="signupButton"
+            >
+                Submit Application
+            </button>
+
+            <div
+                class="form-message"
+                id="signupMessage"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+            <p class="login-note">
+                Already have an affiliate account?
+                <a href="affiliate-login.html">Log In</a>
+            </p>
+
+        </form>
+    </main>
+
+    <script>
+        const socialPlatform =
+            document.getElementById("socialPlatform");
+
+        const telegramGroup =
+            document.getElementById("telegramGroup");
+
+        const whatsappGroup =
+            document.getElementById("whatsappGroup");
+
+        const telegramUsername =
+            document.getElementById("telegramUsername");
+
+        const whatsappNumber =
+            document.getElementById("whatsappNumber");
+
+        const signupForm =
+            document.getElementById("affiliateSignupForm");
+
+        const signupMessage =
+            document.getElementById("signupMessage");
+
+        const signupButton =
+            document.getElementById("signupButton");
+
+        function updateSocialFields() {
+            const selected = socialPlatform.value;
+
+            telegramGroup.hidden = selected !== "Telegram";
+            whatsappGroup.hidden = selected !== "WhatsApp";
+
+            telegramUsername.required = selected === "Telegram";
+            whatsappNumber.required = selected === "WhatsApp";
+
+            if (selected !== "Telegram") {
+                telegramUsername.value = "";
+            }
+
+            if (selected !== "WhatsApp") {
+                whatsappNumber.value = "";
+            }
+        }
+
+        socialPlatform.addEventListener(
+            "change",
+            updateSocialFields
+        );
+
+        signupForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            signupMessage.className = "form-message";
+            signupMessage.textContent = "";
+
+            const password =
+                document.getElementById("password").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                signupMessage.className = "form-message error";
+                signupMessage.textContent =
+                    "Your passwords do not match.";
+                return;
+            }
+
+            signupMessage.className = "form-message pending";
+            signupMessage.textContent =
+                "Form validation successful. Pending for Admin Approval " +
+                "will appear here after the application is saved. " +
+                "Database submission and approval are not connected yet.";
+        });
+
+        updateSocialFields();
+    </script>
+</body>
+</html>
