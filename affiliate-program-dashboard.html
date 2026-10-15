@@ -1,1 +1,1093 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#10141c">
+
+    <title>Affiliate Program | SPORTS BET</title>
+
+    <link rel="stylesheet" href="affiliate-program.css">
+</head>
+
+<body>
+
+    <div class="affiliate-app">
+
+        <!-- HEADER -->
+        <header class="affiliate-header">
+
+            <a href="#" class="affiliate-brand" aria-label="SPORTS BET Affiliate">
+                <span class="brand-mark">SB</span>
+                <span class="brand-name">SPORTS <strong>BET</strong></span>
+            </a>
+
+            <div class="header-right">
+
+                <span class="affiliate-status" id="affiliateAccountStatus">
+                    <span class="status-dot"></span>
+                    Affiliate Center
+                </span>
+
+                <button
+                    type="button"
+                    class="header-back-button"
+                    id="backToAccountBtn"
+                >
+                    Back to Account
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="affiliate-main">
+
+            <!-- PAGE INTRO -->
+            <section class="affiliate-welcome">
+
+                <div class="welcome-content">
+                    <div class="section-eyebrow">PARTNER PROGRAM</div>
+
+                    <h1>Affiliate <span>Dashboard</span></h1>
+
+                    <p>
+                        Track your referrals, monitor your commissions,
+                        and manage your affiliate account in one place.
+                    </p>
+                </div>
+
+                <div class="welcome-action" id="affiliatePrimaryAction">
+                    <span class="welcome-action-label">YOUR AFFILIATE STATUS</span>
+
+                    <strong id="affiliateStatusText">Checking status...</strong>
+
+                    <span id="affiliateStatusDescription">
+                        Loading your affiliate account information.
+                    </span>
+                </div>
+
+            </section>
+
+
+            <!-- APPLICATION STATUS -->
+            <section
+                class="affiliate-notice"
+                id="affiliateNotice"
+                aria-live="polite"
+                hidden
+            >
+                <div class="notice-icon" id="affiliateNoticeIcon">i</div>
+
+                <div class="notice-content">
+                    <h3 id="affiliateNoticeTitle">Affiliate information</h3>
+                    <p id="affiliateNoticeMessage"></p>
+                </div>
+
+                <button
+                    type="button"
+                    class="notice-close"
+                    id="closeAffiliateNoticeBtn"
+                    aria-label="Close notification"
+                >
+                    &times;
+                </button>
+            </section>
+
+
+            <!-- DASHBOARD NAVIGATION -->
+            <nav class="affiliate-navigation" aria-label="Affiliate navigation">
+
+                <button
+                    type="button"
+                    class="affiliate-nav-item active"
+                    data-section="overview"
+                    aria-current="page"
+                >
+                    Overview
+                </button>
+
+                <button
+                    type="button"
+                    class="affiliate-nav-item"
+                    data-section="referrals"
+                >
+                    Referral Players
+                </button>
+
+                <button
+                    type="button"
+                    class="affiliate-nav-item"
+                    data-section="commissions"
+                >
+                    Commissions
+                </button>
+
+                <button
+                    type="button"
+                    class="affiliate-nav-item"
+                    data-section="settlements"
+                >
+                    Settlements
+                </button>
+
+                <button
+                    type="button"
+                    class="affiliate-nav-item"
+                    data-section="payouts"
+                >
+                    Payouts
+                </button>
+
+                <button
+                    type="button"
+                    class="affiliate-nav-item"
+                    data-section="profile"
+                >
+                    Affiliate Profile
+                </button>
+
+            </nav>
+
+
+            <!-- ====================================== -->
+            <!-- SECTION 1: OVERVIEW                    -->
+            <!-- ====================================== -->
+
+            <section
+                class="affiliate-section active"
+                id="section-overview"
+                data-page="overview"
+            >
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Overview</h2>
+                        <p>Your affiliate performance at a glance.</p>
+                    </div>
+
+                    <span class="data-period-label" id="overviewPeriodLabel">
+                        Current account
+                    </span>
+                </div>
+
+
+                <!-- SUMMARY CARDS -->
+                <div class="affiliate-stats-grid">
+
+                    <article class="affiliate-stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Total Referrals</span>
+                            <span class="stat-icon">R</span>
+                        </div>
+
+                        <strong class="stat-value" id="totalReferralsValue">
+                            --
+                        </strong>
+
+                        <span class="stat-description">
+                            Players attributed to your account
+                        </span>
+                    </article>
+
+
+                    <article class="affiliate-stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Qualified Players</span>
+                            <span class="stat-icon">Q</span>
+                        </div>
+
+                        <strong class="stat-value" id="qualifiedPlayersValue">
+                            --
+                        </strong>
+
+                        <span class="stat-description">
+                            Players meeting program requirements
+                        </span>
+                    </article>
+
+
+                    <article class="affiliate-stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Total Commission</span>
+                            <span class="stat-icon">$</span>
+                        </div>
+
+                        <strong class="stat-value" id="totalCommissionValue">
+                            --
+                        </strong>
+
+                        <span class="stat-description">
+                            Commission recorded for your account
+                        </span>
+                    </article>
+
+
+                    <article class="affiliate-stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Available Balance</span>
+                            <span class="stat-icon">A</span>
+                        </div>
+
+                        <strong class="stat-value" id="availableBalanceValue">
+                            --
+                        </strong>
+
+                        <span class="stat-description">
+                            Balance eligible for withdrawal
+                        </span>
+                    </article>
+
+                </div>
+
+
+                <!-- REFERRAL LINK -->
+                <article class="affiliate-panel referral-link-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Your Referral Link</h3>
+                            <p>
+                                Share your assigned link to attract new players.
+                            </p>
+                        </div>
+
+                        <span class="panel-badge">Referral</span>
+                    </div>
+
+
+                    <div class="referral-link-box">
+
+                        <input
+                            type="text"
+                            id="affiliateReferralLink"
+                            class="affiliate-input referral-link-input"
+                            placeholder="Your referral link will appear here"
+                            readonly
+                            aria-label="Your referral link"
+                        >
+
+                        <button
+                            type="button"
+                            class="affiliate-button primary-button"
+                            id="copyReferralLinkBtn"
+                            disabled
+                        >
+                            Copy Link
+                        </button>
+
+                    </div>
+
+                    <p
+                        class="field-message"
+                        id="referralLinkMessage"
+                        aria-live="polite"
+                    ></p>
+
+                    <div class="referral-code-row">
+                        <span>Affiliate Code</span>
+
+                        <strong id="affiliateReferralCode">Not assigned</strong>
+
+                        <button
+                            type="button"
+                            class="text-button"
+                            id="copyAffiliateCodeBtn"
+                            disabled
+                        >
+                            Copy Code
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- RECENT ACTIVITY -->
+                <article class="affiliate-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Recent Referrals</h3>
+                            <p>Your latest referred players.</p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="text-button"
+                            data-open-section="referrals"
+                        >
+                            View All
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table class="affiliate-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Player ID</th>
+                                    <th>Joined</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recentReferralsTableBody">
+                                <tr>
+                                    <td colspan="3" class="table-empty">
+                                        Referral information will appear here.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+
+                <!-- RECENT COMMISSIONS -->
+                <article class="affiliate-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Recent Commissions</h3>
+                            <p>Your latest commission records.</p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="text-button"
+                            data-open-section="commissions"
+                        >
+                            View All
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table class="affiliate-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Reference</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recentCommissionsTableBody">
+                                <tr>
+                                    <td colspan="4" class="table-empty">
+                                        Commission information will appear here.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ====================================== -->
+            <!-- SECTION 2: REFERRAL PLAYERS             -->
+            <!-- ====================================== -->
+
+            <section
+                class="affiliate-section"
+                id="section-referrals"
+                data-page="referrals"
+                hidden
+            >
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Referral Players</h2>
+                        <p>Review players attributed to your affiliate account.</p>
+                    </div>
+                </div>
+
+
+                <article class="affiliate-panel">
+
+                    <div class="table-toolbar">
+
+                        <div class="toolbar-search">
+                            <input
+                                type="search"
+                                id="referralSearchInput"
+                                class="affiliate-input"
+                                placeholder="Search Player ID..."
+                                aria-label="Search referral players"
+                            >
+                        </div>
+
+                        <select
+                            id="referralStatusFilter"
+                            class="affiliate-select"
+                            aria-label="Filter referral players by status"
+                        >
+                            <option value="all">All Statuses</option>
+                            <option value="qualified">Qualified</option>
+                            <option value="pending">Pending</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="affiliate-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Player ID</th>
+                                    <th>Registration Date</th>
+                                    <th>Eligible Activity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="referralsTableBody">
+                                <tr>
+                                    <td colspan="4" class="table-empty">
+                                        No referral records loaded.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="table-footer">
+                        <span id="referralsCountLabel">0 records</span>
+
+                        <div class="pagination-controls">
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                id="referralsPreviousBtn"
+                                disabled
+                            >
+                                Previous
+                            </button>
+
+                            <span id="referralsPageLabel">Page 1</span>
+
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                id="referralsNextBtn"
+                                disabled
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ====================================== -->
+            <!-- SECTION 3: COMMISSIONS                  -->
+            <!-- ====================================== -->
+
+            <section
+                class="affiliate-section"
+                id="section-commissions"
+                data-page="commissions"
+                hidden
+            >
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Commissions</h2>
+                        <p>Review commission amounts and their current status.</p>
+                    </div>
+                </div>
+
+
+                <div class="affiliate-stats-grid compact-stats-grid">
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Total Earned</span>
+                        <strong class="stat-value" id="commissionTotalEarned">
+                            --
+                        </strong>
+                    </article>
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Pending</span>
+                        <strong class="stat-value" id="commissionPending">
+                            --
+                        </strong>
+                    </article>
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Approved</span>
+                        <strong class="stat-value" id="commissionApproved">
+                            --
+                        </strong>
+                    </article>
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Paid</span>
+                        <strong class="stat-value" id="commissionPaid">
+                            --
+                        </strong>
+                    </article>
+
+                </div>
+
+
+                <article class="affiliate-panel">
+
+                    <div class="table-toolbar">
+
+                        <input
+                            type="date"
+                            id="commissionStartDate"
+                            class="affiliate-input"
+                            aria-label="Commission start date"
+                        >
+
+                        <input
+                            type="date"
+                            id="commissionEndDate"
+                            class="affiliate-input"
+                            aria-label="Commission end date"
+                        >
+
+                        <select
+                            id="commissionStatusFilter"
+                            class="affiliate-select"
+                            aria-label="Filter commissions by status"
+                        >
+                            <option value="all">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="paid">Paid</option>
+                            <option value="reversed">Reversed</option>
+                        </select>
+
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            id="applyCommissionFiltersBtn"
+                        >
+                            Apply Filters
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="affiliate-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Reference</th>
+                                    <th>Commission Type</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="commissionsTableBody">
+                                <tr>
+                                    <td colspan="5" class="table-empty">
+                                        No commission records loaded.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <div class="table-footer">
+                        <span id="commissionsCountLabel">0 records</span>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ====================================== -->
+            <!-- SECTION 4: SETTLEMENTS                  -->
+            <!-- ====================================== -->
+
+            <section
+                class="affiliate-section"
+                id="section-settlements"
+                data-page="settlements"
+                hidden
+            >
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Settlements</h2>
+                        <p>Review finalized commission settlement periods.</p>
+                    </div>
+                </div>
+
+
+                <article class="affiliate-panel">
+
+                    <div class="table-toolbar">
+
+                        <select
+                            id="settlementPeriodFilter"
+                            class="affiliate-select"
+                            aria-label="Filter settlement periods"
+                        >
+                            <option value="all">All Periods</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+
+                        <select
+                            id="settlementStatusFilter"
+                            class="affiliate-select"
+                            aria-label="Filter settlement status"
+                        >
+                            <option value="all">All Statuses</option>
+                            <option value="draft">Draft</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="finalized">Finalized</option>
+                            <option value="paid">Paid</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="affiliate-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Settlement ID</th>
+                                    <th>Period</th>
+                                    <th>Eligible Revenue</th>
+                                    <th>Commission</th>
+                                    <th>Final Payable</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="settlementsTableBody">
+                                <tr>
+                                    <td colspan="6" class="table-empty">
+                                        No settlement records loaded.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p class="panel-footnote">
+                        Only settlement records finalized by the program
+                        administrator are treated as final.
+                    </p>
+
+                </article>
+
+            </section>
+
+
+            <!-- ====================================== -->
+            <!-- SECTION 5: PAYOUTS                      -->
+            <!-- ====================================== -->
+
+            <section
+                class="affiliate-section"
+                id="section-payouts"
+                data-page="payouts"
+                hidden
+            >
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Payouts</h2>
+                        <p>Review withdrawal eligibility and payout history.</p>
+                    </div>
+                </div>
+
+
+                <div class="affiliate-stats-grid compact-stats-grid">
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Available Balance</span>
+                        <strong class="stat-value" id="payoutAvailableBalance">
+                            --
+                        </strong>
+                    </article>
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Pending Payouts</span>
+                        <strong class="stat-value" id="payoutPendingAmount">
+                            --
+                        </strong>
+                    </article>
+
+                    <article class="affiliate-stat-card">
+                        <span class="stat-label">Total Paid</span>
+                        <strong class="stat-value" id="payoutTotalPaid">
+                            --
+                        </strong>
+                    </article>
+
+                </div>
+
+
+                <article class="affiliate-panel payout-request-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Request a Withdrawal</h3>
+                            <p>
+                                Submit a payout request when your balance
+                                meets the program's requirements.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <form id="affiliatePayoutForm" novalidate>
+
+                        <div class="form-grid">
+
+                            <div class="form-field">
+                                <label for="payoutAmount">
+                                    Withdrawal Amount (USD)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="payoutAmount"
+                                    name="amount"
+                                    class="affiliate-input"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    required
+                                >
+                            </div>
+
+
+                            <div class="form-field">
+                                <label for="payoutMethod">
+                                    Payout Method
+                                </label>
+
+                                <select
+                                    id="payoutMethod"
+                                    name="method"
+                                    class="affiliate-select"
+                                    required
+                                >
+                                    <option value="">Select payout method</option>
+                                    <option value="bank_transfer">Bank Transfer</option>
+                                    <option value="crypto">Cryptocurrency</option>
+                                    <option value="other">Other approved method</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-field full-width">
+                                <label for="payoutDestination">
+                                    Payout Destination
+                                </label>
+
+                                <textarea
+                                    id="payoutDestination"
+                                    name="destination"
+                                    class="affiliate-textarea"
+                                    rows="3"
+                                    placeholder="Enter the required payout details"
+                                    required
+                                ></textarea>
+
+                                <span class="field-hint">
+                                    Enter only the information required for
+                                    your selected payout method.
+                                </span>
+                            </div>
+
+
+                            <div class="form-field full-width">
+                                <label for="payoutNote">
+                                    Note (Optional)
+                                </label>
+
+                                <textarea
+                                    id="payoutNote"
+                                    name="note"
+                                    class="affiliate-textarea"
+                                    rows="2"
+                                    placeholder="Add an optional note"
+                                ></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <p
+                            class="field-message"
+                            id="payoutFormMessage"
+                            aria-live="polite"
+                        ></p>
+
+
+                        <button
+                            type="submit"
+                            class="affiliate-button primary-button"
+                            id="submitPayoutRequestBtn"
+                            disabled
+                        >
+                            Submit Payout Request
+                        </button>
+
+                    </form>
+
+                </article>
+
+
+                <article class="affiliate-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Payout History</h3>
+                            <p>Track previous withdrawal requests and payments.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="affiliate-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="payoutHistoryTableBody">
+                                <tr>
+                                    <td colspan="5" class="table-empty">
+                                        No payout records loaded.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ====================================== -->
+            <!-- SECTION 6: AFFILIATE PROFILE            -->
+            <!-- ====================================== -->
+
+            <section
+                class="affiliate-section"
+                id="section-profile"
+                data-page="profile"
+                hidden
+            >
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Affiliate Profile</h2>
+                        <p>Review your affiliate account information.</p>
+                    </div>
+                </div>
+
+
+                <article class="affiliate-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Account Information</h3>
+                            <p>Your account information and approval status.</p>
+                        </div>
+
+                        <span
+                            class="status-badge"
+                            id="profileAffiliateStatus"
+                        >
+                            Loading
+                        </span>
+                    </div>
+
+
+                    <div class="profile-details-grid">
+
+                        <div class="profile-detail">
+                            <span>Affiliate ID</span>
+                            <strong id="profileAffiliateId">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>User ID</span>
+                            <strong id="profileUserId">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Full Name</span>
+                            <strong id="profileFullName">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Email Address</span>
+                            <strong id="profileEmail">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Affiliate Code</span>
+                            <strong id="profileAffiliateCode">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Commission Rate</span>
+                            <strong id="profileCommissionRate">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Application Date</span>
+                            <strong id="profileApplicationDate">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Approval Date</span>
+                            <strong id="profileApprovalDate">--</strong>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="affiliate-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Promotion Information</h3>
+                            <p>Your submitted promotion details.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="profile-details-grid">
+
+                        <div class="profile-detail">
+                            <span>Promotion Type</span>
+                            <strong id="profilePromotionType">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Contact Platform</span>
+                            <strong id="profileContactPlatform">--</strong>
+                        </div>
+
+                        <div class="profile-detail">
+                            <span>Contact Information</span>
+                            <strong id="profileContactInformation">--</strong>
+                        </div>
+
+                        <div class="profile-detail full-width">
+                            <span>Promotion Link</span>
+                            <a
+                                href="#"
+                                id="profilePromotionLink"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Not available
+                            </a>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- GLOBAL LOADING / ERROR STATE -->
+            <div
+                class="affiliate-loading"
+                id="affiliateLoading"
+                role="status"
+                aria-live="polite"
+                hidden
+            >
+                <span class="loading-spinner"></span>
+                <span id="affiliateLoadingMessage">
+                    Loading affiliate information...
+                </span>
+            </div>
+
+
+            <div
+                class="affiliate-empty-state"
+                id="affiliateGlobalEmptyState"
+                hidden
+            >
+                <h3 id="affiliateEmptyTitle">Affiliate information unavailable</h3>
+                <p id="affiliateEmptyMessage">
+                    Your affiliate information could not be loaded.
+                </p>
+            </div>
+
+        </main>
+
+
+        <!-- FOOTER -->
+        <footer class="affiliate-footer">
+            <span>&copy; <span id="affiliateCurrentYear"></span> SPORTS BET</span>
+            <span>Affiliate Program</span>
+        </footer>
+
+    </div>
+
+
+    <!--
+        The affiliate dashboard JavaScript is loaded separately.
+        Supabase initialization and real database integration will be
+        added in the JavaScript file after confirming your existing setup.
+    -->
+    <script src="affiliate-program.js" defer></script>
+
+</body>
+</html>
+
