@@ -2323,3 +2323,62 @@ if (document.readyState === "loading") {
     }
 })();
 
+
+/* =========================================
+   STATE SUMMARY - EXPAND / MINIMIZE
+   ========================================= */
+
+(() => {
+    function initializeSummaryToggle() {
+        const toggleButton = document.getElementById("summaryDataToggle");
+        const toggleIcon = document.getElementById("summaryDataToggleIcon");
+        const toggleText = document.getElementById("summaryDataToggleText");
+        const summaryTable = document.getElementById("stateSummaryTable");
+
+        if (
+            !toggleButton ||
+            !toggleIcon ||
+            !toggleText ||
+            !summaryTable ||
+            toggleButton.dataset.initialized === "true"
+        ) {
+            return;
+        }
+
+        toggleButton.dataset.initialized = "true";
+
+        // Keep summary data hidden when the page first loads.
+        summaryTable.hidden = true;
+        toggleButton.setAttribute("aria-expanded", "false");
+
+        toggleButton.addEventListener("click", () => {
+            const isExpanded =
+                toggleButton.getAttribute("aria-expanded") === "true";
+
+            const shouldExpand = !isExpanded;
+
+            summaryTable.hidden = !shouldExpand;
+            toggleButton.setAttribute(
+                "aria-expanded",
+                String(shouldExpand)
+            );
+
+            toggleIcon.textContent = shouldExpand ? "−" : "+";
+            toggleText.textContent = shouldExpand
+                ? "Minimize Summary"
+                : "Show Summary Data";
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeSummaryToggle,
+            { once: true }
+        );
+    } else {
+        initializeSummaryToggle();
+    }
+})();
+
+
