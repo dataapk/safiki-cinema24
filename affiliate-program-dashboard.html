@@ -257,38 +257,291 @@
 
         </section>
 
-        <!-- STATE SUMMARY -->
+ <!-- ================= STATE SUMMARY ================= -->
+
         <section class="state-summary" id="stateSummary">
 
-            <div class="state-summary-header">
-                <h2>State Summary</h2>
+            <!-- State Summary Heading -->
 
-                <div class="summary-period">
+            <div class="state-summary-heading">
+                <h2>State Summary</h2>
+            </div>
+
+
+            <!-- Item Selection and Period -->
+
+            <div class="state-summary-controls">
+
+                <div class="summary-control-field item-selection-field">
+
+                    <label for="summaryItemToggle">Item Selected</label>
+
+                    <button
+                        type="button"
+                        class="summary-select-button"
+                        id="summaryItemToggle"
+                        aria-expanded="false"
+                        aria-controls="summaryItemOptions"
+                    >
+                        <span id="summaryItemLabel">Choose Items</span>
+                        <span class="select-chevron" aria-hidden="true"></span>
+                    </button>
+
+                    <!-- Opens only when Item Selected is clicked -->
+
+                    <div
+                        class="summary-item-options"
+                        id="summaryItemOptions"
+                        hidden
+                    >
+
+                        <div class="summary-options-heading">
+                            <span>Choose Summary Items</span>
+
+                            <button
+                                type="button"
+                                class="summary-options-close"
+                                id="summaryItemClose"
+                                aria-label="Close item selection"
+                            >
+                                &times;
+                            </button>
+                        </div>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="clicksCount"
+                                checked
+                            >
+                            <span>Clicks Count</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="directLinkClicks"
+                                checked
+                            >
+                            <span>Direct Link Clicks</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="registrations"
+                                checked
+                            >
+                            <span>Registrations</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="newDeposits"
+                                checked
+                            >
+                            <span>New Deposits</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="companyProfit"
+                            >
+                            <span>Company Profit</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="rsCommission"
+                            >
+                            <span>RS / Commission</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="cpa"
+                            >
+                            <span>CPA</span>
+                        </label>
+
+                        <label class="summary-option">
+                            <input
+                                type="checkbox"
+                                name="summaryItems"
+                                value="commissionAmount"
+                                checked
+                            >
+                            <span>Commission Amount</span>
+                        </label>
+
+                        <div class="summary-options-actions">
+                            <button
+                                type="button"
+                                class="summary-options-apply"
+                                id="applySummaryItems"
+                            >
+                                Apply Selection
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-control-field summary-period-field">
+
                     <label for="summaryPeriod">Period</label>
 
                     <select id="summaryPeriod" name="summaryPeriod">
-                        <option value="yesterday">Yesterday</option>
-                        <option value="today">Today</option>
-                        <option value="last7days">Last 7 Days</option>
-                        <option value="currentMonth" selected>
-                            Current Month
-                        </option>
-                        <option value="previousMonth">Previous Month</option>
+                        <option value="weekly" selected>Weekly</option>
+                        <option value="monthly">Monthly</option>
                     </select>
+
                 </div>
+
             </div>
 
-            <div class="state-summary-content" id="stateSummaryContent">
-                <p class="summary-placeholder">
-                    Select a period to view its summary.
-                </p>
+
+            <!-- Summary Table -->
+
+            <div class="state-summary-table" id="stateSummaryTable">
+
+                <div class="state-summary-table-header">
+                    <div class="summary-currency-heading">Currency</div>
+                    <div class="summary-view-heading">View</div>
+                </div>
+
+                <div
+                    class="state-summary-content"
+                    id="stateSummaryContent"
+                >
+
+                    <!-- Initial summary row -->
+
+                    <div class="summary-data-row" data-summary-row="default">
+
+                        <div class="summary-row-currency">
+                            <span class="currency-code">USD</span>
+                        </div>
+
+                        <div class="summary-row-view">
+                            <span
+                                class="summary-value"
+                                data-summary-value="total"
+                            >0</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Add Summary Row -->
+
+            <div class="summary-add-section">
+
+                <button
+                    type="button"
+                    class="summary-add-button"
+                    id="addSummaryRow"
+                    aria-expanded="false"
+                    aria-controls="summaryAddOptions"
+                    aria-label="Add summary row"
+                >
+                    <span class="summary-plus-icon" aria-hidden="true">+</span>
+                    <span>Add Summary Row</span>
+                </button>
+
+                <!-- Opens only when the plus button is clicked -->
+
+                <div
+                    class="summary-add-options"
+                    id="summaryAddOptions"
+                    hidden
+                >
+
+                    <div class="summary-add-options-heading">
+                        <span>Add Summary Row</span>
+                    </div>
+
+                    <div class="summary-add-field">
+
+                        <label for="newSummaryCurrency">Currency</label>
+
+                        <select
+                            id="newSummaryCurrency"
+                            name="newSummaryCurrency"
+                        >
+                            <option value="USD" selected>USD</option>
+                        </select>
+
+                    </div>
+
+                    <div class="summary-add-field">
+
+                        <label for="newSummaryItem">Summary Item</label>
+
+                        <select
+                            id="newSummaryItem"
+                            name="newSummaryItem"
+                        >
+                            <option value="clicksCount">Clicks Count</option>
+                            <option value="directLinkClicks">Direct Link Clicks</option>
+                            <option value="registrations">Registrations</option>
+                            <option value="newDeposits">New Deposits</option>
+                            <option value="companyProfit">Company Profit</option>
+                            <option value="rsCommission">RS / Commission</option>
+                            <option value="cpa">CPA</option>
+                            <option value="commissionAmount">Commission Amount</option>
+                        </select>
+
+                    </div>
+
+                    <div class="summary-add-actions">
+
+                        <button
+                            type="button"
+                            class="summary-add-confirm"
+                            id="confirmAddSummaryRow"
+                        >
+                            Add
+                        </button>
+
+                        <button
+                            type="button"
+                            class="summary-add-cancel"
+                            id="cancelAddSummaryRow"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </section>
 
     </main>
 
-    <!-- JavaScript will be connected separately after CSS is completed. -->
+
+    <!-- Separate JavaScript File -->
+
     <script src="affiliate-program-dashboard.js"></script>
 
 </body>
