@@ -4,27 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#087a3e">
     <title>Affiliate Sign Up | SPORTS BET</title>
 
     <style>
         :root {
-    --green: #00C853;
-    --green-dark: #008F3A;
-    --yellow: #FFDF00;
-    --white: #FFFFFF;
-
-    --bg: #FFFFFF;
-    --card: #FFFFFF;
-    --input: #FFFFFF;
-
-    --text: #183524;
-    --muted: #66756B;
-    --border: #DCE9DF;
-}
-
-        * {
-            box-sizing: border-box;
+            --green: #00C853;
+            --green-dark: #008F3A;
+            --yellow: #FFDF00;
+            --white: #FFFFFF;
+            --bg: #FFFFFF;
+            --card: #FFFFFF;
+            --input: #FFFFFF;
+            --text: #183524;
+            --muted: #66756B;
+            --border: #DCE9DF;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -41,47 +38,45 @@
         }
 
         .signup-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-.signup-logo {
-    font-size: 30px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    color: #00C853;
-}
+        .signup-logo {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #00C853;
+        }
 
-.signup-logo span {
-    color: #FFDF00;
-}
+        .signup-logo span { color: #FFDF00; }
 
-.signup-header h1 {
-    margin: 22px 0 8px;
-    color: #183524;
-    font-size: 27px;
-}
+        .signup-header h1 {
+            margin: 22px 0 8px;
+            color: #183524;
+            font-size: 27px;
+        }
 
-.signup-header p {
-    margin: 0;
-    color: #66756B;
-    font-size: 14px;
-    line-height: 1.6;
-}
+        .signup-header p {
+            margin: 0;
+            color: #66756B;
+            font-size: 14px;
+            line-height: 1.6;
+        }
 
         .signup-card {
             padding: 28px;
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
         }
 
         .section-title {
             margin: 0 0 18px;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
-            color: var(--yellow);
+            color: #9b8700;
             font-size: 16px;
         }
 
@@ -92,13 +87,9 @@
             margin-bottom: 25px;
         }
 
-        .form-group {
-            min-width: 0;
-        }
+        .form-group { min-width: 0; }
 
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
+        .form-group.full-width { grid-column: 1 / -1; }
 
         .form-group label {
             display: block;
@@ -107,9 +98,7 @@
             font-weight: 700;
         }
 
-        .required {
-            color: var(--yellow);
-        }
+        .required { color: #9b8700; }
 
         .form-group input,
         .form-group select {
@@ -131,9 +120,7 @@
             box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.12);
         }
 
-        .form-group input::placeholder {
-            color: #718078;
-        }
+        .form-group input::placeholder { color: #718078; }
 
         .field-help {
             display: block;
@@ -158,8 +145,9 @@
             accent-color: var(--green);
         }
 
-        .terms-row a {
-            color: var(--yellow);
+        .terms-row a,
+        .login-note a {
+            color: #9b8700;
             text-decoration: none;
         }
 
@@ -176,9 +164,7 @@
             transition: background 0.2s ease;
         }
 
-        .signup-button:hover {
-            background: #20e66e;
-        }
+        .signup-button:hover { background: #20e66e; }
 
         .signup-button:disabled {
             opacity: 0.65;
@@ -192,6 +178,7 @@
             border-radius: 8px;
             font-size: 13px;
             line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
         .form-message.error {
@@ -215,353 +202,499 @@
             text-align: center;
         }
 
-        .login-note a {
-            color: var(--yellow);
-            text-decoration: none;
-        }
-
         @media (max-width: 520px) {
-    .form-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-    }
-}
-
-            .signup-card {
-                padding: 20px 15px;
-            }
+            .signup-card { padding: 20px 15px; }
 
             .form-grid {
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
 
-            .form-group.full-width {
-                grid-column: auto;
-            }
+            .form-group.full-width { grid-column: auto; }
 
-            .signup-header h1 {
-                font-size: 23px;
-            }
+            .signup-header h1 { font-size: 23px; }
         }
     </style>
 </head>
 
 <body>
-    <main class="affiliate-signup-container">
+<main class="affiliate-signup-container">
 
-        <header class="signup-header">
-            <div class="signup-logo">
-                SPORTS <span>BET</span>
+    <header class="signup-header">
+        <div class="signup-logo">SPORTS <span>BET</span></div>
+        <h1>Affiliate Sign Up</h1>
+        <p>
+            Join our affiliate program and promote SPORTS BET
+            through your social media or website.
+        </p>
+    </header>
+
+    <form class="signup-card" id="affiliateSignupForm">
+
+        <h2 class="section-title">Account Information</h2>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="firstName">First Name <span class="required">*</span></label>
+                <input type="text" id="firstName" name="firstName"
+                    autocomplete="given-name" placeholder="Enter first name"
+                    maxlength="100" required>
             </div>
 
-            <h1>Affiliate Sign Up</h1>
-
-            <p>
-                Join our affiliate program and promote SPORTS BET
-                through your social media or website.
-            </p>
-        </header>
-
-        <form class="signup-card" id="affiliateSignupForm">
-
-            <h2 class="section-title">Account Information</h2>
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="firstName">
-                        First Name <span class="required">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        autocomplete="given-name"
-                        placeholder="Enter first name"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="lastName">
-                        Last Name <span class="required">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        autocomplete="family-name"
-                        placeholder="Enter last name"
-                        required
-                    >
-                </div>
-
-                <div class="form-group full-width">
-                    <label for="email">
-                        Email Address <span class="required">*</span>
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        autocomplete="email"
-                        placeholder="Enter your email address"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="password">
-                        Password <span class="required">*</span>
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        autocomplete="new-password"
-                        minlength="8"
-                        placeholder="Minimum 8 characters"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">
-                        Confirm Password <span class="required">*</span>
-                    </label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        autocomplete="new-password"
-                        minlength="8"
-                        placeholder="Re-enter password"
-                        required
-                    >
-                </div>
+            <div class="form-group">
+                <label for="lastName">Last Name <span class="required">*</span></label>
+                <input type="text" id="lastName" name="lastName"
+                    autocomplete="family-name" placeholder="Enter last name"
+                    maxlength="100" required>
             </div>
 
-            <h2 class="section-title">Promotion Details</h2>
-
-            <div class="form-grid">
-                <div class="form-group full-width">
-                    <label for="promotionLink">
-                        Promotion Link <span class="required">*</span>
-                    </label>
-                    <input
-                        type="url"
-                        id="promotionLink"
-                        name="promotionLink"
-                        placeholder="https://your-website.com or social profile"
-                        required
-                    >
-                    <small class="field-help">
-                        Enter the website or social profile you will use
-                        to promote SPORTS BET.
-                    </small>
-                </div>
-
-                <div class="form-group full-width">
-                    <label for="linkCategory">
-                        Link Category <span class="required">*</span>
-                    </label>
-                    <select
-                        id="linkCategory"
-                        name="linkCategory"
-                        required
-                    >
-                        <option value="">Select a category</option>
-                        <option value="YouTube">YouTube</option>
-                        <option value="Telegram Channel">Telegram Channel</option>
-                        <option value="Facebook">Facebook</option>
-                        <option value="Website / Blog">Website / Blog</option>
-                        <option value="Sports Predictions">Sports Predictions</option>
-                        <option value="WhatsApp Community">WhatsApp Community</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group full-width">
-                    <label for="socialPlatform">
-                        Contact Platform <span class="required">*</span>
-                    </label>
-                    <select
-                        id="socialPlatform"
-                        name="socialPlatform"
-                        required
-                    >
-                        <option value="">Select contact platform</option>
-                        <option value="Telegram">Telegram</option>
-                        <option value="WhatsApp">WhatsApp</option>
-                    </select>
-                </div>
-
-                <div
-                    class="form-group full-width"
-                    id="telegramGroup"
-                    hidden
-                >
-                    <label for="telegramUsername">
-                        Telegram Username <span class="required">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="telegramUsername"
-                        name="telegramUsername"
-                        placeholder="@yourusername"
-                    >
-                </div>
-
-                <div
-                    class="form-group full-width"
-                    id="whatsappGroup"
-                    hidden
-                >
-                    <label for="whatsappNumber">
-                        WhatsApp Number <span class="required">*</span>
-                    </label>
-                    <input
-                        type="tel"
-                        id="whatsappNumber"
-                        name="whatsappNumber"
-                        placeholder="+8801XXXXXXXXX"
-                    >
-                </div>
+            <div class="form-group full-width">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email"
+                    autocomplete="email" placeholder="Enter your email address"
+                    maxlength="254" required>
             </div>
 
-            <h2 class="section-title">Player Account Details</h2>
-
-            <div class="form-grid">
-                <div class="form-group full-width">
-                    <label for="playerId">
-                        SPORTS BET Player ID <span class="required">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="playerId"
-                        name="playerId"
-                        placeholder="Enter your existing Player ID"
-                        required
-                    >
-                    <small class="field-help">
-                        Your Player ID must be verified before your
-                        affiliate application can be approved.
-                    </small>
-                </div>
+            <div class="form-group">
+                <label for="password">Password <span class="required">*</span></label>
+                <input type="password" id="password" name="password"
+                    autocomplete="new-password" minlength="8"
+                    placeholder="Minimum 8 characters" required>
             </div>
 
-            <label class="terms-row">
-                <input
-                    type="checkbox"
-                    id="acceptTerms"
-                    name="acceptTerms"
-                    required
-                >
-                <span>
-                    I confirm that the information provided is correct
-                    and agree to the Affiliate Program Terms and
-                    Privacy Policy.
-                </span>
-            </label>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                <input type="password" id="confirmPassword" name="confirmPassword"
+                    autocomplete="new-password" minlength="8"
+                    placeholder="Re-enter password" required>
+            </div>
+        </div>
 
-            <button
-                type="submit"
-                class="signup-button"
-                id="signupButton"
-            >
-                Submit Application
-            </button>
+        <h2 class="section-title">Promotion Details</h2>
 
-            <div
-                class="form-message"
-                id="signupMessage"
-                role="status"
-                aria-live="polite"
-            ></div>
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="promotionLink">Promotion Link <span class="required">*</span></label>
+                <input type="url" id="promotionLink" name="promotionLink"
+                    placeholder="https://your-website.com or social profile"
+                    maxlength="2048" required>
+                <small class="field-help">
+                    Enter the website or social profile you will use
+                    to promote SPORTS BET.
+                </small>
+            </div>
 
-            <p class="login-note">
-                Already have an affiliate account?
-                <a href="affiliate-login.html">Log In</a>
-            </p>
+            <div class="form-group full-width">
+                <label for="linkCategory">Link Category <span class="required">*</span></label>
+                <select id="linkCategory" name="linkCategory" required>
+                    <option value="">Select a category</option>
+                    <option value="YouTube">YouTube</option>
+                    <option value="Telegram Channel">Telegram Channel</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Website / Blog">Website / Blog</option>
+                    <option value="Sports Predictions">Sports Predictions</option>
+                    <option value="WhatsApp Community">WhatsApp Community</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
 
-        </form>
-    </main>
+            <div class="form-group full-width">
+                <label for="socialPlatform">Contact Platform <span class="required">*</span></label>
+                <select id="socialPlatform" name="socialPlatform" required>
+                    <option value="">Select contact platform</option>
+                    <option value="Telegram">Telegram</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                </select>
+            </div>
 
-    <script>
-        const socialPlatform =
-            document.getElementById("socialPlatform");
+            <div class="form-group full-width" id="telegramGroup" hidden>
+                <label for="telegramUsername">Telegram Username <span class="required">*</span></label>
+                <input type="text" id="telegramUsername" name="telegramUsername"
+                    placeholder="@yourusername" maxlength="100">
+            </div>
 
-        const telegramGroup =
-            document.getElementById("telegramGroup");
+            <div class="form-group full-width" id="whatsappGroup" hidden>
+                <label for="whatsappNumber">WhatsApp Number <span class="required">*</span></label>
+                <input type="tel" id="whatsappNumber" name="whatsappNumber"
+                    placeholder="+8801XXXXXXXXX" maxlength="30">
+            </div>
+        </div>
 
-        const whatsappGroup =
-            document.getElementById("whatsappGroup");
+        <h2 class="section-title">Player Account Details</h2>
 
-        const telegramUsername =
-            document.getElementById("telegramUsername");
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="playerId">SPORTS BET Player ID <span class="required">*</span></label>
+                <input type="text" id="playerId" name="playerId"
+                    placeholder="Enter your existing Player ID"
+                    maxlength="100" required>
+                <small class="field-help">
+                    Your Player ID must be verified before your
+                    affiliate application can be approved.
+                </small>
+            </div>
+        </div>
 
-        const whatsappNumber =
-            document.getElementById("whatsappNumber");
+        <label class="terms-row">
+            <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+            <span>
+                I confirm that the information provided is correct
+                and agree to the Affiliate Program Terms and Privacy Policy.
+            </span>
+        </label>
 
-        const signupForm =
-            document.getElementById("affiliateSignupForm");
+        <button type="submit" class="signup-button" id="signupButton">
+            Submit Application
+        </button>
 
-        const signupMessage =
-            document.getElementById("signupMessage");
+        <div class="form-message" id="signupMessage"
+            role="status" aria-live="polite"></div>
 
-        const signupButton =
-            document.getElementById("signupButton");
+        <p class="login-note">
+            Already have an affiliate account?
+            <a href="affiliate-login.html">Log In</a>
+        </p>
 
-        function updateSocialFields() {
-            const selected = socialPlatform.value;
+    </form>
+</main>
 
-            telegramGroup.hidden = selected !== "Telegram";
-            whatsappGroup.hidden = selected !== "WhatsApp";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+    "use strict";
 
-            telegramUsername.required = selected === "Telegram";
-            whatsappNumber.required = selected === "WhatsApp";
+    // Replace these two values with your Affiliate Supabase project values.
+    // Never put a service_role or secret key in this file.
+    const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+    const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
 
-            if (selected !== "Telegram") {
-                telegramUsername.value = "";
+    const SCHEMA = "affiliate_program";
+    const supabaseReady =
+        SUPABASE_URL.startsWith("https://") &&
+        !SUPABASE_URL.includes("YOUR_") &&
+        !SUPABASE_PUBLISHABLE_KEY.includes("YOUR_");
+
+    const socialPlatform = document.getElementById("socialPlatform");
+    const telegramGroup = document.getElementById("telegramGroup");
+    const whatsappGroup = document.getElementById("whatsappGroup");
+    const telegramUsername = document.getElementById("telegramUsername");
+    const whatsappNumber = document.getElementById("whatsappNumber");
+    const signupForm = document.getElementById("affiliateSignupForm");
+    const signupMessage = document.getElementById("signupMessage");
+    const signupButton = document.getElementById("signupButton");
+
+    let supabase = null;
+    let submitting = false;
+
+    if (supabaseReady && window.supabase?.createClient) {
+        supabase = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY,
+            {
+                db: { schema: SCHEMA },
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true
+                }
             }
+        );
+    }
 
-            if (selected !== "WhatsApp") {
-                whatsappNumber.value = "";
-            }
+    function showMessage(message, type = "error") {
+        signupMessage.className = "form-message " + type;
+        signupMessage.textContent = message;
+        signupMessage.style.display = "block";
+    }
+
+    function clearMessage() {
+        signupMessage.className = "form-message";
+        signupMessage.textContent = "";
+        signupMessage.style.display = "none";
+    }
+
+    function updateSocialFields() {
+        const selected = socialPlatform.value;
+
+        telegramGroup.hidden = selected !== "Telegram";
+        whatsappGroup.hidden = selected !== "WhatsApp";
+
+        telegramUsername.required = selected === "Telegram";
+        whatsappNumber.required = selected === "WhatsApp";
+
+        if (selected !== "Telegram") telegramUsername.value = "";
+        if (selected !== "WhatsApp") whatsappNumber.value = "";
+    }
+
+    socialPlatform.addEventListener("change", updateSocialFields);
+
+    function readApplicationForm() {
+        return {
+            first_name: document.getElementById("firstName").value.trim(),
+            last_name: document.getElementById("lastName").value.trim(),
+            promotion_link: document.getElementById("promotionLink").value.trim(),
+            promotion_category: document.getElementById("linkCategory").value,
+            contact_platform: socialPlatform.value,
+            telegram_username: socialPlatform.value === "Telegram"
+                ? telegramUsername.value.trim()
+                : null,
+            whatsapp_number: socialPlatform.value === "WhatsApp"
+                ? whatsappNumber.value.trim()
+                : null,
+            player_id: document.getElementById("playerId").value.trim()
+        };
+    }
+
+    function applicationFromUserMetadata(user) {
+        const metadata = user?.user_metadata || {};
+        if (metadata.affiliate_application_pending !== true) return null;
+
+        const app = metadata.affiliate_application;
+        if (!app || typeof app !== "object") return null;
+
+        return app;
+    }
+
+    async function saveApplicationForConfirmedUser(user, application) {
+        if (!supabase || !user) {
+            throw new Error("Please sign in to submit your application.");
         }
 
-        socialPlatform.addEventListener(
-            "change",
-            updateSocialFields
+        if (!user.email_confirmed_at) {
+            throw new Error("Please confirm your email address before submitting your application.");
+        }
+
+        const { error } = await supabase
+            .schema(SCHEMA)
+            .rpc("submit_application", {
+                p_first_name: application.first_name,
+                p_last_name: application.last_name,
+                p_promotion_link: application.promotion_link,
+                p_promotion_category: application.promotion_category,
+                p_contact_platform: application.contact_platform,
+                p_telegram_username: application.telegram_username,
+                p_whatsapp_number: application.whatsapp_number,
+                p_player_id: application.player_id
+            });
+
+        if (error) {
+            const errorText = String(error.message || "").toLowerCase();
+
+            if (
+                error.code === "23505" ||
+                errorText.includes("duplicate key") ||
+                errorText.includes("already exists") ||
+                errorText.includes("applications_email_lower_uidx")
+            ) {
+                throw new Error("This email already used.");
+            }
+
+            console.error("Application RPC error:", error);
+            throw new Error(
+                "Your account was created, but the application could not be saved. " +
+                "Please contact the program administrator before trying again."
+            );
+        }
+
+        // Clear the temporary application payload only after a successful save.
+        const { error: updateError } = await supabase.auth.updateUser({
+            data: {
+                affiliate_application_pending: false,
+                affiliate_application: null
+            }
+        });
+
+        if (updateError) {
+            // The application is already saved; do not report the submission as failed.
+            console.warn("Could not clear temporary application metadata:", updateError);
+        }
+    }
+
+    function isDuplicateEmailError(error) {
+        const message = String(error?.message || "").toLowerCase();
+        const code = String(error?.code || "").toLowerCase();
+
+        return (
+            code === "user_already_exists" ||
+            message.includes("user already registered") ||
+            message.includes("email already registered") ||
+            message.includes("already been registered") ||
+            message.includes("already exists")
         );
+    }
 
-        signupForm.addEventListener("submit", function (event) {
-            event.preventDefault();
+    async function processConfirmedSignupReturn() {
+        if (!supabase) return;
 
-            signupMessage.className = "form-message";
-            signupMessage.textContent = "";
+        const { data, error } = await supabase.auth.getSession();
+        if (error || !data.session?.user) return;
 
-            const password =
-                document.getElementById("password").value;
+        const user = data.session.user;
+        const application = applicationFromUserMetadata(user);
 
-            const confirmPassword =
-                document.getElementById("confirmPassword").value;
+        if (!application) return;
 
-            if (password !== confirmPassword) {
-                signupMessage.className = "form-message error";
-                signupMessage.textContent =
-                    "Your passwords do not match.";
+        if (!user.email_confirmed_at) {
+            showMessage(
+                "Please confirm your email address using the link we sent you. " +
+                "Your application will be submitted after confirmation.",
+                "pending"
+            );
+            return;
+        }
+
+        signupButton.disabled = true;
+        signupButton.textContent = "Saving Application...";
+
+        try {
+            await saveApplicationForConfirmedUser(user, application);
+            signupForm.hidden = true;
+            showMessage(
+                "Your application has been submitted successfully. " +
+                "Status: Pending Admin Approval.",
+                "pending"
+            );
+        } catch (error) {
+            showMessage(error.message || "Could not save your application.");
+        } finally {
+            signupButton.disabled = false;
+            signupButton.textContent = "Submit Application";
+        }
+    }
+
+    signupForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessage();
+
+        if (submitting) return;
+
+        if (!supabase) {
+            showMessage(
+                "Supabase is not configured. Add your Affiliate Project URL " +
+                "and Publishable Key to this page first."
+            );
+            return;
+        }
+
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            showMessage("Your passwords do not match.");
+            return;
+        }
+
+        if (password.length < 8) {
+            showMessage("Password must be at least 8 characters.");
+            return;
+        }
+
+        const application = readApplicationForm();
+
+        if (
+            !application.first_name ||
+            !application.last_name ||
+            !application.promotion_link ||
+            !application.promotion_category ||
+            !application.contact_platform ||
+            !application.player_id
+        ) {
+            showMessage("Please complete all required fields.");
+            return;
+        }
+
+        if (
+            application.contact_platform === "Telegram" &&
+            !application.telegram_username
+        ) {
+            showMessage("Please enter your Telegram username.");
+            return;
+        }
+
+        if (
+            application.contact_platform === "WhatsApp" &&
+            !application.whatsapp_number
+        ) {
+            showMessage("Please enter your WhatsApp number.");
+            return;
+        }
+
+        submitting = true;
+        signupButton.disabled = true;
+        signupButton.textContent = "Creating Account...";
+
+        try {
+            const redirectUrl = window.location.origin + window.location.pathname;
+
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    emailRedirectTo: redirectUrl,
+                    data: {
+                        affiliate_application_pending: true,
+                        affiliate_application: application
+                    }
+                }
+            });
+
+            if (error) {
+                if (isDuplicateEmailError(error)) {
+                    throw new Error("This email already used.");
+                }
+
+                console.error("Signup error:", error);
+                throw new Error(
+                    "Unable to create the account. Please check your details " +
+                    "and try again."
+                );
+            }
+
+            // Some Supabase configurations require email confirmation.
+            if (!data.session) {
+                showMessage(
+                    "Please check your email and confirm your address. " +
+                    "After confirmation, return to this page using the email link " +
+                    "to finish submitting your application.",
+                    "pending"
+                );
                 return;
             }
 
-            signupMessage.className = "form-message pending";
-            signupMessage.textContent =
-                "Form validation successful. Pending for Admin Approval " +
-                "will appear here after the application is saved. " +
-                "Database submission and approval are not connected yet.";
-        });
+            const user = data.session.user;
 
-        updateSocialFields();
-    </script>
+            if (!user.email_confirmed_at) {
+                showMessage(
+                    "Please confirm your email address before your application can be submitted.",
+                    "pending"
+                );
+                return;
+            }
+
+            await saveApplicationForConfirmedUser(user, application);
+
+            signupForm.hidden = true;
+            showMessage(
+                "Your application has been submitted successfully. " +
+                "Status: Pending Admin Approval.",
+                "pending"
+            );
+        } catch (error) {
+            showMessage(error.message || "Something went wrong. Please try again.");
+        } finally {
+            submitting = false;
+            signupButton.disabled = false;
+            signupButton.textContent = "Submit Application";
+        }
+    });
+
+    updateSocialFields();
+
+    // If the user returns from the email-confirmation link with a valid session,
+    // finish the pending application submission.
+    window.addEventListener("load", processConfirmedSignupReturn);
+})();
+</script>
 </body>
 </html>
