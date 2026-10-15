@@ -498,7 +498,8 @@ console.log(
         if (!user.email_confirmed_at) {
             throw new Error("Please confirm your email address before submitting your application.");
         }
-
+        
+ console.log("Contact platform value:", application.contact_platform);
         const { error } = await supabase
             .schema(SCHEMA)
             .rpc("submit_application", {
@@ -506,7 +507,6 @@ console.log(
                 p_last_name: application.last_name,
                 p_promotion_link: application.promotion_link,
                 p_link_category: application.promotion_category,
-                console.log("Contact platform value:", application.contact_platform);
                 p_contact_platform: application.contact_platform,
                 p_telegram_username: application.telegram_username,
                 p_whatsapp_number: application.whatsapp_number,
