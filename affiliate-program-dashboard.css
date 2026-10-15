@@ -1,51 +1,35 @@
 ```css
-/* =========================================================
-   AFFILIATE DASHBOARD
-   THEME: DEEP GREEN + YELLOW + WHITE
-   RESPONSIVE DESKTOP / TABLET / MOBILE
-========================================================= */
-
-/* =========================
-   1. ROOT VARIABLES
-========================= */
+/* =====================================================
+   AFFILIATE PROGRAM DASHBOARD
+   Theme: Green + Yellow + White
+   File: affiliate-program-dashboard.css
+   ===================================================== */
 
 :root {
-    --green-950: #042b20;
-    --green-900: #063b2b;
-    --green-850: #074632;
-    --green-800: #07543b;
-    --green-700: #087047;
+    --green-dark: #042b20;
+    --green-main: #063B2B;
+    --green-medium: #0b5139;
+    --green-light: #187a50;
 
-    --yellow: #ffdf00;
-    --yellow-hover: #f2cf00;
-    --yellow-soft: #fff8c7;
+    --yellow: #FFD43B;
+    --yellow-light: #FFE16A;
 
     --white: #ffffff;
-    --page-bg: #f3f6f2;
+    --page-bg: #edf4ee;
     --card-bg: #ffffff;
+    --soft-bg: #f7faf7;
 
-    --text-dark: #18372b;
-    --text-muted: #75847b;
-    --border-color: #e1e9e2;
+    --text-dark: #17251c;
+    --text-muted: #526258;
+    --border: #dce7df;
 
-    --success: #12834a;
-    --danger: #d93636;
+    --shadow:
+        0 8px 24px rgba(4, 43, 32, 0.10);
 
-    --shadow-sm: 0 3px 12px rgba(4, 43, 32, 0.06);
-    --shadow-md: 0 8px 26px rgba(4, 43, 32, 0.10);
-    --shadow-lg: 0 14px 36px rgba(4, 43, 32, 0.15);
-
-    --radius-sm: 8px;
-    --radius-md: 13px;
-    --radius-lg: 18px;
-
-    --transition: 0.22s ease;
+    --radius: 16px;
 }
 
-
-/* =========================
-   2. GLOBAL RESET
-========================= */
+/* ================= BASIC RESET ================= */
 
 * {
     box-sizing: border-box;
@@ -57,24 +41,20 @@ html {
 }
 
 body {
-    margin: 0;
-    min-width: 320px;
     min-height: 100vh;
-
-    font-family:
-        Inter,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    font-size: 14px;
-    line-height: 1.6;
-
+    margin: 0;
     color: var(--text-dark);
-    background: var(--page-bg);
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background:
+        linear-gradient(
+            to bottom,
+            var(--green-main) 0,
+            var(--green-dark) 285px,
+            var(--page-bg) 285px,
+            var(--page-bg) 100%
+        );
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
 }
 
 button,
@@ -84,71 +64,49 @@ textarea {
     font: inherit;
 }
 
+button,
+select,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
 button {
     cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+[hidden] {
+    display: none !important;
 }
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible {
-    outline: 3px solid rgba(255, 223, 0, 0.8);
+    outline: 3px solid var(--yellow);
     outline-offset: 3px;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-p {
-    margin-top: 0;
-}
-
-h2 {
-    margin-bottom: 20px;
-    color: var(--green-900);
-    font-size: 19px;
-    font-weight: 800;
-    line-height: 1.35;
-    letter-spacing: -0.35px;
-}
-
-h3 {
-    color: var(--green-900);
-    font-size: 13px;
-    font-weight: 800;
-}
-
-
-/* =========================
-   3. DASHBOARD HEADER
-========================= */
+/* ================= HEADER ================= */
 
 .dashboard-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    width: 100%;
-    min-height: 76px;
+    position: relative;
+    z-index: 50;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
 
-    padding: 14px 34px;
+    width: min(1240px, calc(100% - 40px));
+    min-height: 82px;
+    margin: 0 auto;
+    padding: 16px 0;
 
-    background: var(--green-900);
     color: var(--white);
-
-    border-bottom: 3px solid var(--yellow);
-
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.13);
 }
 
 .brand {
@@ -158,169 +116,104 @@ h3 {
 }
 
 .brand-name {
-    color: var(--white);
-
-    font-size: 20px;
+    color: var(--yellow);
+    font-size: 21px;
     font-weight: 900;
-    letter-spacing: 1.3px;
+    letter-spacing: 1px;
     line-height: 1.3;
-    text-transform: uppercase;
 }
-
-.brand-name::before {
-    content: "";
-    display: inline-block;
-
-    width: 5px;
-    height: 23px;
-
-    margin-right: 12px;
-
-    vertical-align: -5px;
-
-    background: var(--yellow);
-    border-radius: 4px;
-}
-
-
-/* =========================
-   4. HEADER ACTIONS
-========================= */
 
 .header-actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 13px;
+    gap: 12px;
 }
 
+/* Account button */
+
 .profile-button {
-    min-height: 41px;
-    padding: 9px 22px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--green-950);
-    background: var(--yellow);
+    min-height: 40px;
+    padding: 9px 19px;
 
     border: 1px solid var(--yellow);
-    border-radius: var(--radius-sm);
+    border-radius: 30px;
+
+    color: var(--green-dark);
+    background: var(--yellow);
 
     font-size: 13px;
     font-weight: 800;
 
     transition:
-        background var(--transition),
-        transform var(--transition),
-        box-shadow var(--transition);
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
 .profile-button:hover {
-    background: var(--yellow-hover);
+    background: var(--yellow-light);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 223, 0, 0.20);
 }
 
-.profile-button:active {
-    transform: translateY(0);
-}
-
-
-/* =========================
-   5. HAMBURGER MENU BUTTON
-========================= */
+/* Three-dot menu */
 
 .menu-toggle {
-    width: 43px;
-    height: 41px;
-    padding: 10px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
 
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.30);
-    border-radius: var(--radius-sm);
+    width: 43px;
+    height: 43px;
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.09);
 
     transition:
-        background var(--transition),
-        border-color var(--transition);
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.menu-toggle:hover {
-    background: rgba(255, 255, 255, 0.10);
+.menu-toggle:hover,
+.menu-toggle[aria-expanded="true"] {
     border-color: var(--yellow);
+    background: rgba(255, 212, 59, 0.15);
 }
 
 .menu-toggle span {
     display: block;
-
-    width: 21px;
-    height: 2px;
-
-    background: var(--white);
-    border-radius: 4px;
-
-    transition:
-        transform var(--transition),
-        opacity var(--transition);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--yellow);
 }
 
-.menu-toggle[aria-expanded="true"] {
-    background: rgba(255, 223, 0, 0.10);
-    border-color: var(--yellow);
-}
-
-.menu-toggle[aria-expanded="true"] span:first-child {
-    transform: translateY(7px) rotate(45deg);
-}
-
-.menu-toggle[aria-expanded="true"] span:nth-child(2) {
-    opacity: 0;
-}
-
-.menu-toggle[aria-expanded="true"] span:last-child {
-    transform: translateY(-7px) rotate(-45deg);
-}
-
-
-/* =========================
-   6. NAVIGATION DROPDOWN
-========================= */
+/* ================= NAVIGATION DROPDOWN ================= */
 
 .navigation-menu {
-    position: fixed;
-    top: 76px;
-    right: 20px;
-    z-index: 999;
+    position: absolute;
+    z-index: 100;
 
-    width: min(320px, calc(100vw - 32px));
-    max-height: calc(100vh - 96px);
+    top: 70px;
+    right: max(20px, calc((100vw - 1240px) / 2));
 
-    padding: 12px;
-
+    width: min(310px, calc(100vw - 32px));
+    max-height: min(75vh, 620px);
     overflow-y: auto;
 
-    color: var(--text-dark);
-    background: var(--white);
+    padding: 10px;
 
-    border: 1px solid var(--border-color);
-    border-top: 3px solid var(--yellow);
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border: 1px solid rgba(255, 212, 59, 0.45);
+    border-radius: 15px;
 
-    box-shadow: var(--shadow-lg);
+    color: var(--white);
+    background: var(--green-dark);
 
-    animation: menuAppear 0.2s ease;
-}
-
-.navigation-menu[hidden],
-.custom-date-range[hidden] {
-    display: none !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
 }
 
 .navigation-menu > a,
@@ -331,303 +224,225 @@ h3 {
     min-height: 42px;
     padding: 10px 13px;
 
-    color: var(--green-900);
+    border-radius: 9px;
+
+    color: var(--white);
+    text-decoration: none;
 
     font-size: 13px;
-    font-weight: 650;
-
-    border-radius: var(--radius-sm);
+    font-weight: 600;
 
     transition:
-        color var(--transition),
-        background var(--transition),
-        padding-left var(--transition);
+        color 0.18s ease,
+        background 0.18s ease,
+        padding 0.18s ease;
 }
 
 .navigation-menu > a:hover,
 .navigation-menu .menu-group > a:hover {
-    padding-left: 18px;
-
-    color: var(--green-950);
-    background: var(--yellow-soft);
+    padding-left: 17px;
+    color: var(--green-dark);
+    background: var(--yellow);
 }
 
 .menu-group {
-    margin-top: 10px;
-    padding-top: 12px;
-
-    border-top: 1px solid var(--border-color);
+    margin-top: 9px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .menu-group h3 {
-    margin: 0;
-    padding: 5px 13px 8px;
+    margin: 5px 13px 7px;
 
-    color: var(--green-700);
-
-    font-size: 11px;
+    color: var(--yellow);
+    font-size: 10px;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 1.3px;
     text-transform: uppercase;
 }
 
-@keyframes menuAppear {
-    from {
-        opacity: 0;
-        transform: translateY(-7px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* =========================
-   7. MAIN DASHBOARD AREA
-========================= */
+/* ================= MAIN CONTENT ================= */
 
 .dashboard-main {
-    width: min(1500px, 100%);
-    min-height: calc(100vh - 76px);
-
-    margin: 0 auto;
-    padding: 30px 34px 45px;
+    width: min(1240px, calc(100% - 40px));
+    margin: 18px auto 0;
+    padding-bottom: 45px;
 }
 
-
-/* =========================
-   8. EARNINGS SUMMARY GRID
-========================= */
+/* ================= EARNINGS SUMMARY CARDS ================= */
 
 .summary-cards {
     display: grid;
-
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 17px;
-
-    margin-bottom: 24px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .summary-card {
     position: relative;
-
-    min-width: 0;
-    min-height: 139px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
 
-    padding: 23px 20px;
-
+    min-width: 0;
+    min-height: 130px;
     overflow: hidden;
+    padding: 22px 18px;
 
-    background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius);
 
-    box-shadow: var(--shadow-sm);
-
-    transition:
-        transform var(--transition),
-        box-shadow var(--transition),
-        border-color var(--transition);
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
 }
 
 .summary-card::before {
-    content: "";
-
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
 
-    width: 100%;
-    height: 4px;
+    height: 5px;
 
-    background: var(--green-800);
+    background: var(--green-light);
+    content: "";
 }
 
-.summary-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: rgba(7, 84, 59, 0.20);
-}
-
-.available-card {
-    background: var(--green-900);
-    border-color: var(--green-900);
-}
-
-.available-card::before {
-    background: var(--yellow);
-}
-
-.available-card .card-value {
-    color: var(--yellow);
-}
-
-.available-card .card-label {
-    color: rgba(255, 255, 255, 0.82);
-}
-
-.yesterday-card::before {
-    background: #d9b900;
-}
-
-.current-month-card::before {
-    background: var(--green-700);
-}
-
-.thirty-days-card::before {
-    background: #75a88a;
-}
-
+.available-card::before,
 .total-card::before {
     background: var(--yellow);
 }
 
+.yesterday-card::before {
+    background: #7dbb8c;
+}
+
+.current-month-card::before {
+    background: var(--green-light);
+}
+
+.thirty-days-card::before {
+    background: #c9a51a;
+}
+
 .card-value {
-    margin-bottom: 9px;
+    margin-bottom: 8px;
 
-    color: var(--green-900);
-
-    font-size: clamp(20px, 2vw, 28px);
+    color: var(--green-main);
+    font-size: clamp(20px, 2.2vw, 29px);
     font-weight: 900;
+    letter-spacing: -0.5px;
     line-height: 1.25;
-    letter-spacing: -0.7px;
 
     overflow-wrap: anywhere;
-    font-variant-numeric: tabular-nums;
+}
+
+.available-card .card-value,
+.total-card .card-value {
+    color: var(--green-light);
 }
 
 .card-label {
     color: var(--text-muted);
-
     font-size: 10px;
-    font-weight: 850;
+    font-weight: 800;
+    letter-spacing: 0.7px;
     line-height: 1.5;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
 }
 
-
-/* =========================
-   9. REFRESH STATISTICS
-========================= */
+/* ================= REFRESH STATISTICS ================= */
 
 .refresh-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+    gap: 14px;
 
-    margin-bottom: 24px;
-    padding: 16px 19px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
 
     background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow);
 }
 
-#refreshStatistics {
+#refreshStatistics,
+#applyStatistics {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     min-height: 42px;
-    padding: 10px 19px;
+    padding: 10px 18px;
 
-    color: var(--green-950);
+    border: 0;
+    border-radius: 10px;
+
+    color: var(--green-dark);
     background: var(--yellow);
-
-    border: 1px solid var(--yellow);
-    border-radius: var(--radius-sm);
 
     font-size: 12px;
     font-weight: 850;
 
+    box-shadow: 0 4px 12px rgba(4, 43, 32, 0.12);
+
     transition:
-        background var(--transition),
-        transform var(--transition),
-        box-shadow var(--transition);
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
-#refreshStatistics:hover {
-    background: var(--yellow-hover);
+#refreshStatistics:hover,
+#applyStatistics:hover {
+    background: var(--yellow-light);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 223, 0, 0.18);
-}
-
-#refreshStatistics:active {
-    transform: translateY(0);
 }
 
 #refreshStatus {
+    min-height: 1em;
     margin: 0;
-
     color: var(--text-muted);
     font-size: 12px;
-    font-weight: 600;
-
-    overflow-wrap: anywhere;
+    text-align: right;
 }
 
-
-/* =========================
-   10. STATISTICS SETTINGS
-========================= */
+/* ================= STATISTICS SETTINGS ================= */
 
 .statistics-filter {
     display: grid;
-
     grid-template-columns:
-        minmax(180px, 1.3fr)
+        minmax(160px, 1.2fr)
         minmax(150px, 1fr)
         minmax(150px, 1fr)
         auto;
 
     align-items: end;
-    gap: 18px;
+    gap: 16px;
 
-    margin-bottom: 26px;
-    padding: 24px;
+    margin-bottom: 20px;
+    padding: 22px;
 
-    background: var(--green-900);
-    border: 1px solid var(--green-900);
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 
-    box-shadow: var(--shadow-md);
+    background: var(--white);
+    box-shadow: var(--shadow);
 }
 
 .statistics-filter h2 {
     grid-column: 1 / -1;
+    margin: 0;
 
-    margin: 0 0 2px;
-
-    color: var(--white);
-}
-
-.statistics-filter h2::after {
-    content: "";
-
-    display: block;
-
-    width: 44px;
-    height: 3px;
-
-    margin-top: 10px;
-
-    background: var(--yellow);
-    border-radius: 3px;
+    color: var(--green-main);
+    font-size: 17px;
+    font-weight: 850;
 }
 
 .filter-field {
     display: flex;
     flex-direction: column;
     gap: 7px;
-
     min-width: 0;
 }
 
@@ -635,525 +450,292 @@ h3 {
 .statistics-period label,
 .summary-period label {
     color: var(--text-muted);
-
-    font-size: 12px;
-    font-weight: 750;
+    font-size: 11px;
+    font-weight: 800;
 }
 
-.statistics-filter .filter-field label {
-    color: rgba(255, 255, 255, 0.88);
-}
-
-.custom-date-range {
-    display: grid;
-
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-
-    grid-column: 1 / -1;
-}
-
-.statistics-filter:has(.custom-date-range:not([hidden])) {
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr))
-        auto;
-}
-
-.statistics-filter:has(.custom-date-range:not([hidden]))
-> h2 {
-    grid-column: 1 / -1;
-}
-
-.statistics-filter:has(.custom-date-range:not([hidden]))
-> .filter-field {
-    grid-column: auto;
-}
-
-.statistics-filter:has(.custom-date-range:not([hidden]))
-> #applyStatistics {
-    grid-column: 3;
-    grid-row: 3;
-}
+/* Dropdown and date controls */
 
 select,
 input[type="date"] {
     width: 100%;
     min-width: 0;
     min-height: 43px;
-
     padding: 10px 12px;
 
+    border: 1px solid #cddbd0;
+    border-radius: 10px;
+
     color: var(--text-dark);
-    background: var(--white);
+    background: var(--soft-bg);
 
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
 
     transition:
-        border-color var(--transition),
-        box-shadow var(--transition);
-}
-
-select {
-    cursor: pointer;
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 select:hover,
 input[type="date"]:hover {
-    border-color: #8eb39b;
+    border-color: var(--green-light);
 }
 
 select:focus,
 input[type="date"]:focus {
-    border-color: var(--green-700);
+    border-color: var(--green-light);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(8, 112, 71, 0.12);
+    box-shadow: 0 0 0 3px rgba(24, 122, 80, 0.12);
+}
+
+.custom-date-range {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+
+    padding: 14px;
+
+    border: 1px dashed #c4d8c9;
+    border-radius: 12px;
+
+    background: var(--soft-bg);
 }
 
 #applyStatistics {
-    min-height: 43px;
-    padding: 10px 27px;
-
-    color: var(--green-950);
-    background: var(--yellow);
-
-    border: 1px solid var(--yellow);
-    border-radius: var(--radius-sm);
-
-    font-size: 13px;
-    font-weight: 900;
-
-    transition:
-        background var(--transition),
-        transform var(--transition);
+    min-width: 95px;
 }
 
-#applyStatistics:hover {
-    background: var(--yellow-hover);
-    transform: translateY(-1px);
-}
-
-
-/* =========================
-   11. STATISTICS SECTIONS
-========================= */
+/* ================= STATISTICS SECTIONS ================= */
 
 .statistics-section,
 .state-summary {
-    min-width: 0;
+    margin-bottom: 20px;
+    padding: 23px;
 
-    margin-bottom: 25px;
-    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 
-    background: var(--card-bg);
-
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-
-    box-shadow: var(--shadow-sm);
+    background: var(--white);
+    box-shadow: var(--shadow);
 }
 
 .statistics-section h2,
 .state-summary h2 {
-    position: relative;
+    margin: 0;
 
-    margin-bottom: 20px;
-    padding-bottom: 13px;
+    color: var(--green-main);
+    font-size: 18px;
+    font-weight: 900;
 }
 
-.statistics-section h2::after,
-.state-summary h2::after {
-    content: "";
+/* Chart section heading and period */
 
-    position: absolute;
-    bottom: 0;
-    left: 0;
+.statistics-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px 24px;
+}
 
-    width: 43px;
-    height: 3px;
-
-    background: var(--yellow);
-    border-radius: 3px;
+.statistics-section h2 {
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .statistics-period {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
+    gap: 10px;
 
-    margin-bottom: 19px;
-}
-
-.statistics-period label {
-    white-space: nowrap;
+    grid-column: 2;
+    grid-row: 1;
 }
 
 .statistics-period select {
     width: auto;
-    min-width: 145px;
+    min-width: 125px;
+    min-height: 38px;
 }
 
-
-/* =========================
-   12. CHART CONTAINERS
-========================= */
+/* Chart display area */
 
 .statistics-chart {
-    position: relative;
-
-    width: 100%;
-    min-height: 260px;
-
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 22px;
+    grid-column: 1 / -1;
 
+    min-width: 0;
+    min-height: 245px;
     overflow: hidden;
+    padding: 20px;
 
-    background:
+    border: 1px dashed #c4d8c9;
+    border-radius: 13px;
+
+    background-color: #fbfdfb;
+    background-image:
         linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #f8fbf8 100%
+            rgba(6, 59, 43, 0.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(6, 59, 43, 0.045) 1px,
+            transparent 1px
         );
-
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    background-size: 28px 28px;
 }
 
-.chart-placeholder {
-    max-width: 360px;
-
+.chart-placeholder,
+.summary-placeholder {
+    max-width: 440px;
     margin: 0;
 
     color: var(--text-muted);
-
     font-size: 13px;
-    font-weight: 500;
     text-align: center;
-    line-height: 1.8;
 }
 
-/*
-   If your JavaScript later inserts a canvas,
-   SVG, or chart library into the chart container,
-   these rules help it fit the available width.
-*/
-
-.statistics-chart canvas,
-.statistics-chart svg {
-    display: block;
-
-    max-width: 100%;
-}
-
-.statistics-chart canvas {
-    width: 100%;
-}
-
-
-/* =========================
-   13. CHART CHECKBOX OPTIONS
-========================= */
+/* Chart checkboxes */
 
 .chart-options {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 12px 24px;
+    align-items: center;
+    gap: 10px 20px;
 
-    margin-top: 18px;
-    padding: 15px 17px;
-
-    background: #f7faf7;
-
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    grid-column: 1 / -1;
 }
 
 .chart-option {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
 
-    min-height: 25px;
+    min-height: 32px;
 
-    color: var(--text-dark);
-
+    color: var(--text-muted);
     font-size: 12px;
     font-weight: 650;
 
     cursor: pointer;
-    user-select: none;
 }
 
 .chart-option input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-
-    position: relative;
-    flex: 0 0 18px;
-
-    width: 18px;
-    height: 18px;
-
+    width: 16px;
+    height: 16px;
     margin: 0;
 
-    background: var(--white);
-    border: 1.5px solid #a9b9ad;
-    border-radius: 4px;
-
+    accent-color: var(--green-light);
     cursor: pointer;
-
-    transition:
-        background var(--transition),
-        border-color var(--transition);
 }
 
-.chart-option input[type="checkbox"]:checked {
-    background: var(--green-800);
-    border-color: var(--green-800);
-}
-
-.chart-option input[type="checkbox"]:checked::after {
-    content: "";
-
-    position: absolute;
-    top: 2px;
-    left: 5px;
-
-    width: 5px;
-    height: 9px;
-
-    border: solid var(--yellow);
-    border-width: 0 2px 2px 0;
-
-    transform: rotate(45deg);
-}
-
-.chart-option input[type="checkbox"]:focus-visible {
-    outline: 3px solid rgba(255, 223, 0, 0.85);
-    outline-offset: 3px;
-}
-
-
-/* =========================
-   14. STATE SUMMARY HEADER
-========================= */
+/* ================= STATE SUMMARY ================= */
 
 .state-summary-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 16px;
 
-    margin-bottom: 20px;
-}
-
-.state-summary-header h2 {
-    margin-bottom: 0;
+    margin-bottom: 18px;
 }
 
 .summary-period {
     display: flex;
     align-items: center;
-    gap: 11px;
-
-    min-width: 0;
+    gap: 10px;
 }
 
 .summary-period select {
     width: auto;
-    min-width: 175px;
+    min-width: 145px;
+    min-height: 38px;
 }
-
-
-/* =========================
-   15. STATE SUMMARY CONTENT
-========================= */
 
 .state-summary-content {
-    min-height: 125px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
 
-    padding: 22px;
+    min-height: 100px;
+    padding: 16px;
 
-    background: #f8faf8;
+    border: 1px dashed #c4d8c9;
+    border-radius: 13px;
 
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    background: var(--soft-bg);
 }
 
-.summary-placeholder {
-    margin: 0;
-
-    color: var(--text-muted);
-
-    font-size: 13px;
-    text-align: center;
+.state-summary-content .summary-placeholder {
+    grid-column: 1 / -1;
+    align-self: center;
+    justify-self: center;
 }
 
-/*
-   Styling for summary content that JavaScript
-   may add in the future.
-*/
+/* ================= STATUS AND DISABLED STATES ================= */
 
-.state-summary-content table {
-    width: 100%;
-    border-collapse: collapse;
+.success,
+.success-message {
+    color: #167547;
 }
 
-.state-summary-content th,
-.state-summary-content td {
-    padding: 13px 15px;
-
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
+.error,
+.error-message {
+    color: #b42318;
 }
 
-.state-summary-content th {
-    color: var(--green-900);
-    background: #edf4ee;
-
-    font-size: 11px;
-    font-weight: 850;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-}
-
-.state-summary-content td {
-    color: var(--text-dark);
-    font-size: 13px;
-}
-
-.state-summary-content tr:last-child td {
-    border-bottom: none;
-}
-
-
-/* =========================
-   16. SCROLLBARS
-========================= */
-
-.navigation-menu::-webkit-scrollbar {
-    width: 6px;
-}
-
-.navigation-menu::-webkit-scrollbar-track {
-    background: #f3f6f3;
-}
-
-.navigation-menu::-webkit-scrollbar-thumb {
-    background: #a9b9ad;
-    border-radius: 10px;
-}
-
-.navigation-menu::-webkit-scrollbar-thumb:hover {
-    background: var(--green-700);
-}
-
-
-/* =========================
-   17. DISABLED BUTTONS
-========================= */
-
-button:disabled {
-    opacity: 0.55;
+button:disabled,
+select:disabled,
+input:disabled {
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    opacity: 0.58;
 }
 
+/* ================= TABLET ================= */
 
-/* =========================
-   18. TABLET RESPONSIVE
-========================= */
-
-@media (max-width: 1100px) {
-
-    .dashboard-main {
-        padding: 25px 22px 35px;
-    }
-
-    .dashboard-header {
-        padding-right: 22px;
-        padding-left: 22px;
-    }
-
+@media (max-width: 1080px) {
     .summary-cards {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-    }
-
-    .summary-card {
-        min-height: 125px;
-        padding: 20px 17px;
-    }
-
-    .card-value {
-        font-size: 25px;
     }
 
     .statistics-filter {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 17px;
-    }
-
-    .statistics-filter h2 {
-        grid-column: 1 / -1;
     }
 
     #applyStatistics {
-        width: 100%;
-    }
-
-    .statistics-filter:has(.custom-date-range:not([hidden])) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .statistics-filter:has(.custom-date-range:not([hidden]))
-    > #applyStatistics {
-        grid-column: 1 / -1;
-        grid-row: auto;
+        justify-self: start;
     }
 }
 
+/* ================= MOBILE ================= */
 
-/* =========================
-   19. MOBILE RESPONSIVE
-========================= */
-
-@media (max-width: 650px) {
-
+@media (max-width: 700px) {
     body {
-        font-size: 13px;
+        background:
+            linear-gradient(
+                to bottom,
+                var(--green-main) 0,
+                var(--green-dark) 245px,
+                var(--page-bg) 245px,
+                var(--page-bg) 100%
+            );
     }
 
     .dashboard-header {
-        min-height: 66px;
-
-        padding: 12px 15px;
-        gap: 10px;
+        width: calc(100% - 28px);
+        min-height: 72px;
+        padding: 13px 0;
     }
 
     .brand-name {
-        font-size: 14px;
-        letter-spacing: 0.7px;
-    }
-
-    .brand-name::before {
-        width: 4px;
-        height: 19px;
-
-        margin-right: 8px;
-
-        vertical-align: -4px;
+        max-width: 205px;
+        font-size: 16px;
+        letter-spacing: 0.6px;
     }
 
     .header-actions {
@@ -1162,113 +744,84 @@ button:disabled {
 
     .profile-button {
         min-height: 38px;
-        padding: 8px 13px;
-
+        padding: 8px 12px;
         font-size: 12px;
     }
 
     .menu-toggle {
-        width: 39px;
-        height: 38px;
-        padding: 8px;
+        width: 40px;
+        height: 40px;
     }
 
     .navigation-menu {
-        top: 66px;
-        right: 10px;
-
-        width: min(310px, calc(100vw - 20px));
-        max-height: calc(100vh - 80px);
+        top: 62px;
+        right: 14px;
+        width: min(310px, calc(100vw - 28px));
     }
 
     .dashboard-main {
-        padding: 19px 13px 30px;
+        width: calc(100% - 28px);
+        margin-top: 14px;
+        padding-bottom: 30px;
     }
 
     .summary-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 11px;
-
-        margin-bottom: 17px;
+        margin-bottom: 14px;
     }
 
     .summary-card {
         min-height: 112px;
         padding: 17px 13px;
-
-        border-radius: 11px;
+        border-radius: 14px;
     }
 
     .card-value {
-        margin-bottom: 7px;
-
         font-size: clamp(19px, 5vw, 25px);
-        letter-spacing: -0.5px;
     }
 
     .card-label {
         font-size: 9px;
-        letter-spacing: 0.55px;
-    }
-
-    .total-card {
-        grid-column: 1 / -1;
-        min-height: 95px;
+        letter-spacing: 0.4px;
     }
 
     .refresh-section {
-        align-items: flex-start;
+        align-items: stretch;
         flex-direction: column;
+        gap: 9px;
 
-        margin-bottom: 18px;
-        padding: 15px;
-
-        gap: 10px;
+        margin-bottom: 14px;
+        padding: 13px;
     }
 
     #refreshStatistics {
         width: 100%;
-        min-height: 42px;
     }
 
     #refreshStatus {
-        font-size: 11px;
+        width: 100%;
+        text-align: left;
     }
 
     .statistics-filter {
         grid-template-columns: minmax(0, 1fr);
-        gap: 15px;
+        gap: 14px;
 
-        margin-bottom: 19px;
-        padding: 19px 15px;
+        margin-bottom: 14px;
+        padding: 18px;
 
-        border-radius: 13px;
+        border-radius: 15px;
     }
 
     .statistics-filter h2 {
-        grid-column: 1;
-        font-size: 17px;
-    }
-
-    .statistics-filter:has(.custom-date-range:not([hidden])) {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .statistics-filter:has(.custom-date-range:not([hidden]))
-    > .filter-field {
-        grid-column: 1;
-    }
-
-    .statistics-filter:has(.custom-date-range:not([hidden]))
-    > #applyStatistics {
-        grid-column: 1;
-        grid-row: auto;
+        font-size: 16px;
     }
 
     .custom-date-range {
         grid-template-columns: minmax(0, 1fr);
-        grid-column: 1;
-        gap: 14px;
+        gap: 12px;
+        padding: 12px;
     }
 
     #applyStatistics {
@@ -1277,70 +830,54 @@ button:disabled {
 
     .statistics-section,
     .state-summary {
-        margin-bottom: 19px;
-        padding: 18px 14px;
-
-        border-radius: 13px;
+        gap: 14px;
+        margin-bottom: 14px;
+        padding: 17px;
+        border-radius: 15px;
     }
 
-    h2 {
-        margin-bottom: 17px;
-        font-size: 17px;
+    .statistics-section {
+        grid-template-columns: minmax(0, 1fr);
     }
 
-    .statistics-section h2,
-    .state-summary h2 {
-        padding-bottom: 11px;
+    .statistics-section h2 {
+        grid-column: 1;
+        grid-row: auto;
+        font-size: 16px;
     }
 
     .statistics-period {
-        align-items: center;
+        grid-column: 1;
+        grid-row: auto;
         justify-content: space-between;
-        gap: 10px;
-
-        margin-bottom: 15px;
     }
 
     .statistics-period select {
-        min-width: 0;
-        width: 58%;
-        max-width: 190px;
+        min-width: 135px;
     }
 
     .statistics-chart {
-        min-height: 220px;
-        padding: 13px;
-
-        border-radius: 10px;
-    }
-
-    .chart-placeholder {
-        font-size: 12px;
-    }
-
-    .chart-options {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 13px;
-
-        margin-top: 13px;
+        grid-column: 1;
+        min-height: 205px;
         padding: 14px;
     }
 
+    .chart-options {
+        gap: 7px 14px;
+    }
+
     .chart-option {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .state-summary-header {
         align-items: flex-start;
         flex-direction: column;
-        gap: 13px;
-
-        margin-bottom: 16px;
+        gap: 12px;
     }
 
-    .state-summary-header h2 {
-        margin-bottom: 0;
+    .state-summary h2 {
+        font-size: 16px;
     }
 
     .summary-period {
@@ -1349,37 +886,25 @@ button:disabled {
     }
 
     .summary-period select {
-        min-width: 0;
-        width: 63%;
-        max-width: 220px;
+        min-width: 145px;
     }
 
     .state-summary-content {
-        min-height: 105px;
-        padding: 14px;
-    }
-
-    .state-summary-content th,
-    .state-summary-content td {
-        padding: 10px 8px;
-        font-size: 11px;
+        grid-template-columns: minmax(0, 1fr);
+        padding: 12px;
     }
 }
 
-
-/* =========================
-   20. SMALL MOBILE
-========================= */
+/* ================= SMALL MOBILE ================= */
 
 @media (max-width: 380px) {
-
     .dashboard-header {
-        padding-right: 10px;
-        padding-left: 10px;
+        width: calc(100% - 22px);
     }
 
     .brand-name {
-        font-size: 12px;
+        max-width: 145px;
+        font-size: 13px;
         letter-spacing: 0.4px;
     }
 
@@ -1388,52 +913,35 @@ button:disabled {
         padding-left: 10px;
     }
 
-    .header-actions {
-        gap: 6px;
+    .dashboard-main {
+        width: calc(100% - 22px);
     }
 
-    .dashboard-main {
+    .summary-card {
         padding-right: 10px;
         padding-left: 10px;
     }
 
-    .summary-cards {
-        gap: 9px;
-    }
-
-    .summary-card {
-        padding: 15px 10px;
-    }
-
     .card-value {
-        font-size: 19px;
+        font-size: 18px;
     }
 
     .card-label {
         font-size: 8px;
-        letter-spacing: 0.35px;
-    }
-
-    .statistics-section,
-    .state-summary {
-        padding: 16px 11px;
+        letter-spacing: 0.25px;
     }
 }
 
-
-/* =========================
-   21. REDUCED MOTION
-========================= */
+/* ================= REDUCED MOTION ================= */
 
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
         scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
     }
 }
 ```
