@@ -1,378 +1,825 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commission Structure</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commission Structure</title>
 
-  <style>
-    :root {
-      --bg: #0b1118;
-      --card: #121c27;
-      --card2: #172432;
-      --border: #2a3b4d;
-      --text: #edf4fb;
-      --muted: #9aabba;
-      --green: #45d483;
-    }
+<style>
+:root {
+    --green: #00a86b;
+    --green-dark: #067647;
+    --green-light: #e8fff3;
+    --yellow: #ffd43b;
+    --white: #ffffff;
+    --page-bg: #f5faf6;
+    --text: #18352a;
+    --muted: #718078;
+    --border: #e0ebe4;
+    --shadow: 0 8px 25px rgba(13, 92, 57, 0.08);
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+}
 
+body {
+    margin: 0;
+    padding: 24px;
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.commission-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Page heading */
+
+.commission-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.commission-heading h2 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--green-dark);
+}
+
+.currency-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+}
+
+.currency-badge span {
+    color: var(--green-dark);
+}
+
+/* Main selection card */
+
+.commission-selector {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.selector-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.selector-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.selector-subtitle {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Referral and Revenue Share buttons */
+
+.commission-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 18px;
+}
+
+.commission-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 92px;
+    padding: 17px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s,
+                box-shadow 0.2s, transform 0.2s;
+}
+
+.commission-option:hover {
+    border-color: var(--green);
+    transform: translateY(-2px);
+}
+
+.commission-option.active {
+    background: var(--green-light);
+    border: 1.5px solid var(--green);
+    box-shadow: 0 4px 14px rgba(0, 168, 107, 0.10);
+}
+
+.option-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: var(--yellow);
+    color: #463800;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.option-name {
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.option-description {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.option-arrow {
+    color: var(--green-dark);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+/* Expand / minimize button */
+
+.expand-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 10px;
+    background: var(--yellow);
+    color: #463800;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.expand-button:hover {
+    background: #ffca16;
+    transform: scale(1.04);
+}
+
+.expand-button:focus-visible,
+.commission-option:focus-visible {
+    outline: 3px solid rgba(0, 168, 107, 0.3);
+    outline-offset: 3px;
+}
+
+/* Details panel */
+
+.commission-details {
+    margin-top: 18px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.commission-details[hidden] {
+    display: none;
+}
+
+.details-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px;
+    background: var(--green-light);
+    border-bottom: 1px solid var(--border);
+}
+
+.details-heading {
+    margin: 0;
+    color: var(--green-dark);
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.details-caption {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Commission percentage cards */
+
+.rate-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 18px 20px 5px;
+}
+
+.rate-card {
+    padding: 17px;
+    background: #fbfefc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.rate-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.rate-value {
+    display: block;
+    margin-top: 8px;
+    color: var(--green-dark);
+    font-size: 29px;
+    font-weight: 900;
+}
+
+.rate-note {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Detail rows */
+
+.details-list {
+    padding: 15px 20px 20px;
+}
+
+.detail-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 18px;
+    padding: 15px 0;
+    border-bottom: 1px solid #edf2ee;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.detail-value {
+    text-align: right;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.status-yes {
+    display: inline-block;
+    padding: 5px 10px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.commission-note {
+    margin: 0 20px 20px;
+    padding: 14px 15px;
+    background: #fffbea;
+    border: 1px solid #ffeb99;
+    border-left: 4px solid var(--yellow);
+    border-radius: 9px;
+    color: #65551b;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.commission-note strong {
+    color: #463800;
+}
+
+/* Responsive layout */
+
+@media (max-width: 600px) {
     body {
-      margin: 0;
-      padding: 25px 15px;
-      background: var(--bg);
-      color: var(--text);
-      font: 14px/1.5 Arial, sans-serif;
+        padding: 14px;
     }
 
-    .commission-page {
-      width: min(900px, 100%);
-      margin: auto;
+    .commission-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 17px;
     }
 
-    h1 {
-      margin: 0 0 7px;
-      font-size: 27px;
+    .commission-heading h2 {
+        font-size: 22px;
     }
 
-    .subtitle {
-      margin: 0 0 22px;
-      color: var(--muted);
+    .selector-header,
+    .details-header {
+        padding: 15px;
     }
 
-    .commission-card {
-      overflow: hidden;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-
-    .table-header,
-    .summary-row {
-      display: grid;
-      grid-template-columns: 110px minmax(0, 1fr) 42px;
-      align-items: center;
-      gap: 12px;
-      padding: 15px 18px;
-    }
-
-    .table-header {
-      background: var(--card2);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .summary-row {
-      min-height: 65px;
-    }
-
-    .currency {
-      font-weight: bold;
-    }
-
-    .types {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .type {
-      padding: 5px 10px;
-      background: #1a2a39;
-      border: 1px solid #35506a;
-      border-radius: 20px;
-      font-size: 12px;
-    }
-
-    .toggle {
-      width: 34px;
-      height: 34px;
-      border: 1px solid #3b5267;
-      border-radius: 8px;
-      background: transparent;
-      color: var(--green);
-      font-size: 23px;
-      cursor: pointer;
-    }
-
-    .toggle:hover {
-      background: #19352a;
-    }
-
-    .details {
-      padding: 18px;
-      border-top: 1px solid var(--border);
-    }
-
-    .details[hidden] {
-      display: none;
-    }
-
-    .details-section + .details-section {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    .section-heading {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 17px;
-    }
-
-    .rate {
-      padding: 5px 10px;
-      border-radius: 7px;
-      background: #173629;
-      color: var(--green);
-      font-weight: bold;
-    }
-
-    .details-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: var(--border);
-    }
-
-    .detail {
-      min-width: 0;
-      padding: 12px;
-      background: var(--card);
-    }
-
-    .label {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .value {
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .note {
-      margin: 13px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    @media (max-width: 520px) {
-      body {
-        padding: 18px 9px;
-      }
-
-      .table-header,
-      .summary-row {
-        grid-template-columns: 70px minmax(0, 1fr) 36px;
-        gap: 8px;
-        padding: 12px 10px;
-      }
-
-      .table-header {
-        font-size: 10px;
-      }
-
-      .types {
-        gap: 5px;
-      }
-
-      .type {
-        padding: 4px 7px;
-        font-size: 11px;
-      }
-
-      .details {
-        padding: 11px;
-      }
-
-      .details-grid {
+    .commission-options {
         grid-template-columns: 1fr;
-      }
+        gap: 10px;
+        padding: 13px;
     }
-  </style>
+
+    .commission-option {
+        min-height: 80px;
+        padding: 13px;
+    }
+
+    .rate-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 14px 14px 4px;
+    }
+
+    .rate-card {
+        padding: 13px;
+    }
+
+    .rate-value {
+        font-size: 25px;
+    }
+
+    .details-list {
+        padding: 10px 15px 15px;
+    }
+
+    .detail-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 13px 0;
+    }
+
+    .detail-value {
+        text-align: left;
+    }
+
+    .commission-note {
+        margin: 0 15px 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .rate-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .option-name {
+        font-size: 14px;
+    }
+}
+</style>
 </head>
 
 <body>
-  <main class="commission-page">
-    <h1>Commission Structure</h1>
-    <p class="subtitle">
-      View your default commission and sub-affiliate commission rules.
-    </p>
 
-    <section class="commission-card">
+<div class="commission-page">
 
-      <!-- Header -->
-      <div class="table-header">
-        <span>Currency</span>
-        <span>Commission Structure</span>
-        <span></span>
-      </div>
+    <!-- Page heading -->
+    <div class="commission-heading">
+        <h2>Commission Structure</h2>
 
-      <!-- Summary Row -->
-      <div class="summary-row">
-        <span class="currency">USD</span>
+        <div class="currency-badge">
+            Currency:
+            <span>USD ($)</span>
+        </div>
+    </div>
 
-        <div class="types">
-          <span class="type">Referral</span>
-          <span class="type">Revenue Share</span>
+    <!-- Main selection card -->
+    <section class="commission-selector">
+
+        <div class="selector-header">
+            <div>
+                <h3 class="selector-title">Commission Types</h3>
+                <p class="selector-subtitle">
+                    Select a commission type to view its details.
+                </p>
+            </div>
         </div>
 
-        <button
-          class="toggle"
-          id="commissionToggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="commissionDetails"
-          aria-label="Expand commission details"
-        >+</button>
-      </div>
+        <div class="commission-options">
 
-      <!-- Expandable Details -->
-      <div class="details" id="commissionDetails" hidden>
+            <!-- Referral option -->
+            <button
+                type="button"
+                class="commission-option active"
+                id="referralOption"
+                aria-expanded="true"
+                aria-controls="commissionDetails"
+            >
+                <span class="option-info">
+                    <span class="option-icon">R</span>
 
-        <!-- Referral Commission -->
-        <section class="details-section">
-          <div class="section-heading">
-            <h2>Referral Commission</h2>
-            <span class="rate">25% + 3%</span>
-          </div>
+                    <span>
+                        <span class="option-name">Referral</span>
+                        <span class="option-description">
+                            Referral commission details
+                        </span>
+                    </span>
+                </span>
 
-          <div class="details-grid">
-            <div class="detail">
-              <span class="label">Commission Group Name</span>
-              <span class="value">Referral Commission</span>
-            </div>
+                <span class="option-arrow" aria-hidden="true">›</span>
+            </button>
 
-            <div class="detail">
-              <span class="label">Base RS Commission</span>
-              <span class="value">25%</span>
-            </div>
+            <!-- Revenue Share option -->
+            <button
+                type="button"
+                class="commission-option"
+                id="revenueOption"
+                aria-expanded="false"
+                aria-controls="commissionDetails"
+            >
+                <span class="option-info">
+                    <span class="option-icon">%</span>
 
-            <div class="detail">
-              <span class="label">Sub-Affiliate Commission</span>
-              <span class="value">+3%</span>
-            </div>
+                    <span>
+                        <span class="option-name">Revenue Share</span>
+                        <span class="option-description">
+                            Revenue share commission details
+                        </span>
+                    </span>
+                </span>
 
-            <div class="detail">
-              <span class="label">Sub Currency</span>
-              <span class="value">USD</span>
-            </div>
+                <span class="option-arrow" aria-hidden="true">›</span>
+            </button>
 
-            <div class="detail">
-              <span class="label">Start Date</span>
-              <span class="value">Account Opening Date</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Description / Level</span>
-              <span class="value">Level 1 — 3%</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Negative Commission</span>
-              <span class="value">Yes</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Date</span>
-              <span class="value">Commission Date</span>
-            </div>
-          </div>
-
-          <p class="note">
-            The default base commission is 25%. An eligible
-            sub-affiliate referral can add a separate 3% commission.
-            The total can be 28% when that additional commission applies.
-          </p>
-        </section>
-
-        <!-- Revenue Share -->
-        <section class="details-section">
-          <div class="section-heading">
-            <h2>Revenue Share</h2>
-            <span class="rate">35%</span>
-          </div>
-
-          <div class="details-grid">
-            <div class="detail">
-              <span class="label">Commission Group Name</span>
-              <span class="value">Revenue Share</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Commission Percentage</span>
-              <span class="value">35%</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Negative Commission</span>
-              <span class="value">Yes</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Administration</span>
-              <span class="value">0%</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">LMM Calculation Type</span>
-              <span class="value">Revenue</span>
-            </div>
-
-            <div class="detail">
-              <span class="label">Date</span>
-              <span class="value">Commission Date</span>
-            </div>
-          </div>
-        </section>
-
-      </div>
+        </div>
     </section>
-  </main>
 
-  <script>
-    (() => {
-      const toggle = document.getElementById("commissionToggle");
-      const details = document.getElementById("commissionDetails");
+    <!-- Details panel: content changes based on selected option -->
+    <section
+        class="commission-details"
+        id="commissionDetails"
+        aria-live="polite"
+    >
 
-      if (!toggle || !details) return;
+        <div class="details-header">
+            <div>
+                <h3 class="details-heading" id="detailsTitle">
+                    Referral Commission
+                </h3>
 
-      toggle.addEventListener("click", () => {
-        const expanded =
-          toggle.getAttribute("aria-expanded") === "true";
+                <p class="details-caption" id="detailsCaption">
+                    Your referral commission configuration
+                </p>
+            </div>
 
-        toggle.setAttribute("aria-expanded", String(!expanded));
-        details.hidden = expanded;
-        toggle.textContent = expanded ? "+" : "−";
+            <button
+                type="button"
+                class="expand-button"
+                id="toggleDetails"
+                aria-label="Minimize commission details"
+                aria-expanded="true"
+                aria-controls="detailsContent"
+            >−</button>
+        </div>
 
-        toggle.setAttribute(
-          "aria-label",
-          expanded
-            ? "Expand commission details"
-            : "Collapse commission details"
+        <div id="detailsContent">
+
+            <!-- Referral details -->
+            <div id="referralContent">
+
+                <div class="rate-cards">
+                    <div class="rate-card">
+                        <span class="rate-label">
+                            Default Commission
+                        </span>
+                        <strong class="rate-value">25%</strong>
+                        <div class="rate-note">
+                            Standard base commission rate
+                        </div>
+                    </div>
+
+                    <div class="rate-card">
+                        <span class="rate-label">
+                            Sub-affiliate Commission
+                        </span>
+                        <strong class="rate-value">+3%</strong>
+                        <div class="rate-note">
+                            Additional commission on eligible
+                            sub-affiliate activity
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-list">
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Commission Group Name
+                        </span>
+                        <span class="detail-value">
+                            Referral Commission
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Default / Base Commission
+                        </span>
+                        <span class="detail-value">25%</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Sub-affiliate Commission
+                        </span>
+                        <span class="detail-value">+3%</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Sub Currency</span>
+                        <span class="detail-value">USD ($)</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Start Date</span>
+                        <span class="detail-value">
+                            Account Opening Date
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Description / Level
+                        </span>
+                        <span class="detail-value">
+                            Level 1 — 3%
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Negative Commission
+                        </span>
+                        <span class="detail-value">
+                            <span class="status-yes">Yes</span>
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value">
+                            Commission Date
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="commission-note">
+                    <strong>How it works:</strong>
+                    The standard base rate is 25%. If you refer another
+                    affiliate, you may receive an additional 3% from
+                    eligible activity generated by that sub-affiliate's
+                    referred players. This can make your applicable rate
+                    28% for that eligible activity. The additional 3%
+                    does not automatically apply to every affiliate or
+                    every transaction.
+                </div>
+
+            </div>
+
+            <!-- Revenue Share details -->
+            <div id="revenueContent" hidden>
+
+                <div class="rate-cards">
+                    <div class="rate-card">
+                        <span class="rate-label">
+                            Commission Percentage
+                        </span>
+                        <strong class="rate-value">35%</strong>
+                        <div class="rate-note">
+                            Revenue share commission rate
+                        </div>
+                    </div>
+
+                    <div class="rate-card">
+                        <span class="rate-label">
+                            Administration
+                        </span>
+                        <strong class="rate-value">0%</strong>
+                        <div class="rate-note">
+                            Administration percentage
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-list">
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Commission Group Name
+                        </span>
+                        <span class="detail-value">
+                            Revenue Share
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Commission Percentage
+                        </span>
+                        <span class="detail-value">35%</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            Negative Commission
+                        </span>
+                        <span class="detail-value">
+                            <span class="status-yes">Yes</span>
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Administration</span>
+                        <span class="detail-value">0%</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            LMM Calculation Type
+                        </span>
+                        <span class="detail-value">Revenue</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value">
+                            Commission Date
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="commission-note">
+                    <strong>Revenue Share:</strong>
+                    The configured commission percentage is 35%.
+                    Administration is set to 0%. These values are
+                    displayed for reference and do not themselves
+                    calculate or pay commissions.
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<script>
+(function () {
+    const referralOption = document.getElementById("referralOption");
+    const revenueOption = document.getElementById("revenueOption");
+
+    const detailsPanel = document.getElementById("commissionDetails");
+    const detailsTitle = document.getElementById("detailsTitle");
+    const detailsCaption = document.getElementById("detailsCaption");
+
+    const detailsContent = document.getElementById("detailsContent");
+    const referralContent = document.getElementById("referralContent");
+    const revenueContent = document.getElementById("revenueContent");
+
+    const toggleButton = document.getElementById("toggleDetails");
+
+    let selectedType = "referral";
+
+    function selectCommission(type) {
+        selectedType = type;
+
+        const isReferral = type === "referral";
+
+        referralOption.classList.toggle("active", isReferral);
+        revenueOption.classList.toggle("active", !isReferral);
+
+        referralOption.setAttribute(
+            "aria-expanded",
+            String(isReferral && !detailsContent.hidden)
         );
-      });
-    })();
-  </script>
+
+        revenueOption.setAttribute(
+            "aria-expanded",
+            String(!isReferral && !detailsContent.hidden)
+        );
+
+        detailsTitle.textContent = isReferral
+            ? "Referral Commission"
+            : "Revenue Share";
+
+        detailsCaption.textContent = isReferral
+            ? "Your referral commission configuration"
+            : "Your revenue share commission configuration";
+
+        referralContent.hidden = !isReferral;
+        revenueContent.hidden = isReferral;
+
+        // Switching the option opens its corresponding details.
+        detailsPanel.hidden = false;
+        detailsContent.hidden = false;
+
+        toggleButton.textContent = "−";
+        toggleButton.setAttribute("aria-expanded", "true");
+        toggleButton.setAttribute(
+            "aria-label",
+            "Minimize commission details"
+        );
+    }
+
+    referralOption.addEventListener("click", function () {
+        selectCommission("referral");
+    });
+
+    revenueOption.addEventListener("click", function () {
+        selectCommission("revenue");
+    });
+
+    toggleButton.addEventListener("click", function () {
+        const willCollapse = !detailsContent.hidden;
+
+        detailsContent.hidden = willCollapse;
+        toggleButton.textContent = willCollapse ? "+" : "−";
+
+        toggleButton.setAttribute(
+            "aria-expanded",
+            String(!willCollapse)
+        );
+
+        toggleButton.setAttribute(
+            "aria-label",
+            willCollapse
+                ? "Expand commission details"
+                : "Minimize commission details"
+        );
+
+        referralOption.setAttribute(
+            "aria-expanded",
+            String(
+                selectedType === "referral" && !willCollapse
+            )
+        );
+
+        revenueOption.setAttribute(
+            "aria-expanded",
+            String(
+                selectedType === "revenue" && !willCollapse
+            )
+        );
+    });
+})();
+</script>
+
 </body>
 </html>
+```
