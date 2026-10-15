@@ -269,15 +269,17 @@ select:focus-visible {
     padding-bottom: 45px;
 }
 
+
 /* ================= EARNINGS SUMMARY CARDS ================= */
 
 .summary-cards {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 15px;
     margin-bottom: 20px;
 }
 
+/* Common Card Design */
 .summary-card {
     position: relative;
     display: flex;
@@ -296,6 +298,15 @@ select:focus-visible {
     box-shadow: var(--shadow);
 }
 
+/* Available to Withdraw - Full Width */
+.available-card {
+    grid-column: 1 / -1;
+
+    min-height: 108px;
+    margin: 0 5px;
+    padding: 18px 22px;
+}
+
 .summary-card::before {
     position: absolute;
     top: 0;
@@ -308,6 +319,7 @@ select:focus-visible {
     content: "";
 }
 
+/* Card Accent Colors */
 .available-card::before,
 .total-card::before {
     background: var(--yellow);
@@ -325,6 +337,7 @@ select:focus-visible {
     background: #c9a51a;
 }
 
+/* Card Values */
 .card-value {
     margin-bottom: 8px;
 
@@ -342,6 +355,7 @@ select:focus-visible {
     color: var(--green-light);
 }
 
+/* Card Labels */
 .card-label {
     color: var(--text-muted);
     font-size: 10px;
@@ -349,6 +363,30 @@ select:focus-visible {
     letter-spacing: 0.7px;
     line-height: 1.5;
 }
+
+/* ================= RESPONSIVE LAYOUT ================= */
+
+@media (max-width: 480px) {
+    .summary-cards {
+        gap: 12px;
+    }
+
+    .summary-card {
+        min-height: 115px;
+        padding: 18px 14px;
+    }
+
+    .available-card {
+        min-height: 96px;
+        margin: 0 3px;
+        padding: 16px 18px;
+    }
+
+    .card-value {
+        font-size: clamp(18px, 5vw, 24px);
+    }
+}
+
 
 /* ================= REFRESH STATISTICS ================= */
 
