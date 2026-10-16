@@ -47,10 +47,10 @@
     --admin-border-strong: #CBD5CD;
 
     :root {
-    --admin-sidebar-bg: #27F5F2;
+    --admin-sidebar-bg: #241044;
     --admin-sidebar-text: #FFFFFF;
-    --admin-sidebar-hover: #6C27F5;
-    --admin-sidebar-active-bg: #17324D;
+    --admin-sidebar-hover: #FFEDD5;
+    --admin-sidebar-active-bg: #6D28D9;
     --admin-sidebar-active-text: #FFFFFF;
 }
 
@@ -108,8 +108,8 @@ body {
     color: var(--admin-sidebar-text);
     padding: 18px 14px;
     overflow-y: auto;
-    box-shadow: var(--admin-shadow-md);
-    border-right: 1px solid var(--admin-border);
+    box-shadow: 6px 0 25px rgba(24, 10, 45, 0.22);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .admin-logo {
@@ -147,10 +147,10 @@ body {
 .sidebar-menu li:hover {
     background: var(--admin-sidebar-hover);
     transform: translateX(4px);
-    color: var(--admin-primary);
+    color: #7C2D12;
 }
 
-.sidebar-menu li.active {
+sidebar-menu li.active {
     background: var(--admin-sidebar-active-bg);
     color: var(--admin-sidebar-active-text);
     font-weight: 600;
@@ -163,7 +163,7 @@ body {
     top: 25%;
     width: 4px;
     height: 50%;
-    background: var(--admin-primary);
+    background: #FDBA74;
     border-radius: 4px;
 }
 
