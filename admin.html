@@ -3796,20 +3796,21 @@
 
 
 <!-- =====================================================
-     AFFILIATE CENTER — EMBEDDED PAGE
-     HTML only — CSS and JavaScript remain separate
+     AFFILIATE CENTER — EMBEDDED ADMIN SECTION
+     HTML only
+     CSS: affiliate.css
+     JS:  affiliate.js
 ====================================================== -->
 
 <section id="affiliateSection"
          class="admin-section affc-center"
-         style="display:none;">
+         style="display: none;">
 
-    <!-- =====================================================
+    <!-- =================================================
          PAGE HEADER
-    ====================================================== -->
+    ================================================== -->
 
     <div class="affc-page-header">
-
         <div class="affc-page-heading">
             <h2>Affiliate Center</h2>
             <p>
@@ -3826,216 +3827,165 @@
                 Refresh Data
             </button>
         </div>
-
     </div>
 
-
-    <!-- =====================================================
-         GLOBAL MESSAGE
-    ====================================================== -->
+    <!-- GLOBAL MESSAGE -->
 
     <div id="affcGlobalMessage"
          class="affc-message"
          role="status"
          aria-live="polite"
-         hidden>
-    </div>
+         hidden></div>
 
 
-    <!-- =====================================================
-     MAIN NAVIGATION
-     1. Account Overview
-     2. Affiliate List
-     3. Applications
-     4. Commission Control
-====================================================== -->
+    <!-- =================================================
+         MAIN NAVIGATION — FOUR CARDS/TABS
+    ================================================== -->
 
-<nav class="affc-main-navigation"
-     aria-label="Affiliate Center Navigation">
+    <nav class="affc-main-navigation"
+         aria-label="Affiliate Center Navigation">
 
-    <!-- 1. ACCOUNT OVERVIEW -->
+        <button type="button"
+                class="affc-nav-button is-active"
+                data-affc-nav="overview"
+                aria-controls="affcOverviewPanel"
+                aria-selected="true">
+            Account Overview
+        </button>
 
-    <button type="button"
-            class="affc-nav-button is-active"
-            data-affc-nav="overview"
-            aria-controls="affcOverviewPanel"
-            aria-selected="true">
+        <button type="button"
+                class="affc-nav-button"
+                data-affc-nav="affiliates"
+                aria-controls="affcAffiliatesPanel"
+                aria-selected="false">
+            Affiliate List
+        </button>
 
-        Account Overview
+        <button type="button"
+                class="affc-nav-button"
+                data-affc-nav="applications"
+                aria-controls="affcApplicationsPanel"
+                aria-selected="false">
+            Applications
+            <span id="affcApplicationsNavCount"
+                  class="affc-nav-count"
+                  hidden>0</span>
+        </button>
 
-    </button>
+        <button type="button"
+                class="affc-nav-button"
+                data-affc-nav="commissions"
+                aria-controls="affcCommissionsPanel"
+                aria-selected="false">
+            Commission Control
+        </button>
 
-
-    <!-- 2. AFFILIATE LIST -->
-
-    <button type="button"
-            class="affc-nav-button"
-            data-affc-nav="affiliates"
-            aria-controls="affcAffiliatesPanel"
-            aria-selected="false">
-
-        Affiliate List
-
-    </button>
-
-
-    <!-- 3. APPLICATIONS -->
-
-    <button type="button"
-            class="affc-nav-button"
-            data-affc-nav="applications"
-            aria-controls="affcApplicationsPanel"
-            aria-selected="false">
-
-        Applications
-
-    </button>
+    </nav>
 
 
-    <!-- 4. COMMISSION CONTROL -->
-
-    <button type="button"
-            class="affc-nav-button"
-            data-affc-nav="commissions"
-            aria-controls="affcCommissionsPanel"
-            aria-selected="false">
-
-        Commission Control
-
-    </button>
-
-</nav>
-
-    <!-- =====================================================
+    <!-- =================================================
          SECTION 01 — ACCOUNT OVERVIEW
-    ====================================================== -->
+    ================================================== -->
 
     <div id="affcOverviewPanel"
          class="affc-main-panel"
          data-affc-panel="overview">
 
-        <!-- OVERVIEW HEADING -->
-
         <div class="affc-section-heading">
             <div>
                 <h3>Account Overview</h3>
                 <p>
-                    Search, review and manage affiliate accounts.
+                    Summary of affiliate accounts and daily activity.
                 </p>
             </div>
         </div>
-
-
-        <!-- OVERVIEW STATISTICS -->
 
         <div class="affc-statistics-grid">
 
             <article class="affc-stat-card affc-accent-green">
                 <span class="affc-stat-label">Total Affiliates</span>
                 <h3 id="affcTotalAffiliates">—</h3>
-                <span class="affc-stat-note">
-                    Registered affiliate accounts
-                </span>
+                <span class="affc-stat-note">Registered affiliate accounts</span>
             </article>
 
             <article class="affc-stat-card affc-accent-purple">
                 <span class="affc-stat-label">Active Affiliates</span>
                 <h3 id="affcActiveAffiliates">—</h3>
-                <span class="affc-stat-note">
-                    Currently active affiliates
-                </span>
+                <span class="affc-stat-note">Currently active affiliates</span>
             </article>
 
             <article class="affc-stat-card affc-accent-orange">
                 <span class="affc-stat-label">Pending Applications</span>
                 <h3 id="affcPendingApplications">—</h3>
-                <span class="affc-stat-note">
-                    Applications awaiting review
-                </span>
+                <span class="affc-stat-note">Awaiting review</span>
             </article>
 
             <article class="affc-stat-card affc-accent-red">
                 <span class="affc-stat-label">Total Referrals</span>
                 <h3 id="affcTotalReferrals">—</h3>
-                <span class="affc-stat-note">
-                    Recorded referred users
-                </span>
+                <span class="affc-stat-note">Recorded referred users</span>
             </article>
 
             <article class="affc-stat-card affc-accent-yellow">
                 <span class="affc-stat-label">Today's Deposits</span>
                 <h3 id="affcTodayDeposits">—</h3>
-                <span class="affc-stat-note">
-                    Successful deposits
-                </span>
+                <span class="affc-stat-note">Successful deposits</span>
             </article>
 
             <article class="affc-stat-card affc-accent-blue">
                 <span class="affc-stat-label">Today's Total Bet</span>
                 <h3 id="affcTodayTotalBets">—</h3>
-                <span class="affc-stat-note">
-                    Eligible settled bets
-                </span>
+                <span class="affc-stat-note">Eligible settled bets</span>
             </article>
 
             <article class="affc-stat-card affc-accent-green">
                 <span class="affc-stat-label">Today's Player Win</span>
                 <h3 id="affcTodayPlayerWin">—</h3>
-                <span class="affc-stat-note">
-                    Recorded player winnings
-                </span>
+                <span class="affc-stat-note">Recorded player winnings</span>
             </article>
 
             <article class="affc-stat-card affc-accent-purple">
                 <span class="affc-stat-label">Today's Player Loss</span>
                 <h3 id="affcTodayPlayerLoss">—</h3>
-                <span class="affc-stat-note">
-                    Recorded player losses
-                </span>
+                <span class="affc-stat-note">Recorded player losses</span>
             </article>
 
             <article class="affc-stat-card affc-accent-orange">
                 <span class="affc-stat-label">Pending Payouts</span>
                 <h3 id="affcPendingPayouts">—</h3>
-                <span class="affc-stat-note">
-                    Payouts awaiting processing
-                </span>
+                <span class="affc-stat-note">Awaiting processing</span>
             </article>
 
             <article class="affc-stat-card affc-accent-red">
                 <span class="affc-stat-label">Total Commission</span>
                 <h3 id="affcTotalCommission">—</h3>
-                <span class="affc-stat-note">
-                    Commission recorded in the system
-                </span>
+                <span class="affc-stat-note">Commission recorded in the system</span>
             </article>
 
         </div>
-        <!-- CLOSE ACCOUNT OVERVIEW PANEL -->
-</div>
 
-<!-- =====================================================
-     AFFILIATE LIST PANEL
-====================================================== -->
+    </div>
+    <!-- END SECTION 01 -->
 
-<div id="affcAffiliatesPanel"
-     class="affc-main-panel"
-     data-affc-panel="affiliates"
-     hidden>
 
-    <!-- AFFILIATE SEARCH -->
+    <!-- =================================================
+         SECTION 02 — AFFILIATE LIST
+    ================================================== -->
+
+    <div id="affcAffiliatesPanel"
+         class="affc-main-panel"
+         data-affc-panel="affiliates"
+         hidden>
+
+        <!-- AFFILIATE SEARCH -->
 
         <section class="affc-content-card"
                  aria-labelledby="affcSearchHeading">
 
             <div class="affc-section-heading">
                 <div>
-                    <h3 id="affcSearchHeading">
-                        Search Affiliate
-                    </h3>
-                    <p>
-                        Find an affiliate by User ID or name.
-                    </p>
+                    <h3 id="affcSearchHeading">Search Affiliate</h3>
+                    <p>Find an affiliate by User ID or name.</p>
                 </div>
             </div>
 
@@ -4072,10 +4022,8 @@
                  class="affc-inline-message"
                  role="status"
                  aria-live="polite"
-                 hidden>
-            </div>
+                 hidden></div>
 
-            <!-- SEARCH RESULT -->
             <div id="affcSearchResult"
                  class="affc-search-result"
                  hidden>
@@ -4104,19 +4052,13 @@
 
             <div class="affc-section-heading">
                 <div>
-                    <h3 id="affcAccountsHeading">
-                        All Affiliate Accounts
-                    </h3>
-                    <p>
-                        Browse and manage registered affiliates.
-                    </p>
+                    <h3 id="affcAccountsHeading">All Affiliate Accounts</h3>
+                    <p>Browse and manage registered affiliates.</p>
                 </div>
             </div>
 
             <div class="affc-table-container">
-
                 <table class="affc-table">
-
                     <thead>
                         <tr>
                             <th scope="col">Affiliate User ID</th>
@@ -4129,19 +4071,14 @@
                     </thead>
 
                     <tbody id="affcAccountsTableBody">
-
                         <tr>
-                            <td colspan="6"
-                                class="affc-empty-cell">
+                            <td colspan="6" class="affc-empty-cell">
                                 Affiliate accounts will appear here
                                 when records are loaded.
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
             <div class="affc-pagination"
@@ -4155,9 +4092,7 @@
                     Previous
                 </button>
 
-                <span id="affcAccountsPageInfo">
-                    Page —
-                </span>
+                <span id="affcAccountsPageInfo">Page —</span>
 
                 <button type="button"
                         id="affcAccountsNext"
@@ -4171,10 +4106,7 @@
         </section>
 
 
-        <!-- =================================================
-             AFFILIATE DETAILS
-             Opens for a selected affiliate.
-        ================================================== -->
+        <!-- AFFILIATE DETAILS -->
 
         <section id="affcAffiliateDetails"
                  class="affc-content-card affc-details-panel"
@@ -4182,14 +4114,10 @@
                  hidden>
 
             <div class="affc-details-header">
-
                 <div>
-                    <h3 id="affcDetailsHeading">
-                        Affiliate Details
-                    </h3>
-
+                    <h3 id="affcDetailsHeading">Affiliate Details</h3>
                     <p>
-                        <span>Affiliate ID:</span>
+                        Affiliate ID:
                         <strong id="affcDetailsUserId">—</strong>
                     </p>
                 </div>
@@ -4200,22 +4128,20 @@
                         data-affc-action="close-details">
                     Back to Accounts
                 </button>
-
             </div>
 
 
-            <!-- AFFILIATE ACCOUNT INFORMATION -->
+            <!-- ACCOUNT INFORMATION -->
 
             <div class="affc-details-section">
-
                 <h4>Account Information</h4>
 
                 <div class="affc-details-grid">
 
                     <div class="affc-detail-item">
-                        <span>Affiliate User IserId">—</strong>
-                    </div>D</span>
-                        <strong id="affcDetailU
+                        <span>Affiliate User ID</span>
+                        <strong id="affcDetailUserId">—</strong>
+                    </div>
 
                     <div class="affc-detail-item">
                         <span>Full Name</span>
@@ -4243,7 +4169,6 @@
                     </div>
 
                 </div>
-
             </div>
 
 
@@ -4284,7 +4209,7 @@
             </div>
 
 
-            <!-- INDIVIDUAL AFFILIATE NAVIGATION -->
+            <!-- INDIVIDUAL AFFILIATE TABS -->
 
             <nav class="affc-details-navigation"
                  aria-label="Affiliate Detail Navigation">
@@ -4324,7 +4249,7 @@
             </nav>
 
 
-            <!-- AFFILIATE SUMMARY PANEL -->
+            <!-- AFFILIATE SUMMARY -->
 
             <div id="affcDetailSummaryPanel"
                  class="affc-detail-panel"
@@ -4333,13 +4258,11 @@
                 <h4>Affiliate Summary</h4>
 
                 <p class="affc-description">
-                    This panel will show the selected affiliate's
-                    account status, referral totals and commission
-                    summary using actual database records.
+                    Review the selected affiliate's account status,
+                    referral totals and commission summary.
                 </p>
 
                 <div class="affc-details-grid">
-
                     <div class="affc-detail-item">
                         <span>Current Commission Rule</span>
                         <strong id="affcDetailCommissionRule">—</strong>
@@ -4349,16 +4272,12 @@
                         <span>Last Settlement</span>
                         <strong id="affcDetailLastSettlement">—</strong>
                     </div>
-
                 </div>
 
             </div>
 
 
-            <!-- =============================================
-                 AFFILIATE REFERRALS
-                 Only User ID and Email appear in the table.
-            ============================================== -->
+            <!-- AFFILIATE REFERRALS -->
 
             <div id="affcDetailReferralsPanel"
                  class="affc-detail-panel"
@@ -4368,9 +4287,7 @@
                 <div class="affc-section-heading">
                     <div>
                         <h4>Affiliate Referrals</h4>
-                        <p>
-                            Referred users belonging to this affiliate.
-                        </p>
+                        <p>Referred users belonging to this affiliate.</p>
                     </div>
                 </div>
 
@@ -4403,9 +4320,7 @@
                 </form>
 
                 <div class="affc-table-container">
-
                     <table class="affc-table">
-
                         <thead>
                             <tr>
                                 <th scope="col">User ID</th>
@@ -4414,18 +4329,13 @@
                         </thead>
 
                         <tbody id="affcReferralsTableBody">
-
                             <tr>
-                                <td colspan="2"
-                                    class="affc-empty-cell">
+                                <td colspan="2" class="affc-empty-cell">
                                     Referral records will appear here.
                                 </td>
                             </tr>
-
                         </tbody>
-
                     </table>
-
                 </div>
 
                 <div class="affc-pagination"
@@ -4439,9 +4349,7 @@
                         Previous
                     </button>
 
-                    <span id="affcReferralsPageInfo">
-                        Page —
-                    </span>
+                    <span id="affcReferralsPageInfo">Page —</span>
 
                     <button type="button"
                             id="affcReferralsNext"
@@ -4455,9 +4363,7 @@
             </div>
 
 
-            <!-- =============================================
-                 INDIVIDUAL COMMISSION SETTINGS
-            ============================================== -->
+            <!-- INDIVIDUAL COMMISSION SETTINGS -->
 
             <div id="affcDetailCommissionPanel"
                  class="affc-detail-panel"
@@ -4468,16 +4374,15 @@
                     <div>
                         <h4>Individual Commission Settings</h4>
                         <p>
-                            Configure the commission for this affiliate
-                            without changing the system default.
+                            Configure a commission rate for this affiliate only.
                         </p>
                     </div>
                 </div>
 
                 <div class="affc-settings-notice">
-                    The existing default commission rule remains
-                    unchanged. An individual rate applies only when
-                    an override is configured for this affiliate.
+                    The existing default commission rule remains unchanged.
+                    An individual rate applies only when configured for
+                    this affiliate.
                 </div>
 
                 <form id="affcIndividualCommissionForm">
@@ -4487,7 +4392,6 @@
                            name="affiliateUserId">
 
                     <div class="affc-form-field">
-
                         <label for="affcCommissionUseDefault">
                             Commission Rule
                         </label>
@@ -4495,21 +4399,16 @@
                         <select id="affcCommissionUseDefault"
                                 name="commissionMode"
                                 required>
-
                             <option value="default">
                                 Use Existing Default Commission
                             </option>
-
                             <option value="individual">
                                 Set Individual Commission Rate
                             </option>
-
                         </select>
-
                     </div>
 
                     <div class="affc-form-field">
-
                         <label for="affcIndividualCommissionRate">
                             Individual Commission Rate (%)
                         </label>
@@ -4526,11 +4425,9 @@
                         <small>
                             This rate applies only to the selected affiliate.
                         </small>
-
                     </div>
 
                     <div class="affc-form-field">
-
                         <label for="affcCommissionEffectiveDate">
                             Effective From
                         </label>
@@ -4538,16 +4435,9 @@
                         <input type="datetime-local"
                                id="affcCommissionEffectiveDate"
                                name="effectiveFrom">
-
-                        <small>
-                            The effective date must be validated by the
-                            backend before the rate is saved.
-                        </small>
-
                     </div>
 
                     <div class="affc-form-actions">
-
                         <button type="submit"
                                 id="affcSaveCommissionBtn"
                                 class="affc-btn affc-btn-primary">
@@ -4559,7 +4449,6 @@
                                 class="affc-btn affc-btn-secondary">
                             Cancel
                         </button>
-
                     </div>
 
                 </form>
@@ -4568,15 +4457,12 @@
                      class="affc-inline-message"
                      role="status"
                      aria-live="polite"
-                     hidden>
-                </div>
+                     hidden></div>
 
             </div>
 
 
-            <!-- =============================================
-                 INDIVIDUAL COMMISSION HISTORY
-            ============================================== -->
+            <!-- INDIVIDUAL COMMISSION HISTORY -->
 
             <div id="affcDetailHistoryPanel"
                  class="affc-detail-panel"
@@ -4586,17 +4472,12 @@
                 <div class="affc-section-heading">
                     <div>
                         <h4>Commission History</h4>
-                        <p>
-                            Daily calculation and settlement records
-                            for this affiliate.
-                        </p>
+                        <p>Daily calculation and settlement records.</p>
                     </div>
                 </div>
 
                 <div class="affc-table-container">
-
                     <table class="affc-table">
-
                         <thead>
                             <tr>
                                 <th scope="col">Period</th>
@@ -4608,45 +4489,113 @@
                         </thead>
 
                         <tbody id="affcIndividualHistoryBody">
-
                             <tr>
-                                <td colspan="5"
-                                    class="affc-empty-cell">
+                                <td colspan="5" class="affc-empty-cell">
                                     Commission history will appear here.
                                 </td>
                             </tr>
-
                         </tbody>
-
                     </table>
-
                 </div>
 
             </div>
-     </div>
 
         </section>
 
     </div>
+    <!-- END SECTION 02 -->
 
 
+    <!-- =================================================
+         SECTION 03 — APPLICATIONS
+    ================================================== -->
 
-    
+    <div id="affcApplicationsPanel"
+         class="affc-main-panel"
+         data-affc-panel="applications"
+         hidden>
 
-        <!-- =====================================================
-     SECTION 03 — APPLICATIONS
-====================================================== -->
+        <div class="affc-section-heading">
+            <div>
+                <h3>Affiliate Applications</h3>
+                <p>Review new applications and rejected applications.</p>
+            </div>
+        </div>
 
-<div id="affcApplicationsPanel"
-     class="affc-main-panel"
-     data-affc-panel="applications"
-     hidden>
 
-    <!-- APPLICATION HEADING -->
+        <!-- APPLICATION STATISTICS -->
 
-    <!-- PENDING AND REJECTED STATISTICS -->
+        <div class="affc-statistics-grid affc-application-statistics">
 
-    <!-- APPLICATIONS LIST -->
+            <article class="affc-stat-card affc-accent-orange"
+                     data-affc-application-view="pending"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Show pending applications">
+
+                <span class="affc-stat-label">Pending Applications</span>
+                <h3 id="affcApplicationsPendingCount">—</h3>
+
+            </article>
+
+            <article class="affc-stat-card affc-accent-red"
+                     data-affc-application-view="rejected"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Show rejected applications">
+
+                <span class="affc-stat-label">Rejected Applications</span>
+                <h3 id="affcApplicationsRejectedCount">—</h3>
+
+            </article>
+
+        </div>
+
+
+        <!-- APPLICATION FILTERS -->
+
+        <section class="affc-content-card">
+
+            <form id="affcApplicationsFilterForm"
+                  class="affc-search-form">
+
+                <div class="affc-form-field">
+                    <label for="affcApplicationSearch">
+                        Search Application
+                    </label>
+
+                    <input type="search"
+                           id="affcApplicationSearch"
+                           name="applicationSearch"
+                           placeholder="Search by User ID, name or email..."
+                           autocomplete="off">
+                </div>
+
+                <div class="affc-form-field">
+                    <label for="affcApplicationStatusFilter">
+                        Application Status
+                    </label>
+
+                    <select id="affcApplicationStatusFilter"
+                            name="applicationStatus">
+                        <option value="pending">Pending Applications</option>
+                        <option value="rejected">Rejected Applications</option>
+                        <option value="all">All Applications</option>
+                    </select>
+                </div>
+
+                <button type="submit"
+                        class="affc-btn affc-btn-primary">
+                    Apply Filters
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- APPLICATIONS LIST -->
+
         <section class="affc-content-card">
 
             <div class="affc-section-heading">
@@ -4656,9 +4605,7 @@
             </div>
 
             <div class="affc-table-container">
-
                 <table class="affc-table">
-
                     <thead>
                         <tr>
                             <th scope="col">Applicant User ID</th>
@@ -4671,18 +4618,13 @@
                     </thead>
 
                     <tbody id="affcApplicationsTableBody">
-
                         <tr>
-                            <td colspan="6"
-                                class="affc-empty-cell">
+                            <td colspan="6" class="affc-empty-cell">
                                 No application records loaded.
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
             <div class="affc-pagination"
@@ -4696,9 +4638,7 @@
                     Previous
                 </button>
 
-                <span id="affcApplicationsPageInfo">
-                    Page —
-                </span>
+                <span id="affcApplicationsPageInfo">Page —</span>
 
                 <button type="button"
                         id="affcApplicationsNext"
@@ -4719,7 +4659,6 @@
                  hidden>
 
             <div class="affc-details-header">
-
                 <div>
                     <h4>Application Details</h4>
                     <p>
@@ -4733,7 +4672,6 @@
                         class="affc-btn affc-btn-secondary">
                     Close
                 </button>
-
             </div>
 
             <div class="affc-details-grid">
@@ -4761,9 +4699,7 @@
             </div>
 
             <div class="affc-form-field">
-                <label for="affcApplicationAdminNotes">
-                    Admin Notes
-                </label>
+                <label for="affcApplicationAdminNotes">Admin Notes</label>
 
                 <textarea id="affcApplicationAdminNotes"
                           name="adminNotes"
@@ -4793,51 +4729,12 @@
         </section>
 
     </div>
-
-      <!-- APPLICATION STATISTICS -->
-
-<div class="affc-statistics-grid affc-application-statistics">
-
-    <!-- PENDING APPLICATIONS -->
-
-    <article class="affc-stat-card affc-accent-orange"
-             data-affc-application-view="pending"
-             role="button"
-             tabindex="0"
-             aria-label="Show pending applications">
-
-        <span class="affc-stat-label">
-            Pending Applications
-        </span>
-
-        <h3 id="affcApplicationsPendingCount">—</h3>
-
-    </article>
+    <!-- END SECTION 03 -->
 
 
-    <!-- REJECTED APPLICATIONS -->
-
-    <article class="affc-stat-card affc-accent-red"
-             data-affc-application-view="rejected"
-             role="button"
-             tabindex="0"
-             aria-label="Show rejected applications">
-
-        <span class="affc-stat-label">
-            Rejected Applications
-        </span>
-
-        <h3 id="affcApplicationsRejectedCount">—</h3>
-
-    </article>
-
-</div>
-    </div>
-
-
-    <!-- =====================================================
-         SECTION 03 — COMMISSIONS & PAYOUT SETTINGS
-    ====================================================== -->
+    <!-- =================================================
+         SECTION 04 — COMMISSION CONTROL
+    ================================================== -->
 
     <div id="affcCommissionsPanel"
          class="affc-main-panel"
@@ -4849,13 +4746,13 @@
                 <h3>Commissions &amp; Payout Settings</h3>
                 <p>
                     Review daily revenue calculations, weekly
-                    settlements and payout records.
+                    settlements, payout requests and payment history.
                 </p>
             </div>
         </div>
 
 
-        <!-- COMMISSION / PAYOUT SUBNAV -->
+        <!-- COMMISSION CONTROL SUBNAV -->
 
         <nav class="affc-settings-navigation"
              aria-label="Commission and Payout Settings">
@@ -4895,9 +4792,7 @@
         </nav>
 
 
-        <!-- =============================================
-             DAILY CALCULATION SETTINGS
-        ============================================== -->
+        <!-- DAILY CALCULATION -->
 
         <section id="affcDailyCalculationPanel"
                  class="affc-content-card affc-settings-panel"
@@ -4907,8 +4802,8 @@
                 <div>
                     <h4>Daily Revenue Calculation</h4>
                     <p>
-                        Calculate eligible betting results in
-                        consecutive 24-hour cycles.
+                        Calculate eligible betting results in consecutive
+                        24-hour cycles.
                     </p>
                 </div>
             </div>
@@ -4918,7 +4813,6 @@
                 <div class="affc-settings-grid">
 
                     <div class="affc-form-field">
-
                         <label for="affcDailyCycleStart">
                             Daily Cycle Start Time
                         </label>
@@ -4929,14 +4823,10 @@
                                value="00:00"
                                required>
 
-                        <small>
-                            The next cycle ends 24 hours after this time.
-                        </small>
-
+                        <small>The next cycle ends 24 hours later.</small>
                     </div>
 
                     <div class="affc-form-field">
-
                         <label for="affcCalculationTimezone">
                             Calculation Timezone
                         </label>
@@ -4944,17 +4834,11 @@
                         <select id="affcCalculationTimezone"
                                 name="calculationTimezone"
                                 required>
-
                             <option value="Asia/Dhaka">
                                 Bangladesh Time — Asia/Dhaka
                             </option>
-
-                            <option value="UTC">
-                                UTC
-                            </option>
-
+                            <option value="UTC">UTC</option>
                         </select>
-
                     </div>
 
                 </div>
@@ -4962,32 +4846,27 @@
                 <div class="affc-settings-notice">
                     Only eligible and settled bets should contribute
                     to finalized betting results. Deposits and
-                    withdrawals are recorded separately and must
-                    not be treated as Gaming Revenue.
+                    withdrawals are recorded separately and are not
+                    themselves gaming revenue.
                 </div>
 
                 <div class="affc-form-actions">
-
                     <button type="submit"
                             id="affcSaveDailyCalculationBtn"
                             class="affc-btn affc-btn-primary">
                         Save Daily Calculation Settings
                     </button>
-
                 </div>
 
             </form>
 
 
-            <!-- DAILY PERFORMANCE FILTER -->
+            <!-- DAILY REPORT FILTER -->
 
             <div class="affc-section-heading">
                 <div>
                     <h4>Daily Performance Report</h4>
-                    <p>
-                        Review financial activity for each calculation
-                        cycle.
-                    </p>
+                    <p>Review financial activity for each calculation cycle.</p>
                 </div>
             </div>
 
@@ -4995,20 +4874,14 @@
                   class="affc-search-form">
 
                 <div class="affc-form-field">
-                    <label for="affcDailyReportFrom">
-                        From
-                    </label>
-
+                    <label for="affcDailyReportFrom">From</label>
                     <input type="date"
                            id="affcDailyReportFrom"
                            name="dateFrom">
                 </div>
 
                 <div class="affc-form-field">
-                    <label for="affcDailyReportTo">
-                        To
-                    </label>
-
+                    <label for="affcDailyReportTo">To</label>
                     <input type="date"
                            id="affcDailyReportTo"
                            name="dateTo">
@@ -5077,9 +4950,7 @@
             <!-- DAILY CYCLE TABLE -->
 
             <div class="affc-table-container">
-
                 <table class="affc-table">
-
                     <thead>
                         <tr>
                             <th scope="col">Cycle Start</th>
@@ -5094,26 +4965,19 @@
                     </thead>
 
                     <tbody id="affcDailyCyclesTableBody">
-
                         <tr>
-                            <td colspan="8"
-                                class="affc-empty-cell">
+                            <td colspan="8" class="affc-empty-cell">
                                 Daily calculation records will appear here.
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
         </section>
 
 
-        <!-- =============================================
-             WEEKLY SETTLEMENT
-        ============================================== -->
+        <!-- WEEKLY SETTLEMENT -->
 
         <section id="affcWeeklySettlementPanel"
                  class="affc-content-card affc-settings-panel"
@@ -5124,27 +4988,21 @@
                 <div>
                     <h4>Weekly Commission Settlement</h4>
                     <p>
-                        Combine finalized daily results into the
-                        weekly settlement.
+                        Combine finalized daily results into a weekly settlement.
                     </p>
                 </div>
             </div>
 
             <div class="affc-settings-notice">
-                Daily calculation and weekly settlement are separate.
-                Only eligible, finalized commission records should
-                be included in a settlement. The effective commission
-                rate for each period must be preserved in the records.
+                Only eligible, finalized commission records should be included.
+                The effective commission rate for each period must be preserved.
             </div>
 
             <form id="affcWeeklySettlementFilterForm"
                   class="affc-search-form">
 
                 <div class="affc-form-field">
-                    <label for="affcSettlementWeekStart">
-                        Week Start
-                    </label>
-
+                    <label for="affcSettlementWeekStart">Week Start</label>
                     <input type="date"
                            id="affcSettlementWeekStart"
                            name="weekStart"
@@ -5152,10 +5010,7 @@
                 </div>
 
                 <div class="affc-form-field">
-                    <label for="affcSettlementWeekEnd">
-                        Week End
-                    </label>
-
+                    <label for="affcSettlementWeekEnd">Week End</label>
                     <input type="date"
                            id="affcSettlementWeekEnd"
                            name="weekEnd"
@@ -5168,7 +5023,6 @@
                 </button>
 
             </form>
-
 
             <div class="affc-statistics-grid affc-financial-statistics">
 
@@ -5194,11 +5048,8 @@
 
             </div>
 
-
             <div class="affc-table-container">
-
                 <table class="affc-table">
-
                     <thead>
                         <tr>
                             <th scope="col">Affiliate User ID</th>
@@ -5212,26 +5063,19 @@
                     </thead>
 
                     <tbody id="affcWeeklySettlementTableBody">
-
                         <tr>
-                            <td colspan="7"
-                                class="affc-empty-cell">
+                            <td colspan="7" class="affc-empty-cell">
                                 Weekly settlement records will appear here.
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
         </section>
 
 
-        <!-- =============================================
-             PAYOUT REQUESTS
-        ============================================== -->
+        <!-- PAYOUT REQUESTS -->
 
         <section id="affcPayoutRequestsPanel"
                  class="affc-content-card affc-settings-panel"
@@ -5241,92 +5085,65 @@
             <div class="affc-section-heading">
                 <div>
                     <h4>Payout Requests</h4>
-                    <p>
-                        Review affiliate payment requests and their status.
-                    </p>
+                    <p>Review affiliate payment requests and their status.</p>
                 </div>
             </div>
-
-
-            <div class="affc-settings-grid">
-
-                <div class="affc-form-field">
-
-                    <label for="affcMinimumPayout">
-                        Minimum Payout Amount
-                    </label>
-
-                    <input type="number"
-                           id="affcMinimumPayout"
-                           name="minimumPayout"
-                           min="0"
-                           step="0.01"
-                           placeholder="Enter minimum amount">
-
-                </div>
-
-                <div class="affc-form-field">
-
-                    <label for="affcPayoutCurrency">
-                        Payout Currency
-                    </label>
-
-                    <select id="affcPayoutCurrency"
-                            name="payoutCurrency">
-
-                        <option value="">
-                            Select configured currency
-                        </option>
-
-                        <option value="USD">USD</option>
-
-                    </select>
-
-                </div>
-
-                <div class="affc-form-field">
-
-                    <label for="affcPayoutFrequency">
-                        Payout Frequency
-                    </label>
-
-                    <select id="affcPayoutFrequency"
-                            name="payoutFrequency">
-
-                        <option value="weekly">Weekly</option>
-                        <option value="manual">Manual Processing</option>
-
-                    </select>
-
-                    <small>
-                        Weekly settlement remains the normal commission
-                        settlement cycle.
-                    </small>
-
-                </div>
-
-            </div>
-
 
             <form id="affcPayoutSettingsForm">
 
-                <div class="affc-form-actions">
+                <div class="affc-settings-grid">
 
+                    <div class="affc-form-field">
+                        <label for="affcMinimumPayout">
+                            Minimum Payout Amount
+                        </label>
+
+                        <input type="number"
+                               id="affcMinimumPayout"
+                               name="minimumPayout"
+                               min="0"
+                               step="0.01"
+                               placeholder="Enter minimum amount">
+                    </div>
+
+                    <div class="affc-form-field">
+                        <label for="affcPayoutCurrency">Payout Currency</label>
+
+                        <select id="affcPayoutCurrency"
+                                name="payoutCurrency">
+                            <option value="">Select configured currency</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
+
+                    <div class="affc-form-field">
+                        <label for="affcPayoutFrequency">Payout Frequency</label>
+
+                        <select id="affcPayoutFrequency"
+                                name="payoutFrequency">
+                            <option value="weekly">Weekly</option>
+                            <option value="manual">Manual Processing</option>
+                        </select>
+
+                        <small>
+                            Weekly settlement remains the normal commission cycle.
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="affc-form-actions">
                     <button type="submit"
                             id="affcSavePayoutSettingsBtn"
                             class="affc-btn affc-btn-primary">
                         Save Payout Settings
                     </button>
-
                 </div>
 
             </form>
 
-
             <div class="affc-table-container">
-
                 <table class="affc-table">
-
                     <thead>
                         <tr>
                             <th scope="col">Affiliate User ID</th>
@@ -5339,26 +5156,19 @@
                     </thead>
 
                     <tbody id="affcPayoutRequestsTableBody">
-
                         <tr>
-                            <td colspan="6"
-                                class="affc-empty-cell">
+                            <td colspan="6" class="affc-empty-cell">
                                 Payout requests will appear here.
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
 
         </section>
 
 
-        <!-- =============================================
-             PAYMENT HISTORY
-        ============================================== -->
+        <!-- PAYMENT HISTORY -->
 
         <section id="affcPaymentHistoryPanel"
                  class="affc-content-card affc-settings-panel"
@@ -5368,9 +5178,7 @@
             <div class="affc-section-heading">
                 <div>
                     <h4>Payment History</h4>
-                    <p>
-                        Review completed and previously processed payouts.
-                    </p>
+                    <p>Review completed and previously processed payouts.</p>
                 </div>
             </div>
 
@@ -5378,7 +5186,6 @@
                   class="affc-search-form">
 
                 <div class="affc-form-field">
-
                     <label for="affcPaymentHistoryAffiliateId">
                         Affiliate User ID
                     </label>
@@ -5388,24 +5195,17 @@
                            name="affiliateUserId"
                            placeholder="Search Affiliate User ID..."
                            autocomplete="off">
-
                 </div>
 
                 <div class="affc-form-field">
-
-                    <label for="affcPaymentHistoryPeriod">
-                        Report Period
-                    </label>
+                    <label for="affcPaymentHistoryPeriod">Report Period</label>
 
                     <select id="affcPaymentHistoryPeriod"
                             name="reportPeriod">
-
                         <option value="daily">Daily</option>
                         <option value="weekly" selected>Weekly</option>
                         <option value="monthly">Monthly</option>
-
                     </select>
-
                 </div>
 
                 <button type="submit"
@@ -5415,11 +5215,8 @@
 
             </form>
 
-
             <div class="affc-table-container">
-
                 <table class="affc-table">
-
                     <thead>
                         <tr>
                             <th scope="col">Affiliate User ID</th>
@@ -5433,31 +5230,23 @@
                     </thead>
 
                     <tbody id="affcPaymentHistoryTableBody">
-
                         <tr>
-                            <td colspan="7"
-                                class="affc-empty-cell">
+                            <td colspan="7" class="affc-empty-cell">
                                 Payment history will appear here.
                             </td>
                         </tr>
-
                     </tbody>
-
-                                </table>
-
+                </table>
             </div>
 
         </section>
 
     </div>
+    <!-- END SECTION 04 -->
 
 </section>
+<!-- END AFFILIATE CENTER -->
 
-</div>
-
-<!-- =====================================================
-     END OF AFFILIATE CENTER SECTION
-===================================================== -->
 
 
     
