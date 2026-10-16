@@ -14969,13 +14969,516 @@ function renderAffiliatePayoutHistory() {
 
 
 
+
 /* =========================================================
-   AFFILIATE CENTER
-   File: affiliate.js
-   Works with the Affiliate Center section inside admin.html
-   Requires the existing Supabase client to be initialized.
+   AFFILIATE CONTROL PANEL
+   File: admin.js
+   Location: Appended at the end of admin.js
+   Purpose: Affiliate requests, affiliates and dashboard data
 ========================================================= */
 
+(function () {
+    "use strict";
+
+    /* =====================================================
+       AFFILIATE CONTROL — STATE
+    ====================================================== */
+
+    /*
+     * SUPABASE INTEGRATION TODO
+     * -------------------------
+     * This is currently a front-end template.
+     *
+     * No sample affiliate users or fake financial totals
+     * are inserted.
+     *
+     * Connect these functions to your actual Supabase tables.
+     * Keep approval, rejection and commission changes protected
+     * by server-side authorization and Supabase Row Level Security.
+     */
+
+    const state = {
+        requests: [],
+        affiliates: [],
+        totals: {
+            totalUsers: null,
+            totalReferrals: null,
+            totalPaid: null,
+            totalOutstanding: null
+        },
+        pendingAction: null
+    };
+
+    /* =====================================================
+       AFFILIATE CONTROL — DOM HELPER
+    ====================================================== */
+
+    const $ = (id) => document.getElementById(id);
+
+    /* =====================================================
+       AFFILIATE CONTROL — HTML ESCAPING
+    ====================================================== */
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, function (ch) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[ch];
+        });
+    }
+    function money(value) {
+        if (value === null || value === undefined ||
+            !Number.isFinite(Number(value))) {
+            return "—";
+        }
+
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2
+        }).format(Number(value));
+    }
+
+    function showToast(message) {
+        const toast = $("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(function () {
+            toast.classList.remove("show");
+        }, 3500);
+    }
+
+    function openModal(id) {
+        $(id).classList.add("open");
+    }
+
+    function closeModal(id) {
+        $(id).classList.remove("open");
+    }
+
+    function updateCustomCommissionFields() {
+    const customEnabled = $("editCustomCommission").checked;
+
+    [
+        "editReferralRate",
+        "editSubRate",
+        "editRevenueRate"
+    ].forEach(function (id) {
+        const field = $(id);
+
+        field.disabled = !customEnabled;
+        field.required = customEnabled;
+    });
+}
+
+$("editCustomCommission").addEventListener(
+    "change",
+    updateCustomCommissionFields
+);
+
+    function showStatus(status) {
+        const normalized = String(status || "unknown").toLowerCase();
+
+        if (normalized === "pending") {
+            return '<span class="status pending">Pending</span>';
+        }
+
+        if (normalized === "approved") {
+            return '<span class="status approved">Approved</span>';
+        }
+
+        if (normalized === "rejected") {
+            return '<span class="status rejected">Rejected</span>';
+        }
+
+        return '<span class="status">' +
+            escapeHTML(status || "Unknown") + '</span>';
+    }
+
+    function updateOverview() {
+        $("totalAffiliates").textContent =
+            state.affiliates.length
+                ? state.affiliates.length.toLocaleString("en-US")
+                : "—";
+
+        $("totalReferrals").textContent =
+            state.totals.totalReferrals == null
+                ? "—"
+                : Number(state.totals.totalReferrals)
+                    .toLocaleString("en-US");
+
+        $("totalUsers").textContent =
+            state.totals.totalUsers == null
+                ? "—"
+                : Number(state.totals.totalUsers)
+                    .toLocaleString("en-US");
+
+        $("totalPaid").textContent =
+            money(state.totals.totalPaid);
+
+        $("totalOutstanding").textContent =
+            money(state.totals.totalOutstanding);
+
+        const pending = state.requests.filter(function (item) {
+            return String(item.status).toLowerCase() === "pending";
+        }).length;
+
+        $("requestCount").textContent = pending;
+    }
+
+    function renderRequests() {
+        const query = $("requestSearch").value.trim().toLowerCase();
+
+        const rows = state.requests.filter(function (item) {
+            const searchable = [
+                item.name,
+                item.email,
+                item.userId
+            ].join(" ").toLowerCase();
+
+            return searchable.includes(query);
+        });
+
+        $("requestTable").innerHTML = rows.map(function (item) {
+            const pending =
+                String(item.status).toLowerCase() === "pending";
+
+            return `
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            <div class="avatar">
+                                ${escapeHTML(
+                                    (item.name || "A").charAt(0).toUpperCase()
+                                )}
+                            </div>
+                            <div>
+                                <div class="user-name">
+                                    ${escapeHTML(item.name)}
+                                </div>
+                                <div class="user-email">
+                                    ${escapeHTML(item.email)}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${escapeHTML(item.userId)}</td>
+                    <td>${escapeHTML(item.appliedDate || "—")}</td>
+                    <td>${showStatus(item.status)}</td>
+                    <td>
+                        <div class="row-actions">
+                            ${
+                                pending
+                                ? `
+                                    <button class="btn btn-success"
+                                        data-action="approve"
+                                        data-id="${escapeHTML(item.id)}">
+                                        Approve
+                                    </button>
+                                    <button class="btn btn-danger"
+                                        data-action="reject"
+                                        data-id="${escapeHTML(item.id)}">
+                                        Reject
+                                    </button>
+                                `
+                                : "—"
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+
+        $("requestEmpty").style.display =
+            rows.length ? "none" : "block";
+
+        updateOverview();
+    }
+
+
+function renderAffiliates() {
+    const query = $("affiliateSearch").value.trim().toLowerCase();
+
+    const rows = state.affiliates.filter(function (item) {
+        return [
+            item.name,
+            item.email,
+            item.userId
+        ].join(" ").toLowerCase().includes(query);
+    });
+
+    $("affiliateTable").innerHTML = rows.map(function (item) {
+        return `
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="avatar">
+                            ${escapeHTML(
+                                (item.name || "A").charAt(0).toUpperCase()
+                            )}
+                        </div>
+                        <div>
+                            <div class="user-name">
+                                ${escapeHTML(item.name)}
+                            </div>
+                            <div class="user-email">
+                                ${escapeHTML(item.email)}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td>${escapeHTML(item.userId)}</td>
+
+                <td>${escapeHTML(item.referralRate ?? "—")}%</td>
+
+                <td>${escapeHTML(item.revenueRate ?? "—")}%</td>
+
+                <td>
+                    ${item.referrals == null
+                        ? "—"
+                        : escapeHTML(item.referrals)}
+                </td>
+
+                <td>${showStatus(item.status)}</td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-yellow"
+                        data-action="edit"
+                        data-id="${escapeHTML(item.id)}">
+                        Edit Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join("");
+
+    $("affiliateEmpty").style.display =
+        rows.length ? "none" : "block";
+
+    updateOverview();
+}
+
+
+    // Navigation between control panel sections.
+    document.querySelectorAll(".tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+            document.querySelectorAll(".tab").forEach(function (other) {
+                other.classList.toggle("active", other === tab);
+            });
+
+            document.querySelectorAll(".section").forEach(function (section) {
+                section.classList.toggle(
+                    "active",
+                    section.id === tab.dataset.section
+                );
+            });
+        });
+    });
+
+    $("requestSearch").addEventListener("input", renderRequests);
+    $("affiliateSearch").addEventListener("input", renderAffiliates);
+
+    // Open approval/rejection confirmation.
+    $("requestTable").addEventListener("click", function (event) {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
+
+        const item = state.requests.find(function (request) {
+            return String(request.id) === button.dataset.id;
+        });
+
+        if (!item) return;
+
+        const action = button.dataset.action;
+        if (action !== "approve" && action !== "reject") return;
+
+        state.pendingAction = {
+            id: item.id,
+            action: action
+        };
+
+        $("confirmTitle").textContent =
+            action === "approve"
+                ? "Approve Affiliate Application?"
+                : "Reject Affiliate Application?";
+
+        $("confirmMessage").textContent =
+            action === "approve"
+                ? "Approve " + item.name +
+                  "'s application? This action must be connected to " +
+                  "Supabase before it can change a real application."
+                : "Reject " + item.name +
+                  "'s application? This action must be connected to " +
+                  "Supabase before it can change a real application.";
+
+        $("executeConfirm").className =
+            action === "reject"
+                ? "btn btn-danger"
+                : "btn btn-primary";
+
+        $("executeConfirm").textContent =
+            action === "reject" ? "Confirm Reject" : "Confirm Approve";
+
+        openModal("confirmModal");
+    });
+
+    $("closeConfirm").addEventListener("click", function () {
+        closeModal("confirmModal");
+    });
+
+    $("cancelConfirm").addEventListener("click", function () {
+        closeModal("confirmModal");
+    });
+
+    $("executeConfirm").addEventListener("click", async function () {
+        if (!state.pendingAction) return;
+
+        /*
+         * Do not pretend a real approval happened.
+         * Replace this block with an authorized Supabase update call.
+         */
+        showToast(
+            "Not connected: configure the secure Supabase approval/rejection " +
+            "function before changing application status."
+        );
+
+        closeModal("confirmModal");
+        state.pendingAction = null;
+    });
+
+    // Open individual commission editor.
+
+    // Update individual commission fields based on custom setting.
+    function updateCustomCommissionFields() {
+        const customEnabled = $("editCustomCommission").checked;
+
+        const fields = [
+            ["editReferralRate", "defaultReferral"],
+            ["editSubRate", "defaultSubAffiliate"],
+            ["editRevenueRate", "defaultRevenueShare"]
+        ];
+
+        fields.forEach(function (pair) {
+            const field = $(pair[0]);
+            const defaultField = $(pair[1]);
+
+            if (!customEnabled) {
+                field.value = defaultField.value || (
+                    pair[0] === "editSubRate" ? "3" : "25"
+                );
+            }
+
+            field.disabled = !customEnabled;
+            field.required = customEnabled;
+        });
+    }
+
+    $("editCustomCommission").addEventListener(
+        "change",
+        updateCustomCommissionFields
+    );
+
+    // Open individual commission editor.
+    $("affiliateTable").addEventListener("click", function (event) {
+        const button = event.target.closest('[data-action="edit"]');
+        if (!button) return;
+
+        const item = state.affiliates.find(function (affiliate) {
+            return String(affiliate.id) === button.dataset.id;
+        });
+
+        if (!item) return;
+
+        $("editAffiliateId").value = item.id;
+
+        $("editCustomCommission").checked =
+            item.customCommissionEnabled === true;
+
+        $("editReferralRate").value = item.referralRate ?? 25;
+        $("editSubRate").value = item.subRate ?? 3;
+        $("editRevenueRate").value = item.revenueRate ?? 35;
+
+        updateCustomCommissionFields();
+        openModal("editModal");
+    });
+
+    function closeEditModal() {
+        closeModal("editModal");
+    }
+
+    $("closeEdit").addEventListener("click", closeEditModal);
+    $("cancelEdit").addEventListener("click", closeEditModal);
+
+
+    $("editCommissionForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        /*
+         * A real implementation should:
+         * 1. Validate the authenticated admin server-side.
+         * 2. Update the selected affiliate's commission row.
+         * 3. Record who changed the rate and when.
+         * 4. Reload the saved values from Supabase.
+         */
+        showToast(
+            "Not connected: implement the authorized Supabase " +
+            "commission update before saving real rates."
+        );
+    });
+
+    $("commissionForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const referral = Number($("defaultReferral").value);
+        const sub = Number($("defaultSubAffiliate").value);
+        const revenue = Number($("defaultRevenueShare").value);
+
+        if (
+            !Number.isFinite(referral) || referral < 0 || referral > 100 ||
+            !Number.isFinite(sub) || sub < 0 || sub > 100 ||
+            !Number.isFinite(revenue) || revenue < 0 || revenue > 100
+        ) {
+            showToast("Enter commission rates between 0% and 100%.");
+            return;
+        }
+
+        /*
+         * The form is ready for integration, but settings are not
+         * persisted until a secure Supabase save function is added.
+         */
+        showToast(
+            "Not connected: default settings have not been saved to Supabase."
+        );
+    });
+
+    $("refreshButton").addEventListener("click", async function () {
+        /*
+         * Connect this to Supabase queries for applications, approved
+         * affiliates, registered-user counts and commission ledger totals.
+         */
+        showToast(
+            "No database connection configured yet. No live data was loaded."
+        );
+
+        renderRequests();
+        renderAffiliates();
+    });
+
+    // Initial empty state. No invented records or financial totals.
+    renderRequests();
+    renderAffiliates();
+    updateOverview();
+
+})();
 
 // ======================================================
 // FINAL ADMIN ENGINE MARKER
