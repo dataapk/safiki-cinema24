@@ -1,1 +1,1551 @@
 
+/* =========================================================
+   SAFIKI ADMIN — AFFILIATE CENTER
+   File: affiliate.css
+
+   HTML location: admin.html
+   JavaScript: affiliate.js
+
+   All styles are scoped to #affiliateSection.
+   This stylesheet must not redesign other Admin sections.
+========================================================= */
+
+
+/* =========================================================
+   01. AFFILIATE CENTER FOUNDATION
+========================================================= */
+
+#affiliateSection.affc-center {
+    --affc-primary: #087e55;
+    --affc-primary-dark: #066744;
+    --affc-primary-soft: #eaf7f0;
+
+    --affc-text: #20352a;
+    --affc-muted: #77867c;
+    --affc-border: #e0e9e2;
+    --affc-background: #f6f9f7;
+    --affc-surface: #ffffff;
+
+    --affc-green: #20b981;
+    --affc-purple: #9562f5;
+    --affc-orange: #f59b42;
+    --affc-red: #ec7d87;
+    --affc-yellow: #d8b638;
+    --affc-blue: #5398ed;
+
+    --affc-radius: 10px;
+    --affc-radius-sm: 7px;
+
+    --affc-shadow:
+        0 2px 8px rgba(27, 52, 37, 0.045);
+
+    --affc-shadow-hover:
+        0 5px 15px rgba(27, 52, 37, 0.085);
+
+    width: 100%;
+    min-width: 0;
+    color: var(--affc-text);
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+#affiliateSection.affc-center *,
+#affiliateSection.affc-center *::before,
+#affiliateSection.affc-center *::after {
+    box-sizing: border-box;
+}
+
+/* Respect the HTML hidden attribute even if other
+   Admin styles specify display on these elements. */
+
+#affiliateSection.affc-center [hidden] {
+    display: none !important;
+}
+
+#affiliateSection.affc-center h2,
+#affiliateSection.affc-center h3,
+#affiliateSection.affc-center h4,
+#affiliateSection.affc-center p {
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection.affc-center button,
+#affiliateSection.affc-center input,
+#affiliateSection.affc-center select,
+#affiliateSection.affc-center textarea {
+    font: inherit;
+}
+
+#affiliateSection.affc-center button {
+    cursor: pointer;
+}
+
+#affiliateSection.affc-center button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#affiliateSection.affc-center input,
+#affiliateSection.affc-center select,
+#affiliateSection.affc-center textarea {
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   02. PAGE HEADER
+========================================================= */
+
+#affiliateSection .affc-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    width: 100%;
+    margin: 0 0 18px;
+}
+
+#affiliateSection .affc-page-heading {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#affiliateSection .affc-page-heading h2 {
+    margin: 0 0 5px;
+    color: var(--admin-text, var(--affc-text));
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.45px;
+}
+
+#affiliateSection .affc-page-heading p {
+    margin: 0;
+    color: var(--admin-muted, var(--affc-muted));
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+#affiliateSection .affc-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   03. BUTTONS
+========================================================= */
+
+#affiliateSection .affc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    min-height: 36px;
+    padding: 8px 13px;
+
+    border: 1px solid transparent;
+    border-radius: var(--affc-radius-sm);
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+#affiliateSection .affc-btn-primary {
+    color: #ffffff;
+    background: var(--affc-primary);
+    border-color: var(--affc-primary);
+}
+
+#affiliateSection .affc-btn-primary:hover:not(:disabled) {
+    color: #ffffff;
+    background: var(--affc-primary-dark);
+    border-color: var(--affc-primary-dark);
+    box-shadow: 0 3px 8px rgba(8, 126, 85, 0.16);
+}
+
+#affiliateSection .affc-btn-secondary {
+    color: var(--affc-text);
+    background: #ffffff;
+    border-color: var(--affc-border);
+}
+
+#affiliateSection .affc-btn-secondary:hover:not(:disabled) {
+    background: #f3f7f4;
+    border-color: #c8d7cd;
+}
+
+#affiliateSection .affc-btn-danger {
+    color: #ffffff;
+    background: #dc4545;
+    border-color: #dc4545;
+}
+
+#affiliateSection .affc-btn-danger:hover:not(:disabled) {
+    background: #c93636;
+    border-color: #c93636;
+}
+
+#affiliateSection .affc-btn:focus-visible,
+#affiliateSection .affc-nav-button:focus-visible,
+#affiliateSection .affc-detail-nav-button:focus-visible,
+#affiliateSection .affc-settings-nav-button:focus-visible {
+    outline: 3px solid rgba(8, 126, 85, 0.24);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   04. GLOBAL AND INLINE MESSAGES
+========================================================= */
+
+#affiliateSection .affc-message,
+#affiliateSection .affc-inline-message {
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 10px 13px;
+
+    border: 1px solid var(--affc-border);
+    border-radius: var(--affc-radius-sm);
+
+    color: var(--affc-text);
+    background: #ffffff;
+
+    font-size: 12px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-message.is-success,
+#affiliateSection .affc-inline-message.is-success {
+    color: #087247;
+    background: #edfbf3;
+    border-color: #b8e8cc;
+}
+
+#affiliateSection .affc-message.is-error,
+#affiliateSection .affc-inline-message.is-error {
+    color: #a12d35;
+    background: #fff1f1;
+    border-color: #f2c6c8;
+}
+
+#affiliateSection .affc-message.is-warning,
+#affiliateSection .affc-inline-message.is-warning {
+    color: #855b08;
+    background: #fff9e8;
+    border-color: #f1dfa5;
+}
+
+
+/* =========================================================
+   05. MAIN NAVIGATION
+========================================================= */
+
+#affiliateSection .affc-main-navigation {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 5px;
+
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+
+    background: var(--admin-surface, #ffffff);
+    border: 1px solid var(--affc-border);
+    border-radius: var(--affc-radius);
+
+    scrollbar-width: thin;
+}
+
+#affiliateSection .affc-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    min-height: 36px;
+    padding: 9px 13px;
+
+    color: var(--affc-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        border-color 0.18s ease;
+}
+
+#affiliateSection .affc-nav-button:hover:not(.is-active) {
+    color: var(--affc-primary);
+    background: #f3f8f4;
+}
+
+#affiliateSection .affc-nav-button.is-active {
+    color: #ffffff;
+    background: var(--affc-primary);
+    border-color: var(--affc-primary);
+}
+
+
+/* =========================================================
+   06. MAIN PANELS AND SECTION HEADINGS
+========================================================= */
+
+#affiliateSection .affc-main-panel {
+    width: 100%;
+    min-width: 0;
+}
+
+#affiliateSection .affc-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    width: 100%;
+    margin: 0 0 13px;
+}
+
+#affiliateSection .affc-section-heading > div {
+    min-width: 0;
+}
+
+#affiliateSection .affc-section-heading h3 {
+    margin: 0 0 4px;
+    color: var(--affc-text);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+#affiliateSection .affc-section-heading h4 {
+    margin: 0 0 4px;
+    color: var(--affc-text);
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1.4;
+}
+
+#affiliateSection .affc-section-heading p {
+    margin: 0;
+    color: var(--affc-muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+#affiliateSection .affc-description {
+    margin: 0;
+    color: var(--affc-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   07. COMPACT OVERVIEW STATISTICS
+   Desktop: 3 columns
+   Mobile: 2 columns
+========================================================= */
+
+#affiliateSection .affc-statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+
+    width: 100%;
+    margin: 0 0 18px;
+    align-items: stretch;
+}
+
+#affiliateSection .affc-stat-card {
+    --affc-accent: var(--affc-green);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+
+    min-width: 0;
+    min-height: 105px;
+    margin: 0;
+    padding: 12px 14px 16px;
+    overflow: hidden;
+
+    background: var(--admin-surface, #ffffff);
+    border: 1px solid var(--affc-border);
+    border-radius: 9px;
+    box-shadow: var(--affc-shadow);
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+#affiliateSection .affc-stat-card::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 3px;
+    content: "";
+
+    background: var(--affc-accent);
+}
+
+#affiliateSection .affc-stat-card:hover {
+    border-color: #cad9cf;
+    box-shadow: var(--affc-shadow-hover);
+}
+
+#affiliateSection .affc-stat-label {
+    display: block;
+    width: 100%;
+    margin: 0;
+
+    color: var(--affc-muted);
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-stat-card h3 {
+    display: block;
+    max-width: 100%;
+    margin: 2px 0;
+
+    color: var(--affc-text);
+    font-size: clamp(20px, 2.1vw, 27px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.45px;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-stat-note {
+    display: block;
+    width: 100%;
+    margin: 0;
+
+    color: #87948b;
+    font-size: 10px;
+    font-weight: 450;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+
+/* Statistics accent colors */
+
+#affiliateSection .affc-accent-green {
+    --affc-accent: #20b981;
+}
+
+#affiliateSection .affc-accent-purple {
+    --affc-accent: #9562f5;
+}
+
+#affiliateSection .affc-accent-orange {
+    --affc-accent: #f59b42;
+}
+
+#affiliateSection .affc-accent-red {
+    --affc-accent: #ec7d87;
+}
+
+#affiliateSection .affc-accent-yellow {
+    --affc-accent: #d8b638;
+}
+
+#affiliateSection .affc-accent-blue {
+    --affc-accent: #5398ed;
+}
+
+
+/* =========================================================
+   08. CONTENT CARDS
+========================================================= */
+
+#affiliateSection .affc-content-card {
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 16px;
+    padding: 17px;
+
+    background: var(--admin-surface, #ffffff);
+    border: 1px solid var(--affc-border);
+    border-radius: var(--affc-radius);
+    box-shadow: var(--affc-shadow);
+}
+
+#affiliateSection .affc-content-card:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   09. SEARCH FORMS AND FILTERS
+========================================================= */
+
+#affiliateSection .affc-search-form {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    width: 100%;
+    margin: 0 0 14px;
+}
+
+#affiliateSection .affc-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    min-width: 0;
+    margin: 0;
+}
+
+#affiliateSection .affc-search-form .affc-form-field {
+    flex: 1 1 210px;
+}
+
+#affiliateSection .affc-form-field label {
+    display: block;
+    margin: 0;
+
+    color: var(--affc-text);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+#affiliateSection .affc-form-field input,
+#affiliateSection .affc-form-field select,
+#affiliateSection .affc-form-field textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 39px;
+    padding: 9px 11px;
+
+    color: var(--affc-text);
+    background: #ffffff;
+    border: 1px solid #dbe5de;
+    border-radius: 7px;
+
+    font-size: 12px;
+    line-height: 1.45;
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+#affiliateSection .affc-form-field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+#affiliateSection .affc-form-field input::placeholder,
+#affiliateSection .affc-form-field textarea::placeholder {
+    color: #9aa69e;
+    opacity: 1;
+}
+
+#affiliateSection .affc-form-field input:focus,
+#affiliateSection .affc-form-field select:focus,
+#affiliateSection .affc-form-field textarea:focus {
+    outline: none;
+    border-color: var(--affc-primary);
+    box-shadow: 0 0 0 3px rgba(8, 126, 85, 0.09);
+}
+
+#affiliateSection .affc-form-field input:disabled,
+#affiliateSection .affc-form-field select:disabled,
+#affiliateSection .affc-form-field textarea:disabled {
+    color: #89958d;
+    background: #f2f5f3;
+    cursor: not-allowed;
+}
+
+#affiliateSection .affc-form-field small {
+    display: block;
+    margin: 0;
+
+    color: var(--affc-muted);
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+#affiliateSection .affc-search-form > .affc-btn {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   10. SEARCH RESULTS
+========================================================= */
+
+#affiliateSection .affc-search-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    width: 100%;
+    margin-top: 14px;
+    padding: 13px;
+
+    background: #f2faf5;
+    border: 1px solid #cfe9d8;
+    border-radius: var(--affc-radius-sm);
+}
+
+#affiliateSection .affc-search-result-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+#affiliateSection .affc-search-result-info > span:first-child {
+    color: var(--affc-muted);
+    font-size: 10px;
+}
+
+#affiliateSection .affc-search-result-info strong {
+    color: var(--affc-text);
+    font-size: 14px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-search-result-info > span:last-child {
+    color: var(--affc-muted);
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   11. TABLES
+========================================================= */
+
+#affiliateSection .affc-table-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+
+    border: 1px solid var(--affc-border);
+    border-radius: 8px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #c8d7ce transparent;
+}
+
+#affiliateSection .affc-table {
+    width: 100%;
+    min-width: 690px;
+    margin: 0;
+
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    color: var(--affc-text);
+    background: #ffffff;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+#affiliateSection .affc-table thead th {
+    padding: 11px 12px;
+
+    color: #526459;
+    background: #f3f7f4;
+
+    border: 0;
+    border-bottom: 1px solid var(--affc-border);
+
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.45;
+    text-align: left;
+    white-space: nowrap;
+}
+
+#affiliateSection .affc-table tbody td {
+    padding: 11px 12px;
+
+    color: #43554a;
+    background: #ffffff;
+
+    border: 0;
+    border-bottom: 1px solid #edf1ee;
+
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: left;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+#affiliateSection .affc-table tbody tr:hover td {
+    background: #f8fbf9;
+}
+
+#affiliateSection .affc-table .affc-empty-cell {
+    padding: 24px 14px;
+
+    color: var(--affc-muted);
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+    white-space: normal;
+}
+
+#affiliateSection .affc-table td .affc-btn {
+    min-height: 30px;
+    padding: 6px 9px;
+    font-size: 10px;
+}
+
+#affiliateSection .affc-table td .affc-row-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+
+/* Keep the two-column referral table compact. */
+
+#affiliateSection #affcDetailReferralsPanel .affc-table {
+    min-width: 360px;
+}
+
+#affiliateSection #affcDetailReferralsPanel .affc-table th,
+#affiliateSection #affcDetailReferralsPanel .affc-table td {
+    padding: 12px 14px;
+}
+
+
+/* =========================================================
+   12. PAGINATION
+========================================================= */
+
+#affiliateSection .affc-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+
+    width: 100%;
+    margin-top: 13px;
+}
+
+#affiliateSection .affc-pagination > span {
+    color: var(--affc-muted);
+    font-size: 11px;
+    font-weight: 650;
+}
+
+#affiliateSection .affc-pagination .affc-btn {
+    min-height: 32px;
+    padding: 7px 11px;
+}
+
+
+/* =========================================================
+   13. STATUS BADGES
+   JavaScript can apply these classes to status elements.
+========================================================= */
+
+#affiliateSection .affc-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 100%;
+    min-height: 23px;
+    padding: 4px 8px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.3;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-status-pending {
+    color: #8a620b;
+    background: #fff6dd;
+    border-color: #f0dfab;
+}
+
+#affiliateSection .affc-status-approved,
+#affiliateSection .affc-status-active,
+#affiliateSection .affc-status-paid,
+#affiliateSection .affc-status-completed {
+    color: #087247;
+    background: #eaf8f0;
+    border-color: #c1e8d1;
+}
+
+#affiliateSection .affc-status-rejected,
+#affiliateSection .affc-status-suspended,
+#affiliateSection .affc-status-failed {
+    color: #a02f39;
+    background: #fff0f0;
+    border-color: #f1c6c9;
+}
+
+#affiliateSection .affc-status-processing,
+#affiliateSection .affc-status-review,
+#affiliateSection .affc-status-unsettled {
+    color: #285da3;
+    background: #edf5ff;
+    border-color: #cbdff9;
+}
+
+
+/* =========================================================
+   14. AFFILIATE DETAILS
+========================================================= */
+
+#affiliateSection .affc-details-panel {
+    margin-top: 17px;
+    padding: 18px;
+    scroll-margin-top: 16px;
+}
+
+#affiliateSection .affc-details-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    width: 100%;
+    margin-bottom: 17px;
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid var(--affc-border);
+}
+
+#affiliateSection .affc-details-header > div {
+    min-width: 0;
+}
+
+#affiliateSection .affc-details-header h3,
+#affiliateSection .affc-details-header h4 {
+    margin: 0 0 7px;
+    color: var(--affc-text);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+#affiliateSection .affc-details-header p {
+    margin: 0;
+    color: var(--affc-muted);
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-details-header strong {
+    color: var(--affc-text);
+    font-weight: 750;
+}
+
+#affiliateSection .affc-details-section {
+    width: 100%;
+    margin: 0 0 18px;
+}
+
+#affiliateSection .affc-details-section h4 {
+    margin: 0 0 12px;
+    color: var(--affc-text);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#affiliateSection .affc-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+
+    width: 100%;
+}
+
+#affiliateSection .affc-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    min-width: 0;
+    padding: 11px 12px;
+
+    background: #f8faf8;
+    border: 1px solid #e7eee9;
+    border-radius: 7px;
+}
+
+#affiliateSection .affc-detail-item > span {
+    color: var(--affc-muted);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+#affiliateSection .affc-detail-item > strong {
+    color: var(--affc-text);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   15. AFFILIATE DETAILS STATISTICS
+========================================================= */
+
+#affiliateSection .affc-details-statistics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+
+    width: 100%;
+    margin: 0 0 18px;
+}
+
+#affiliateSection .affc-detail-stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+
+    min-width: 0;
+    min-height: 80px;
+    padding: 12px;
+
+    background: #ffffff;
+    border: 1px solid var(--affc-border);
+    border-radius: 8px;
+}
+
+#affiliateSection .affc-detail-stat-card > span {
+    color: var(--affc-muted);
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+#affiliateSection .affc-detail-stat-card > strong {
+    color: var(--affc-text);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   16. AFFILIATE DETAIL NAVIGATION
+========================================================= */
+
+#affiliateSection .affc-details-navigation,
+#affiliateSection .affc-settings-navigation {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    width: 100%;
+    margin: 0 0 17px;
+    padding: 4px;
+
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+
+    background: #f3f7f4;
+    border: 1px solid var(--affc-border);
+    border-radius: 8px;
+
+    scrollbar-width: thin;
+}
+
+#affiliateSection .affc-detail-nav-button,
+#affiliateSection .affc-settings-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    min-height: 34px;
+    padding: 8px 11px;
+
+    color: var(--affc-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1.4;
+    white-space: nowrap;
+
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        border-color 0.18s ease;
+}
+
+#affiliateSection .affc-detail-nav-button:hover:not(.is-active),
+#affiliateSection .affc-settings-nav-button:hover:not(.is-active) {
+    color: var(--affc-primary);
+    background: #ffffff;
+}
+
+#affiliateSection .affc-detail-nav-button.is-active,
+#affiliateSection .affc-settings-nav-button.is-active {
+    color: var(--affc-primary-dark);
+    background: #ffffff;
+    border-color: #dbe8df;
+    box-shadow: 0 1px 3px rgba(25, 59, 38, 0.06);
+}
+
+#affiliateSection .affc-detail-panel,
+#affiliateSection .affc-settings-panel {
+    width: 100%;
+    min-width: 0;
+}
+
+#affiliateSection .affc-detail-panel > h4,
+#affiliateSection .affc-settings-panel > h4 {
+    margin: 0 0 10px;
+    color: var(--affc-text);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   17. SETTINGS FORMS
+========================================================= */
+
+#affiliateSection .affc-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+
+    width: 100%;
+    margin: 0 0 15px;
+}
+
+#affiliateSection .affc-settings-grid .affc-form-field {
+    width: 100%;
+}
+
+#affiliateSection .affc-form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+
+    width: 100%;
+    margin-top: 14px;
+}
+
+#affiliateSection .affc-settings-notice {
+    width: 100%;
+    margin: 0 0 16px;
+    padding: 12px 13px;
+
+    color: #4f6758;
+    background: #f0f8f2;
+    border: 1px solid #d7eadc;
+    border-radius: 8px;
+
+    font-size: 11px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   18. APPLICATION REVIEW
+========================================================= */
+
+#affiliateSection #affcApplicationDetails {
+    margin-top: 16px;
+}
+
+#affiliateSection #affcApplicationDetails .affc-details-grid {
+    margin-bottom: 16px;
+}
+
+#affiliateSection .affc-application-statistics .affc-stat-card {
+    min-height: 86px;
+}
+
+#affiliateSection .affc-application-statistics .affc-stat-card h3 {
+    font-size: 24px;
+}
+
+
+/* =========================================================
+   19. DAILY AND WEEKLY FINANCIAL REPORTS
+========================================================= */
+
+#affiliateSection .affc-financial-statistics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 16px;
+}
+
+#affiliateSection .affc-financial-statistics .affc-stat-card {
+    min-height: 91px;
+}
+
+#affiliateSection .affc-financial-statistics .affc-stat-card h3 {
+    font-size: clamp(18px, 1.8vw, 24px);
+}
+
+#affiliateSection #affcDailyCalculationPanel > .affc-section-heading,
+#affiliateSection #affcWeeklySettlementPanel > .affc-section-heading,
+#affiliateSection #affcPayoutRequestsPanel > .affc-section-heading,
+#affiliateSection #affcPaymentHistoryPanel > .affc-section-heading {
+    margin-top: 4px;
+}
+
+#affiliateSection #affcDailyCalculationPanel .affc-search-form,
+#affiliateSection #affcWeeklySettlementPanel .affc-search-form,
+#affiliateSection #affcPaymentHistoryPanel .affc-search-form {
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   20. TABLE ACTIONS
+========================================================= */
+
+#affiliateSection .affc-action-group,
+#affiliateSection .affc-row-actions {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+#affiliateSection .affc-action-group .affc-btn,
+#affiliateSection .affc-row-actions .affc-btn {
+    min-height: 29px;
+    padding: 5px 9px;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   21. EMPTY STATES
+========================================================= */
+
+#affiliateSection .affc-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    width: 100%;
+    min-height: 100px;
+    padding: 22px 14px;
+
+    color: var(--affc-muted);
+    background: #fafcfb;
+    border: 1px dashed #dbe6de;
+    border-radius: 8px;
+
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.65;
+}
+
+#affiliateSection .affc-empty-state strong {
+    color: var(--affc-text);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   22. LOADING STATE
+========================================================= */
+
+#affiliateSection .affc-is-loading {
+    opacity: 0.68;
+    pointer-events: none;
+}
+
+#affiliateSection .affc-loading-text {
+    color: var(--affc-muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   23. RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+    #affiliateSection .affc-content-card {
+        padding: 14px;
+    }
+
+    #affiliateSection .affc-statistics-grid {
+        gap: 10px;
+    }
+
+    #affiliateSection .affc-stat-card {
+        min-height: 100px;
+        padding: 11px 12px 15px;
+    }
+
+    #affiliateSection .affc-details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #affiliateSection .affc-details-statistics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #affiliateSection .affc-financial-statistics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   24. RESPONSIVE — MOBILE
+   Overview cards: 2 columns
+========================================================= */
+
+@media (max-width: 760px) {
+    #affiliateSection.affc-center {
+        font-size: 12px;
+    }
+
+    #affiliateSection .affc-page-header {
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    #affiliateSection .affc-page-heading h2 {
+        font-size: 21px;
+    }
+
+    #affiliateSection .affc-page-heading p {
+        font-size: 11px;
+    }
+
+    #affiliateSection .affc-header-actions {
+        gap: 6px;
+    }
+
+    #affiliateSection .affc-header-actions .affc-btn {
+        min-height: 33px;
+        padding: 7px 10px;
+        font-size: 10px;
+    }
+
+    #affiliateSection .affc-main-navigation {
+        margin-bottom: 14px;
+    }
+
+    #affiliateSection .affc-nav-button {
+        min-height: 34px;
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    #affiliateSection .affc-section-heading h3 {
+        font-size: 15px;
+    }
+
+    #affiliateSection .affc-section-heading h4 {
+        font-size: 13px;
+    }
+
+    #affiliateSection .affc-statistics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        margin-bottom: 14px;
+    }
+
+    #affiliateSection .affc-stat-card {
+        min-height: 100px;
+        padding: 11px 10px 15px;
+    }
+
+    #affiliateSection .affc-stat-label {
+        font-size: 10px;
+    }
+
+    #affiliateSection .affc-stat-card h3 {
+        font-size: 22px;
+    }
+
+    #affiliateSection .affc-stat-note {
+        font-size: 9px;
+    }
+
+    #affiliateSection .affc-content-card {
+        margin-bottom: 13px;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    #affiliateSection .affc-search-form {
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    #affiliateSection .affc-search-form .affc-form-field {
+        flex: 1 1 100%;
+    }
+
+    #affiliateSection .affc-search-form > .affc-btn {
+        flex: 1 1 auto;
+    }
+
+    #affiliateSection .affc-form-field input,
+    #affiliateSection .affc-form-field select,
+    #affiliateSection .affc-form-field textarea {
+        min-height: 38px;
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    #affiliateSection .affc-table {
+        min-width: 650px;
+    }
+
+    #affiliateSection #affcDetailReferralsPanel .affc-table {
+        min-width: 340px;
+    }
+
+    #affiliateSection .affc-details-panel {
+        padding: 12px;
+    }
+
+    #affiliateSection .affc-details-header h3,
+    #affiliateSection .affc-details-header h4 {
+        font-size: 15px;
+    }
+
+    #affiliateSection .affc-details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    #affiliateSection .affc-detail-item {
+        padding: 10px;
+    }
+
+    #affiliateSection .affc-detail-item > span {
+        font-size: 9px;
+    }
+
+    #affiliateSection .affc-detail-item > strong {
+        font-size: 11px;
+    }
+
+    #affiliateSection .affc-details-statistics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    #affiliateSection .affc-detail-stat-card {
+        min-height: 72px;
+        padding: 10px;
+    }
+
+    #affiliateSection .affc-detail-stat-card > strong {
+        font-size: 19px;
+    }
+
+    #affiliateSection .affc-details-navigation,
+    #affiliateSection .affc-settings-navigation {
+        gap: 4px;
+        margin-bottom: 13px;
+    }
+
+    #affiliateSection .affc-detail-nav-button,
+    #affiliateSection .affc-settings-nav-button {
+        min-height: 33px;
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+
+    #affiliateSection .affc-settings-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    #affiliateSection .affc-form-actions {
+        align-items: stretch;
+    }
+
+    #affiliateSection .affc-form-actions .affc-btn {
+        flex: 1 1 150px;
+    }
+
+    #affiliateSection .affc-financial-statistics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    #affiliateSection .affc-financial-statistics .affc-stat-card {
+        min-height: 86px;
+    }
+
+    #affiliateSection .affc-financial-statistics .affc-stat-card h3 {
+        font-size: 19px;
+    }
+
+    #affiliateSection .affc-pagination {
+        justify-content: center;
+        gap: 7px;
+    }
+
+    #affiliateSection .affc-search-result {
+        align-items: flex-start;
+    }
+}
+
+
+/* =========================================================
+   25. RESPONSIVE — SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+    #affiliateSection .affc-page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #affiliateSection .affc-header-actions {
+        justify-content: flex-start;
+    }
+
+    #affiliateSection .affc-page-heading h2 {
+        font-size: 20px;
+    }
+
+    #affiliateSection .affc-statistics-grid {
+        gap: 8px;
+    }
+
+    #affiliateSection .affc-stat-card {
+        min-height: 96px;
+        padding: 10px 9px 14px;
+    }
+
+    #affiliateSection .affc-stat-label {
+        font-size: 9px;
+    }
+
+    #affiliateSection .affc-stat-card h3 {
+        font-size: 19px;
+        letter-spacing: -0.25px;
+    }
+
+    #affiliateSection .affc-stat-note {
+        font-size: 9px;
+    }
+
+    #affiliateSection .affc-details-grid {
+        gap: 7px;
+    }
+
+    #affiliateSection .affc-detail-item {
+        padding: 9px;
+    }
+
+    #affiliateSection .affc-detail-stat-card > strong {
+        font-size: 17px;
+    }
+
+    #affiliateSection .affc-btn {
+        padding: 8px 10px;
+    }
+
+    #affiliateSection .affc-content-card {
+        padding: 10px;
+    }
+}
+
+
+/* =========================================================
+   26. REDUCED MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    #affiliateSection.affc-center *,
+    #affiliateSection.affc-center *::before,
+    #affiliateSection.affc-center *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
