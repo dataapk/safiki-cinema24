@@ -91,6 +91,7 @@
         referrals: [],
 
         affiliateSearchTerm: "",
+       applicationSearchTerm: "",
         referralSearchTerm: "",
 
         affiliatePage: 1,
@@ -755,6 +756,36 @@ const input = $("#affcAffiliateSearch");
     });
 }
 
+   function initializeApplicationSearch() {
+    const input = $("#affcApplicationSearch");
+
+    if (
+        !input ||
+        input.dataset.affcSearchInitialized === "true"
+    ) {
+        return;
+    }
+
+    input.dataset.affcSearchInitialized = "true";
+
+    // Prevent the browser's normal form submission.
+    const form = input.closest("form");
+
+    if (form) {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+        });
+    }
+
+    // Filter the application list as the user types.
+    input.addEventListener("input", function () {
+        state.applicationSearchTerm = normalize(input.value);
+        state.applicationPage = 1;
+
+        renderApplicationList();
+    });
+}
+
     /* =====================================================
        10. AFFILIATE LIST
     ===================================================== */
@@ -1174,88 +1205,130 @@ const input = $("#affcAffiliateSearch");
         renderApplicationList();
     }
 
-    function renderApplicationList() {
-        const container = $("#affcApplicationListBody");
+   function renderApplicationList() {
+    const container = $("#affcApplicationListBody");
 
-        if (!container) return;
+    if (!container) return;
 
-        const pageItems = getPageItems(
-            state.applications,
-            state.applicationPage
-        );
+    const searchTerm = normalize(
+        state.applicationSearchTerm || ""
+    );
 
-        if (!pageItems.length) {
-            container.innerHTML = `
-                <tr>
-                    <td colspan="7" class="affc-empty-cell">
-                        No application records are available.
-                    </td>
-                </tr>
-            `;
+    // Filter applications by User ID, name, or email.
+    const filteredApplications = state.applications.filter(
+        (application) => {
+            if (!searchTerm) return true;
 
-            renderPagination(
-                "affcApplicationPagination",
-                0,
-                1,
-                "application"
+            const userId = normalize(
+                application.user_id || ""
             );
 
-            return;
+            const name = normalize(
+                application.name ||
+                application.full_name ||
+                ""
+            );
+
+            const email = normalize(
+                application.email || ""
+            );
+
+            return (
+                userId.includes(searchTerm) ||
+                name.includes(searchTerm) ||
+                email.includes(searchTerm)
+            );
         }
+    );
 
-        container.innerHTML = pageItems.map((application) => {
-            const status = normalize(application.status);
+    const pageItems = getPageItems(
+        filteredApplications,
+        state.applicationPage
+    );
 
-            const statusClass = status === "approved"
-                ? "affc-status-approved"
-                : status === "rejected"
-                    ? "affc-status-rejected"
-                    : "affc-status-pending";
-
-            return `
-                <tr>
-                    <td>${escapeHTML(
-                        application.id || "—"
-                    )}</td>
-                    <td>${escapeHTML(
-                        application.user_id || "—"
-                    )}</td>
-                    <td>${escapeHTML(
-                        application.email || "—"
-                    )}</td>
-                    <td>${escapeHTML(
-                        application.name ||
-                        application.full_name ||
-                        "—"
-                    )}</td>
-                    <td>
-                        <span class="affc-status ${statusClass}">
-                            ${escapeHTML(
-                                application.status || "Unknown"
-                            )}
-                        </span>
-                    </td>
-                    <td>${formatDate(application.created_at)}</td>
-                    <td>
-                        <button
-                            type="button"
-                            class="affc-btn affc-btn-secondary"
-                            data-affc-action="view-application"
-                            data-affc-id="${escapeHTML(application.id)}">
-                            Details
-                        </button>
-                    </td>
-                </tr>
-            `;
-        }).join("");
+    if (!pageItems.length) {
+        container.innerHTML = `
+            <tr>
+                <td colspan="7" class="affc-empty-cell">
+                    ${
+                        searchTerm
+                            ? "No matching application found."
+                            : "No application records are available."
+                    }
+                </td>
+            </tr>
+        `;
 
         renderPagination(
             "affcApplicationPagination",
-            state.applications.length,
+            filteredApplications.length,
             state.applicationPage,
             "application"
         );
+
+        return;
     }
+
+    container.innerHTML = pageItems.map((application) => {
+        const status = normalize(application.status);
+
+        const statusClass = status === "approved"
+            ? "affc-status-approved"
+            : status === "rejected"
+                ? "affc-status-rejected"
+                : "affc-status-pending";
+
+        return `
+            <tr>
+                <td>${escapeHTML(
+                    application.id || "—"
+                )}</td>
+
+                <td>${escapeHTML(
+                    application.user_id || "—"
+                )}</td>
+
+                <td>${escapeHTML(
+                    application.email || "—"
+                )}</td>
+
+                <td>${escapeHTML(
+                    application.name ||
+                    application.full_name ||
+                    "—"
+                )}</td>
+
+                <td>
+                    <span class="affc-status ${statusClass}">
+                        ${escapeHTML(
+                            application.status || "Unknown"
+                        )}
+                    </span>
+                </td>
+
+                <td>${formatDate(application.created_at)}</td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="affc-btn affc-btn-secondary"
+                        data-affc-action="view-application"
+                        data-affc-id="${escapeHTML(application.id)}">
+                        Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join("");
+
+    renderPagination(
+        "affcApplicationPagination",
+        filteredApplications.length,
+        state.applicationPage,
+        "application"
+    );
+}
+
 
     function openApplicationDetails(identifier) {
         const wanted = normalize(identifier);
