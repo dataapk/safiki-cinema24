@@ -3843,41 +3843,68 @@
 
 
     <!-- =====================================================
-         MAIN NAVIGATION
-         1. Account Overview
-         2. Applications
-         3. Commissions & Payout Settings
-    ====================================================== -->
+     MAIN NAVIGATION
+     1. Account Overview
+     2. Affiliate List
+     3. Applications
+     4. Commission Control
+====================================================== -->
 
-    <nav class="affc-main-navigation"
-         aria-label="Affiliate Center Navigation">
+<nav class="affc-main-navigation"
+     aria-label="Affiliate Center Navigation">
 
-        <button type="button"
-                class="affc-nav-button is-active"
-                data-affc-nav="overview"
-                aria-controls="affcOverviewPanel"
-                aria-selected="true">
-            Account Overview
-        </button>
+    <!-- 1. ACCOUNT OVERVIEW -->
 
-        <button type="button"
-                class="affc-nav-button"
-                data-affc-nav="applications"
-                aria-controls="affcApplicationsPanel"
-                aria-selected="false">
-            Applications
-        </button>
+    <button type="button"
+            class="affc-nav-button is-active"
+            data-affc-nav="overview"
+            aria-controls="affcOverviewPanel"
+            aria-selected="true">
 
-        <button type="button"
-                class="affc-nav-button"
-                data-affc-nav="commissions"
-                aria-controls="affcCommissionsPanel"
-                aria-selected="false">
-            Commissions &amp; Payout Settings
-        </button>
+        Account Overview
 
-    </nav>
+    </button>
 
+
+    <!-- 2. AFFILIATE LIST -->
+
+    <button type="button"
+            class="affc-nav-button"
+            data-affc-nav="affiliates"
+            aria-controls="affcAffiliatesPanel"
+            aria-selected="false">
+
+        Affiliate List
+
+    </button>
+
+
+    <!-- 3. APPLICATIONS -->
+
+    <button type="button"
+            class="affc-nav-button"
+            data-affc-nav="applications"
+            aria-controls="affcApplicationsPanel"
+            aria-selected="false">
+
+        Applications
+
+    </button>
+
+
+    <!-- 4. COMMISSION CONTROL -->
+
+    <button type="button"
+            class="affc-nav-button"
+            data-affc-nav="commissions"
+            aria-controls="affcCommissionsPanel"
+            aria-selected="false">
+
+        Commission Control
+
+    </button>
+
+</nav>
 
     <!-- =====================================================
          SECTION 01 — ACCOUNT OVERVIEW
