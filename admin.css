@@ -6026,6 +6026,104 @@ input[type="checkbox"] {
    Styles for the affiliateSection HTML
 ========================================================= */
 
+/* ======================================
+   AFFILIATE OVERVIEW — SUMMARY CARDS
+====================================== */
+
+#affiliateOverviewPanel .affiliate-stats-grid,
+#affiliateOverviewPanel .affiliate-overview-stats,
+#affiliateOverviewPanel .affiliate-dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    align-items: stretch;
+}
+
+#affiliateOverviewPanel .affiliate-stat-card,
+#affiliateOverviewPanel .affiliate-overview-card,
+#affiliateOverviewPanel .affiliate-summary-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: 112px;
+    padding: 16px;
+    box-sizing: border-box;
+    background: var(--admin-surface, #FFFFFF);
+    border: 1px solid var(--admin-border, #E0E7E1);
+    border-radius: var(--admin-radius-md, 10px);
+    box-shadow: var(--admin-shadow-sm, 0 2px 6px rgba(36, 52, 71, 0.05));
+    transition: var(--admin-transition, 0.2s ease);
+}
+
+#affiliateOverviewPanel .affiliate-stat-card:hover,
+#affiliateOverviewPanel .affiliate-overview-card:hover,
+#affiliateOverviewPanel .affiliate-summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--admin-shadow-md, 0 6px 18px rgba(36, 52, 71, 0.08));
+    border-color: var(--admin-border-strong, #CBD5CD);
+}
+
+#affiliateOverviewPanel .affiliate-stat-card h3,
+#affiliateOverviewPanel .affiliate-overview-card h3,
+#affiliateOverviewPanel .affiliate-summary-card h3 {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    font-weight: 600;
+    color: var(--admin-text-secondary, #68776E);
+}
+
+#affiliateOverviewPanel .affiliate-stat-card .stat-value,
+#affiliateOverviewPanel .affiliate-overview-card .stat-value,
+#affiliateOverviewPanel .affiliate-summary-card .stat-value {
+    font-size: 25px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--admin-text, #243447);
+}
+
+#affiliateOverviewPanel .affiliate-stat-card p,
+#affiliateOverviewPanel .affiliate-overview-card p,
+#affiliateOverviewPanel .affiliate-summary-card p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--admin-text-muted, #89958D);
+}
+
+/* Responsive layout */
+
+@media (max-width: 1100px) {
+    #affiliateOverviewPanel .affiliate-stats-grid,
+    #affiliateOverviewPanel .affiliate-overview-stats,
+    #affiliateOverviewPanel .affiliate-dashboard-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    #affiliateOverviewPanel .affiliate-stats-grid,
+    #affiliateOverviewPanel .affiliate-overview-stats,
+    #affiliateOverviewPanel .affiliate-dashboard-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    #affiliateOverviewPanel .affiliate-stat-card,
+    #affiliateOverviewPanel .affiliate-overview-card,
+    #affiliateOverviewPanel .affiliate-summary-card {
+        padding: 12px;
+        min-height: 100px;
+    }
+}
+
+
+
+   
+
 .affiliate-section {
     --aff-bg: #0b1220;
     --aff-panel: #111c2d;
