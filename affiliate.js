@@ -710,8 +710,8 @@
     }
 
 function initializeAffiliateSearch() {
-    const form = $("#affcAffiliateSearchForm");
-    const input = $("#affcAffiliateSearchInput");
+    const form = $("#affcSearchForm");
+const input = $("#affcAffiliateSearch");
 
     if (!form || !input) return;
 
