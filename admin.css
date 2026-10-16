@@ -6024,295 +6024,173 @@ input[type="checkbox"] {
 
 
 
-/* =========================================================
-   AFFILIATE SECTION — COMPLETE CSS
-   Overview: 3 cards desktop / 2 cards mobile
-========================================================= */
 
-.affiliate-section {
-    --aff-bg: #0b1220;
-    --aff-panel: #111c2d;
-    --aff-panel-soft: #152238;
-    --aff-border: #27364c;
-    --aff-text: #edf3fc;
-    --aff-muted: #96a6bc;
-    --aff-accent: #20d68a;
-    --aff-accent-hover: #13bd78;
-    --aff-danger: #ff5c70;
-    --aff-warning: #f5bd4f;
-    --aff-blue: #58a6ff;
+/* =====================================================
+   AFFILIATE OVERVIEW V2 — ISOLATED CARD DESIGN
+===================================================== */
 
-    width: 100%;
-    min-width: 0;
-    padding: 20px;
-    box-sizing: border-box;
-    color: var(--aff-text);
-    font-family: inherit;
-    font-size: 14px;
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-heading {
+    margin: 0 0 14px;
 }
 
-.affiliate-section *,
-.affiliate-section *::before,
-.affiliate-section *::after {
-    box-sizing: border-box;
-}
-
-.affiliate-section [hidden],
-.affiliate-modal[hidden] {
-    display: none !important;
-}
-
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.affiliate-page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 22px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--aff-border);
-}
-
-.affiliate-page-heading {
-    min-width: 0;
-}
-
-.affiliate-page-heading h2 {
-    margin: 0 0 6px;
-    color: var(--aff-text);
-    font-size: 25px;
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-heading h3 {
+    margin: 0 0 5px;
+    color: var(--admin-text, #17251e);
+    font-size: 19px;
+    font-weight: 750;
     line-height: 1.3;
-    font-weight: 750;
 }
 
-.affiliate-page-heading p {
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-heading p {
     margin: 0;
-    color: var(--aff-muted);
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.affiliate-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-}
-
-/* =========================================================
-   SECTION PANELS
-========================================================= */
-
-.affiliate-content-panel {
-    width: 100%;
-    min-width: 0;
-    margin: 0 0 20px;
-    padding: 18px;
-    border: 1px solid var(--aff-border);
-    border-radius: 9px;
-    background: var(--aff-panel);
-    box-shadow: 0 4px 15px rgb(0 0 0 / 9%);
-}
-
-.affiliate-section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 16px;
-}
-
-.affiliate-section-heading > div {
-    min-width: 0;
-}
-
-.affiliate-section-heading h3 {
-    margin: 0 0 5px;
-    color: var(--aff-text);
-    font-size: 18px;
-    line-height: 1.4;
-    font-weight: 750;
-}
-
-.affiliate-section-heading p {
-    margin: 0;
-    color: var(--aff-muted);
+    color: var(--admin-muted, #748078);
     font-size: 12px;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
-.affiliate-section-subheading {
-    margin: 24px 0 14px;
-}
-
-.affiliate-section-subheading h4 {
-    margin: 0 0 5px;
-    color: var(--aff-text);
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.affiliate-section-subheading p {
-    margin: 0;
-    color: var(--aff-muted);
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-.affiliate-info-note {
-    margin-top: 16px;
-    padding: 12px 14px;
-    color: #b8c9dd;
-    background: rgb(88 166 255 / 5%);
-    border: 1px solid rgb(88 166 255 / 20%);
-    border-left: 3px solid var(--aff-blue);
-    border-radius: 6px;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-.affiliate-info-note strong {
-    color: var(--aff-text);
-}
-
-/* =========================================================
-   OVERVIEW — SUMMARY CARD GRID
-========================================================= */
-
-/* Specific selector prevents other stats grids being affected. */
-
-#affiliateDashboardOverview .affiliate-stats {
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-grid {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 12px;
+    gap: 12px !important;
     width: 100%;
     align-items: stretch;
 }
 
-#affiliateDashboardOverview .affiliate-card {
-    --card-accent: #20d68a;
-
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-card {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 6px;
-
-    width: 100%;
+    gap: 5px;
     min-width: 0;
-    min-height: 96px;
+    min-height: 112px;
     margin: 0;
-    padding: 12px 14px 16px;
+    padding: 13px 14px 17px;
+    box-sizing: border-box;
     overflow: hidden;
-
-    background: var(--aff-panel-soft);
-    border: 1px solid var(--aff-border);
-    border-radius: 8px;
-
-    box-shadow: 0 2px 7px rgb(0 0 0 / 8%);
-
-    transition:
-        border-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    background: #ffffff;
+    border: 1px solid #e3e9e5;
+    border-radius: 9px;
+    box-shadow: 0 2px 7px rgba(24, 44, 33, 0.045);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Thin colored line at the bottom of each card. */
-
-#affiliateDashboardOverview .affiliate-card::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    background: var(--card-accent);
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-card:hover {
+    border-color: #cbd8cf;
+    box-shadow: 0 4px 12px rgba(24, 44, 33, 0.08);
 }
 
-/* Green, purple, orange, light red, yellow, blue. */
-
-#affiliateDashboardOverview .affiliate-card:nth-child(6n + 1) {
-    --card-accent: #34d399;
-}
-
-#affiliateDashboardOverview .affiliate-card:nth-child(6n + 2) {
-    --card-accent: #a78bfa;
-}
-
-#affiliateDashboardOverview .affiliate-card:nth-child(6n + 3) {
-    --card-accent: #fb923c;
-}
-
-#affiliateDashboardOverview .affiliate-card:nth-child(6n + 4) {
-    --card-accent: #fb7185;
-}
-
-#affiliateDashboardOverview .affiliate-card:nth-child(6n + 5) {
-    --card-accent: #facc15;
-}
-
-#affiliateDashboardOverview .affiliate-card:nth-child(6n) {
-    --card-accent: #60a5fa;
-}
-
-#affiliateDashboardOverview .affiliate-card-label {
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-label {
     display: block;
-    width: 100%;
+    max-width: 100%;
     margin: 0;
-    color: var(--aff-muted);
+    color: #66746b;
     font-size: 11px;
     font-weight: 650;
-    line-height: 1.45;
-    letter-spacing: 0;
-    text-transform: none;
-    overflow-wrap: anywhere;
-}
-
-#affiliateDashboardOverview .affiliate-card h3 {
-    margin: 0;
-    color: var(--aff-text);
-    font-size: 25px;
-    line-height: 1.2;
-    font-weight: 800;
-    font-variant-numeric: tabular-nums;
-    overflow-wrap: anywhere;
-}
-
-#affiliateDashboardOverview .affiliate-card-note {
-    display: block;
-    margin: 0;
-    color: var(--aff-muted);
-    font-size: 10px;
     line-height: 1.4;
     overflow-wrap: anywhere;
 }
 
-#affiliateDashboardOverview .affiliate-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--card-accent);
-    box-shadow: 0 5px 14px rgb(0 0 0 / 14%);
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-card h3 {
+    display: block;
+    max-width: 100%;
+    margin: 2px 0;
+    color: #17251e;
+    font-size: clamp(20px, 2vw, 27px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.45px;
+    overflow-wrap: anywhere;
 }
 
-/* Analytics statistics retain their own grid. */
-
-.affiliate-analytics-stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 18px;
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-note {
+    display: block;
+    max-width: 100%;
+    margin: 0;
+    color: #8a958e;
+    font-size: 10px;
+    font-weight: 450;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
-.affiliate-analytics-stats .affiliate-card {
-    min-height: 100px;
-    padding: 13px;
-    border: 1px solid var(--aff-border);
-    border-radius: 8px;
-    background: var(--aff-panel-soft);
+#affiliateSection #affiliateDashboardOverview .aff-overview-v2-underline {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    height: 3px;
+    background: var(--aff-v2-accent, #20d68a);
 }
+
+/* Individual accent colors */
+#affiliateSection #affiliateDashboardOverview .aff-v2-green {
+    --aff-v2-accent: #20d68a;
+}
+
+#affiliateSection #affiliateDashboardOverview .aff-v2-purple {
+    --aff-v2-accent: #9562f5;
+}
+
+#affiliateSection #affiliateDashboardOverview .aff-v2-orange {
+    --aff-v2-accent: #ff9b42;
+}
+
+#affiliateSection #affiliateDashboardOverview .aff-v2-red {
+    --aff-v2-accent: #f27d86;
+}
+
+#affiliateSection #affiliateDashboardOverview .aff-v2-yellow {
+    --aff-v2-accent: #e9c84a;
+}
+
+#affiliateSection #affiliateDashboardOverview .aff-v2-blue {
+    --aff-v2-accent: #58a6f5;
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 760px) {
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }
+
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-card {
+        min-height: 105px;
+        padding: 12px 11px 16px;
+    }
+
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-card h3 {
+        font-size: 22px;
+    }
+}
+
+/* Narrow mobile screens */
+@media (max-width: 380px) {
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-grid {
+        gap: 8px !important;
+    }
+
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-card {
+        min-height: 100px;
+        padding: 10px 9px 15px;
+    }
+
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-label {
+        font-size: 10px;
+    }
+
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-card h3 {
+        font-size: 19px;
+    }
+
+    #affiliateSection #affiliateDashboardOverview .aff-overview-v2-note {
+        font-size: 9px;
+    }
+}
+
 
 /* =========================================================
    BUTTONS
