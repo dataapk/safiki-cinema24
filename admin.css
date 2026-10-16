@@ -6960,3 +6960,44 @@ input[type="checkbox"] {
 }
 
 }
+
+
+
+
+
+   
+/* FORCE DEEP PURPLE SIDEBAR */
+
+body .sidebar {
+    background: #241044 !important;
+    background-color: #241044 !important;
+    color: #FFFFFF !important;
+}
+
+/* KEEP SIDEBAR INNER AREA PURPLE */
+
+body .sidebar .admin-logo,
+body .sidebar .sidebar-menu {
+    background-color: transparent !important;
+}
+
+/* CRYSTAL WHITE MENU TEXT */
+
+body .sidebar .sidebar-menu li {
+    color: #FFFFFF;
+}
+
+/* LIGHT ORANGE HOVER */
+
+body .sidebar .sidebar-menu li:hover {
+    background: #FFEDD5 !important;
+    color: #7C2D12 !important;
+}
+
+/* ACTIVE TAB */
+
+body .sidebar .sidebar-menu li.active {
+    background: #6D28D9 !important;
+    color: #FFFFFF !important;
+}
+
