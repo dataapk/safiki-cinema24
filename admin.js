@@ -14968,6 +14968,911 @@ function renderAffiliatePayoutHistory() {
 }
 
 
+
+/* =========================================================
+   AFFILIATE CENTER
+   File: affiliate.js
+   Works with the Affiliate Center section inside admin.html
+   Requires the existing Supabase client to be initialized.
+========================================================= */
+
+(() => {
+    "use strict";
+
+    if (window.affiliateCenterInitialized) return;
+    window.affiliateCenterInitialized = true;
+
+    const $ = (id) => document.getElementById(id);
+
+    const state = {
+        activePanel: "affiliateDashboardOverview",
+        applications: [],
+        affiliates: [],
+        referrals: [],
+        commissions: [],
+        payouts: [],
+        settings: {},
+        loading: false,
+        busy: false
+    };
+
+    const PANEL_IDS = [
+        "affiliateDashboardOverview",
+        "affiliateNewRequestsPanel",
+        "affiliateUsersPanel",
+        "affiliateCommissionPanel",
+        "affiliateReferredPlayersPanel",
+        "affiliateRevenueAnalyticsPanel",
+        "affiliateWeeklySettlementPanel",
+        "affiliateMonthlySettlementPanel",
+        "affiliatePayoutRequestsPanel",
+        "affiliatePayoutHistoryPanel"
+    ];
+
+    const TABLE_BODY_IDS = [
+        "affiliateRequestsTableBody",
+        "affiliateUsersTableBody",
+        "affiliateReferredPlayersTableBody"
+    ];
+
+    const CONFIG = {
+        currency: "USD",
+        defaultCommission: {
+            level1: 10,
+            level2: 5,
+            level3: 2,
+            revenueShare: 35,
+            minPayout: 20,
+            settlementCycle: 7
+        }
+    };
+
+    /* -----------------------------------------------------
+       SAFE HELPERS
+    ----------------------------------------------------- */
+
+    function getSupabase() {
+        return window.supabaseClient ||
+               window.supabase ||
+               null;
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    function formatMoney(value, currency = CONFIG.currency) {
+        const amount = Number(value ?? 0);
+
+        if (!Number.isFinite(amount)) return "—";
+
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(amount);
+    }
+
+    function formatNumber(value) {
+        const amount = Number(value ?? 0);
+        return Number.isFinite(amount)
+            ? amount.toLocaleString("en-US")
+            : "0";
+    }
+
+    function formatDate(value) {
+        if (!value) return "—";
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) return "—";
+
+        return date.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+    function normalizeStatus(value) {
+        return String(value ?? "")
+            .trim()
+            .toLowerCase()
+            .replace(/[\s-]+/g, "_");
+    }
+
+    function setText(id, value) {
+        const element = $(id);
+        if (element) element.textContent = value ?? "—";
+    }
+
+    function setHTML(id, value) {
+        const element = $(id);
+        if (element) element.innerHTML = value;
+    }
+
+    function showMessage(message, type = "info") {
+        const element = $("affiliateGlobalMessage");
+
+        if (!element) {
+            console.log("[Affiliate Center]", message);
+            return;
+        }
+
+        element.textContent = message;
+        element.dataset.type = type;
+        element.hidden = false;
+        element.setAttribute("role", "status");
+    }
+
+    function clearMessage() {
+        const element = $("affiliateGlobalMessage");
+
+        if (element) {
+            element.textContent = "";
+            element.hidden = true;
+            delete element.dataset.type;
+        }
+    }
+
+    function requireSupabase() {
+        const client = getSupabase();
+
+        if (!client || !client.from || !client.auth) {
+            showMessage(
+                "Supabase client is not available. Check the existing admin Supabase initialization.",
+                "error"
+            );
+            return null;
+        }
+
+        return client;
+    }
+
+    function setBusy(isBusy) {
+        state.busy = isBusy;
+
+        document.querySelectorAll(
+            "#affiliateSection button[data-action]"
+        ).forEach((button) => {
+            if (button.dataset.keepEnabled === "true") return;
+            button.disabled = isBusy;
+        });
+    }
+
+    function emptyRow(colspan, message) {
+        return `
+            <tr>
+                <td colspan="${Number(colspan) || 1}">
+                    ${escapeHTML(message)}
+                </td>
+            </tr>
+        `;
+    }
+
+    function statusBadge(status) {
+        const normalized = normalizeStatus(status);
+        const label = String(status || "Unknown")
+            .replace(/[_-]+/g, " ");
+
+        return `
+            <span class="affiliate-status-badge"
+                  data-status="${escapeHTML(normalized)}">
+                ${escapeHTML(label)}
+            </span>
+        `;
+    }
+
+    /* -----------------------------------------------------
+       AFFILIATE PANEL NAVIGATION
+    ----------------------------------------------------- */
+
+    function openPanel(panelId) {
+        if (!PANEL_IDS.includes(panelId)) return;
+
+        const section = $("affiliateSection");
+        if (!section) return;
+
+        state.activePanel = panelId;
+
+        PANEL_IDS.forEach((id) => {
+            const panel = $(id);
+            if (panel) {
+                panel.hidden = id !== panelId;
+                panel.style.display = id === panelId ? "" : "none";
+            }
+        });
+
+        section.querySelectorAll("[data-affiliate-panel]")
+            .forEach((button) => {
+                const active =
+                    button.dataset.affiliatePanel === panelId;
+
+                button.classList.toggle("active", active);
+                button.setAttribute(
+                    "aria-current",
+                    active ? "page" : "false"
+                );
+            });
+    }
+
+    /* -----------------------------------------------------
+       MODALS
+    ----------------------------------------------------- */
+
+    function closeModal(id) {
+        const modal = $(id);
+        if (!modal) return;
+
+        modal.hidden = true;
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+    function openModal(id) {
+        const modal = $(id);
+        if (!modal) return;
+
+        modal.hidden = false;
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+    function showConfirm({
+        title = "Confirm action",
+        message = "Are you sure?",
+        action = "",
+        payload = {}
+    } = {}) {
+        const modal = $("affiliateConfirmModal");
+
+        if (!modal) {
+            return Promise.resolve(
+                window.confirm(message)
+            );
+        }
+
+        state.pendingConfirmation = {
+            action,
+            payload
+        };
+
+        const titleElement = modal.querySelector(
+            "[data-confirm-title]"
+        );
+        const messageElement = modal.querySelector(
+            "[data-confirm-message]"
+        );
+
+        if (titleElement) titleElement.textContent = title;
+        if (messageElement) messageElement.textContent = message;
+
+        openModal("affiliateConfirmModal");
+
+        return new Promise((resolve) => {
+            state.confirmResolver = resolve;
+        });
+    }
+
+    function resolveConfirmation(confirmed) {
+        closeModal("affiliateConfirmModal");
+
+        const resolver = state.confirmResolver;
+        state.confirmResolver = null;
+
+        if (resolver) resolver(Boolean(confirmed));
+    }
+
+    /* -----------------------------------------------------
+       COMMISSION EDIT MODAL
+    ----------------------------------------------------- */
+
+    function openCommissionEdit(affiliateId, currentValue = "") {
+        const input = $("affiliateIndividualCommission");
+
+        if (input) input.value = currentValue;
+
+        const idInput = $("affiliateCommissionAffiliateId");
+
+        if (idInput) idInput.value = affiliateId;
+
+        openModal("affiliateCommissionEditModal");
+    }
+
+    /* -----------------------------------------------------
+       FILTERS
+    ----------------------------------------------------- */
+
+    function filterRows(tableBodyId, searchValue, statusValue = "") {
+        const body = $(tableBodyId);
+        if (!body) return;
+
+        const query = String(searchValue || "")
+            .trim()
+            .toLowerCase();
+
+        const status = normalizeStatus(statusValue);
+
+        body.querySelectorAll("tr[data-search]").forEach((row) => {
+            const matchesText =
+                !query ||
+                row.dataset.search.toLowerCase().includes(query);
+
+            const matchesStatus =
+                !status ||
+                status === "all" ||
+                normalizeStatus(row.dataset.status) === status;
+
+            row.hidden = !(matchesText && matchesStatus);
+        });
+    }
+
+    /* -----------------------------------------------------
+       TABLE RENDERING
+       Rendering helpers expect data loaded by an authorized
+       Supabase query. No database columns are assumed here.
+    ----------------------------------------------------- */
+
+    function renderApplications(rows = []) {
+        const body = $("affiliateRequestsTableBody");
+        if (!body) return;
+
+        if (!rows.length) {
+            body.innerHTML = emptyRow(
+                6,
+                "No application records loaded."
+            );
+            return;
+        }
+
+        body.innerHTML = rows.map((row) => {
+            const id = row.id ?? "";
+            const email = row.email ?? "—";
+            const userId = row.user_id ?? "—";
+            const status = row.status ?? "pending";
+            const createdAt = row.created_at ?? null;
+
+            const searchable = [
+                id, email, userId, status
+            ].join(" ").toLowerCase();
+
+            return `
+                <tr
+                    data-search="${escapeHTML(searchable)}"
+                    data-status="${escapeHTML(normalizeStatus(status))}">
+                    <td>${escapeHTML(userId)}</td>
+                    <td>${escapeHTML(email)}</td>
+                    <td>${statusBadge(status)}</td>
+                    <td>${escapeHTML(formatDate(createdAt))}</td>
+                    <td>
+                        <button type="button"
+                                data-action="approve-application"
+                                data-id="${escapeHTML(id)}">
+                            Approve
+                        </button>
+                        <button type="button"
+                                data-action="reject-application"
+                                data-id="${escapeHTML(id)}">
+                            Reject
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    function renderAffiliates(rows = []) {
+        const body = $("affiliateUsersTableBody");
+        if (!body) return;
+
+        if (!rows.length) {
+            body.innerHTML = emptyRow(
+                6,
+                "No affiliate records loaded."
+            );
+            return;
+        }
+
+        body.innerHTML = rows.map((row) => {
+            const id = row.id ?? "";
+            const userId = row.user_id ?? "—";
+            const email = row.email ?? "—";
+            const status = row.status ?? "unknown";
+            const commission = row.commission_rate;
+
+            const searchable = [
+                id, userId, email, status
+            ].join(" ").toLowerCase();
+
+            return `
+                <tr
+                    data-search="${escapeHTML(searchable)}"
+                    data-status="${escapeHTML(normalizeStatus(status))}">
+                    <td>${escapeHTML(userId)}</td>
+                    <td>${escapeHTML(email)}</td>
+                    <td>${statusBadge(status)}</td>
+                    <td>
+                        ${commission == null
+                            ? "—"
+                            : `${escapeHTML(commission)}%`}
+                    </td>
+                    <td>
+                        <button type="button"
+                                data-action="edit-affiliate-commission"
+                                data-id="${escapeHTML(id)}"
+                                data-rate="${escapeHTML(commission ?? "")}">
+                            Edit Commission
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    function renderReferredPlayers(rows = []) {
+        const body = $("affiliateReferredPlayersTableBody");
+        if (!body) return;
+
+        if (!rows.length) {
+            body.innerHTML = emptyRow(
+                8,
+                "No referred player records loaded."
+            );
+            return;
+        }
+
+        body.innerHTML = rows.map((row) => {
+            const totalDeposit = Number(row.total_deposit ?? 0);
+            const totalWin = Number(row.total_win ?? 0);
+            const totalLoss = Number(row.total_loss ?? 0);
+
+            // Required project formula:
+            // Net Player Result = Total Win - Total Loss.
+            // Deposits are deliberately excluded.
+            const netResult = totalWin - totalLoss;
+
+            return `
+                <tr>
+                    <td>${escapeHTML(row.player_user_id ?? "—")}</td>
+                    <td>${escapeHTML(row.email ?? "—")}</td>
+                    <td>${formatMoney(totalDeposit)}</td>
+                    <td>${formatMoney(totalWin)}</td>
+                    <td>${formatMoney(totalLoss)}</td>
+                    <td>${formatMoney(netResult)}</td>
+                    <td>${escapeHTML(row.affiliate_user_id ?? "—")}</td>
+                    <td>
+                        <button type="button"
+                                data-action="view-referred-player"
+                                data-id="${escapeHTML(row.player_user_id ?? "")}">
+                            Details
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    /* -----------------------------------------------------
+       DASHBOARD COUNTERS
+    ----------------------------------------------------- */
+
+    function updateOverview(data = {}) {
+        const mappings = {
+            totalAffiliates: data.totalAffiliates,
+            activeAffiliates: data.activeAffiliates,
+            pendingAffiliateApplications: data.pendingApplications,
+            totalAffiliateReferrals: data.totalReferrals,
+            affiliateTodayDeposits: data.todayDeposits,
+            affiliateTodayWin: data.todayWin,
+            affiliateTodayLoss: data.todayLoss,
+            affiliateTodayNetResult: data.todayNetResult,
+            affiliatePendingPayoutTotal: data.pendingPayoutTotal,
+            affiliateTotalCommission: data.totalCommission
+        };
+
+        Object.entries(mappings).forEach(([id, value]) => {
+            if (value !== undefined && value !== null) {
+                const element = $(id);
+                if (!element) return;
+
+                const moneyIds = [
+                    "affiliateTodayDeposits",
+                    "affiliateTodayWin",
+                    "affiliateTodayLoss",
+                    "affiliateTodayNetResult",
+                    "affiliatePendingPayoutTotal",
+                    "affiliateTotalCommission"
+                ];
+
+                element.textContent = moneyIds.includes(id)
+                    ? formatMoney(value)
+                    : formatNumber(value);
+            }
+        });
+    }
+
+    /* -----------------------------------------------------
+       SUPABASE INTEGRATION
+       Database queries must be configured with actual
+       table/column names before live operations are enabled.
+    ----------------------------------------------------- */
+
+    async function loadAffiliateData() {
+        const client = requireSupabase();
+        if (!client) return false;
+
+        /*
+          Intentionally not issuing .from("applications"),
+          .from("affiliates"), or other guessed queries.
+
+          The project uses an affiliate_program schema with
+          tables such as admins, affiliates, applications,
+          audit_logs, commissions, payouts, referrals, settings.
+
+          Before live reads/writes, verify:
+          - whether the tables are in public or affiliate_program;
+          - exact primary keys and foreign keys;
+          - the current admin authorization mechanism;
+          - actual commission, payout, referral and status columns.
+
+          This prevents silent errors and unauthorized changes.
+        */
+
+        showMessage(
+            "Affiliate UI initialized. Live data loading is paused until the exact Supabase schema and admin authorization are configured.",
+            "warning"
+        );
+
+        return false;
+    }
+
+    /* -----------------------------------------------------
+       APPLICATION APPROVAL / REJECTION
+    ----------------------------------------------------- */
+
+    async function updateApplicationStatus(applicationId, status) {
+        if (!applicationId) {
+            showMessage("Application ID is missing.", "error");
+            return;
+        }
+
+        const confirmed = await showConfirm({
+            title: status === "approved"
+                ? "Approve Application"
+                : "Reject Application",
+            message: status === "approved"
+                ? "Confirm approval of this affiliate application?"
+                : "Confirm rejection of this affiliate application?",
+            action: status,
+            payload: { applicationId }
+        });
+
+        if (!confirmed) return;
+
+        const client = requireSupabase();
+        if (!client) return;
+
+        /*
+          Do not perform a write until the table, status column,
+          admin permissions, and required approval checks have
+          been verified. UI confirmation alone is not authorization.
+        */
+
+        showMessage(
+            "Status was not changed. Configure the verified application table, status column, and admin authorization first.",
+            "warning"
+        );
+    }
+
+    /* -----------------------------------------------------
+       COMMISSION SETTINGS
+    ----------------------------------------------------- */
+
+    function readCommissionSettings() {
+        const readNumber = (id, fallback) => {
+            const element = $(id);
+            if (!element || element.value.trim() === "") {
+                return fallback;
+            }
+
+            const number = Number(element.value);
+
+            return Number.isFinite(number)
+                ? number
+                : fallback;
+        };
+
+        return {
+            level1: readNumber(
+                "level1Commission",
+                CONFIG.defaultCommission.level1
+            ),
+            level2: readNumber(
+                "level2Commission",
+                CONFIG.defaultCommission.level2
+            ),
+            level3: readNumber(
+                "level3Commission",
+                CONFIG.defaultCommission.level3
+            ),
+            revenueShare: readNumber(
+                "affiliateRevenueShare",
+                CONFIG.defaultCommission.revenueShare
+            ),
+            minPayout: readNumber(
+                "affiliateMinWithdraw",
+                CONFIG.defaultCommission.minPayout
+            ),
+            settlementCycle: readNumber(
+                "affiliateSettlementCycle",
+                CONFIG.defaultCommission.settlementCycle
+            )
+        };
+    }
+
+    function validateCommissionSettings(settings) {
+        const percentageFields = [
+            ["Level 1 commission", settings.level1],
+            ["Level 2 commission", settings.level2],
+            ["Level 3 commission", settings.level3],
+            ["Revenue share", settings.revenueShare]
+        ];
+
+        for (const [label, value] of percentageFields) {
+            if (value < 0 || value > 100) {
+                showMessage(
+                    `${label} must be between 0 and 100.`,
+                    "error"
+                );
+                return false;
+            }
+        }
+
+        if (settings.minPayout < 0) {
+            showMessage(
+                "Minimum payout cannot be negative.",
+                "error"
+            );
+            return false;
+        }
+
+        if (![7, 14, 30].includes(settings.settlementCycle)) {
+            showMessage(
+                "Choose a supported settlement cycle.",
+                "error"
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    async function saveCommissionSettings(event) {
+        if (event) event.preventDefault();
+
+        const settings = readCommissionSettings();
+
+        if (!validateCommissionSettings(settings)) return;
+
+        const client = requireSupabase();
+        if (!client) return;
+
+        /*
+          Validates the form only. Persistence requires the real
+          settings key/value structure and verified admin policy.
+        */
+
+        showMessage(
+            "Settings validated but not saved. Configure the verified Supabase settings schema and admin authorization first.",
+            "warning"
+        );
+    }
+
+    async function saveIndividualCommission() {
+        const affiliateId = $("affiliateCommissionAffiliateId")?.value;
+        const input = $("affiliateIndividualCommission");
+        const rate = Number(input?.value);
+
+        if (!affiliateId) {
+            showMessage("Affiliate ID is missing.", "error");
+            return;
+        }
+
+        if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
+            showMessage(
+                "Commission rate must be between 0 and 100.",
+                "error"
+            );
+            return;
+        }
+
+        if (!requireSupabase()) return;
+
+        showMessage(
+            "Commission rate validated but not saved. Configure the actual commission table columns and admin permissions first.",
+            "warning"
+        );
+    }
+
+    /* -----------------------------------------------------
+       EVENT DELEGATION
+    ----------------------------------------------------- */
+
+    function handleAffiliateClick(event) {
+        const panelButton = event.target.closest(
+            "[data-affiliate-panel]"
+        );
+
+        if (panelButton) {
+            event.preventDefault();
+            openPanel(panelButton.dataset.affiliatePanel);
+            return;
+        }
+
+        const actionButton = event.target.closest(
+            "#affiliateSection [data-action]"
+        );
+
+        if (!actionButton) return;
+
+        const action = actionButton.dataset.action;
+        const id = actionButton.dataset.id;
+
+        switch (action) {
+            case "refresh-affiliate-data":
+                clearMessage();
+                loadAffiliateData();
+                break;
+
+            case "approve-application":
+                updateApplicationStatus(id, "approved");
+                break;
+
+            case "reject-application":
+                updateApplicationStatus(id, "rejected");
+                break;
+
+            case "edit-affiliate-commission":
+                openCommissionEdit(
+                    id,
+                    actionButton.dataset.rate ?? ""
+                );
+                break;
+
+            case "save-individual-commission":
+                saveIndividualCommission();
+                break;
+
+            case "close-commission-modal":
+                closeModal("affiliateCommissionEditModal");
+                break;
+
+            case "confirm-affiliate-action":
+                resolveConfirmation(true);
+                break;
+
+            case "cancel-affiliate-action":
+                resolveConfirmation(false);
+                break;
+
+            case "close-affiliate-confirm":
+                resolveConfirmation(false);
+                break;
+
+            case "view-referred-player":
+                showMessage(
+                    "Player details need to be connected to the existing User Details view.",
+                    "info"
+                );
+                break;
+
+            case "refresh-affiliate-applications":
+            case "refresh-affiliate-users":
+            case "refresh-referred-players":
+                loadAffiliateData();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    function handleAffiliateInput(event) {
+        const target = event.target;
+
+        if (target.id === "affiliateRequestSearch" ||
+            target.id === "affiliateRequestStatusFilter") {
+            filterRows(
+                "affiliateRequestsTableBody",
+                $("affiliateRequestSearch")?.value,
+                $("affiliateRequestStatusFilter")?.value
+            );
+        }
+
+        if (target.id === "affiliateUserSearch" ||
+            target.id === "affiliateUserStatusFilter") {
+            filterRows(
+                "affiliateUsersTableBody",
+                $("affiliateUserSearch")?.value,
+                $("affiliateUserStatusFilter")?.value
+            );
+        }
+    }
+
+    /* -----------------------------------------------------
+       INITIALIZATION
+    ----------------------------------------------------- */
+
+    function init() {
+        const section = $("affiliateSection");
+
+        if (!section) {
+            // Affiliate HTML may be loaded later or omitted
+            // from pages that reuse the same JavaScript bundle.
+            return;
+        }
+
+        section.addEventListener("click", handleAffiliateClick);
+        section.addEventListener("input", handleAffiliateInput);
+        section.addEventListener("change", handleAffiliateInput);
+
+        const settingsForm = $("affiliateCommissionSettingsForm");
+
+        if (settingsForm) {
+            settingsForm.addEventListener(
+                "submit",
+                saveCommissionSettings
+            );
+        }
+
+        // Start with the overview panel.
+        openPanel(state.activePanel);
+
+        // Avoid fabricating dashboard totals or fake table rows.
+        TABLE_BODY_IDS.forEach((id) => {
+            const body = $(id);
+
+            if (body && !body.children.length) {
+                body.innerHTML = emptyRow(
+                    id === "affiliateReferredPlayersTableBody" ? 8 : 6,
+                    "Waiting for verified Supabase data connection."
+                );
+            }
+        });
+
+        console.log("Affiliate Center UI initialized.");
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init, {
+            once: true
+        });
+    } else {
+        init();
+    }
+
+    // Expose a small API for the existing admin navigation.
+    window.AffiliateCenter = {
+        init,
+        openPanel,
+        loadAffiliateData,
+        updateOverview,
+        renderApplications,
+        renderAffiliates,
+        renderReferredPlayers,
+        formatMoney,
+        closeModal
+    };
+})();
+
+
 // ======================================================
 // FINAL ADMIN ENGINE MARKER
 // ======================================================
