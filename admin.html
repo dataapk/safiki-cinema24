@@ -80,7 +80,7 @@
         Global Notification
     </li>
         <li id="affiliateMenu"
-    onclick="window.location.href='affiliate-control.html'">
+    data-target="affiliateSection">
     Affiliate Center
 </li>
 
@@ -3791,10 +3791,367 @@
 <!-- =================================== -->
 <!-- GLOBAL NOTIFICATION SECTION END -->
 
+
 <!-- =====================================================
-     AFFILIATE CENTER — OVERVIEW STATISTICS V2
-     Uses new class names to avoid old CSS conflicts
+     AFFILIATE CENTER — EMBEDDED PAGE
+     HTML only — CSS and JavaScript remain separate
 ====================================================== -->
+
+<div id="affiliateSection"
+     class="admin-section affiliate-section"
+     style="display: none;">
+
+    <div class="app">
+
+        <!-- HEADER -->
+            <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h1>Affiliate Control Panel</h1>
+                <p>Manage affiliate applications, users and commissions</p>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <span class="admin-badge">ADMIN CONTROL</span>
+            <button class="btn btn-outline" id="refreshButton"
+                    type="button">↻ Refresh</button>
+        </div>
+        </header>
+
+    <!-- OVERVIEW -->
+    <section class="stats-grid">
+
+        <article class="stat-card">
+            <span class="stat-label">Total Affiliate Users</span>
+            <strong class="stat-value" id="totalAffiliates">—</strong>
+            <div class="stat-description">Approved affiliates</div>
+        </article>
+
+        <article class="stat-card yellow">
+            <span class="stat-label">Total Referrals</span>
+            <strong class="stat-value" id="totalReferrals">—</strong>
+            <div class="stat-description">Referred users</div>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">Total Users</span>
+            <strong class="stat-value" id="totalUsers">—</strong>
+            <div class="stat-description">Registered users</div>
+        </article>
+
+        <article class="stat-card yellow">
+            <span class="stat-label">Commission Paid</span>
+            <strong class="stat-value" id="totalPaid">—</strong>
+            <div class="stat-description">Paid commission in USD</div>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">Commission Outstanding</span>
+            <strong class="stat-value" id="totalOutstanding">—</strong>
+            <div class="stat-description">Unpaid commission in USD</div>
+        </article>
+
+    </section>
+
+    <!-- MAIN PANEL -->
+    <main class="panel">
+
+        <nav class="tabs" aria-label="Affiliate administration">
+
+            <button class="tab active" data-section="requests"
+                    type="button">
+                New Requests
+                <span class="tab-count" id="requestCount">0</span>
+            </button>
+
+            <button class="tab" data-section="affiliates"
+                    type="button">
+                Affiliate Users
+            </button>
+
+            <button class="tab" data-section="commissions"
+                    type="button">
+                Commission Control
+            </button>
+
+        </nav>
+
+        <!-- NEW REQUESTS -->
+        <section class="section active" id="requests">
+
+            <div class="section-header">
+                <div>
+                    <h2>New Affiliate Requests</h2>
+                    <p>Review applications and approve or reject requests.</p>
+                </div>
+
+                <div class="toolbar">
+                    <input class="search" id="requestSearch"
+                           type="search"
+                           placeholder="Search name, email or user ID">
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>User ID</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestTable"></tbody>
+                </table>
+            </div>
+
+            <div class="empty" id="requestEmpty">
+                <div class="empty-icon">⌕</div>
+                <h3>No application data loaded</h3>
+                <p>
+                    Connect this panel to your affiliate application
+                    table in Supabase to display real requests here.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- AFFILIATE USERS -->
+        <section class="section" id="affiliates">
+
+            <div class="section-header">
+                <div>
+                    <h2>Affiliate User Management</h2>
+                    <p>View approved affiliates and edit individual commission rates.</p>
+                </div>
+
+                <div class="toolbar">
+                    <input class="search" id="affiliateSearch"
+                           type="search"
+                           placeholder="Search affiliates">
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Affiliate</th>
+                            <th>User ID</th>
+                            <th>Base Commission</th>
+                            <th>Revenue Share</th>
+                            <th>Referrals</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="affiliateTable"></tbody>
+                </table>
+            </div>
+
+            <div class="empty" id="affiliateEmpty">
+                <div class="empty-icon">♙</div>
+                <h3>No affiliate data loaded</h3>
+                <p>
+                    Approved affiliate records will appear here
+                    after the Supabase connection is configured.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- COMMISSION CONTROL -->
+        <section class="section" id="commissions">
+
+            <div class="section-header">
+                <div>
+                    <h2>Commission Control</h2>
+                    <p>
+                        Configure default commission rates and
+                        individual affiliate overrides.
+                    </p>
+                </div>
+            </div>
+
+            <form id="commissionForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="defaultReferral">
+                            Default Referral Commission (%)
+                        </label>
+                        <input id="defaultReferral" type="number"
+                               min="0" max="100" step="0.01"
+                               value="25" required>
+                        <span class="form-help">
+                            Base rate for newly approved affiliates.
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="defaultSubAffiliate">
+                            Sub-affiliate Commission (%)
+                        </label>
+                        <input id="defaultSubAffiliate" type="number"
+                               min="0" max="100" step="0.01"
+                               value="3" required>
+                        <span class="form-help">
+                            Additional rate for eligible sub-affiliate activity.
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="defaultRevenueShare">
+                            Default Revenue Share (%)
+                        </label>
+                        <input id="defaultRevenueShare" type="number"
+                               min="0" max="100" step="0.01"
+                               value="35" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="commissionCurrency">
+                            Commission Currency
+                        </label>
+                        <select id="commissionCurrency">
+                            <option value="USD">USD ($)</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="notice">
+                    <strong>Important:</strong> These are editable
+                    configuration fields. Saving to the database,
+                    updating affiliate dashboards and calculating
+                    actual commission payouts require the Supabase
+                    integration and the relevant database policies.
+                </div>
+
+                <div class="form-footer">
+                    <button class="btn btn-primary" type="submit">
+                        Save Default Settings
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- APPROVE / REJECT CONFIRMATION -->
+<div class="modal-backdrop" id="confirmModal"
+     role="dialog" aria-modal="true"
+     aria-labelledby="confirmTitle">
+
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="confirmTitle">Confirm action</h2>
+            <button class="close-btn" id="closeConfirm"
+                    type="button" aria-label="Close">×</button>
+        </div>
+
+        <p id="confirmMessage"
+           style="font-size:13px;line-height:1.7;color:#718078">
+        </p>
+
+        <div class="form-footer">
+            <button class="btn btn-outline" id="cancelConfirm"
+                    type="button">Cancel</button>
+            <button class="btn btn-primary" id="executeConfirm"
+                    type="button">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT AFFILIATE COMMISSION -->
+<div class="modal-backdrop" id="editModal"
+     role="dialog" aria-modal="true"
+     aria-labelledby="editTitle">
+
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="editTitle">Edit Affiliate Commission</h2>
+            <button class="close-btn" id="closeEdit"
+                    type="button" aria-label="Close">×</button>
+        </div>
+
+        <form id="editCommissionForm">
+
+            <input type="hidden" id="editAffiliateId">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="editReferralRate">
+                        Referral Base Commission (%)
+                    </label>
+                    <input id="editReferralRate" type="number"
+                           min="0" max="100" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editSubRate">
+                        Sub-affiliate Commission (%)
+                    </label>
+                    <input id="editSubRate" type="number"
+                           min="0" max="100" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editRevenueRate">
+                        Revenue Share (%)
+                    </label>
+                    <input id="editRevenueRate" type="number"
+                           min="0" max="100" step="0.01" required>
+                </div>
+
+            </div>
+
+            <div class="form-group custom-commission-group">
+    <label for="editCustomCommission">
+        <input
+            type="checkbox"
+            id="editCustomCommission"
+        >
+        Enable Custom Commission
+    </label>
+
+    <p class="field-hint">
+        Enable this option to use individual commission rates
+        for this affiliate. When disabled, global default rates
+        will apply.
+    </p>
+</div>
+
+            <div class="notice">
+                Saving here will update the connected database only
+                after the appropriate Supabase update function is
+                implemented.
+            </div>
+
+            <div class="form-footer">
+                <button class="btn btn-outline" id="cancelEdit"
+                        type="button">Cancel</button>
+                <button class="btn btn-primary" type="submit">
+                    Save Commission
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+    </div>
+
 
     
 <!-- =================================== -->
