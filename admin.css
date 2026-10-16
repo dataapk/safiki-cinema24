@@ -47,9 +47,9 @@
     --admin-border-strong: #CBD5CD;
 
     :root {
-    --admin-sidebar-bg: #FF7900;
+    --admin-sidebar-bg: #27F5F2;
     --admin-sidebar-text: #FFFFFF;
-    --admin-sidebar-hover: #E66D00;
+    --admin-sidebar-hover: #6C27F5;
     --admin-sidebar-active-bg: #17324D;
     --admin-sidebar-active-text: #FFFFFF;
 }
