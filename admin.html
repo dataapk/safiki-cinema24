@@ -3790,120 +3790,96 @@
 
 <!-- =================================== -->
 <!-- GLOBAL NOTIFICATION SECTION END -->
-<!-- =================================== -->
-    <!-- =========================================================
-     AFFILIATE CENTER — MAIN ADMIN DASHBOARD SECTION
-     Replace the existing affiliateSection with this block.
-     Keep CSS and JavaScript in their separate files.
-========================================================= -->
 
-<div id="affiliateSection"
-     class="admin-section affiliate-section"
-     style="display: none;">
+<!-- =====================================================
+     AFFILIATE CENTER — OVERVIEW STATISTICS V2
+     Uses new class names to avoid old CSS conflicts
+====================================================== -->
+<section id="affiliateDashboardOverview"
+         class="affiliate-content-panel">
 
-    <div id="affiliateOverviewPanel" class="affiliate-overview-panel">
-
-        <!-- PAGE HEADER -->
-        <div class="affiliate-page-header">
-            <div class="affiliate-page-heading">
-                <h2>Affiliate Center</h2>
-                <p>Manage affiliate applications, referrals, commissions and settlements.</p>
-            </div>
-
-            <div class="affiliate-header-actions">
-                <button type="button"
-                        id="refreshAffiliateDataBtn"
-                        class="affiliate-btn affiliate-btn-secondary"
-                        data-action="refresh-affiliate-data">
-                    Refresh Data
-                </button>
-            </div>
+    <div class="aff-overview-v2-heading">
+        <div>
+            <h3>Overview</h3>
+            <p>Summary based on available affiliate records.</p>
         </div>
+    </div>
 
-        <!-- GLOBAL STATUS MESSAGE -->
-        <div id="affiliateGlobalMessage"
-             class="affiliate-message"
-             role="status"
-             aria-live="polite"
-             hidden></div>
+    <div class="aff-overview-v2-grid">
 
-        <!-- =====================================================
-             OVERVIEW STATISTICS
-        ====================================================== -->
-        <section id="affiliateDashboardOverview"
-                 class="affiliate-content-panel">
+        <article class="aff-overview-v2-card aff-v2-green">
+            <span class="aff-overview-v2-label">Total Affiliates</span>
+            <h3 id="totalAffiliates">—</h3>
+            <span class="aff-overview-v2-note">Registered affiliates</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-            <div class="affiliate-section-heading">
-                <div>
-                    <h3>Overview</h3>
-                    <p>Summary based on available affiliate records.</p>
-                </div>
-            </div>
+        <article class="aff-overview-v2-card aff-v2-purple">
+            <span class="aff-overview-v2-label">Active Affiliates</span>
+            <h3 id="activeAffiliates">—</h3>
+            <span class="aff-overview-v2-note">Approved and active</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-            <div class="affiliate-stats">
+        <article class="aff-overview-v2-card aff-v2-orange">
+            <span class="aff-overview-v2-label">Pending Applications</span>
+            <h3 id="pendingAffiliateApplications">—</h3>
+            <span class="aff-overview-v2-note">Awaiting review</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Total Affiliates</span>
-                    <h3 id="totalAffiliates">—</h3>
-                    <span class="affiliate-card-note">Registered affiliates</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-red">
+            <span class="aff-overview-v2-label">Total Referred Players</span>
+            <h3 id="totalAffiliateReferrals">—</h3>
+            <span class="aff-overview-v2-note">Recorded referrals</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Active Affiliates</span>
-                    <h3 id="activeAffiliates">—</h3>
-                    <span class="affiliate-card-note">Approved and active</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-yellow">
+            <span class="aff-overview-v2-label">Today's Deposits</span>
+            <h3 id="affiliateTodayDeposits">—</h3>
+            <span class="aff-overview-v2-note">Deposit total</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Pending Applications</span>
-                    <h3 id="pendingAffiliateApplications">—</h3>
-                    <span class="affiliate-card-note">Awaiting review</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-blue">
+            <span class="aff-overview-v2-label">Today's Total Win</span>
+            <h3 id="affiliateTodayWin">—</h3>
+            <span class="aff-overview-v2-note">Player win total</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Total Referred Players</span>
-                    <h3 id="totalAffiliateReferrals">—</h3>
-                    <span class="affiliate-card-note">Recorded referrals</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-green">
+            <span class="aff-overview-v2-label">Today's Total Loss</span>
+            <h3 id="affiliateTodayLoss">—</h3>
+            <span class="aff-overview-v2-note">Player loss total</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Today's Deposits</span>
-                    <h3 id="affiliateTodayDeposits">—</h3>
-                    <span class="affiliate-card-note">Deposit total</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-purple">
+            <span class="aff-overview-v2-label">Today's Net Player Result</span>
+            <h3 id="affiliateTodayNetResult">—</h3>
+            <span class="aff-overview-v2-note">Total Win − Total Loss</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Today's Total Win</span>
-                    <h3 id="affiliateTodayWin">—</h3>
-                    <span class="affiliate-card-note">Player win total</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-orange">
+            <span class="aff-overview-v2-label">Pending Payouts</span>
+            <h3 id="affiliatePendingPayoutTotal">—</h3>
+            <span class="aff-overview-v2-note">Awaiting processing</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Today's Total Loss</span>
-                    <h3 id="affiliateTodayLoss">—</h3>
-                    <span class="affiliate-card-note">Player loss total</span>
-                </article>
+        <article class="aff-overview-v2-card aff-v2-red">
+            <span class="aff-overview-v2-label">Total Commission</span>
+            <h3 id="affiliateTotalCommission">—</h3>
+            <span class="aff-overview-v2-note">Recorded commission</span>
+            <span class="aff-overview-v2-underline"></span>
+        </article>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Today's Net Player Result</span>
-                    <h3 id="affiliateTodayNetResult">—</h3>
-                    <span class="affiliate-card-note">Total Win − Total Loss</span>
-                </article>
+    </div>
+</section>
 
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Pending Payouts</span>
-                    <h3 id="affiliatePendingPayoutTotal">—</h3>
-                    <span class="affiliate-card-note">Awaiting processing</span>
-                </article>
-
-                <article class="affiliate-card">
-                    <span class="affiliate-card-label">Total Commission</span>
-                    <h3 id="affiliateTotalCommission">—</h3>
-                    <span class="affiliate-card-note">Recorded commission</span>
-                </article>
-
-            </div>
-        </section>
 
         <!-- =====================================================
              AFFILIATE NAVIGATION
