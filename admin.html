@@ -80,7 +80,7 @@
         Global Notification
     </li>
         <li id="affiliateMenu"
-    onclick="window.location.href='affiliate-control.html';">
+    data-target="affiliateSection">
     Affiliate Center
 </li>
 
@@ -3791,422 +3791,1209 @@
 <!-- =================================== -->
 <!-- GLOBAL NOTIFICATION SECTION END -->
 <!-- =================================== -->
-    <!-- ============================= -->
-<!-- AFFILIATE OVERVIEW -->
-<!-- ============================= -->
+    <!-- =========================================================
+     AFFILIATE CENTER — MAIN ADMIN DASHBOARD SECTION
+     Replace the existing affiliateSection with this block.
+     Keep CSS and JavaScript in their separate files.
+========================================================= -->
+
 <div id="affiliateSection"
-     class="admin-section"
-     style="display:none;">
-
-<div id="affiliateOverviewPanel">
-
-
-<h3>Affiliate Center</h3>
-
-<div class="affiliate-stats">
-
-    <div class="affiliate-card">
-        <h4>Total Affiliates</h4>
-        <p id="totalAffiliates">0</p>
-    </div>
-
-    <div class="affiliate-card">
-        <h4>Active Affiliates</h4>
-        <p id="activeAffiliates">0</p>
-    </div>
-
-    <div class="affiliate-card">
-        <h4>Today's Referrals</h4>
-        <p id="todayReferrals">0</p>
-    </div>
-
-    <div class="affiliate-card">
-        <h4>Today's Revenue ($)</h4>
-        <p id="todayRevenue">0</p>
-    </div>
-
-    <div class="affiliate-card">
-        <h4>Weekly Revenue ($)</h4>
-        <p id="weeklyRevenue">0</p>
-    </div>
-
-    <div class="affiliate-card">
-        <h4>Pending Payout ($)</h4>
-        <p id="pendingPayout">0</p>
-    </div>
-
-</div>
-
-<hr>
-
-<div class="affiliate-action-buttons">
-
-    <button onclick="showAffiliatePanel('referralPlayersPanel')">
-        Referral Players
-    </button>
-
-    <button onclick="showAffiliatePanel('commissionControlPanel')">
-        Commission Control
-    </button>
-
-    <button onclick="showAffiliatePanel('affiliateRevenuePanel')">
-        Revenue Analytics
-    </button>
-
-    <button onclick="showAffiliatePanel('affiliateWeeklySettlementPanel')">
-        Weekly Settlement
-    </button>
-
-    <button onclick="showAffiliatePanel('affiliateMonthlySettlementPanel')">
-        Monthly Settlement
-    </button>
-
-    <button onclick="showAffiliatePanel('affiliatePayoutRequestPanel')">
-        Payout Requests
-    </button>
-
-    <button onclick="showAffiliatePanel('affiliatePayoutHistoryPanel')">
-        Payout History
-    </button>
-
-</div>
-<hr>
-
-<!-- REFERRAL PLAYERS -->
-
-<div id="referralPlayersPanel" style="display:none;">
-
-    <h4>Referral Players</h4>
-
-    <table>
-
-        <thead>
-            <tr>
-                <th>Referral ID</th>
-                <th>Player ID</th>
-                <th>Username</th>
-                <th>Join Date</th>
-                <th>Status</th>
-                <th>Commission</th>
-            </tr>
-        </thead>
-
-        <tbody id="referralPlayersTableBody">
-
-            <tr>
-                <td colspan="6">
-                    No referral players found
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-</div>
-
-<!-- COMMISSION CONTROL -->
-
-<div id="commissionControlPanel" style="display:none;">
-
-    <h4>Commission Control</h4>
-
-    <table>
-
-        <tbody>
-
-    <tr>
-        <td>Level 1 Commission (%)</td>
-        <td>
-            <input type="number"
-                   id="level1Commission"
-                   value="10">
-        </td>
-    </tr>
-
-    <tr>
-        <td>Level 2 Commission (%)</td>
-        <td>
-            <input type="number"
-                   id="level2Commission"
-                   value="5">
-        </td>
-    </tr>
-
-    <tr>
-        <td>Level 3 Commission (%)</td>
-        <td>
-            <input type="number"
-                   id="level3Commission"
-                   value="2">
-        </td>
-    </tr>
-
-    <tr>
-        <td>Minimum Withdrawal ($)</td>
-        <td>
-            <input type="number"
-                   id="affiliateMinWithdraw"
-                   value="20">
-        </td>
-    </tr>
-
-    <tr>
-        <td>Minimum Payout ($)</td>
-        <td>
-            <input type="number"
-                   id="affiliateMinPayout"
-                   value="20">
-        </td>
-    </tr>
-
-    <tr>
-        <td>Settlement Cycle</td>
-        <td>
-            <select id="affiliateSettlementCycle">
-
-                <option value="7">
-                    7 Days
-                </option>
-
-            </select>
-        </td>
-    </tr>
-
-</tbody>
-
-    </table>
-    <button id="saveAffiliateSettingsBtn"
-        onclick="saveAffiliateSettings()">
-
-    Save Affiliate Settings
-
-</button>
-
-</div>
-
-<!-- PAYOUT REQUESTS -->
-
-<div id="affiliatePayoutRequestPanel" style="display:none;">
-
-    <h4>Payout Requests</h4>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>Affiliate ID</th>
-
-                <th>Username</th>
-
-                <th>Week Range</th>
-
-                <th>Weekly Revenue ($)</th>
-
-                <th>Eligible Amount ($)</th>
-
-                <th>Status</th>
-
-                <th>Action</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody id="affiliatePayoutRequestTableBody">
-
-        </tbody>
-
-    </table>
-
-</div>
-<!-- ===================== -->
-<!-- AFFILIATE REVENUE PANEL -->
-<!-- ===================== -->
-
-<div id="affiliateRevenuePanel" style="display:none;">
-
-    <h4>Revenue Analytics</h4>
-
-    <!-- SUMMARY CARDS -->
-    <div class="affiliate-stats">
-
-        <div class="affiliate-card">
-            <h4>Today Revenue</h4>
-            <p id="todayRevenue">$0</p>
+     class="admin-section affiliate-section"
+     style="display: none;">
+
+    <div id="affiliateOverviewPanel" class="affiliate-overview-panel">
+
+        <!-- PAGE HEADER -->
+        <div class="affiliate-page-header">
+            <div class="affiliate-page-heading">
+                <h2>Affiliate Center</h2>
+                <p>Manage affiliate applications, referrals, commissions and settlements.</p>
+            </div>
+
+            <div class="affiliate-header-actions">
+                <button type="button"
+                        id="refreshAffiliateDataBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-affiliate-data">
+                    Refresh Data
+                </button>
+            </div>
         </div>
 
-        <div class="affiliate-card">
-            <h4>Weekly Revenue</h4>
-            <p id="weeklyRevenue">$0</p>
+        <!-- GLOBAL STATUS MESSAGE -->
+        <div id="affiliateGlobalMessage"
+             class="affiliate-message"
+             role="status"
+             aria-live="polite"
+             hidden></div>
+
+        <!-- =====================================================
+             OVERVIEW STATISTICS
+        ====================================================== -->
+        <section id="affiliateDashboardOverview"
+                 class="affiliate-content-panel">
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Overview</h3>
+                    <p>Summary based on available affiliate records.</p>
+                </div>
+            </div>
+
+            <div class="affiliate-stats">
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Total Affiliates</span>
+                    <h3 id="totalAffiliates">—</h3>
+                    <span class="affiliate-card-note">Registered affiliates</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Active Affiliates</span>
+                    <h3 id="activeAffiliates">—</h3>
+                    <span class="affiliate-card-note">Approved and active</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Pending Applications</span>
+                    <h3 id="pendingAffiliateApplications">—</h3>
+                    <span class="affiliate-card-note">Awaiting review</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Total Referred Players</span>
+                    <h3 id="totalAffiliateReferrals">—</h3>
+                    <span class="affiliate-card-note">Recorded referrals</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Today's Deposits</span>
+                    <h3 id="affiliateTodayDeposits">—</h3>
+                    <span class="affiliate-card-note">Deposit total</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Today's Total Win</span>
+                    <h3 id="affiliateTodayWin">—</h3>
+                    <span class="affiliate-card-note">Player win total</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Today's Total Loss</span>
+                    <h3 id="affiliateTodayLoss">—</h3>
+                    <span class="affiliate-card-note">Player loss total</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Today's Net Player Result</span>
+                    <h3 id="affiliateTodayNetResult">—</h3>
+                    <span class="affiliate-card-note">Total Win − Total Loss</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Pending Payouts</span>
+                    <h3 id="affiliatePendingPayoutTotal">—</h3>
+                    <span class="affiliate-card-note">Awaiting processing</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Total Commission</span>
+                    <h3 id="affiliateTotalCommission">—</h3>
+                    <span class="affiliate-card-note">Recorded commission</span>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- =====================================================
+             AFFILIATE NAVIGATION
+        ====================================================== -->
+        <nav class="affiliate-action-buttons"
+             id="affiliateSectionNavigation"
+             aria-label="Affiliate Center sections">
+
+            <button type="button"
+                    class="affiliate-nav-btn active"
+                    data-affiliate-panel="affiliateDashboardOverview"
+                    aria-controls="affiliateDashboardOverview"
+                    aria-current="page">
+                Overview
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateNewRequestsPanel"
+                    aria-controls="affiliateNewRequestsPanel">
+                New Requests
+                <span id="affiliateRequestsBadge" class="affiliate-nav-badge">—</span>
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateUsersPanel"
+                    aria-controls="affiliateUsersPanel">
+                Affiliate Users
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateCommissionPanel"
+                    aria-controls="affiliateCommissionPanel">
+                Commission Control
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateReferredPlayersPanel"
+                    aria-controls="affiliateReferredPlayersPanel">
+                Referred Players
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateRevenueAnalyticsPanel"
+                    aria-controls="affiliateRevenueAnalyticsPanel">
+                Revenue Analytics
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateWeeklySettlementPanel"
+                    aria-controls="affiliateWeeklySettlementPanel">
+                Weekly Settlement
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliateMonthlySettlementPanel"
+                    aria-controls="affiliateMonthlySettlementPanel">
+                Monthly Settlement
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliatePayoutRequestsPanel"
+                    aria-controls="affiliatePayoutRequestsPanel">
+                Payout Requests
+            </button>
+
+            <button type="button"
+                    class="affiliate-nav-btn"
+                    data-affiliate-panel="affiliatePayoutHistoryPanel"
+                    aria-controls="affiliatePayoutHistoryPanel">
+                Payout History
+            </button>
+
+        </nav>
+
+        <!-- =====================================================
+             NEW AFFILIATE REQUESTS
+        ====================================================== -->
+        <section id="affiliateNewRequestsPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>New Affiliate Requests</h3>
+                    <p>Review pending applications before approving or rejecting them.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliateRequestsBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-affiliate-requests">
+                    Refresh Requests
+                </button>
+            </div>
+
+            <div id="affiliateRequestsMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+                <label for="affiliateRequestSearch">Search applications</label>
+                <input type="search"
+                       id="affiliateRequestSearch"
+                       placeholder="Search by User ID or email"
+                       autocomplete="off">
+
+                <label for="affiliateRequestStatusFilter">Status</label>
+                <select id="affiliateRequestStatusFilter">
+                    <option value="pending">Pending</option>
+                    <option value="all">All statuses</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Application ID</th>
+                            <th>User ID</th>
+                            <th>Email</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliateRequestsTableBody">
+                        <tr>
+                            <td colspan="6">Loading affiliate applications...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             APPROVED AFFILIATE USERS
+        ====================================================== -->
+        <section id="affiliateUsersPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Affiliate Users</h3>
+                    <p>Manage approved affiliates and their individual commission settings.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliateUsersBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-affiliate-users">
+                    Refresh Affiliates
+                </button>
+            </div>
+
+            <div id="affiliateUsersMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+                <label for="affiliateUserSearch">Search affiliates</label>
+                <input type="search"
+                       id="affiliateUserSearch"
+                       placeholder="Search by User ID or email"
+                       autocomplete="off">
+
+                <label for="affiliateUserStatusFilter">Status</label>
+                <select id="affiliateUserStatusFilter">
+                    <option value="all">All statuses</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Affiliate User ID</th>
+                            <th>Email</th>
+                            <th>Approved Date</th>
+                            <th>Referral Count</th>
+                            <th>Base Commission (%)</th>
+                            <th>Revenue Share (%)</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliateUsersTableBody">
+                        <tr>
+                            <td colspan="8">Loading affiliate users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             COMMISSION CONTROL
+        ====================================================== -->
+        <section id="affiliateCommissionPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Commission Control</h3>
+                    <p>Configure program-wide commission rules and payout thresholds.</p>
+                </div>
+            </div>
+
+            <div id="affiliateCommissionMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <form id="affiliateCommissionSettingsForm">
+
+                <div class="affiliate-settings-grid">
+
+                    <div class="affiliate-form-group">
+                        <label for="level1Commission">Level 1 Commission (%)</label>
+                        <input type="number"
+                               id="level1Commission"
+                               name="level1Commission"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               value="10"
+                               required>
+                        <small>Direct referral commission rate.</small>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="level2Commission">Level 2 Commission (%)</label>
+                        <input type="number"
+                               id="level2Commission"
+                               name="level2Commission"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               value="5"
+                               required>
+                        <small>Second-level referral commission rate.</small>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="level3Commission">Level 3 Commission (%)</label>
+                        <input type="number"
+                               id="level3Commission"
+                               name="level3Commission"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               value="2"
+                               required>
+                        <small>Third-level referral commission rate.</small>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="affiliateRevenueShare">Revenue Share (%)</label>
+                        <input type="number"
+                               id="affiliateRevenueShare"
+                               name="affiliateRevenueShare"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               value="35"
+                               required>
+                        <small>Configured affiliate revenue-share rate.</small>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="affiliateMinWithdraw">Minimum Withdrawal</label>
+                        <input type="number"
+                               id="affiliateMinWithdraw"
+                               name="affiliateMinWithdraw"
+                               min="0"
+                               step="0.01"
+                               value="20"
+                               required>
+                        <small>Minimum amount required to request a withdrawal.</small>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="affiliateMinPayout">Minimum Payout</label>
+                        <input type="number"
+                               id="affiliateMinPayout"
+                               name="affiliateMinPayout"
+                               min="0"
+                               step="0.01"
+                               value="20"
+                               required>
+                        <small>Minimum amount for a payout.</small>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="affiliateSettlementCycle">Settlement Cycle</label>
+                        <select id="affiliateSettlementCycle"
+                                name="affiliateSettlementCycle"
+                                required>
+                            <option value="7">Every 7 Days</option>
+                            <option value="14">Every 14 Days</option>
+                            <option value="30">Every 30 Days</option>
+                        </select>
+                    </div>
+
+                    <div class="affiliate-form-group">
+                        <label for="affiliateCurrency">Currency</label>
+                        <select id="affiliateCurrency"
+                                name="affiliateCurrency"
+                                required>
+                            <option value="USD">USD — US Dollar</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="affiliate-form-actions">
+                    <button type="submit"
+                            id="saveAffiliateSettingsBtn"
+                            class="affiliate-btn affiliate-btn-primary">
+                        Save Commission Settings
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="affiliate-info-note">
+                <strong>Important:</strong>
+                Player deposits, player wins and player losses are separate financial
+                metrics. Commission must be calculated using the configured commission
+                rules and the application's actual revenue calculation—not by treating
+                all deposits or all player losses as affiliate commission.
+            </div>
+        </section>
+
+        <!-- =====================================================
+             REFERRED PLAYERS
+        ====================================================== -->
+        <section id="affiliateReferredPlayersPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Referred Players</h3>
+                    <p>View referred player identifiers and their recorded financial activity.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliatePlayersBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-affiliate-players">
+                    Refresh Players
+                </button>
+            </div>
+
+            <div id="affiliatePlayersMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePlayerSearch">Search player</label>
+                    <input type="search"
+                           id="affiliatePlayerSearch"
+                           placeholder="Player User ID or email"
+                           autocomplete="off">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePlayerFilter">Affiliate User ID</label>
+                    <input type="search"
+                           id="affiliatePlayerFilter"
+                           placeholder="Filter by affiliate ID"
+                           autocomplete="off">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePlayersFromDate">From date</label>
+                    <input type="date" id="affiliatePlayersFromDate">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePlayersToDate">To date</label>
+                    <input type="date" id="affiliatePlayersToDate">
+                </div>
+
+                <button type="button"
+                        id="filterAffiliatePlayersBtn"
+                        class="affiliate-btn affiliate-btn-primary"
+                        data-action="filter-affiliate-players">
+                    Apply Filters
+                </button>
+
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Player User ID</th>
+                            <th>Email</th>
+                            <th>Total Deposit</th>
+                            <th>Total Win</th>
+                            <th>Total Loss</th>
+                            <th>Net Player Result</th>
+                            <th>Affiliate User ID</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliateReferredPlayersTableBody">
+                        <tr>
+                            <td colspan="8">Loading referred players...</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan="2">Filtered Totals</th>
+                            <th id="affiliatePlayersTotalDeposits">—</th>
+                            <th id="affiliatePlayersTotalWin">—</th>
+                            <th id="affiliatePlayersTotalLoss">—</th>
+                            <th id="affiliatePlayersNetResult">—</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="affiliate-info-note">
+                <strong>Net Player Result = Total Win − Total Loss.</strong>
+                Deposits are shown separately and are not added to or subtracted from
+                the net player result. Totals must be calculated from actual records
+                for the selected date range.
+            </div>
+        </section>
+
+        <!-- =====================================================
+             REVENUE ANALYTICS
+        ====================================================== -->
+        <section id="affiliateRevenueAnalyticsPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Revenue Analytics</h3>
+                    <p>Review financial activity across daily, weekly, monthly and yearly periods.</p>
+                </div>
+            </div>
+
+            <div id="affiliateAnalyticsMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <form id="affiliateAnalyticsFilterForm"
+                  class="affiliate-analytics-filters">
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateAnalyticsPeriod">Reporting Period</label>
+                    <select id="affiliateAnalyticsPeriod"
+                            name="period"
+                            required>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
+                        <option value="custom">Custom Date Range</option>
+                    </select>
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateAnalyticsFromDate">From Date</label>
+                    <input type="date"
+                           id="affiliateAnalyticsFromDate"
+                           name="fromDate">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateAnalyticsToDate">To Date</label>
+                    <input type="date"
+                           id="affiliateAnalyticsToDate"
+                           name="toDate">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateAnalyticsAffiliateFilter">Affiliate User ID</label>
+                    <input type="search"
+                           id="affiliateAnalyticsAffiliateFilter"
+                           name="affiliateUserId"
+                           placeholder="All affiliates">
+                </div>
+
+                <button type="submit"
+                        id="runAffiliateAnalyticsBtn"
+                        class="affiliate-btn affiliate-btn-primary">
+                    Run Report
+                </button>
+
+            </form>
+
+            <div class="affiliate-stats affiliate-analytics-stats">
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Total Deposits</span>
+                    <h3 id="affiliateAnalyticsDeposits">—</h3>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Total Win</span>
+                    <h3 id="affiliateAnalyticsWin">—</h3>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Total Loss</span>
+                    <h3 id="affiliateAnalyticsLoss">—</h3>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Net Player Result</span>
+                    <h3 id="affiliateAnalyticsNetResult">—</h3>
+                    <span class="affiliate-card-note">Total Win − Total Loss</span>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Affiliate Commission</span>
+                    <h3 id="affiliateAnalyticsCommission">—</h3>
+                </article>
+
+                <article class="affiliate-card">
+                    <span class="affiliate-card-label">Settled Commission</span>
+                    <h3 id="affiliateAnalyticsSettledCommission">—</h3>
+                </article>
+
+            </div>
+
+            <div class="affiliate-section-subheading">
+                <h4>Period Breakdown</h4>
+                <p id="affiliateAnalyticsPeriodDescription">
+                    Select a reporting period and run the report.
+                </p>
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Deposits</th>
+                            <th>Total Win</th>
+                            <th>Total Loss</th>
+                            <th>Net Player Result</th>
+                            <th>Affiliate Commission</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliateRevenueAnalyticsTableBody">
+                        <tr>
+                            <td colspan="6">Run a report to load revenue analytics.</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th>Period Total</th>
+                            <th id="affiliateRevenuePeriodDeposits">—</th>
+                            <th id="affiliateRevenuePeriodWin">—</th>
+                            <th id="affiliateRevenuePeriodLoss">—</th>
+                            <th id="affiliateRevenuePeriodNetResult">—</th>
+                            <th id="affiliateRevenuePeriodCommission">—</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="affiliate-info-note">
+                Daily records are the underlying source for weekly, monthly and yearly
+                summaries. The implementation must use real transaction and gaming
+                records, consistent date boundaries and the configured commission rules.
+            </div>
+        </section>
+
+        <!-- =====================================================
+             WEEKLY SETTLEMENT
+        ====================================================== -->
+        <section id="affiliateWeeklySettlementPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Weekly Settlement</h3>
+                    <p>Review weekly player activity and affiliate commission calculations.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliateWeeklySettlementBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-weekly-settlement">
+                    Refresh Settlement
+                </button>
+            </div>
+
+            <div id="affiliateWeeklySettlementMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateWeeklySettlementStart">Week Start</label>
+                    <input type="date" id="affiliateWeeklySettlementStart">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateWeeklySettlementEnd">Week End</label>
+                    <input type="date" id="affiliateWeeklySettlementEnd">
+                </div>
+
+                <button type="button"
+                        id="filterAffiliateWeeklySettlementBtn"
+                        class="affiliate-btn affiliate-btn-primary"
+                        data-action="filter-weekly-settlement">
+                    Apply Dates
+                </button>
+
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Affiliate User ID</th>
+                            <th>Player User ID</th>
+                            <th>Deposits</th>
+                            <th>Total Win</th>
+                            <th>Total Loss</th>
+                            <th>Net Player Result</th>
+                            <th>Commission Earned</th>
+                            <th>Settlement Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliateWeeklySettlementTableBody">
+                        <tr>
+                            <td colspan="8">Loading weekly settlement records...</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan="2">Weekly Totals</th>
+                            <th id="affiliateWeeklyTotalDeposits">—</th>
+                            <th id="affiliateWeeklyTotalWin">—</th>
+                            <th id="affiliateWeeklyTotalLoss">—</th>
+                            <th id="affiliateWeeklyNetResult">—</th>
+                            <th id="affiliateWeeklyCommissionTotal">—</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             MONTHLY SETTLEMENT
+        ====================================================== -->
+        <section id="affiliateMonthlySettlementPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Monthly Settlement</h3>
+                    <p>Review monthly activity and recorded commission settlement status.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliateMonthlySettlementBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-monthly-settlement">
+                    Refresh Settlement
+                </button>
+            </div>
+
+            <div id="affiliateMonthlySettlementMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+
+                <div class="affiliate-form-group">
+                    <label for="affiliateSettlementMonth">Month</label>
+                    <input type="month" id="affiliateSettlementMonth">
+                </div>
+
+                <button type="button"
+                        id="filterAffiliateMonthlySettlementBtn"
+                        class="affiliate-btn affiliate-btn-primary"
+                        data-action="filter-monthly-settlement">
+                    Load Month
+                </button>
+
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Affiliate User ID</th>
+                            <th>Period</th>
+                            <th>Deposits</th>
+                            <th>Total Win</th>
+                            <th>Total Loss</th>
+                            <th>Net Player Result</th>
+                            <th>Commission Earned</th>
+                            <th>Settlement Status</th>
+                            <th>Payment Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliateMonthlySettlementTableBody">
+                        <tr>
+                            <td colspan="9">Loading monthly settlement records...</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan="2">Monthly Totals</th>
+                            <th id="affiliateMonthlyTotalDeposits">—</th>
+                            <th id="affiliateMonthlyTotalWin">—</th>
+                            <th id="affiliateMonthlyTotalLoss">—</th>
+                            <th id="affiliateMonthlyNetResult">—</th>
+                            <th id="affiliateMonthlyCommissionTotal">—</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             PAYOUT REQUESTS
+        ====================================================== -->
+        <section id="affiliatePayoutRequestsPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Payout Requests</h3>
+                    <p>Review payout requests and process them according to your payment workflow.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliatePayoutRequestsBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-payout-requests">
+                    Refresh Requests
+                </button>
+            </div>
+
+            <div id="affiliatePayoutRequestsMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePayoutRequestSearch">Search</label>
+                    <input type="search"
+                           id="affiliatePayoutRequestSearch"
+                           placeholder="Affiliate User ID or payout ID"
+                           autocomplete="off">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePayoutStatusFilter">Payout Status</label>
+                    <select id="affiliatePayoutStatusFilter">
+                        <option value="pending">Pending</option>
+                        <option value="all">All statuses</option>
+                        <option value="approved">Approved</option>
+                        <option value="processing">Processing</option>
+                        <option value="paid">Paid</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Payout ID</th>
+                            <th>Affiliate User ID</th>
+                            <th>Period</th>
+                            <th>Eligible Amount</th>
+                            <th>Requested Amount</th>
+                            <th>Request Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliatePayoutRequestsTableBody">
+                        <tr>
+                            <td colspan="8">Loading payout requests...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             PAYOUT HISTORY
+        ====================================================== -->
+        <section id="affiliatePayoutHistoryPanel"
+                 class="affiliate-content-panel"
+                 hidden>
+
+            <div class="affiliate-section-heading">
+                <div>
+                    <h3>Payout History</h3>
+                    <p>View completed, rejected and previously processed payout records.</p>
+                </div>
+
+                <button type="button"
+                        id="refreshAffiliatePayoutHistoryBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="refresh-payout-history">
+                    Refresh History
+                </button>
+            </div>
+
+            <div id="affiliatePayoutHistoryMessage"
+                 class="affiliate-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+            <div class="affiliate-table-toolbar">
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePayoutHistorySearch">Search history</label>
+                    <input type="search"
+                           id="affiliatePayoutHistorySearch"
+                           placeholder="Payout ID or Affiliate User ID"
+                           autocomplete="off">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePayoutHistoryFromDate">From Date</label>
+                    <input type="date" id="affiliatePayoutHistoryFromDate">
+                </div>
+
+                <div class="affiliate-form-group">
+                    <label for="affiliatePayoutHistoryToDate">To Date</label>
+                    <input type="date" id="affiliatePayoutHistoryToDate">
+                </div>
+
+                <button type="button"
+                        id="filterAffiliatePayoutHistoryBtn"
+                        class="affiliate-btn affiliate-btn-primary"
+                        data-action="filter-payout-history">
+                    Apply Filters
+                </button>
+
+            </div>
+
+            <div class="affiliate-table-wrapper">
+                <table class="affiliate-table">
+                    <thead>
+                        <tr>
+                            <th>Payout ID</th>
+                            <th>Affiliate User ID</th>
+                            <th>Period</th>
+                            <th>Requested Amount</th>
+                            <th>Paid Amount</th>
+                            <th>Request Date</th>
+                            <th>Payment Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="affiliatePayoutHistoryTableBody">
+                        <tr>
+                            <td colspan="8">Loading payout history...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- =========================================================
+     AFFILIATE ACTION CONFIRMATION MODAL
+     JavaScript opens this modal when confirmation is required.
+========================================================= -->
+
+<div id="affiliateConfirmModal"
+     class="affiliate-modal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="affiliateConfirmTitle"
+     hidden>
+
+    <div class="affiliate-modal-backdrop"
+         data-action="close-affiliate-modal"></div>
+
+    <div class="affiliate-modal-content">
+
+        <div class="affiliate-modal-header">
+            <h3 id="affiliateConfirmTitle">Confirm Action</h3>
+
+            <button type="button"
+                    id="closeAffiliateConfirmModalBtn"
+                    class="affiliate-modal-close"
+                    data-action="close-affiliate-modal"
+                    aria-label="Close">
+                &times;
+            </button>
         </div>
 
-        <div class="affiliate-card">
-            <h4>Monthly Revenue</h4>
-            <p id="monthlyRevenue">$0</p>
+        <div class="affiliate-modal-body">
+            <p id="affiliateConfirmMessage">
+                Are you sure you want to continue?
+            </p>
+
+            <div id="affiliateConfirmExtraContent"></div>
         </div>
 
-        <div class="affiliate-card">
-            <h4>Lifetime Revenue</h4>
-            <p id="lifetimeRevenue">$0</p>
+        <div class="affiliate-modal-actions">
+            <button type="button"
+                    id="cancelAffiliateConfirmBtn"
+                    class="affiliate-btn affiliate-btn-secondary"
+                    data-action="cancel-affiliate-action">
+                Cancel
+            </button>
+
+            <button type="button"
+                    id="confirmAffiliateActionBtn"
+                    class="affiliate-btn affiliate-btn-primary"
+                    data-action="confirm-affiliate-action">
+                Confirm
+            </button>
         </div>
 
     </div>
-
-    <hr>
-
-    <!-- BREAKDOWN TABLE -->
-    <h4>Revenue Breakdown</h4>
-
-    <table>
-
-        <thead>
-            <tr>
-                <th>Affiliate ID</th>
-                <th>Player ID</th>
-                <th>Today Revenue</th>
-                <th>Weekly Revenue</th>
-                <th>Monthly Revenue</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-
-        <tbody id="revenueAnalyticsTableBody">
-
-        </tbody>
-
-    </table>
-
 </div>
-    <!-- WEEKLY SETTLEMENT -->
 
-<div id="affiliateWeeklySettlementPanel" style="display:none;">
+<!-- =========================================================
+     EDIT INDIVIDUAL AFFILIATE COMMISSION MODAL
+========================================================= -->
 
-    <h4>Weekly Settlement</h4>
+<div id="affiliateCommissionEditModal"
+     class="affiliate-modal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="affiliateCommissionEditTitle"
+     hidden>
 
-    <table>
+    <div class="affiliate-modal-backdrop"
+         data-action="close-affiliate-commission-modal"></div>
 
-        <thead>
+    <div class="affiliate-modal-content">
 
-            <tr>
+        <div class="affiliate-modal-header">
+            <h3 id="affiliateCommissionEditTitle">Edit Affiliate Commission</h3>
 
-    <th>Affiliate ID</th>
+            <button type="button"
+                    id="closeAffiliateCommissionEditModalBtn"
+                    class="affiliate-modal-close"
+                    data-action="close-affiliate-commission-modal"
+                    aria-label="Close">
+                &times;
+            </button>
+        </div>
 
-    <th>Player ID</th>
+        <form id="affiliateIndividualCommissionForm">
 
-    <th>Username</th>
+            <input type="hidden"
+                   id="editAffiliateUserId"
+                   name="affiliateUserId">
 
-    <th>Today Deposit ($)</th>
+            <div class="affiliate-modal-body">
 
-    <th>Today Loss ($)</th>
+                <p id="editAffiliateIdentity">Affiliate User ID: —</p>
 
-    <th>Today Win ($)</th>
+                <div class="affiliate-form-group">
+                    <label for="editAffiliateBaseCommission">
+                        Base Commission (%)
+                    </label>
 
-    <th>Revenue Earned ($)</th>
+                    <input type="number"
+                           id="editAffiliateBaseCommission"
+                           name="baseCommission"
+                           min="0"
+                           max="100"
+                           step="0.01"
+                           required>
+                </div>
 
-    <th>Status</th>
+                <div class="affiliate-form-group">
+                    <label for="editAffiliateRevenueShare">
+                        Revenue Share (%)
+                    </label>
 
-</tr>
+                    <input type="number"
+                           id="editAffiliateRevenueShare"
+                           name="revenueShare"
+                           min="0"
+                           max="100"
+                           step="0.01"
+                           required>
+                </div>
 
-        </thead>
+                <div class="affiliate-form-group">
+                    <label for="editAffiliateStatus">Affiliate Status</label>
 
-        <tbody id="affiliateWeeklySettlementTableBody">
+                    <select id="editAffiliateStatus"
+                            name="status"
+                            required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
 
-        </tbody>
+                <div id="affiliateCommissionEditMessage"
+                     class="affiliate-message"
+                     role="status"
+                     aria-live="polite"
+                     hidden></div>
 
-    </table>
+            </div>
 
-</div>
-    <!-- MONTHLY SETTLEMENT -->
+            <div class="affiliate-modal-actions">
 
-<div id="affiliateMonthlySettlementPanel" style="display:none;">
+                <button type="button"
+                        id="cancelAffiliateCommissionEditBtn"
+                        class="affiliate-btn affiliate-btn-secondary"
+                        data-action="close-affiliate-commission-modal">
+                    Cancel
+                </button>
 
-    <h4>Monthly Settlement</h4>
+                <button type="submit"
+                        id="saveAffiliateIndividualCommissionBtn"
+                        class="affiliate-btn affiliate-btn-primary">
+                    Save Changes
+                </button>
 
-    <table>
+            </div>
 
-        <thead>
-
-            <tr>
-
-                <th>Affiliate ID</th>
-
-                <th>Username</th>
-
-                <th>Month</th>
-
-                <th>Monthly Revenue ($)</th>
-
-                <th>Bonus Revenue ($)</th>
-
-                <th>Final Revenue ($)</th>
-
-                <th>Settlement Status</th>
-
-                <th>Payment Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody id="affiliateMonthlySettlementTableBody">
-
-        </tbody>
-
-    </table>
-
-</div>
-    
-    
-    
-
-<!-- PAYOUT HISTORY -->
-
-<div id="affiliatePayoutHistoryPanel" style="display:none;">
-
-    <h4>Payout History</h4>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>Transaction ID</th>
-
-                <th>Affiliate ID</th>
-
-                <th>Username</th>
-
-                <th>Week Range</th>
-
-                <th>Revenue ($)</th>
-
-                <th>Paid Amount ($)</th>
-
-                <th>Payment Date</th>
-
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody id="affiliatePayoutHistoryTableBody">
-
-        </tbody>
-
-    </table>
-
-</div>
+        </form>
     </div>
-    </div>
-
-     <!-- ============================= -->
-<!-- AFFILIATE CENTER END -->
-<!-- ============================= -->
+</div>
     
 <!-- =================================== -->
 <!-- SECURITY SECTION START -->
