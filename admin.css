@@ -6021,54 +6021,7 @@ input[type="checkbox"] {
 
 
     
-/* =========================================================
-   AFFILIATE CENTER — MAIN ADMIN DASHBOARD
-   Styles for the affiliateSection HTML
-========================================================= */
 
-/* ======================================
-   AFFILIATE OVERVIEW — SUMMARY CARDS
-====================================== */
- 
-
-.affiliate-section {
-    --aff-bg: #0b1220;
-    --aff-panel: #111c2d;
-    --aff-panel-soft: #152238;
-    --aff-border: #27364c;
-    --aff-text: #edf3fc;
-    --aff-muted: #96a6bc;
-    --aff-accent: #20d68a;
-    --aff-accent-hover: #13bd78;
-    --aff-danger: #ff5c70;
-    --aff-warning: #f5bd4f;
-    --aff-blue: #58a6ff;
-
-    color: var(--aff-text);
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 22px;
-    font-family: inherit;
-    font-size: 14px;
-}
-
-.affiliate-section *,
-.affiliate-section *::before,
-.affiliate-section *::after {
-    box-sizing: border-box;
-}
-
-.affiliate-section [hidden],
-.affiliate-modal[hidden] {
-    display: none !important;
-}
-
-   
-/* =========================================
-   AFFILIATE CENTER — OVERVIEW STATISTICS
-   Compact Cards + Multi-Color Bottom Accent
-========================================= */
 
 /* =========================================================
    AFFILIATE OVERVIEW — COMPACT SUMMARY CARDS
