@@ -709,58 +709,51 @@
         showElement(container);
     }
 
-    function initializeAffiliateSearch() {
-        const form = $("#affcAffiliateSearchForm");
-        const input = $("#affcAffiliateSearchInput");
+function initializeAffiliateSearch() {
+    const form = $("#affcAffiliateSearchForm");
+    const input = $("#affcAffiliateSearchInput");
 
-        if (!form || !input) return;
+    if (!form || !input) return;
 
-        input.addEventListener("input", function () {
-            state.affiliateSearchTerm = normalize(input.value);
-            state.affiliatePage = 1;
+    input.addEventListener("input", function () {
+        state.affiliateSearchTerm = normalize(input.value);
+        state.affiliatePage = 1;
 
-            renderAffiliateList();
-        });
+        renderAffiliateList();
+    });
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-            const term = normalize(input.value);
+        const term = normalize(input.value);
 
-            if (!term) {
-                showMessage(
-                    "Enter an Affiliate ID, User ID, or email to search.",
-                    "warning"
-                );
-                return;
-            }
+        if (!term) {
+            showMessage(
+                "Enter an Affiliate ID, User ID, or email to search.",
+                "warning"
+            );
+            return;
+        }
 
-            const match = findAffiliateByIdentifier(term);
+        const match = findAffiliateByIdentifier(term);
 
-            if (match) {
-                renderAffiliateSearchResult(match);
-                showMessage(
-                    "Affiliate found. Select Details to view the record.",
-                    "success"
-                );
-            } else {
-                renderAffiliateSearchResult(null);
-                showMessage(
-                    "No matching affiliate was found in the loaded records.",
-                    "warning"
-                );
-            }
+        if (match) {
+            renderAffiliateSearchResult(match);
 
-           } else {
-    renderAffiliateSearchResult(null);
+            showMessage(
+                "Affiliate found. Select Details to view the record.",
+                "success"
+            );
+        } else {
+            renderAffiliateSearchResult(null);
 
-    showMessage(
-        "No aff user ID found.",
-        "warning"
-    );
+            showMessage(
+                "No user ID found.",
+                "warning"
+            );
+        }
+    });
 }
-        });
-    }
 
     /* =====================================================
        10. AFFILIATE LIST
