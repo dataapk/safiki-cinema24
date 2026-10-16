@@ -14319,12 +14319,12 @@ function renderAffiliates() {
         renderAffiliates();
     });
 
-    // Initial empty state. No invented records or financial totals.
+       // Initial empty state. No invented records or financial totals.
     renderRequests();
     renderAffiliates();
     updateOverview();
 
-})();
+})(); // Close the matching Admin JavaScript IIFE
 
 // ======================================================
 // FINAL ADMIN ENGINE MARKER
