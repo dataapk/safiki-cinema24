@@ -46,12 +46,13 @@
     --admin-border: #E0E7E1;
     --admin-border-strong: #CBD5CD;
 
-    /* Sidebar & Header */
+    :root {
     --admin-sidebar-bg: #FF7900;
-    --admin-sidebar-text: #445348;
-    --admin-sidebar-hover: #EEF5EF;
-    --admin-sidebar-active-bg: #E5F3E9;
-    --admin-sidebar-active-text: #166534;
+    --admin-sidebar-text: #FFFFFF;
+    --admin-sidebar-hover: #E66D00;
+    --admin-sidebar-active-bg: #17324D;
+    --admin-sidebar-active-text: #FFFFFF;
+}
 
     --admin-header-bg: #FFFFFF;
 
