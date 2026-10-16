@@ -84,15 +84,17 @@
 }
 
 
+
 body {
-    background: #eef2ff;
+    background: var(--admin-bg);
+    color: var(--admin-text);
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
 }
 
 /* ============================= */
-/* SIDEBAR (DARK PREMIUM + COMPACT) */
+/* SIDEBAR — SOFT WHITE + GREEN */
 /* ============================= */
 
 .sidebar {
@@ -101,15 +103,16 @@ body {
     position: fixed;
     left: 0;
     top: 0;
-    background: #0f172a;
+    background: var(--admin-sidebar-bg);
+    color: var(--admin-sidebar-text);
     padding: 18px 14px;
     overflow-y: auto;
-    box-shadow: 6px 0 25px rgba(0,0,0,0.25);
-    border-right: 1px solid rgba(255,255,255,0.06);
+    box-shadow: var(--admin-shadow-md);
+    border-right: 1px solid var(--admin-border);
 }
 
 .admin-logo {
-    color: #fff;
+    color: var(--admin-primary);
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -128,29 +131,28 @@ body {
 
 .sidebar-menu li {
     list-style: none;
-    padding: 12px 12px;
+    padding: 12px;
     margin: 6px 0;
     cursor: pointer;
-    border-radius: 8px;
-    color: #e5e7eb;
+    border-radius: var(--admin-radius-sm);
+    color: var(--admin-sidebar-text);
     font-size: 14px;
-    transition: 0.2s ease;
+    transition: var(--admin-transition);
     position: relative;
     display: flex;
     align-items: center;
 }
 
-/* hover */
 .sidebar-menu li:hover {
-    background: rgba(255,255,255,0.06);
+    background: var(--admin-sidebar-hover);
     transform: translateX(4px);
-    color: #ffffff;
+    color: var(--admin-primary);
 }
 
-/* active */
 .sidebar-menu li.active {
-    background: rgba(168, 85, 247, 0.15);
-    color: #fff;
+    background: var(--admin-sidebar-active-bg);
+    color: var(--admin-sidebar-active-text);
+    font-weight: 600;
 }
 
 .sidebar-menu li.active::before {
@@ -160,42 +162,49 @@ body {
     top: 25%;
     width: 4px;
     height: 50%;
-    background: #a855f7;
+    background: var(--admin-primary);
     border-radius: 4px;
 }
 
+
+
 /* ============================= */
-/* MAIN CONTENT - SEPARATED DEEP PANEL EFFECT */
+/* MAIN CONTENT - SOFT WHITE THEME */
 /* ============================= */
 
 .main-content {
     margin-left: 220px;
     padding: 24px;
-    background: #eef2ff;
+    background: var(--admin-bg);
+    color: var(--admin-text);
 }
 
-/* INNER WHITE DASHBOARD SHELL (IMPORTANT NEW LAYER) */
+/* INNER WHITE DASHBOARD SHELL */
+
 .dashboard-shell {
-    background: #ffffff;
-    border-radius: 18px;
+    background: var(--admin-surface);
+    border-radius: var(--admin-radius-lg);
     padding: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: var(--admin-shadow-md);
+    border: 1px solid var(--admin-border);
     margin-bottom: 20px;
 }
 
 /* ============================= */
-/* DASHBOARD HEADER (PURPLE STRIP) */
+/* DASHBOARD HEADER */
 /* ============================= */
 
 .admin-header h2 {
     font-size: 22px;
     font-weight: 700;
+    color: var(--admin-text);
     margin-bottom: 14px;
     position: relative;
     display: inline-block;
 }
 
-/* purple underline */
+/* GREEN UNDERLINE */
+
 .admin-header h2::after {
     content: "";
     position: absolute;
@@ -203,12 +212,12 @@ body {
     bottom: -6px;
     width: 100%;
     height: 4px;
-    background: #a855f7;
-    border-radius: 4px;
+    background: var(--admin-primary);
+    border-radius: var(--admin-radius-sm);
 }
 
 /* ============================= */
-/* STATS GRID FIX (SIDE BY SIDE CLEAN) */
+/* STATS GRID */
 /* ============================= */
 
 .stats-grid {
@@ -218,17 +227,19 @@ body {
 }
 
 /* ============================= */
-/* USER PROFILE DASHBOARD GRID (FINAL FIX) */
+/* USER PROFILE DASHBOARD GRID */
 /* ============================= */
- .user-search-bar{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:10px;
+
+.user-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-.user-search-bar input{
-    width:250px;
+.user-search-bar input {
+    width: 250px;
+    box-sizing: border-box;
 }
 
 .user-profile-grid {
@@ -238,24 +249,29 @@ body {
     margin-top: 10px;
 }
 
-/* each box behaves like dashboard stat card */
+/* USER PROFILE CARD */
+
 .profile-card {
-    background: #ffffff;
-    border-radius: 14px;
+    background: var(--admin-surface);
+    color: var(--admin-text);
+    border-radius: var(--admin-radius-lg);
     padding: 16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    border: 1px solid rgba(168,85,247,0.08);
-    transition: 0.25s ease;
+    box-shadow: var(--admin-shadow-md);
+    border: 1px solid var(--admin-border);
+    transition: var(--admin-transition);
     position: relative;
 }
 
-/* hover lift effect */
+/* HOVER EFFECT */
+
 .profile-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.10);
+    box-shadow: var(--admin-shadow-lg);
+    border-color: var(--admin-border-strong);
 }
 
-/* optional purple accent strip */
+/* GREEN ACCENT STRIP */
+
 .profile-card::before {
     content: "";
     position: absolute;
@@ -263,10 +279,12 @@ body {
     top: 12px;
     width: 4px;
     height: 70%;
-    background: #a855f7;
-    border-radius: 4px;
+    background: var(--admin-primary);
+    border-radius: var(--admin-radius-sm);
 }
-/* USER PROFILE DASHBOARD END) */
+
+/* USER PROFILE DASHBOARD END */
+
 
 /* ============================= */
 /* FINANCE GRID (SIDE BY SIDE SMALL BOXES) */
@@ -6502,143 +6520,8 @@ input[type="checkbox"] {
 
 .affiliate-section select option,
 .affiliate-modal select option {
-    color: var(--aff-text);
-    background: #0b1525;
-}
-
-.affiliate-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    min-width: 0;
-}
-
-.affiliate-form-group label,
-.affiliate-section form > label {
-    color: #c7d4e4;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1.5;
-}
-
-.affiliate-form-group small {
-    color: var(--aff-muted);
-    font-size: 10px;
-    line-height: 1.6;
-}
-
-.affiliate-settings-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-}
-
-.affiliate-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 24px;
-    padding-top: 18px;
-    border-top: 1px solid var(--aff-border);
-}
-
-/* =========================================================
-   TABLES
-========================================================= */
-
-.affiliate-table-wrapper {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    border: 1px solid var(--aff-border);
-    border-radius: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: #42536b #111c2d;
-}
-
-.affiliate-table-wrapper::-webkit-scrollbar {
-    height: 7px;
-}
-
-.affiliate-table-wrapper::-webkit-scrollbar-track {
-    background: #111c2d;
-}
-
-.affiliate-table-wrapper::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #42536b;
-}
-
-.affiliate-table {
-    width: 100%;
-    min-width: 760px;
-    border-collapse: separate;
-    border-spacing: 0;
-    color: var(--aff-text);
-    background: var(--aff-panel);
-    font-size: 11px;
-    text-align: left;
-}
-
-.affiliate-table th,
-.affiliate-table td {
-    padding: 13px 14px;
-    border-bottom: 1px solid #243249;
-    vertical-align: middle;
-    line-height: 1.6;
-}
-
-.affiliate-table thead th {
-    color: #b8c9dd;
-    background: #17263b;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.35px;
-    white-space: nowrap;
-}
-
-.affiliate-table tbody td {
-    color: #d4deeb;
-    overflow-wrap: anywhere;
-}
-
-.affiliate-table tbody tr {
-    transition: background-color 0.15s ease;
-}
-
-.affiliate-table tbody tr:hover {
-    background: rgb(255 255 255 / 2%);
-}
-
-.affiliate-table tbody tr:last-child td {
-    border-bottom: 1px solid #243249;
-}
-
-.affiliate-table tbody tr td[colspan] {
-    padding: 28px 15px;
-    color: var(--aff-muted);
-    text-align: center;
-}
-
-.affiliate-table tfoot th,
-.affiliate-table tfoot td {
-    color: var(--aff-text);
-    background: #17263b;
-    font-weight: 800;
-    font-variant-numeric: tabular-nums;
-}
-
-.affiliate-table tfoot tr:last-child th,
-.affiliate-table tfoot tr:last-child td {
-    border-bottom: 0;
-}
-
-.affiliate-table td .affiliate-btn {
-    min-height: 31px;
-    padding: 6px 9px;
-    font-size: 10px;
-}
+    color: va
+       
 
 /* =========================================================
    STATUS LABELS
