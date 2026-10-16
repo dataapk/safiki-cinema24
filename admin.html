@@ -4213,9 +4213,9 @@
                 <div class="affc-details-grid">
 
                     <div class="affc-detail-item">
-                        <span>Affiliate User ID</span>
-                        <strong id="affcDetailUserId">—</strong>
-                    </div>
+                        <span>Affiliate User IserId">—</strong>
+                    </div>D</span>
+                        <strong id="affcDetailU
 
                     <div class="affc-detail-item">
                         <span>Full Name</span>
@@ -4629,91 +4629,45 @@
     </div>
 
 
-    <!-- =====================================================
-         SECTION 02 — APPLICATIONS
-    ====================================================== -->
+    <!-- APPLICATION STATISTICS -->
 
-    <div id="affcApplicationsPanel"
-         class="affc-main-panel"
-         data-affc-panel="applications"
-         hidden>
+<div class="affc-statistics-grid affc-application-statistics">
 
-        <div class="affc-section-heading">
-            <div>
-                <h3>Affiliate Applications</h3>
-                <p>
-                    Review new affiliate applications and decisions.
-                </p>
-            </div>
-        </div>
+    <!-- PENDING APPLICATIONS -->
 
+    <article class="affc-stat-card affc-accent-orange"
+             data-affc-application-view="pending"
+             role="button"
+             tabindex="0"
+             aria-label="Show pending applications">
 
-        <!-- APPLICATION STATISTICS -->
+        <span class="affc-stat-label">
+            Pending Applications
+        </span>
 
-        <div class="affc-statistics-grid affc-application-statistics">
+        <h3 id="affcApplicationsPendingCount">—</h3>
 
-            <article class="affc-stat-card affc-accent-orange">
-                <span class="affc-stat-label">Pending</span>
-                <h3 id="affcApplicationsPendingCount">—</h3>
-            </article>
-
-            <article class="affc-stat-card affc-accent-green">
-                <span class="affc-stat-label">Approved</span>
-                <h3 id="affcApplicationsApprovedCount">—</h3>
-            </article>
-
-            <article class="affc-stat-card affc-accent-red">
-                <span class="affc-stat-label">Rejected</span>
-                <h3 id="affcApplicationsRejectedCount">—</h3>
-            </article>
-
-        </div>
+    </article>
 
 
-        <!-- APPLICATION FILTERS -->
+    <!-- REJECTED APPLICATIONS -->
 
-        <section class="affc-content-card">
+    <article class="affc-stat-card affc-accent-red"
+             data-affc-application-view="rejected"
+             role="button"
+             tabindex="0"
+             aria-label="Show rejected applications">
 
-            <form id="affcApplicationsFilterForm"
-                  class="affc-search-form">
+        <span class="affc-stat-label">
+            Rejected Applications
+        </span>
 
-                <div class="affc-form-field">
-                    <label for="affcApplicationSearch">
-                        Search Application
-                    </label>
+        <h3 id="affcApplicationsRejectedCount">—</h3>
 
-                    <input type="search"
-                           id="affcApplicationSearch"
-                           name="applicationSearch"
-                           placeholder="Search by User ID, name or email..."
-                           autocomplete="off">
-                </div>
+    </article>
 
-                <div class="affc-form-field">
-                    <label for="affcApplicationStatusFilter">
-                        Application Status
-                    </label>
-
-                    <select id="affcApplicationStatusFilter"
-                            name="applicationStatus">
-
-                        <option value="all">All Statuses</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-
-                    </select>
-                </div>
-
-                <button type="submit"
-                        class="affc-btn affc-btn-primary">
-                    Apply Filters
-                </button>
-
-            </form>
-
-        </section>
-
+</div>
+    
 
         <!-- APPLICATIONS LIST -->
 
