@@ -8,6 +8,12 @@
    Soft White + Green + Gold Yellow
 ========================================= */
 
+
+/* =========================================
+   ADMIN PANEL — GLOBAL THEME VARIABLES
+   Soft White + Green + Gold Yellow
+========================================= */
+
 :root {
     /* Main Backgrounds */
     --admin-bg: #f2f5f2;
@@ -35,10 +41,8 @@
     /* Status Colors */
     --admin-success: #16834A;
     --admin-success-light: #E7F6EC;
-
     --admin-danger: #D93649;
     --admin-danger-light: #FDECEF;
-
     --admin-info: #2563A6;
     --admin-info-light: #EAF3FC;
 
@@ -46,14 +50,14 @@
     --admin-border: #E0E7E1;
     --admin-border-strong: #CBD5CD;
 
-    :root {
+    /* Sidebar — Deep Purple + Crystal White */
     --admin-sidebar-bg: #241044;
     --admin-sidebar-text: #FFFFFF;
     --admin-sidebar-hover: #FFEDD5;
     --admin-sidebar-active-bg: #6D28D9;
     --admin-sidebar-active-text: #FFFFFF;
-}
 
+    /* Header */
     --admin-header-bg: #FFFFFF;
 
     /* Buttons */
@@ -84,7 +88,9 @@
     --admin-transition: 0.2s ease;
 }
 
-
+/* ============================= */
+/* BODY */
+/* ============================= */
 
 body {
     background: var(--admin-bg);
@@ -95,7 +101,7 @@ body {
 }
 
 /* ============================= */
-/* SIDEBAR — SOFT WHITE + GREEN */
+/* SIDEBAR — DEEP PURPLE */
 /* ============================= */
 
 .sidebar {
@@ -113,7 +119,7 @@ body {
 }
 
 .admin-logo {
-    color: var(--admin-primary);
+    color: #FFFFFF;
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -136,7 +142,7 @@ body {
     margin: 6px 0;
     cursor: pointer;
     border-radius: var(--admin-radius-sm);
-    color: var(--admin-sidebar-text);
+    color: #FFFFFF;
     font-size: 14px;
     transition: var(--admin-transition);
     position: relative;
@@ -144,17 +150,23 @@ body {
     align-items: center;
 }
 
+/* HOVER — LIGHT ORANGE */
+
 .sidebar-menu li:hover {
     background: var(--admin-sidebar-hover);
     transform: translateX(4px);
     color: #7C2D12;
 }
 
-sidebar-menu li.active {
+/* ACTIVE TAB — BRIGHT PURPLE */
+
+.sidebar-menu li.active {
     background: var(--admin-sidebar-active-bg);
     color: var(--admin-sidebar-active-text);
     font-weight: 600;
 }
+
+/* ACTIVE TAB INDICATOR */
 
 .sidebar-menu li.active::before {
     content: "";
@@ -166,7 +178,6 @@ sidebar-menu li.active {
     background: #FDBA74;
     border-radius: 4px;
 }
-
 
 
 /* ============================= */
@@ -6961,43 +6972,4 @@ input[type="checkbox"] {
 
 }
 
-
-
-
-
-   
-/* FORCE DEEP PURPLE SIDEBAR */
-
-body .sidebar {
-    background: #241044 !important;
-    background-color: #241044 !important;
-    color: #FFFFFF !important;
-}
-
-/* KEEP SIDEBAR INNER AREA PURPLE */
-
-body .sidebar .admin-logo,
-body .sidebar .sidebar-menu {
-    background-color: transparent !important;
-}
-
-/* CRYSTAL WHITE MENU TEXT */
-
-body .sidebar .sidebar-menu li {
-    color: #FFFFFF;
-}
-
-/* LIGHT ORANGE HOVER */
-
-body .sidebar .sidebar-menu li:hover {
-    background: #FFEDD5 !important;
-    color: #7C2D12 !important;
-}
-
-/* ACTIVE TAB */
-
-body .sidebar .sidebar-menu li.active {
-    background: #6D28D9 !important;
-    color: #FFFFFF !important;
-}
 
