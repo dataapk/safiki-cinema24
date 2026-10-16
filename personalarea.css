@@ -3149,3 +3149,24 @@
         transition-duration: 0.01ms !important;
     }
 }
+
+   /* =========================================
+   APPLICATION STATUS CARDS — CLICK EFFECT
+========================================= */
+
+.affc-application-statistics
+.affc-stat-card[data-affc-application-view] {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.affc-application-statistics
+.affc-stat-card[data-affc-application-view]:hover {
+    transform: translateY(-2px);
+}
+
+.affc-application-statistics
+.affc-stat-card[data-affc-application-view]:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
