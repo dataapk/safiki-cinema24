@@ -750,6 +750,15 @@
                     "warning"
                 );
             }
+
+           } else {
+    renderAffiliateSearchResult(null);
+
+    showMessage(
+        "No aff user ID found.",
+        "warning"
+    );
+}
         });
     }
 
@@ -1999,3 +2008,14 @@
     }
 
 })();
+
+// Prevent Affiliate Search from reloading the dashboard
+document.addEventListener("DOMContentLoaded", function () {
+    const searchForm = document.getElementById("affcAffiliateSearchForm");
+
+    if (!searchForm) return;
+
+    searchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
+});
