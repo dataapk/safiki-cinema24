@@ -759,25 +759,26 @@ const input = $("#affcAffiliateSearch");
    function initializeApplicationSearch() {
     const input = $("#affcApplicationSearch");
 
-    if (
-        !input ||
-        input.dataset.affcSearchInitialized === "true"
-    ) {
+    if (!input) return;
+
+    if (input.dataset.affcSearchInitialized === "true") {
         return;
     }
 
     input.dataset.affcSearchInitialized = "true";
 
-    // Prevent the browser's normal form submission.
+    // Prevent normal GET form submission and URL changes.
     const form = input.closest("form");
 
-    if (form) {
+    if (form && form.dataset.affcSubmitHandled !== "true") {
         form.addEventListener("submit", function (event) {
             event.preventDefault();
         });
+
+        form.dataset.affcSubmitHandled = "true";
     }
 
-    // Filter the application list as the user types.
+    // Filter applications while typing.
     input.addEventListener("input", function () {
         state.applicationSearchTerm = normalize(input.value);
         state.applicationPage = 1;
