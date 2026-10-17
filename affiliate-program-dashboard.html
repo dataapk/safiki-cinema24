@@ -569,6 +569,28 @@
 
 
     <!-- Separate JavaScript File -->
+    <!-- Initialize the existing affiliate login session -->
+<script>
+    window.supabaseClient = window.supabase.createClient(
+        "https://dijuduhvleunvwmnncue.supabase.co";
+        "sb_publishable_dw-uENrowls3CoIxyJamJg_vtpR7wR3";
+        {
+            db: {
+                schema: "affiliate_program"
+            },
+            auth: {
+                storageKey: "affiliate-login-auth-token",
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        }
+    );
+</script>
+
+<!-- Dashboard script must load AFTER Supabase initialization -->
+<script src="affiliate-program-dashboard.js"></script>
+</body>
 
     <script src="affiliate-program-dashboard.js"></script>
 
