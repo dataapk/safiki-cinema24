@@ -47,8 +47,8 @@ const AFFILIATE_CONFIG = {
     },
 
     // Your affiliate commission data is expected to be
-    // stored in BDT unless your database specifies otherwise.
-    baseCurrency: "BDT",
+    // stored in USD unless your database specifies otherwise.
+    baseCurrency: "USD",
 
     /*
        Configure these exchange rates using trusted,
@@ -741,6 +741,7 @@ async function affiliateFetchRows(
         : [];
 }
 
+
 async function affiliateLoadSupabaseData() {
     const client = AFFILIATE_CONFIG.getSupabaseClient();
 
@@ -766,10 +767,11 @@ async function affiliateLoadSupabaseData() {
 
     AffiliateDashboard.user = user;
 
+    // Find the affiliate record using the authenticated user's ID.
     const affiliateResult = await client
         .from(AFFILIATE_CONFIG.tables.affiliates)
         .select("*")
-        .eq("affiliate_id", affiliateId)
+        .eq("auth_user_id", user.id)
         .maybeSingle();
 
     if (affiliateResult.error) {
@@ -786,6 +788,7 @@ async function affiliateLoadSupabaseData() {
 
     AffiliateDashboard.affiliate = affiliate;
 
+    // Get the affiliate ID from the returned database record.
     const affiliateId = affiliate.affiliate_id;
 
     if (!affiliateId) {
@@ -827,6 +830,7 @@ async function affiliateLoadSupabaseData() {
         referrals: results[2]
     };
 }
+
 
 
 /* =========================================================
