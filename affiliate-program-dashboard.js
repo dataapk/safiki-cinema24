@@ -2474,6 +2474,38 @@ if (document.readyState === "loading") {
     commissionSection.dataset.navigationInitialized = "true";
 
     /*
+     * Open Commission Structure.
+     * Keep the existing HTML and Supabase connection unchanged.
+     */
+    commissionMenu.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        // Hide other main dashboard sections.
+        document.querySelectorAll(
+            "main > section, .dashboard-section"
+        ).forEach(function (section) {
+            if (section !== commissionSection) {
+                section.hidden = true;
+            }
+        });
+
+        // Show Commission Structure.
+        commissionSection.hidden = false;
+        commissionSection.style.display = "";
+
+        // Update navigation state.
+        document.querySelectorAll(
+            ".navigation-menu-button"
+        ).forEach(function (button) {
+            button.classList.remove("active");
+            button.setAttribute("aria-expanded", "false");
+        });
+
+        commissionMenu.classList.add("active");
+        commissionMenu.setAttribute("aria-expanded", "true");
+    });
+})();
+    /*
      * Find Dashboard sections without changing
      * the existing HTML or Supabase connection.
      */
