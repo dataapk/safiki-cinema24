@@ -521,21 +521,40 @@
 
     const SCHEMA = "affiliate_program";
 
+    // Explicit account classification for the database trigger.
+    const AFFILIATE_ACCOUNT_TYPE = "affiliate";
+
     const supabaseReady =
         SUPABASE_URL.startsWith("https://") &&
         !SUPABASE_URL.includes("YOUR_") &&
         !SUPABASE_KEY.includes("YOUR_");
 
-    const socialPlatform = document.getElementById("socialPlatform");
-    const telegramGroup = document.getElementById("telegramGroup");
-    const whatsappGroup = document.getElementById("whatsappGroup");
-    const telegramUsername = document.getElementById("telegramUsername");
-    const whatsappNumber = document.getElementById("whatsappNumber");
+    const socialPlatform =
+        document.getElementById("socialPlatform");
 
-    const signupForm = document.getElementById("affiliateSignupForm");
-    const signupMessage = document.getElementById("signupMessage");
-    const resultCard = document.getElementById("resultCard");
-    const signupButton = document.getElementById("signupButton");
+    const telegramGroup =
+        document.getElementById("telegramGroup");
+
+    const whatsappGroup =
+        document.getElementById("whatsappGroup");
+
+    const telegramUsername =
+        document.getElementById("telegramUsername");
+
+    const whatsappNumber =
+        document.getElementById("whatsappNumber");
+
+    const signupForm =
+        document.getElementById("affiliateSignupForm");
+
+    const signupMessage =
+        document.getElementById("signupMessage");
+
+    const resultCard =
+        document.getElementById("resultCard");
+
+    const signupButton =
+        document.getElementById("signupButton");
 
     let supabase = null;
     let submitting = false;
@@ -590,8 +609,11 @@
         telegramGroup.hidden = selected !== "Telegram";
         whatsappGroup.hidden = selected !== "WhatsApp";
 
-        telegramUsername.required = selected === "Telegram";
-        whatsappNumber.required = selected === "WhatsApp";
+        telegramUsername.required =
+            selected === "Telegram";
+
+        whatsappNumber.required =
+            selected === "WhatsApp";
 
         if (selected !== "Telegram") {
             telegramUsername.value = "";
@@ -602,21 +624,28 @@
         }
     }
 
-    socialPlatform.addEventListener("change", updateSocialFields);
+    socialPlatform.addEventListener(
+        "change",
+        updateSocialFields
+    );
 
     function readApplicationForm() {
         return {
             first_name:
-                document.getElementById("firstName").value.trim(),
+                document.getElementById("firstName")
+                    .value.trim(),
 
             last_name:
-                document.getElementById("lastName").value.trim(),
+                document.getElementById("lastName")
+                    .value.trim(),
 
             promotion_link:
-                document.getElementById("promotionLink").value.trim(),
+                document.getElementById("promotionLink")
+                    .value.trim(),
 
             promotion_category:
-                document.getElementById("linkCategory").value,
+                document.getElementById("linkCategory")
+                    .value,
 
             contact_platform:
                 socialPlatform.value,
@@ -632,36 +661,74 @@
                     : null,
 
             player_id:
-                document.getElementById("playerId").value.trim()
+                document.getElementById("playerId")
+                    .value.trim()
         };
+    }
+
+    /*
+     * Identify an Affiliate Auth account.
+     *
+     * This marker is stored in Supabase Auth user metadata.
+     * The database trigger must also recognize this marker
+     * and skip creating an ordinary user_data profile.
+     */
+    function isAffiliateAuthUser(user) {
+        const metadata = user?.user_metadata || {};
+
+        return (
+            metadata.account_type ===
+                AFFILIATE_ACCOUNT_TYPE ||
+            metadata.affiliate_application_pending === true
+        );
     }
 
     function applicationFromUserMetadata(user) {
         const metadata = user?.user_metadata || {};
 
-        if (metadata.affiliate_application_pending !== true) {
+        if (!isAffiliateAuthUser(user)) {
             return null;
         }
 
-        const application = metadata.affiliate_application;
+        if (
+            metadata.affiliate_application_pending !== true
+        ) {
+            return null;
+        }
 
-        if (!application || typeof application !== "object") {
+        const application =
+            metadata.affiliate_application;
+
+        if (
+            !application ||
+            typeof application !== "object"
+        ) {
             return null;
         }
 
         return application;
     }
 
-    async function saveApplicationForConfirmedUser(user, application) {
+    async function saveApplicationForConfirmedUser(
+        user,
+        application
+    ) {
         if (!supabase || !user) {
             throw new Error(
                 "Please sign in to submit your application."
             );
         }
 
+        if (!isAffiliateAuthUser(user)) {
+            throw new Error(
+                "This account is not marked as an Affiliate account."
+            );
+        }
+
         if (!user.email_confirmed_at) {
             throw new Error(
-                "Please confirm your email address before submitting your application."
+                "Please confirm your email address before " +
+                "submitting your application."
             );
         }
 
@@ -669,16 +736,27 @@
             application.contact_platform || ""
         ).trim().toLowerCase();
 
+        /*
+         * The database RPC saves the application.
+         *
+         * affiliate_id must be generated and stored by the
+         * database-side application creation logic.
+         *
+         * This function does NOT insert into user_data.
+         */
         const { error } = await supabase
             .schema(SCHEMA)
             .rpc("submit_application", {
                 p_first_name: application.first_name,
                 p_last_name: application.last_name,
                 p_promotion_link: application.promotion_link,
-                p_link_category: application.promotion_category,
+                p_link_category:
+                    application.promotion_category,
                 p_contact_platform: contactPlatform,
-                p_telegram_username: application.telegram_username,
-                p_whatsapp_number: application.whatsapp_number,
+                p_telegram_username:
+                    application.telegram_username,
+                p_whatsapp_number:
+                    application.whatsapp_number,
                 p_player_id: application.player_id
             });
 
@@ -691,32 +769,53 @@
                 error.code === "23505" ||
                 errorText.includes("duplicate key") ||
                 errorText.includes("already exists") ||
-                errorText.includes("applications_email_lower_uidx")
+                errorText.includes(
+                    "applications_email_lower_uidx"
+                )
             ) {
                 throw new Error(
-                    "This email already has an application. Please contact the program administrator if you need assistance."
+                    "This email already has an application. " +
+                    "Please contact the program administrator " +
+                    "if you need assistance."
                 );
             }
 
-            console.error("Application RPC error:", error);
+            console.error(
+                "Affiliate application RPC error:",
+                error
+            );
 
             throw new Error(
-                "Your account was created, but the application could not be saved. " +
-                "Please contact the program administrator before trying again."
+                "Your account was created, but your Affiliate " +
+                "application could not be saved. Please contact " +
+                "the program administrator before trying again."
             );
         }
 
-        // Clear the temporary application payload only after a successful save.
+        /*
+         * The application has been saved successfully.
+         *
+         * Keep account_type = affiliate so the account remains
+         * identifiable as an Affiliate account. Clear only the
+         * temporary pending application payload.
+         */
         const { error: updateError } =
             await supabase.auth.updateUser({
                 data: {
+                    account_type:
+                        AFFILIATE_ACCOUNT_TYPE,
+
                     affiliate_application_pending: false,
+
                     affiliate_application: null
                 }
             });
 
         if (updateError) {
-            // The application has already been saved successfully.
+            /*
+             * The application is already saved.
+             * Do not report the submission as failed.
+             */
             console.warn(
                 "Could not clear temporary application metadata:",
                 updateError
@@ -743,7 +842,9 @@
     }
 
     async function processConfirmedSignupReturn() {
-        if (!supabase) return;
+        if (!supabase) {
+            return;
+        }
 
         try {
             const { data, error } =
@@ -764,8 +865,9 @@
 
             if (!user.email_confirmed_at) {
                 showMessage(
-                    "Please confirm your email address using the link we sent you. " +
-                    "Your application will be submitted after confirmation.",
+                    "Please confirm your email address using " +
+                    "the link we sent you. Your application will " +
+                    "be submitted after confirmation.",
                     "pending"
                 );
 
@@ -773,7 +875,8 @@
             }
 
             signupButton.disabled = true;
-            signupButton.textContent = "Saving Application...";
+            signupButton.textContent =
+                "Saving Application...";
 
             try {
                 await saveApplicationForConfirmedUser(
@@ -782,15 +885,19 @@
                 );
 
                 showSuccessfulSubmission();
+
             } catch (error) {
                 showMessage(
                     error.message ||
                     "Could not save your application."
                 );
+
             } finally {
                 signupButton.disabled = false;
-                signupButton.textContent = "Submit Application";
+                signupButton.textContent =
+                    "Submit Application";
             }
+
         } catch (error) {
             console.error(
                 "Could not process the confirmation return:",
@@ -799,173 +906,211 @@
         }
     }
 
-    signupForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    signupForm.addEventListener(
+        "submit",
+        async (event) => {
+            event.preventDefault();
 
-        clearMessage();
+            clearMessage();
 
-        if (submitting) return;
+            if (submitting) {
+                return;
+            }
 
-        if (!supabase) {
-            showMessage(
-                "Supabase is not configured correctly. Please check the project URL, Publishable Key and Supabase JavaScript library."
-            );
+            if (!supabase) {
+                showMessage(
+                    "Supabase is not configured correctly. " +
+                    "Please check the project URL, Publishable Key " +
+                    "and Supabase JavaScript library."
+                );
 
-            return;
-        }
+                return;
+            }
 
-        const email = document
-            .getElementById("email")
-            .value
-            .trim()
-            .toLowerCase();
+            const email = document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
 
-        const password =
-            document.getElementById("password").value;
+            const password =
+                document.getElementById("password").value;
 
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
+            const confirmPassword =
+                document.getElementById(
+                    "confirmPassword"
+                ).value;
 
-        if (password !== confirmPassword) {
-            showMessage("Your passwords do not match.");
-            return;
-        }
+            if (password !== confirmPassword) {
+                showMessage(
+                    "Your passwords do not match."
+                );
 
-        if (password.length < 8) {
-            showMessage(
-                "Password must be at least 8 characters."
-            );
+                return;
+            }
 
-            return;
-        }
+            if (password.length < 8) {
+                showMessage(
+                    "Password must be at least 8 characters."
+                );
 
-        const application = readApplicationForm();
+                return;
+            }
 
-        if (
-            !application.first_name ||
-            !application.last_name ||
-            !application.promotion_link ||
-            !application.promotion_category ||
-            !application.contact_platform ||
-            !application.player_id
-        ) {
-            showMessage(
-                "Please complete all required fields."
-            );
+            const application = readApplicationForm();
 
-            return;
-        }
+            if (
+                !application.first_name ||
+                !application.last_name ||
+                !application.promotion_link ||
+                !application.promotion_category ||
+                !application.contact_platform ||
+                !application.player_id
+            ) {
+                showMessage(
+                    "Please complete all required fields."
+                );
 
-        if (
-            application.contact_platform === "Telegram" &&
-            !application.telegram_username
-        ) {
-            showMessage(
-                "Please enter your Telegram username."
-            );
+                return;
+            }
 
-            return;
-        }
+            if (
+                application.contact_platform === "Telegram" &&
+                !application.telegram_username
+            ) {
+                showMessage(
+                    "Please enter your Telegram username."
+                );
 
-        if (
-            application.contact_platform === "WhatsApp" &&
-            !application.whatsapp_number
-        ) {
-            showMessage(
-                "Please enter your WhatsApp number."
-            );
+                return;
+            }
 
-            return;
-        }
+            if (
+                application.contact_platform === "WhatsApp" &&
+                !application.whatsapp_number
+            ) {
+                showMessage(
+                    "Please enter your WhatsApp number."
+                );
 
-        submitting = true;
-        signupButton.disabled = true;
-        signupButton.textContent = "Creating Account...";
+                return;
+            }
 
-        try {
-            const redirectUrl =
-                window.location.origin +
-                window.location.pathname;
+            submitting = true;
+            signupButton.disabled = true;
+            signupButton.textContent =
+                "Creating Account...";
 
-            const { data, error } =
-                await supabase.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        emailRedirectTo: redirectUrl,
-                        data: {
-                            affiliate_application_pending: true,
-                            affiliate_application: application
+            try {
+                const redirectUrl =
+                    window.location.origin +
+                    window.location.pathname;
+
+                const { data, error } =
+                    await supabase.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            emailRedirectTo: redirectUrl,
+
+                            data: {
+                                /*
+                                 * IMPORTANT:
+                                 * This marker must be checked by
+                                 * the auth.users database trigger.
+                                 */
+                                account_type:
+                                    AFFILIATE_ACCOUNT_TYPE,
+
+                                affiliate_application_pending: true,
+
+                                affiliate_application: application
+                            }
                         }
-                    }
-                });
+                    });
 
-            if (error) {
-                if (isDuplicateEmailError(error)) {
+                if (error) {
+                    if (isDuplicateEmailError(error)) {
+                        throw new Error(
+                            "This email is already registered. " +
+                            "Please use your existing account or " +
+                            "contact the program administrator."
+                        );
+                    }
+
+                    console.error(
+                        "Affiliate signup error:",
+                        error
+                    );
+
                     throw new Error(
-                        "This email already used. Please use your existing account or contact the program administrator."
+                        "Unable to create the account. " +
+                        "Please check your details and try again."
                     );
                 }
 
-                console.error("Signup error:", error);
+                /*
+                 * If email confirmation is required, the
+                 * application will be saved after the user returns
+                 * from the confirmation link.
+                 */
+                if (!data.session) {
+                    showMessage(
+                        "Your Affiliate registration request was " +
+                        "received. Please check your email and " +
+                        "confirm your address. After confirmation, " +
+                        "return to this page using the email link " +
+                        "to finish submitting your application.",
+                        "pending"
+                    );
 
-                throw new Error(
-                    "Unable to create the account. Please check your details and try again."
+                    return;
+                }
+
+                const user = data.session.user;
+
+                if (!user.email_confirmed_at) {
+                    showMessage(
+                        "Please confirm your email address before " +
+                        "your application can be submitted.",
+                        "pending"
+                    );
+
+                    return;
+                }
+
+                await saveApplicationForConfirmedUser(
+                    user,
+                    application
                 );
-            }
 
-            // Email confirmation may be required by Supabase.
-            if (!data.session) {
+                showSuccessfulSubmission();
+
+            } catch (error) {
                 showMessage(
-                    "Your account registration request was received. " +
-                    "Please check your email and confirm your address. " +
-                    "After confirmation, return to this page using the email link " +
-                    "to finish submitting your application.",
-                    "pending"
+                    error.message ||
+                    "Something went wrong. Please try again."
                 );
 
-                return;
+            } finally {
+                submitting = false;
+                signupButton.disabled = false;
+                signupButton.textContent =
+                    "Submit Application";
             }
-
-            const user = data.session.user;
-
-            if (!user.email_confirmed_at) {
-                showMessage(
-                    "Please confirm your email address before your application can be submitted.",
-                    "pending"
-                );
-
-                return;
-            }
-
-            await saveApplicationForConfirmedUser(
-                user,
-                application
-            );
-
-            showSuccessfulSubmission();
-
-        } catch (error) {
-            showMessage(
-                error.message ||
-                "Something went wrong. Please try again."
-            );
-        } finally {
-            submitting = false;
-            signupButton.disabled = false;
-            signupButton.textContent = "Submit Application";
         }
-    });
+    );
 
     updateSocialFields();
 
-    // Process an existing pending application after returning
-    // from the Supabase email-confirmation link.
+    /*
+     * Process the pending Affiliate application after the
+     * user returns from Supabase email confirmation.
+     */
     window.addEventListener(
         "load",
         processConfirmedSignupReturn
     );
+
 })();
 </script>
-</body>
-</html>
