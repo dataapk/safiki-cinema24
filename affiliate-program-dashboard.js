@@ -2452,60 +2452,319 @@ if (document.readyState === "loading") {
 (function () {
     "use strict";
 
-    const commissionSection = document.getElementById(
-        "commissionStructureSection"
-    );
-
-    const commissionMenu = document.getElementById(
-        "commissionStructureMenu"
-    );
-
-    if (!commissionSection || !commissionMenu) {
-        console.warn(
-            "Commission Structure: section or menu button not found."
+    function initializeCommissionStructure() {
+        const commissionSection = document.getElementById(
+            "commissionStructureSection"
         );
-        return;
-    }
 
-    // Prevent duplicate event listeners.
-    if (commissionSection.dataset.navigationInitialized === "true") {
-        return;
-    }
+        const commissionMenu = document.getElementById(
+            "commissionStructureMenu"
+        );
 
-    commissionSection.dataset.navigationInitialized = "true";
+        if (!commissionSection || !commissionMenu) {
+            console.warn(
+                "Commission Structure: section or menu button not found."
+            );
+            return;
+        }
 
-    /*
-     * Open Commission Structure.
-     * Keep the existing HTML and Supabase connection unchanged.
-     */
-    commissionMenu.addEventListener("click", function (event) {
-        event.preventDefault();
+        // Prevent duplicate initialization.
+        if (
+            commissionSection.dataset.navigationInitialized === "true"
+        ) {
+            return;
+        }
 
-        // Hide other main dashboard sections.
-        document.querySelectorAll(
-            "main > section, .dashboard-section"
-        ).forEach(function (section) {
-            if (section !== commissionSection) {
-                section.hidden = true;
+        commissionSection.dataset.navigationInitialized = "true";
+
+        /*
+         * Find existing Dashboard sections.
+         * Keep the existing HTML and Supabase connection unchanged.
+         */
+        function getDashboardSections() {
+            const selectors = [
+                "#mainDashboard",
+                "#website",
+                "#paymentHistory",
+                "#account",
+                "#contact",
+                "#affiliateLink",
+                "#promoCode",
+                "#media",
+                "#conversionStatistics",
+                "#fullReport",
+                "#marketingTools",
+                "#playerReport",
+                "#subAffiliateReport"
+            ];
+
+            const sections = selectors
+                .map(function (selector) {
+                    return document.querySelector(selector);
+                })
+                .filter(function (section, index, array) {
+                    return (
+                        section &&
+                        section !== commissionSection &&
+                        array.indexOf(section) === index
+                    );
+                });
+
+            sections.push(commissionSection);
+
+            return sections;
+        }
+
+        /*
+         * Show the requested section and hide the others.
+         */
+        function showDashboardSection(targetSection) {
+            const sections = getDashboardSections();
+
+            sections.forEach(function (section) {
+                const isTarget = section === targetSection;
+
+                section.hidden = !isTarget;
+
+                if (isTarget) {
+                    section.style.display = "";
+                }
+            });
+
+            // Update navigation button states.
+            document.querySelectorAll(
+                ".navigation-menu-button"
+            ).forEach(function (button) {
+                button.classList.remove("active");
+                button.setAttribute("aria-expanded", "false");
+            });
+
+            if (targetSection === commissionSection) {
+                commissionMenu.classList.add("active");
+                commissionMenu.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
             }
+        }
+
+        /*
+         * Commission Structure navigation.
+         */
+        commissionMenu.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            showDashboardSection(commissionSection);
         });
 
-        // Show Commission Structure.
-        commissionSection.hidden = false;
-        commissionSection.style.display = "";
+        /*
+         * Main Page navigation.
+         */
+        const mainPageLink = document.querySelector(
+            '#navigationMenu a[href="#mainDashboard"]'
+        );
 
-        // Update navigation state.
-        document.querySelectorAll(
-            ".navigation-menu-button"
-        ).forEach(function (button) {
-            button.classList.remove("active");
-            button.setAttribute("aria-expanded", "false");
+        if (mainPageLink) {
+            mainPageLink.addEventListener("click", function (event) {
+                const mainDashboard = document.getElementById(
+                    "mainDashboard"
+                );
+
+                if (!mainDashboard) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                showDashboardSection(mainDashboard);
+            });
+        }
+
+        /*
+         * Commission details elements.
+         */
+        const referralOption = commissionSection.querySelector(
+            "#referralOption"
+        );
+
+        const revenueOption = commissionSection.querySelector(
+            "#revenueOption"
+        );
+
+        const detailsPanel = commissionSection.querySelector(
+            "#commissionDetails"
+        );
+
+        const detailsTitle = commissionSection.querySelector(
+            "#detailsTitle"
+        );
+
+        const detailsCaption = commissionSection.querySelector(
+            "#detailsCaption"
+        );
+
+        const detailsContent = commissionSection.querySelector(
+            "#detailsContent"
+        );
+
+        const referralContent = commissionSection.querySelector(
+            "#referralContent"
+        );
+
+        const revenueContent = commissionSection.querySelector(
+            "#revenueContent"
+        );
+
+        const toggleDetails = commissionSection.querySelector(
+            "#toggleDetails"
+        );
+
+        /*
+         * If detail elements are missing, keep navigation working.
+         */
+        if (
+            !referralOption ||
+            !revenueOption ||
+            !detailsPanel ||
+            !detailsTitle ||
+            !detailsCaption ||
+            !detailsContent ||
+            !referralContent ||
+            !revenueContent ||
+            !toggleDetails
+        ) {
+            console.warn(
+                "Commission Structure: one or more detail elements are missing."
+            );
+            return;
+        }
+
+        let selectedType = "referral";
+
+        /*
+         * Select Referral Commission or Revenue Share.
+         */
+        function selectCommission(type) {
+            selectedType = type;
+
+            const isReferral = type === "referral";
+
+            referralOption.classList.toggle(
+                "active",
+                isReferral
+            );
+
+            revenueOption.classList.toggle(
+                "active",
+                !isReferral
+            );
+
+            detailsTitle.textContent = isReferral
+                ? "Referral Commission"
+                : "Revenue Share";
+
+            detailsCaption.textContent = isReferral
+                ? "Your referral commission configuration"
+                : "Your revenue share commission configuration";
+
+            referralContent.hidden = !isReferral;
+            revenueContent.hidden = isReferral;
+
+            detailsPanel.hidden = false;
+            detailsContent.hidden = false;
+
+            toggleDetails.textContent = "−";
+
+            toggleDetails.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+            toggleDetails.setAttribute(
+                "aria-label",
+                "Minimize commission details"
+            );
+
+            referralOption.setAttribute(
+                "aria-expanded",
+                String(isReferral)
+            );
+
+            revenueOption.setAttribute(
+                "aria-expanded",
+                String(!isReferral)
+            );
+        }
+
+        referralOption.addEventListener("click", function () {
+            selectCommission("referral");
         });
 
-        commissionMenu.classList.add("active");
-        commissionMenu.setAttribute("aria-expanded", "true");
-    });
+        revenueOption.addEventListener("click", function () {
+            selectCommission("revenue");
+        });
+
+        /*
+         * Expand / minimize commission details.
+         */
+        toggleDetails.addEventListener("click", function () {
+            const willCollapse = !detailsContent.hidden;
+
+            detailsContent.hidden = willCollapse;
+
+            toggleDetails.textContent = willCollapse
+                ? "+"
+                : "−";
+
+            toggleDetails.setAttribute(
+                "aria-expanded",
+                String(!willCollapse)
+            );
+
+            toggleDetails.setAttribute(
+                "aria-label",
+                willCollapse
+                    ? "Expand commission details"
+                    : "Minimize commission details"
+            );
+
+            referralOption.setAttribute(
+                "aria-expanded",
+                String(
+                    selectedType === "referral" &&
+                    !willCollapse
+                )
+            );
+
+            revenueOption.setAttribute(
+                "aria-expanded",
+                String(
+                    selectedType === "revenue" &&
+                    !willCollapse
+                )
+            );
+        });
+
+        // Set the initial commission type.
+        selectCommission("referral");
+
+        console.log(
+            "Commission Structure: initialized successfully."
+        );
+    }
+
+    // Initialize after the HTML is ready.
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeCommissionStructure,
+            { once: true }
+        );
+    } else {
+        initializeCommissionStructure();
+    }
 })();
+
     /*
      * Find Dashboard sections without changing
      * the existing HTML or Supabase connection.
