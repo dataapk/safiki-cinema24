@@ -1784,30 +1784,6 @@ if (decision === "approved") {
             "Commission rate must be a number from 0 to 100."
         );
     }
-
-    // Keep the existing Player ID verification validation.
-    if (application.player_id_verified !== true) {
-        throw new Error(
-            "Verify the applicant's Main Player ID before approval."
-        );
-    }
-}
-
-const { data, error } = await supabase
-    .schema("affiliate_program")
-    .rpc("review_application", {
-        p_application_id: application.id,
-        p_decision: decision,
-        p_commission_rate: commissionRate,
-        p_player_id_verified:
-            decision === "approved"
-                ? true
-                : application.player_id_verified === true,
-        p_notes: notes || null
-    });
-
-if (error) {
-    throw error;
 }
 
 
