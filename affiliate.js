@@ -2412,44 +2412,80 @@ document.addEventListener("click", function (event) {
     }
 
     /* =====================================================
-       21. LOAD AFFILIATE RECORDS
-    ===================================================== */
+   21. LOAD AFFILIATE RECORDS
+===================================================== */
 
-    async function loadAffiliates() {
+async function loadAffiliates() {
+    const container = getAffiliateListContainer();
+
+    try {
         const table = getConfiguredTable("affiliates");
 
         if (!table) {
             state.affiliates = [];
+            state.affiliatePage = 1;
             renderAffiliateList();
-
-            const container = getAffiliateListContainer();
 
             if (container) {
                 container.innerHTML = `
                     <tr>
                         <td colspan="6" class="affc-empty-cell">
-                            Configure the real affiliate table and its
-                            column mapping to display affiliate records.
+                            Affiliate table is not configured.
                         </td>
                     </tr>
                 `;
             }
 
+            console.error(
+                "[Affiliate Center] CONFIG.tables.affiliates is empty."
+            );
+
             return;
         }
 
         const result = await selectRows("affiliates", {
+            select: "*",
             orderBy: "created_at",
             ascending: false,
             limit: 1000
         });
 
-        state.affiliates = result.data;
+        state.affiliates = Array.isArray(result.data)
+            ? result.data
+            : [];
+
         state.affiliatePage = 1;
 
         renderAffiliateList();
-    }
 
+        console.log(
+            "[Affiliate Center] Affiliates loaded:",
+            state.affiliates.length
+        );
+
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Failed to load affiliates:",
+            error
+        );
+
+        state.affiliates = [];
+        state.affiliatePage = 1;
+        renderAffiliateList();
+
+        if (container) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="6" class="affc-empty-cell">
+                        Failed to load affiliate records.
+                        Check the browser console for details.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+}
+   
     /* =====================================================
        22. REFRESH
     ===================================================== */
