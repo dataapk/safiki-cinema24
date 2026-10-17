@@ -1755,27 +1755,30 @@ async function submitApplicationReview(action) {
 
     try {
         
+
 const supabase = getSupabaseClient();
 
 if (!supabase) {
     throw new Error(
-        "Supabase client is not initialized. Check window.supabaseClient."
+        "Supabase client is not initialized."
     );
 }
 
-        
-            const { data, error } = await supabase
-           .schema("affiliate_program")
-             .rpc(AFFILIATE_REVIEW_RPC, {
-          p_application_id: application.id,
-          p_action: normalizedAction,
-         p_review_notes: notes
+const { data, error } = await supabase
+    .schema("affiliate_program")
+    .rpc("review_application", {
+        p_application_id: application.id,
+        p_commission_rate: null,
+        p_decision: normalizedAction,
+        p_notes: notes,
+        p_player_id_verified:
+            application.player_id_verified === true
     });
 
+if (error) {
+    throw error;
+}
 
-        if (error) {
-            throw error;
-        }
 
         // Do not assume success if the server explicitly
         // reports that the operation was unsuccessful.
