@@ -1776,11 +1776,10 @@ if (decision === "approved") {
 
 const { data, error } = await supabase
     .schema("affiliate_program")
-    .rpc("review_application", {
+    .rpc(AFFILIATE_REVIEW_RPC, {
         p_application_id: application.id,
         p_decision: decision,
         p_commission_rate: commissionRate,
-        p_player_id_verified: false,
         p_notes: notes
     });
 
