@@ -1656,6 +1656,312 @@ function openApplicationDetails(identifier) {
     });
 }
 
+   
+/* =====================================================
+   16. APPLICATION REVIEW ACTIONS
+   Approve / Reject / Admin Notes
+===================================================== */
+
+// The matching server-side RPC must be created first.
+const AFFILIATE_REVIEW_RPC = "review_application";
+
+
+function setApplicationReviewMessage(message, type = "info") {
+    const element = $("#affcApplicationReviewMessage");
+
+    if (!element) {
+        showMessage(message, type);
+        return;
+    }
+
+    element.textContent = message;
+    element.dataset.type = type;
+    element.hidden = false;
+}
+
+
+/*
+ * Send the review decision to the server.
+ *
+ * SECURITY:
+ * This must call a PostgreSQL RPC that verifies the
+ * authenticated user's admin permissions on the server.
+ */
+async function submitApplicationReview(action) {
+    const application = state.selectedApplication;
+
+    if (!application || !application.id) {
+        showMessage(
+            "Open an application before reviewing it.",
+            "warning"
+        );
+        return;
+    }
+
+    const normalizedAction = String(action || "")
+        .trim()
+        .toLowerCase();
+
+    if (!["approve", "reject"].includes(normalizedAction)) {
+        showMessage("Invalid application review action.", "error");
+        return;
+    }
+
+    const currentStatus = String(
+        application.status || "pending"
+    ).trim().toLowerCase();
+
+    if (currentStatus === "approved") {
+        showMessage(
+            "This application has already been approved.",
+            "warning"
+        );
+        return;
+    }
+
+    if (
+        normalizedAction === "reject" &&
+        currentStatus === "rejected"
+    ) {
+        showMessage(
+            "This application is already rejected.",
+            "warning"
+        );
+        return;
+    }
+
+    const approveButton = $("#affcApproveApplicationBtn");
+    const rejectButton = $("#affcRejectApplicationBtn");
+
+    const notesField = $("#affcApplicationAdminNotes");
+
+    const notes = notesField
+        ? notesField.value.trim()
+        : "";
+
+    const buttons = [approveButton, rejectButton]
+        .filter(Boolean);
+
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+
+    setApplicationReviewMessage(
+        normalizedAction === "approve"
+            ? "Approving application..."
+            : "Rejecting application...",
+        "info"
+    );
+
+    try {
+        /*
+         * This RPC must exist in the affiliate_program schema.
+         * It must verify admin authorization server-side.
+         *
+         * The server should:
+         * - Update the application's status and review notes.
+         * - Set reviewed_by and reviewed_at.
+         * - On approval, create or reuse the affiliate record.
+         * - Prevent duplicate affiliate records.
+         * - Return an error if the caller is not authorized.
+         */
+        const { data, error } = await client
+            .schema("affiliate_program")
+            .rpc(AFFILIATE_REVIEW_RPC, {
+                p_application_id: application.id,
+                p_action: normalizedAction,
+                p_review_notes: notes
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        // Do not assume success if the server explicitly
+        // reports that the operation was unsuccessful.
+        if (
+            data &&
+            !Array.isArray(data) &&
+            typeof data === "object" &&
+            data.success === false
+        ) {
+            throw new Error(
+                data.message || "The review action was not completed."
+            );
+        }
+
+        if (normalizedAction === "approve") {
+            setApplicationReviewMessage(
+                "Application approved successfully.",
+                "success"
+            );
+
+            /*
+             * Approved applications are excluded from the
+             * Pending and Rejected application lists.
+             */
+            state.applicationStatus = "pending";
+        } else {
+            setApplicationReviewMessage(
+                "Application rejected successfully.",
+                "success"
+            );
+
+            // Show the rejected application in the Rejected view.
+            state.applicationStatus = "rejected";
+        }
+
+        // Refresh application records and both status counts.
+        await loadApplications();
+
+        /*
+         * Affiliate List refresh:
+         * Connect your existing Affiliate List reload function
+         * here once its actual function name is confirmed.
+         */
+
+        // Keep the details panel open so the result is visible.
+        const updatedApplication = (
+            Array.isArray(state.applications)
+                ? state.applications
+                : []
+        ).find(item =>
+            normalize(item.id) === normalize(application.id)
+        );
+
+        if (updatedApplication) {
+            state.selectedApplication = updatedApplication;
+            openApplicationDetails(updatedApplication.id);
+        } else {
+            // The approved record may no longer be in the
+            // Pending/Rejected result set.
+            const panel = $("#affcApplicationDetails");
+
+            if (panel) {
+                panel.hidden = true;
+            }
+
+            state.selectedApplication = null;
+        }
+
+        setApplicationReviewMessage(
+            normalizedAction === "approve"
+                ? "Application approved successfully."
+                : "Application rejected successfully.",
+            "success"
+        );
+
+    } catch (error) {
+        console.error(
+            "Application review action failed:",
+            error
+        );
+
+        setApplicationReviewMessage(
+            error.message ||
+                "Could not complete the application review.",
+            "error"
+        );
+
+    } finally {
+        buttons.forEach(button => {
+            button.disabled = false;
+        });
+
+        // Keep Reject disabled when the selected application
+        // is already rejected, but allow it to be approved.
+        const selectedStatus = String(
+            state.selectedApplication?.status || ""
+        ).trim().toLowerCase();
+
+        if (rejectButton) {
+            rejectButton.disabled =
+                selectedStatus === "rejected";
+        }
+    }
+}
+
+
+/* =====================================================
+   17. APPLICATION REVIEW EVENT LISTENERS
+===================================================== */
+
+// Use delegated listeners so the existing buttons keep working.
+document.addEventListener("click", function (event) {
+    const target = event.target;
+
+    if (!(target instanceof Element)) {
+        return;
+    }
+
+    // Open application details.
+    const detailsButton = target.closest(
+        '[data-affc-action="view-application"]'
+    );
+
+    if (detailsButton) {
+        event.preventDefault();
+
+        const applicationId = detailsButton.getAttribute(
+            "data-affc-id"
+        );
+
+        if (applicationId) {
+            openApplicationDetails(applicationId);
+        }
+
+        return;
+    }
+
+    // Approve application.
+    const approveButton = target.closest(
+        '[data-affc-action="approve-application"]'
+    );
+
+    if (approveButton) {
+        event.preventDefault();
+
+        if (!approveButton.disabled) {
+            submitApplicationReview("approve");
+        }
+
+        return;
+    }
+
+    // Reject application.
+    const rejectButton = target.closest(
+        '[data-affc-action="reject-application"]'
+    );
+
+    if (rejectButton) {
+        event.preventDefault();
+
+        if (!rejectButton.disabled) {
+            submitApplicationReview("reject");
+        }
+
+        return;
+    }
+
+    // Close the details panel.
+    const closeButton = target.closest(
+        "#affcCloseApplicationDetailsBtn"
+    );
+
+    if (closeButton) {
+        event.preventDefault();
+
+        const panel = $("#affcApplicationDetails");
+
+        if (panel) {
+            panel.hidden = true;
+        }
+
+        state.selectedApplication = null;
+    }
+});
+
+
     /* =====================================================
        15. INDIVIDUAL COMMISSION SETTINGS
     ===================================================== */
