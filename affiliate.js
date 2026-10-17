@@ -1210,7 +1210,6 @@ document
    
 
 async function loadApplications() {
-    // Match the actual HTML tbody ID.
     const container = $("#affcApplicationsTableBody");
 
     if (!container) {
@@ -1222,7 +1221,7 @@ async function loadApplications() {
 
     container.innerHTML = `
         <tr>
-            <td colspan="6" class="affc-empty-cell">
+            <td colspan="7" class="affc-empty-cell">
                 Loading applications...
             </td>
         </tr>
@@ -1233,7 +1232,7 @@ async function loadApplications() {
     if (!table) {
         container.innerHTML = `
             <tr>
-                <td colspan="6" class="affc-empty-cell">
+                <td colspan="7" class="affc-empty-cell">
                     Application table is not configured.
                 </td>
             </tr>
@@ -1262,23 +1261,27 @@ async function loadApplications() {
 
         state.applicationPage = 1;
 
-        // Keep the current selected view, defaulting to Pending.
-        if (!state.applicationStatus) {
-            state.applicationStatus = "pending";
-        }
+        // Applications section supports Pending and Rejected views.
+        const currentView = String(
+            state.applicationStatus || "pending"
+        ).toLowerCase();
 
-        // Update application counts.
+        state.applicationStatus =
+            currentView === "rejected" ? "rejected" : "pending";
+
+        // Update status counts.
         const pendingCount = state.applications.filter(app =>
-            String(app.status || "").toLowerCase() === "pending"
+            String(app.status || "").trim().toLowerCase() === "pending"
         ).length;
 
         const rejectedCount = state.applications.filter(app =>
-            String(app.status || "").toLowerCase() === "rejected"
+            String(app.status || "").trim().toLowerCase() === "rejected"
         ).length;
 
         const pendingElement = $("#affcApplicationsPendingCount");
         const rejectedElement = $("#affcApplicationsRejectedCount");
         const navCountElement = $("#affcApplicationsNavCount");
+        const overviewPendingElement = $("#affcPendingApplications");
 
         if (pendingElement) {
             pendingElement.textContent = pendingCount;
@@ -1293,8 +1296,6 @@ async function loadApplications() {
             navCountElement.hidden = pendingCount === 0;
         }
 
-        const overviewPendingElement = $("#affcPendingApplications");
-
         if (overviewPendingElement) {
             overviewPendingElement.textContent = pendingCount;
         }
@@ -1302,11 +1303,14 @@ async function loadApplications() {
         renderApplicationList();
 
     } catch (error) {
-        console.error("Failed to load affiliate applications:", error);
+        console.error(
+            "Failed to load affiliate applications:",
+            error
+        );
 
         container.innerHTML = `
             <tr>
-                <td colspan="6" class="affc-empty-cell">
+                <td colspan="7" class="affc-empty-cell">
                     Could not load applications. Check the console and Supabase permissions.
                 </td>
             </tr>
@@ -1321,7 +1325,6 @@ async function loadApplications() {
 
 
 function renderApplicationList() {
-    // This ID must match the HTML exactly.
     const container = $("#affcApplicationsTableBody");
 
     if (!container) return;
@@ -1334,70 +1337,84 @@ function renderApplicationList() {
         state.applicationSearchTerm || ""
     );
 
-    // Default view: Pending.
-    const selectedStatus = String(
+    // Only Pending and Rejected are displayed here.
+    const requestedView = String(
         state.applicationStatus || "pending"
     ).toLowerCase();
 
-    // Filter by Pending / Rejected / All, then search.
+    const selectedStatus =
+        requestedView === "rejected" ? "rejected" : "pending";
+
+    state.applicationStatus = selectedStatus;
+
     const filteredApplications = applications.filter(application => {
         const status = String(
             application.status || ""
-        ).toLowerCase();
+        ).trim().toLowerCase();
 
-        if (
-            selectedStatus !== "all" &&
-            status !== selectedStatus
-        ) {
+        // Approved applications must not appear in these lists.
+        if (status !== selectedStatus) {
             return false;
         }
 
         if (!searchTerm) return true;
 
-        // Use the real affiliate_program.applications columns.
-        const userId = normalize(
-            application.auth_user_id || ""
+        const affiliateId = normalize(
+            application.affiliate_id || ""
         );
 
-        const name = normalize([
-            application.first_name || "",
+        const playerId = normalize(
+            application.player_id || ""
+        );
+
+        const firstName = normalize(
+            application.first_name || ""
+        );
+
+        const lastName = normalize(
             application.last_name || ""
-        ].filter(Boolean).join(" "));
+        );
+
+        const fullName = normalize(
+            `${application.first_name || ""} ${
+                application.last_name || ""
+            }`.trim()
+        );
 
         const email = normalize(
             application.email || ""
         );
 
         return (
-            userId.includes(searchTerm) ||
-            name.includes(searchTerm) ||
+            affiliateId.includes(searchTerm) ||
+            playerId.includes(searchTerm) ||
+            firstName.includes(searchTerm) ||
+            lastName.includes(searchTerm) ||
+            fullName.includes(searchTerm) ||
             email.includes(searchTerm)
         );
     });
 
+    const currentPage = Math.max(
+        1,
+        Number(state.applicationPage) || 1
+    );
+
     const pageItems = getPageItems(
         filteredApplications,
-        state.applicationPage || 1
+        currentPage
     );
 
     if (!pageItems.length) {
-        let emptyMessage = "No pending applications found.";
-
-        if (selectedStatus === "rejected") {
-            emptyMessage = "No rejected applications found.";
-        } else if (selectedStatus === "approved") {
-            emptyMessage = "No approved applications found.";
-        } else if (selectedStatus === "all") {
-            emptyMessage = "No application records are available.";
-        }
-
-        if (searchTerm) {
-            emptyMessage = "No matching applications found.";
-        }
+        const emptyMessage = searchTerm
+            ? "No matching applications found."
+            : selectedStatus === "rejected"
+                ? "No rejected applications found."
+                : "No pending applications found.";
 
         container.innerHTML = `
             <tr>
-                <td colspan="6" class="affc-empty-cell">
+                <td colspan="7" class="affc-empty-cell">
                     ${escapeHTML(emptyMessage)}
                 </td>
             </tr>
@@ -1406,7 +1423,7 @@ function renderApplicationList() {
         renderPagination(
             "affcApplicationsPagination",
             filteredApplications.length,
-            state.applicationPage || 1,
+            currentPage,
             "application"
         );
 
@@ -1415,14 +1432,16 @@ function renderApplicationList() {
 
     container.innerHTML = pageItems.map(application => {
         const status = String(
-            application.status || "unknown"
-        ).toLowerCase();
+            application.status || "pending"
+        ).trim().toLowerCase();
 
-        const statusClass = status === "approved"
-            ? "affc-status-approved"
-            : status === "rejected"
-                ? "affc-status-rejected"
-                : "affc-status-pending";
+        const statusClass = status === "rejected"
+            ? "affc-status-rejected"
+            : "affc-status-pending";
+
+        const statusLabel = status === "rejected"
+            ? "Rejected"
+            : "Pending";
 
         const fullName = [
             application.first_name || "",
@@ -1431,21 +1450,29 @@ function renderApplicationList() {
 
         return `
             <tr>
-                <td>${escapeHTML(
-                    application.auth_user_id || "—"
-                )}</td>
+                <td>
+                    ${escapeHTML(application.affiliate_id || "—")}
+                </td>
 
-                <td>${escapeHTML(fullName)}</td>
+                <td>
+                    ${escapeHTML(application.player_id || "—")}
+                </td>
 
-                <td>${escapeHTML(
-                    application.email || "—"
-                )}</td>
+                <td>
+                    ${escapeHTML(fullName)}
+                </td>
 
-                <td>${formatDate(application.created_at)}</td>
+                <td>
+                    ${escapeHTML(application.email || "—")}
+                </td>
+
+                <td>
+                    ${escapeHTML(formatDate(application.created_at))}
+                </td>
 
                 <td>
                     <span class="affc-status ${statusClass}">
-                        ${escapeHTML(application.status || "Unknown")}
+                        ${escapeHTML(statusLabel)}
                     </span>
                 </td>
 
@@ -1465,7 +1492,7 @@ function renderApplicationList() {
     renderPagination(
         "affcApplicationsPagination",
         filteredApplications.length,
-        state.applicationPage || 1,
+        currentPage,
         "application"
     );
 }
