@@ -629,6 +629,26 @@ async function loadUserData(
             error
         } = await query;
 
+        console.log("USER LIST DIAGNOSTIC:", {
+    error: error
+        ? {
+            message: error.message,
+            code: error.code,
+            details: error.details
+        }
+        : null,
+
+    rowCount: Array.isArray(data)
+        ? data.length
+        : null,
+
+    searchUserId: searchUserId,
+
+    firstUser: Array.isArray(data)
+        ? data[0] ?? null
+        : null
+});
+
 
         if (error) {
 
