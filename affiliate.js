@@ -1,46 +1,68 @@
+
 /* =========================================================
    SAFIKI ADMIN — AFFILIATE CENTER
    File: affiliate.js
 
-   Supabase schema: affiliate_program
-   Client: window.supabaseClient
+   HTML: admin.html
+   CSS: affiliate.css
+   Supabase client: window.supabaseClient
 
-   Uses the existing affiliate_program schema.
-   Does not modify public.user_data or its triggers.
-
-   SECURITY:
-   - Browser-side admin checks are not sufficient by themselves.
-   - Enable appropriate Supabase RLS policies.
-   - Financial processing must use authorized server functions.
+   IMPORTANT:
+   - No fake affiliate records or financial totals.
+   - Configure real table names before enabling data loading.
+   - Final commission calculations and payouts must be
+     verified by trusted server-side functions.
 ========================================================= */
 
 (function () {
     "use strict";
 
+    /* =====================================================
+       01. CONFIGURATION
+       Set these values to match your actual Supabase schema.
+    ===================================================== */
+
     const CONFIG = {
         rootSelector: "#affiliateSection",
-        schema: "affiliate_program",
-        pageSize: 20,
-        applicationLimit: 500,
-        affiliateLimit: 1000,
+
+        /*
+         * Leave table names empty until you confirm the
+         * actual Supabase table and column names.
+         *
+         * Example:
+         * tables: {
+         *   affiliates: "your_real_affiliate_table",
+         *   applications: "your_real_application_table"
+         * }
+         */
 
         tables: {
-            admins: "admins",
-            applications: "applications",
-            affiliates: "affiliates",
-            referrals: "referrals",
-            commissions: "commissions",
-            payouts: "payouts",
-            settings: "settings",
-            auditLog: "audit_log"
+            affiliates: "",
+            applications: "",
+            referrals: "",
+            deposits: "",
+            bets: "",
+            results: "",
+            commissions: "",
+            payouts: ""
         },
+
+        /*
+         * Final financial operations must be implemented as
+         * secure Supabase Edge Functions or database RPCs.
+         *
+         * Set each name only after the server-side function
+         * exists and has authorization checks.
+         */
 
         functions: {
             saveCommissionSettings: "",
             calculateDailyCommission: "",
             settleWeeklyCommission: "",
             processPayout: ""
-        }
+        },
+
+        pageSize: 20
     };
 
     const root = document.querySelector(CONFIG.rootSelector);
@@ -52,25 +74,32 @@
         return;
     }
 
+    /* =====================================================
+       02. STATE
+    ===================================================== */
+
     const state = {
-        initialized: false,
-        loading: false,
-        adminId: null,
+        activeMainPanel: null,
+        activeDetailPanel: null,
+        activeSettingsPanel: null,
+
+        selectedAffiliate: null,
+        selectedApplication: null,
 
         affiliates: [],
         applications: [],
         referrals: [],
 
-        selectedAffiliate: null,
-        selectedApplication: null,
-
         affiliateSearchTerm: "",
-        applicationSearchTerm: "",
+       applicationSearchTerm: "",
         referralSearchTerm: "",
 
         affiliatePage: 1,
         applicationPage: 1,
-        referralPage: 1
+        referralPage: 1,
+
+        loading: false,
+        initialized: false
     };
 
     const $ = (selector, parent = root) =>
@@ -79,30 +108,37 @@
     const $$ = (selector, parent = root) =>
         Array.from(parent.querySelectorAll(selector));
 
-    const byId = (id) => document.getElementById(id);
+    const byId = (id) =>
+        document.getElementById(id);
 
     /* =====================================================
-       01. HELPERS
+       03. SAFE HELPERS
     ===================================================== */
 
     function escapeHTML(value) {
-        return String(value ?? "").replace(/[&<>"']/g, char => ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        })[char]);
+        return String(value ?? "").replace(/[&<>"']/g, function (char) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[char];
+        });
     }
 
     function normalize(value) {
-        return String(value ?? "").trim().toLowerCase();
+        return String(value ?? "")
+            .trim()
+            .toLowerCase();
     }
 
     function formatNumber(value) {
         const number = Number(value);
 
-        if (!Number.isFinite(number)) return "—";
+        if (!Number.isFinite(number)) {
+            return "—";
+        }
 
         return new Intl.NumberFormat("en-US", {
             maximumFractionDigits: 2
@@ -112,7 +148,9 @@
     function formatMoney(value, currency = "USD") {
         const number = Number(value);
 
-        if (!Number.isFinite(number)) return "—";
+        if (!Number.isFinite(number)) {
+            return "—";
+        }
 
         try {
             return new Intl.NumberFormat("en-US", {
@@ -130,7 +168,9 @@
 
         const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) return "—";
+        if (Number.isNaN(date.getTime())) {
+            return "—";
+        }
 
         return new Intl.DateTimeFormat("en-GB", {
             dateStyle: "medium",
@@ -138,11 +178,32 @@
         }).format(date);
     }
 
-    function getFullName(record) {
-        return [
-            record?.first_name,
-            record?.last_name
-        ].filter(Boolean).join(" ").trim() || "—";
+    function getValue(object, key, fallback = "—") {
+        if (!object || object[key] === null ||
+            object[key] === undefined || object[key] === "") {
+            return fallback;
+        }
+
+        return object[key];
+    }
+
+    function setText(id, value) {
+        const element = byId(id);
+
+        if (element) {
+            element.textContent =
+                value === null || value === undefined
+                    ? "—"
+                    : String(value);
+        }
+    }
+
+    function setHTML(id, html) {
+        const element = byId(id);
+
+        if (element) {
+            element.innerHTML = html;
+        }
     }
 
     function showElement(element) {
@@ -153,55 +214,33 @@
     }
 
     function hideElement(element) {
-        if (element) element.hidden = true;
+        if (!element) return;
+
+        element.hidden = true;
     }
 
-    function setText(id, value) {
-        const element = byId(id);
-
-        if (element) {
-            element.textContent =
-                value === null || value === undefined || value === ""
-                    ? "—"
-                    : String(value);
-        }
-    }
-
-    function setButtonLoading(button, loading, text = "Please wait…") {
+    function setButtonLoading(button, loading, loadingText = "Please wait…") {
         if (!button) return;
 
         if (loading) {
-            if (!button.dataset.originalText) {
-                button.dataset.originalText = button.textContent;
-            }
-
+            button.dataset.originalText = button.textContent;
+            button.textContent = loadingText;
             button.disabled = true;
-            button.textContent = text;
             button.setAttribute("aria-busy", "true");
         } else {
+            button.textContent =
+                button.dataset.originalText ||
+                button.textContent;
+
+            delete button.dataset.originalText;
+
             button.disabled = false;
-
-            if (button.dataset.originalText) {
-                button.textContent = button.dataset.originalText;
-                delete button.dataset.originalText;
-            }
-
             button.removeAttribute("aria-busy");
         }
     }
 
-    function setLoading(loading) {
-        state.loading = Boolean(loading);
-
-        root.classList.toggle("affc-is-loading", state.loading);
-        root.setAttribute(
-            "aria-busy",
-            state.loading ? "true" : "false"
-        );
-    }
-
     /* =====================================================
-       02. MESSAGES
+       04. MESSAGES
     ===================================================== */
 
     function showMessage(message, type = "info") {
@@ -242,7 +281,6 @@
 
         hideElement(element);
         element.textContent = "";
-
         element.classList.remove(
             "is-success",
             "is-error",
@@ -282,73 +320,54 @@
     }
 
     /* =====================================================
-       03. SUPABASE
+       05. SUPABASE CLIENT
     ===================================================== */
 
-    function getClient() {
+    function getSupabaseClient() {
+        /*
+         * Expected:
+         * window.supabaseClient = createClient(URL, ANON_KEY)
+         *
+         * Use only the public anon/publishable key in browser
+         * code. Never put the Supabase service-role key here.
+         */
+
         return window.supabaseClient || null;
     }
 
-    function getTable(tableName) {
-        const client = getClient();
+    function getConfiguredTable(key) {
+        return String(CONFIG.tables[key] || "").trim();
+    }
+
+    function getConfiguredFunction(key) {
+        return String(CONFIG.functions[key] || "").trim();
+    }
+
+    async function selectRows(tableKey, options = {}) {
+        const client = getSupabaseClient();
+        const table = getConfiguredTable(tableKey);
 
         if (!client) {
             throw new Error(
-                "Supabase client missing. Initialize window.supabaseClient first."
+                "Supabase client is not configured. " +
+                "Set window.supabaseClient before loading affiliate.js."
             );
         }
 
-        return client
-            .schema(CONFIG.schema)
-            .from(tableName);
-    }
-
-    async function getCurrentUser() {
-        const client = getClient();
-
-        if (!client) {
-            throw new Error("Supabase client is not configured.");
-        }
-
-        const { data, error } = await client.auth.getUser();
-
-        if (error) throw error;
-
-        if (!data?.user) {
-            throw new Error("Please sign in to the admin account.");
-        }
-
-        return data.user;
-    }
-
-    async function requireAdmin() {
-        const user = await getCurrentUser();
-
-        const { data, error } = await getTable(CONFIG.tables.admins)
-            .select("user_id, role, is_active")
-            .eq("user_id", user.id)
-            .maybeSingle();
-
-        if (error) throw error;
-
-        if (!data || data.is_active !== true) {
+        if (!table) {
             throw new Error(
-                "Access denied. An active Affiliate Center admin account is required."
+                `Supabase table "${tableKey}" is not configured yet.`
             );
         }
 
-        state.adminId = user.id;
+        let query = client
+            .from(table)
+            .select(options.select || "*", {
+                count: options.count ? "exact" : undefined
+            });
 
-        return data;
-    }
-
-    async function selectRows(tableName, options = {}) {
-        let query = getTable(tableName).select(
-            options.select || "*"
-        );
-
-        if (typeof options.filter === "function") {
-            query = options.filter(query);
+        if (typeof options.applyFilters === "function") {
+            query = options.applyFilters(query);
         }
 
         if (options.orderBy) {
@@ -357,28 +376,35 @@
             });
         }
 
-        if (options.limit) {
+        if (Number.isInteger(options.limit) && options.limit > 0) {
             query = query.limit(options.limit);
         }
 
-        const { data, error } = await query;
+        const { data, error, count } = await query;
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
 
-        return Array.isArray(data) ? data : [];
+        return {
+            data: Array.isArray(data) ? data : [],
+            count
+        };
     }
 
-    async function invokeFunction(functionKey, payload) {
-        const client = getClient();
-        const functionName = CONFIG.functions[functionKey];
+    async function invokeConfiguredFunction(functionKey, payload) {
+        const client = getSupabaseClient();
+        const functionName = getConfiguredFunction(functionKey);
 
         if (!client) {
-            throw new Error("Supabase client is not configured.");
+            throw new Error(
+                "Supabase client is not configured."
+            );
         }
 
         if (!functionName) {
             throw new Error(
-                `The server function "${functionKey}" has not been configured.`
+                `Server-side function "${functionKey}" is not configured.`
             );
         }
 
@@ -387,140 +413,492 @@
             { body: payload }
         );
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
 
         return data;
     }
 
     /* =====================================================
-       04. AUDIT LOG
-       Audit writes use the existing audit_log columns.
-       RLS must restrict writes to authorized administrators.
+       06. LOADING STATE
     ===================================================== */
 
-    async function writeAudit(action, entityType, entityId, details = {}) {
-        const { error } = await getTable(CONFIG.tables.auditLog)
-            .insert({
-                actor_user_id: state.adminId,
-                action,
-                entity_type: entityType,
-                entity_id: entityId || null,
-                details
-            });
+    function setLoading(loading) {
+        state.loading = Boolean(loading);
 
-        if (error) {
-            console.error("Audit log write failed:", error);
+        root.classList.toggle(
+            "affc-is-loading",
+            state.loading
+        );
 
-            throw new Error(
-                "The operation's audit record could not be saved. Check audit_log permissions."
+        root.setAttribute(
+            "aria-busy",
+            state.loading ? "true" : "false"
+        );
+    }
+
+    /* =====================================================
+       07. MAIN NAVIGATION
+    ===================================================== */
+
+    function getMainNavigationButtons() {
+        return $$(".affc-nav-button");
+    }
+
+    function getMainPanel(button) {
+        const target =
+            button.dataset.target ||
+            button.getAttribute("aria-controls");
+
+        if (!target) return null;
+
+        const id = target.replace(/^#/, "");
+
+        return byId(id);
+    }
+
+    function activateMainPanel(button, options = {}) {
+        if (!button) return;
+
+        const targetPanel = getMainPanel(button);
+
+        if (!targetPanel || !root.contains(targetPanel)) {
+            showMessage(
+                "This panel could not be found. Check the button's data-target value.",
+                "error"
             );
+            return;
+        }
+
+        hideMessage();
+
+        state.activeMainPanel = targetPanel.id;
+
+        getMainNavigationButtons().forEach((item) => {
+            const active = item === button;
+
+            item.classList.toggle("is-active", active);
+            item.setAttribute(
+                "aria-selected",
+                active ? "true" : "false"
+            );
+
+            item.setAttribute(
+                "aria-pressed",
+                active ? "true" : "false"
+            );
+        });
+
+        $$(".affc-main-panel").forEach((panel) => {
+            const active = panel === targetPanel;
+
+            panel.hidden = !active;
+
+            if (active) {
+                panel.style.removeProperty("display");
+            }
+        });
+
+        showElement(targetPanel);
+
+        if (!options.skipFocus) {
+            targetPanel.scrollIntoView({
+                behavior: "auto",
+                block: "start"
+            });
+        }
+    }
+
+    function initializeMainNavigation() {
+        const buttons = getMainNavigationButtons();
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", function () {
+                activateMainPanel(button);
+            });
+        });
+
+        const activeButton =
+            buttons.find((button) =>
+                button.classList.contains("is-active")
+            ) || buttons[0];
+
+        if (activeButton) {
+            activateMainPanel(activeButton, {
+                skipFocus: true
+            });
         }
     }
 
     /* =====================================================
-       05. MAIN NAVIGATION
+       08. AFFILIATE DETAIL NAVIGATION
     ===================================================== */
 
-    function initializeMainNavigation() {
-        const buttons = $$(".affc-nav-button");
-
-        buttons.forEach(button => {
-            button.addEventListener("click", () => {
+    function initializeDetailNavigation() {
+        $$(".affc-detail-nav-button").forEach((button) => {
+            button.addEventListener("click", function () {
                 const target =
                     button.dataset.target ||
                     button.getAttribute("aria-controls");
 
                 if (!target) return;
 
-                const panel = byId(target.replace(/^#/, ""));
+                const targetId = target.replace(/^#/, "");
+                const panel = byId(targetId);
 
                 if (!panel || !root.contains(panel)) {
-                    showMessage("The requested panel was not found.", "error");
+                    showMessage(
+                        "The requested affiliate detail panel was not found.",
+                        "error"
+                    );
                     return;
                 }
 
-                buttons.forEach(item => {
-                    const active = item === button;
+                const navigation = button.closest(
+                    ".affc-details-navigation"
+                );
 
-                    item.classList.toggle("is-active", active);
-                    item.setAttribute(
-                        "aria-selected",
-                        String(active)
-                    );
-                    item.setAttribute(
-                        "aria-pressed",
-                        String(active)
-                    );
-                });
+                if (!navigation) return;
 
-                $$(".affc-main-panel").forEach(item => {
-                    item.hidden = item !== panel;
-                });
+                $$(".affc-detail-nav-button", navigation)
+                    .forEach((item) => {
+                        const active = item === button;
+
+                        item.classList.toggle("is-active", active);
+                        item.setAttribute(
+                            "aria-selected",
+                            active ? "true" : "false"
+                        );
+                    });
+
+                const detailsContainer =
+                    navigation.parentElement;
+
+                $$(".affc-detail-panel", detailsContainer)
+                    .forEach((item) => {
+                        item.hidden = item !== panel;
+                    });
 
                 showElement(panel);
-                panel.scrollIntoView({
-                    behavior: "auto",
-                    block: "start"
-                });
+                state.activeDetailPanel = panel.id;
             });
         });
-
-        const initial =
-            buttons.find(button =>
-                button.classList.contains("is-active")
-            ) || buttons[0];
-
-        if (initial) initial.click();
     }
 
-    function initializeSubNavigation(buttonSelector, panelSelector, navSelector) {
-        $$(buttonSelector).forEach(button => {
-            button.addEventListener("click", () => {
+    function initializeSettingsNavigation() {
+        $$(".affc-settings-nav-button").forEach((button) => {
+            button.addEventListener("click", function () {
                 const target =
                     button.dataset.target ||
                     button.getAttribute("aria-controls");
 
                 if (!target) return;
 
-                const panel = byId(target.replace(/^#/, ""));
+                const targetId = target.replace(/^#/, "");
+                const panel = byId(targetId);
 
                 if (!panel || !root.contains(panel)) {
-                    showMessage("The requested panel was not found.", "error");
+                    showMessage(
+                        "The requested settings panel was not found.",
+                        "error"
+                    );
                     return;
                 }
 
-                const nav = button.closest(navSelector);
+                const navigation = button.closest(
+                    ".affc-settings-navigation"
+                );
 
-                if (!nav) return;
+                if (!navigation) return;
 
-                $$(buttonSelector, nav).forEach(item => {
-                    item.classList.toggle("is-active", item === button);
-                    item.setAttribute(
-                        "aria-selected",
-                        String(item === button)
-                    );
-                });
+                $$(".affc-settings-nav-button", navigation)
+                    .forEach((item) => {
+                        const active = item === button;
 
-                const container = nav.parentElement;
+                        item.classList.toggle("is-active", active);
+                        item.setAttribute(
+                            "aria-selected",
+                            active ? "true" : "false"
+                        );
+                    });
 
-                $$(panelSelector, container).forEach(item => {
-                    item.hidden = item !== panel;
-                });
+                const container = navigation.parentElement;
+
+                $$(".affc-settings-panel", container)
+                    .forEach((item) => {
+                        item.hidden = item !== panel;
+                    });
 
                 showElement(panel);
+                state.activeSettingsPanel = panel.id;
             });
         });
     }
 
     /* =====================================================
-       06. PAGINATION
+       09. AFFILIATE SEARCH
     ===================================================== */
 
-    function pageItems(items, page) {
-        const start = (page - 1) * CONFIG.pageSize;
+    function affiliateMatches(affiliate, term) {
+        if (!term) return true;
 
-        return items.slice(start, start + CONFIG.pageSize);
+        const searchable = [
+            affiliate.id,
+            affiliate.affiliate_id,
+            affiliate.user_id,
+            affiliate.email,
+            affiliate.name,
+            affiliate.full_name,
+            affiliate.status
+        ].map(normalize).join(" ");
+
+        return searchable.includes(term);
     }
+
+    function findAffiliateByIdentifier(identifier) {
+        const term = normalize(identifier);
+
+        if (!term) return null;
+
+        return state.affiliates.find((affiliate) => {
+            return [
+                affiliate.id,
+                affiliate.affiliate_id,
+                affiliate.user_id,
+                affiliate.email
+            ].some((value) => normalize(value) === term);
+        }) || null;
+    }
+
+    function renderAffiliateSearchResult(affiliate) {
+        const container = $("#affcAffiliateSearchResult");
+
+        if (!container) return;
+
+        if (!affiliate) {
+            container.replaceChildren();
+            hideElement(container);
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="affc-search-result-info">
+                <span>Affiliate ID</span>
+                <strong>${escapeHTML(
+                    affiliate.affiliate_id ||
+                    affiliate.user_id ||
+                    affiliate.id
+                )}</strong>
+                <span>${escapeHTML(
+                    affiliate.email || "Email unavailable"
+                )}</span>
+            </div>
+            <button
+                type="button"
+                class="affc-btn affc-btn-primary"
+                data-affc-action="view-affiliate"
+                data-affc-id="${escapeHTML(
+                    affiliate.id ||
+                    affiliate.affiliate_id ||
+                    affiliate.user_id
+                )}">
+                Details
+            </button>
+        `;
+
+        showElement(container);
+    }
+
+function initializeAffiliateSearch() {
+    const form = $("#affcSearchForm");
+const input = $("#affcAffiliateSearch");
+
+    if (!form || !input) return;
+
+    input.addEventListener("input", function () {
+        state.affiliateSearchTerm = normalize(input.value);
+        state.affiliatePage = 1;
+
+        renderAffiliateList();
+    });
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const term = normalize(input.value);
+
+        if (!term) {
+            showMessage(
+                "Enter an Affiliate ID, User ID, or email to search.",
+                "warning"
+            );
+            return;
+        }
+
+        const match = findAffiliateByIdentifier(term);
+
+        if (match) {
+            renderAffiliateSearchResult(match);
+
+            showMessage(
+                "Affiliate found. Select Details to view the record.",
+                "success"
+            );
+        } else {
+            renderAffiliateSearchResult(null);
+
+            showMessage(
+                "No user ID found.",
+                "warning"
+            );
+        }
+    });
+}
+
+   function initializeApplicationSearch() {
+    const input = $("#affcApplicationSearch");
+
+    if (!input) return;
+
+    if (input.dataset.affcSearchInitialized === "true") {
+        return;
+    }
+
+    input.dataset.affcSearchInitialized = "true";
+
+    // Prevent normal GET form submission and URL changes.
+    const form = input.closest("form");
+
+    if (form && form.dataset.affcSubmitHandled !== "true") {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+        });
+
+        form.dataset.affcSubmitHandled = "true";
+    }
+
+    // Filter applications while typing.
+    input.addEventListener("input", function () {
+        state.applicationSearchTerm = normalize(input.value);
+        state.applicationPage = 1;
+
+        renderApplicationList();
+    });
+}
+
+    /* =====================================================
+       10. AFFILIATE LIST
+    ===================================================== */
+
+    function getAffiliateListContainer() {
+        return $("#affcAffiliateListBody");
+    }
+
+    function getPageItems(items, page) {
+        const pageSize = CONFIG.pageSize;
+        const start = (page - 1) * pageSize;
+
+        return items.slice(start, start + pageSize);
+    }
+
+    function renderAffiliateList() {
+        const container = getAffiliateListContainer();
+
+        if (!container) return;
+
+        const term = state.affiliateSearchTerm;
+
+        const filtered = state.affiliates.filter((affiliate) =>
+            affiliateMatches(affiliate, term)
+        );
+
+        const pageItems = getPageItems(
+            filtered,
+            state.affiliatePage
+        );
+
+        if (!pageItems.length) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="6" class="affc-empty-cell">
+                        No affiliate records are available for this search.
+                    </td>
+                </tr>
+            `;
+
+            renderPagination(
+                "affcAffiliatePagination",
+                filtered.length,
+                state.affiliatePage,
+                "affiliate"
+            );
+
+            return;
+        }
+
+        container.innerHTML = pageItems.map((affiliate) => {
+            const identifier =
+                affiliate.affiliate_id ||
+                affiliate.user_id ||
+                affiliate.id;
+
+            const status = normalize(affiliate.status);
+            const statusClass = status === "active" ||
+                status === "approved"
+                    ? "affc-status-approved"
+                    : status === "pending"
+                        ? "affc-status-pending"
+                        : "affc-status-review";
+
+            return `
+                <tr>
+                    <td>${escapeHTML(identifier)}</td>
+                    <td>${escapeHTML(
+                        affiliate.name ||
+                        affiliate.full_name ||
+                        "—"
+                    )}</td>
+                    <td>${escapeHTML(affiliate.email || "—")}</td>
+                    <td>
+                        <span class="affc-status ${statusClass}">
+                            ${escapeHTML(affiliate.status || "Unknown")}
+                        </span>
+                    </td>
+                    <td>${formatDate(
+                        affiliate.created_at ||
+                        affiliate.createdAt
+                    )}</td>
+                    <td>
+                        <div class="affc-row-actions">
+                            <button
+                                type="button"
+                                class="affc-btn affc-btn-secondary"
+                                data-affc-action="view-affiliate"
+                                data-affc-id="${escapeHTML(
+                                    affiliate.id ||
+                                    affiliate.affiliate_id ||
+                                    affiliate.user_id
+                                )}">
+                                Details
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+
+        renderPagination(
+            "affcAffiliatePagination",
+            filtered.length,
+            state.affiliatePage,
+            "affiliate"
+        );
+    }
+
+    /* =====================================================
+       11. PAGINATION
+    ===================================================== */
 
     function renderPagination(containerId, total, currentPage, type) {
         const container = byId(containerId);
@@ -537,692 +915,144 @@
             return;
         }
 
-        const safePage = Math.min(
-            Math.max(currentPage, 1),
-            totalPages
-        );
-
         container.innerHTML = `
             <button
                 type="button"
                 class="affc-btn affc-btn-secondary"
-                data-affc-page="${escapeHTML(type)}"
-                data-page="${safePage - 1}"
-                ${safePage <= 1 ? "disabled" : ""}>
+                data-affc-page="${type}"
+                data-page="${currentPage - 1}"
+                ${currentPage <= 1 ? "disabled" : ""}>
                 Previous
             </button>
 
             <span>
-                Page ${safePage} of ${totalPages}
+                Page ${currentPage} of ${totalPages}
                 · ${formatNumber(total)} records
             </span>
 
             <button
                 type="button"
                 class="affc-btn affc-btn-secondary"
-                data-affc-page="${escapeHTML(type)}"
-                data-page="${safePage + 1}"
-                ${safePage >= totalPages ? "disabled" : ""}>
+                data-affc-page="${type}"
+                data-page="${currentPage + 1}"
+                ${currentPage >= totalPages ? "disabled" : ""}>
                 Next
             </button>
         `;
     }
 
     function changePage(type, page) {
-        const next = Number(page);
+        const nextPage = Number(page);
 
-        if (!Number.isInteger(next) || next < 1) return;
+        if (!Number.isInteger(nextPage) || nextPage < 1) {
+            return;
+        }
 
         if (type === "affiliate") {
-            state.affiliatePage = next;
+            state.affiliatePage = nextPage;
             renderAffiliateList();
         } else if (type === "application") {
-            state.applicationPage = next;
+            state.applicationPage = nextPage;
             renderApplicationList();
         } else if (type === "referral") {
-            state.referralPage = next;
+            state.referralPage = nextPage;
             renderReferralList();
         }
     }
 
     /* =====================================================
-       07. AFFILIATES
+       12. AFFILIATE DETAILS
     ===================================================== */
 
-    function affiliateName(affiliate) {
-        const application = state.applications.find(item =>
-            item.auth_user_id === affiliate.auth_user_id
+    function getAffiliateStableId(affiliate) {
+        return String(
+            affiliate?.id ??
+            affiliate?.affiliate_id ??
+            affiliate?.user_id ??
+            ""
         );
-
-        return application ? getFullName(application) : "—";
-    }
-
-    function affiliateEmail(affiliate) {
-        const application = state.applications.find(item =>
-            item.auth_user_id === affiliate.auth_user_id
-        );
-
-        return application?.email || "—";
-    }
-
-    function renderAffiliateList() {
-        const container = $("#affcAffiliateListBody");
-
-        if (!container) return;
-
-        const term = state.affiliateSearchTerm;
-
-        const filtered = state.affiliates.filter(affiliate => {
-            const text = normalize([
-                affiliate.id,
-                affiliate.affiliate_id,
-                affiliate.auth_user_id,
-                affiliate.player_id,
-                affiliate.status,
-                affiliateEmail(affiliate),
-                affiliateName(affiliate)
-            ].join(" "));
-
-            return !term || text.includes(term);
-        });
-
-        const totalPages = Math.max(
-            1,
-            Math.ceil(filtered.length / CONFIG.pageSize)
-        );
-
-        state.affiliatePage = Math.min(
-            state.affiliatePage,
-            totalPages
-        );
-
-        const items = pageItems(filtered, state.affiliatePage);
-
-        if (!items.length) {
-            container.innerHTML = `
-                <tr>
-                    <td colspan="6" class="affc-empty-cell">
-                        No affiliate records found.
-                    </td>
-                </tr>
-            `;
-        } else {
-            container.innerHTML = items.map(affiliate => {
-                const status = normalize(affiliate.status);
-
-                const statusClass =
-                    status === "active" || status === "approved"
-                        ? "affc-status-approved"
-                        : status === "pending"
-                            ? "affc-status-pending"
-                            : "affc-status-review";
-
-                return `
-                    <tr>
-                        <td>${escapeHTML(affiliate.affiliate_id || "—")}</td>
-                        <td>${escapeHTML(affiliateName(affiliate))}</td>
-                        <td>${escapeHTML(affiliateEmail(affiliate))}</td>
-                        <td>
-                            <span class="affc-status ${statusClass}">
-                                ${escapeHTML(affiliate.status || "Unknown")}
-                            </span>
-                        </td>
-                        <td>${escapeHTML(formatDate(affiliate.created_at))}</td>
-                        <td>
-                            <button
-                                type="button"
-                                class="affc-btn affc-btn-secondary"
-                                data-affc-action="view-affiliate"
-                                data-affc-id="${escapeHTML(affiliate.id)}">
-                                Details
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join("");
-        }
-
-        renderPagination(
-            "affcAffiliatePagination",
-            filtered.length,
-            state.affiliatePage,
-            "affiliate"
-        );
-    }
-
-    async function loadAffiliates() {
-        state.affiliates = await selectRows(CONFIG.tables.affiliates, {
-            orderBy: "created_at",
-            ascending: false,
-            limit: CONFIG.affiliateLimit
-        });
-
-        state.affiliatePage = 1;
-        renderAffiliateList();
     }
 
     function openAffiliateDetails(identifier) {
-        const affiliate = state.affiliates.find(item =>
-            normalize(item.id) === normalize(identifier) ||
-            normalize(item.affiliate_id) === normalize(identifier)
-        );
+        const wanted = normalize(identifier);
+
+        const affiliate = state.affiliates.find((item) => {
+            return [
+                item.id,
+                item.affiliate_id,
+                item.user_id
+            ].some((value) => normalize(value) === wanted);
+        });
 
         if (!affiliate) {
-            showMessage("Affiliate record not found.", "error");
+            showMessage(
+                "The affiliate record could not be found in the loaded list.",
+                "error"
+            );
             return;
         }
 
         state.selectedAffiliate = affiliate;
 
-        setText("affcSelectedAffiliateId", affiliate.affiliate_id);
-        setText("affcSelectedAffiliateEmail", affiliateEmail(affiliate));
-        setText("affcSelectedAffiliateName", affiliateName(affiliate));
-        setText("affcSelectedAffiliateStatus", affiliate.status);
-        setText("affcCommissionAffiliateId", affiliate.affiliate_id);
+        setText(
+            "affcSelectedAffiliateId",
+            affiliate.affiliate_id ||
+            affiliate.user_id ||
+            affiliate.id
+        );
 
-        showElement($("#affcAffiliateDetails"));
+        setText(
+            "affcSelectedAffiliateEmail",
+            affiliate.email || "—"
+        );
 
-        loadReferralList(affiliate).catch(error => {
-            console.error(error);
-            showMessage("Could not load referral records.", "warning");
+        setText(
+            "affcSelectedAffiliateName",
+            affiliate.name ||
+            affiliate.full_name ||
+            "—"
+        );
+
+        setText(
+            "affcSelectedAffiliateStatus",
+            affiliate.status || "Unknown"
+        );
+
+        const details = $("#affcAffiliateDetails");
+
+        if (details) {
+            showElement(details);
+            details.scrollIntoView({
+                behavior: "auto",
+                block: "start"
+            });
+        }
+
+        const settingsAffiliateId =
+            $("#affcCommissionAffiliateId");
+
+        if (settingsAffiliateId) {
+            settingsAffiliateId.value =
+                affiliate.affiliate_id ||
+                affiliate.user_id ||
+                affiliate.id ||
+                "";
+        }
+
+        loadReferralList(affiliate).catch((error) => {
+            console.error("Referral loading failed:", error);
+            showMessage(
+                "Affiliate details opened, but the referral list could not be loaded. Check the referral table configuration.",
+                "warning"
+            );
         });
+
+        hideMessage();
     }
 
     /* =====================================================
-       08. APPLICATIONS
-    ===================================================== */
-
-    async function loadApplications() {
-        const container = $("#affcApplicationListBody");
-
-        if (container) {
-            container.innerHTML = `
-                <tr>
-                    <td colspan="7" class="affc-empty-cell">
-                        Loading applications…
-                    </td>
-                </tr>
-            `;
-        }
-
-        state.applications = await selectRows(
-            CONFIG.tables.applications,
-            {
-                orderBy: "created_at",
-                ascending: false,
-                limit: CONFIG.applicationLimit
-            }
-        );
-
-        state.applicationPage = 1;
-        renderApplicationList();
-    }
-
-    function renderApplicationList() {
-        const container = $("#affcApplicationListBody");
-
-        if (!container) return;
-
-        const term = state.applicationSearchTerm;
-
-        const filtered = state.applications.filter(application => {
-            const text = normalize([
-                application.id,
-                application.auth_user_id,
-                application.email,
-                application.first_name,
-                application.last_name,
-                application.player_id,
-                application.status
-            ].join(" "));
-
-            return !term || text.includes(term);
-        });
-
-        const totalPages = Math.max(
-            1,
-            Math.ceil(filtered.length / CONFIG.pageSize)
-        );
-
-        state.applicationPage = Math.min(
-            state.applicationPage,
-            totalPages
-        );
-
-        const items = pageItems(filtered, state.applicationPage);
-
-        if (!items.length) {
-            container.innerHTML = `
-                <tr>
-                    <td colspan="7" class="affc-empty-cell">
-                        ${term
-                            ? "No matching application found."
-                            : "No application records are available."}
-                    </td>
-                </tr>
-            `;
-
-            renderPagination(
-                "affcApplicationPagination",
-                0,
-                1,
-                "application"
-            );
-
-            return;
-        }
-
-        container.innerHTML = items.map(application => {
-            const status = normalize(application.status);
-
-            const statusClass =
-                status === "approved"
-                    ? "affc-status-approved"
-                    : status === "rejected"
-                        ? "affc-status-rejected"
-                        : "affc-status-pending";
-
-            return `
-                <tr>
-                    <td>${escapeHTML(application.id)}</td>
-                    <td>${escapeHTML(application.auth_user_id)}</td>
-                    <td>${escapeHTML(application.email)}</td>
-                    <td>${escapeHTML(getFullName(application))}</td>
-                    <td>
-                        <span class="affc-status ${statusClass}">
-                            ${escapeHTML(application.status || "Unknown")}
-                        </span>
-                    </td>
-                    <td>${escapeHTML(formatDate(application.created_at))}</td>
-                    <td>
-                        <button
-                            type="button"
-                            class="affc-btn affc-btn-secondary"
-                            data-affc-action="view-application"
-                            data-affc-id="${escapeHTML(application.id)}">
-                            Details
-                        </button>
-                    </td>
-                </tr>
-            `;
-        }).join("");
-
-        renderPagination(
-            "affcApplicationPagination",
-            filtered.length,
-            state.applicationPage,
-            "application"
-        );
-    }
-
-    function openApplicationDetails(identifier) {
-        const application = state.applications.find(item =>
-            normalize(item.id) === normalize(identifier)
-        );
-
-        if (!application) {
-            showMessage("Application not found.", "error");
-            return;
-        }
-
-        state.selectedApplication = application;
-
-        const panel = $("#affcApplicationDetails");
-
-        if (!panel) {
-            showMessage(
-                "The application details panel is missing from admin.html.",
-                "warning"
-            );
-            return;
-        }
-
-        const playerVerified = application.player_id_verified === true;
-        const status = normalize(application.status);
-        const isPending = status === "pending";
-
-        panel.innerHTML = `
-            <div class="affc-details-header">
-                <div>
-                    <h4>Application Details</h4>
-                    <p>Review the application before making a decision.</p>
-                </div>
-            </div>
-
-            <div class="affc-details-grid">
-                ${detailField("Application ID", application.id)}
-                ${detailField("User ID", application.auth_user_id)}
-                ${detailField("Affiliate ID", application.affiliate_id)}
-                ${detailField("Email", application.email)}
-                ${detailField("First Name", application.first_name)}
-                ${detailField("Last Name", application.last_name)}
-                ${detailField("Promotion Link", application.promotion_link)}
-                ${detailField("Link Category", application.link_category)}
-                ${detailField("Contact Platform", application.contact_platform)}
-                ${detailField("Telegram", application.telegram_username)}
-                ${detailField("WhatsApp", application.whatsapp_number)}
-                ${detailField("Player ID", application.player_id)}
-                ${detailField(
-                    "Player ID Verified",
-                    playerVerified ? "Verified" : "Not verified"
-                )}
-                ${detailField("Status", application.status)}
-                ${detailField("Review Notes", application.review_notes)}
-                ${detailField("Submitted", formatDate(application.created_at))}
-            </div>
-
-            ${isPending ? `
-                <div class="affc-row-actions" style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-                    <button
-                        type="button"
-                        class="affc-btn affc-btn-secondary"
-                        data-affc-action="verify-player"
-                        data-affc-id="${escapeHTML(application.id)}"
-                        ${playerVerified ? "disabled" : ""}>
-                        ${playerVerified ? "Player ID Verified" : "Verify Player ID"}
-                    </button>
-
-                    <button
-                        type="button"
-                        class="affc-btn affc-btn-primary"
-                        data-affc-action="approve-application"
-                        data-affc-id="${escapeHTML(application.id)}"
-                        ${playerVerified ? "" : "disabled"}>
-                        Approve
-                    </button>
-
-                    <button
-                        type="button"
-                        class="affc-btn affc-btn-secondary"
-                        data-affc-action="reject-application"
-                        data-affc-id="${escapeHTML(application.id)}">
-                        Reject
-                    </button>
-                </div>
-
-                ${!playerVerified ? `
-                    <p class="affc-description">
-                        Verify the Player ID before approving this application.
-                    </p>
-                ` : ""}
-            ` : `
-                <p class="affc-description">
-                    This application has already been reviewed.
-                </p>
-            `}
-        `;
-
-        showElement(panel);
-        panel.scrollIntoView({
-            behavior: "auto",
-            block: "start"
-        });
-    }
-
-    function detailField(label, value) {
-        return `
-            <div class="affc-detail-item">
-                <span>${escapeHTML(label)}</span>
-                <strong>${escapeHTML(value ?? "—")}</strong>
-            </div>
-        `;
-    }
-
-    async function verifyPlayerId(identifier) {
-        const application = state.applications.find(item =>
-            normalize(item.id) === normalize(identifier)
-        );
-
-        if (!application) {
-            throw new Error("Application not found.");
-        }
-
-        if (normalize(application.status) !== "pending") {
-            throw new Error("Only pending applications can be verified.");
-        }
-
-        if (!application.player_id || !application.player_id.trim()) {
-            throw new Error("This application has no Player ID.");
-        }
-
-        const confirmed = window.confirm(
-            "Confirm that you have checked this Player ID against the trusted player records?"
-        );
-
-        if (!confirmed) return;
-
-        /*
-         * Manual verification must only be used after an actual
-         * check against your authoritative player system.
-         */
-        const { data, error } = await getTable(CONFIG.tables.applications)
-            .update({
-                player_id_verified: true,
-                updated_at: new Date().toISOString()
-            })
-            .eq("id", application.id)
-            .eq("status", "pending")
-            .select("*")
-            .maybeSingle();
-
-        if (error) throw error;
-
-        if (!data) {
-            throw new Error(
-                "The application was not updated. Check permissions and its current status."
-            );
-        }
-
-        await writeAudit(
-            "player_id_verified",
-            "application",
-            application.id,
-            {
-                player_id: application.player_id
-            }
-        );
-
-        await loadApplications();
-        openApplicationDetails(application.id);
-
-        showMessage("Player ID verification saved.", "success");
-    }
-
-    async function approveApplication(identifier) {
-        const application = state.applications.find(item =>
-            normalize(item.id) === normalize(identifier)
-        );
-
-        if (!application) {
-            throw new Error("Application not found.");
-        }
-
-        if (normalize(application.status) !== "pending") {
-            throw new Error("Only pending applications can be approved.");
-        }
-
-        if (application.player_id_verified !== true) {
-            throw new Error("Verify the Player ID before approval.");
-        }
-
-        if (!application.auth_user_id) {
-            throw new Error("The application has no authenticated user ID.");
-        }
-
-        const rateInput = $("#affcApprovalCommissionRate");
-        const configuredRate = rateInput
-            ? Number(rateInput.value)
-            : NaN;
-
-        if (
-            !Number.isFinite(configuredRate) ||
-            configuredRate < 0 ||
-            configuredRate > 100
-        ) {
-            showMessage(
-                "Enter a valid commission rate between 0 and 100 in #affcApprovalCommissionRate before approving.",
-                "warning"
-            );
-            return;
-        }
-
-        const confirmed = window.confirm(
-            "Approve this application and create the affiliate record?"
-        );
-
-        if (!confirmed) return;
-
-        /*
-         * IMPORTANT:
-         * This client-side flow is not an atomic transaction.
-         * Production approval should be moved to a secured RPC
-         * that validates the admin and creates the affiliate,
-         * updates the application and writes the audit log atomically.
-         */
-
-        const affiliateId = application.affiliate_id ||
-            (
-                "SAF-" +
-                (window.crypto?.randomUUID
-                    ? window.crypto.randomUUID().replace(/-/g, "").slice(0, 12)
-                    : Date.now().toString(36).toUpperCase())
-            );
-
-        const { data: existing, error: existingError } =
-            await getTable(CONFIG.tables.affiliates)
-                .select("id, affiliate_id, auth_user_id")
-                .eq("auth_user_id", application.auth_user_id)
-                .maybeSingle();
-
-        if (existingError) throw existingError;
-
-        if (existing) {
-            throw new Error(
-                "An affiliate record already exists for this user. Review the existing record before proceeding."
-            );
-        }
-
-        const { data: affiliate, error: affiliateError } =
-            await getTable(CONFIG.tables.affiliates)
-                .insert({
-                    affiliate_id: affiliateId,
-                    application_id: application.id,
-                    auth_user_id: application.auth_user_id,
-                    player_id: application.player_id,
-                    commission_rate: configuredRate,
-                    status: "active",
-                    approved_by: state.adminId,
-                    approved_at: new Date().toISOString()
-                })
-                .select("*")
-                .single();
-
-        if (affiliateError) throw affiliateError;
-
-        const { error: applicationError } =
-            await getTable(CONFIG.tables.applications)
-                .update({
-                    status: "approved",
-                    affiliate_id: affiliateId,
-                    reviewed_by: state.adminId,
-                    reviewed_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                })
-                .eq("id", application.id)
-                .eq("status", "pending");
-
-        if (applicationError) {
-            console.error(
-                "Application status update failed after affiliate insert:",
-                applicationError
-            );
-
-            showMessage(
-                "Affiliate record was created, but application status could not be updated. An administrator must reconcile this record.",
-                "error"
-            );
-
-            return;
-        }
-
-        await writeAudit(
-            "application_approved",
-            "application",
-            application.id,
-            {
-                affiliate_id: affiliate.affiliate_id,
-                commission_rate: configuredRate
-            }
-        );
-
-        await refreshAffiliateCenter();
-
-        showMessage("Application approved.", "success");
-    }
-
-    async function rejectApplication(identifier) {
-        const application = state.applications.find(item =>
-            normalize(item.id) === normalize(identifier)
-        );
-
-        if (!application) {
-            throw new Error("Application not found.");
-        }
-
-        if (normalize(application.status) !== "pending") {
-            throw new Error("Only pending applications can be rejected.");
-        }
-
-        const reason = window.prompt(
-            "Enter the reason for rejecting this application:"
-        );
-
-        if (reason === null) return;
-
-        if (!reason.trim()) {
-            showMessage("A rejection reason is required.", "warning");
-            return;
-        }
-
-        const { data, error } = await getTable(CONFIG.tables.applications)
-            .update({
-                status: "rejected",
-                review_notes: reason.trim(),
-                reviewed_by: state.adminId,
-                reviewed_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            })
-            .eq("id", application.id)
-            .eq("status", "pending")
-            .select("id")
-            .maybeSingle();
-
-        if (error) throw error;
-
-        if (!data) {
-            throw new Error(
-                "The application was not updated. It may have already been reviewed."
-            );
-        }
-
-        await writeAudit(
-            "application_rejected",
-            "application",
-            application.id,
-            {
-                reason: reason.trim()
-            }
-        );
-
-        await refreshAffiliateCenter();
-
-        showMessage("Application rejected.", "success");
-    }
-
-    /* =====================================================
-       09. REFERRALS
-       Existing schema has referred_player_id, not email.
-       Email is not fabricated or inferred.
+       13. REFERRAL LIST
+       Referral table should display only User ID and email.
     ===================================================== */
 
     async function loadReferralList(affiliate) {
@@ -1230,39 +1060,52 @@
 
         if (!container) return;
 
-        const { data, error } = await getTable(CONFIG.tables.referrals)
-            .select("*")
-            .eq("affiliate_id", affiliate.id)
-            .order("created_at", { ascending: false })
-            .limit(500);
+        const table = getConfiguredTable("referrals");
 
-        if (error) {
-            /*
-             * Some schemas may relate referrals by affiliate_id text
-             * instead of the affiliate UUID. Do not silently guess
-             * another relationship when this query fails.
-             */
+        if (!table) {
             container.innerHTML = `
                 <tr>
                     <td colspan="2" class="affc-empty-cell">
-                        Referral relationship could not be loaded.
-                        Check whether referrals.affiliate_id stores the affiliate UUID
-                        or the affiliate_id text value.
+                        Configure the real referral table and its relationship
+                        to the selected affiliate before loading referrals.
                     </td>
                 </tr>
             `;
-
-            throw error;
+            return;
         }
 
-        state.referrals = Array.isArray(data) ? data : [];
+        const client = getSupabaseClient();
+
+        if (!client) {
+            throw new Error("Supabase client is not configured.");
+        }
+
+        /*
+         * Relationship/filter column names are deliberately
+         * not guessed. Set the correct referral relationship
+         * in your actual schema before implementing this query.
+         */
+
+        container.innerHTML = `
+            <tr>
+                <td colspan="2" class="affc-empty-cell">
+                    Referral relationship mapping is not configured.
+                </td>
+            </tr>
+        `;
+
+        state.referrals = [];
         state.referralPage = 1;
+
+        const searchInput = $("#affcReferralSearchInput");
+
+        if (searchInput) {
+            searchInput.value = "";
+        }
+
         state.referralSearchTerm = "";
 
-        const input = $("#affcReferralSearchInput");
-        if (input) input.value = "";
-
-        renderReferralList();
+        // No query is run with an assumed column name.
     }
 
     function renderReferralList() {
@@ -1272,31 +1115,32 @@
 
         const term = state.referralSearchTerm;
 
-        const filtered = state.referrals.filter(referral => {
-            const text = normalize([
-                referral.referred_player_id,
-                referral.status,
-                referral.attribution_source
-            ].join(" "));
+        const filtered = state.referrals.filter((referral) => {
+            const text = normalize(
+                `${referral.user_id || ""} ${referral.email || ""}`
+            );
 
             return !term || text.includes(term);
         });
 
-        const items = pageItems(filtered, state.referralPage);
+        const pageItems = getPageItems(
+            filtered,
+            state.referralPage
+        );
 
-        if (!items.length) {
+        if (!pageItems.length) {
             container.innerHTML = `
                 <tr>
                     <td colspan="2" class="affc-empty-cell">
-                        No referral records found.
+                        No referral records are available.
                     </td>
                 </tr>
             `;
         } else {
-            container.innerHTML = items.map(referral => `
+            container.innerHTML = pageItems.map((referral) => `
                 <tr>
-                    <td>${escapeHTML(referral.referred_player_id || "—")}</td>
-                    <td>${escapeHTML(referral.status || "—")}</td>
+                    <td>${escapeHTML(referral.user_id || "—")}</td>
+                    <td>${escapeHTML(referral.email || "—")}</td>
                 </tr>
             `).join("");
         }
@@ -1309,42 +1153,320 @@
         );
     }
 
+    function initializeReferralSearch() {
+        const input = $("#affcReferralSearchInput");
+
+        if (!input) return;
+
+        input.addEventListener("input", function () {
+            state.referralSearchTerm = normalize(input.value);
+            state.referralPage = 1;
+            renderReferralList();
+        });
+    }
+
     /* =====================================================
-       10. COMMISSION SETTINGS
+       14. APPLICATIONS
+    ===================================================== */
+
+    async function loadApplications() {
+        const container = $("#affcApplicationListBody");
+
+        if (!container) return;
+
+        container.innerHTML = `
+            <tr>
+                <td colspan="7" class="affc-empty-cell">
+                    Application data has not been loaded.
+                </td>
+            </tr>
+        `;
+
+        const table = getConfiguredTable("applications");
+
+        if (!table) {
+            showInlineMessage(
+                container.closest(".affc-table-container") ||
+                container.parentElement,
+                "Configure the real application table and column mapping before loading applications.",
+                "warning"
+            );
+            return;
+        }
+
+        const result = await selectRows("applications", {
+            orderBy: "created_at",
+            ascending: false,
+            limit: 500
+        });
+
+        state.applications = result.data;
+        state.applicationPage = 1;
+
+        renderApplicationList();
+    }
+
+   function renderApplicationList() {
+    const container = $("#affcApplicationListBody");
+
+    if (!container) return;
+
+    const searchTerm = normalize(
+        state.applicationSearchTerm || ""
+    );
+
+    // Filter applications by User ID, name, or email.
+    const filteredApplications = state.applications.filter(
+        (application) => {
+            if (!searchTerm) return true;
+
+            const userId = normalize(
+                application.user_id || ""
+            );
+
+            const name = normalize(
+                application.name ||
+                application.full_name ||
+                ""
+            );
+
+            const email = normalize(
+                application.email || ""
+            );
+
+            return (
+                userId.includes(searchTerm) ||
+                name.includes(searchTerm) ||
+                email.includes(searchTerm)
+            );
+        }
+    );
+
+    const pageItems = getPageItems(
+        filteredApplications,
+        state.applicationPage
+    );
+
+    if (!pageItems.length) {
+        container.innerHTML = `
+            <tr>
+                <td colspan="7" class="affc-empty-cell">
+                    ${
+                        searchTerm
+                            ? "No matching application found."
+                            : "No application records are available."
+                    }
+                </td>
+            </tr>
+        `;
+
+        renderPagination(
+            "affcApplicationPagination",
+            filteredApplications.length,
+            state.applicationPage,
+            "application"
+        );
+
+        return;
+    }
+
+    container.innerHTML = pageItems.map((application) => {
+        const status = normalize(application.status);
+
+        const statusClass = status === "approved"
+            ? "affc-status-approved"
+            : status === "rejected"
+                ? "affc-status-rejected"
+                : "affc-status-pending";
+
+        return `
+            <tr>
+                <td>${escapeHTML(
+                    application.id || "—"
+                )}</td>
+
+                <td>${escapeHTML(
+                    application.user_id || "—"
+                )}</td>
+
+                <td>${escapeHTML(
+                    application.email || "—"
+                )}</td>
+
+                <td>${escapeHTML(
+                    application.name ||
+                    application.full_name ||
+                    "—"
+                )}</td>
+
+                <td>
+                    <span class="affc-status ${statusClass}">
+                        ${escapeHTML(
+                            application.status || "Unknown"
+                        )}
+                    </span>
+                </td>
+
+                <td>${formatDate(application.created_at)}</td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="affc-btn affc-btn-secondary"
+                        data-affc-action="view-application"
+                        data-affc-id="${escapeHTML(application.id)}">
+                        Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join("");
+
+    renderPagination(
+        "affcApplicationPagination",
+        filteredApplications.length,
+        state.applicationPage,
+        "application"
+    );
+}
+
+
+    function openApplicationDetails(identifier) {
+        const wanted = normalize(identifier);
+
+        const application = state.applications.find((item) =>
+            normalize(item.id) === wanted
+        );
+
+        if (!application) {
+            showMessage(
+                "Application not found in the loaded records.",
+                "error"
+            );
+            return;
+        }
+
+        state.selectedApplication = application;
+
+        const panel = $("#affcApplicationDetails");
+
+        if (!panel) {
+            showMessage(
+                "Application details panel is missing from the HTML.",
+                "warning"
+            );
+            return;
+        }
+
+        const fields = [
+            ["Application ID", application.id],
+            ["User ID", application.user_id],
+            ["Email", application.email],
+            ["Name", application.name || application.full_name],
+            ["Status", application.status],
+            ["Submitted", formatDate(application.created_at)]
+        ];
+
+        panel.innerHTML = `
+            <div class="affc-details-header">
+                <div>
+                    <h4>Application Details</h4>
+                    <p>Review the selected application.</p>
+                </div>
+            </div>
+
+            <div class="affc-details-grid">
+                ${fields.map(([label, value]) => `
+                    <div class="affc-detail-item">
+                        <span>${escapeHTML(label)}</span>
+                        <strong>${escapeHTML(value ?? "—")}</strong>
+                    </div>
+                `).join("")}
+            </div>
+
+            <p class="affc-description">
+                Approve or reject actions must be implemented through
+                a server-side function with admin authorization.
+            </p>
+        `;
+
+        showElement(panel);
+        panel.scrollIntoView({
+            behavior: "auto",
+            block: "start"
+        });
+    }
+
+    /* =====================================================
+       15. INDIVIDUAL COMMISSION SETTINGS
     ===================================================== */
 
     async function saveCommissionSettings(form) {
-        const affiliateId =
-            $("#affcCommissionAffiliateId", form)?.value?.trim() ||
-            $("#affcCommissionAffiliateId")?.value?.trim() ||
-            "";
+        const affiliateIdInput =
+            $("#affcCommissionAffiliateId", form) ||
+            $("#affcCommissionAffiliateId");
 
-        const input =
+        if (!affiliateIdInput || !affiliateIdInput.value.trim()) {
+            showMessage(
+                "Select an affiliate before saving commission settings.",
+                "warning"
+            );
+            return;
+        }
+
+        const percentageInput =
             $("#affcCommissionPercentage", form) ||
             $("#affcCommissionPercentage");
 
-        const rate = input ? Number(input.value) : NaN;
+        const percentage = percentageInput
+            ? Number(percentageInput.value)
+            : NaN;
 
-        if (!affiliateId) {
-            throw new Error("Select an affiliate first.");
+        if (!Number.isFinite(percentage) ||
+            percentage < 0 ||
+            percentage > 100) {
+            showMessage(
+                "Enter a valid commission percentage between 0 and 100.",
+                "warning"
+            );
+            return;
         }
 
-        if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
-            throw new Error("Enter a commission rate between 0 and 100.");
+        const payload = {
+            affiliate_id: affiliateIdInput.value.trim(),
+            commission_percentage: percentage
+        };
+
+        /*
+         * The server must verify:
+         * - The current user is an authorized administrator.
+         * - The affiliate exists.
+         * - The percentage is permitted.
+         * - An audit record is written.
+         */
+
+        try {
+            await invokeConfiguredFunction(
+                "saveCommissionSettings",
+                payload
+            );
+
+            showMessage(
+                "Commission settings saved successfully.",
+                "success"
+            );
+        } catch (error) {
+            console.error(
+                "Saving commission settings failed:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Commission settings were not saved. Configure the secure server-side function first.",
+                "error"
+            );
         }
-
-        const result = await invokeFunction(
-            "saveCommissionSettings",
-            {
-                affiliate_id: affiliateId,
-                commission_rate: rate
-            }
-        );
-
-        showMessage(
-            result?.message || "Commission settings saved by the server.",
-            "success"
-        );
     }
 
     function initializeCommissionSettings() {
@@ -1352,17 +1474,15 @@
 
         if (!form) return;
 
-        form.addEventListener("submit", async event => {
+        form.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             const button = $("button[type='submit']", form);
+
             setButtonLoading(button, true, "Saving…");
 
             try {
                 await saveCommissionSettings(form);
-            } catch (error) {
-                console.error(error);
-                showMessage(error.message || "Could not save commission settings.", "error");
             } finally {
                 setButtonLoading(button, false);
             }
@@ -1370,7 +1490,7 @@
     }
 
     /* =====================================================
-       11. DAILY COMMISSION
+       16. DAILY COMMISSION CALCULATION
     ===================================================== */
 
     async function calculateDailyCommission(form) {
@@ -1384,28 +1504,65 @@
             $("#affcDailyPeriodEnd", form)?.value || "";
 
         if (!periodStart || !periodEnd) {
-            throw new Error("Choose both reporting dates.");
+            showMessage(
+                "Choose the start and end of the reporting period.",
+                "warning"
+            );
+            return;
         }
 
-        if (periodStart >= periodEnd) {
-            throw new Error("The end date must be after the start date.");
+        if (new Date(periodStart) >= new Date(periodEnd)) {
+            showMessage(
+                "The end of the reporting period must be after its start.",
+                "warning"
+            );
+            return;
         }
 
-        const result = await invokeFunction(
-            "calculateDailyCommission",
-            {
-                affiliate_id: affiliateId || null,
-                period_start: periodStart,
-                period_end: periodEnd
-            }
-        );
+        const payload = {
+            affiliate_id: affiliateId || null,
+            period_start: periodStart,
+            period_end: periodEnd
+        };
 
-        renderFinancialResult("affcDailyCalculationResult", result);
+        /*
+         * The server-side function should calculate the
+         * configured 24-hour window using the authoritative
+         * database timestamp/timezone.
+         *
+         * It must use verified deposits, eligible bets, player
+         * wins/losses, reversals, and the affiliate's assigned
+         * commission rules. Withdrawals should not be treated
+         * as deposits or net gaming revenue.
+         */
 
-        showMessage(
-            result?.message || "Server calculation completed.",
-            "success"
-        );
+        try {
+            const result = await invokeConfiguredFunction(
+                "calculateDailyCommission",
+                payload
+            );
+
+            renderFinancialResult(
+                "affcDailyCalculationResult",
+                result
+            );
+
+            showMessage(
+                "Daily calculation completed by the server.",
+                "success"
+            );
+        } catch (error) {
+            console.error(
+                "Daily calculation failed:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Daily calculation is unavailable. Configure the secure server-side function first.",
+                "error"
+            );
+        }
     }
 
     function initializeDailyCalculation() {
@@ -1413,17 +1570,15 @@
 
         if (!form) return;
 
-        form.addEventListener("submit", async event => {
+        form.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             const button = $("button[type='submit']", form);
+
             setButtonLoading(button, true, "Calculating…");
 
             try {
                 await calculateDailyCommission(form);
-            } catch (error) {
-                console.error(error);
-                showMessage(error.message || "Daily calculation failed.", "error");
             } finally {
                 setButtonLoading(button, false);
             }
@@ -1431,7 +1586,7 @@
     }
 
     /* =====================================================
-       12. WEEKLY SETTLEMENT
+       17. WEEKLY SETTLEMENT
     ===================================================== */
 
     async function settleWeeklyCommission(form) {
@@ -1442,27 +1597,59 @@
             $("#affcWeeklyPeriodEnd", form)?.value || "";
 
         if (!periodStart || !periodEnd) {
-            throw new Error("Choose the weekly settlement dates.");
+            showMessage(
+                "Choose the weekly settlement period.",
+                "warning"
+            );
+            return;
         }
 
-        if (periodStart >= periodEnd) {
-            throw new Error("The end date must be after the start date.");
+        if (new Date(periodStart) >= new Date(periodEnd)) {
+            showMessage(
+                "The weekly period end must be after its start.",
+                "warning"
+            );
+            return;
         }
 
-        const result = await invokeFunction(
-            "settleWeeklyCommission",
-            {
-                period_start: periodStart,
-                period_end: periodEnd
-            }
-        );
+        const payload = {
+            period_start: periodStart,
+            period_end: periodEnd
+        };
 
-        renderFinancialResult("affcWeeklySettlementResult", result);
+        /*
+         * The server must verify the period, commission ledger,
+         * previous settlements, idempotency, admin permissions,
+         * and whether the balance is eligible for settlement.
+         */
 
-        showMessage(
-            result?.message || "Server settlement completed.",
-            "success"
-        );
+        try {
+            const result = await invokeConfiguredFunction(
+                "settleWeeklyCommission",
+                payload
+            );
+
+            renderFinancialResult(
+                "affcWeeklySettlementResult",
+                result
+            );
+
+            showMessage(
+                "Weekly settlement request completed by the server.",
+                "success"
+            );
+        } catch (error) {
+            console.error(
+                "Weekly settlement failed:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Weekly settlement is unavailable. Configure the secure server-side function first.",
+                "error"
+            );
+        }
     }
 
     function initializeWeeklySettlement() {
@@ -1470,17 +1657,15 @@
 
         if (!form) return;
 
-        form.addEventListener("submit", async event => {
+        form.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             const button = $("button[type='submit']", form);
+
             setButtonLoading(button, true, "Processing…");
 
             try {
                 await settleWeeklyCommission(form);
-            } catch (error) {
-                console.error(error);
-                showMessage(error.message || "Weekly settlement failed.", "error");
             } finally {
                 setButtonLoading(button, false);
             }
@@ -1488,7 +1673,49 @@
     }
 
     /* =====================================================
-       13. FINANCIAL RESULTS
+       18. PAYOUT ACTION
+    ===================================================== */
+
+    async function processPayout(identifier) {
+        if (!identifier) {
+            showMessage(
+                "A payout request ID is required.",
+                "warning"
+            );
+            return;
+        }
+
+        const confirmed = window.confirm(
+            "Send this payout request for secure server-side processing?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+            await invokeConfiguredFunction(
+                "processPayout",
+                { payout_id: identifier }
+            );
+
+            showMessage(
+                "Payout request processed by the server.",
+                "success"
+            );
+
+            await refreshAffiliateCenter();
+        } catch (error) {
+            console.error("Payout processing failed:", error);
+
+            showMessage(
+                error.message ||
+                "Payout processing is unavailable. Configure the secure server-side function first.",
+                "error"
+            );
+        }
+    }
+
+    /* =====================================================
+       19. FINANCIAL RESULT DISPLAY
     ===================================================== */
 
     function renderFinancialResult(containerId, result) {
@@ -1497,12 +1724,18 @@
         if (!container) return;
 
         if (!result || typeof result !== "object") {
-            container.textContent = "No summary was returned by the server.";
+            container.textContent =
+                "The server returned no financial summary.";
             showElement(container);
             return;
         }
 
-        const fields = [
+        /*
+         * Render only values returned by the trusted server.
+         * This function does not calculate commissions.
+         */
+
+        const allowedFields = [
             ["Period Start", "period_start"],
             ["Period End", "period_end"],
             ["Total Deposits", "total_deposits"],
@@ -1512,8 +1745,12 @@
             ["Net Revenue", "net_revenue"],
             ["Commission Rate", "commission_rate"],
             ["Commission Amount", "commission_amount"],
-            ["Status", "status"]
-        ].filter(([, key]) =>
+            ["Settlement Status", "status"]
+        ];
+
+        const currency = result.currency || "USD";
+
+        const fields = allowedFields.filter(([, key]) =>
             Object.prototype.hasOwnProperty.call(result, key)
         );
 
@@ -1523,8 +1760,6 @@
             showElement(container);
             return;
         }
-
-        const currency = result.currency || "USD";
 
         container.innerHTML = `
             <div class="affc-details-grid">
@@ -1542,14 +1777,17 @@
                         value = formatMoney(value, currency);
                     } else if (key === "commission_rate") {
                         value = `${formatNumber(value)}%`;
-                    } else if (
-                        key === "period_start" ||
-                        key === "period_end"
-                    ) {
+                    } else if (key === "period_start" ||
+                               key === "period_end") {
                         value = formatDate(value);
                     }
 
-                    return detailField(label, value);
+                    return `
+                        <div class="affc-detail-item">
+                            <span>${escapeHTML(label)}</span>
+                            <strong>${escapeHTML(value ?? "—")}</strong>
+                        </div>
+                    `;
                 }).join("")}
             </div>
         `;
@@ -1558,11 +1796,11 @@
     }
 
     /* =====================================================
-       14. OVERVIEW
+       20. OVERVIEW DATA
     ===================================================== */
 
     function resetOverviewValues() {
-        [
+        const ids = [
             "affcTotalAffiliates",
             "affcActiveAffiliates",
             "affcPendingApplications",
@@ -1573,51 +1811,99 @@
             "affcTodayNetResult",
             "affcPendingPayouts",
             "affcTotalCommission"
-        ].forEach(id => setText(id, "—"));
+        ];
+
+        ids.forEach((id) => setText(id, "—"));
     }
 
     async function loadOverview() {
-        resetOverviewValues();
+        /*
+         * Overview metrics are intentionally not calculated
+         * from guessed columns or unrelated tables.
+         *
+         * Prefer a secured server-side summary endpoint that
+         * returns verified metrics for the selected period.
+         */
 
-        const notice = $("#affcOverviewNotice");
+        const summaryElement = $("#affcOverviewNotice");
 
-        if (notice) {
-            notice.textContent =
-                "Financial overview totals require a verified, authorized server-side summary function.";
-            showElement(notice);
+        if (summaryElement) {
+            summaryElement.textContent =
+                "Overview totals will appear after the verified Supabase schema and secure summary function are configured.";
+            showElement(summaryElement);
         }
 
-        /*
-         * Do not invent totals or calculate financial values from
-         * unknown columns. A secure overview RPC can be added once
-         * its actual function name and response fields are confirmed.
-         */
+        resetOverviewValues();
     }
 
     /* =====================================================
-       15. REFRESH
+       21. LOAD AFFILIATE RECORDS
+    ===================================================== */
+
+    async function loadAffiliates() {
+        const table = getConfiguredTable("affiliates");
+
+        if (!table) {
+            state.affiliates = [];
+            renderAffiliateList();
+
+            const container = getAffiliateListContainer();
+
+            if (container) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="affc-empty-cell">
+                            Configure the real affiliate table and its
+                            column mapping to display affiliate records.
+                        </td>
+                    </tr>
+                `;
+            }
+
+            return;
+        }
+
+        const result = await selectRows("affiliates", {
+            orderBy: "created_at",
+            ascending: false,
+            limit: 1000
+        });
+
+        state.affiliates = result.data;
+        state.affiliatePage = 1;
+
+        renderAffiliateList();
+    }
+
+    /* =====================================================
+       22. REFRESH
     ===================================================== */
 
     async function refreshAffiliateCenter() {
         if (state.loading) return;
 
-        setLoading(true);
         hideMessage();
+        setLoading(true);
 
         try {
-            await requireAdmin();
-
             await Promise.all([
                 loadAffiliates(),
-                loadApplications(),
                 loadOverview()
             ]);
 
-            showMessage("Affiliate Center refreshed.", "success");
-        } catch (error) {
-            console.error("Affiliate Center refresh failed:", error);
             showMessage(
-                error.message || "Could not refresh Affiliate Center.",
+                "Affiliate Center refreshed. Any unconfigured data sources remain unavailable.",
+                "success"
+            );
+        } catch (error) {
+            console.error(
+                "Affiliate Center refresh failed:",
+                error
+            );
+
+            showMessage(
+                error.message ||
+                "Could not refresh Affiliate Center data.",
                 "error"
             );
         } finally {
@@ -1630,7 +1916,7 @@
 
         if (!button) return;
 
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", async function () {
             setButtonLoading(button, true, "Refreshing…");
 
             try {
@@ -1642,134 +1928,43 @@
     }
 
     /* =====================================================
-       16. SEARCH
-    ===================================================== */
-
-    function initializeSearch() {
-        const affiliateInput = $("#affcAffiliateSearch");
-        const affiliateForm = $("#affcSearchForm");
-
-        if (affiliateInput) {
-            affiliateInput.addEventListener("input", () => {
-                state.affiliateSearchTerm = normalize(affiliateInput.value);
-                state.affiliatePage = 1;
-                renderAffiliateList();
-            });
-        }
-
-        if (affiliateForm) {
-            affiliateForm.addEventListener("submit", event => {
-                event.preventDefault();
-
-                const term = normalize(affiliateInput?.value);
-
-                if (!term) {
-                    showMessage("Enter an Affiliate ID, User ID, or email.", "warning");
-                    return;
-                }
-
-                const match = state.affiliates.find(affiliate => {
-                    const searchable = [
-                        affiliate.id,
-                        affiliate.affiliate_id,
-                        affiliate.auth_user_id,
-                        affiliateEmail(affiliate)
-                    ];
-
-                    return searchable.some(value =>
-                        normalize(value) === term
-                    );
-                });
-
-                if (match) {
-                    showMessage("Affiliate found.", "success");
-                    openAffiliateDetails(match.id);
-                } else {
-                    showMessage("No matching affiliate found.", "warning");
-                }
-            });
-        }
-
-        const applicationInput = $("#affcApplicationSearch");
-
-        if (applicationInput) {
-            applicationInput.addEventListener("input", () => {
-                state.applicationSearchTerm =
-                    normalize(applicationInput.value);
-
-                state.applicationPage = 1;
-                renderApplicationList();
-            });
-
-            const form = applicationInput.closest("form");
-
-            if (form) {
-                form.addEventListener("submit", event => {
-                    event.preventDefault();
-                });
-            }
-        }
-
-        const referralInput = $("#affcReferralSearchInput");
-
-        if (referralInput) {
-            referralInput.addEventListener("input", () => {
-                state.referralSearchTerm = normalize(referralInput.value);
-                state.referralPage = 1;
-                renderReferralList();
-            });
-
-            const form = referralInput.closest("form");
-
-            if (form) {
-                form.addEventListener("submit", event => {
-                    event.preventDefault();
-                });
-            }
-        }
-    }
-
-    /* =====================================================
-       17. DELEGATED BUTTON ACTIONS
+       23. DELEGATED ACTIONS
     ===================================================== */
 
     function initializeDelegatedActions() {
-        root.addEventListener("click", async event => {
-            const actionButton = event.target.closest("[data-affc-action]");
+        root.addEventListener("click", async function (event) {
+            const actionButton = event.target.closest(
+                "[data-affc-action]"
+            );
 
             if (actionButton && root.contains(actionButton)) {
                 const action = actionButton.dataset.affcAction;
                 const identifier = actionButton.dataset.affcId;
 
-                setButtonLoading(actionButton, true, "Please wait…");
-
-                try {
-                    if (action === "view-affiliate") {
-                        openAffiliateDetails(identifier);
-                    } else if (action === "view-application") {
-                        openApplicationDetails(identifier);
-                    } else if (action === "verify-player") {
-                        await verifyPlayerId(identifier);
-                    } else if (action === "approve-application") {
-                        await approveApplication(identifier);
-                    } else if (action === "reject-application") {
-                        await rejectApplication(identifier);
-                    } else if (action === "refresh") {
-                        await refreshAffiliateCenter();
-                    } else if (action === "process-payout") {
-                        await processPayout(identifier);
-                    }
-                } catch (error) {
-                    console.error("Affiliate action failed:", error);
-                    showMessage(error.message || "The action failed.", "error");
-                } finally {
-                    setButtonLoading(actionButton, false);
+                if (action === "view-affiliate") {
+                    openAffiliateDetails(identifier);
+                    return;
                 }
 
-                return;
+                if (action === "view-application") {
+                    openApplicationDetails(identifier);
+                    return;
+                }
+
+                if (action === "refresh") {
+                    await refreshAffiliateCenter();
+                    return;
+                }
+
+                if (action === "process-payout") {
+                    await processPayout(identifier);
+                    return;
+                }
             }
 
-            const pageButton = event.target.closest("[data-affc-page]");
+            const pageButton = event.target.closest(
+                "[data-affc-page]"
+            );
 
             if (pageButton && root.contains(pageButton)) {
                 changePage(
@@ -1781,35 +1976,19 @@
     }
 
     /* =====================================================
-       18. PAYOUT
+       24. FORM INITIALIZATION
     ===================================================== */
 
-    async function processPayout(identifier) {
-        if (!identifier) {
-            throw new Error("A payout request ID is required.");
-        }
-
-        const confirmed = window.confirm(
-            "Submit this payout for secure server-side processing?"
-        );
-
-        if (!confirmed) return;
-
-        const result = await invokeFunction(
-            "processPayout",
-            { payout_id: identifier }
-        );
-
-        showMessage(
-            result?.message || "Payout request processed by the server.",
-            "success"
-        );
-
-        await refreshAffiliateCenter();
+    function initializeForms() {
+        initializeAffiliateSearch();
+        initializeReferralSearch();
+        initializeCommissionSettings();
+        initializeDailyCalculation();
+        initializeWeeklySettlement();
     }
 
     /* =====================================================
-       19. INITIALIZATION
+       25. INITIALIZATION
     ===================================================== */
 
     async function initialize() {
@@ -1818,65 +1997,60 @@
         state.initialized = true;
 
         initializeMainNavigation();
+        initializeDetailNavigation();
+        initializeSettingsNavigation();
 
-        initializeSubNavigation(
-            ".affc-detail-nav-button",
-            ".affc-detail-panel",
-            ".affc-details-navigation"
-        );
-
-        initializeSubNavigation(
-            ".affc-settings-nav-button",
-            ".affc-settings-panel",
-            ".affc-settings-navigation"
-        );
-
-        initializeSearch();
+        initializeForms();
         initializeRefreshButton();
         initializeDelegatedActions();
-        initializeCommissionSettings();
-        initializeDailyCalculation();
-        initializeWeeklySettlement();
 
-        setLoading(true);
+        await loadOverview();
 
-        try {
-            await requireAdmin();
+        /*
+         * Do not automatically query unknown tables.
+         * If real table names have been configured, load the
+         * affiliate list; otherwise show a clear setup state.
+         */
 
-            await Promise.all([
-                loadAffiliates(),
-                loadApplications(),
-                loadOverview()
-            ]);
+        if (getConfiguredTable("affiliates")) {
+            try {
+                await loadAffiliates();
+            } catch (error) {
+                console.error(
+                    "Affiliate list initialization failed:",
+                    error
+                );
 
-            console.log("SAFIKI AFFILIATE CENTER INITIALIZED");
-        } catch (error) {
-            console.error("Affiliate Center initialization failed:", error);
-
-            showMessage(
-                error.message ||
-                "Affiliate Center could not be initialized. Check Supabase configuration and permissions.",
-                "error"
-            );
-        } finally {
-            setLoading(false);
+                showMessage(
+                    error.message ||
+                    "Affiliate records could not be loaded.",
+                    "error"
+                );
+            }
+        } else {
+            renderAffiliateList();
         }
+
+        console.log("SAFIKI AFFILIATE CENTER INITIALIZED");
     }
 
     /* =====================================================
-       20. PUBLIC API
+       26. PUBLIC API
+       Optional access for other Admin scripts.
     ===================================================== */
 
     window.AffiliateCenter = {
         refresh: refreshAffiliateCenter,
+
         loadAffiliates,
         loadApplications,
+
         openAffiliateDetails,
         openApplicationDetails,
 
-        getState() {
+        getState: function () {
             return {
-                activeAdminId: state.adminId,
+                activeMainPanel: state.activeMainPanel,
                 selectedAffiliate: state.selectedAffiliate,
                 selectedApplication: state.selectedApplication,
                 affiliateCount: state.affiliates.length,
@@ -1885,6 +2059,10 @@
             };
         }
     };
+
+    /* =====================================================
+       27. START WHEN DOM IS READY
+    ===================================================== */
 
     if (document.readyState === "loading") {
         document.addEventListener(
@@ -1895,4 +2073,16 @@
     } else {
         initialize();
     }
+
 })();
+
+// Prevent Affiliate Search from reloading the dashboard
+document.addEventListener("DOMContentLoaded", function () {
+    const searchForm = document.getElementById("affcAffiliateSearchForm");
+
+    if (!searchForm) return;
+
+    searchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
+});
