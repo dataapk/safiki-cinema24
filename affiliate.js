@@ -2486,25 +2486,100 @@ document.addEventListener("click", function (event) {
         ids.forEach((id) => setText(id, "—"));
     }
 
-    async function loadOverview() {
-        /*
-         * Overview metrics are intentionally not calculated
-         * from guessed columns or unrelated tables.
-         *
-         * Prefer a secured server-side summary endpoint that
-         * returns verified metrics for the selected period.
-         */
+   
+async function loadOverview() {
+    const client = getSupabaseClient();
+    const summaryElement = $("#affcOverviewNotice");
 
-        const summaryElement = $("#affcOverviewNotice");
+    if (!client) {
+        resetOverviewValues();
 
         if (summaryElement) {
             summaryElement.textContent =
-                "Overview totals will appear after the verified Supabase schema and secure summary function are configured.";
+                "Supabase client is not configured.";
             showElement(summaryElement);
         }
+        return;
+    }
+
+    try {
+        const db = client.schema("affiliate_program");
+        const affiliatesTable = getConfiguredTable("affiliates");
+        const applicationsTable = getConfiguredTable("applications");
+
+        if (!affiliatesTable || !applicationsTable) {
+            throw new Error(
+                "Affiliate or application table is not configured."
+            );
+        }
+
+        const [
+            totalAffiliatesResult,
+            activeAffiliatesResult,
+            pendingApplicationsResult
+        ] = await Promise.all([
+            db.from(affiliatesTable)
+                .select("*", { count: "exact", head: true }),
+
+            db.from(affiliatesTable)
+                .select("*", { count: "exact", head: true })
+                .eq("status", "active"),
+
+            db.from(applicationsTable)
+                .select("*", { count: "exact", head: true })
+                .ilike("status", "pending")
+        ]);
+
+        const error =
+            totalAffiliatesResult.error ||
+            activeAffiliatesResult.error ||
+            pendingApplicationsResult.error;
+
+        if (error) {
+            throw error;
+        }
+
+        setText(
+            "affcTotalAffiliates",
+            totalAffiliatesResult.count ?? 0
+        );
+
+        setText(
+            "affcActiveAffiliates",
+            activeAffiliatesResult.count ?? 0
+        );
+
+        setText(
+            "affcPendingApplications",
+            pendingApplicationsResult.count ?? 0
+        );
+
+        if (summaryElement) {
+            summaryElement.textContent = "";
+            summaryElement.hidden = true;
+        }
+
+        console.log("[Affiliate Center] Overview counts:", {
+            totalAffiliates: totalAffiliatesResult.count,
+            activeAffiliates: activeAffiliatesResult.count,
+            pendingApplications: pendingApplicationsResult.count
+        });
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Failed to load overview:",
+            error
+        );
 
         resetOverviewValues();
+
+        if (summaryElement) {
+            summaryElement.textContent =
+                "Could not load affiliate overview. Check the Supabase schema, permissions, and table configuration.";
+            showElement(summaryElement);
+        }
     }
+}
+
 
     /* =====================================================
    21. LOAD AFFILIATE RECORDS
