@@ -245,6 +245,63 @@ function affiliateFormatDate(date) {
 }
 
 
+
+
+async function loadHeaderAffiliateId() {
+    const idElement = document.getElementById("headerAffiliateId");
+
+    if (!idElement) return;
+
+    const client = window.supabaseClient;
+
+    if (!client || !client.auth) {
+        idElement.textContent = "Unavailable";
+        return;
+    }
+
+    try {
+        const {
+            data: { user },
+            error: authError
+        } = await client.auth.getUser();
+
+        if (authError || !user) {
+            window.location.replace("/affiliate-login.html");
+            return;
+        }
+
+        const { data: affiliate, error } = await client
+            .schema("affiliate_program")
+            .from("affiliates")
+            .select("affiliate_id, status")
+            .eq("auth_user_id", user.id)
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (
+            !affiliate ||
+            String(affiliate.status || "").toLowerCase() !== "active"
+        ) {
+            idElement.textContent = "Unavailable";
+            return;
+        }
+
+        idElement.textContent = affiliate.affiliate_id;
+    } catch (error) {
+        console.error(
+            "[Affiliate Dashboard] Could not load Affiliate ID:",
+            error
+        );
+
+        idElement.textContent = "Unavailable";
+    }
+}
+
+loadHeaderAffiliateId();
+
+
+
 /* =========================================================
    4. CURRENCY FORMATTING
 ========================================================= */
