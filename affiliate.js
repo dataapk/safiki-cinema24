@@ -1767,12 +1767,10 @@ const decision = normalizedAction === "approve"
     ? "approved"
     : "rejected";
 
-// The current HTML does not yet provide a commission-rate input.
-// Do not silently invent a rate when approving.
+// Default commission rate for new affiliates: 25%
 let commissionRate = null;
 
 if (decision === "approved") {
-    // Default commission rate for new affiliates: 25%
     commissionRate = 25;
 
     if (
