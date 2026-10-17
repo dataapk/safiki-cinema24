@@ -21,9 +21,14 @@
 ========================================================= */
 
 const AFFILIATE_CONFIG = {
-    // Use your existing Supabase client.
-    // Set window.supabaseClient or window.supabase to your
-    // initialized Supabase client before this file loads.
+    schema: "affiliate_program",
+
+tables: {
+    affiliates: "affiliates",
+    commissions: "commissions",
+    payouts: "payouts",
+    referrals: "referrals"
+}
 
     getSupabaseClient() {
         const client = window.supabaseClient || window.supabase;
