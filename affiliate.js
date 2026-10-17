@@ -976,82 +976,130 @@ const input = $("#affcAffiliateSearch");
         );
     }
 
-    function openAffiliateDetails(identifier) {
-        const wanted = normalize(identifier);
 
-        const affiliate = state.affiliates.find((item) => {
-            return [
-                item.id,
-                item.affiliate_id,
-                item.user_id
-            ].some((value) => normalize(value) === wanted);
-        });
+async function openAffiliateDetails(identifier) {
+    const wanted = normalize(identifier);
 
-        if (!affiliate) {
-            showMessage(
-                "The affiliate record could not be found in the loaded list.",
-                "error"
-            );
-            return;
+    const affiliate = state.affiliates.find((item) => {
+        return [
+            item.id,
+            item.affiliate_id,
+            item.user_id,
+            item.auth_user_id,
+            item.email
+        ].some((value) => normalize(value) === wanted);
+    });
+
+    if (!affiliate) {
+        showMessage(
+            "The affiliate record could not be found in the loaded list.",
+            "error"
+        );
+        return;
+    }
+
+    state.selectedAffiliate = affiliate;
+
+    const setDetail = (id, value) => {
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.textContent =
+                value !== null &&
+                value !== undefined &&
+                String(value).trim() !== ""
+                    ? String(value)
+                    : "—";
         }
+    };
 
-        state.selectedAffiliate = affiliate;
+    const firstName = String(affiliate.first_name || "").trim();
+    const lastName = String(affiliate.last_name || "").trim();
 
-        setText(
-            "affcSelectedAffiliateId",
+    const fullName =
+        affiliate.name ||
+        affiliate.full_name ||
+        [firstName, lastName].filter(Boolean).join(" ") ||
+        affiliate.application?.full_name ||
+        "—";
+
+    const affiliateId =
+        affiliate.affiliate_id ||
+        affiliate.user_id ||
+        affiliate.id ||
+        "—";
+
+    const userId =
+        affiliate.auth_user_id ||
+        affiliate.user_id ||
+        affiliate.player_id ||
+        "—";
+
+    const email =
+        affiliate.email ||
+        affiliate.application?.email ||
+        "—";
+
+    const referralCode =
+        affiliate.referral_code ||
+        affiliate.affiliate_id ||
+        "—";
+
+    const joinedAt =
+        affiliate.created_at ||
+        affiliate.createdAt ||
+        affiliate.account_created_at ||
+        affiliate.user_created_at ||
+        affiliate.auth_user_created_at ||
+        null;
+
+    setDetail("affcDetailUserId", userId);
+    setDetail("affcDetailName", fullName);
+    setDetail("affcDetailEmail", email);
+    setDetail("affcDetailReferralCode", referralCode);
+    setDetail(
+        "affcDetailJoinedDate",
+        joinedAt ? formatDate(joinedAt) : "—"
+    );
+    setDetail("affcDetailStatus", affiliate.status || "Unknown");
+
+    // Update the Affiliate ID shown in the details heading.
+    setDetail("affcSelectedAffiliateId", affiliateId);
+
+    const details = $("#affcAffiliateDetails");
+
+    if (details) {
+        showElement(details);
+        details.scrollIntoView({
+            behavior: "auto",
+            block: "start"
+        });
+    }
+
+    const settingsAffiliateId = $("#affcCommissionAffiliateId");
+
+    if (settingsAffiliateId) {
+        settingsAffiliateId.value =
             affiliate.affiliate_id ||
             affiliate.user_id ||
-            affiliate.id
-        );
-
-        setText(
-            "affcSelectedAffiliateEmail",
-            affiliate.email || "—"
-        );
-
-        setText(
-            "affcSelectedAffiliateName",
-            affiliate.name ||
-            affiliate.full_name ||
-            "—"
-        );
-
-        setText(
-            "affcSelectedAffiliateStatus",
-            affiliate.status || "Unknown"
-        );
-
-        const details = $("#affcAffiliateDetails");
-
-        if (details) {
-            showElement(details);
-            details.scrollIntoView({
-                behavior: "auto",
-                block: "start"
-            });
-        }
-
-        const settingsAffiliateId =
-            $("#affcCommissionAffiliateId");
-
-        if (settingsAffiliateId) {
-            settingsAffiliateId.value =
-                affiliate.affiliate_id ||
-                affiliate.user_id ||
-                affiliate.id ||
-                "";
-        }
-
-        loadReferralList(affiliate).catch((error) => {
-            console.error("Referral loading failed:", error);
-            showMessage(
-                "Affiliate details opened, but the referral list could not be loaded. Check the referral table configuration.",
-                "warning"
-            );
-        });
-
-        hideMessage();
+            affiliate.id ||
+            "";
     }
+
+    try {
+        await loadReferralList(affiliate);
+    } catch (error) {
+        console.error("Referral loading failed:", error);
+
+        showMessage(
+            "Affiliate details opened, but the referral list could not be loaded. Check the referral table configuration.",
+            "warning"
+        );
+    }
+
+    hideMessage();
+}
+
 
     /* =====================================================
        13. REFERRAL LIST
