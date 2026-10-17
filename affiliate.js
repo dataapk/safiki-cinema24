@@ -1756,28 +1756,66 @@ async function submitApplicationReview(action) {
     try {
         
 
+
 const supabase = getSupabaseClient();
 
 if (!supabase) {
-    throw new Error(
-        "Supabase client is not initialized."
-    );
+    throw new Error("Supabase client is not initialized.");
+}
+
+const decision = normalizedAction === "approve"
+    ? "approved"
+    : "rejected";
+
+// The current HTML does not yet provide a commission-rate input.
+// Do not silently invent a rate when approving.
+let commissionRate = null;
+
+if (decision === "approved") {
+    const rateInput = $("#affcApplicationCommissionRate");
+
+    if (!rateInput || rateInput.value.trim() === "") {
+        throw new Error(
+            "Add a commission rate (0–100) before approving this application."
+        );
+    }
+
+    commissionRate = Number(rateInput.value);
+
+    if (
+        !Number.isFinite(commissionRate) ||
+        commissionRate < 0 ||
+        commissionRate > 100
+    ) {
+        throw new Error(
+            "Commission rate must be a number from 0 to 100."
+        );
+    }
+
+    if (application.player_id_verified !== true) {
+        throw new Error(
+            "Verify the applicant's Main Player ID before approval."
+        );
+    }
 }
 
 const { data, error } = await supabase
     .schema("affiliate_program")
     .rpc("review_application", {
         p_application_id: application.id,
-        p_commission_rate: null,
-        p_decision: normalizedAction,
-        p_notes: notes,
+        p_decision: decision,
+        p_commission_rate: commissionRate,
         p_player_id_verified:
-            application.player_id_verified === true
+            decision === "approved"
+                ? true
+                : application.player_id_verified === true,
+        p_notes: notes || null
     });
 
 if (error) {
     throw error;
 }
+
 
 
         // Do not assume success if the server explicitly
