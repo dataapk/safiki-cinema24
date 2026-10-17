@@ -2415,6 +2415,7 @@ document.addEventListener("click", function (event) {
    21. LOAD AFFILIATE RECORDS
 ===================================================== */
 
+
 async function loadAffiliates() {
     const container = getAffiliateListContainer();
 
@@ -2437,9 +2438,8 @@ async function loadAffiliates() {
             }
 
             console.error(
-                "[Affiliate Center] CONFIG.tables.affiliates is empty."
+                "[Affiliate Center] Affiliates table is not configured."
             );
-
             return;
         }
 
@@ -2450,12 +2450,64 @@ async function loadAffiliates() {
             limit: 1000
         });
 
-        state.affiliates = Array.isArray(result.data)
+        const affiliates = Array.isArray(result.data)
             ? result.data
             : [];
 
-        state.affiliatePage = 1;
+        let applications = [];
 
+        try {
+            const applicationResult = await selectRows("applications", {
+                select: "*",
+                limit: 1000
+            });
+
+            applications = Array.isArray(applicationResult.data)
+                ? applicationResult.data
+                : [];
+        } catch (applicationError) {
+            console.warn(
+                "[Affiliate Center] Could not load application details:",
+                applicationError
+            );
+        }
+
+        const applicationsById = new Map(
+            applications.map((application) => [
+                String(application.id || application.application_id || ""),
+                application
+            ])
+        );
+
+        state.affiliates = affiliates.map((affiliate) => {
+            const application = applicationsById.get(
+                String(affiliate.application_id || "")
+            );
+
+            const firstName = application?.first_name || "";
+            const lastName = application?.last_name || "";
+
+            const applicationName = [
+                firstName,
+                lastName
+            ].filter(Boolean).join(" ").trim();
+
+            return {
+                ...affiliate,
+                name:
+                    affiliate.name ||
+                    affiliate.full_name ||
+                    application?.full_name ||
+                    applicationName ||
+                    "—",
+                email:
+                    affiliate.email ||
+                    application?.email ||
+                    "—"
+            };
+        });
+
+        state.affiliatePage = 1;
         renderAffiliateList();
 
         console.log(
@@ -2485,6 +2537,7 @@ async function loadAffiliates() {
         }
     }
 }
+
    
     /* =====================================================
        22. REFRESH
