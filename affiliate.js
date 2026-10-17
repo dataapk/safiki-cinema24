@@ -37,15 +37,15 @@
          */
 
         tables: {
-            affiliates: "",
-            applications: "",
-            referrals: "",
-            deposits: "",
-            bets: "",
-            results: "",
-            commissions: "",
-            payouts: ""
-        },
+  affiliates: "affiliates",
+  applications: "applications",
+  referrals: "referrals",
+  deposits: "",
+  bets: "",
+  results: "",
+  commissions: "commissions",
+  payouts: "payouts"
+},
 
         /*
          * Final financial operations must be implemented as
@@ -360,11 +360,14 @@
             );
         }
 
-        let query = client
-            .from(table)
-            .select(options.select || "*", {
-                count: options.count ? "exact" : undefined
-            });
+      
+let query = client
+    .schema("affiliate_program")
+    .from(table)
+    .select(options.select || "*", {
+        count: options.count ? "exact" : undefined
+    });
+
 
         if (typeof options.applyFilters === "function") {
             query = options.applyFilters(query);
@@ -1165,113 +1168,219 @@ const input = $("#affcAffiliateSearch");
         });
     }
 
-    /* =====================================================
-       14. APPLICATIONS
-    ===================================================== */
 
-    async function loadApplications() {
-        const container = $("#affcApplicationListBody");
+/* =====================================================
+   14. APPLICATIONS
+===================================================== */
 
-        if (!container) return;
+async function loadApplications() {
+    // Match the actual HTML tbody ID.
+    const container = $("#affcApplicationsTableBody");
 
+    if (!container) {
+        console.warn(
+            "Affiliate applications table not found: #affcApplicationsTableBody"
+        );
+        return;
+    }
+
+    container.innerHTML = `
+        <tr>
+            <td colspan="6" class="affc-empty-cell">
+                Loading applications...
+            </td>
+        </tr>
+    `;
+
+    const table = getConfiguredTable("applications");
+
+    if (!table) {
         container.innerHTML = `
             <tr>
-                <td colspan="7" class="affc-empty-cell">
-                    Application data has not been loaded.
+                <td colspan="6" class="affc-empty-cell">
+                    Application table is not configured.
                 </td>
             </tr>
         `;
 
-        const table = getConfiguredTable("applications");
-
-        if (!table) {
-            showInlineMessage(
-                container.closest(".affc-table-container") ||
+        showInlineMessage(
+            container.closest(".affc-table-container") ||
                 container.parentElement,
-                "Configure the real application table and column mapping before loading applications.",
-                "warning"
-            );
-            return;
-        }
+            "Configure the applications table in the affiliate_program schema.",
+            "warning"
+        );
 
+        return;
+    }
+
+    try {
         const result = await selectRows("applications", {
             orderBy: "created_at",
             ascending: false,
             limit: 500
         });
 
-        state.applications = result.data;
+        state.applications = Array.isArray(result.data)
+            ? result.data
+            : [];
+
         state.applicationPage = 1;
 
-        renderApplicationList();
-    }
+        // Keep the current selected view, defaulting to Pending.
+        if (!state.applicationStatus) {
+            state.applicationStatus = "pending";
+        }
 
-   function renderApplicationList() {
-    const container = $("#affcApplicationListBody");
+        // Update application counts.
+        const pendingCount = state.applications.filter(app =>
+            String(app.status || "").toLowerCase() === "pending"
+        ).length;
+
+        const rejectedCount = state.applications.filter(app =>
+            String(app.status || "").toLowerCase() === "rejected"
+        ).length;
+
+        const pendingElement = $("#affcApplicationsPendingCount");
+        const rejectedElement = $("#affcApplicationsRejectedCount");
+        const navCountElement = $("#affcApplicationsNavCount");
+
+        if (pendingElement) {
+            pendingElement.textContent = pendingCount;
+        }
+
+        if (rejectedElement) {
+            rejectedElement.textContent = rejectedCount;
+        }
+
+        if (navCountElement) {
+            navCountElement.textContent = pendingCount;
+            navCountElement.hidden = pendingCount === 0;
+        }
+
+        const overviewPendingElement = $("#affcPendingApplications");
+
+        if (overviewPendingElement) {
+            overviewPendingElement.textContent = pendingCount;
+        }
+
+        renderApplicationList();
+
+    } catch (error) {
+        console.error("Failed to load affiliate applications:", error);
+
+        container.innerHTML = `
+            <tr>
+                <td colspan="6" class="affc-empty-cell">
+                    Could not load applications. Check the console and Supabase permissions.
+                </td>
+            </tr>
+        `;
+
+        showMessage(
+            error.message || "Failed to load applications.",
+            "error"
+        );
+    }
+}
+
+
+function renderApplicationList() {
+    // This ID must match the HTML exactly.
+    const container = $("#affcApplicationsTableBody");
 
     if (!container) return;
+
+    const applications = Array.isArray(state.applications)
+        ? state.applications
+        : [];
 
     const searchTerm = normalize(
         state.applicationSearchTerm || ""
     );
 
-    // Filter applications by User ID, name, or email.
-    const filteredApplications = state.applications.filter(
-        (application) => {
-            if (!searchTerm) return true;
+    // Default view: Pending.
+    const selectedStatus = String(
+        state.applicationStatus || "pending"
+    ).toLowerCase();
 
-            const userId = normalize(
-                application.user_id || ""
-            );
+    // Filter by Pending / Rejected / All, then search.
+    const filteredApplications = applications.filter(application => {
+        const status = String(
+            application.status || ""
+        ).toLowerCase();
 
-            const name = normalize(
-                application.name ||
-                application.full_name ||
-                ""
-            );
-
-            const email = normalize(
-                application.email || ""
-            );
-
-            return (
-                userId.includes(searchTerm) ||
-                name.includes(searchTerm) ||
-                email.includes(searchTerm)
-            );
+        if (
+            selectedStatus !== "all" &&
+            status !== selectedStatus
+        ) {
+            return false;
         }
-    );
+
+        if (!searchTerm) return true;
+
+        // Use the real affiliate_program.applications columns.
+        const userId = normalize(
+            application.auth_user_id || ""
+        );
+
+        const name = normalize([
+            application.first_name || "",
+            application.last_name || ""
+        ].filter(Boolean).join(" "));
+
+        const email = normalize(
+            application.email || ""
+        );
+
+        return (
+            userId.includes(searchTerm) ||
+            name.includes(searchTerm) ||
+            email.includes(searchTerm)
+        );
+    });
 
     const pageItems = getPageItems(
         filteredApplications,
-        state.applicationPage
+        state.applicationPage || 1
     );
 
     if (!pageItems.length) {
+        let emptyMessage = "No pending applications found.";
+
+        if (selectedStatus === "rejected") {
+            emptyMessage = "No rejected applications found.";
+        } else if (selectedStatus === "approved") {
+            emptyMessage = "No approved applications found.";
+        } else if (selectedStatus === "all") {
+            emptyMessage = "No application records are available.";
+        }
+
+        if (searchTerm) {
+            emptyMessage = "No matching applications found.";
+        }
+
         container.innerHTML = `
             <tr>
-                <td colspan="7" class="affc-empty-cell">
-                    ${
-                        searchTerm
-                            ? "No matching application found."
-                            : "No application records are available."
-                    }
+                <td colspan="6" class="affc-empty-cell">
+                    ${escapeHTML(emptyMessage)}
                 </td>
             </tr>
         `;
 
         renderPagination(
-            "affcApplicationPagination",
+            "affcApplicationsPagination",
             filteredApplications.length,
-            state.applicationPage,
+            state.applicationPage || 1,
             "application"
         );
 
         return;
     }
 
-    container.innerHTML = pageItems.map((application) => {
-        const status = normalize(application.status);
+    container.innerHTML = pageItems.map(application => {
+        const status = String(
+            application.status || "unknown"
+        ).toLowerCase();
 
         const statusClass = status === "approved"
             ? "affc-status-approved"
@@ -1279,42 +1388,37 @@ const input = $("#affcAffiliateSearch");
                 ? "affc-status-rejected"
                 : "affc-status-pending";
 
+        const fullName = [
+            application.first_name || "",
+            application.last_name || ""
+        ].filter(Boolean).join(" ").trim() || "—";
+
         return `
             <tr>
                 <td>${escapeHTML(
-                    application.id || "—"
+                    application.auth_user_id || "—"
                 )}</td>
 
-                <td>${escapeHTML(
-                    application.user_id || "—"
-                )}</td>
+                <td>${escapeHTML(fullName)}</td>
 
                 <td>${escapeHTML(
                     application.email || "—"
                 )}</td>
 
-                <td>${escapeHTML(
-                    application.name ||
-                    application.full_name ||
-                    "—"
-                )}</td>
+                <td>${formatDate(application.created_at)}</td>
 
                 <td>
                     <span class="affc-status ${statusClass}">
-                        ${escapeHTML(
-                            application.status || "Unknown"
-                        )}
+                        ${escapeHTML(application.status || "Unknown")}
                     </span>
                 </td>
-
-                <td>${formatDate(application.created_at)}</td>
 
                 <td>
                     <button
                         type="button"
                         class="affc-btn affc-btn-secondary"
                         data-affc-action="view-application"
-                        data-affc-id="${escapeHTML(application.id)}">
+                        data-affc-id="${escapeHTML(application.id || "")}">
                         Details
                     </button>
                 </td>
@@ -1323,12 +1427,13 @@ const input = $("#affcAffiliateSearch");
     }).join("");
 
     renderPagination(
-        "affcApplicationPagination",
+        "affcApplicationsPagination",
         filteredApplications.length,
-        state.applicationPage,
+        state.applicationPage || 1,
         "application"
     );
 }
+
 
 
     function openApplicationDetails(identifier) {
