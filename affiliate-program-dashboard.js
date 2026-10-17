@@ -38,12 +38,14 @@ const AFFILIATE_CONFIG = {
         return null;
     },
 
-    tables: {
-        affiliates: "affiliates",
-        commissions: "affiliate_commissions",
-        payouts: "affiliate_payouts",
-        referrals: "affiliate_referrals"
-    },
+   
+tables: {
+    affiliates: "affiliates",
+    commissions: "commissions",
+    payouts: "payouts",
+    referrals: "referrals"
+},
+
 
     // Your affiliate commission data is expected to be
     // stored in USD unless your database specifies otherwise.
