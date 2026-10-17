@@ -354,60 +354,185 @@
         </form>
     </main>
 
-    <script>
-        const loginForm =
-            document.getElementById("affiliateLoginForm");
 
-        const loginIdentifier =
-            document.getElementById("loginIdentifier");
+<script>
+    const loginForm =
+        document.getElementById("affiliateLoginForm");
 
-        const loginPassword =
-            document.getElementById("loginPassword");
+    const loginIdentifier =
+        document.getElementById("loginIdentifier");
 
-        const passwordToggle =
-            document.getElementById("passwordToggle");
+    const loginPassword =
+        document.getElementById("loginPassword");
 
-        const agreeTerms =
-            document.getElementById("agreeTerms");
+    const passwordToggle =
+        document.getElementById("passwordToggle");
 
-        const loginButton =
-            document.getElementById("loginButton");
+    const agreeTerms =
+        document.getElementById("agreeTerms");
 
-        const loginMessage =
-            document.getElementById("loginMessage");
+    const loginButton =
+        document.getElementById("loginButton");
 
-        passwordToggle.addEventListener("click", function () {
-            const isPassword =
-                loginPassword.type === "password";
+    const loginMessage =
+        document.getElementById("loginMessage");
 
-            loginPassword.type = isPassword
-                ? "text"
-                : "password";
+    // Display a login message.
+    function showLoginMessage(message, type = "error") {
+        loginMessage.className = "login-message " + type;
+        loginMessage.textContent = message;
+    }
 
-            passwordToggle.textContent = isPassword
-                ? "Hide"
-                : "Show";
-        });
+    // Show or hide password.
+    passwordToggle.addEventListener("click", function () {
+        const isPassword =
+            loginPassword.type === "password";
 
-        loginForm.addEventListener("submit", function (event) {
-            event.preventDefault();
+        loginPassword.type = isPassword ? "text" : "password";
+        passwordToggle.textContent = isPassword ? "Hide" : "Show";
+    });
 
-            loginMessage.className = "login-message";
-            loginMessage.textContent = "";
+    // Authenticate and verify affiliate approval.
+    loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-            if (!agreeTerms.checked) {
-                loginMessage.className = "login-message error";
-                loginMessage.textContent =
-                    "Please agree to the Terms and Conditions and Privacy Policy.";
-                return;
+        loginMessage.className = "login-message";
+        loginMessage.textContent = "";
+
+        if (!agreeTerms.checked) {
+            showLoginMessage(
+                "Please agree to the Terms and Conditions and Privacy Policy."
+            );
+            return;
+        }
+
+        const identifier = loginIdentifier.value.trim();
+        const password = loginPassword.value;
+
+        if (!identifier || !password) {
+            showLoginMessage("Please enter your email and password.");
+            return;
+        }
+
+        // This version supports email login.
+        if (!identifier.includes("@")) {
+            showLoginMessage(
+                "Please sign in using your registered email address. " +
+                "Affiliate ID login requires a secure ID-to-email lookup."
+            );
+            return;
+        }
+
+        // Use the existing public Supabase client.
+        const client = window.supabaseClient;
+
+        if (!client || !client.auth) {
+            showLoginMessage(
+                "Supabase is not connected. Please configure the " +
+                "Supabase client before signing in."
+            );
+            return;
+        }
+
+        loginButton.disabled = true;
+        loginButton.textContent = "Signing in...";
+
+        let authenticated = false;
+
+        try {
+            // Step 1: Authenticate with Supabase Auth.
+            const { data, error } =
+                await client.auth.signInWithPassword({
+                    email: identifier,
+                    password: password
+                });
+
+            if (error) {
+                throw new Error(
+                    "Login failed. Check your email and password."
+                );
             }
 
-            loginMessage.className = "login-message error";
-            loginMessage.textContent =
-                "Login is not connected yet. Affiliate authentication " +
-                "and approval verification must be connected to the " +
-                "Affiliate Supabase backend.";
-        });
-    </script>
+            if (!data.user) {
+                throw new Error(
+                    "Authentication succeeded without a user record."
+                );
+            }
+
+            authenticated = true;
+
+            // Step 2: Verify this authenticated user is an active affiliate.
+            const { data: affiliate, error: affiliateError } =
+                await client
+                    .schema("affiliate_program")
+                    .from("affiliates")
+                    .select("affiliate_id, status")
+                    .eq("auth_user_id", data.user.id)
+                    .maybeSingle();
+
+            if (affiliateError) {
+                console.error(
+                    "[Affiliate Login] Verification failed:",
+                    affiliateError
+                );
+
+                throw new Error(
+                    "We could not verify your affiliate account. " +
+                    "Please try again later."
+                );
+            }
+
+            if (!affiliate) {
+                throw new Error(
+                    "No affiliate account is linked to this login."
+                );
+            }
+
+            if (
+                String(affiliate.status || "").toLowerCase() !== "active"
+            ) {
+                throw new Error(
+                    "Your affiliate account is not active. " +
+                    "Please contact the administrator."
+                );
+            }
+
+            // Step 3: Successful login.
+            showLoginMessage(
+                "Login successful. Opening your affiliate dashboard...",
+                "success"
+            );
+
+            // Change this path if your dashboard has a different filename.
+            window.location.assign("affiliate-dashboard.html");
+
+        } catch (error) {
+            console.error("[Affiliate Login]", error);
+
+            // Never retain a session when affiliate verification fails.
+            if (authenticated) {
+                const { error: signOutError } =
+                    await client.auth.signOut();
+
+                if (signOutError) {
+                    console.error(
+                        "[Affiliate Login] Sign-out failed:",
+                        signOutError
+                    );
+                }
+            }
+
+            showLoginMessage(
+                error.message ||
+                "Login could not be completed. Please try again."
+            );
+
+        } finally {
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
+        }
+    });
+</script>
+
 </body>
 </html>
