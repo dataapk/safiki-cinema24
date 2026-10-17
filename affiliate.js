@@ -1772,15 +1772,8 @@ const decision = normalizedAction === "approve"
 let commissionRate = null;
 
 if (decision === "approved") {
-    const rateInput = $("#affcApplicationCommissionRate");
-
-    if (!rateInput || rateInput.value.trim() === "") {
-        throw new Error(
-            "Add a commission rate (0–100) before approving this application."
-        );
-    }
-
-    commissionRate = Number(rateInput.value);
+    // Default commission rate for new affiliates: 25%
+    commissionRate = 25;
 
     if (
         !Number.isFinite(commissionRate) ||
@@ -1792,6 +1785,7 @@ if (decision === "approved") {
         );
     }
 
+    // Keep the existing Player ID verification validation.
     if (application.player_id_verified !== true) {
         throw new Error(
             "Verify the applicant's Main Player ID before approval."
