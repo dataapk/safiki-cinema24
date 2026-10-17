@@ -4506,190 +4506,232 @@
     <!-- END SECTION 02 -->
 
 
-    <!-- =================================================
-         SECTION 03 — APPLICATIONS
-    ================================================== -->
 
-    <div id="affcApplicationsPanel"
-         class="affc-main-panel"
-         data-affc-panel="applications"
-         hidden>
+<!-- =================================================
+     SECTION 03 — APPLICATIONS
+================================================== -->
+
+<div id="affcApplicationsPanel"
+     class="affc-main-panel"
+     data-affc-panel="applications"
+     hidden>
+
+    <div class="affc-section-heading">
+        <div>
+            <h3>Affiliate Applications</h3>
+            <p>Review pending and rejected affiliate applications.</p>
+        </div>
+    </div>
+
+    <!-- APPLICATION STATISTICS -->
+
+    <div class="affc-statistics-grid affc-application-statistics">
+
+        <article class="affc-stat-card affc-accent-orange"
+                 data-affc-application-view="pending"
+                 role="button"
+                 tabindex="0"
+                 aria-label="Show pending applications">
+
+            <span class="affc-stat-label">Pending Applications</span>
+            <h3 id="affcApplicationsPendingCount">—</h3>
+
+        </article>
+
+        <article class="affc-stat-card affc-accent-red"
+                 data-affc-application-view="rejected"
+                 role="button"
+                 tabindex="0"
+                 aria-label="Show rejected applications">
+
+            <span class="affc-stat-label">Rejected Applications</span>
+            <h3 id="affcApplicationsRejectedCount">—</h3>
+
+        </article>
+
+    </div>
+
+    <!-- APPLICATIONS LIST -->
+
+    <section class="affc-content-card">
 
         <div class="affc-section-heading">
             <div>
-                <h3>Affiliate Applications</h3>
-                <p>Review new applications and rejected applications.</p>
+                <h4>Applications List</h4>
+                <p>View applicant details and review their applications.</p>
             </div>
         </div>
 
+        <div class="affc-table-container">
+            <table class="affc-table">
 
-        <!-- APPLICATION STATISTICS -->
+                <thead>
+                    <tr>
+                        <th scope="col">Affiliate ID</th>
+                        <th scope="col">Player ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Application Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
 
-        <div class="affc-statistics-grid affc-application-statistics">
+                <tbody id="affcApplicationsTableBody">
+                    <tr>
+                        <td colspan="7" class="affc-empty-cell">
+                            No application records loaded.
+                        </td>
+                    </tr>
+                </tbody>
 
-            <article class="affc-stat-card affc-accent-orange"
-                     data-affc-application-view="pending"
-                     role="button"
-                     tabindex="0"
-                     aria-label="Show pending applications">
+            </table>
+        </div>
 
-                <span class="affc-stat-label">Pending Applications</span>
-                <h3 id="affcApplicationsPendingCount">—</h3>
+        <!-- APPLICATION PAGINATION -->
 
-            </article>
+        <div class="affc-pagination"
+             id="affcApplicationsPagination"
+             hidden>
 
-            <article class="affc-stat-card affc-accent-red"
-                     data-affc-application-view="rejected"
-                     role="button"
-                     tabindex="0"
-                     aria-label="Show rejected applications">
+            <button type="button"
+                    id="affcApplicationsPrevious"
+                    class="affc-btn affc-btn-secondary"
+                    disabled>
+                Previous
+            </button>
 
-                <span class="affc-stat-label">Rejected Applications</span>
-                <h3 id="affcApplicationsRejectedCount">—</h3>
+            <span id="affcApplicationsPageInfo">Page —</span>
 
-            </article>
+            <button type="button"
+                    id="affcApplicationsNext"
+                    class="affc-btn affc-btn-secondary"
+                    disabled>
+                Next
+            </button>
 
         </div>
 
+    </section>
 
-       
+    <!-- APPLICATION REVIEW DETAILS -->
 
-        <!-- APPLICATIONS LIST -->
+    <section id="affcApplicationDetails"
+             class="affc-content-card"
+             aria-labelledby="affcApplicationDetailsHeading"
+             hidden>
 
-        <section class="affc-content-card">
+        <div class="affc-details-header">
 
-            <div class="affc-section-heading">
-                <div>
-                    <h4>Applications List</h4>
-                </div>
+            <div>
+                <h4 id="affcApplicationDetailsHeading">
+                    Application Details
+                </h4>
+
+                <p>
+                    Application ID:
+                    <strong id="affcApplicationDetailId">—</strong>
+                </p>
             </div>
 
-            <div class="affc-table-container">
-                <table class="affc-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Applicant User ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Application Date</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
+            <button type="button"
+                    id="affcCloseApplicationDetailsBtn"
+                    class="affc-btn affc-btn-secondary">
+                Close
+            </button>
 
-                    <tbody id="affcApplicationsTableBody">
-                        <tr>
-                            <td colspan="6" class="affc-empty-cell">
-                                No application records loaded.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
+
+        <div class="affc-details-grid">
+
+            <div class="affc-detail-item">
+                <span>Affiliate ID</span>
+                <strong id="affcApplicationDetailAffiliateId">—</strong>
             </div>
 
-            <div class="affc-pagination"
-                 id="affcApplicationsPagination"
-                 hidden>
-
-                <button type="button"
-                        id="affcApplicationsPrevious"
-                        class="affc-btn affc-btn-secondary"
-                        disabled>
-                    Previous
-                </button>
-
-                <span id="affcApplicationsPageInfo">Page —</span>
-
-                <button type="button"
-                        id="affcApplicationsNext"
-                        class="affc-btn affc-btn-secondary"
-                        disabled>
-                    Next
-                </button>
-
+            <div class="affc-detail-item">
+                <span>Player ID</span>
+                <strong id="affcApplicationDetailPlayerId">—</strong>
             </div>
 
-        </section>
-
-
-        <!-- APPLICATION REVIEW DETAILS -->
-
-        <section id="affcApplicationDetails"
-                 class="affc-content-card"
-                 hidden>
-
-            <div class="affc-details-header">
-                <div>
-                    <h4>Application Details</h4>
-                    <p>
-                        Applicant ID:
-                        <strong id="affcApplicationDetailUserId">—</strong>
-                    </p>
-                </div>
-
-                <button type="button"
-                        id="affcCloseApplicationDetailsBtn"
-                        class="affc-btn affc-btn-secondary">
-                    Close
-                </button>
+            <div class="affc-detail-item">
+                <span>First Name</span>
+                <strong id="affcApplicationDetailFirstName">—</strong>
             </div>
 
-            <div class="affc-details-grid">
-
-                <div class="affc-detail-item">
-                    <span>Applicant Name</span>
-                    <strong id="affcApplicationDetailName">—</strong>
-                </div>
-
-                <div class="affc-detail-item">
-                    <span>Email</span>
-                    <strong id="affcApplicationDetailEmail">—</strong>
-                </div>
-
-                <div class="affc-detail-item">
-                    <span>Application Date</span>
-                    <strong id="affcApplicationDetailDate">—</strong>
-                </div>
-
-                <div class="affc-detail-item">
-                    <span>Current Status</span>
-                    <strong id="affcApplicationDetailStatus">—</strong>
-                </div>
-
+            <div class="affc-detail-item">
+                <span>Last Name</span>
+                <strong id="affcApplicationDetailLastName">—</strong>
             </div>
 
-            <div class="affc-form-field">
-                <label for="affcApplicationAdminNotes">Admin Notes</label>
-
-                <textarea id="affcApplicationAdminNotes"
-                          name="adminNotes"
-                          rows="3"
-                          maxlength="2000"
-                          placeholder="Optional internal review notes"></textarea>
+            <div class="affc-detail-item">
+                <span>Email</span>
+                <strong id="affcApplicationDetailEmail">—</strong>
             </div>
 
-            <div class="affc-form-actions">
-
-                <button type="button"
-                        id="affcApproveApplicationBtn"
-                        class="affc-btn affc-btn-primary"
-                        data-affc-action="approve-application">
-                    Approve Application
-                </button>
-
-                <button type="button"
-                        id="affcRejectApplicationBtn"
-                        class="affc-btn affc-btn-danger"
-                        data-affc-action="reject-application">
-                    Reject Application
-                </button>
-
+            <div class="affc-detail-item">
+                <span>Account Created</span>
+                <strong id="affcApplicationDetailAccountCreated">—</strong>
             </div>
 
-        </section>
+            <div class="affc-detail-item">
+                <span>Application Submitted</span>
+                <strong id="affcApplicationDetailDate">—</strong>
+            </div>
 
-    </div>
-    <!-- END SECTION 03 -->
+            <div class="affc-detail-item">
+                <span>Current Status</span>
+                <strong id="affcApplicationDetailStatus">—</strong>
+            </div>
+
+        </div>
+
+        <!-- ADMIN REVIEW NOTES -->
+
+        <div class="affc-form-field">
+            <label for="affcApplicationAdminNotes">
+                Admin Notes
+            </label>
+
+            <textarea id="affcApplicationAdminNotes"
+                      name="adminNotes"
+                      rows="3"
+                      maxlength="2000"
+                      placeholder="Optional internal review notes"></textarea>
+        </div>
+
+        <!-- APPROVE / REJECT ACTIONS -->
+
+        <div class="affc-form-actions"
+             id="affcApplicationReviewActions">
+
+            <button type="button"
+                    id="affcApproveApplicationBtn"
+                    class="affc-btn affc-btn-primary"
+                    data-affc-action="approve-application">
+                Approve Application
+            </button>
+
+            <button type="button"
+                    id="affcRejectApplicationBtn"
+                    class="affc-btn affc-btn-danger"
+                    data-affc-action="reject-application">
+                Reject Application
+            </button>
+
+        </div>
+
+        <p class="affc-form-hint" id="affcApplicationReviewMessage"
+           role="status"
+           aria-live="polite"
+           hidden></p>
+
+    </section>
+
+</div>
+
+<!-- END SECTION 03 — APPLICATIONS -->
+
 
 
     <!-- =================================================
