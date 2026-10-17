@@ -1499,71 +1499,162 @@ function renderApplicationList() {
 
 
 
-    function openApplicationDetails(identifier) {
-        const wanted = normalize(identifier);
+    
+function openApplicationDetails(identifier) {
+    const wanted = normalize(identifier);
 
-        const application = state.applications.find((item) =>
-            normalize(item.id) === wanted
+    const applications = Array.isArray(state.applications)
+        ? state.applications
+        : [];
+
+    const application = applications.find((item) =>
+        normalize(item.id) === wanted
+    );
+
+    if (!application) {
+        showMessage(
+            "Application not found in the loaded records.",
+            "error"
         );
-
-        if (!application) {
-            showMessage(
-                "Application not found in the loaded records.",
-                "error"
-            );
-            return;
-        }
-
-        state.selectedApplication = application;
-
-        const panel = $("#affcApplicationDetails");
-
-        if (!panel) {
-            showMessage(
-                "Application details panel is missing from the HTML.",
-                "warning"
-            );
-            return;
-        }
-
-        const fields = [
-            ["Application ID", application.id],
-            ["User ID", application.user_id],
-            ["Email", application.email],
-            ["Name", application.name || application.full_name],
-            ["Status", application.status],
-            ["Submitted", formatDate(application.created_at)]
-        ];
-
-        panel.innerHTML = `
-            <div class="affc-details-header">
-                <div>
-                    <h4>Application Details</h4>
-                    <p>Review the selected application.</p>
-                </div>
-            </div>
-
-            <div class="affc-details-grid">
-                ${fields.map(([label, value]) => `
-                    <div class="affc-detail-item">
-                        <span>${escapeHTML(label)}</span>
-                        <strong>${escapeHTML(value ?? "—")}</strong>
-                    </div>
-                `).join("")}
-            </div>
-
-            <p class="affc-description">
-                Approve or reject actions must be implemented through
-                a server-side function with admin authorization.
-            </p>
-        `;
-
-        showElement(panel);
-        panel.scrollIntoView({
-            behavior: "auto",
-            block: "start"
-        });
+        return;
     }
+
+    const panel = $("#affcApplicationDetails");
+
+    if (!panel) {
+        showMessage(
+            "Application details panel is missing from the HTML.",
+            "warning"
+        );
+        return;
+    }
+
+    // Keep the selected application available for review actions.
+    state.selectedApplication = application;
+
+    // Safely populate the existing HTML elements.
+    const setText = (selector, value) => {
+        const element = $(selector);
+
+        if (element) {
+            element.textContent =
+                value !== null &&
+                value !== undefined &&
+                String(value).trim() !== ""
+                    ? String(value)
+                    : "—";
+        }
+    };
+
+    const firstName = String(
+        application.first_name || ""
+    ).trim();
+
+    const lastName = String(
+        application.last_name || ""
+    ).trim();
+
+    const email = String(
+        application.email || ""
+    ).trim();
+
+    const status = String(
+        application.status || "pending"
+    ).trim().toLowerCase();
+
+    // Account creation time must come from the actual user/account record.
+    // These fields must be populated by your existing user/profile loader.
+    const accountCreatedAt =
+        application.account_created_at ||
+        application.user_created_at ||
+        application.auth_user_created_at ||
+        null;
+
+    // Application identity and applicant details.
+    setText(
+        "#affcApplicationDetailId",
+        application.id
+    );
+
+    setText(
+        "#affcApplicationDetailAffiliateId",
+        application.affiliate_id
+    );
+
+    setText(
+        "#affcApplicationDetailPlayerId",
+        application.player_id
+    );
+
+    setText(
+        "#affcApplicationDetailFirstName",
+        firstName
+    );
+
+    setText(
+        "#affcApplicationDetailLastName",
+        lastName
+    );
+
+    setText(
+        "#affcApplicationDetailEmail",
+        email
+    );
+
+    // Do not substitute application.created_at here:
+    // that is the application submission time, not account creation.
+    setText(
+        "#affcApplicationDetailAccountCreated",
+        accountCreatedAt
+            ? formatDate(accountCreatedAt)
+            : "Account creation date unavailable"
+    );
+
+    setText(
+        "#affcApplicationDetailDate",
+        formatDate(application.created_at)
+    );
+
+    setText(
+        "#affcApplicationDetailStatus",
+        status.charAt(0).toUpperCase() + status.slice(1)
+    );
+
+    // Restore the previously saved admin review notes.
+    const notesField = $("#affcApplicationAdminNotes");
+
+    if (notesField) {
+        notesField.value = application.review_notes || "";
+    }
+
+    // Clear the previous application's message.
+    const message = $("#affcApplicationReviewMessage");
+
+    if (message) {
+        message.textContent = "";
+        message.hidden = true;
+    }
+
+    // Keep the existing Approve / Reject buttons in the HTML.
+    const approveButton = $("#affcApproveApplicationBtn");
+    const rejectButton = $("#affcRejectApplicationBtn");
+
+    if (approveButton) {
+        approveButton.disabled = false;
+    }
+
+    if (rejectButton) {
+        rejectButton.disabled = status === "rejected";
+    }
+
+    // Display the existing details panel without replacing its HTML.
+    showElement(panel);
+
+    panel.scrollIntoView({
+        behavior: "auto",
+        block: "start"
+    });
+}
 
     /* =====================================================
        15. INDIVIDUAL COMMISSION SETTINGS
