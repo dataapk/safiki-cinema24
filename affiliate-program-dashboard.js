@@ -23,12 +23,6 @@
 const AFFILIATE_CONFIG = {
     schema: "affiliate_program",
 
-tables: {
-    affiliates: "affiliates",
-    commissions: "commissions",
-    payouts: "payouts",
-    referrals: "referrals"
-}
 
     getSupabaseClient() {
         const client = window.supabaseClient || window.supabase;
