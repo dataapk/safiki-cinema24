@@ -354,8 +354,19 @@
         </form>
     </main>
 
-
 <script>
+    // ==========================================
+    // 1. SUPABASE CONFIGURATION
+    // ==========================================
+
+    const SUPABASE_URL = "https://dijuduhvleunvwmnncue.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_dw-uENrowls3CoIxyJamJg_vtpR7wR3";
+    const SCHEMA = "affiliate_program";
+
+    // ==========================================
+    // 2. GET LOGIN PAGE ELEMENTS
+    // ==========================================
+
     const loginForm =
         document.getElementById("affiliateLoginForm");
 
@@ -377,161 +388,227 @@
     const loginMessage =
         document.getElementById("loginMessage");
 
-    // Display a login message.
+    // ==========================================
+    // 3. DISPLAY LOGIN MESSAGES
+    // ==========================================
+
     function showLoginMessage(message, type = "error") {
+        if (!loginMessage) return;
+
         loginMessage.className = "login-message " + type;
         loginMessage.textContent = message;
     }
 
-    // Show or hide password.
-    passwordToggle.addEventListener("click", function () {
-        const isPassword =
-            loginPassword.type === "password";
+    // ==========================================
+    // 4. INITIALIZE SUPABASE CLIENT
+    // ==========================================
 
-        loginPassword.type = isPassword ? "text" : "password";
-        passwordToggle.textContent = isPassword ? "Hide" : "Show";
-    });
+    let client = null;
 
-    // Authenticate and verify affiliate approval.
-    loginForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        loginMessage.className = "login-message";
-        loginMessage.textContent = "";
-
-        if (!agreeTerms.checked) {
-            showLoginMessage(
-                "Please agree to the Terms and Conditions and Privacy Policy."
-            );
-            return;
-        }
-
-        const identifier = loginIdentifier.value.trim();
-        const password = loginPassword.value;
-
-        if (!identifier || !password) {
-            showLoginMessage("Please enter your email and password.");
-            return;
-        }
-
-        // This version supports email login.
-        if (!identifier.includes("@")) {
-            showLoginMessage(
-                "Please sign in using your registered email address. " +
-                "Affiliate ID login requires a secure ID-to-email lookup."
-            );
-            return;
-        }
-
-        // Use the existing public Supabase client.
-        const client = window.supabaseClient;
-
-        if (!client || !client.auth) {
-            showLoginMessage(
-                "Supabase is not connected. Please configure the " +
-                "Supabase client before signing in."
-            );
-            return;
-        }
-
-        loginButton.disabled = true;
-        loginButton.textContent = "Signing in...";
-
-        let authenticated = false;
-
-        try {
-            // Step 1: Authenticate with Supabase Auth.
-            const { data, error } =
-                await client.auth.signInWithPassword({
-                    email: identifier,
-                    password: password
-                });
-
-            if (error) {
-                throw new Error(
-                    "Login failed. Check your email and password."
-                );
-            }
-
-            if (!data.user) {
-                throw new Error(
-                    "Authentication succeeded without a user record."
-                );
-            }
-
-            authenticated = true;
-
-            // Step 2: Verify this authenticated user is an active affiliate.
-            const { data: affiliate, error: affiliateError } =
-                await client
-                    .schema("affiliate_program")
-                    .from("affiliates")
-                    .select("affiliate_id, status")
-                    .eq("auth_user_id", data.user.id)
-                    .maybeSingle();
-
-            if (affiliateError) {
-                console.error(
-                    "[Affiliate Login] Verification failed:",
-                    affiliateError
-                );
-
-                throw new Error(
-                    "We could not verify your affiliate account. " +
-                    "Please try again later."
-                );
-            }
-
-            if (!affiliate) {
-                throw new Error(
-                    "No affiliate account is linked to this login."
-                );
-            }
-
-            if (
-                String(affiliate.status || "").toLowerCase() !== "active"
-            ) {
-                throw new Error(
-                    "Your affiliate account is not active. " +
-                    "Please contact the administrator."
-                );
-            }
-
-            // Step 3: Successful login.
-            showLoginMessage(
-                "Login successful. Opening your affiliate dashboard...",
-                "success"
-            );
-
-            // Change this path if your dashboard has a different filename.
-            window.location.assign("affiliate-dashboard.html");
-
-        } catch (error) {
-            console.error("[Affiliate Login]", error);
-
-            // Never retain a session when affiliate verification fails.
-            if (authenticated) {
-                const { error: signOutError } =
-                    await client.auth.signOut();
-
-                if (signOutError) {
-                    console.error(
-                        "[Affiliate Login] Sign-out failed:",
-                        signOutError
-                    );
+    if (
+        SUPABASE_URL !== "YOUR_SUPABASE_PROJECT_URL" &&
+        SUPABASE_KEY !== "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY" &&
+        window.supabase &&
+        typeof window.supabase.createClient === "function"
+    ) {
+        client = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY,
+            {
+                db: {
+                    schema: SCHEMA
+                },
+                auth: {
+                    // Keep separate from the Sign-Up session for now.
+                    storageKey: "affiliate-login-auth-token",
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true
                 }
             }
+        );
+    }
 
-            showLoginMessage(
-                error.message ||
-                "Login could not be completed. Please try again."
-            );
+    // Expose the initialized client for this page's login handler.
+    window.supabaseClient = client;
 
-        } finally {
-            loginButton.disabled = false;
-            loginButton.textContent = "Login";
-        }
-    });
+    // ==========================================
+    // 5. CHECK REQUIRED PAGE ELEMENTS
+    // ==========================================
+
+    if (
+        !loginForm ||
+        !loginIdentifier ||
+        !loginPassword ||
+        !passwordToggle ||
+        !agreeTerms ||
+        !loginButton ||
+        !loginMessage
+    ) {
+        console.error(
+            "[Affiliate Login] One or more required HTML elements are missing."
+        );
+    }
+
+    // ==========================================
+    // 6. SHOW / HIDE PASSWORD
+    // ==========================================
+
+    if (passwordToggle && loginPassword) {
+        passwordToggle.addEventListener("click", function () {
+            const isPassword =
+                loginPassword.type === "password";
+
+            loginPassword.type = isPassword ? "text" : "password";
+            passwordToggle.textContent = isPassword ? "Hide" : "Show";
+        });
+    }
+
+    // ==========================================
+    // 7. AUTHENTICATE AND VERIFY AFFILIATE
+    // ==========================================
+
+    if (loginForm) {
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            loginMessage.className = "login-message";
+            loginMessage.textContent = "";
+
+            if (!agreeTerms.checked) {
+                showLoginMessage(
+                    "Please agree to the Terms and Conditions and Privacy Policy."
+                );
+                return;
+            }
+
+            const identifier = loginIdentifier.value.trim();
+            const password = loginPassword.value;
+
+            if (!identifier || !password) {
+                showLoginMessage(
+                    "Please enter your email and password."
+                );
+                return;
+            }
+
+            // Email login is supported in this version.
+            if (!identifier.includes("@")) {
+                showLoginMessage(
+                    "Please sign in using your registered email address. " +
+                    "Affiliate ID login requires a secure ID-to-email lookup."
+                );
+                return;
+            }
+
+            // Ensure the Supabase client is ready.
+            if (!client || !client.auth) {
+                showLoginMessage(
+                    "Supabase is not connected. Please check the Supabase " +
+                    "URL, public key, and CDN script."
+                );
+                return;
+            }
+
+            loginButton.disabled = true;
+            loginButton.textContent = "Signing in...";
+
+            let authenticated = false;
+
+            try {
+                // Step 1: Authenticate with Supabase Auth.
+                const { data, error } =
+                    await client.auth.signInWithPassword({
+                        email: identifier,
+                        password: password
+                    });
+
+                if (error) {
+                    throw new Error(
+                        "Login failed. Check your email and password."
+                    );
+                }
+
+                if (!data || !data.user) {
+                    throw new Error(
+                        "Authentication succeeded without a user record."
+                    );
+                }
+
+                authenticated = true;
+
+                // Step 2: Verify the user's affiliate account.
+                const { data: affiliate, error: affiliateError } =
+                    await client
+                        .schema(SCHEMA)
+                        .from("affiliates")
+                        .select("affiliate_id, status")
+                        .eq("auth_user_id", data.user.id)
+                        .maybeSingle();
+
+                if (affiliateError) {
+                    console.error(
+                        "[Affiliate Login] Verification failed:",
+                        affiliateError
+                    );
+
+                    throw new Error(
+                        "We could not verify your affiliate account. " +
+                        "Please check the account configuration and try again."
+                    );
+                }
+
+                if (!affiliate) {
+                    throw new Error(
+                        "No affiliate account is linked to this login."
+                    );
+                }
+
+                if (
+                    String(affiliate.status || "").toLowerCase() !== "active"
+                ) {
+                    throw new Error(
+                        "Your affiliate account is not active. " +
+                        "Please contact the administrator."
+                    );
+                }
+
+                // Step 3: Successful login.
+                showLoginMessage(
+                    "Login successful. Opening your affiliate dashboard...",
+                    "success"
+                );
+
+                window.location.assign("affiliate-dashboard.html");
+
+            } catch (error) {
+                console.error("[Affiliate Login]", error);
+
+                // Sign out if authentication succeeded but
+                // affiliate verification failed.
+                if (authenticated) {
+                    const { error: signOutError } =
+                        await client.auth.signOut();
+
+                    if (signOutError) {
+                        console.error(
+                            "[Affiliate Login] Sign-out failed:",
+                            signOutError
+                        );
+                    }
+                }
+
+                showLoginMessage(
+                    error.message ||
+                    "Login could not be completed. Please try again."
+                );
+
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = "Login";
+            }
+        });
+    }
 </script>
 
 </body>
