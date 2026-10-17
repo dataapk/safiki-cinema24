@@ -1816,8 +1816,13 @@ if (decision === "approved") {
             state.applicationStatus = "rejected";
         }
 
-        // Refresh application records and both status counts.
-        await loadApplications();
+        // Refresh the application list and counts.
+          await loadApplications();
+
+      // Refresh the Affiliate List after approval.
+      if (decision === "approved") {
+      await loadAffiliates();
+   }
 
         /*
          * Affiliate List refresh:
