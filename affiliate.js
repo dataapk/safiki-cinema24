@@ -1767,37 +1767,34 @@ const decision = normalizedAction === "approve"
     ? "approved"
     : "rejected";
 
-// Default commission rate for new affiliates: 25%
 let commissionRate = null;
 
 if (decision === "approved") {
+    // Default commission rate: 25%
     commissionRate = 25;
-
-    if (
-        !Number.isFinite(commissionRate) ||
-        commissionRate < 0 ||
-        commissionRate > 100
-    ) {
-        throw new Error(
-            "Commission rate must be a number from 0 to 100."
-        );
-    }
 }
 
+const { data, error } = await supabase
+    .schema("affiliate_program")
+    .rpc("review_application", {
+        p_application_id: application.id,
+        p_decision: decision,
+        p_commission_rate: commissionRate,
+        p_player_id_verified: false,
+        p_notes: notes
+    });
 
+if (error) {
+    throw error;
+}
 
-        // Do not assume success if the server explicitly
-        // reports that the operation was unsuccessful.
-        if (
-            data &&
-            !Array.isArray(data) &&
-            typeof data === "object" &&
-            data.success === false
-        ) {
-            throw new Error(
-                data.message || "The review action was not completed."
-            );
-        }
+// The RPC returns the Affiliate ID on approval,
+// or "rejected" on rejection.
+console.log("Application review result:", data);
+
+if (decision === "approved") {
+    console.log("Created/reused Affiliate ID:", data);
+}
 
         if (normalizedAction === "approve") {
             setApplicationReviewMessage(
