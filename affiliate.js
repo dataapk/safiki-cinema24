@@ -1172,6 +1172,42 @@ const input = $("#affcAffiliateSearch");
 /* =====================================================
    14. APPLICATIONS
 ===================================================== */
+   
+/* =====================================================
+   APPLICATION CARD CLICK HANDLERS
+===================================================== */
+
+document
+    .querySelectorAll("[data-affc-application-view]")
+    .forEach(card => {
+        if (card.dataset.affcViewBound === "true") return;
+
+        card.dataset.affcViewBound = "true";
+
+        const selectView = () => {
+            const view = String(
+                card.dataset.affcApplicationView || "pending"
+            ).toLowerCase();
+
+            state.applicationStatus =
+                view === "rejected" ? "rejected" : "pending";
+
+            state.applicationPage = 1;
+
+            renderApplicationList();
+        };
+
+        card.addEventListener("click", selectView);
+
+        card.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                selectView();
+            }
+        });
+    });
+
+   
 
 async function loadApplications() {
     // Match the actual HTML tbody ID.
