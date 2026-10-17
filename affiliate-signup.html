@@ -1006,28 +1006,18 @@
                     window.location.origin +
                     window.location.pathname;
 
-                const { data, error } =
-                    await supabase.auth.signUp({
-                        email,
-                        password,
-                        options: {
-                            emailRedirectTo: redirectUrl,
-
-                            data: {
-                                /*
-                                 * IMPORTANT:
-                                 * This marker must be checked by
-                                 * the auth.users database trigger.
-                                 */
-                                account_type:
-                                    AFFILIATE_ACCOUNT_TYPE,
-
-                                affiliate_application_pending: true,
-
-                                affiliate_application: application
-                            }
-                        }
-                    });
+              const { data, error } = await supabase.auth.signUp({
+                                     email,
+                                      password,
+                                   options: {
+                                       emailRedirectTo: redirectUrl,
+                                        data: {
+                               account_type: AFFILIATE_ACCOUNT_TYPE,
+                       affiliate_application_pending: true,
+                       affiliate_application: application
+                      }
+                   }
+               });
 
                 if (error) {
                     if (isDuplicateEmailError(error)) {
