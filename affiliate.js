@@ -1887,9 +1887,10 @@ const input = $("#affcAffiliateSearch");
 
         try {
             await Promise.all([
-                loadAffiliates(),
-                loadOverview()
-            ]);
+    loadAffiliates(),
+    loadApplications(),
+    loadOverview()
+]);
 
             showMessage(
                 "Affiliate Center refreshed. Any unconfigured data sources remain unavailable.",
@@ -2012,25 +2013,23 @@ const input = $("#affcAffiliateSearch");
          * affiliate list; otherwise show a clear setup state.
          */
 
-        if (getConfiguredTable("affiliates")) {
-            try {
-                await loadAffiliates();
-            } catch (error) {
-                console.error(
-                    "Affiliate list initialization failed:",
-                    error
-                );
+        try {
+    await Promise.all([
+        loadAffiliates(),
+        loadApplications()
+    ]);
+} catch (error) {
+    console.error(
+        "Affiliate Center initialization failed:",
+        error
+    );
 
-                showMessage(
-                    error.message ||
-                    "Affiliate records could not be loaded.",
-                    "error"
-                );
-            }
-        } else {
-            renderAffiliateList();
-        }
-
+    showMessage(
+        error.message ||
+        "Affiliate applications or affiliate records could not be loaded.",
+        "error"
+    );
+}
         console.log("SAFIKI AFFILIATE CENTER INITIALIZED");
     }
 
