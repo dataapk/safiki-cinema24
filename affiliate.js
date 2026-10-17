@@ -1908,6 +1908,7 @@ document.addEventListener("click", function (event) {
     const detailsButton = target.closest(
         '[data-affc-action="view-application"]'
     );
+   
 
     if (detailsButton) {
         event.preventDefault();
@@ -1952,6 +1953,52 @@ document.addEventListener("click", function (event) {
 
         return;
     }
+
+
+   
+    // Open affiliate details.
+    const affiliateDetailsButton = target.closest(
+        '[data-affc-action="view-affiliate"]'
+    );
+
+    if (affiliateDetailsButton) {
+        event.preventDefault();
+
+        const affiliateId = affiliateDetailsButton.getAttribute(
+            "data-affc-id"
+        );
+
+        if (affiliateId) {
+            openAffiliateDetails(affiliateId);
+        }
+
+        return;
+    }
+
+    // Back to affiliate accounts.
+    const closeAffiliateButton = target.closest(
+        '#affcCloseDetailsBtn, [data-affc-action="close-details"]'
+    );
+
+    if (closeAffiliateButton) {
+        event.preventDefault();
+
+        const detailsPanel = $("#affcAffiliateDetails");
+
+        if (detailsPanel) {
+            detailsPanel.hidden = true;
+        }
+
+        const affiliatesPanel = $("#affcAffiliatesPanel");
+
+        if (affiliatesPanel) {
+            affiliatesPanel.hidden = false;
+        }
+
+        state.selectedAffiliate = null;
+        return;
+    }
+
 
     // Close the details panel.
     const closeButton = target.closest(
