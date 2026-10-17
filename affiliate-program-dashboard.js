@@ -769,7 +769,7 @@ async function affiliateLoadSupabaseData() {
     const affiliateResult = await client
         .from(AFFILIATE_CONFIG.tables.affiliates)
         .select("*")
-        .eq("user_id", user.id)
+        .eq("affiliate_id", affiliateId)
         .maybeSingle();
 
     if (affiliateResult.error) {
