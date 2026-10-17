@@ -1754,24 +1754,24 @@ async function submitApplicationReview(action) {
     );
 
     try {
-        /*
-         * This RPC must exist in the affiliate_program schema.
-         * It must verify admin authorization server-side.
-         *
-         * The server should:
-         * - Update the application's status and review notes.
-         * - Set reviewed_by and reviewed_at.
-         * - On approval, create or reuse the affiliate record.
-         * - Prevent duplicate affiliate records.
-         * - Return an error if the caller is not authorized.
-         */
-        const { data, error } = await client
-            .schema("affiliate_program")
-            .rpc(AFFILIATE_REVIEW_RPC, {
-                p_application_id: application.id,
-                p_action: normalizedAction,
-                p_review_notes: notes
-            });
+        
+const supabase = getSupabaseClient();
+
+if (!supabase) {
+    throw new Error(
+        "Supabase client is not initialized. Check window.supabaseClient."
+    );
+}
+
+        
+            const { data, error } = await supabase
+           .schema("affiliate_program")
+             .rpc(AFFILIATE_REVIEW_RPC, {
+          p_application_id: application.id,
+          p_action: normalizedAction,
+         p_review_notes: notes
+    });
+
 
         if (error) {
             throw error;
