@@ -2926,8 +2926,23 @@ function initializeCommissionStructure() {
             });
 
             commissionMenu.classList.add("active");
-            commissionMenu.setAttribute("aria-expanded", "true");
-        });
+commissionMenu.setAttribute("aria-expanded", "false");
+
+// Close navigation menu after selecting Commission Structure
+const navigationMenu = document.getElementById("navigationMenu");
+
+if (navigationMenu) {
+    navigationMenu.hidden = true;
+}
+
+const menuToggle = document.getElementById("menuToggle");
+
+if (menuToggle) {
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open menu");
+}
+           
+ });
     }
 
     selectCommission("referral");
