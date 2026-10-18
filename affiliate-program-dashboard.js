@@ -2468,129 +2468,283 @@ if (document.readyState === "loading") {
 
 
 
+
 /* =========================================
-   COMMISSION STRUCTURE - DASHBOARD
+   AFFILIATE DASHBOARD
+   COMMISSION STRUCTURE + CLIENT ROUTING
 ========================================= */
 
 (function () {
     "use strict";
+
+    const BASE_ROUTE = "/dashboard";
+
+    const ROUTES = {
+        "/dashboard": "#mainDashboard",
+        "/dashboard/website": "#website",
+        "/dashboard/commission-structure": "#commissionStructureSection",
+        "/dashboard/payment-history": "#paymentHistory",
+        "/dashboard/account": "#account",
+        "/dashboard/contact": "#contact",
+        "/dashboard/affiliate-link": "#affiliateLink",
+        "/dashboard/promo-code": "#promoCode",
+        "/dashboard/media": "#media",
+        "/dashboard/reports": "#conversionStatistics",
+        "/dashboard/reports/full-report": "#fullReport",
+        "/dashboard/reports/marketing-tools": "#marketingTools",
+        "/dashboard/reports/player-report": "#playerReport",
+        "/dashboard/reports/sub-affiliate-report": "#subAffiliateReport"
+    };
+
+    let initialized = false;
+
+    function normalizePath(path) {
+        if (!path) {
+            return BASE_ROUTE;
+        }
+
+        const normalized = path.replace(/\/+$/, "");
+
+        return normalized || BASE_ROUTE;
+    }
+
+    function getRouteFromURL() {
+        return normalizePath(window.location.pathname);
+    }
+
+    function getSection(selector) {
+        return selector
+            ? document.querySelector(selector)
+            : null;
+    }
+
+    function getNavigationLinks() {
+        return Array.from(
+            document.querySelectorAll(
+                "#navigationMenu a[data-route]"
+            )
+        );
+    }
+
+    function getDashboardSections() {
+        const selectors = Object.values(ROUTES);
+
+        return Array.from(
+            new Set(
+                selectors
+                    .map(getSection)
+                    .filter(Boolean)
+            )
+        );
+    }
+
+    function updateActiveNavigation(path) {
+        getNavigationLinks().forEach(function (link) {
+            const linkPath = normalizePath(
+                link.dataset.route || link.getAttribute("href")
+            );
+
+            const isActive = linkPath === path;
+
+            link.classList.toggle("active", isActive);
+
+            if (isActive) {
+                link.setAttribute("aria-current", "page");
+            } else {
+                link.removeAttribute("aria-current");
+            }
+        });
+    }
+
+    function showRoute(path) {
+        const normalizedPath = normalizePath(path);
+        const selector = ROUTES[normalizedPath];
+        const targetSection = getSection(selector);
+
+        if (!targetSection) {
+            console.warn(
+                "Affiliate Dashboard: route section not found:",
+                normalizedPath,
+                selector
+            );
+
+            return false;
+        }
+
+        getDashboardSections().forEach(function (section) {
+            section.hidden = section !== targetSection;
+        });
+
+        updateActiveNavigation(normalizedPath);
+
+        /*
+         * Keep the existing navigation menu available.
+         * Do not hide the dashboard's shared navigation layout.
+         */
+        const navigationMenu = document.getElementById(
+            "navigationMenu"
+        );
+
+        if (
+            navigationMenu &&
+            navigationMenu.dataset.keepVisible === "true"
+        ) {
+            navigationMenu.hidden = false;
+        }
+
+        return true;
+    }
+
+    function navigateTo(path, options) {
+        const normalizedPath = normalizePath(path);
+        const settings = options || {};
+
+        if (!ROUTES[normalizedPath]) {
+            console.warn(
+                "Affiliate Dashboard: unknown route:",
+                normalizedPath
+            );
+
+            return;
+        }
+
+        const selector = ROUTES[normalizedPath];
+
+        if (!getSection(selector)) {
+            console.warn(
+                "Affiliate Dashboard: target section is missing:",
+                selector
+            );
+
+            return;
+        }
+
+        if (settings.updateURL !== false) {
+            if (getRouteFromURL() !== normalizedPath) {
+                window.history.pushState(
+                    { route: normalizedPath },
+                    "",
+                    normalizedPath
+                );
+            }
+        }
+
+        showRoute(normalizedPath);
+    }
+
+    function initializeRouting() {
+        const navigationMenu = document.getElementById(
+            "navigationMenu"
+        );
+
+        /*
+         * Prevent duplicate event listeners.
+         */
+        if (initialized) {
+            return;
+        }
+
+        initialized = true;
+
+        if (navigationMenu) {
+            /*
+             * This flag lets showRoute preserve the menu's visibility.
+             * It does not forcibly open a menu that is intentionally
+             * controlled by another menu-toggle component.
+             */
+            navigationMenu.dataset.keepVisible = "true";
+
+            navigationMenu.addEventListener(
+                "click",
+                function (event) {
+                    const link = event.target.closest(
+                        "a[data-route]"
+                    );
+
+                    if (!link || !navigationMenu.contains(link)) {
+                        return;
+                    }
+
+                    /*
+                     * Preserve normal browser behavior for new tabs,
+                     * external targets, and modified clicks.
+                     */
+                    if (
+                        event.defaultPrevented ||
+                        event.button !== 0 ||
+                        event.metaKey ||
+                        event.ctrlKey ||
+                        event.shiftKey ||
+                        event.altKey ||
+                        link.target === "_blank"
+                    ) {
+                        return;
+                    }
+
+                    const route = link.dataset.route;
+
+                    if (!route || !ROUTES[normalizePath(route)]) {
+                        return;
+                    }
+
+                    event.preventDefault();
+                    navigateTo(route);
+                }
+            );
+        }
+
+        /*
+         * Browser Back / Forward.
+         */
+        window.addEventListener("popstate", function () {
+            const path = getRouteFromURL();
+
+            if (!showRoute(path)) {
+                console.warn(
+                    "Affiliate Dashboard: unable to display route:",
+                    path
+                );
+            }
+        });
+
+        /*
+         * Handle direct route visits when the HTML has loaded.
+         */
+        const initialPath = getRouteFromURL();
+
+        if (ROUTES[initialPath] && getSection(ROUTES[initialPath])) {
+            showRoute(initialPath);
+        } else if (
+            initialPath === BASE_ROUTE ||
+            initialPath === BASE_ROUTE + "/"
+        ) {
+            showRoute(BASE_ROUTE);
+        } else {
+            console.warn(
+                "Affiliate Dashboard: current URL has no registered section:",
+                initialPath
+            );
+        }
+    }
 
     function initializeCommissionStructure() {
         const commissionSection = document.getElementById(
             "commissionStructureSection"
         );
 
-        const commissionMenu = document.getElementById(
-            "commissionStructureMenu"
-        );
-
-        if (!commissionSection || !commissionMenu) {
+        if (!commissionSection) {
             console.warn(
-                "Commission Structure: section or menu button not found."
+                "Commission Structure: section not found."
             );
             return;
         }
 
-        // Prevent duplicate initialization.
         if (
-            commissionSection.dataset.navigationInitialized === "true"
+            commissionSection.dataset.commissionInitialized === "true"
         ) {
             return;
         }
 
-        /*
-         * Locate existing dashboard sections.
-         */
-        const selectors = [
-            "#mainDashboard",
-            "#website",
-            "#paymentHistory",
-            "#account",
-            "#contact",
-            "#affiliateLink",
-            "#promoCode",
-            "#media",
-            "#conversionStatistics",
-            "#fullReport",
-            "#marketingTools",
-            "#playerReport",
-            "#subAffiliateReport"
-        ];
-
-        function getDashboardSections() {
-            const sections = selectors
-                .map(function (selector) {
-                    return document.querySelector(selector);
-                })
-                .filter(function (section, index, array) {
-                    return (
-                        section &&
-                        section !== commissionSection &&
-                        array.indexOf(section) === index
-                    );
-                });
-
-            sections.push(commissionSection);
-            return sections;
-        }
-
-        /*
-         * Show the requested dashboard section.
-         */
-        function showDashboardSection(targetSection) {
-            getDashboardSections().forEach(function (section) {
-                section.hidden = section !== targetSection;
-            });
-
-            document.querySelectorAll(
-                ".navigation-menu-button"
-            ).forEach(function (button) {
-                button.classList.remove("active");
-                button.setAttribute("aria-expanded", "false");
-            });
-
-            if (targetSection === commissionSection) {
-                commissionMenu.classList.add("active");
-                commissionMenu.setAttribute(
-                    "aria-expanded",
-                    "true"
-                );
-            }
-        }
-
-        /*
-         * Commission navigation.
-         */
-        commissionMenu.addEventListener("click", function (event) {
-            event.preventDefault();
-            showDashboardSection(commissionSection);
-        });
-
-        /*
-         * Main Page navigation.
-         */
-        const mainPageLink = document.querySelector(
-            '#navigationMenu a[href="#mainDashboard"]'
-        );
-
-        if (mainPageLink) {
-            mainPageLink.addEventListener("click", function (event) {
-                const mainDashboard = document.getElementById(
-                    "mainDashboard"
-                );
-
-                if (!mainDashboard) {
-                    return;
-                }
-
-                event.preventDefault();
-                showDashboardSection(mainDashboard);
-            });
-        }
-
-        /*
-         * Commission details elements.
-         */
         const referralOption = commissionSection.querySelector(
             "#referralOption"
         );
@@ -2639,20 +2793,13 @@ if (document.readyState === "loading") {
             !toggleDetails
         ) {
             console.warn(
-                "Commission Structure: detail elements are missing."
+                "Commission Structure: required detail elements are missing."
             );
-
-            // Navigation remains initialized even if detail markup
-            // is incomplete; no top-level return is used.
-            commissionSection.dataset.navigationInitialized = "true";
             return;
         }
 
         let selectedType = "referral";
 
-        /*
-         * Select a commission type.
-         */
         function selectCommission(type) {
             selectedType = type;
 
@@ -2666,6 +2813,16 @@ if (document.readyState === "loading") {
             revenueOption.classList.toggle(
                 "active",
                 !isReferral
+            );
+
+            referralOption.setAttribute(
+                "aria-pressed",
+                String(isReferral)
+            );
+
+            revenueOption.setAttribute(
+                "aria-pressed",
+                String(!isReferral)
             );
 
             detailsTitle.textContent = isReferral
@@ -2713,9 +2870,6 @@ if (document.readyState === "loading") {
             selectCommission("revenue");
         });
 
-        /*
-         * Expand / minimize details.
-         */
         toggleDetails.addEventListener("click", function () {
             const willCollapse = !detailsContent.hidden;
 
@@ -2756,24 +2910,35 @@ if (document.readyState === "loading") {
 
         selectCommission("referral");
 
-        // Mark initialization complete after successful setup.
-        commissionSection.dataset.navigationInitialized = "true";
+        commissionSection.dataset.commissionInitialized = "true";
 
         console.log(
             "Commission Structure: initialized successfully."
         );
     }
 
+    function initialize() {
+        initializeRouting();
+        initializeCommissionStructure();
+    }
+
     /*
-     * Initialize once the HTML is ready.
+     * Optional global navigation helper for other existing
+     * dashboard scripts. Use navigateAffiliateDashboard(path)
+     * when another component needs to navigate programmatically.
      */
+    window.navigateAffiliateDashboard = function (path) {
+        navigateTo(path);
+    };
+
     if (document.readyState === "loading") {
         document.addEventListener(
             "DOMContentLoaded",
-            initializeCommissionStructure,
+            initialize,
             { once: true }
         );
     } else {
-        initializeCommissionStructure();
+        initialize();
     }
 })();
+
