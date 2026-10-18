@@ -2508,9 +2508,21 @@ if (document.readyState === "loading") {
         return normalized || BASE_ROUTE;
     }
 
-    function getRouteFromURL() {
-        return normalizePath(window.location.pathname);
+    
+function getRouteFromURL() {
+    const path = normalizePath(window.location.pathname);
+
+    // Support opening the dashboard through its HTML filename.
+    if (
+        path === "/affiliate-program-dashboard.html" ||
+        path === "/affiliate-dashboard.html"
+    ) {
+        return "/dashboard";
     }
+
+    return path;
+}
+
 
     function getSection(selector) {
         return selector
