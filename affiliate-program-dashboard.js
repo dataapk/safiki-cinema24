@@ -2568,44 +2568,47 @@ function getRouteFromURL() {
         });
     }
 
-    function showRoute(path) {
-        const normalizedPath = normalizePath(path);
-        const selector = ROUTES[normalizedPath];
-        const targetSection = getSection(selector);
+    
+function showRoute(path) {
+    const normalizedPath = normalizePath(path);
+    const selector = ROUTES[normalizedPath];
+    const targetSection = getSection(selector);
 
-        if (!targetSection) {
-            console.warn(
-                "Affiliate Dashboard: route section not found:",
-                normalizedPath,
-                selector
-            );
-
-            return false;
-        }
-
-        getDashboardSections().forEach(function (section) {
-            section.hidden = section !== targetSection;
-        });
-
-        updateActiveNavigation(normalizedPath);
-
-        /*
-         * Keep the existing navigation menu available.
-         * Do not hide the dashboard's shared navigation layout.
-         */
-        const navigationMenu = document.getElementById(
-            "navigationMenu"
+    if (!targetSection) {
+        console.warn(
+            "Affiliate Dashboard: route section not found:",
+            normalizedPath,
+            selector
         );
-
-        if (
-            navigationMenu &&
-            navigationMenu.dataset.keepVisible === "true"
-        ) {
-            navigationMenu.hidden = false;
-        }
-
-        return true;
+        return false;
     }
+
+    // Hide all registered dashboard sections.
+    getDashboardSections().forEach(function (section) {
+        section.hidden = true;
+    });
+
+    // Also hide route-based sections, including Commission Structure.
+    document.querySelectorAll("[data-route-page]").forEach(function (section) {
+        section.hidden = true;
+    });
+
+    // Show the selected section.
+    targetSection.hidden = false;
+
+    // Keep the shared navigation visible.
+    const navigationMenu = document.getElementById("navigationMenu");
+
+    if (navigationMenu) {
+        navigationMenu.hidden = false;
+    }
+
+    // Update active navigation links.
+    updateActiveNavigation(normalizedPath);
+
+    return true;
+}
+
 
     function navigateTo(path, options) {
         const normalizedPath = normalizePath(path);
