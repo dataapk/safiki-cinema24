@@ -328,7 +328,15 @@ function affiliateFormatMoney(amount, currency = AffiliateDashboard.currency) {
     );
 
     if (convertedAmount === null) {
-        return "Rate unavailable";
+        return new Intl.NumberFormat(
+            AFFILIATE_CONFIG.currencyLocales[currency] || "en",
+            {
+                style: "currency",
+                currency,
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        ).format(0);
     }
 
     try {
