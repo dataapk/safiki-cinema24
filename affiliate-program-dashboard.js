@@ -2596,13 +2596,6 @@ function showRoute(path) {
     // Show the selected section.
     targetSection.hidden = false;
 
-    // Keep the shared navigation visible.
-    const navigationMenu = document.getElementById("navigationMenu");
-
-    if (navigationMenu) {
-        navigationMenu.hidden = false;
-    }
-
     // Update active navigation links.
     updateActiveNavigation(normalizedPath);
 
