@@ -298,15 +298,7 @@ body {
 /* USER PROFILE DASHBOARD END */
 
 
-/* ============================= */
-/* FINANCE GRID (SIDE BY SIDE SMALL BOXES) */
-/* ============================= */
 
-.finance-summary {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
 
 /* ============================= */
 /* SECTION SEPARATION FIX (WHITE BLOCK FLOATING) */
@@ -458,72 +450,7 @@ table tr:hover {
 button[onclick="saveGameSettings()"]{
     margin-top: 25px;
 }
-/* ================================
-   FINANCE MAIN BUTTONS
-==================================*/
-.finance-overview-grid{
 
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:20px;
-
-    margin-bottom:20px;
-
-}
-
-.finance-overview-grid .stat-card{
-
-    flex:1;
-
-    min-width:220px;
-
-    text-align:center;
-
-}
-
-.finance-stat-value{
-
-    display:block;
-
-    font-size:22px;
-
-    font-weight:bold;
-
-    margin-top:10px;
-
-}
-
-.deposit-btn{
-
-    background: #28a745 !important;
-    color: #ffffff !important;
-    margin-right: 200px;
-
-}
-
-.deposit-btn:hover{
-
-    background: #218838 !important;
-
-}
-
-.withdraw-btn{
-
-    background: #dc3545 !important;
-    color: #ffffff !important;
-
-}
-
-.withdraw-btn:hover{
-
-    background: #c82333 !important;
-
-}
-/* ========================= */
-/* FINANCE SAVE BUTTON AREA */
-/* ========================= */
 /* ========================= */
 /* SETTING MENU START */
 /* ========================= */
