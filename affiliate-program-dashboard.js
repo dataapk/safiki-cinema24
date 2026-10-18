@@ -721,17 +721,25 @@ function affiliateRenderEarnings() {
    affiliate to read only their own records.
 */
 
+
 async function affiliateFetchRows(
     client,
     tableName,
-    affiliateId
+    affiliateUUID
 ) {
-    const column = AFFILIATE_CONFIG.affiliateIdColumn;
+    const column = "affiliate_id";
+
+    if (!affiliateUUID) {
+        throw new Error(
+            "Affiliate UUID is required to load " + tableName + "."
+        );
+    }
 
     const result = await client
+        .schema("affiliate_program")
         .from(tableName)
         .select("*")
-        .eq(column, affiliateId);
+        .eq(column, affiliateUUID);
 
     if (result.error) {
         throw result.error;
@@ -743,12 +751,13 @@ async function affiliateFetchRows(
 }
 
 
+
 async function affiliateLoadSupabaseData() {
     const client = AFFILIATE_CONFIG.getSupabaseClient();
 
     if (!client) {
         throw new Error(
-            "Supabase client not found. Configure your existing client before loading affiliate data."
+            "Supabase client not found."
         );
     }
 
@@ -768,9 +777,10 @@ async function affiliateLoadSupabaseData() {
 
     AffiliateDashboard.user = user;
 
-    // Find the affiliate record using the authenticated user's ID.
+    // Find the affiliate record using the authenticated user.
     const affiliateResult = await client
-        .from(AFFILIATE_CONFIG.tables.affiliates)
+        .schema("affiliate_program")
+        .from("affiliates")
         .select("*")
         .eq("auth_user_id", user.id)
         .maybeSingle();
@@ -789,32 +799,40 @@ async function affiliateLoadSupabaseData() {
 
     AffiliateDashboard.affiliate = affiliate;
 
-    // Get the affiliate ID from the returned database record.
-    const affiliateId = affiliate.affiliate_id;
+    // UUID for database relationships.
+    const affiliateUUID = affiliate.id;
 
-    if (!affiliateId) {
+    // TEXT code for display and affiliate links.
+    const affiliateCode = affiliate.affiliate_id;
+
+    if (!affiliateUUID) {
         throw new Error(
-            "The affiliate account is missing its affiliate_id."
+            "The affiliate account is missing its UUID."
         );
     }
 
+    if (!affiliateCode) {
+        throw new Error(
+            "The affiliate account is missing its affiliate code."
+        );
+    }
+
+    // Fetch all related data using the UUID foreign key.
     const results = await Promise.all([
         affiliateFetchRows(
             client,
             AFFILIATE_CONFIG.tables.commissions,
-            affiliateId
+            affiliateUUID
         ),
-
         affiliateFetchRows(
             client,
             AFFILIATE_CONFIG.tables.payouts,
-            affiliateId
+            affiliateUUID
         ),
-
         affiliateFetchRows(
             client,
             AFFILIATE_CONFIG.tables.referrals,
-            affiliateId
+            affiliateUUID
         )
     ]);
 
@@ -826,11 +844,14 @@ async function affiliateLoadSupabaseData() {
 
     return {
         affiliate,
+        affiliateUUID,
+        affiliateCode,
         commissions: results[0],
         payouts: results[1],
         referrals: results[2]
     };
 }
+
 
 
 
