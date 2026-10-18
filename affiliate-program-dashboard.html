@@ -40,50 +40,52 @@
 
 
 
+
 <!-- NAVIGATION MENU -->
 <nav class="navigation-menu" id="navigationMenu" hidden>
 
-    <a href="/dashboard" data-route="/dashboard">
+    <a href="#mainDashboard">
         Main Page
     </a>
 
-    <a href="/dashboard/website" data-route="/dashboard/website">
+    <a href="#website">
         Website
     </a>
 
-   <a
-    href="/dashboard/commission-structure"
-    id="commissionStructureMenu"
-    class="navigation-menu-button"
-    data-route="/dashboard/commission-structure"
->
-    Commission Structure
-</a>
+    <button
+        type="button"
+        id="commissionStructureMenu"
+        class="navigation-menu-button"
+        aria-controls="commissionStructureSection"
+        aria-expanded="false"
+    >
+        Commission Structure
+    </button>
 
-    <a href="/dashboard/payment-history" data-route="/dashboard/payment-history">
+    <a href="#paymentHistory">
         Payment History
     </a>
 
-    <a href="/dashboard/account" data-route="/dashboard/account">
+    <a href="#account">
         Account
     </a>
 
-    <a href="/dashboard/contact" data-route="/dashboard/contact">
+    <a href="#contact">
         Contact
     </a>
 
     <div class="menu-group">
         <h3>Marketing</h3>
 
-        <a href="/dashboard/affiliate-link" data-route="/dashboard/affiliate-link">
+        <a href="#affiliateLink">
             Affiliate Link
         </a>
 
-        <a href="/dashboard/promo-code" data-route="/dashboard/promo-code">
+        <a href="#promoCode">
             Promo Code
         </a>
 
-        <a href="/dashboard/media" data-route="/dashboard/media">
+        <a href="#media">
             Media
         </a>
     </div>
@@ -91,32 +93,33 @@
     <div class="menu-group">
         <h3>Reports</h3>
 
-        <a href="/dashboard/reports" data-route="/dashboard/reports">
+        <a href="#conversionStatistics">
             Summary
         </a>
 
-        <a href="/dashboard/reports/full-report" data-route="/dashboard/reports/full-report">
+        <a href="#fullReport">
             Full Report
         </a>
 
-        <a href="/dashboard/reports/marketing-tools" data-route="/dashboard/reports/marketing-tools">
+        <a href="#marketingTools">
             Marketing Tools
         </a>
 
-        <a href="/dashboard/reports/player-report" data-route="/dashboard/reports/player-report">
+        <a href="#playerReport">
             Player Report
         </a>
 
-        <a href="/dashboard/reports/sub-affiliate-report" data-route="/dashboard/reports/sub-affiliate-report">
+        <a href="#subAffiliateReport">
             Sub Affiliate Report
         </a>
 
-        <a href="/dashboard/logout" data-route="/dashboard/logout">
+        <a href="#logout">
             Log Out
         </a>
     </div>
 
 </nav>
+
 
 
 
