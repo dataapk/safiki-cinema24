@@ -604,14 +604,19 @@
 
     
         
-<!-- COMMISSION STRUCTURE SECTION -->
-<section id="commissionStructureSection" hidden>
 
+<!-- COMMISSION STRUCTURE SECTION -->
+<section
+    id="commissionStructureSection"
+    data-route-page="/dashboard/commission-structure"
+    aria-labelledby="commissionPageTitle"
+    hidden
+  >
     <div class="commission-page">
 
         <!-- Page Heading -->
         <div class="commission-heading">
-            <h2>Commission Structure</h2>
+            <h2 id="commissionPageTitle">Commission Structure</h2>
 
             <div class="currency-badge">
                 Currency:
@@ -620,11 +625,19 @@
         </div>
 
         <!-- Commission Type Selector -->
-        <section class="commission-selector">
-
+        <section
+            class="commission-selector"
+            aria-labelledby="commissionSelectorTitle"
+        >
             <div class="selector-header">
                 <div>
-                    <h3 class="selector-title">Commission Types</h3>
+                    <h3
+                        class="selector-title"
+                        id="commissionSelectorTitle"
+                    >
+                        Commission Types
+                    </h3>
+
                     <p class="selector-subtitle">
                         Select a commission type to view its details.
                     </p>
@@ -639,10 +652,11 @@
                     class="commission-option active"
                     id="referralOption"
                     aria-expanded="true"
-                    aria-controls="commissionDetails"
+                    aria-controls="referralContent"
+                    aria-pressed="true"
                 >
                     <span class="option-info">
-                        <span class="option-icon">R</span>
+                        <span class="option-icon" aria-hidden="true">R</span>
 
                         <span>
                             <span class="option-name">Referral</span>
@@ -661,10 +675,11 @@
                     class="commission-option"
                     id="revenueOption"
                     aria-expanded="false"
-                    aria-controls="commissionDetails"
+                    aria-controls="revenueContent"
+                    aria-pressed="false"
                 >
                     <span class="option-info">
-                        <span class="option-icon">%</span>
+                        <span class="option-icon" aria-hidden="true">%</span>
 
                         <span>
                             <span class="option-name">Revenue Share</span>
@@ -686,7 +701,6 @@
             id="commissionDetails"
             aria-live="polite"
         >
-
             <div class="details-header">
                 <div>
                     <h3 class="details-heading" id="detailsTitle">
@@ -714,7 +728,6 @@
                 <div id="referralContent">
 
                     <div class="rate-cards">
-
                         <div class="rate-card">
                             <span class="rate-label">
                                 Default Commission
@@ -739,11 +752,9 @@
                                 sub-affiliate activity
                             </div>
                         </div>
-
                     </div>
 
                     <div class="details-list">
-
                         <div class="detail-row">
                             <span class="detail-label">
                                 Commission Group Name
@@ -801,7 +812,6 @@
                                 Commission Date
                             </span>
                         </div>
-
                     </div>
 
                     <div class="commission-note">
@@ -814,14 +824,12 @@
                         3% does not automatically apply to every affiliate
                         or every transaction.
                     </div>
-
                 </div>
 
                 <!-- Revenue Share Content -->
                 <div id="revenueContent" hidden>
 
                     <div class="rate-cards">
-
                         <div class="rate-card">
                             <span class="rate-label">
                                 Commission Percentage
@@ -843,11 +851,9 @@
                                 Administration percentage
                             </div>
                         </div>
-
                     </div>
 
                     <div class="details-list">
-
                         <div class="detail-row">
                             <span class="detail-label">
                                 Commission Group Name
@@ -889,7 +895,6 @@
                                 Commission Date
                             </span>
                         </div>
-
                     </div>
 
                     <div class="commission-note">
@@ -899,16 +904,15 @@
                         displayed for reference and do not themselves
                         calculate or pay commissions.
                     </div>
-
                 </div>
 
             </div>
         </section>
 
     </div>
-
 </section>
 <!-- END COMMISSION STRUCTURE SECTION -->
+
 
 
     </main>
