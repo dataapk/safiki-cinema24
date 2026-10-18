@@ -2642,906 +2642,1052 @@
 <!-- INLINE GAME SETTINGS PANEL END -->
 <!-- ========================= -->
 
+<!-- ======================================================
+     FINANCE SECTION — SAFIKI ADMIN
+     Panels: Deposit | Withdraw | Net Revenue
+====================================================== -->
+
+<section
+    id="financeSection"
+    class="admin-section finance-section"
+    style="display: none;"
+>
+    <!-- FINANCE HEADER -->
+    <div class="finance-header">
+        <div class="finance-header-info">
+            <h2>Finance</h2>
+            <p>Manage deposits, withdrawals and player net revenue.</p>
+        </div>
+    </div>
+
+    <!-- FINANCE OVERVIEW -->
+    <div class="finance-overview">
+
+        <div class="finance-summary-card">
+            <div class="finance-summary-label">Total Deposit</div>
+            <div class="finance-summary-value" id="financeTotalDeposit">
+                —
+            </div>
+            <div class="finance-summary-description">
+                Successfully completed deposits
+            </div>
+        </div>
+
+        <div class="finance-summary-card">
+            <div class="finance-summary-label">Total Withdraw</div>
+            <div class="finance-summary-value" id="financeTotalWithdraw">
+                —
+            </div>
+            <div class="finance-summary-description">
+                Successfully paid withdrawals
+            </div>
+        </div>
+
+        <div class="finance-summary-card">
+            <div class="finance-summary-label">Pending Deposits</div>
+            <div class="finance-summary-value" id="financePendingDeposit">
+                —
+            </div>
+            <div class="finance-summary-description">
+                Deposits awaiting review
+            </div>
+        </div>
+
+        <div class="finance-summary-card">
+            <div class="finance-summary-label">Pending Withdrawals</div>
+            <div class="finance-summary-value" id="financePendingWithdraw">
+                —
+            </div>
+            <div class="finance-summary-description">
+                Withdrawals awaiting processing
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- FINANCE PANEL NAVIGATION -->
+    <div class="finance-panel-navigation" role="tablist"
+         aria-label="Finance sections">
+
+        <button
+            type="button"
+            class="finance-panel-btn active"
+            id="financeDepositTab"
+            data-finance-panel="financeDepositPanel"
+            role="tab"
+            aria-controls="financeDepositPanel"
+            aria-selected="true"
+        >
+            Deposit
+        </button>
+
+        <button
+            type="button"
+            class="finance-panel-btn"
+            id="financeWithdrawTab"
+            data-finance-panel="financeWithdrawPanel"
+            role="tab"
+            aria-controls="financeWithdrawPanel"
+            aria-selected="false"
+        >
+            Withdraw
+        </button>
+
+        <button
+            type="button"
+            class="finance-panel-btn"
+            id="financeRevenueTab"
+            data-finance-panel="financeRevenuePanel"
+            role="tab"
+            aria-controls="financeRevenuePanel"
+            aria-selected="false"
+        >
+            Net Revenue
+        </button>
+
+    </div>
+
+
+    <!-- ==================================================
+         PANEL 1: DEPOSIT
+    =================================================== -->
+
+    <div
+        id="financeDepositPanel"
+        class="finance-panel active"
+        role="tabpanel"
+        aria-labelledby="financeDepositTab"
+    >
+
+        <div class="finance-panel-header">
+            <div>
+                <h3>Deposit Management</h3>
+                <p>Review and manage player deposit transactions.</p>
+            </div>
+        </div>
+
+        <!-- DEPOSIT SUMMARY -->
+        <div class="finance-sub-summary">
+
+            <div class="finance-summary-card">
+                <span>Total Deposit</span>
+                <strong id="financeDepositTotalAmount">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Pending Amount</span>
+                <strong id="financeDepositPendingAmount">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Approved Today</span>
+                <strong id="financeDepositApprovedToday">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Total Requests</span>
+                <strong id="financeDepositRequestCount">—</strong>
+            </div>
+
+        </div>
+
+        <!-- DEPOSIT STATUS FILTERS -->
+        <div class="finance-status-filters"
+             aria-label="Filter deposit status">
+
+            <button type="button"
+                    class="finance-filter-btn active"
+                    data-deposit-status="all">
+                All Deposits
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-deposit-status="pending">
+                Pending
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-deposit-status="approved">
+                Approved
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-deposit-status="rejected">
+                Rejected
+            </button>
+
+        </div>
+
+        <!-- DEPOSIT SEARCH AND FILTERS -->
+        <form id="financeDepositSearchForm"
+              class="finance-filter-form">
+
+            <div class="finance-form-group">
+                <label for="financeDepositSearch">
+                    Player ID / Username
+                </label>
+
+                <input
+                    type="search"
+                    id="financeDepositSearch"
+                    name="player"
+                    placeholder="Search player..."
+                >
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeDepositWalletFilter">
+                    Payment Wallet
+                </label>
+
+                <select id="financeDepositWalletFilter"
+                        name="wallet">
+                    <option value="all">All Wallets</option>
+                </select>
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeDepositDateFrom">From Date</label>
+                <input
+                    type="date"
+                    id="financeDepositDateFrom"
+                    name="dateFrom"
+                >
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeDepositDateTo">To Date</label>
+                <input
+                    type="date"
+                    id="financeDepositDateTo"
+                    name="dateTo"
+                >
+            </div>
+
+            <div class="finance-filter-actions">
+                <button type="submit" id="financeDepositSearchBtn">
+                    Search
+                </button>
+
+                <button type="reset" id="financeDepositResetBtn">
+                    Reset
+                </button>
+            </div>
+
+        </form>
+
+        <p id="financeDepositMessage"
+           class="finance-message"
+           role="status"
+           aria-live="polite"></p>
+
+        <!-- DEPOSIT TABLE -->
+        <div class="finance-table-container">
+            <table class="finance-table">
+
+                <thead>
+                    <tr>
+                        <th>Player ID</th>
+                        <th>Username</th>
+                        <th>Wallet</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Transaction Reference</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="financeDepositTableBody">
+                    <tr>
+                        <td colspan="9" class="finance-empty-state">
+                            Deposit records will appear here when connected.
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- DEPOSIT PAGINATION -->
+        <div class="finance-pagination"
+             id="financeDepositPagination">
+            <button type="button" id="financeDepositPrevious"
+                    disabled>
+                Previous
+            </button>
+
+            <span id="financeDepositPageInfo">Page 1</span>
+
+            <button type="button" id="financeDepositNext"
+                    disabled>
+                Next
+            </button>
+        </div>
+
+        <!-- DEPOSIT DETAILS -->
+        <div id="financeDepositDetails"
+             class="finance-details-panel"
+             hidden>
+
+            <div class="finance-details-header">
+                <h3>Deposit Details</h3>
+
+                <button type="button"
+                        id="financeDepositCloseDetails"
+                        aria-label="Close deposit details">
+                    Close
+                </button>
+            </div>
+
+            <div class="finance-details-grid">
+
+                <div class="finance-detail-item">
+                    <span>Transaction ID</span>
+                    <strong id="financeDepositDetailId">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Player ID</span>
+                    <strong id="financeDepositDetailPlayerId">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Username</span>
+                    <strong id="financeDepositDetailUsername">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Amount</span>
+                    <strong id="financeDepositDetailAmount">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Wallet</span>
+                    <strong id="financeDepositDetailWallet">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Payment Reference</span>
+                    <strong id="financeDepositDetailReference">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Request Date</span>
+                    <strong id="financeDepositDetailDate">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Status</span>
+                    <strong id="financeDepositDetailStatus">—</strong>
+                </div>
+
+            </div>
+
+            <div class="finance-proof-container">
+                <h4>Payment Proof</h4>
+                <div id="financeDepositPaymentProof">
+                    No payment proof loaded.
+                </div>
+            </div>
+
+            <div class="finance-detail-actions"
+                 id="financeDepositDetailActions">
+
+                <button type="button"
+                        id="financeDepositApproveBtn">
+                    Approve Deposit
+                </button>
+
+                <button type="button"
+                        id="financeDepositRejectBtn">
+                    Reject Deposit
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         PANEL 2: WITHDRAW
+    =================================================== -->
+
+    <div
+        id="financeWithdrawPanel"
+        class="finance-panel"
+        role="tabpanel"
+        aria-labelledby="financeWithdrawTab"
+        hidden
+    >
+
+        <div class="finance-panel-header">
+            <div>
+                <h3>Withdrawal Management</h3>
+                <p>Review withdrawal requests and track payment completion.</p>
+            </div>
+        </div>
+
+        <!-- WITHDRAW SUMMARY -->
+        <div class="finance-sub-summary">
+
+            <div class="finance-summary-card">
+                <span>Total Withdraw</span>
+                <strong id="financeWithdrawTotalAmount">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Pending Amount</span>
+                <strong id="financeWithdrawPendingAmount">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Paid Today</span>
+                <strong id="financeWithdrawPaidToday">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Total Requests</span>
+                <strong id="financeWithdrawRequestCount">—</strong>
+            </div>
+
+        </div>
+
+        <!-- WITHDRAW STATUS FILTERS -->
+        <div class="finance-status-filters"
+             aria-label="Filter withdrawal status">
+
+            <button type="button"
+                    class="finance-filter-btn active"
+                    data-withdraw-status="all">
+                All Withdrawals
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-withdraw-status="pending">
+                Pending
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-withdraw-status="approved">
+                Approved
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-withdraw-status="paid">
+                Paid
+            </button>
+
+            <button type="button"
+                    class="finance-filter-btn"
+                    data-withdraw-status="rejected">
+                Rejected
+            </button>
+
+        </div>
+
+        <!-- WITHDRAW SEARCH AND FILTERS -->
+        <form id="financeWithdrawSearchForm"
+              class="finance-filter-form">
+
+            <div class="finance-form-group">
+                <label for="financeWithdrawSearch">
+                    Player ID / Username
+                </label>
+
+                <input
+                    type="search"
+                    id="financeWithdrawSearch"
+                    name="player"
+                    placeholder="Search player..."
+                >
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeWithdrawWalletFilter">
+                    Withdrawal Wallet
+                </label>
+
+                <select id="financeWithdrawWalletFilter"
+                        name="wallet">
+                    <option value="all">All Wallets</option>
+                </select>
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeWithdrawDateFrom">From Date</label>
+                <input
+                    type="date"
+                    id="financeWithdrawDateFrom"
+                    name="dateFrom"
+                >
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeWithdrawDateTo">To Date</label>
+                <input
+                    type="date"
+                    id="financeWithdrawDateTo"
+                    name="dateTo"
+                >
+            </div>
+
+            <div class="finance-filter-actions">
+                <button type="submit" id="financeWithdrawSearchBtn">
+                    Search
+                </button>
+
+                <button type="reset" id="financeWithdrawResetBtn">
+                    Reset
+                </button>
+            </div>
+
+        </form>
+
+        <p id="financeWithdrawMessage"
+           class="finance-message"
+           role="status"
+           aria-live="polite"></p>
+
+        <!-- WITHDRAW TABLE -->
+        <div class="finance-table-container">
+            <table class="finance-table">
+
+                <thead>
+                    <tr>
+                        <th>Player ID</th>
+                        <th>Username</th>
+                        <th>Wallet</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Payment Reference</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="financeWithdrawTableBody">
+                    <tr>
+                        <td colspan="9" class="finance-empty-state">
+                            Withdrawal records will appear here when connected.
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- WITHDRAW PAGINATION -->
+        <div class="finance-pagination"
+             id="financeWithdrawPagination">
+
+            <button type="button" id="financeWithdrawPrevious"
+                    disabled>
+                Previous
+            </button>
+
+            <span id="financeWithdrawPageInfo">Page 1</span>
+
+            <button type="button" id="financeWithdrawNext"
+                    disabled>
+                Next
+            </button>
+
+        </div>
+
+        <!-- WITHDRAW DETAILS -->
+        <div id="financeWithdrawDetails"
+             class="finance-details-panel"
+             hidden>
+
+            <div class="finance-details-header">
+                <h3>Withdrawal Details</h3>
+
+                <button type="button"
+                        id="financeWithdrawCloseDetails"
+                        aria-label="Close withdrawal details">
+                    Close
+                </button>
+            </div>
+
+            <div class="finance-details-grid">
+
+                <div class="finance-detail-item">
+                    <span>Transaction ID</span>
+                    <strong id="financeWithdrawDetailId">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Player ID</span>
+                    <strong id="financeWithdrawDetailPlayerId">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Username</span>
+                    <strong id="financeWithdrawDetailUsername">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Requested Amount</span>
+                    <strong id="financeWithdrawDetailAmount">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Currency</span>
+                    <strong id="financeWithdrawDetailCurrency">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Withdrawal Wallet</span>
+                    <strong id="financeWithdrawDetailWallet">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Request Date</span>
+                    <strong id="financeWithdrawDetailDate">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Current Status</span>
+                    <strong id="financeWithdrawDetailStatus">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Transaction Fee</span>
+                    <strong id="financeWithdrawDetailFee">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Net Payout</span>
+                    <strong id="financeWithdrawDetailNetPayout">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Payment Reference</span>
+                    <strong id="financeWithdrawDetailReference">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Player Balance</span>
+                    <strong id="financeWithdrawDetailBalance">—</strong>
+                </div>
+
+            </div>
+
+            <div class="finance-detail-actions"
+                 id="financeWithdrawDetailActions">
+
+                <button type="button"
+                        id="financeWithdrawApproveBtn">
+                    Approve Withdrawal
+                </button>
+
+                <button type="button"
+                        id="financeWithdrawRejectBtn">
+                    Reject Withdrawal
+                </button>
+
+                <button type="button"
+                        id="financeWithdrawMarkPaidBtn">
+                    Mark as Paid
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         PANEL 3: NET REVENUE
+    =================================================== -->
+
+    <div
+        id="financeRevenuePanel"
+        class="finance-panel"
+        role="tabpanel"
+        aria-labelledby="financeRevenueTab"
+        hidden
+    >
+
+        <div class="finance-panel-header">
+            <div>
+                <h3>Player Net Revenue Report</h3>
+                <p>
+                    Review player gaming results and net gaming revenue
+                    for the selected reporting period.
+                </p>
+            </div>
+        </div>
+
+        <!-- REVENUE PERIOD FILTERS -->
+        <div class="finance-period-filters"
+             role="group"
+             aria-label="Revenue reporting period">
+
+            <button type="button"
+                    class="finance-period-btn active"
+                    data-revenue-period="today">
+                Today
+            </button>
+
+            <button type="button"
+                    class="finance-period-btn"
+                    data-revenue-period="yesterday">
+                Yesterday
+            </button>
+
+            <button type="button"
+                    class="finance-period-btn"
+                    data-revenue-period="7days">
+                7 Days
+            </button>
+
+            <button type="button"
+                    class="finance-period-btn"
+                    data-revenue-period="30days">
+                30 Days
+            </button>
+
+            <button type="button"
+                    class="finance-period-btn"
+                    data-revenue-period="custom">
+                Custom Date
+            </button>
+
+        </div>
+
+        <!-- CUSTOM DATE RANGE -->
+        <form id="financeRevenueDateForm"
+              class="finance-filter-form"
+              hidden>
+
+            <div class="finance-form-group">
+                <label for="financeRevenueDateFrom">Start Date</label>
+                <input
+                    type="date"
+                    id="financeRevenueDateFrom"
+                    name="dateFrom"
+                >
+            </div>
+
+            <div class="finance-form-group">
+                <label for="financeRevenueDateTo">End Date</label>
+                <input
+                    type="date"
+                    id="financeRevenueDateTo"
+                    name="dateTo"
+                >
+            </div>
+
+            <div class="finance-filter-actions">
+                <button type="submit" id="financeRevenueApplyDate">
+                    Apply Date Range
+                </button>
+            </div>
+
+        </form>
+
+        <!-- REVENUE SUMMARY -->
+        <div class="finance-revenue-summary">
+
+            <div class="finance-summary-card">
+                <span>Valid Bets</span>
+                <strong id="financeRevenueValidBets">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Player Winnings</span>
+                <strong id="financeRevenuePlayerWinnings">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Gross Gaming Revenue (GGR)</span>
+                <strong id="financeRevenueGgr">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Total Deductions</span>
+                <strong id="financeRevenueDeductions">—</strong>
+            </div>
+
+            <div class="finance-summary-card">
+                <span>Net Gaming Revenue (NGR)</span>
+                <strong id="financeRevenueNgr">—</strong>
+            </div>
+
+        </div>
+
+        <!-- PLAYER REVENUE SEARCH -->
+        <form id="financeRevenueSearchForm"
+              class="finance-filter-form">
+
+            <div class="finance-form-group">
+                <label for="financeRevenueSearch">
+                    Player ID / Username
+                </label>
+
+                <input
+                    type="search"
+                    id="financeRevenueSearch"
+                    name="player"
+                    placeholder="Search player..."
+                >
+            </div>
+
+            <div class="finance-filter-actions">
+                <button type="submit" id="financeRevenueSearchBtn">
+                    Search
+                </button>
+
+                <button type="reset" id="financeRevenueResetBtn">
+                    Reset
+                </button>
+            </div>
+
+            <button type="button"
+                    id="financeRevenueExportBtn">
+                Export Report
+            </button>
+
+        </form>
+
+        <p id="financeRevenueMessage"
+           class="finance-message"
+           role="status"
+           aria-live="polite"></p>
+
+        <!-- PLAYER REVENUE TABLE -->
+        <div class="finance-table-container">
+            <table class="finance-table">
+
+                <thead>
+                    <tr>
+                        <th>Player ID</th>
+                        <th>Username</th>
+                        <th>Valid Bets</th>
+                        <th>Player Winnings</th>
+                        <th>GGR</th>
+                        <th>Deductions</th>
+                        <th>NGR</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="financeRevenueTableBody">
+                    <tr>
+                        <td colspan="8" class="finance-empty-state">
+                            Revenue records will appear here when verified
+                            gaming data is connected.
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- REVENUE PAGINATION -->
+        <div class="finance-pagination"
+             id="financeRevenuePagination">
+
+            <button type="button" id="financeRevenuePrevious"
+                    disabled>
+                Previous
+            </button>
+
+            <span id="financeRevenuePageInfo">Page 1</span>
+
+            <button type="button" id="financeRevenueNext"
+                    disabled>
+                Next
+            </button>
+
+        </div>
+
+        <!-- PLAYER REVENUE DETAILS -->
+        <div id="financeRevenueDetails"
+             class="finance-details-panel"
+             hidden>
+
+            <div class="finance-details-header">
+                <h3>Player Revenue Details</h3>
+
+                <button type="button"
+                        id="financeRevenueCloseDetails"
+                        aria-label="Close revenue details">
+                    Close
+                </button>
+            </div>
+
+            <div class="finance-details-grid">
+
+                <div class="finance-detail-item">
+                    <span>Player ID</span>
+                    <strong id="financeRevenueDetailPlayerId">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Username</span>
+                    <strong id="financeRevenueDetailUsername">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Report Period</span>
+                    <strong id="financeRevenueDetailPeriod">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Valid Settled Bets</span>
+                    <strong id="financeRevenueDetailValidBets">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Player Winnings</span>
+                    <strong id="financeRevenueDetailWinnings">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>GGR</span>
+                    <strong id="financeRevenueDetailGgr">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Bonus Deductions</span>
+                    <strong id="financeRevenueDetailBonusDeductions">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Other Deductions</span>
+                    <strong id="financeRevenueDetailOtherDeductions">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Total Deductions</span>
+                    <strong id="financeRevenueDetailTotalDeductions">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Net Gaming Revenue</span>
+                    <strong id="financeRevenueDetailNgr">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Successful Deposits</span>
+                    <strong id="financeRevenueDetailDeposits">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Successful Withdrawals</span>
+                    <strong id="financeRevenueDetailWithdrawals">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Current Balance</span>
+                    <strong id="financeRevenueDetailBalance">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Calculation Status</span>
+                    <strong id="financeRevenueDetailCalculationStatus">
+                        —
+                    </strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Last Calculated</span>
+                    <strong id="financeRevenueDetailCalculatedAt">—</strong>
+                </div>
+
+                <div class="finance-detail-item">
+                    <span>Source Reference</span>
+                    <strong id="financeRevenueDetailSourceReference">—</strong>
+                </div>
+
+            </div>
+
+            <!-- GAMING HISTORY -->
+            <div class="finance-gaming-history">
+                <h4>Gaming History</h4>
+
+                <div class="finance-table-container">
+                    <table class="finance-table">
+
+                        <thead>
+                            <tr>
+                                <th>Game / Round ID</th>
+                                <th>Bet Date</th>
+                                <th>Valid Bet</th>
+                                <th>Winnings</th>
+                                <th>Settlement Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="financeRevenueGamingHistoryBody">
+                            <tr>
+                                <td colspan="5"
+                                    class="finance-empty-state">
+                                    Gaming history will appear here when
+                                    connected.
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- REVENUE CALCULATION NOTE -->
+        <div class="finance-calculation-note">
+            <h4>Calculation Information</h4>
+
+            <p>
+                GGR = Valid Settled Bets − Player Winnings
+            </p>
+
+            <p>
+                NGR = GGR − Recognized Deductions
+            </p>
+
+            <p>
+                Deposits and withdrawals are cash movements and are
+                reported separately from gaming revenue.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- FINANCE FOOTER -->
+    <div class="finance-footer-note">
+        Financial reports will display verified records when the
+        corresponding transaction and gaming data sources are connected.
+    </div>
+
+</section>
+
+<!-- ======================================================
+     FINANCE SECTION END
+====================================================== -->
+
     
 
 
-    <!-- =================================== -->
-<!-- FINANCE SECTION START -->
-<!-- =================================== -->
 
-<div id="financeSection"
-     class="admin-section"
-     style="display:none;">
-
-<h2>Finance Overview</h2>
-
-<div class="finance-overview-grid">
-
-    <div class="stat-card">
-
-        <h3>Total Deposit</h3>
-
-        <span class="finance-stat-value">
-            $0.00
-        </span>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h3>Total Withdraw</h3>
-
-        <span class="finance-stat-value">
-            $0.00
-        </span>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h3>Pending Deposit</h3>
-
-        <span class="finance-stat-value">
-            0
-        </span>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h3>Pending Withdraw</h3>
-
-        <span class="finance-stat-value">
-            0
-        </span>
-
-    </div>
-
-</div>
-
-<hr>
-
-<div class="finance-main-buttons">
-
-    <button class="deposit-btn"
-            onclick="toggleFinanceSection('depositFinancePanel')">
-
-        Deposit Section
-
-    </button>
-
-    <button class="withdraw-btn"
-            onclick="toggleFinanceSection('withdrawFinancePanel')">
-
-        Withdraw Section
-
-    </button>
-
-</div>
-
-<hr>
-    <!-- ============================= -->
-<!-- DEPOSIT SECTION START -->
-<!-- ============================= -->
-
-<div id="depositFinancePanel"
-     style="display:none;">
-
-    <div class="settings-buttons-row">
-
-        <button onclick="toggleDepositMenu('paymentGatewayPanel')">
-            Payment Gateway
-        </button>
-
-        <button onclick="toggleDepositMenu('depositSettingsPanel')">
-            Deposit Settings
-        </button>
-
-        <button onclick="toggleDepositMenu('pendingDepositsPanel')">
-            Pending Deposits
-        </button>
-
-        <button onclick="toggleDepositMenu('depositHistoryPanel')">
-            Deposit History
-        </button>
-
-        <button onclick="toggleDepositMenu('depositReportsPanel')">
-            Deposit Reports
-        </button>
-
-        <button onclick="toggleDepositMenu('depositLogsPanel')">
-            Transaction Logs
-        </button>
-
-    </div>
-
-    <hr>
-    <!-- ============================= -->
-<!-- PAYMENT GATEWAY -->
-<!-- ============================= -->
-
-<div id="paymentGatewayPanel"
-     style="display:none;">
-
-    <h3>Payment Gateway</h3>
-        <div class="wallet-box">
-
-    <h4>BTC</h4>
-
-    <p><strong>Network:</strong> BEP20</p>
-
-    <p><strong>Provider:</strong> Binance</p>
-
-    <p><strong>Wallet Address:</strong> BER4V4E6E6V4E6VE6VEV66V65VV5ERV</p>
-
-    <button onclick="toggleEditWallet('btcEditForm')">
-        Edit Address
-    </button>
-
-    <button>
-        Active
-    </button>
-
-    <div id="btcEditForm"
-         style="display:none; margin-top:10px;">
-
-        <input type="text"
-               placeholder="Network">
-
-        <input type="text"
-               placeholder="Provider">
-
-        <input type="text"
-               placeholder="New Wallet Address">
-
-        <input type="password"
-               placeholder="Finance PIN Verification">
-
-        <button>
-            Update Address
-        </button>
-
-    </div>
-
-</div>
-        <div class="wallet-box">
-
-    <h4>ETH</h4>
-
-    <p><strong>Network:</strong> BEP20</p>
-
-    <p><strong>Provider:</strong> Binance</p>
-
-    <p><strong>Wallet Address:</strong> 0XV5F6DBV56FDVBFDDVFDVF4V16</p>
-
-    <button onclick="toggleEditWallet('ethEditForm')">
-        Edit Address
-    </button>
-
-    <button>
-        Active
-    </button>
-
-    <div id="ethEditForm"
-         style="display:none; margin-top:10px;">
-
-        <input type="text"
-               placeholder="Network">
-
-        <input type="text"
-               placeholder="Provider">
-
-        <input type="text"
-               placeholder="New Wallet Address">
-
-        <input type="password"
-               placeholder="Finance PIN Verification">
-
-        <button>
-            Update Address
-        </button>
-
-    </div>
-
-</div>
-        <div class="wallet-box">
-
-    <h4>BNB</h4>
-
-    <p><strong>Network:</strong> BEP20</p>
-
-    <p><strong>Provider:</strong> Binance</p>
-
-    <p><strong>Wallet Address:</strong> BNB5G454G654G654G16541G6541G6541G</p>
-
-    <button onclick="toggleEditWallet('bnbEditForm')">
-        Edit Address
-    </button>
-
-    <button>
-        Active
-    </button>
-
-    <div id="bnbEditForm"
-         style="display:none; margin-top:10px;">
-
-        <input type="text"
-               placeholder="Network">
-
-        <input type="text"
-               placeholder="Provider">
-
-        <input type="text"
-               placeholder="New Wallet Address">
-
-        <input type="password"
-               placeholder="Finance PIN Verification">
-
-        <button>
-            Update Address
-        </button>
-
-</div>
-
-</div>
-        <div class="wallet-box">
-
-    <h4>USDT TRC20</h4>
-
-    <p><strong>Network:</strong> TRC20</p>
-
-    <p><strong>Provider:</strong> Binance</p>
-
-    <p><strong>Wallet Address:</strong> USFT5G454G654G654G16541G6541G6541G</p>
-
-    <button onclick="toggleEditWallet('usdtEditForm')">
-        Edit Address
-    </button>
-
-    <button>
-        Active
-    </button>
-
-    <div id="usdtEditForm"
-         style="display:none; margin-top:10px;">
-
-        <input type="text"
-               placeholder="Network">
-
-        <input type="text"
-               placeholder="Provider">
-
-        <input type="text"
-               placeholder="New Wallet Address">
-
-        <input type="password"
-               placeholder="Finance PIN Verification">
-
-        <button>
-            Update Address
-        </button>
-
-    </div>
-
-</div>
-        <button onclick="toggleAddCoinForm()">
-    + Add New Coin
-</button>
-
-<button onclick="toggleAddGatewayForm()">
-    + Add More Currency Payment Gateway
-</button>
-
-<div id="addCoinForm"
-     style="display:none; margin-top:15px;">
-
-    <h4>Add New Coin</h4>
-
-    <input type="text"
-           placeholder="Coin Name">
-
-    <input type="text"
-           placeholder="Wallet Address">
-
-    <select>
-
-        <option>Select Network</option>
-
-        <option>TRC20</option>
-
-        <option>ERC20</option>
-
-        <option>BEP20</option>
-
-        <option>BTC</option>
-
-        <option>SOL</option>
-
-    </select>
-
-    <input type="text"
-           placeholder="Provider (Binance / Bybit / Trust Wallet)">
-
-    <button>
-        Save Coin
-    </button>
-
-</div>
-
-<div id="addGatewayForm"
-     style="display:none; margin-top:15px;">
-
-    <h4>Add Payment Gateway</h4>
-
-    <input type="text"
-           placeholder="Gateway Name">
-
-    <input type="text"
-           placeholder="Account Number / Wallet">
-
-    <button>
-        Save Gateway
-    </button>
-
-</div>
-
-</div>    
-
-    <!-- ============================= -->
-<!-- DEPOSIT SETTINGS -->
-<!-- ============================= -->
-
-<div id="depositSettingsPanel"
-     style="display:none;">
-
-    <h3>Deposit Settings</h3>
-
-    <div class="setting-box">
-
-        <label>
-            Auto Deposit
-        </label>
-
-        <button onclick="toggleAutoDeposit()">
-            ON / OFF
-        </button>
-
-    </div>
-
-    <div class="setting-box">
-
-        <label>
-            Manual Deposit
-        </label>
-
-        <button onclick="toggleManualDeposit()">
-            ON / OFF
-        </button>
-
-    </div>
-
-    <div class="setting-box">
-
-        <input type="number"
-               placeholder="Minimum Deposit">
-
-        <input type="number"
-               placeholder="Maximum Deposit">
-
-    </div>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- PENDING DEPOSITS -->
-<!-- ============================= -->
-
-<div id="pendingDepositsPanel"
-     style="display:none;">
-
-    <h3>Pending Deposits</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>User ID</th>
-                <th>Coin</th>
-                <th>Amount</th>
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        </tbody>
-
-    </table>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- DEPOSIT HISTORY -->
-<!-- ============================= -->
-
-<div id="depositHistoryPanel"
-     style="display:none;">
-
-    <h3>Deposit History</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>User ID</th>
-                <th>Coin</th>
-                <th>Amount</th>
-                <th>Date</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        </tbody>
-
-    </table>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- DEPOSIT REPORTS -->
-<!-- ============================= -->
-
-<div id="depositReportsPanel"
-     style="display:none;">
-
-    <h3>Deposit Reports</h3>
-
-    <div class="finance-overview-grid">
-
-        <div class="stat-card">
-
-            <h4>Today</h4>
-            <span>$0</span>
-
-        </div>
-
-        <div class="stat-card">
-
-            <h4>Weekly</h4>
-            <span>$0</span>
-
-        </div>
-
-        <div class="stat-card">
-
-            <h4>Monthly</h4>
-            <span>$0</span>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- DEPOSIT LOGS -->
-<!-- ============================= -->
-
-<div id="depositLogsPanel"
-     style="display:none;">
-
-    <h3>Transaction Logs</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>TXID</th>
-                <th>User</th>
-                <th>Coin</th>
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        </tbody>
-
-    </table>
-
-</div>
-    </div> 
-
-<!-- ============================= -->
-<!-- DEPOSIT SECTION END -->
-<!-- ============================= -->
-
-
-    <!-- ============================= -->
-<!-- WITHDRAW SECTION START -->
-<!-- ============================= -->
-
-<div id="withdrawFinancePanel"
-     style="display:none;">
-
-    <div class="settings-buttons-row">
-
-        <!-- Withdraw Menu Buttons -->
-
-<button onclick="toggleWithdrawMenu('withdrawRequestPanel')">
-    Withdraw Requests
-</button>
-
-<button onclick="toggleWithdrawMenu('approvedWithdrawPanel')">
-    Approved Withdraw
-</button>
-
-<button onclick="toggleWithdrawMenu('rejectedWithdrawPanel')">
-    Rejected Withdraw
-</button>
-
-<button onclick="toggleWithdrawMenu('withdrawHistoryPanel')">
-    Withdraw History
-</button>
-
-<button onclick="toggleWithdrawMenu('withdrawReportsPanel')">
-    Withdraw Reports
-</button>
-
-<button onclick="toggleWithdrawMenu('approvalRulesPanel')">
-    Approval Rules
-</button>
-
-    </div>
-
-    <hr>
-    <!-- ============================= -->
-<!-- WITHDRAW Request -->
-<!-- ============================= -->
-
-<div id="withdrawRequestPanel"
-     style="display:none;">
-
-<h3>Withdraw Requests</h3>
-
-<table>
-
-    <thead>
-        <tr>
-
-            <th>Request ID</th>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Amount</th>
-            <th>Coin</th>
-            <th>Network</th>
-            <th>Wallet Address</th>
-            <th>IP Address</th>
-            <th>Device</th>
-            <th>Date & Time</th>
-            <th>Status</th>
-            <th>Actions</th>
-
-        </tr>
-    </thead>
-
-    <!-- DYNAMIC BODY -->
-    <tbody id="withdrawRequestTableBody">
-
-    </tbody>
-
-</table>
-
-
-</div>
-
-
-</div>
-
-   <!-- ============================= -->
-<!-- Approved WITHDRAWALS -->
-<!-- ============================= -->
-
-<div id="approvedWithdrawPanel"
-     style="display:none;">
-
-    <h3>Approved Withdrawals</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>User ID</th>
-                <th>Coin</th>
-                <th>Amount</th>
-                <th>Wallet</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-
-        </thead>
-
-        <tbody id="approvedWithdrawTableBody">
-
-</tbody>
-
-    </table>
-
-</div>
-    
-    <!-- ============================= -->
-<!-- REJECTED WITHDRWL -->
-<!-- ============================= -->
-    
-<div id="rejectedWithdrawPanel"
-     style="display:none;">
-
-    <h3>Rejected Withdrawals</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>User ID</th>
-                <th>Coin</th>
-                <th>Amount</th>
-                <th>Wallet</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-
-        </thead>
-
-        <tbody id="rejectedWithdrawTableBody">
-
-</tbody>
-
-    </table>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- WITHDRAW HISTORY -->
-<!-- ============================= -->
-
-<div id="withdrawHistoryPanel"
-     style="display:none;">
-
-    <h3>Withdraw History</h3>
-
-    <table>
-
-    <thead>
-
-        <tr>
-
-            <th>Request ID</th>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Amount</th>
-            <th>Coin</th>
-            <th>Status</th>
-            <th>Date</th>
-
-        </tr>
-
-    </thead>
-
-    <tbody id="withdrawHistoryTableBody">
-
-    </tbody>
-
-</table>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- APPROVAL RULES -->
-<!-- ============================= -->
-
-<div id="approvalRulesPanel"
-     style="display:none;">
-
-    <h3>Approval Rules</h3>
-
-    <div class="setting-box">
-
-        <input type="number"
-               placeholder="Auto Approve Below">
-
-        <input type="number"
-               placeholder="Manual Approval Above">
-
-    </div>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- WITHDRAW REPORTS -->
-<!-- ============================= -->
-
-<div id="withdrawReportsPanel"
-     style="display:none;">
-
-    <h3>Withdraw Reports</h3>
-
-    <div class="finance-overview-grid">
-
-        <div class="stat-card">
-
-            <h4>Today</h4>
-            <span>$0</span>
-
-        </div>
-
-        <div class="stat-card">
-
-            <h4>Weekly</h4>
-            <span>$0</span>
-
-        </div>
-
-        <div class="stat-card">
-
-            <h4>Monthly</h4>
-            <span>$0</span>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- WITHDRAW LOGS -->
-<!-- ============================= -->
-
-<div id="withdrawLogsPanel"
-     style="display:none;">
-
-    <h3>Transaction Logs</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>TXID</th>
-                <th>User</th>
-                <th>Coin</th>
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        </tbody>
-
-    </table>
-
-</div>
-   
-</div>
-     <!-- ============================= -->
-<!-- WITHDRAW SECTION END -->
-<!-- ============================= -->
-
-
-
-    <!-- ============================= -->
-
-
-<!-- FINANCE SECURITY -->
-<!-- ============================= -->
-
-<div id="financeSecurityPanel"
-     style="display:none;">
-
-    <h3>Finance Security</h3>
-
-    <div class="setting-box">
-
-        <input type="password"
-               placeholder="Admin Finance PIN">
-
-    </div>
-
-    <div class="setting-box">
-
-        <input type="password"
-               placeholder="Withdraw Approval PIN">
-
-    </div>
-
-    <div class="setting-box">
-
-        <input type="text"
-               placeholder="API Secret Key">
-
-    </div>
-
-    <div class="setting-box">
-
-        <input type="text"
-               placeholder="Webhook Secret">
-
-    </div>
-
-    <div class="setting-box">
-
-        <input type="text"
-               placeholder="Allowed Server IP">
-
-    </div>
-
-</div>
-
-
-    <!-- ============================= -->
-<!-- AUDIT LOGS -->
-<!-- ============================= -->
-
-<div id="financeAuditPanel"
-     style="display:none;">
-
-    <h3>Audit Logs</h3>
-
-    <table>
-
-        <thead>
-
-            <tr>
-
-                <th>Date</th>
-
-                <th>Admin</th>
-
-                <th>Action</th>
-
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        </tbody>
-
-    </table>
-
-</div>
-
-
-<!-- =================================== -->
-<!-- FINANCE SECTION END -->
-<!-- =================================== -->
 
 
  <!-- =================================== -->
