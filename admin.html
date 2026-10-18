@@ -2639,84 +2639,445 @@
 
     
 
-    <!-- =================================== -->
-<!-- FINANCE SECTION START -->
-<!-- =================================== -->
+<!-- =========================================
+     FINANCE SECTION START
+     HTML ONLY — CSS and JavaScript are separate
+========================================= -->
+<section id="financeSection"
+         class="admin-section finance-section"
+         style="display: none;">
 
-<div id="financeSection"
-     class="admin-section"
-     style="display:none;">
+    <!-- PAGE HEADER -->
+    <div class="finance-header">
+        <div>
+            <h2>Player Financial Management</h2>
+            <p>Player revenue, gaming performance and financial reports.</p>
+        </div>
+    </div>
 
-<h2>Finance Overview</h2>
+    <!-- DAILY AND WEEKLY NET REVENUE -->
+    <div class="finance-overview-grid">
 
-<div class="finance-overview-grid">
+        <div class="finance-revenue-card">
+            <div class="finance-card-top">
+                <span class="finance-card-icon">$</span>
+                <span class="finance-card-label">DAILY NET REVENUE</span>
+            </div>
 
-    <div class="stat-card">
+            <h3 id="financeDailyNgr">—</h3>
+            <p>Today's total player net revenue</p>
+        </div>
 
-        <h3>Total Deposit</h3>
+        <div class="finance-revenue-card finance-weekly-card">
+            <div class="finance-card-top">
+                <span class="finance-card-icon">$</span>
+                <span class="finance-card-label">WEEKLY NET REVENUE</span>
+            </div>
 
-        <span class="finance-stat-value">
-            $0.00
-        </span>
+            <h3 id="financeWeeklyNgr">—</h3>
+            <p>Total net revenue for the seven-day period</p>
+        </div>
 
     </div>
 
-    <div class="stat-card">
+    <!-- PLAYER SEARCH -->
+    <div class="finance-panel finance-search-panel">
 
-        <h3>Total Withdraw</h3>
+        <div class="finance-panel-heading">
+            <div>
+                <h3>Player Financial Records</h3>
+                <p>Search by User ID, Username or Player ID.</p>
+            </div>
+        </div>
 
-        <span class="finance-stat-value">
-            $0.00
-        </span>
+        <form id="financeSearchForm" class="finance-search-form">
+
+            <div class="finance-search-field">
+                <label for="financeSearchInput">
+                    User ID / Username / Player ID
+                </label>
+
+                <input
+                    type="search"
+                    id="financeSearchInput"
+                    name="financeSearch"
+                    placeholder="Enter player ID or username..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <button type="submit" class="finance-search-btn">
+                Search
+            </button>
+
+            <button type="button"
+                    id="financeResetSearch"
+                    class="finance-reset-btn">
+                Reset
+            </button>
+
+        </form>
+
+        <p id="financeSearchMessage"
+           class="finance-message"
+           role="status"
+           aria-live="polite"></p>
 
     </div>
 
-    <div class="stat-card">
+    <!-- PLAYER FINANCIAL TABLE -->
+    <div class="finance-panel finance-table-panel">
 
-        <h3>Pending Deposit</h3>
+        <div class="finance-panel-heading">
+            <div>
+                <h3>Player Revenue Details</h3>
+                <p>Each player appears in one horizontal row.</p>
+            </div>
+        </div>
 
-        <span class="finance-stat-value">
-            0
-        </span>
+        <div class="finance-table-scroll">
+
+            <table class="finance-table">
+
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Today Deposit</th>
+                        <th>Today Withdrawal</th>
+                        <th>Today NGR</th>
+                        <th>Current Balance</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="financePlayerTableBody">
+
+                    <tr>
+                        <td colspan="7" class="finance-empty-state">
+                            Search for a player to view financial records.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
-    <div class="stat-card">
+    <!-- =====================================
+         PLAYER DETAILS REPORT
+    ====================================== -->
+    <div id="financeDetailsPanel"
+         class="finance-panel finance-details-panel"
+         hidden>
 
-        <h3>Pending Withdraw</h3>
+        <!-- PLAYER INFORMATION -->
+        <div class="finance-details-header">
 
-        <span class="finance-stat-value">
-            0
-        </span>
+            <div>
+                <span class="finance-section-eyebrow">
+                    PLAYER FINANCIAL REPORT
+                </span>
+
+                <h3 id="financeDetailsTitle">
+                    Player Financial Details
+                </h3>
+
+                <p id="financeDetailsPlayerId">
+                    Player ID: —
+                </p>
+            </div>
+
+            <button type="button"
+                    id="financeCloseDetails"
+                    class="finance-close-btn">
+                Close Report
+            </button>
+
+        </div>
+
+        <!-- REPORT PERIOD SELECTION -->
+        <div class="finance-report-toolbar">
+
+            <div class="finance-period-tabs">
+
+                <button type="button"
+                        class="finance-period-btn active"
+                        data-period="daily"
+                        aria-pressed="true">
+                    Daily Report
+                </button>
+
+                <button type="button"
+                        class="finance-period-btn"
+                        data-period="weekly"
+                        aria-pressed="false">
+                    Weekly Report
+                </button>
+
+                <button type="button"
+                        class="finance-period-btn"
+                        data-period="custom"
+                        aria-pressed="false">
+                    Custom Date
+                </button>
+
+            </div>
+
+            <div class="finance-date-fields">
+
+                <div class="finance-date-field">
+                    <label for="financeReportStart">Start Date</label>
+                    <input type="date" id="financeReportStart">
+                </div>
+
+                <div class="finance-date-field"
+                     id="financeEndDateWrap"
+                     hidden>
+                    <label for="financeReportEnd">End Date</label>
+                    <input type="date" id="financeReportEnd">
+                </div>
+
+                <button type="button"
+                        id="financeApplyDate"
+                        class="finance-apply-btn">
+                    Apply
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- REPORT SUMMARY -->
+        <div class="finance-report-summary">
+
+            <div class="finance-metric-card">
+                <span>Valid Bets</span>
+                <strong id="financeValidBets">—</strong>
+            </div>
+
+            <div class="finance-metric-card">
+                <span>Gross Gaming Revenue</span>
+                <strong id="financeGgr">—</strong>
+            </div>
+
+            <div class="finance-metric-card">
+                <span>Total Deductions</span>
+                <strong id="financeTotalDeductions">—</strong>
+            </div>
+
+            <div class="finance-metric-card finance-ngr-card">
+                <span>Net Gaming Revenue</span>
+                <strong id="financeReportNgr">—</strong>
+            </div>
+
+        </div>
+
+        <!-- GAMING PERFORMANCE -->
+        <div class="finance-report-block">
+
+            <h4>Gaming Performance</h4>
+
+            <div class="finance-data-grid">
+
+                <div class="finance-data-item">
+                    <span>Total Valid Bets</span>
+                    <strong id="financeDetailValidBets">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Player Win</span>
+                    <strong id="financePlayerWin">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Player Loss</span>
+                    <strong id="financePlayerLoss">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Gross Gaming Revenue (GGR)</span>
+                    <strong id="financeDetailGgr">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- NET REVENUE CALCULATION -->
+        <div class="finance-report-block">
+
+            <h4>Net Revenue Calculation</h4>
+
+            <div class="finance-calculation-list">
+
+                <div class="finance-calculation-row">
+                    <span>Gross Gaming Revenue (GGR)</span>
+                    <strong id="financeCalcGgr">—</strong>
+                </div>
+
+                <div class="finance-calculation-row">
+                    <span>Eligible Bonus Deductions</span>
+                    <strong id="financeBonusDeductions">—</strong>
+                </div>
+
+                <div class="finance-calculation-row">
+                    <span>Other Approved Deductions</span>
+                    <strong id="financeOtherDeductions">—</strong>
+                </div>
+
+                <div class="finance-calculation-row finance-calculation-total">
+                    <span>Net Gaming Revenue (NGR)</span>
+                    <strong id="financeCalcNgr">—</strong>
+                </div>
+
+            </div>
+
+            <p class="finance-report-note">
+                NGR is calculated using GGR and applicable approved deductions.
+                Negative NGR must remain negative.
+            </p>
+
+        </div>
+
+        <!-- CASH TRANSACTIONS -->
+        <div class="finance-report-block">
+
+            <h4>Cash Transactions</h4>
+
+            <div class="finance-data-grid">
+
+                <div class="finance-data-item">
+                    <span>Successful Deposits</span>
+                    <strong id="financeSuccessfulDeposit">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Successful Withdrawals</span>
+                    <strong id="financeSuccessfulWithdrawal">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Pending Deposits</span>
+                    <strong id="financePendingDeposit">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Pending Withdrawals</span>
+                    <strong id="financePendingWithdrawal">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Reversed / Refunded Transactions</span>
+                    <strong id="financeReversedTransactions">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Current Balance</span>
+                    <strong id="financeReportBalance">—</strong>
+                </div>
+
+            </div>
+
+            <p class="finance-report-note">
+                Deposits and withdrawals are cash movements. They are not
+                automatically counted as gaming revenue.
+            </p>
+
+        </div>
+
+        <!-- BONUS ACCOUNTING -->
+        <div class="finance-report-block">
+
+            <h4>Bonus Accounting</h4>
+
+            <div class="finance-data-grid">
+
+                <div class="finance-data-item">
+                    <span>Bonus Granted</span>
+                    <strong id="financeBonusGranted">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Bonus Used / Redeemed</span>
+                    <strong id="financeBonusUsed">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Bonus Reversed / Expired</span>
+                    <strong id="financeBonusReversed">—</strong>
+                </div>
+
+            </div>
+
+            <p class="finance-report-note">
+                Bonus grants and usage are tracked separately. Only deductions
+                permitted by the accounting policy affect NGR.
+            </p>
+
+        </div>
+
+        <!-- REPORT AUDIT INFORMATION -->
+        <div class="finance-report-block">
+
+            <h4>Report &amp; Audit Information</h4>
+
+            <div class="finance-data-grid">
+
+                <div class="finance-data-item">
+                    <span>Report Period</span>
+                    <strong id="financeReportPeriod">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Calculation Status</span>
+                    <strong id="financeCalculationStatus">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Last Calculated</span>
+                    <strong id="financeCalculatedAt">—</strong>
+                </div>
+
+                <div class="finance-data-item">
+                    <span>Source Reference</span>
+                    <strong id="financeSourceReference">—</strong>
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+    <!-- FINANCE FOOTER -->
+    <p class="finance-footer-note">
+        Financial figures will appear when verified player and transaction
+        records are connected.
+    </p>
 
-<hr>
+</section>
+<!-- =========================================
+     FINANCE SECTION END
+========================================= -->
 
-<div class="finance-main-buttons">
 
-    <button class="deposit-btn"
-            onclick="toggleFinanceSection('depositFinancePanel')">
+<!-- =========================================
+     KEEP YOUR EXISTING SECTIONS BELOW
+     Deposit, Withdraw and other sections remain
+     in their original locations.
+========================================= -->
 
-        Deposit Section
 
-    </button>
 
-    <button class="withdraw-btn"
-            onclick="toggleFinanceSection('withdrawFinancePanel')">
-
-        Withdraw Section
-
-    </button>
-
-</div>
-
-<hr>
     <!-- ============================= -->
 <!-- DEPOSIT SECTION START -->
 <!-- ============================= -->
+
+<hr>
 
 <div id="depositFinancePanel"
      style="display:none;">
