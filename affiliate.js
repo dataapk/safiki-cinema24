@@ -2897,42 +2897,43 @@ async function loadAffiliates() {
 
    
     /* =====================================================
-       22. REFRESH
-    ===================================================== */
+   REFRESH AFFILIATE CENTER
+===================================================== */
 
-    async function refreshAffiliateCenter() {
-        if (state.loading) return;
+async function refreshAffiliateCenter() {
+    if (state.loading) return;
 
-        hideMessage();
-        setLoading(true);
+    hideMessage();
+    setLoading(true);
 
-        try {
-            await Promise.all([
-    loadAffiliates(),
-    loadApplications(),
-    loadOverview()
-]);
+    try {
+        await Promise.all([
+            loadAffiliates(),
+            loadApplications(),
+            loadOverview()
+        ]);
 
-            showMessage(
-                "Affiliate Center refreshed. Any unconfigured data sources remain unavailable.",
-                "success"
-            );
-        } catch (error) {
-            console.error(
-                "Affiliate Center refresh failed:",
-                error
-            );
+        showMessage(
+            "Affiliate Center refreshed.",
+            "success"
+        );
 
-            showMessage(
-                error.message ||
-                "Could not refresh Affiliate Center data.",
-                "error"
-            );
-        } finally {
-            setLoading(false);
-        }
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Refresh failed:",
+            error
+        );
+
+        showMessage(
+            error?.message ||
+            "Could not refresh Affiliate Center data.",
+            "error"
+        );
+
+    } finally {
+        setLoading(false);
     }
-
+}
     function initializeRefreshButton() {
         const button = $("#refreshAffiliateDataBtn");
 
