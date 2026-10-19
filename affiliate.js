@@ -341,8 +341,16 @@ tables: {
     }
 
     function getConfiguredFunction(key) {
-        return String(CONFIG.functions[key] || "").trim();
+    if (
+        !CONFIG.functions ||
+        typeof CONFIG.functions !== "object" ||
+        !key
+    ) {
+        return "";
     }
+
+    return String(CONFIG.functions[key] || "").trim();
+}
 
     async function selectRows(tableKey, options = {}) {
         const client = getSupabaseClient();
@@ -396,34 +404,80 @@ let query = client
         };
     }
 
-    async function invokeConfiguredFunction(functionKey, payload) {
-        const client = getSupabaseClient();
-        const functionName = getConfiguredFunction(functionKey);
+   /* =====================================================
+   INVOKE CONFIGURED SERVER FUNCTION
+===================================================== */
 
-        if (!client) {
-            throw new Error(
-                "Supabase client is not configured."
-            );
-        }
+async function invokeConfiguredFunction(functionKey, payload) {
+    const client = getSupabaseClient();
+    const functionName = getConfiguredFunction(functionKey);
 
-        if (!functionName) {
-            throw new Error(
-                `Server-side function "${functionKey}" is not configured.`
-            );
-        }
-
-        const { data, error } = await client.functions.invoke(
-            functionName,
-            { body: payload }
+    if (!client) {
+        throw new Error(
+            "Supabase client is not configured."
         );
-
-        if (error) {
-            throw error;
-        }
-
-        return data;
     }
 
+    if (!functionName) {
+        throw new Error(
+            `Server-side function "${functionKey}" is not configured.`
+        );
+    }
+
+    let response;
+
+    try {
+        response = await client.functions.invoke(
+            functionName,
+            {
+                body: payload ?? {}
+            }
+        );
+    } catch (error) {
+        console.error(
+            `[Affiliate Center] Invocation failed for "${functionName}":`,
+            error
+        );
+
+        throw new Error(
+            error?.message ||
+            `Unable to invoke server-side function "${functionName}".`
+        );
+    }
+
+    const { data, error } = response || {};
+
+    if (error) {
+        console.error(
+            `[Affiliate Center] Server function error "${functionName}":`,
+            error
+        );
+
+        throw new Error(
+            error.message ||
+            `Server-side function "${functionName}" failed.`
+        );
+    }
+
+    if (data == null) {
+        throw new Error(
+            `Server-side function "${functionName}" returned no response data.`
+        );
+    }
+
+    if (
+        typeof data === "object" &&
+        data.success === false
+    ) {
+        throw new Error(
+            data.error ||
+            data.message ||
+            `Server-side function "${functionName}" reported failure.`
+        );
+    }
+
+    return data;
+}
     /* =====================================================
        06. LOADING STATE
     ===================================================== */
