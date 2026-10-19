@@ -57,11 +57,11 @@ tables: {
          */
 
         functions: {
-            saveCommissionSettings: "",
-            calculateDailyCommission: "",
-            settleWeeklyCommission: "",
-            processPayout: ""
-        },
+    saveCommissionSettings: "affiliate-save-commission-settings",
+    calculateDailyCommission: "affiliate-daily-calculation",
+    settleWeeklyCommission: "affiliate-weekly-settlement",
+    processPayout: "affiliate-process-payout"
+},
 
         pageSize: 20
     };
