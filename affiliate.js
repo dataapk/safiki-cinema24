@@ -2233,6 +2233,7 @@ async function saveCommissionSettings(form) {
    16. DAILY COMMISSION CALCULATION
 ===================================================== */
 
+
 async function calculateDailyCommission(form) {
     const affiliateId =
         $("#affcDailyAffiliateId", form)?.value?.trim() || "";
@@ -2251,13 +2252,20 @@ async function calculateDailyCommission(form) {
         return;
     }
 
-    const startDate = new Date(periodStart);
-    const endDate = new Date(periodEnd);
+    function isValidDate(value) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return false;
+        }
 
-    if (
-        Number.isNaN(startDate.getTime()) ||
-        Number.isNaN(endDate.getTime())
-    ) {
+        const date = new Date(`${value}T00:00:00.000Z`);
+
+        return (
+            !Number.isNaN(date.getTime()) &&
+            date.toISOString().slice(0, 10) === value
+        );
+    }
+
+    if (!isValidDate(periodStart) || !isValidDate(periodEnd)) {
         showMessage(
             "Enter valid reporting period dates.",
             "warning"
@@ -2265,9 +2273,9 @@ async function calculateDailyCommission(form) {
         return;
     }
 
-    if (startDate >= endDate) {
+    if (periodStart > periodEnd) {
         showMessage(
-            "The end of the reporting period must be after its start.",
+            "The end date cannot be before the start date.",
             "warning"
         );
         return;
@@ -2315,6 +2323,7 @@ async function calculateDailyCommission(form) {
         );
     }
 }
+
 
 function initializeDailyCalculation() {
     const form = $("#affcDailyCalculationForm");
