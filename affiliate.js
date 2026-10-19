@@ -2306,234 +2306,371 @@ function initializeDailyCalculation() {
        17. WEEKLY SETTLEMENT
     ===================================================== */
 
-    async function settleWeeklyCommission(form) {
-        const periodStart =
-            $("#affcWeeklyPeriodStart", form)?.value || "";
+   /* =====================================================
+   17. WEEKLY SETTLEMENT
+===================================================== */
 
-        const periodEnd =
-            $("#affcWeeklyPeriodEnd", form)?.value || "";
+async function settleWeeklyCommission(form) {
+    const periodStart =
+        $("#affcWeeklyPeriodStart", form)?.value?.trim() || "";
 
-        if (!periodStart || !periodEnd) {
-            showMessage(
-                "Choose the weekly settlement period.",
-                "warning"
+    const periodEnd =
+        $("#affcWeeklyPeriodEnd", form)?.value?.trim() || "";
+
+    if (!periodStart || !periodEnd) {
+        showMessage(
+            "Choose the weekly settlement period.",
+            "warning"
+        );
+        return;
+    }
+
+    const startDate = new Date(periodStart);
+    const endDate = new Date(periodEnd);
+
+    if (
+        Number.isNaN(startDate.getTime()) ||
+        Number.isNaN(endDate.getTime())
+    ) {
+        showMessage(
+            "Enter valid weekly settlement dates.",
+            "warning"
+        );
+        return;
+    }
+
+    if (startDate >= endDate) {
+        showMessage(
+            "The weekly period end must be after its start.",
+            "warning"
+        );
+        return;
+    }
+
+    const confirmed = window.confirm(
+        "Run the weekly commission settlement for the selected period?"
+    );
+
+    if (!confirmed) return;
+
+    const payload = {
+        period_start: periodStart,
+        period_end: periodEnd
+    };
+
+    try {
+        const result = await invokeConfiguredFunction(
+            "settleWeeklyCommission",
+            payload
+        );
+
+        if (!result || result.success === false) {
+            throw new Error(
+                result?.error ||
+                result?.message ||
+                "The server could not complete the weekly settlement."
             );
-            return;
         }
 
-        if (new Date(periodStart) >= new Date(periodEnd)) {
-            showMessage(
-                "The weekly period end must be after its start.",
-                "warning"
-            );
-            return;
-        }
+        renderFinancialResult(
+            "affcWeeklySettlementResult",
+            result.data ?? result
+        );
 
-        const payload = {
-            period_start: periodStart,
-            period_end: periodEnd
-        };
+        showMessage(
+            "Weekly settlement completed successfully.",
+            "success"
+        );
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Weekly settlement failed:",
+            error
+        );
 
-        /*
-         * The server must verify the period, commission ledger,
-         * previous settlements, idempotency, admin permissions,
-         * and whether the balance is eligible for settlement.
-         */
+        showMessage(
+            error?.message ||
+            "Weekly settlement failed. Check the server-side function configuration.",
+            "error"
+        );
+    }
+}
+
+function initializeWeeklySettlement() {
+    const form = $("#affcWeeklySettlementForm");
+
+    if (
+        !form ||
+        form.dataset.weeklySettlementInitialized === "true"
+    ) {
+        return;
+    }
+
+    form.dataset.weeklySettlementInitialized = "true";
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const button = $("button[type='submit']", form);
+
+        if (button?.disabled) return;
+
+        setButtonLoading(button, true, "Processing…");
 
         try {
-            const result = await invokeConfiguredFunction(
-                "settleWeeklyCommission",
-                payload
-            );
-
-            renderFinancialResult(
-                "affcWeeklySettlementResult",
-                result
-            );
-
-            showMessage(
-                "Weekly settlement request completed by the server.",
-                "success"
-            );
+            await settleWeeklyCommission(form);
         } catch (error) {
             console.error(
-                "Weekly settlement failed:",
+                "[Affiliate Center] Weekly settlement form failed:",
                 error
             );
 
             showMessage(
-                error.message ||
-                "Weekly settlement is unavailable. Configure the secure server-side function first.",
+                error?.message ||
+                "Unable to submit the weekly settlement.",
                 "error"
             );
+        } finally {
+            setButtonLoading(button, false);
         }
-    }
+    });
+}
 
-    function initializeWeeklySettlement() {
-        const form = $("#affcWeeklySettlementForm");
-
-        if (!form) return;
-
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            const button = $("button[type='submit']", form);
-
-            setButtonLoading(button, true, "Processing…");
-
-            try {
-                await settleWeeklyCommission(form);
-            } finally {
-                setButtonLoading(button, false);
-            }
-        });
-    }
-
+   
     /* =====================================================
        18. PAYOUT ACTION
     ===================================================== */
 
-    async function processPayout(identifier) {
-        if (!identifier) {
-            showMessage(
-                "A payout request ID is required.",
-                "warning"
-            );
-            return;
-        }
+   /* =====================================================
+   18. PAYOUT ACTION
+===================================================== */
 
-        const confirmed = window.confirm(
-            "Send this payout request for secure server-side processing?"
+async function processPayout(identifier) {
+    const payoutId = String(identifier || "").trim();
+
+    if (!payoutId) {
+        showMessage(
+            "A payout request ID is required.",
+            "warning"
+        );
+        return;
+    }
+
+    const confirmed = window.confirm(
+        "Submit this payout request for secure server-side processing?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+        const result = await invokeConfiguredFunction(
+            "processPayout",
+            {
+                payout_id: payoutId
+            }
         );
 
-        if (!confirmed) return;
-
-        try {
-            await invokeConfiguredFunction(
-                "processPayout",
-                { payout_id: identifier }
-            );
-
-            showMessage(
-                "Payout request processed by the server.",
-                "success"
-            );
-
-            await refreshAffiliateCenter();
-        } catch (error) {
-            console.error("Payout processing failed:", error);
-
-            showMessage(
-                error.message ||
-                "Payout processing is unavailable. Configure the secure server-side function first.",
-                "error"
+        if (!result || result.success === false) {
+            throw new Error(
+                result?.error ||
+                result?.message ||
+                "The server could not process this payout request."
             );
         }
+
+        showMessage(
+            result.message ||
+            "Payout request processed successfully.",
+            "success"
+        );
+
+        await refreshAffiliateCenter();
+
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Payout processing failed:",
+            error
+        );
+
+        showMessage(
+            error?.message ||
+            "Payout processing failed. Check the server-side function configuration.",
+            "error"
+        );
     }
+}
 
     /* =====================================================
        19. FINANCIAL RESULT DISPLAY
     ===================================================== */
 
-    function renderFinancialResult(containerId, result) {
-        const container = byId(containerId);
+   /* =====================================================
+   FINANCIAL RESULT DISPLAY
+===================================================== */
 
-        if (!container) return;
+function renderFinancialResult(containerId, result) {
+    const container = byId(containerId);
 
-        if (!result || typeof result !== "object") {
-            container.textContent =
-                "The server returned no financial summary.";
-            showElement(container);
-            return;
-        }
-
-        /*
-         * Render only values returned by the trusted server.
-         * This function does not calculate commissions.
-         */
-
-        const allowedFields = [
-            ["Period Start", "period_start"],
-            ["Period End", "period_end"],
-            ["Total Deposits", "total_deposits"],
-            ["Eligible Bets", "eligible_bets"],
-            ["Player Wins", "player_wins"],
-            ["Player Losses", "player_losses"],
-            ["Net Revenue", "net_revenue"],
-            ["Commission Rate", "commission_rate"],
-            ["Commission Amount", "commission_amount"],
-            ["Settlement Status", "status"]
-        ];
-
-        const currency = result.currency || "USD";
-
-        const fields = allowedFields.filter(([, key]) =>
-            Object.prototype.hasOwnProperty.call(result, key)
+    if (!container) {
+        console.warn(
+            "[Affiliate Center] Financial result container not found:",
+            containerId
         );
+        return;
+    }
 
-        if (!fields.length) {
-            container.textContent =
-                "The server response contains no recognized summary fields.";
-            showElement(container);
-            return;
-        }
-
-        container.innerHTML = `
-            <div class="affc-details-grid">
-                ${fields.map(([label, key]) => {
-                    let value = result[key];
-
-                    if ([
-                        "total_deposits",
-                        "eligible_bets",
-                        "player_wins",
-                        "player_losses",
-                        "net_revenue",
-                        "commission_amount"
-                    ].includes(key)) {
-                        value = formatMoney(value, currency);
-                    } else if (key === "commission_rate") {
-                        value = `${formatNumber(value)}%`;
-                    } else if (key === "period_start" ||
-                               key === "period_end") {
-                        value = formatDate(value);
-                    }
-
-                    return `
-                        <div class="affc-detail-item">
-                            <span>${escapeHTML(label)}</span>
-                            <strong>${escapeHTML(value ?? "—")}</strong>
-                        </div>
-                    `;
-                }).join("")}
-            </div>
-        `;
+    if (!result || typeof result !== "object" || Array.isArray(result)) {
+        container.textContent =
+            "The server returned no valid financial summary.";
 
         showElement(container);
+        return;
     }
+
+    const allowedFields = [
+        ["Period Start", "period_start", "date"],
+        ["Period End", "period_end", "date"],
+        ["Total Deposits", "total_deposits", "money"],
+        ["Total Withdrawals", "total_withdrawals", "money"],
+        ["Eligible Bets", "eligible_bets", "money"],
+        ["Valid Bets", "valid_bets", "money"],
+        ["Player Wins", "player_wins", "money"],
+        ["Player Losses", "player_losses", "money"],
+        ["Gross Gaming Revenue", "gross_gaming_revenue", "money"],
+        ["Eligible Deductions", "eligible_deductions", "money"],
+        ["Net Gaming Revenue", "net_gaming_revenue", "money"],
+        ["Bonus Expense", "bonus_expense", "money"],
+        ["Carried Forward Balance", "carried_forward_balance", "money"],
+        [
+            "Adjusted Commissionable Amount",
+            "adjusted_commissionable_amount",
+            "money"
+        ],
+        ["Commission Rate", "commission_rate", "percentage"],
+        ["Commission Amount", "commission_amount", "money"],
+        ["Settlement Status", "settlement_status", "text"],
+        ["Payout Status", "payout_status", "text"],
+        ["Payout Reference", "payout_reference", "text"],
+        ["Currency", "currency", "text"],
+        ["Status", "status", "text"]
+    ];
+
+    const currency =
+        typeof result.currency === "string" &&
+        /^[A-Z]{3,5}$/i.test(result.currency.trim())
+            ? result.currency.trim().toUpperCase()
+            : "USD";
+
+    const formatFinancialValue = (value, type) => {
+        if (value === null || value === undefined || value === "") {
+            return "—";
+        }
+
+        if (type === "date") {
+            const date = new Date(value);
+
+            if (Number.isNaN(date.getTime())) {
+                return String(value);
+            }
+
+            return date.toLocaleString("en-GB", {
+                timeZone: "Asia/Dhaka",
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+        }
+
+        if (type === "money") {
+            const amount = Number(value);
+
+            if (!Number.isFinite(amount)) {
+                return "—";
+            }
+
+            return `${currency} ${amount.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        if (type === "percentage") {
+            const rate = Number(value);
+
+            if (!Number.isFinite(rate)) {
+                return "—";
+            }
+
+            return `${rate.toLocaleString("en-US", {
+                maximumFractionDigits: 4
+            })}%`;
+        }
+
+        return String(value);
+    };
+
+    const fields = allowedFields.filter(([, key]) =>
+        Object.prototype.hasOwnProperty.call(result, key)
+    );
+
+    if (fields.length === 0) {
+        container.textContent =
+            "The server response contains no recognized financial summary fields.";
+
+        showElement(container);
+        return;
+    }
+
+    const grid = document.createElement("div");
+    grid.className = "affc-details-grid";
+
+    fields.forEach(([label, key, type]) => {
+        const item = document.createElement("div");
+        item.className = "affc-detail-item";
+
+        const labelElement = document.createElement("span");
+        labelElement.textContent = label;
+
+        const valueElement = document.createElement("strong");
+        valueElement.textContent = formatFinancialValue(
+            result[key],
+            type
+        );
+
+        item.append(labelElement, valueElement);
+        grid.appendChild(item);
+    });
+
+    container.replaceChildren(grid);
+    showElement(container);
+}
 
     /* =====================================================
        20. OVERVIEW DATA
     ===================================================== */
 
-    function resetOverviewValues() {
-        const ids = [
-            "affcTotalAffiliates",
-            "affcActiveAffiliates",
-            "affcPendingApplications",
-            "affcTotalReferrals",
-            "affcTodayDeposits",
-            "affcTodayWin",
-            "affcTodayLoss",
-            "affcTodayNetResult",
-            "affcPendingPayouts",
-            "affcTotalCommission"
-        ];
+/* =====================================================
+   OVERVIEW DATA
+===================================================== */
 
-        ids.forEach((id) => setText(id, "—"));
-    }
+function resetOverviewValues() {
+    const ids = [
+        "affcTotalAffiliates",
+        "affcActiveAffiliates",
+        "affcPendingApplications",
+        "affcTotalReferrals",
+        "affcTodayDeposits",
+        "affcTodayWin",
+        "affcTodayLoss",
+        "affcTodayNetResult",
+        "affcPendingPayouts",
+        "affcTotalCommission"
+    ];
 
-   
+    ids.forEach((id) => setText(id, "—"));
+}
+
 async function loadOverview() {
     const client = getSupabaseClient();
     const summaryElement = $("#affcOverviewNotice");
@@ -2546,6 +2683,7 @@ async function loadOverview() {
                 "Supabase client is not configured.";
             showElement(summaryElement);
         }
+
         return;
     }
 
@@ -2611,6 +2749,7 @@ async function loadOverview() {
             activeAffiliates: activeAffiliatesResult.count,
             pendingApplications: pendingApplicationsResult.count
         });
+
     } catch (error) {
         console.error(
             "[Affiliate Center] Failed to load overview:",
@@ -2622,6 +2761,7 @@ async function loadOverview() {
         if (summaryElement) {
             summaryElement.textContent =
                 "Could not load affiliate overview. Check the Supabase schema, permissions, and table configuration.";
+
             showElement(summaryElement);
         }
     }
