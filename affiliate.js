@@ -36,17 +36,18 @@
          * }
          */
 
-        tables: {
-  affiliates: "affiliates",
-  applications: "applications",
-  referrals: "referrals",
-  deposits: "",
-  bets: "",
-  results: "",
-  commissions: "commissions",
-  payouts: "payouts"
+tables: {
+    affiliates: "affiliates",
+    applications: "applications",
+    referrals: "referrals",
+    deposits: "",
+    bets: "betting_history",
+    results: "betting_history",
+    commissions: "commissions",
+    payouts: "payouts",
+    commissionSettlements: "commission_settlements",
+    walletTransactions: "wallet_transactions"
 },
-
         /*
          * Final financial operations must be implemented as
          * secure Supabase Edge Functions or database RPCs.
@@ -2068,192 +2069,238 @@ document.addEventListener("click", function (event) {
 
 
     /* =====================================================
-       15. INDIVIDUAL COMMISSION SETTINGS
-    ===================================================== */
+   15. INDIVIDUAL COMMISSION SETTINGS
+===================================================== */
 
-    async function saveCommissionSettings(form) {
-        const affiliateIdInput =
-            $("#affcCommissionAffiliateId", form) ||
-            $("#affcCommissionAffiliateId");
+async function saveCommissionSettings(form) {
+    const affiliateIdInput =
+        $("#affcCommissionAffiliateId", form) ||
+        $("#affcCommissionAffiliateId");
 
-        if (!affiliateIdInput || !affiliateIdInput.value.trim()) {
-            showMessage(
-                "Select an affiliate before saving commission settings.",
-                "warning"
-            );
-            return;
-        }
+    if (!affiliateIdInput || !affiliateIdInput.value.trim()) {
+        showMessage(
+            "Select an affiliate before saving commission settings.",
+            "warning"
+        );
+        return;
+    }
 
-        const percentageInput =
-            $("#affcCommissionPercentage", form) ||
-            $("#affcCommissionPercentage");
+    const percentageInput =
+        $("#affcCommissionPercentage", form) ||
+        $("#affcCommissionPercentage");
 
-        const percentage = percentageInput
-            ? Number(percentageInput.value)
-            : NaN;
+    const percentage = percentageInput
+        ? Number(percentageInput.value)
+        : NaN;
 
-        if (!Number.isFinite(percentage) ||
-            percentage < 0 ||
-            percentage > 100) {
-            showMessage(
-                "Enter a valid commission percentage between 0 and 100.",
-                "warning"
-            );
-            return;
-        }
+    if (
+        !Number.isFinite(percentage) ||
+        percentage < 0 ||
+        percentage > 100
+    ) {
+        showMessage(
+            "Enter a valid commission percentage between 0 and 100.",
+            "warning"
+        );
+        return;
+    }
 
-        const payload = {
-            affiliate_id: affiliateIdInput.value.trim(),
-            commission_percentage: percentage
-        };
+    const payload = {
+        affiliate_id: affiliateIdInput.value.trim(),
+        commission_percentage: percentage
+    };
 
-        /*
-         * The server must verify:
-         * - The current user is an authorized administrator.
-         * - The affiliate exists.
-         * - The percentage is permitted.
-         * - An audit record is written.
-         */
+    try {
+        await invokeConfiguredFunction(
+            "saveCommissionSettings",
+            payload
+        );
+
+        showMessage(
+            "Commission settings saved successfully.",
+            "success"
+        );
+    } catch (error) {
+        console.error(
+            "Saving commission settings failed:",
+            error
+        );
+
+        showMessage(
+            error?.message ||
+            "Commission settings were not saved. Check the secure server-side function configuration.",
+            "error"
+        );
+    }
+}
+
+   function initializeCommissionSettings() {
+    const form = $("#affcCommissionSettingsForm");
+
+    if (!form || form.dataset.commissionSettingsInitialized === "true") {
+        return;
+    }
+
+    form.dataset.commissionSettingsInitialized = "true";
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const button = $("button[type='submit']", form);
+
+        if (button?.disabled) return;
+
+        setButtonLoading(button, true, "Saving…");
 
         try {
-            await invokeConfiguredFunction(
-                "saveCommissionSettings",
-                payload
-            );
-
-            showMessage(
-                "Commission settings saved successfully.",
-                "success"
-            );
+            await saveCommissionSettings(form);
         } catch (error) {
             console.error(
-                "Saving commission settings failed:",
+                "Commission settings form submission failed:",
                 error
             );
 
             showMessage(
-                error.message ||
-                "Commission settings were not saved. Configure the secure server-side function first.",
+                error?.message ||
+                "Unable to save commission settings.",
                 "error"
             );
+        } finally {
+            setButtonLoading(button, false);
         }
-    }
-
-    function initializeCommissionSettings() {
-        const form = $("#affcCommissionSettingsForm");
-
-        if (!form) return;
-
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            const button = $("button[type='submit']", form);
-
-            setButtonLoading(button, true, "Saving…");
-
-            try {
-                await saveCommissionSettings(form);
-            } finally {
-                setButtonLoading(button, false);
-            }
-        });
-    }
+    });
+}
 
     /* =====================================================
        16. DAILY COMMISSION CALCULATION
     ===================================================== */
 
-    async function calculateDailyCommission(form) {
-        const affiliateId =
-            $("#affcDailyAffiliateId", form)?.value?.trim() || "";
+/* =====================================================
+   16. DAILY COMMISSION CALCULATION
+===================================================== */
 
-        const periodStart =
-            $("#affcDailyPeriodStart", form)?.value || "";
+async function calculateDailyCommission(form) {
+    const affiliateId =
+        $("#affcDailyAffiliateId", form)?.value?.trim() || "";
 
-        const periodEnd =
-            $("#affcDailyPeriodEnd", form)?.value || "";
+    const periodStart =
+        $("#affcDailyPeriodStart", form)?.value?.trim() || "";
 
-        if (!periodStart || !periodEnd) {
-            showMessage(
-                "Choose the start and end of the reporting period.",
-                "warning"
+    const periodEnd =
+        $("#affcDailyPeriodEnd", form)?.value?.trim() || "";
+
+    if (!periodStart || !periodEnd) {
+        showMessage(
+            "Choose the start and end of the reporting period.",
+            "warning"
+        );
+        return;
+    }
+
+    const startDate = new Date(periodStart);
+    const endDate = new Date(periodEnd);
+
+    if (
+        Number.isNaN(startDate.getTime()) ||
+        Number.isNaN(endDate.getTime())
+    ) {
+        showMessage(
+            "Enter valid reporting period dates.",
+            "warning"
+        );
+        return;
+    }
+
+    if (startDate >= endDate) {
+        showMessage(
+            "The end of the reporting period must be after its start.",
+            "warning"
+        );
+        return;
+    }
+
+    const payload = {
+        affiliate_id: affiliateId || null,
+        period_start: periodStart,
+        period_end: periodEnd
+    };
+
+    try {
+        const result = await invokeConfiguredFunction(
+            "calculateDailyCommission",
+            payload
+        );
+
+        if (!result || result.success === false) {
+            throw new Error(
+                result?.error ||
+                result?.message ||
+                "The server could not complete the daily commission calculation."
             );
-            return;
         }
 
-        if (new Date(periodStart) >= new Date(periodEnd)) {
-            showMessage(
-                "The end of the reporting period must be after its start.",
-                "warning"
-            );
-            return;
-        }
+        renderFinancialResult(
+            "affcDailyCalculationResult",
+            result.data ?? result
+        );
 
-        const payload = {
-            affiliate_id: affiliateId || null,
-            period_start: periodStart,
-            period_end: periodEnd
-        };
+        showMessage(
+            "Daily commission calculation completed successfully.",
+            "success"
+        );
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Daily commission calculation failed:",
+            error
+        );
 
-        /*
-         * The server-side function should calculate the
-         * configured 24-hour window using the authoritative
-         * database timestamp/timezone.
-         *
-         * It must use verified deposits, eligible bets, player
-         * wins/losses, reversals, and the affiliate's assigned
-         * commission rules. Withdrawals should not be treated
-         * as deposits or net gaming revenue.
-         */
+        showMessage(
+            error?.message ||
+            "Daily commission calculation failed. Check the server-side function configuration.",
+            "error"
+        );
+    }
+}
+
+function initializeDailyCalculation() {
+    const form = $("#affcDailyCalculationForm");
+
+    if (
+        !form ||
+        form.dataset.dailyCalculationInitialized === "true"
+    ) {
+        return;
+    }
+
+    form.dataset.dailyCalculationInitialized = "true";
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const button = $("button[type='submit']", form);
+
+        if (button?.disabled) return;
+
+        setButtonLoading(button, true, "Calculating…");
 
         try {
-            const result = await invokeConfiguredFunction(
-                "calculateDailyCommission",
-                payload
-            );
-
-            renderFinancialResult(
-                "affcDailyCalculationResult",
-                result
-            );
-
-            showMessage(
-                "Daily calculation completed by the server.",
-                "success"
-            );
+            await calculateDailyCommission(form);
         } catch (error) {
             console.error(
-                "Daily calculation failed:",
+                "[Affiliate Center] Daily calculation form failed:",
                 error
             );
 
             showMessage(
-                error.message ||
-                "Daily calculation is unavailable. Configure the secure server-side function first.",
+                error?.message ||
+                "Unable to submit the daily commission calculation.",
                 "error"
             );
+        } finally {
+            setButtonLoading(button, false);
         }
-    }
-
-    function initializeDailyCalculation() {
-        const form = $("#affcDailyCalculationForm");
-
-        if (!form) return;
-
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            const button = $("button[type='submit']", form);
-
-            setButtonLoading(button, true, "Calculating…");
-
-            try {
-                await calculateDailyCommission(form);
-            } finally {
-                setButtonLoading(button, false);
-            }
-        });
-    }
+    });
+}
 
     /* =====================================================
        17. WEEKLY SETTLEMENT
