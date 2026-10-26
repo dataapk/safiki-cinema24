@@ -2325,6 +2325,7 @@ async function calculateDailyCommission(form) {
 }
 
 
+
 function initializeDailyCalculation() {
     const form = $("#affcDailyCalculationForm");
 
@@ -2337,33 +2338,30 @@ function initializeDailyCalculation() {
 
     form.dataset.dailyCalculationInitialized = "true";
 
-    form.addEventListener("submit", async function (event) {
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const button = $("button[type='submit']", form);
+        // This form saves cycle settings, not commission calculations.
+        const cycleStart = $("#affcDailyCycleStart", form)?.value || "";
+        const cycleEnd = $("#affcDailyCycleEnd", form)?.value || "";
+        const timezone =
+            $("#affcCalculationTimezone", form)?.value || "";
 
-        if (button?.disabled) return;
-
-        setButtonLoading(button, true, "Calculating…");
-
-        try {
-            await calculateDailyCommission(form);
-        } catch (error) {
-            console.error(
-                "[Affiliate Center] Daily calculation form failed:",
-                error
-            );
-
+        if (!cycleStart || !cycleEnd || !timezone) {
             showMessage(
-                error?.message ||
-                "Unable to submit the daily commission calculation.",
-                "error"
+                "Please provide the daily cycle start time, end time, and timezone.",
+                "warning"
             );
-        } finally {
-            setButtonLoading(button, false);
+            return;
         }
+
+        showMessage(
+            "The incorrect commission calculation trigger is fixed, but saving daily calculation settings is not connected yet.",
+            "warning"
+        );
     });
 }
+
 
     /* =====================================================
        17. WEEKLY SETTLEMENT
