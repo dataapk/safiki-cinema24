@@ -2229,10 +2229,16 @@ async function saveCommissionSettings(form) {
        16. DAILY COMMISSION CALCULATION
     ===================================================== */
 
+
 /* =====================================================
    16. DAILY COMMISSION CALCULATION
 ===================================================== */
 
+
+/* -----------------------------------------------------
+   16.1 DAILY COMMISSION CALCULATION
+   Existing calculation function - unchanged
+----------------------------------------------------- */
 
 async function calculateDailyCommission(form) {
     const affiliateId =
@@ -2325,6 +2331,252 @@ async function calculateDailyCommission(form) {
 }
 
 
+/* -----------------------------------------------------
+   16.2 UPDATE DAILY CYCLE END TIME
+   A daily cycle always runs for 24 hours.
+   Therefore, the clock time is the same on the next day.
+----------------------------------------------------- */
+
+function updateDailyCycleEndTime(form) {
+    const cycleStart =
+        $("#affcDailyCycleStart", form);
+
+    const cycleEnd =
+        $("#affcDailyCycleEnd", form);
+
+    if (!cycleStart || !cycleEnd) {
+        return;
+    }
+
+    cycleEnd.value = cycleStart.value || "";
+    cycleEnd.readOnly = true;
+}
+
+
+/* -----------------------------------------------------
+   16.3 LOAD DAILY CALCULATION SETTINGS
+----------------------------------------------------- */
+
+async function loadDailyCalculationSettings() {
+    const form = $("#affcDailyCalculationForm");
+
+    if (!form) {
+        return;
+    }
+
+    const client = window.supabaseClient;
+
+    if (!client) {
+        showMessage(
+            "Supabase client is not initialized.",
+            "error"
+        );
+        return;
+    }
+
+    try {
+        const { data, error } = await client
+            .schema("affiliate_program")
+            .from("settings")
+            .select(
+                "id, daily_cycle_start_time, daily_cycle_end_time, calculation_timezone"
+            )
+            .eq("id", 1)
+            .maybeSingle();
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data) {
+            showMessage(
+                "Daily calculation settings row (id = 1) was not found. Please check the settings table.",
+                "warning"
+            );
+            return;
+        }
+
+        const startInput =
+            $("#affcDailyCycleStart", form);
+
+        const endInput =
+            $("#affcDailyCycleEnd", form);
+
+        const timezoneInput =
+            $("#affcCalculationTimezone", form);
+
+        if (startInput) {
+            startInput.value =
+                data.daily_cycle_start_time
+                    ? String(data.daily_cycle_start_time).slice(0, 5)
+                    : "00:00";
+        }
+
+        if (timezoneInput) {
+            timezoneInput.value =
+                data.calculation_timezone || "Asia/Dhaka";
+        }
+
+        // Enforce the 24-hour cycle rule.
+        // End time is the same clock time on the following day.
+        updateDailyCycleEndTime(form);
+
+        console.log(
+            "[Affiliate Center] Daily calculation settings loaded.",
+            data
+        );
+
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Failed to load daily calculation settings:",
+            error
+        );
+
+        showMessage(
+            error?.message ||
+            "Could not load daily calculation settings from Supabase.",
+            "error"
+        );
+    }
+}
+
+
+/* -----------------------------------------------------
+   16.4 SAVE DAILY CALCULATION SETTINGS
+----------------------------------------------------- */
+
+async function saveDailyCalculationSettings() {
+    const form = $("#affcDailyCalculationForm");
+
+    if (!form) {
+        return;
+    }
+
+    const client = window.supabaseClient;
+
+    if (!client) {
+        showMessage(
+            "Supabase client is not initialized.",
+            "error"
+        );
+        return;
+    }
+
+    const startInput =
+        $("#affcDailyCycleStart", form);
+
+    const endInput =
+        $("#affcDailyCycleEnd", form);
+
+    const timezoneInput =
+        $("#affcCalculationTimezone", form);
+
+    const cycleStart =
+        startInput?.value?.trim() || "";
+
+    const timezone =
+        timezoneInput?.value?.trim() || "";
+
+    if (!cycleStart || !timezone) {
+        showMessage(
+            "Please provide the daily cycle start time and timezone.",
+            "warning"
+        );
+        return;
+    }
+
+    if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(cycleStart)) {
+        showMessage(
+            "Please enter a valid daily cycle start time.",
+            "warning"
+        );
+        return;
+    }
+
+    if (!["Asia/Dhaka", "UTC"].includes(timezone)) {
+        showMessage(
+            "Please select a valid calculation timezone.",
+            "warning"
+        );
+        return;
+    }
+
+    // A 24-hour cycle ends at the same clock time
+    // on the following day.
+    const cycleEnd = cycleStart;
+
+    if (endInput) {
+        endInput.value = cycleEnd;
+    }
+
+    const payload = {
+        daily_cycle_start_time: `${cycleStart}:00`,
+        daily_cycle_end_time: `${cycleEnd}:00`,
+        calculation_timezone: timezone,
+        updated_at: new Date().toISOString()
+    };
+
+    const saveButton =
+        $("#affcSaveDailyCalculationBtn", form);
+
+    if (saveButton) {
+        saveButton.disabled = true;
+    }
+
+    try {
+        const { data, error } = await client
+            .schema("affiliate_program")
+            .from("settings")
+            .update(payload)
+            .eq("id", 1)
+            .select(
+                "id, daily_cycle_start_time, daily_cycle_end_time, calculation_timezone"
+            )
+            .maybeSingle();
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data) {
+            throw new Error(
+                "Settings row id = 1 was not updated. Please verify that the row exists and that the current admin has UPDATE permission under RLS."
+            );
+        }
+
+        showMessage(
+            "Daily calculation settings saved successfully.",
+            "success"
+        );
+
+        console.log(
+            "[Affiliate Center] Daily calculation settings saved.",
+            data
+        );
+
+    } catch (error) {
+        console.error(
+            "[Affiliate Center] Failed to save daily calculation settings:",
+            error
+        );
+
+        showMessage(
+            error?.message ||
+            "Could not save daily calculation settings to Supabase.",
+            "error"
+        );
+
+    } finally {
+        if (saveButton) {
+            saveButton.disabled = false;
+        }
+    }
+}
+
+
+/* -----------------------------------------------------
+   16.5 INITIALIZE DAILY CALCULATION
+----------------------------------------------------- */
 
 function initializeDailyCalculation() {
     const form = $("#affcDailyCalculationForm");
@@ -2338,27 +2590,36 @@ function initializeDailyCalculation() {
 
     form.dataset.dailyCalculationInitialized = "true";
 
-    form.addEventListener("submit", function (event) {
+    const cycleStart =
+        $("#affcDailyCycleStart", form);
+
+    const cycleEnd =
+        $("#affcDailyCycleEnd", form);
+
+    // End time is automatically controlled by start time.
+    if (cycleEnd) {
+        cycleEnd.readOnly = true;
+    }
+
+    // Update end time whenever start time changes.
+    if (cycleStart) {
+        cycleStart.addEventListener("input", function () {
+            updateDailyCycleEndTime(form);
+        });
+
+        cycleStart.addEventListener("change", function () {
+            updateDailyCycleEndTime(form);
+        });
+    }
+
+    // Load saved settings from Supabase.
+    loadDailyCalculationSettings();
+
+    // Save settings when the form is submitted.
+    form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        // This form saves cycle settings, not commission calculations.
-        const cycleStart = $("#affcDailyCycleStart", form)?.value || "";
-        const cycleEnd = $("#affcDailyCycleEnd", form)?.value || "";
-        const timezone =
-            $("#affcCalculationTimezone", form)?.value || "";
-
-        if (!cycleStart || !cycleEnd || !timezone) {
-            showMessage(
-                "Please provide the daily cycle start time, end time, and timezone.",
-                "warning"
-            );
-            return;
-        }
-
-        showMessage(
-            "The incorrect commission calculation trigger is fixed, but saving daily calculation settings is not connected yet.",
-            "warning"
-        );
+        await saveDailyCalculationSettings();
     });
 }
 
